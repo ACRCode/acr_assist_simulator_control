@@ -12,7 +12,7 @@
     ],
     "curly": true,
     "eofline": true,
-    "forin": true,
+    "forin": false,
     "import-blacklist": [
       true,
       "rxjs"
@@ -55,7 +55,7 @@
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": true,
-    "no-eval": true,
+    "no-eval": false,
     "no-inferrable-types": [
       true,
       "ignore-params"
@@ -117,13 +117,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "acr",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "acr",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

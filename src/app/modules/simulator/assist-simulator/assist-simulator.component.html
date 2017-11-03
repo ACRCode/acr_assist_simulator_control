@@ -1,0 +1,101 @@
+<ng-container *ngIf="(isValid!=true && isValid!= null)">
+
+      <div class="alert alert-danger">
+          <ng-container *ngIf="(ErrorCode == 0)">
+              {{errorMessage}}. So we are unable to validate XML.
+          </ng-container>
+          <ng-container *ngIf="(ErrorCode == 1)">
+              Selected XML does not meets the XML Schema.
+          </ng-container>
+      </div>
+  </ng-container>
+
+  <ng-container *ngIf="(isValid != null)">
+      <ng-container *ngIf="Metadata != undefined">
+          <div class="row">
+              <div class="col-md-6 col-md-offset-5">
+                  <h4>
+                      <strong>{{Metadata.Label}}</strong>
+
+                  </h4>
+              </div>
+          </div>
+      </ng-container>
+      <div class="row">
+          <ng-container *ngIf="settings.LoadkeyDiagram != true">
+              <div class="col-md-11">
+                  <ng-container *ngIf="(xmlFileJSON)">
+                      <form (ngSubmit)="onSubmit(form.value)" #form="ngForm" class="form-horizontal">
+                          <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+                      </form>
+                  </ng-container>
+              </div>
+          </ng-container>
+          <ng-container *ngIf="settings.LoadkeyDiagram == true">
+              <div class="col-md-7">
+                  <ng-container *ngIf="(xmlFileJSON)">
+                      <form (ngSubmit)="onSubmit(form.value)" #form="ngForm" class="form-horizontal">
+                          <acr-data-element  [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+                      </form>
+                  </ng-container>
+
+
+
+              </div>
+              <div class="col-md-5 fixed-keydiagram">
+                  <div id="myNav" data-spy="affix">
+                      <ng-container *ngIf="Metadata != undefined">
+
+                          <ng-container *ngIf="settings.LoadkeyDiagram == true">
+                              <div class="carousel slide" data-ride="carousel" data-interval="false">
+
+
+                                  <!-- Wrapper for slides -->
+
+                                  <div class="carousel-inner" role="listbox">
+                                      <ng-container *ngFor="let diag of Metadata.Diagrams ">
+                                          <ng-container *ngIf="Metadata.Diagrams.indexOf(diag) == 0">
+                                              <div class="item active">
+                                                  <img src="{{diag.ImagePath}}">
+                                              </div>
+                                          </ng-container>
+
+                                          <ng-container *ngIf="Metadata.Diagrams.indexOf(diag) > 0">
+                                              <div class="item">
+                                              </div>
+                                          </ng-container>
+                                      </ng-container>
+                                  </div>
+                                  <ng-container *ngIf="Metadata.Diagrams.length > 1">
+                                      <!-- Controls -->
+                                      <a class="left carousel-control" onclick="return false;" href="#carousel-example-generic" role="button" data-slide="prev">
+                                                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                      <span class="sr-only">Previous</span>
+                                                  </a>
+                                      <a class="right carousel-control" onclick="return false;" href="#carousel-example-generic" role="button" data-slide="next">
+                                                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                      <span class="sr-only">Next</span>
+                                                  </a>
+                                  </ng-container>
+                              </div>
+                          </ng-container>
+                      </ng-container>
+                  </div>
+              </div>
+          </ng-container>
+      </div>
+  </ng-container>
+
+
+  <div>
+      <ng-container>
+          <div id="footer" class="footerBlock">
+              <ng-container *ngIf="(xmlFileJSON)">
+                  <ng-container *ngFor="let Block of ExpressionBlocks">
+                      <acr-expresssion-block [ExpBlock]="Block" [FormValues]="FormValues" [DataElements]="DataElements"></acr-expresssion-block>
+                  </ng-container>
+
+              </ng-container>
+          </div>
+      </ng-container>
+  </div>
