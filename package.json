@@ -1,5 +1,5 @@
 {
-  "name": "component-library-template",
+  "name": "Simulator",
   "version": "1.0.0",
   "license": "MIT",
   "author": {
@@ -14,7 +14,7 @@
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-lib": "ng lint && ng-packagr -p ng-package.json && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
+    "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint && ng test --code-coverage && ng build --prod --no-progress",
     "build-npm": "ng lint && ng test --code-coverage && ng-packagr -p ng-package.json",
     "create-module": "ng generate module",
@@ -33,9 +33,11 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "@types/jquery": "^3.2.16",
+    "@types/node": "^6.0.90",
     "core-js": "^2.4.1",
     "rxjs": "^5.4.2",
     "string": "^3.3.3",
+    "xml2js": "^0.4.19",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

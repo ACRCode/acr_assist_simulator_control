@@ -1,0 +1,800 @@
+/* Master Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+
+h2,
+h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+body {
+  margin: 2em;
+}
+
+/*Apply background color for div having checked radio button*/
+input[type="radio"]:checked + div {
+  background-color: #1e89b5 !important;
+
+  border: 1px solid #9b9b9b;
+  color: #ffffff;
+}
+
+/*Apply background color for div having no checked radio button*/
+input[type="radio"] + div {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #9b9b9b;
+
+  border-radius: 5px;
+}
+
+.checkbox > label {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #9b9b9b;
+  border-radius: 5px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.checkbox > label > input[type="checkbox"] {
+  margin-left: -15px;
+  margin-top: 6px;
+}
+
+.full-width span {
+  font-weight: bold;
+}
+/*.checkbox > label > input[type=checkbox]:checked + span {background-color: #FAAF3A !important;
+    border: 1px solid #9B9B9B;
+    }*/
+.DEElement {
+  color: #363636;
+  letter-spacing: -0.37px;
+  word-wrap: break-word;
+}
+
+.DEValues {
+  /*font-size: 12px;*/
+  color: #4a4a4a;
+  letter-spacing: -0.29px;
+}
+
+/* CHECKBOX OVERWRITE STYLES */
+.rad {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.rad > input {
+  /* HIDE ORG RADIO & CHECKBOX */
+  visibility: hidden;
+  position: absolute;
+}
+
+[type="radio"] + span::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 1em;
+  border: 0.1px solid #fff;
+  box-shadow: 0 0 0 1px #57aed0;
+  margin-right: 4px;
+  transition: 0.5s ease all;
+  margin-left: -15px;
+}
+
+[type="radio"]:checked + span::before {
+  background: #57aed0;
+  box-shadow: 0 0 0 2px #57aed0;
+  margin-top: auto;
+  /*margin-left:-15px;*/
+}
+
+.reportText {
+  font-size: 14px;
+  color: #363636;
+  letter-spacing: -0.49px;
+}
+
+button:hover,
+button:focus,
+button.active,
+.btn-default:hover,
+.btn-default:focus,
+.item.active,
+.btn-default.active {
+  background: #1e89b5 !important;
+  color: #ffffff !important;
+}
+
+.hideInput {
+  visibility: hidden;
+  margin-left: 5px !important;
+}
+
+.panel {
+  background-color: transparent;
+}
+
+.logo {
+  height: 30px;
+  width: 250px;
+}
+
+.navbar-blue {
+  background-color: #00205b !important;
+  color: #fff;
+}
+
+.navbar-brand-text {
+  font-size: 30px;
+  color: #fff;
+  font-weight: normal;
+  margin-top: 10px;
+}
+.close {
+  margin-top: -20px !important;
+}
+/*.full-width {
+        width: 320px !important;
+    }*/
+
+#myNav.affix {
+  width: 483px;
+  top: 100;
+}
+
+#Can-ImgMap {
+  pointer-events: none;
+  position: absolute;
+  opacity: 0.5;
+}
+
+/* Styles for Assist bootstrap*/
+
+.row {
+  /*margin-top: 30px;*/
+}
+
+.control-label {
+  text-align: left !important;
+}
+
+.box-style {
+  text-decoration: none;
+  color: #363636 !important;
+  border-radius: 3px;
+  padding: 5px;
+  font-weight: bold !important;
+  width: 75%;
+}
+
+.findings {
+  color: #ffffff !important;
+  background-color: #5295b1 !important;
+  border-color: #5295b1 !important;
+  background-image: none !important;
+  font-weight: bold;
+  text-transform: capitalize;
+  height: 40px;
+}
+
+.table-row {
+  display: table-row;
+  width: auto;
+  clear: both;
+}
+
+.table-cell {
+  display: table-cell;
+  width: 475px;
+  font-size: 12px;
+  background-color: transparent;
+  color: black;
+  height: 25px;
+  line-height: 25px;
+  padding: 1px;
+}
+
+.imgMap-table-cell {
+  width: 10% !important;
+  vertical-align: middle;
+}
+
+.panel-default {
+  min-width: 600px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+}
+
+.row-style {
+  bottom: 5px;
+  position: fixed;
+  top: 55px;
+  overflow: auto;
+  width: 100%;
+}
+
+.modal-dialog {
+  top: 100px;
+  margin-left: 50% !important;
+}
+
+.required-field {
+  border: 1px solid #edd1d1;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 12px;
+  color: #cd5c5c;
+  width: 125px;
+}
+
+.col-per-10 {
+  border: 1px solid blue;
+  padding: 15px 10px 15px 10px;
+  border-radius: 10px;
+  height: auto;
+  width: 10%;
+  float: left;
+  position: fixed;
+  min-height: 1px;
+}
+
+.btn-group > .btn:first-child {
+  margin-left: 0;
+  width: 165px;
+  margin-top: 10px;
+}
+
+.col-md-10 {
+  left: 200px;
+}
+
+.module-header {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  margin-left: -135px;
+  margin-top: -15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #363636;
+}
+
+.btn-group-justified {
+  padding-left: 15px;
+}
+
+select {
+  height: 35px;
+  border-radius: 5px;
+}
+
+.fixed-keydiagram {
+  position: fixed !important;
+  float: right;
+  padding-right: 0px !important;
+  margin-right: 10px;
+  padding-left: 25px !important;
+}
+
+.center-align {
+  text-align: center;
+  width: 160px !important;
+  padding: 0px !important;
+}
+
+.center-align div {
+  width: 200px;
+  margin-left: -10px;
+}
+
+.findings div {
+  color: #363636 !important;
+  margin-left: 100px !important;
+  margin-top: -23.5px !important;
+  height: 30px;
+}
+
+.findings div select {
+  text-transform: capitalize;
+}
+
+.modal-backdrop {
+  top: 10000px !important;
+}
+
+.tooltip-arrow {
+  display: none !important;
+}
+
+.other-reportSection {
+  font-weight: normal;
+  margin-top: -10px;
+  margin-left: 15px;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.no-btm-margin-table {
+  margin-bottom: 0px !important;
+}
+
+.adjust-diagram {
+  margin-top: 56px;
+  right: 20px !important;
+}
+
+.adjust-diagram-image {
+  top: 0px !important;
+  margin-top: 0px !important;
+}
+
+.reportText-panel {
+  width: 90%;
+  margin-left: 2%;
+}
+
+.reportText-body {
+  margin-left: 2%;
+}
+.top-Index {
+  z-index: 99999 !important;
+}
+/* Master Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+
+h2,
+h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+.div-simulator-container {
+  margin: 0;
+}
+
+/*Apply background color for div having checked radio button*/
+.div-simulator-container input[type="radio"]:checked + div {
+  background-color: #1e89b5 !important;
+
+  border: 1px solid #9b9b9b;
+  color: #ffffff;
+}
+
+/*Apply background color for div having no checked radio button*/
+.div-simulator-container input[type="radio"] + div {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #9b9b9b;
+
+  border-radius: 5px;
+}
+
+.div-simulator-container .checkbox > label {
+  background-color: #f5f5f5 !important;
+  border: 1px solid #9b9b9b;
+  border-radius: 5px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.div-simulator-container .checkbox > label > input[type="checkbox"] {
+  margin-left: -15px;
+  margin-top: 6px;
+}
+
+.div-simulator-container .full-width span {
+  font-weight: bold;
+}
+/*.checkbox > label > input[type=checkbox]:checked + span {background-color: #FAAF3A !important;
+    border: 1px solid #9B9B9B;
+    }*/
+.div-simulator-container .DEElement {
+  color: #363636;
+  letter-spacing: -0.37px;
+  word-wrap: break-word;
+}
+
+.div-simulator-container .DEValues {
+  /*font-size: 12px;*/
+  color: #4a4a4a;
+  letter-spacing: -0.29px;
+}
+
+/* CHECKBOX OVERWRITE STYLES */
+.div-simulator-container .rad {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.div-simulator-container .rad > input {
+  /* HIDE ORG RADIO & CHECKBOX */
+  visibility: hidden;
+  position: absolute;
+}
+
+.div-simulator-container [type="radio"] + span::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 1em;
+  border: 0.1px solid #fff;
+  box-shadow: 0 0 0 1px #57aed0;
+  margin-right: 4px;
+  transition: 0.5s ease all;
+  margin-left: -15px;
+}
+
+[type="radio"]:checked + span::before {
+  background: #57aed0;
+  box-shadow: 0 0 0 2px #57aed0;
+  margin-top: auto;
+  /*margin-left:-15px;*/
+}
+
+.div-simulator-container .reportText {
+  font-size: 14px;
+  color: #363636;
+  letter-spacing: -0.49px;
+}
+
+.div-simulator-container button:hover,
+.div-simulator-container button:focus,
+.div-simulator-container button.active,
+.div-simulator-container .btn-default:hover,
+.btn-default:focus,
+.div-simulator-container .item.active,
+.div-simulator-container .btn-default.active {
+  background: #1e89b5 !important;
+  color: #ffffff !important;
+}
+
+.div-simulator-container .hideInput {
+  visibility: hidden;
+  margin-left: 5px !important;
+}
+
+.div-simulator-container .panel {
+  background-color: transparent;
+}
+
+.logo {
+  height: 30px;
+  width: 250px;
+}
+
+.navbar-blue {
+  background-color: #00205b !important;
+  color: #fff;
+}
+
+.navbar-brand-text {
+  font-size: 30px;
+  color: #fff;
+  font-weight: normal;
+  margin-top: 10px;
+}
+
+.div-simulator-container .close {
+  margin-top: -20px !important;
+}
+/*.full-width {
+        width: 320px !important;
+    }*/
+
+#myNav.affix {
+  width: 483px;
+  top: 100;
+}
+
+#Can-ImgMap {
+  pointer-events: none;
+  position: absolute;
+  opacity: 0.5;
+}
+
+/* Styles for Assist bootstrap*/
+
+.div-simulator-container .control-label {
+  text-align: left !important;
+}
+
+.div-simulator-container .box-style {
+  text-decoration: none;
+  color: #363636 !important;
+  border-radius: 3px;
+  padding: 5px;
+  font-weight: bold !important;
+  width: 75%;
+}
+
+.div-simulator-container .findings {
+  color: #ffffff !important;
+  background-color: #5295b1 !important;
+  border-color: #5295b1 !important;
+  background-image: none !important;
+  font-weight: bold;
+  text-transform: capitalize;
+  height: 40px;
+}
+
+.div-simulator-container .table-row {
+  display: table-row;
+  width: auto;
+  clear: both;
+}
+
+.div-simulator-container .table-cell {
+  display: table-cell;
+  width: 475px;
+  font-size: 12px;
+  background-color: transparent;
+  color: black;
+  height: 25px;
+  line-height: 25px;
+  padding: 1px;
+  border-bottom: none;
+}
+
+.div-simulator-container .imgMap-table-cell {
+  width: 10% !important;
+  vertical-align: middle;
+}
+
+.div-simulator-container .panel-default {
+  min-width: 600px;
+  margin: 0 !important;
+  background-color: white;
+}
+
+.div-simulator-container .footerBlock {
+  position: fixed;
+  bottom: 55px;
+}
+
+.div-simulator-container .row-style {
+  bottom: 5px;
+  position: fixed;
+  top: 55px;
+  overflow: auto;
+  width: 100%;
+}
+
+.div-simulator-container .modal-dialog {
+  top: 100px;
+  /*margin-left: 50% !important;*/
+  margin-left: 0 !important;
+}
+
+.div-simulator-container .required-field {
+  border: 1px solid #edd1d1;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 12px;
+  color: #cd5c5c;
+  width: 125px;
+}
+
+.div-simulator-container .col-per-10 {
+  border: 1px solid blue;
+  padding: 15px 10px 15px 10px;
+  border-radius: 10px;
+  height: auto;
+  width: 10%;
+  float: left;
+  position: fixed;
+  min-height: 1px;
+}
+
+.div-simulator-container .btn-group > .btn:first-child {
+  margin-left: 0;
+  width: 165px;
+  margin-top: 10px;
+}
+
+.div-simulator-container .col-md-10 {
+  left: 200px;
+}
+
+.div-simulator-container .module-header {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  margin-left: -135px;
+  margin-top: -15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #363636;
+}
+
+.div-simulator-container .btn-group-justified {
+  padding-left: 15px;
+}
+
+.div-simulator-container select {
+  height: 28px;
+  border-radius: 5px;
+}
+
+.div-simulator-container .panel-body {
+  padding: 10px !important;
+}
+
+.div-simulator-container .fixed-keydiagram {
+  position: fixed !important;
+  float: right;
+  padding-right: 0px !important;
+  margin-right: 10px;
+  padding-left: 25px !important;
+}
+
+.div-simulator-container .center-align {
+  text-align: center;
+  width: 160px !important;
+  padding: 0px !important;
+}
+
+.div-simulator-container .center-align div {
+  width: 200px;
+  margin-left: -10px;
+}
+
+.div-simulator-container .findings div {
+  color: #363636 !important;
+  margin-left: 97px !important;
+  margin-top: -29.5px !important;
+  height: 30px;
+}
+
+.div-simulator-container .findings div select {
+  text-transform: capitalize;
+}
+
+.div-simulator-container .modal-backdrop {
+  top: 10000px !important;
+}
+
+.div-simulator-container .tooltip-arrow {
+  display: none !important;
+}
+
+.div-simulator-container .other-reportSection {
+  font-weight: normal;
+  margin-top: -10px;
+  margin-left: 15px;
+}
+
+.div-simulator-container a:hover {
+  text-decoration: none !important;
+}
+
+.div-simulator-container .no-btm-margin-table {
+  margin-bottom: 0px !important;
+}
+
+.div-simulator-container .adjust-diagram {
+  margin-top: 56px;
+  right: 20px !important;
+}
+
+.adjust-diagram-image {
+  top: 0px !important;
+  margin-top: 0px !important;
+}
+
+@media only screen and (min-width: 1224px) {
+  .tab-content {
+    padding: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  #page-content-wrapper {
+    padding: 0px 20px;
+    margin-top: 15px;
+  }
+}
+
+#sidebar-wrapper {
+  left: 175px;
+  margin-left: -175px;
+}
+
+#rowContent {
+  padding-bottom: 120px;
+}
+
+@media only screen and (min-width: 1224px) {
+  .fixed-reportText {
+    width: 1064px;
+  }
+}
+
+@media only screen and (min-width: 1824px) {
+  .fixed-reportText {
+    width: 1260px;
+  }
+}
+
+@media only screen and (min-width: 1224px) {
+  .modal-lg {
+    left: 0;
+    /* left: -250px; */
+  }
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.control-label {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.div-simulator-container .checkbox > label {
+  height: 30px;
+  line-height: 30px;
+}
+
+.div-simulator-container .checkbox > label > input[type="checkbox"] {
+  margin-top: 8px;
+}
+
+.div-simulator-container select {
+  height: 30px;
+  border-radius: 5px;
+  font-size: 12px;
+  width: 280px;
+}
+
+.div-simulator-container .input-group {
+  width: 280px;
+}
+
+.div-simulator-container .input-group .form-control {
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid #969696;
+}
+
+.div-simulator-container .imgMap-table-cell {
+  padding-left: 10px;
+}
+
+@media (min-width: 1224px) {
+  .modal-lg {
+    width: 630px;
+  }
+}
+.tableImagemap {
+  table-layout: fixed;
+}
+@media (min-width: 1850px) {
+  .modal-lg {
+    width: 900px;
+  }
+  .tableImagemap {
+    table-layout: inherit;
+  }
+}
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}

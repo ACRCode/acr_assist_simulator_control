@@ -1,8 +1,8 @@
 {
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
-    "flatModuleId": "component-library-template",
-    "flatModuleOutFile": "component-library-template.js",
+    "flatModuleId": "Simulator",
+    "flatModuleOutFile": "Simulator.js",
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true
   },

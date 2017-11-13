@@ -1,164 +1,205 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
+import { GlobalsService } from '../shared/services/globals.service';
+import { ExpressionBlock } from '../shared/models/expression-block.model';
+import { Metadata } from '../shared/models/metadata.model';
+import { Parser } from '../shared/utils/parser';
+import { TemplateDetails } from '../shared/models/template-details.model';
+import { XMLUtil } from '../shared/utils/XMLUtil';
 
 @Component({
   selector: 'acr-assist-simulator',
   template: `
+    <ng-container *ngIf="(isValid!=true && isValid!= null)">
+      <div class="row">
+        <div class="col-sm-12 text-center alert alert-danger">
+          <ng-container *ngIf="(ErrorCode == 0)">
+            {{errorMessage}}. So we are unable to validate XML.
+          </ng-container>
+          <ng-container *ngIf="(ErrorCode == 1)">
+            Selected XML does not meets the XML Schema.
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
 
-
-    <canvas id='Can-ImgMap'></canvas>
-    <ng-container *ngFor="let DataElement of DataElements">
-
-    	<ng-container *ngIf="(DataElement.ElementType == 'ComputedElement')">
-    		<acr-computed-element [DataElement]="DataElement" [DataElements]="DataElements" [FormValues]="FormValues"></acr-computed-element>
-    	</ng-container>
-
-
-    	<ng-container *ngIf="(DataElement.ElementType == 'ChoiceDataElement' || DataElement.ElementType == 'NumericDataElement' || DataElement.ElementType == 'IntegerDataElement' || DataElement.ElementType == 'MultiChoiceDataElement') ">
-    		<ng-container *ngIf="DataElement.Visible">
-    			<div class="form-group" [class.Visible]="DataElement.Visible">
-                    <div class="col-sm-3">
-                        <label class="control-label DEElement" id="{{DataElement.ID}}">
-                            {{DataElement.Label}}
-                        </label>
-
-                        <ng-container *ngIf="!common.isEmpty(DataElement.Hint) ">
-                            <a > <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{DataElement.Hint}}"></span>							</a>
+    <ng-container *ngIf="(isValid)">
+      <ng-container *ngIf="Metadata != undefined">
+        <div class="row">
+          <div class="col-sm-12 text-center border-0">
+            <h4>
+              <strong>{{Metadata.Label}} </strong>
+            </h4>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row content-padding">
+        <ng-container *ngIf="globalsService.LoadkeyDiagram != true">
+          <div class="col-sm-12 ">
+            <ng-container *ngIf="(isValid)">
+                <form #form="ngForm" class="form-horizontal">
+                <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+              </form>
+            </ng-container>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="globalsService.LoadkeyDiagram == true">
+          <div class="col-sm-7 ">
+            <ng-container *ngIf="(isValid)">
+               <form #form="ngForm" class="form-horizontal">
+                <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+              </form>
+            </ng-container>
+          </div>
+          <div class="col-sm-5 padding-top-5">
+            <div id="myNav">
+              <ng-container *ngIf="Metadata != undefined">
+                <ng-container *ngIf="globalsService.LoadkeyDiagram == true">
+                  <div class="carousel slide" data-ride="carousel" data-interval="false">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                      <ng-container *ngFor="let diag of Metadata.Diagrams ">
+                        <ng-container *ngIf="Metadata.Diagrams.indexOf(diag) == 0">
+                          <div class="item active">
+                            <img src="{{diag.ImagePath}}">
+                          </div>
                         </ng-container>
 
-                        <ng-container *ngIf="DataElement.Diagrams != Undefined ">
-                            <acr-hint-diagram [DataElement]="DataElement"></acr-hint-diagram>
+                        <ng-container *ngIf="Metadata.Diagrams.indexOf(diag) > 0">
+                          <div class="item">
+                          </div>
                         </ng-container>
-
-                        <ng-container *ngIf="ValidationBlocks.length > 0">
-                            <ng-container *ngFor="let Block of ValidationBlocks">
-                                <ng-container *ngIf="(DataElementObj[DataElement.ID].Visible)">
-                                    <ng-container *ngIf="evaluate(Block.Condition)">
-                                        <ng-container *ngIf="Block.DataElementID == DataElement.ID">
-                                            <ng-container *ngIf="Block.Message =='Minimum value required'">
-                                                <div class="required-field">Minimum Value: {{Block.Minimum}}</div>
-                                            </ng-container>
-
-                                            <ng-container *ngIf="Block.Message != 'Minimum value required'">
-                                                <div class="required-field">* Required field !!!</div>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
+                      </ng-container>
                     </div>
-
-    				<div class="col-sm-8 ">
-    					<div class="input-group ">
-    						<!--Choice DataElements-->
-    						<ng-container *ngIf="DataElement.ElementType == 'ChoiceDataElement' ">
-                                <div class="table no-btm-margin-table">
-                                    <div class="table-row">
-                                        <div class="table-cell">
-                                            <ng-container *ngIf="DataElement.ChoiceOptions.length == 2">
-                                                <!-- Full width for radio if Imagepath exist -->
-                                                <ng-container *ngIf="DataElement.ImagePath != Undefined">
-                                                    <div id="radio-inline">
-                                                        <ng-container *ngFor="let choice of DataElement.ChoiceOptions">
-                                                            <label class="rad DEValues">
-                                                                <input type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}} checked style="display:none;">
-                                                                <div class="full-width" (click)="itemSelected()">
-                                                                    <input class="hideInput" type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}}
-                                                                           checked>
-                                                                    <span>{{choice.Label}}</span>
-                                                                </div>
-                                                            </label>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                                <!-- Full width for radio if Imagepath does not exist -->
-                                                <ng-container *ngIf="DataElement.ImagePath == Undefined">
-                                                    <div id="radio-inline">
-                                                        <ng-container *ngFor="let choice of DataElement.ChoiceOptions">
-                                                            <label class="rad DEValues">
-                                                                <input type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}} checked style="display:none;">
-                                                                <div class="full-width" (click)="itemSelected()">
-                                                                    <input class="hideInput" type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}}
-                                                                           checked>
-                                                                    <span>{{choice.Label}}</span>
-                                                                </div>
-                                                            </label>
-                                                        </ng-container>
-                                                    </div>
-                                                </ng-container>
-                                            </ng-container>
-                                            <ng-container *ngIf="DataElement.ChoiceOptions.length != 2">
-                                                <!-- Dropdown will be created if choice options have more than 5 choices-->
-                                                <ng-container *ngIf="DataElement.ChoiceOptions.length > 5">
-                                                    <select id="{{DataElement.ID}}" [(ngModel)]="FormValues[DataElement.ID]" (ngModelChange)="itemSelected()">
-                                                        <option [value]="Select">--Select--</option>
-                                                        <option *ngFor="let choice of DataElement.ChoiceOptions" [value]="choice.Value">{{choice.Label}}</option>
-                                                    </select>
-                                                </ng-container>
-                                                <!-- Radio button will be created if choice options have are <=5 choices-->
-                                                <ng-container *ngIf="DataElement.ChoiceOptions.length <= 5">
-                                                    <ng-container *ngFor="let choice of DataElement.ChoiceOptions">
-                                                        <div id="radio-inline">
-                                                            <label class="rad DEValues">
-                                                                <input type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}} checked style="display:none;">
-                                                                <div class="full-width" (click)="itemSelected()">
-                                                                    <input class="hideInput" type="radio" [(ngModel)]="FormValues[DataElement.ID] " name="FormValues['{{DataElement.ID}}']" value={{choice.Value}}
-                                                                           checked>
-                                                                    <span>{{choice.Label}}</span>
-                                                                </div>
-                                                            </label>
-                                                        </div>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
-                                        <!-- imagemap will be displyed here -->
-                                        <ng-container *ngIf="DataElement.ImagePath != Undefined">
-                                            <div class="table-cell">
-                                                <acr-image-map [DataElement]="DataElement" [DataElements]="DataElements" [FormValues]="FormValues"></acr-image-map>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-    						</ng-container>
-    						<!--Multi Choice DataElements-->
-    						<ng-container *ngIf="DataElement.ElementType == 'MultiChoiceDataElement' ">
-    							<ng-container *ngFor="let choice of DataElement.ChoiceOptions">
-    								<div class="checkbox">
-                                        <label class="full-width">
-                                            <input type="checkbox" value={{choice.Value}} (change)="updateMultichoice(DataElement.ID,choice.Value,$event)">
-                                            <span> {{choice.Label}}</span>
-                                        </label>
-    								</div>
-    							</ng-container>
-    						</ng-container>
-
-    						<!--NumericDataElement-->
-    						<ng-container *ngIf="DataElement.ElementType == 'NumericDataElement' ">
-    							<input type="number" [(ngModel)]="FormValues[DataElement.ID]" class="form-control" name="FormValues['{{DataElement.ID}}']" (keypress)="itemSelected()">
-    						</ng-container>
-    					</div>
-    				</div>
-    			</div>
-    		</ng-container>
-    	</ng-container>
+                    <ng-container *ngIf="Metadata.Diagrams.length > 1">
+                      <!-- Controls -->
+                      <a class="left carousel-control" onclick="return false;" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="right carousel-control" onclick="return false;" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <ng-container >
+            <ng-container *ngFor="let block of ExpressionBlocks">
+              <acr-expresssion-block [ExpBlock]="block" [FormValues]="FormValues" [DataElements]="DataElements" (onExpressionChanged)="displayDataElements($event)"></acr-expresssion-block>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
     </ng-container>
   `,
   styles: [`
-
-  `]
+    .content-padding {
+      padding-top: 5px;
+      padding-right: 5px;
+    }
+  `],
+  changeDetection : ChangeDetectionStrategy.OnPush
 })
-export class AssistSimulatorComponent implements OnInit {
+export class AssistSimulatorComponent implements OnInit , OnChanges {
 
-  @Input() DataElements: DataElement[] = [];
-  @Input() FormValues: Object = {};
-  @Input() ValidationBlocks = [];
-  DataElementObj = {};
+   @Input() templateContent: string;
+   @Input() imagePath: string;
 
-  constructor() { }
 
-  ngOnInit() {
+
+  errorMessage: string;
+  ErrorCode: number;
+  FormValues: Object;
+  ExpressionBlocks: ExpressionBlock[];
+  isValid: boolean;
+  DataElements: DataElement[];
+  FormChanged: boolean;
+  BaseFormValues: Object;
+  ValidationBlocks;
+  DataElementObj;
+  Metadata: Metadata;
+
+
+  constructor(
+    private globalsService: GlobalsService,
+      private cd: ChangeDetectorRef
+
+  ) {
+
+
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.processData();
+  }
+
+  ngOnInit() {
+    this.processData();
+
+  }
+
+
+  resetData() {
+
+    this.FormValues = {};
+    this.BaseFormValues = {};
+    this.ExpressionBlocks = [];
+    this.DataElements = [];
+    this.ValidationBlocks = [];
+    this.DataElementObj = {};
+
+    this.globalsService.XMLAcronyms = {};
+    this.ExpressionBlocks = [];
+    this.DataElements = [];
+    this.Metadata = undefined;
+    this.FormValues = {};
+    this.ValidationBlocks = [];
+    this.globalsService.evaluateExpessions = true;
+    this.globalsService.ComputedElementConditions = {};
+    this.globalsService.XMLAcronyms = {};
+
+  }
+
+  processData() {
+
+      this.resetData();
+      this.isValid = this.templateContent.length > 0 && this.imagePath.length  > 0;
+
+      const templateDetails = new TemplateDetails ();
+      templateDetails.imagePath = this.imagePath;
+      templateDetails.templateContent = this.templateContent;
+      const util = new XMLUtil();
+      util.load(templateDetails);
+
+      this.globalsService.XMLAcronyms  = util.Acronyms;
+      this.Metadata = util.Metadata;
+      this.DataElements = util.DataElements;
+      this.ExpressionBlocks = util.ExpressionBlocks;
+      this.ValidationBlocks = util.ValidationBlocks;
+      this.FormValues = util.FormValues;
+      this.BaseFormValues = JSON.parse(JSON.stringify(this.FormValues));
+
+    }
+  displayDataElements(notRelevantDataElments) {
+
+     this.DataElements.forEach(de => {
+         const deindex = this.DataElements.indexOf(de);
+         if (notRelevantDataElments !== undefined && notRelevantDataElments.indexOf(deindex) !== -1) {
+             de.Visible = false;
+         } else {
+             de.Visible = true;
+         }
+     });
+     this.globalsService.evaluateExpessions = false;
+     this.cd.detectChanges();
+     this.globalsService.evaluateExpessions = true;
+ }
 }

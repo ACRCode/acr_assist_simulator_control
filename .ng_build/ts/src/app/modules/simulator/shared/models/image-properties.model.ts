@@ -1,4 +1,4 @@
-export class ImageProp {
+export class ImageProperties {
   public height: number;
   public width: number;
 

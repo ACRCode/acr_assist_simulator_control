@@ -1,15 +1,19 @@
 import { Component, OnInit , Input} from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
-import * as $ from 'jquery';
+
+declare var require: any;
 
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
   styleUrls: ['./image-map.component.css']
 })
+
 export class ImageMapComponent  implements OnInit {
 
-       @Input() DataElement: DataElement;
+
+      $ = require('jquery');
+      @Input() DataElement: DataElement;
       @Input() DataElements: Object = {};
       @Input() FormValues: Object = {};
       imageExist = true;
@@ -73,7 +77,7 @@ export class ImageMapComponent  implements OnInit {
         imageClick(e, dataElement) {
             const O_height = dataElement.ImageProp.height;
             const O_width = dataElement.ImageProp.width;
-            const $elem = $(e.target);
+            const $elem = this.$(e.target);
 
             const N_height = $elem.height();
             const N_width = $elem.width();
@@ -81,8 +85,8 @@ export class ImageMapComponent  implements OnInit {
 
             const offset = $elem.offset();
 
-            const offset_t = offset.top - $(window).scrollTop();
-            const offset_l = offset.left - $(window).scrollLeft();
+            const offset_t = offset.top - this.$(window).scrollTop();
+            const offset_l = offset.left - this.$(window).scrollLeft();
 
             const x = e.clientX - offset_l;
             const y = e.clientY - offset_t;

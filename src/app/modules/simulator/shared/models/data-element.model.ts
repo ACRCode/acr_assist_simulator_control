@@ -1,8 +1,9 @@
 import { ChoiceOption } from './choice-option.model';
 import { Diagram } from './diagram.model';
-import { ImageProp } from './image-prop.model';
+import { ImageProperties } from './image-properties.model';
 import { ImageOption } from './image-option.model';
 import { ExpressionBlock } from './expression-block.model';
+import { ValidationDetails } from './validation-details.model';
 
 export class DataElement {
   public ID: string;
@@ -17,20 +18,15 @@ export class DataElement {
   public Diagrams: Diagram[];
   public DisplaySequence: number;
   public Visible: boolean;
-
   public ImagePath: string;
-
-  public ImageProp: ImageProp;
-
+  public ImageProp: ImageProperties;
   public ImageTitle: string;
   public ImageOptions: ImageOption[];
-
   public ShowValue: boolean;
-
   public ValueBlocks: ExpressionBlock[];
   public ArithmaticExpression = '';
-
   public TextExpression: Object[] = [];
+  public ValidationBlocks: ValidationDetails[];
 
   constructor() {
       this.Visible = true;

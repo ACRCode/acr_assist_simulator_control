@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../XML Schema/ACRAssist_xml_schema.rnc" type="application/relax-ng-compact-syntax"?>
+<ReportingModule>
+    <Metadata>
+        <Label>Liver Lesion on CT</Label>
+        <ID>ACR_Liver_Lession_CT</ID>
+        <SchemaVersion>1.0</SchemaVersion>
+        <RuleVersion>1.0</RuleVersion>
+        <Info>
+            <Description>This module can be used for characterizing liver lession for CT</Description>
+            <References>
+                <Citation></Citation>
+            </References>
+            <Diagrams>
+                <Diagram DisplaySequence="1" KeyDiagram="true">
+                    <Location>keydiagram.PNG</Location>
+                    <Label>Liver Lesion</Label>
+                </Diagram>
+            </Diagrams>
+            <Contact>
+                <Name></Name>
+                <Email></Email>
+                <Institution></Institution>
+            </Contact>
+        </Info>
+        <ReportCitationText/>
+        <Ontology>
+            <AnatomicRegions>
+                <Region Code=""></Region>
+            </AnatomicRegions>
+            <PossibleDiagnoses>
+                <Diagnosis Code=""></Diagnosis>
+            </PossibleDiagnoses>
+        </Ontology>
+        <ApplicableExams>
+            <ApplicableExamCategory Axis="Modality">CT 
+            </ApplicableExamCategory>
+            <ApplicableExamCategory  Axis="Anatomy"> Liver </ApplicableExamCategory>
+        </ApplicableExams>
+        <ApplicableSexes Value="Both"></ApplicableSexes>
+        <ApplicableAgeGroups>
+            <MinimumAge>19</MinimumAge>
+            <!-- No maximum age -->
+        </ApplicableAgeGroups>
+        <TextCues>
+            <ContextPhrases>
+                <ContextPhrase></ContextPhrase>
+            </ContextPhrases>
+            <KeyWords>
+                <KeyWord></KeyWord>
+            </KeyWords>
+            <NegationPhrases>
+                <NegationPhrase></NegationPhrase>
+            </NegationPhrases>
+            <Regex></Regex>
+        </TextCues>
+        <VoiceActivation>
+            <VoiceCommandPhrase></VoiceCommandPhrase>
+        </VoiceActivation>
+    </Metadata>
+    
+    
+    <DataElements>
+        
+        
+        <GlobalValue Id="smallSize">1</GlobalValue>
+        <GlobalValue Id="largeSize">1.5</GlobalValue>
+        
+
+        <NumericDataElement Id="size" DisplaySequence="1" IsRequired="true">
+            <Label>Size (cm)</Label>
+            <Hint>Size of the lesion in centimeters</Hint>
+            <Minimum>0</Minimum>
+        </NumericDataElement>
+
+        
+        <ChoiceDataElement Id="patientrisk" DisplaySequence="2" IsRequired="true">
+            <Label>Patient risk</Label>
+            <Hint></Hint>
+            <ChoiceInfo>
+                <Choice>
+                    <Value>low</Value>
+                    <Label>Low-risk patient</Label>
+                </Choice>
+                <Choice>
+                    <Value>high</Value>
+                    <Label>High-risk patient</Label>
+                </Choice>
+            </ChoiceInfo>
+        </ChoiceDataElement>
+        
+        
+        <ChoiceDataElement Id="imagingfeatures" DisplaySequence="3" IsRequired="true">
+            <Label>Imaging Features</Label>
+            <Hint></Hint>
+            <ChoiceInfo>
+                <Choice>
+                    <Value>benign</Value>
+                    <Label>Benign imaging features</Label>
+                </Choice>
+                <Choice>
+                    <Value>suspicious</Value>
+                    <Label>Suspicious imaging features</Label>
+                </Choice>
+                <Choice>
+                    <Value>flashfilling</Value>
+                    <Label>"Flash-filling" imaging features</Label>
+                </Choice>
+            </ChoiceInfo>
+        </ChoiceDataElement>
+        
+        <ChoiceDataElement Id="patientriskfprflashfilling" DisplaySequence="4" IsRequired="true">
+            <Label>Patient risk</Label>
+            <Hint></Hint>
+            <ChoiceInfo>
+                <Choice>
+                    <Value>low</Value>
+                    <Label>Low-risk patient</Label>
+                </Choice>
+                <Choice>
+                    <Value>high</Value>
+                    <Label>High-risk patient</Label>
+                </Choice>
+            </ChoiceInfo>
+        </ChoiceDataElement>
+        
+        <ChoiceDataElement Id="imagingfeatureforlargelesion" DisplaySequence="5" IsRequired="true">
+            <Label>Imaging features</Label>
+            <Hint></Hint>
+            <ChoiceInfo>
+                <Choice>
+                    <Value>benign</Value>
+                    <Label>Benign imaging features</Label>
+                </Choice>
+                <Choice>
+                    <Value>suspiciousorflashfilling</Value>
+                    <Label>Suspicious or "Flash-filling"imaging features</Label>
+                </Choice>
+            </ChoiceInfo>
+        </ChoiceDataElement>   
+        
+        <ChoiceDataElement Id="patientriskforlargelesion" DisplaySequence="6" IsRequired="true">
+            <Label>Patient risk</Label>
+            <Hint></Hint>
+            <ChoiceInfo>
+                <Choice>
+                    <Value>low</Value>
+                    <Label>Low-risk patient</Label>
+                </Choice>
+                <Choice>
+                    <Value>high</Value>
+                    <Label>High-risk patient</Label>
+                </Choice>
+            </ChoiceInfo>
+        </ChoiceDataElement>
+        
+    </DataElements>
+    
+    <Rules>
+
+        <DecisionPoint Id="massdetectedonctDp">
+            <Label>Incidental Liver mass detected on CT</Label>
+            <Branch>
+                <Label>&lt;1cm</Label>
+                <NotRelevantDataElements>
+                    <DataElementRef DataElementId="imagingfeatures"></DataElementRef>
+                    <DataElementRef DataElementId="patientriskfprflashfilling"></DataElementRef>
+                    <DataElementRef DataElementId="imagingfeatureforlargelesion"></DataElementRef>
+                    <DataElementRef DataElementId="patientriskforlargelesion"></DataElementRef>
+                </NotRelevantDataElements>
+                <LessThanCondition DataElementId="size" ComparisonValue="smallSize"/>
+               <DecisionPoint Id="patientriskdp">
+                   <Label>Patient Risk</Label>
+                   <Branch>
+                       <EqualCondition DataElementId="patientrisk" ComparisonValue="low"/>
+                       <EndPointRef EndPointId="benign"></EndPointRef>
+                   </Branch>
+                   <Branch>
+                       <EqualCondition DataElementId="patientrisk" ComparisonValue="high"/>
+                       <EndPointRef EndPointId="followup"></EndPointRef>
+                   </Branch>
+               </DecisionPoint>                
+            </Branch>
+            <Branch>
+                <Label>1.0-1.5 cm</Label>
+                <NotRelevantDataElements>
+                    <DataElementRef DataElementId="patientrisk"></DataElementRef>
+                    <DataElementRef DataElementId="imagingfeatureforlargelesion"></DataElementRef>
+                    <DataElementRef DataElementId="patientriskforlargelesion"></DataElementRef>
+                </NotRelevantDataElements>
+                <AndCondition>
+                    <LessThanOrEqualsCondition DataElementId="size" ComparisonValue="largeSize"/>
+                    <GreaterThanOrEqualsCondition DataElementId="size" ComparisonValue="smallSize"/>
+                </AndCondition>
+                <DecisionPoint Id="imagingfeaturesDp">
+                    <Label>Imaging features</Label>
+                    <Branch>
+						<NotRelevantDataElements>
+							<DataElementRef DataElementId="patientriskfprflashfilling"></DataElementRef>							
+						</NotRelevantDataElements>
+                        <EqualCondition DataElementId="imagingfeatures" ComparisonValue="benign"/>
+                        <EndPointRef EndPointId="benign"></EndPointRef>
+                    </Branch>
+                    <Branch>
+						<NotRelevantDataElements>
+							<DataElementRef DataElementId="patientriskfprflashfilling"></DataElementRef>							
+						</NotRelevantDataElements>
+                        <EqualCondition DataElementId="imagingfeatures" ComparisonValue="suspicious"/>
+                        <EndPointRef EndPointId="mrinow"></EndPointRef>
+                    </Branch>
+                    <Branch>
+                        <EqualCondition DataElementId="imagingfeatures" ComparisonValue="flashfilling"/>
+                        <DecisionPoint Id="flashfillingpatientriskdp">
+                            <Label>Patient Risk</Label>
+                            <Branch>
+                                <EqualCondition DataElementId="patientriskfprflashfilling" ComparisonValue="low"/>
+                                <EndPointRef EndPointId="benign"></EndPointRef>
+                            </Branch>
+                            <Branch>
+                                <EqualCondition DataElementId="patientriskfprflashfilling" ComparisonValue="high"/>
+                                <EndPointRef EndPointId="mrinow"></EndPointRef>
+                            </Branch>
+                        </DecisionPoint>
+                    </Branch>
+                </DecisionPoint>
+            </Branch>
+            <Branch>
+                <Label>&gt;1.5cm</Label>
+                <NotRelevantDataElements>
+                    <DataElementRef DataElementId="imagingfeatures"></DataElementRef>
+                    <DataElementRef DataElementId="patientriskfprflashfilling"></DataElementRef>
+					<DataElementRef DataElementId="patientrisk"></DataElementRef>
+                </NotRelevantDataElements>
+                <GreaterThanCondition DataElementId="size" ComparisonValue="largeSize"/>
+                <DecisionPoint Id="largelesionimagingfeatures">
+                    <Label>Imaging features</Label>
+                    <Branch>
+					<NotRelevantDataElements>
+						<DataElementRef DataElementId="patientriskforlargelesion"></DataElementRef>						
+					</NotRelevantDataElements>
+                        <EqualCondition DataElementId="imagingfeatureforlargelesion" ComparisonValue="benign"/>
+                        <EndPointRef EndPointId="benign"></EndPointRef>
+                    </Branch>
+                    <Branch>
+                        <EqualCondition DataElementId="imagingfeatureforlargelesion" ComparisonValue="suspiciousorflashfilling"/>
+                        <DecisionPoint Id="patientriskforlargelesionDp">
+                            <Label>Patient risk</Label>
+                            <Branch>
+                                <EqualCondition DataElementId="patientriskforlargelesion" ComparisonValue="low"/>
+                                <EndPointRef EndPointId="mrinow"></EndPointRef>
+                            </Branch>
+                            <Branch>
+                                <EqualCondition DataElementId="patientriskforlargelesion" ComparisonValue="high"/>
+                                <EndPointRef EndPointId="biopsy"></EndPointRef>
+                            </Branch>
+                        </DecisionPoint>
+                    </Branch>
+                </DecisionPoint>
+            </Branch>
+           
+        </DecisionPoint>
+    </Rules>
+    
+    <EndPoints>
+        
+        <EndPoint Id="benign">
+            <Label>Benign, no further follow-up</Label>
+            <ReportTexts>
+                <ReportText SectionId="findings">Benign, no further follow-up
+                </ReportText>
+            </ReportTexts>
+        </EndPoint>
+        
+        
+        <EndPoint Id="followup">
+            <Label>Follow-up MRI in 3-6 months</Label>
+            <ReportTexts>
+                <ReportText SectionId="findings">Follow-up MRI in 3-6 months
+                </ReportText>
+            </ReportTexts>
+        </EndPoint>
+        
+        <EndPoint Id="mrinow">
+            <Label>Hepatic MRI now</Label>
+            <ReportTexts>
+                <ReportText SectionId="findings">Hepatic MRI now
+                </ReportText>
+            </ReportTexts>
+        </EndPoint>
+        
+        <EndPoint Id="biopsy">
+            <Label>Hepatic MRI now or biopsy</Label>
+            <ReportTexts>
+                <ReportText SectionId="findings">Hepatic MRI now or biopsy
+                </ReportText>
+            </ReportTexts>
+        </EndPoint>
+     
+    </EndPoints>
+</ReportingModule>

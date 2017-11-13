@@ -1,0 +1,30 @@
+import { ChoiceOption } from './choice-option.model';
+import { Diagram } from './diagram.model';
+import { ImageProperties } from './image-properties.model';
+import { ImageOption } from './image-option.model';
+import { ExpressionBlock } from './expression-block.model';
+import { ValidationDetails } from './validation-details.model';
+export declare class DataElement {
+    ID: string;
+    Value: string;
+    ElementType: string;
+    IsRequired: boolean;
+    Label: string;
+    Hint: string;
+    Minimum: number;
+    Maximum: number;
+    ChoiceOptions: ChoiceOption[];
+    Diagrams: Diagram[];
+    DisplaySequence: number;
+    Visible: boolean;
+    ImagePath: string;
+    ImageProp: ImageProperties;
+    ImageTitle: string;
+    ImageOptions: ImageOption[];
+    ShowValue: boolean;
+    ValueBlocks: ExpressionBlock[];
+    ArithmaticExpression: string;
+    TextExpression: Object[];
+    ValidationBlocks: ValidationDetails[];
+    constructor();
+}

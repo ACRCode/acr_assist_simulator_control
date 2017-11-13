@@ -1,66 +1,24 @@
 
-<div>
-
 
     <ng-container *ngIf="!validate(ExpBlock.ValidationCondition)">
-    <!--<div class="well">{{ExpBlock.ValidationCondition}} </div>-->
-      <ng-container *ngIf="evaluate(ExpBlock.Condition, ExpBlock.NotRelavantDataElements)">
-        <!--<div class="well">{{evaluate(ExpBlock.Condition)}} {{ExpBlock.Condition}} </div>-->
 
-
-        <ng-container *ngIf="(ExpBlock.Result != '' && ExpBlock.Result != undefined)">
-
-
-          <Exp-Result-view [DataElements]="DataElements" [ExpBlock]="ExpBlock" [Result]="ExpBlock.Result" [FormValues]="FormValues"></Exp-Result-view>
-
-
-        </ng-container>
-
+         <ng-container *ngIf="evaluate(ExpBlock.Condition, ExpBlock.NotRelavantDataElements)">
+          <ng-container *ngIf="(ExpBlock.Result != undefined)">
+          <acr-expression-result [DataElements]="DataElements" [ExpBlock]="ExpBlock" [Result]="ExpBlock.Result" [FormValues]="FormValues"></acr-expression-result>
+         </ng-container>
 
         <ng-container *ngIf="ExpBlock.NestedBlocks.length > 0">
-
           <ng-container *ngFor="let NestedBlock of ExpBlock.NestedBlocks">
-
-
-            <exp-block-view [ExpBlock]="NestedBlock" [FormValues]="FormValues" [DataElements]="DataElements" ></exp-block-view>
-
-
+                <acr-expresssion-block [ExpBlock]="NestedBlock" [FormValues]="FormValues" [DataElements]="DataElements" ></acr-expresssion-block>
           </ng-container>
         </ng-container>
-
-
-
       </ng-container>
-
-
-
-
-
-
-
 
       <ng-container *ngIf="ExpBlock.ElseBlocks.length > 0">
-
-
         <ng-container *ngIf="!evaluate(ExpBlock.Condition,ExpBlock.NotRelavantDataElements)">
-
-          <!--<div class="well">{{!evaluate(ExpBlock.Condition)}} !{{ExpBlock.Condition}} </div>-->
           <ng-container *ngFor="let ElseBlock of ExpBlock.ElseBlocks">
-
-
-            <exp-block-view [ExpBlock]="ElseBlock" [FormValues]="FormValues" [DataElements]="DataElements" ></exp-block-view>
-
-
+           <acr-expresssion-block [ExpBlock]="ElseBlock" [FormValues]="FormValues" [DataElements]="DataElements"> </acr-expresssion-block>
           </ng-container>
-
-
-
         </ng-container>
-
-
-
       </ng-container>
-
     </ng-container>
-
-  </div>

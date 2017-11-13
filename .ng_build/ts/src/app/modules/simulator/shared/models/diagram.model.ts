@@ -1,7 +1,7 @@
-import { ImageProp } from './image-prop.model';
+import { ImageProperties } from './image-properties.model';
 
 export class Diagram {
   public Label: string;
   public Location: string;
-  public ImageProp: ImageProp;
+  public ImageProperty: ImageProperties;
 }

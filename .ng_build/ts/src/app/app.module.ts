@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
-
-
+import {SimulatorModule} from './modules/simulator/simulator.module';
+import {SimulatorLoaderModule} from './modules/simulatorloader/simulatorloader.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,9 +12,12 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    SimulatorModule,
+    CommonModule,
+    FormsModule,
+    SimulatorLoaderModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

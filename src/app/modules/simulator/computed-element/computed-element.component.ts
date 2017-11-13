@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
+import { StringUtilityService } from '../shared/services/string-utility.service';
 
 @Component({
   selector: 'acr-computed-element',
@@ -7,9 +8,15 @@ import { DataElement } from '../shared/models/data-element.model';
   styleUrls: ['./computed-element.component.css']
 })
 export class ComputedElementComponent {
+
   @Input() DataElement: DataElement;
   @Input() DataElements: Object = {};
   @Input() FormValues: Object = {};
+
+
+  constructor(private stringUtilityService: StringUtilityService) {
+
+  }
 
   compute(exp) {
     const result = eval(exp);
