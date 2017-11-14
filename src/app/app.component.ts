@@ -20,7 +20,7 @@ export class AppComponent {
       this.fileContent = fileDetails.fileContents;
       const extensionStartPosition = fileDetails.fileName.lastIndexOf('.') ;
       if (extensionStartPosition >= 0) {
-        this.imagePath = 'assets/XMLFiles/Samples/' + fileDetails.fileName.substring(0, extensionStartPosition);
+        this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileName.substring(0, extensionStartPosition);
       }
  }
 }
