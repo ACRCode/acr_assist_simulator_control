@@ -17,9 +17,7 @@
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint && ng test --code-coverage && ng build --prod --no-progress",
     "build-npm": "ng lint && ng test --code-coverage && ng-packagr -p ng-package.json",
-    "create-module": "ng generate module",
-    "create-component": "ng generate component",
-    "create-service": "ng g service  "
+
   },
   "private": true,
   "dependencies": {
