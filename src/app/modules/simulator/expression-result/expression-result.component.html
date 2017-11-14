@@ -1,7 +1,7 @@
 <div class="panel panel-default">
 
   <div class="panel-heading text-left">
-    Report Text: <select id="ddlSections" (change)="generateReportText()" [(ngModel)]="selectedSection">
+    Report Text: <select id="ddlSections"  [(ngModel)]="selectedSection">
       <ng-container *ngFor="let Section of Result.ReportSections">
         <option [value]="Section.Heading" [selected]="Section.Heading == 'findings'">{{Section.Heading}}</option>
       </ng-container>
