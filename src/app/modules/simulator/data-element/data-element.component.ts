@@ -13,7 +13,7 @@ export class DataElementComponent  {
   @Input() ValidationBlocks = [];
   formInitialized = true;
   defaultOption = 'Select';
-  console = console;
+
 
   constructor(private stringUtilityService: StringUtilityService) {}
 
