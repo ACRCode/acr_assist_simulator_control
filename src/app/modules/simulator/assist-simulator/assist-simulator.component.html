@@ -22,7 +22,7 @@
     </div>
   </ng-container>
   <div class="row content-padding">
-    <ng-container *ngIf="globalsService.LoadkeyDiagram != true">
+    <ng-container *ngIf="loadKeyDiagram != true">
       <div class="col-sm-12 ">
         <ng-container *ngIf="(isValid)">
             <form #form="ngForm" class="form-horizontal">
@@ -31,7 +31,7 @@
         </ng-container>
       </div>
     </ng-container>
-    <ng-container *ngIf="globalsService.LoadkeyDiagram == true">
+    <ng-container *ngIf="loadKeyDiagram == true">
       <div class="col-sm-7 ">
         <ng-container *ngIf="(isValid)">
            <form #form="ngForm" class="form-horizontal">
@@ -42,7 +42,7 @@
       <div class="col-sm-5 padding-top-5">
         <div id="myNav">
           <ng-container *ngIf="Metadata != undefined">
-            <ng-container *ngIf="globalsService.LoadkeyDiagram == true">
+            <ng-container *ngIf="loadKeyDiagram == true">
               <div class="carousel slide" data-ride="carousel" data-interval="false">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">

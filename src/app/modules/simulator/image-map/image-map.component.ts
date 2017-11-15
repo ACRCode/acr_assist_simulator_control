@@ -20,6 +20,10 @@ export class ImageMapComponent  implements OnInit {
       SelectionValue = '';
 
       ngOnInit() {
+
+        if (this.DataElement === undefined) {
+            return;
+        }
         const request = new XMLHttpRequest();
         request.open('HEAD',  this.DataElement.ImagePath, false);
         request.send();

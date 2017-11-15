@@ -17,6 +17,7 @@ export class AssistSimulatorComponent implements OnInit , OnChanges {
 
    @Input() templateContent: string;
    @Input() imagePath: string;
+   @Input() loadKeyDiagram: boolean;
 
 
 
@@ -34,7 +35,7 @@ export class AssistSimulatorComponent implements OnInit , OnChanges {
 
 
   constructor(
-    private globalsService: GlobalsService,
+      private globalsService: GlobalsService,
       private cd: ChangeDetectorRef
 
   ) {
@@ -73,10 +74,15 @@ export class AssistSimulatorComponent implements OnInit , OnChanges {
 
   }
 
+
   processData() {
 
       this.resetData();
-      this.isValid = this.templateContent.length > 0 && this.imagePath.length  > 0;
+      this.isValid =  (this.templateContent !== undefined &&  this.templateContent.length > 0 )
+       &&  (this.imagePath !== undefined  &&  this.imagePath.length  > 0);
+      if (!this.isValid) {
+          return ;
+      }
 
       const templateDetails = new TemplateDetails ();
       templateDetails.imagePath = this.imagePath;

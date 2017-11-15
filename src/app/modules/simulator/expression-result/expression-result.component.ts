@@ -21,7 +21,7 @@ export class ExpressionResultComponent  implements OnInit {
       result: string;
 
       ngOnInit()  {
-          if (this.Result.ReportSections.length > 0) {
+          if (this.Result !== undefined && this.Result.ReportSections.length > 0) {
               this.selectedSection = this.Result.ReportSections[0].Heading;
           }
        }

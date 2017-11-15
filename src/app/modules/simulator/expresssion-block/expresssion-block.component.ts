@@ -10,7 +10,7 @@ import { DataElement } from '../shared/models/data-element.model';
 })
 export class ExpresssionBlockComponent   {
   @Input() FormValues: Object = {};
-  @Input() ExpBlock: ExpressionBlock = new ExpressionBlock();
+  @Input() ExpBlock: ExpressionBlock;
   @Input() DataElements: DataElement[] = [];
   @Output() onExpressionChanged: EventEmitter<DataElement[]> = new EventEmitter<DataElement[]>();
 

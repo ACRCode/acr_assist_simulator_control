@@ -1,3 +1,7 @@
+<ng-container *ngIf="DataElement !== undefined">
+
+
+
 <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.ID}}">
   <span class=" glyphicon glyphicon-cd" aria-hidden="true" data-toggle="tooltip"  data-placement="right" title="Hint Diagrams"></span>
 
@@ -64,3 +68,4 @@
 </div>
 </div>
 </div>
+</ng-container>

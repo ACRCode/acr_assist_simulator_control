@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExpressionResultComponent } from './expression-result.component';
+import { ReportTextComponent } from '../report-text/report-text.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 describe('ExpressionResultComponent', () => {
   let component: ExpressionResultComponent;
@@ -8,7 +11,11 @@ describe('ExpressionResultComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExpressionResultComponent ]
+      imports: [
+        CommonModule,
+        FormsModule
+      ],
+      declarations: [ ExpressionResultComponent , ReportTextComponent ]
     })
     .compileComponents();
   }));

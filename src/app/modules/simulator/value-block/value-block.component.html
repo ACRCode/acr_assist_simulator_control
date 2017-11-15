@@ -1,4 +1,4 @@
-<ng-container *ngIf="!validate(ValueBlock.ValidationCondition)">
+<ng-container *ngIf="ValueBlock !== undefined  && !validate(ValueBlock.ValidationCondition)">
   <ng-container *ngIf="evaluate(ValueBlock.Condition)">
       <ng-container *ngIf="ValueBlock.ArithmeticExpression !=''">
           <ng-container *ngIf="DataElement.ShowValue">
@@ -8,7 +8,7 @@
               <input type="hidden"   [attr.value]="compute(ValueBlock.ArithmeticExpression)" />
           </ng-container>
       </ng-container>
-      <ng-container *ngIf="ValueBlock.TextExpression !== '' && ValueBlock.TextExpression !=undefined ">
+      <ng-container *ngIf="ValueBlock.TextExpression !=undefined ">
           <ng-container *ngIf="DataElement.ShowValue">
               <label class="control-label DEElement">  {{textify(ValueBlock.TextExpression)}}</label>
           </ng-container>

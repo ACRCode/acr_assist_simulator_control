@@ -1,6 +1,6 @@
 
 
-    <ng-container *ngIf="!validate(ExpBlock.ValidationCondition)">
+    <ng-container *ngIf="ExpBlock !== undefined && !validate(ExpBlock.ValidationCondition)">
 
          <ng-container *ngIf="evaluate(ExpBlock.Condition, ExpBlock.NotRelavantDataElements)">
           <ng-container *ngIf="(ExpBlock.Result != undefined)">

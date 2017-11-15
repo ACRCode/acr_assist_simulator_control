@@ -1,3 +1,6 @@
+<ng-container *ngIf="DataElement !== undefined">
+
+
 <ng-container *ngIf="DataElement.Visible && DataElement.ShowValue">
   <div class="form-group" [class.Visible]="(DataElement.Visible && DataElement.ShowValue)">
 
@@ -45,3 +48,6 @@
   </ng-container>
 
 </ng-container>
+
+</ng-container>
+

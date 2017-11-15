@@ -11,6 +11,7 @@ export class AppComponent {
  fileContent: string;
  imagePath: string;
 
+
  constructor () {
     this.fileContent = '';
     this.imagePath = '';
