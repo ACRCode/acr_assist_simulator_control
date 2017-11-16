@@ -8,10 +8,10 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve",
     "build": "ng build",
-    "test-watch": "ng test",
-    "test": "ng test --watch=false --sourcemaps=false",
+    "test": "ng test",
+    "test-watch-disabled": "ng test --watch=false --sourcemaps=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",

@@ -18,7 +18,7 @@ import { GlobalsService } from '../shared/services/globals.service';
 describe('AssistSimulatorComponent', () => {
   let component: AssistSimulatorComponent;
   let fixture: ComponentFixture<AssistSimulatorComponent>;
-  const sampleTemplate  = `<?xml version="1.0" encoding="UTF-8"?>
+  const sampleTemplate = `<?xml version="1.0" encoding="UTF-8"?>
   <?xml-model href="../../XML Schema/ACRAssist_xml_schema.rnc" type="application/relax-ng-compact-syntax"?>
   <ReportingModule>
       <Metadata>
@@ -481,7 +481,7 @@ describe('AssistSimulatorComponent', () => {
 
   </ReportingModule>`;
 
-  const imagePath = '//XMLFiles//Samples';
+  let imagePath = '//XMLFiles//Samples';
 
   const components = [AssistSimulatorComponent, ComputedElementComponent, HintDiagramComponent,
     ImageMapComponent, DataElementComponent, ExpresssionBlockComponent,
@@ -503,12 +503,71 @@ describe('AssistSimulatorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssistSimulatorComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+
+  it('should not be valid if the templateContent is undefined', () => {
+    component.templateContent = undefined;
+    component.imagePath = imagePath;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(false);
+   });
+
+  it('should not be valid if the image path is empty string', () => {
+    component.templateContent = sampleTemplate;
+    component.imagePath = '';
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(false);
+  });
+
+  it('should not be valid if the image path  is undefined', () => {
+    component.templateContent = sampleTemplate;
+    component.imagePath = undefined;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(false);
+  });
+
+
+
+
+   it('should not be valid if the templateContent is empty string', () => {
+      component.templateContent = '';
+      component.imagePath = imagePath;
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect (component.isValid).toBe(false);
+  });
+
+  it('should  be valid if the image path and template  is non empty string', () => {
+    component.templateContent = sampleTemplate;
+    component.imagePath = imagePath;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(true);
+  });
+
+  it('should  be valid if the image path and template  is non empty string', () => {
+    component.templateContent = sampleTemplate;
+    component.imagePath = imagePath;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(true);
+  });
+
+  it('The template name should be marval ', () => {
+    component.templateContent = sampleTemplate;
+    component.imagePath = imagePath;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect (component.isValid).toBe(true);
+  });
 
 });
