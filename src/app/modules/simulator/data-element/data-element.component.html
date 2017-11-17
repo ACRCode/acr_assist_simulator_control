@@ -13,7 +13,7 @@
   <ng-container *ngIf="(DataElement.ElementType == 'ChoiceDataElement' || DataElement.ElementType == 'NumericDataElement' || DataElement.ElementType == 'IntegerDataElement' || DataElement.ElementType == 'MultiChoiceDataElement') ">
     <ng-container *ngIf="DataElement.Visible">
       <div class="form-group " [class.Visible]="DataElement.Visible">
-        <div class="col-sm-5 text-left content-padding">
+        <div class="col-xs-12 col-sm-5 text-left content-padding">
           <label class="control-label DEElement" id="{{DataElement.ID}}">
             {{DataElement.Label}}
           </label>
@@ -43,7 +43,7 @@
           </ng-container>
         </div>
 
-        <div class="col-sm-7 text-left content-padding">
+        <div class="col-xs-12 col-sm-7 text-left content-padding">
           <div class="input-group ">
             <!--Choice DataElements-->
             <ng-container *ngIf="DataElement.ElementType == 'ChoiceDataElement' ">

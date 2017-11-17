@@ -36,8 +36,9 @@ input[type="radio"] + div {
   background-color: #f5f5f5 !important;
   border: 1px solid #9b9b9b;
   border-radius: 5px;
-  height: 25px;
+  height: auto;
   line-height: 25px;
+  width: 100%;
 }
 
 .checkbox > label > input[type="checkbox"] {
@@ -61,6 +62,9 @@ input[type="radio"] + div {
   /*font-size: 12px;*/
   color: #4a4a4a;
   letter-spacing: -0.29px;
+  width: 100%;
+    min-width: 200px;
+    max-width: 280px;
 }
 
 /* CHECKBOX OVERWRITE STYLES */
@@ -209,7 +213,7 @@ button.active,
 }
 
 .panel-default {
-  min-width: 600px;
+  min-width: 100%;
 }
 
 #footer {
@@ -236,7 +240,8 @@ button.active,
   padding: 5px;
   font-size: 12px;
   color: #cd5c5c;
-  width: 125px;
+  width: 110px;
+  display: inline-block;
 }
 
 .col-per-10 {
@@ -276,6 +281,8 @@ button.active,
 select {
   height: 35px;
   border-radius: 5px;
+  max-width: 280px;
+  width: 100%;
 }
 
 .fixed-keydiagram {
@@ -798,3 +805,25 @@ h3 {
   float: none;
   margin: 0 auto;
 }
+
+.checkbox{
+  max-width: 280px;
+}
+
+[type="number"]{
+  max-width: 280px;
+  /*margin-left: -15px;*/
+}
+
+.input-group{
+  width: 100%;
+}
+
+@media (min-width:1441px){
+  .DEValues {
+    /*min-width: 280px;
+    max-width: 280px;*/
+    height: auto;
+  }
+}
+
