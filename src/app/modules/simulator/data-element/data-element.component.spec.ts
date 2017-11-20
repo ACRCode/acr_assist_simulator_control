@@ -17,7 +17,7 @@ describe('DataElementComponent', () => {
   let fixture: ComponentFixture<DataElementComponent>;
 
   const components = [ ComputedElementComponent, HintDiagramComponent,
-    ImageMapComponent,  ExpresssionBlockComponent,DataElementComponent,
+    ImageMapComponent,  ExpresssionBlockComponent, DataElementComponent,
     ValueBlockComponent, ExpressionResultComponent, ReportTextComponent];
 
   beforeEach(async(() => {

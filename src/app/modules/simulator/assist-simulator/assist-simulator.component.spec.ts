@@ -481,7 +481,7 @@ describe('AssistSimulatorComponent', () => {
 
   </ReportingModule>`;
 
-  let imagePath = '//XMLFiles//Samples';
+  const imagePath = '//XMLFiles//Samples';
 
   const components = [AssistSimulatorComponent, ComputedElementComponent, HintDiagramComponent,
     ImageMapComponent, DataElementComponent, ExpresssionBlockComponent,
