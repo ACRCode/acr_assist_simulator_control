@@ -1,6 +1,6 @@
 {
   "name": "acr-assist-simulator-test",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -16,7 +16,7 @@
     "e2e": "ng e2e",
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint && ng test --code-coverage && ng build --prod --no-progress",
-    "build-publish-npm": "ng lint && ng test --watch=false  && ng-packagr -p ng-package.json && npm publish dist"
+    "build-publish-npm": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm publish"
   },
   "dependencies": {
     "@angular/animations": "^4.2.4",

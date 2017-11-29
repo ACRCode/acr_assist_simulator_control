@@ -1,5 +1,6 @@
 import { Component, Output ,  EventEmitter } from '@angular/core';
-import { FileDetails } from '../share/models/file-details.model';
+import { FileDetails } from '../shared/models/file-details.model';
+
 
 @Component({
   selector: 'acr-file-upload-loader',
@@ -7,6 +8,7 @@ import { FileDetails } from '../share/models/file-details.model';
   styleUrls: ['./file-upload-loader.component.css']
 })
 export class FileUploadLoaderComponent  {
+
 
   @Output() onFileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
   fileReader: FileReader = new FileReader();
