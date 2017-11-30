@@ -10,7 +10,7 @@ import { XMLUtil } from '../shared/utils/XMLUtil';
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './assist-simulator.component.html',
-  styleUrls: ['./assist-simulator.component.css'],
+  styleUrls: ['../../styles.css'],
   changeDetection : ChangeDetectionStrategy.OnPush
 })
 export class AssistSimulatorComponent implements OnInit , OnChanges {

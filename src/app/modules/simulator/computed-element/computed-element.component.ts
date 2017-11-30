@@ -5,7 +5,7 @@ import { StringUtilityService } from '../shared/services/string-utility.service'
 @Component({
   selector: 'acr-computed-element',
   templateUrl: './computed-element.component.html',
-  styleUrls: ['./computed-element.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class ComputedElementComponent {
 

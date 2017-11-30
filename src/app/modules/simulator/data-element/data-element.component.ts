@@ -5,7 +5,7 @@ import { StringUtilityService } from '../shared/services/string-utility.service'
 @Component({
   selector: 'acr-data-element',
   templateUrl: './data-element.component.html',
-  styleUrls: ['./data-element.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class DataElementComponent  {
   @Input() DataElements: DataElement[] = [];
