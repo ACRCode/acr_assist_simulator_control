@@ -7,7 +7,7 @@ import { DataElement } from '../shared/models/data-element.model';
 @Component({
   selector: 'acr-expression-result',
   templateUrl: './expression-result.component.html',
-  styleUrls: ['./expression-result.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class ExpressionResultComponent  implements OnInit {
 

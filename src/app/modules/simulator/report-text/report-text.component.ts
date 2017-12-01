@@ -4,7 +4,7 @@ import { ReportText } from '../shared/models/report-text.model';
 @Component({
   selector: 'acr-report-text',
   templateUrl: './report-text.component.html',
-  styleUrls: ['./report-text.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class ReportTextComponent  {
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FileDetails } from './modules/simulatorloader/share/models/file-details.model';
+import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
 
 @Component({
   selector: 'acr-app-root',

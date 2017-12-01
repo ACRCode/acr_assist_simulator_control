@@ -6,7 +6,7 @@ import { DataElement } from '../shared/models/data-element.model';
 @Component({
   selector: 'acr-expresssion-block',
   templateUrl: './expresssion-block.component.html',
-  styleUrls: ['./expresssion-block.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class ExpresssionBlockComponent   {
   @Input() FormValues: Object = {};

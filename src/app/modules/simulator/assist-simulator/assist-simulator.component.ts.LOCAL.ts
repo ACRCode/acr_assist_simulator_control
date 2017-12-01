@@ -12,7 +12,7 @@ import { debug } from 'util';
 @Component({
     selector: 'acr-assist-simulator',
     templateUrl: './assist-simulator.component.html',
-  styleUrls: ['../../styles.css'],
+    styleUrls: ['./assist-simulator.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssistSimulatorComponent implements OnInit, OnChanges {
