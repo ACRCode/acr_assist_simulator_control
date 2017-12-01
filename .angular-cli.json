@@ -22,7 +22,9 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "app/modules/simulator/shared/utils/xmlinit.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -42,7 +44,7 @@
     },
     {
       "project": "src/tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
+      "exclude":"**/node_modules/**"
     },
     {
       "project": "e2e/tsconfig.e2e.json",
