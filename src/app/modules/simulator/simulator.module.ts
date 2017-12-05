@@ -13,6 +13,7 @@ import { ReportTextComponent } from './report-text/report-text.component';
 import { GlobalsService } from './shared/services/globals.service';
 import { StringUtilityService } from './shared/services/string-utility.service';
 import { SettingsService } from './shared/services/settings.service';
+import { CarouselModule } from 'ng2-bootstrap';
 
 const components = [AssistSimulatorComponent, ComputedElementComponent, HintDiagramComponent,
   ImageMapComponent, DataElementComponent, ExpresssionBlockComponent,
@@ -20,6 +21,7 @@ const components = [AssistSimulatorComponent, ComputedElementComponent, HintDiag
 
 @NgModule({
   imports: [
+    CarouselModule,
     CommonModule,
     FormsModule
   ],

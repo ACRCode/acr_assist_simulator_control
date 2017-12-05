@@ -39,6 +39,7 @@ input[type="radio"] + div {
   height: auto;
   line-height: 25px;
   width: 100%;
+  font-weight: bold;
 }
 
 .checkbox > label > input[type="checkbox"] {
@@ -105,6 +106,7 @@ input[type="radio"] + div {
   font-size: 14px;
   color: #363636;
   letter-spacing: -0.49px;
+  margin-top: 5px;
 }
 
 button:hover,
@@ -235,13 +237,14 @@ button.active,
 }
 
 .required-field {
-  border: 1px solid #edd1d1;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 12px;
-  color: #cd5c5c;
-  width: 110px;
-  display: inline-block;
+      border: 1px solid red;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: red;
+    width: 120px;
+    display: inline-block;
+    font-weight: bold;
 }
 
 .col-per-10 {
@@ -827,3 +830,25 @@ h3 {
   }
 }
 
+@media (max-width:1024px){
+  .adjust-diagram-image {
+    width: 50%;
+}
+}
+
+@media (min-width:1921px){
+  .adjust-diagram-image {
+    width: 100%;
+}
+}
+.row {
+    font-weight: bold;
+}
+
+.carousel-item.item img {
+    width: 100%;
+}
+
+.carousel-indicators {
+    display: none !important;
+}

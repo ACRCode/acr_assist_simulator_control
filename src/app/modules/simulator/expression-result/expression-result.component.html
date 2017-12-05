@@ -1,5 +1,5 @@
 <ng-container *ngIf="Result !== undefined">
-<div class="panel panel-default">
+<div class="panel panel-default reportText">
   <div class="panel-heading text-left">
     Report Text: <select id="ddlSections"  [(ngModel)]="selectedSection">
       <ng-container *ngFor="let Section of Result.ReportSections">
@@ -7,12 +7,12 @@
       </ng-container>
     </select>
   </div>
-</div>
-<div>
+<div class="panel-body">
   <ng-container *ngFor="let Section of Result.ReportSections">
     <ng-container *ngIf="selectedSection == Section.Heading">
       <acr-report-text [ReportTexts]="Section.ReportTexts" [FormValues]="FormValues"></acr-report-text>
     </ng-container>
   </ng-container>
+</div>
 </div>
 </ng-container>

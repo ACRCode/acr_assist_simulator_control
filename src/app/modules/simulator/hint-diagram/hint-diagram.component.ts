@@ -8,4 +8,10 @@ import { DataElement } from '../shared/models/data-element.model';
 })
 export class HintDiagramComponent {
   @Input() DataElement: DataElement;
+
+  activeSlideIndex: number = 0;
+
+  resetCarouselIndex(){
+    this.activeSlideIndex=0;
+  }
 }

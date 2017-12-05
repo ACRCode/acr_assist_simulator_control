@@ -27,11 +27,11 @@ export class ImageMapComponent  implements OnInit {
         const request = new XMLHttpRequest();
         request.open('HEAD',  this.DataElement.ImagePath, false);
         request.send();
-        if (request.status === 200) {
-          this.imageExist = true;
-        } else {
-          this.imageExist = false;
-        }
+        // if (request.status === 200) {
+        //   this.imageExist = true;
+        // } else {
+        //   this.imageExist = false;
+        // }
         this.displayValue('');
       }
 
