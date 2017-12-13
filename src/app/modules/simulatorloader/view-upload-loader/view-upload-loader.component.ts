@@ -11,9 +11,10 @@ export class ViewUploadLoaderComponent implements OnInit {
   @Output() onFileSelected: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
 
   selectedXML: FileDetails;
+  globalsService: GlobalsService;
 
-  constructor(private globalsService: GlobalsService) {
-
+  constructor(globalsService: GlobalsService) {
+    this.globalsService = globalsService;
   }
 
   ngOnInit(): void {
