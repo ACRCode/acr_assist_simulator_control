@@ -22,8 +22,9 @@ export class FileUploadLoaderComponent  {
   readThis(inputValue: any): void {
     this.readFile = inputValue.files[0];
     const self = this;
+    const extensionStartPosition = self.readFile.name.lastIndexOf('.');
     this.fileReader.onloadend = (e) => {
-      self.onFileContentRead.emit( new FileDetails(self.readFile.name, this.fileReader.result));
+      self.onFileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition),    self.readFile.name, this.fileReader.result));
     };
     this.fileReader.readAsText(this.readFile);
   }

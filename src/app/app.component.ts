@@ -8,20 +8,18 @@ import { FileDetails } from './modules/simulatorloader/shared/models/file-detail
 })
 export class AppComponent {
 
- fileContent: string;
- imagePath: string;
+  fileContent: string;
+  imagePath: string;
 
 
- constructor () {
+  constructor() {
     this.fileContent = '';
     this.imagePath = '';
- }
 
- onFileContentRead(fileDetails: FileDetails) {
-      this.fileContent = fileDetails.fileContents;
-      const extensionStartPosition = fileDetails.fileName.lastIndexOf('.') ;
-      if (extensionStartPosition >= 0) {
-        this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileName.substring(0, extensionStartPosition);
-      }
- }
+  }
+
+  onFileSelected(fileDetails: FileDetails) {
+    this.fileContent = fileDetails.fileContents;
+    this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
+  }
 }

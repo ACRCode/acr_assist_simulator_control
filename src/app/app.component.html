@@ -1,5 +1,4 @@
-
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <div class="row">
       <div class="col-sm-6 col-centered">
          <acr-file-upload-loader (onFileContentRead) ="onFileContentRead($event)"></acr-file-upload-loader>
@@ -10,4 +9,29 @@
           <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [loadKeyDiagram]=true></acr-assist-simulator>
        </div>
    </div>
+</div> -->
+
+<nav class="navbar navbar-fixed-top navbar-blue">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="#">ACR Assist Simulator</a>
+    </div>
+
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 sidebar">
+      <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+    </div>
+
+    <div class="col-md-10 col-md-offset-2 main">
+      <div class="row">
+        <div class="col-md-12">
+          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}}></acr-assist-simulator>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

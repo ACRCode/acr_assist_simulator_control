@@ -1,4 +1,57 @@
-.col-centered{
+
+
+.col-centered {
   float: none;
   margin: 0 auto;
+}
+
+
+.navbar-fixed-top {
+  border: 0;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+    background-color: #222d32;
+    border-right: 1px solid #eee;
+  }
+}
+
+
+
+.navbar-blue {
+  background-color: #1e89b5;
+}
+
+.navbar-blue .navbar-brand {
+  color: #fff;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+
+.main .page-header {
+  margin-top: 0;
 }

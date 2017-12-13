@@ -1,0 +1,18 @@
+
+  <ul class="nav nav-sidebar">
+    <li class="header">Want to try your assist module?</li>
+    
+    <li class="fileUploader">
+      <acr-file-upload-loader (onFileContentRead)="onFileContentRead($event)"></acr-file-upload-loader>
+    </li>
+  </ul>
+  <ul class="nav nav-sidebar">
+    <li class="header">ACR Assist Modules</li>
+
+    <li [ngClass]="{'active':(selectedXML != 'undefined' && selectedXML.fileLabel == file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()">
+        <a href="#" (click)="onFileClick(file)">{{file.fileLabel}}</a>
+    
+    </li>
+
+  </ul>
+

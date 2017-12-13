@@ -1,48 +1,49 @@
-<ng-container *ngIf="(isValid!=true && isValid!= null)">
-  <div class="row">
-    <div class="col-sm-12 text-center alert alert-danger">
-      <ng-container *ngIf="(ErrorCode == 0)">
-        {{errorMessage}}. So we are unable to validate XML.
-      </ng-container>
-      <ng-container *ngIf="(ErrorCode == 1)">
-        Selected XML does not meets the XML Schema.
-      </ng-container>
-    </div>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="(isValid)">
-  <ng-container *ngIf="Metadata != undefined">
+<ng-container *ngIf="!isEmptyContent">
+  <ng-container *ngIf="(Metadata != undefined || (!isValid))">
     <div class="row">
-      <div class="col-sm-12 text-center border-0">
+      <div class="col-sm-6 text-right border-0">
         <h4>
-          <strong>{{Metadata.Label}} </strong>
+          <ng-container *ngIf="Metadata != undefined">
+            <strong>{{Metadata.Label}} </strong>
+          </ng-container>
+
         </h4>
+      </div>
+      <div class="col-md-6 text-left">
+        <ng-container *ngIf="(!isValid)">
+          <h4>
+            <code>
+              Selected XML does not meets the XML Schema.
+            </code>
+          </h4>
+
+        </ng-container>
       </div>
     </div>
   </ng-container>
+  <br/>
   <div class="row content-padding">
-    <ng-container *ngIf="loadKeyDiagram != true">
+    <ng-container *ngIf="!settingsService.loadKeyDiagram">
       <div class="col-sm-12 ">
-        <ng-container *ngIf="(isValid)">
-            <form #form="ngForm" class="form-horizontal">
-            <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
-          </form>
-        </ng-container>
+
+        <form #form="ngForm" class="form-horizontal">
+          <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+        </form>
+
       </div>
     </ng-container>
-    <ng-container *ngIf="loadKeyDiagram == true">
+    <ng-container *ngIf="settingsService.loadKeyDiagram">
       <div class="col-sm-7 ">
-        <ng-container *ngIf="(isValid)">
-           <form #form="ngForm" class="form-horizontal">
-            <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
-          </form>
-        </ng-container>
+
+        <form #form="ngForm" class="form-horizontal">
+          <acr-data-element [ValidationBlocks]="ValidationBlocks" [DataElements]="DataElements" [FormValues]="FormValues"></acr-data-element>
+        </form>
+
       </div>
       <div class="col-sm-5 padding-top-5">
         <div id="myNav">
           <ng-container *ngIf="Metadata != undefined">
-            <ng-container *ngIf="loadKeyDiagram == true">
+            <ng-container *ngIf="settingsService.loadKeyDiagram">
               <div class="carousel slide" data-ride="carousel" data-interval="false">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
@@ -79,7 +80,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <ng-container >
+      <ng-container>
         <ng-container *ngFor="let block of ExpressionBlocks">
           <acr-expresssion-block [ExpBlock]="block" [FormValues]="FormValues" [DataElements]="DataElements" (onExpressionChanged)="displayDataElements($event)"></acr-expresssion-block>
         </ng-container>

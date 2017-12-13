@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
 import { GlobalsService } from '../shared/services/globals.service';
+import { SettingsService } from '../shared/services/settings.service';
 import { ExpressionBlock } from '../shared/models/expression-block.model';
 import { Metadata } from '../shared/models/metadata.model';
 import { Parser } from '../shared/utils/parser';
@@ -12,22 +13,18 @@ import { debug } from 'util';
 @Component({
     selector: 'acr-assist-simulator',
     templateUrl: './assist-simulator.component.html',
-  styleUrls: ['../../styles.css'],
+    styleUrls: ['../../styles.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssistSimulatorComponent implements OnInit, OnChanges {
 
     @Input() templateContent: string;
     @Input() imagePath: string;
-    @Input() loadKeyDiagram: boolean;
-
-
-
     errorMessage: string;
-    ErrorCode: number;
     FormValues: Object;
     ExpressionBlocks: ExpressionBlock[];
     isValid: boolean;
+    isEmptyContent: boolean;
     DataElements: DataElement[];
     FormChanged: boolean;
     BaseFormValues: Object;
@@ -38,6 +35,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
 
     constructor(
         private globalsService: GlobalsService,
+        private settingsService: SettingsService,
         private cd: ChangeDetectorRef
 
     ) {
@@ -73,7 +71,8 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
         this.globalsService.evaluateExpessions = true;
         this.globalsService.ComputedElementConditions = {};
         this.globalsService.XMLAcronyms = {};
-
+        this.isValid = true;
+        this.errorMessage = '';
     }
     validateXML() {
         const validator = new SchemaValidator();
@@ -83,31 +82,34 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
 
     processData() {
 
-        this.resetData();
-        this.isValid = (this.templateContent !== undefined && this.templateContent.length > 0)
-            && (this.imagePath !== undefined && this.imagePath.length > 0);
-        if (!this.isValid) {
-            return;
-        }
-        const valdiationResult = this.validateXML();
-        if (!valdiationResult.Result) {
-            this.isValid = false;
-            this.ErrorCode = 1;
-            return;
-        }
-        const templateDetails = new TemplateDetails();
-        templateDetails.imagePath = this.imagePath;
-        templateDetails.templateContent = this.templateContent;
-        const util = new XMLUtil();
-        util.load(templateDetails);
+        this.isEmptyContent = (this.templateContent === undefined || this.templateContent.length === 0 || this.imagePath === undefined || this.imagePath.length === 0);
 
-        this.globalsService.XMLAcronyms = util.Acronyms;
-        this.Metadata = util.Metadata;
-        this.DataElements = util.DataElements;
-        this.ExpressionBlocks = util.ExpressionBlocks;
-        this.ValidationBlocks = util.ValidationBlocks;
-        this.FormValues = util.FormValues;
-        this.BaseFormValues = JSON.parse(JSON.stringify(this.FormValues));
+        if (this.isEmptyContent === false) {
+            this.resetData();
+            const valdiationResult = this.validateXML();
+            if (!valdiationResult.Result) {
+                this.isValid = false;
+                this.errorMessage = valdiationResult.ErrorMessage;
+            } else {
+                this.isValid = true;
+                this.errorMessage = '';
+            }
+
+
+            const templateDetails = new TemplateDetails();
+            templateDetails.imagePath = this.imagePath;
+            templateDetails.templateContent = this.templateContent;
+            const util = new XMLUtil();
+            util.load(templateDetails);
+
+            this.globalsService.XMLAcronyms = util.Acronyms;
+            this.Metadata = util.Metadata;
+            this.DataElements = util.DataElements;
+            this.ExpressionBlocks = util.ExpressionBlocks;
+            this.ValidationBlocks = util.ValidationBlocks;
+            this.FormValues = util.FormValues;
+            this.BaseFormValues = JSON.parse(JSON.stringify(this.FormValues));
+        }
 
     }
     displayDataElements(notRelevantDataElments) {
