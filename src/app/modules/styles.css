@@ -927,6 +927,11 @@ h3 {
 .font-weight-normal {
   font-weight: normal;
 }
+
 .font-weight-bold {
   font-weight: bold;
+}
+
+.color-white {
+  color: #ffffff;
 }
