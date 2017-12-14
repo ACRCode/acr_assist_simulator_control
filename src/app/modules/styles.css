@@ -1,69 +1,46 @@
 input[type=file].inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
   z-index: -1;
-  margin:0;
-}
-input[type=file].inputfile + label {
-   
-
-    max-width: 80%;
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.625rem 1.25rem;
-    display: inline-block;
-    color: #f1e5e6;
-    background-color: #d3394c;
+  margin: 0;
 }
 
+input[type=file].inputfile+label {
+  max-width: 80%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+  display: inline-block;
+  color: #f1e5e6;
+  background-color: #d3394c;
+}
 
-input[type=file].inputfile:focus + label,
-input[type=file].inputfile + label:hover {
+input[type=file].inputfile:focus+label,
+input[type=file].inputfile+label:hover {
   background-color: #722040;
 }
-input[type=file].inputfile + label {
-	cursor: pointer; /* "hand" cursor */
-}
-input[type=file].inputfile:focus + label {
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+
+input[type=file].inputfile+label {
+  cursor: pointer;
+  /* "hand" cursor */
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+input[type=file].inputfile:focus+label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
 
 
 /* Master Styles */
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
@@ -81,23 +58,25 @@ body {
   margin: 2em;
 }
 
-/*Apply background color for div having checked radio button*/
-input[type="radio"]:checked + div {
-  background-color: #1e89b5 !important;
 
+/*Apply background color for div having checked radio button*/
+
+input[type="radio"]:checked+div {
+  background-color: #1e89b5 !important;
   border: 1px solid #9b9b9b;
   color: #ffffff;
 }
 
+
 /*Apply background color for div having no checked radio button*/
-input[type="radio"] + div {
+
+input[type="radio"]+div {
   background-color: #f5f5f5 !important;
   border: 1px solid #9b9b9b;
-
   border-radius: 5px;
 }
 
-.checkbox > label {
+.checkbox>label {
   background-color: #f5f5f5 !important;
   border: 1px solid #9b9b9b;
   border-radius: 5px;
@@ -107,7 +86,7 @@ input[type="radio"] + div {
   font-weight: bold;
 }
 
-.checkbox > label > input[type="checkbox"] {
+.checkbox>label>input[type="checkbox"] {
   margin-left: -15px;
   margin-top: 6px;
 }
@@ -115,9 +94,12 @@ input[type="radio"] + div {
 .full-width span {
   font-weight: bold;
 }
+
+
 /*.checkbox > label > input[type=checkbox]:checked + span {background-color: #FAAF3A !important;
     border: 1px solid #9B9B9B;
     }*/
+
 .DEElement {
   color: #363636;
   letter-spacing: -0.37px;
@@ -129,11 +111,13 @@ input[type="radio"] + div {
   color: #4a4a4a;
   letter-spacing: -0.29px;
   width: 100%;
-    min-width: 200px;
-    max-width: 280px;
+  min-width: 200px;
+  max-width: 280px;
 }
 
+
 /* CHECKBOX OVERWRITE STYLES */
+
 .rad {
   cursor: pointer;
   user-select: none;
@@ -141,13 +125,13 @@ input[type="radio"] + div {
   -webkit-touch-callout: none;
 }
 
-.rad > input {
+.rad>input {
   /* HIDE ORG RADIO & CHECKBOX */
   visibility: hidden;
   position: absolute;
 }
 
-[type="radio"] + span::before {
+[type="radio"]+span::before {
   content: "";
   display: inline-block;
   width: 9px;
@@ -160,7 +144,7 @@ input[type="radio"] + div {
   margin-left: -15px;
 }
 
-[type="radio"]:checked + span::before {
+[type="radio"]:checked+span::before {
   background: #57aed0;
   box-shadow: 0 0 0 2px #57aed0;
   margin-top: auto;
@@ -210,9 +194,12 @@ button.active,
   font-weight: normal;
   margin-top: 10px;
 }
+
 .close {
   margin-top: -20px !important;
 }
+
+
 /*.full-width {
         width: 320px !important;
     }*/
@@ -228,9 +215,8 @@ button.active,
   opacity: 0.5;
 }
 
+
 /* Styles for Assist bootstrap*/
-
-
 
 .control-label {
   text-align: left !important;
@@ -300,14 +286,14 @@ button.active,
 }
 
 .required-field {
-      border: 1px solid red;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 12px;
-    color: red;
-    width: 120px;
-    display: inline-block;
-    font-weight: bold;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 12px;
+  color: red;
+  width: 120px;
+  display: inline-block;
+  font-weight: bold;
 }
 
 .col-per-10 {
@@ -321,7 +307,7 @@ button.active,
   min-height: 1px;
 }
 
-.btn-group > .btn:first-child {
+.btn-group>.btn:first-child {
   margin-left: 0;
   width: 165px;
   margin-top: 10px;
@@ -421,10 +407,14 @@ a:hover {
 .reportText-body {
   margin-left: 2%;
 }
+
 .top-Index {
   z-index: 99999 !important;
 }
+
+
 /* Master Styles */
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
@@ -442,23 +432,25 @@ h3 {
   margin: 0;
 }
 
-/*Apply background color for div having checked radio button*/
-.div-simulator-container input[type="radio"]:checked + div {
-  background-color: #1e89b5 !important;
 
+/*Apply background color for div having checked radio button*/
+
+.div-simulator-container input[type="radio"]:checked+div {
+  background-color: #1e89b5 !important;
   border: 1px solid #9b9b9b;
   color: #ffffff;
 }
 
+
 /*Apply background color for div having no checked radio button*/
-.div-simulator-container input[type="radio"] + div {
+
+.div-simulator-container input[type="radio"]+div {
   background-color: #f5f5f5 !important;
   border: 1px solid #9b9b9b;
-
   border-radius: 5px;
 }
 
-.div-simulator-container .checkbox > label {
+.div-simulator-container .checkbox>label {
   background-color: #f5f5f5 !important;
   border: 1px solid #9b9b9b;
   border-radius: 5px;
@@ -466,7 +458,7 @@ h3 {
   line-height: 25px;
 }
 
-.div-simulator-container .checkbox > label > input[type="checkbox"] {
+.div-simulator-container .checkbox>label>input[type="checkbox"] {
   margin-left: -15px;
   margin-top: 6px;
 }
@@ -474,9 +466,12 @@ h3 {
 .div-simulator-container .full-width span {
   font-weight: bold;
 }
+
+
 /*.checkbox > label > input[type=checkbox]:checked + span {background-color: #FAAF3A !important;
     border: 1px solid #9B9B9B;
     }*/
+
 .div-simulator-container .DEElement {
   color: #363636;
   letter-spacing: -0.37px;
@@ -489,7 +484,9 @@ h3 {
   letter-spacing: -0.29px;
 }
 
+
 /* CHECKBOX OVERWRITE STYLES */
+
 .div-simulator-container .rad {
   cursor: pointer;
   user-select: none;
@@ -497,13 +494,13 @@ h3 {
   -webkit-touch-callout: none;
 }
 
-.div-simulator-container .rad > input {
+.div-simulator-container .rad>input {
   /* HIDE ORG RADIO & CHECKBOX */
   visibility: hidden;
   position: absolute;
 }
 
-.div-simulator-container [type="radio"] + span::before {
+.div-simulator-container [type="radio"]+span::before {
   content: "";
   display: inline-block;
   width: 9px;
@@ -516,7 +513,7 @@ h3 {
   margin-left: -15px;
 }
 
-[type="radio"]:checked + span::before {
+[type="radio"]:checked+span::before {
   background: #57aed0;
   box-shadow: 0 0 0 2px #57aed0;
   margin-top: auto;
@@ -569,6 +566,8 @@ h3 {
 .div-simulator-container .close {
   margin-top: -20px !important;
 }
+
+
 /*.full-width {
         width: 320px !important;
     }*/
@@ -583,6 +582,7 @@ h3 {
   position: absolute;
   opacity: 0.5;
 }
+
 
 /* Styles for Assist bootstrap*/
 
@@ -677,7 +677,7 @@ h3 {
   min-height: 1px;
 }
 
-.div-simulator-container .btn-group > .btn:first-child {
+.div-simulator-container .btn-group>.btn:first-child {
   margin-left: 0;
   width: 165px;
   margin-top: 10px;
@@ -821,12 +821,12 @@ h3 {
   margin-left: 0;
 }
 
-.div-simulator-container .checkbox > label {
+.div-simulator-container .checkbox>label {
   height: 30px;
   line-height: 30px;
 }
 
-.div-simulator-container .checkbox > label > input[type="checkbox"] {
+.div-simulator-container .checkbox>label>input[type="checkbox"] {
   margin-top: 8px;
 }
 
@@ -856,9 +856,11 @@ h3 {
     width: 630px;
   }
 }
+
 .tableImagemap {
   table-layout: fixed;
 }
+
 @media (min-width: 1850px) {
   .modal-lg {
     width: 900px;
@@ -867,25 +869,26 @@ h3 {
     table-layout: inherit;
   }
 }
-.col-centered{
+
+.col-centered {
   float: none;
   margin: 0 auto;
 }
 
-.checkbox{
+.checkbox {
   max-width: 280px;
 }
 
-[type="number"]{
+[type="number"] {
   max-width: 280px;
   /*margin-left: -15px;*/
 }
 
-.input-group{
+.input-group {
   width: 100%;
 }
 
-@media (min-width:1441px){
+@media (min-width:1441px) {
   .DEValues {
     /*min-width: 280px;
     max-width: 280px;*/
@@ -893,25 +896,37 @@ h3 {
   }
 }
 
-@media (max-width:1024px){
+@media (max-width:1024px) {
   .adjust-diagram-image {
     width: 50%;
-}
+  }
 }
 
-@media (min-width:1921px){
+@media (min-width:1921px) {
   .adjust-diagram-image {
     width: 100%;
+  }
 }
-}
+
 .row {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .carousel-item.item img {
-    width: 100%;
+  width: 100%;
 }
 
 .carousel-indicators {
-    display: none !important;
+  display: none !important;
+}
+
+.display-inline {
+  display: inline;
+}
+
+.font-weight-normal {
+  font-weight: normal;
+}
+.font-weight-bold {
+  font-weight: bold;
 }

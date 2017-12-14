@@ -79,8 +79,63 @@
 		<GlobalValue Id="diameterSmall">10</GlobalValue>
 
 		<GlobalValue Id="diameterLarge">20</GlobalValue>
-
-		<ChoiceDataElement Id="observationinPatient" IsRequired="true" CdeId="RDE65" DisplaySequence="1">
+		
+		<NumericDataElement Id="observationnumber" IsRequired="true" DisplaySequence="1">
+			<Label>Observation#</Label>
+		</NumericDataElement>
+		
+		<NumericDataElement Id="seriesnumber" IsRequired="true" DisplaySequence="2">
+			<Label>Series#</Label>
+		</NumericDataElement>
+		
+		<NumericDataElement Id="imagenumber" IsRequired="true" DisplaySequence="3">
+			<Label>Image#</Label>
+		</NumericDataElement>
+		
+		<ChoiceDataElement Id="segmentlocation" IsRequired="true" DisplaySequence="4">
+			<Label>Segment#</Label>
+			<ChoiceInfo>
+				<Choice>
+					<Value>I</Value>
+					<Label>I</Label>
+					
+				</Choice>
+				<Choice>
+					<Value>II</Value>
+					<Label>II</Label>
+				</Choice>
+				<Choice>
+					<Value>III</Value>
+					<Label>III</Label>
+				</Choice>
+				<Choice>
+					<Value>IVa</Value>
+					<Label>IVa</Label>
+				</Choice>
+				<Choice>
+					<Value>IVb</Value>
+					<Label>IVb</Label>
+				</Choice>
+				<Choice>
+					<Value>V</Value>
+					<Label>V</Label>
+				</Choice>
+				<Choice>
+					<Value>VI</Value>
+					<Label>VI</Label>
+				</Choice>
+				<Choice>
+					<Value>VII</Value>
+					<Label>VII</Label>
+				</Choice>
+				<Choice>
+					<Value>VIII</Value>
+					<Label>VIII</Label>
+				</Choice>
+			</ChoiceInfo>
+		</ChoiceDataElement>
+		
+		<ChoiceDataElement Id="observationinPatient" IsRequired="true" CdeId="RDE65" DisplaySequence="5">
 			<Label>Observation in high risk patient</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -93,8 +148,97 @@
 				</Choice>
 			</ChoiceInfo>
 		</ChoiceDataElement>
+		
+		<MultiChoiceDataElement Id="TreatmentMethod" IsRequired="true" DisplaySequence="6">
+			<Label>Treatment Method</Label>
+			<ChoiceInfo>
+				<Choice>
+					<Value>RF_ablation</Value>
+					<Label>RF ablation</Label>
+				</Choice>
+				<Choice>
+					<Value>Microwave_ablation</Value>
+					<Label>Microwave ablation</Label>
+				</Choice>
+				<Choice>
+					<Value>Cryoablation</Value>
+					<Label>Cryoablation</Label>
+				</Choice>
+				<Choice>
+					<Value>Alcohol_ablation</Value>
+					<Label>Alcohol ablation</Label>
+				</Choice>
+				<Choice>
+					<Value>Chemoembolization</Value>
+					<Label>Chemoembolization</Label>
+				</Choice>
+				<Choice>
+					<Value>Y-90</Value>
+					<Label>Y-90</Label>
+				</Choice>
+				<Choice>
+					<Value>SBRT</Value>
+					<Label>SBRT</Label>
+				</Choice>
+				<Choice>
+					<Value>Other</Value>
+					<Label>Other</Label>
+				</Choice>
+			</ChoiceInfo>
+		</MultiChoiceDataElement>
+		
+		<ChoiceDataElement Id="pretreatmentCategory" IsRequired="true" DisplaySequence="7">
+			<Label>What is the pre-treatment category?</Label>
+			<ChoiceInfo>
+				<Choice>
+					<Value>LR-1</Value>
+					<Label>LR 1</Label>
+				</Choice>
+				<Choice>
+					<Value>LR-2</Value>
+					<Label>LR 2</Label>
+				</Choice>
+				<Choice>
+					<Value>LR-3</Value>
+					<Label>LR 3</Label>
+				</Choice>
+				<Choice>
+					<Value>LR-4</Value>
+					<Label>LR 4</Label>
+				</Choice>
+				<Choice>
+					<Value>LR-5</Value>
+					<Label>LR 5</Label>
+				</Choice>
+				<Choice>
+					<Value>LR-TIV</Value>
+					<Label>LR-TIV</Label>
+				</Choice>
+				<Choice>
+					<Value>Path-HCC</Value>
+					<Label>Path-HCC</Label>
+				</Choice>
+				<Choice>
+					<Value>Path-Intrahepatic_Cholangiocarcinoma</Value>
+					<Label>Path-Intrahepatic Cholangiocarcinoma</Label>
+				</Choice>
+				<Choice>
+					<Value>Path-Other</Value>
+					<Label>Path-Other</Label>
+				</Choice>
+				<Choice>
+					<Value>Unknown</Value>
+					<Label>Unknown</Label>
+				</Choice>
+			</ChoiceInfo>
+		</ChoiceDataElement>
+		
+		<NumericDataElement Id="pretreatmentsize" IsRequired="true" DisplaySequence="8">
+			<Label>What is the pre-treatment size in mm?</Label>
+			<Minimum>1</Minimum>
+		</NumericDataElement>
 
-		<ChoiceDataElement Id="untreatedobservation" IsRequired="true" DisplaySequence="2">
+		<ChoiceDataElement Id="untreatedobservation" IsRequired="true" DisplaySequence="9">
 			<Label>Untreated observation without pathologic proof in patient at high risk for
 				HCC</Label>
 			<Hint> Observation : generically applies to any apparent abnormality detected at
@@ -162,7 +306,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 
-		<ChoiceDataElement Id="treatedobservation" IsRequired="true" DisplaySequence="3">
+		<ChoiceDataElement Id="treatedobservation" IsRequired="true" DisplaySequence="10">
 			<Label>Treated observation behavior</Label>
 			<Diagrams>
 				<Diagram>
@@ -183,8 +327,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 
-		<ChoiceDataElement Id="arterialEnhancement" IsRequired="true" CdeId="RDE86"
-			DisplaySequence="4">
+		<ChoiceDataElement Id="arterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="11">
 			<Label>Arterial phase hyperenhancement (APHE)</Label>
 			<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
 			<Diagrams>
@@ -211,14 +354,14 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 
-		<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="5">
+		<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="12">
 			<Label>Observation size (mm)</Label>
 			<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
 			<Minimum>1</Minimum>
 
 		</NumericDataElement>
 
-		<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="6">
+		<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="13">
 			<Label>Washout</Label>
 			<Hint>Visually assessed temporal reduction in enhancement relative to liver from an
 				earlier to a later phase resulting in portal venous phase hypoenhancement or delayed
@@ -239,16 +382,9 @@
 					<Label>No</Label>
 				</Choice>
 			</ChoiceInfo>
-			<ImageMap>
-				<Location>washoutImages.png</Location>
-				<Map>
-					<Area Shape="rect" Coords="0,462,800,623" ChoiceValue="no"/>
-					<Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
-				</Map>
-			</ImageMap>
 		</ChoiceDataElement>
 
-		<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="7">
+		<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="14">
 			<Label>Capsule</Label>
 			<Hint>Peripheral rim of smooth hyper-enhancement in the portal venous phase or delayed
 				phase that unequivocally is thicker or more conspicuous than the rims surrounding
@@ -273,16 +409,9 @@
 					<Label>No</Label>
 				</Choice>
 			</ChoiceInfo>
-			<ImageMap>
-				<Location>capsuleImages.png</Location>
-				<Map>
-					<Area Shape="rect" Coords="0,462,800,623" ChoiceValue="no"/>
-					<Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
-				</Map>
-			</ImageMap>
 		</ChoiceDataElement>
 
-		<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="8">
+		<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="15">
 			<Label>Threshold Growth</Label>
 			<Hint>Increase in diameter of a mass compared to its baseline by a minimum of 5 mm AND
 				depending on the time interval between examinations, by the following amounts: less
@@ -308,16 +437,9 @@
 					<Label>NA</Label>
 				</Choice>
 			</ChoiceInfo>
-			<ImageMap>
-				<Location>thresholdImages.png</Location>
-				<Map>
-					<Area Shape="rect" Coords="0,462,800,623" ChoiceValue="no"/>
-					<Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
-				</Map>
-			</ImageMap>
 		</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="sixeincreatein6months" IsRequired="true" DisplaySequence="9">
+		<ChoiceDataElement Id="sixeincreatein6months" IsRequired="true" DisplaySequence="16">
 			<Label>Was there ≥50% size increase in ≤6 months?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -331,7 +453,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="HistoryofVisibilityonUS" DisplaySequence="10" IsRequired="true">
+		<ChoiceDataElement Id="HistoryofVisibilityonUS" DisplaySequence="17" IsRequired="true">
 			<Label>Is there history of visibility on screening ultrasound?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -345,7 +467,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>	
 
-		<MultiChoiceDataElement Id="ancillaryFavoringMalignancy" DisplaySequence="11">
+		<MultiChoiceDataElement Id="ancillaryFavoringMalignancy" DisplaySequence="18">
 			<Label>Are there Ancillary features favoring malignancy? </Label>
 			<Diagrams>
 				<Diagram>
@@ -441,7 +563,7 @@
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
 
-		<MultiChoiceDataElement Id="ancillaryFavoringBenignity" DisplaySequence="12">
+		<MultiChoiceDataElement Id="ancillaryFavoringBenignity" DisplaySequence="19">
 			<Label>Are there Ancillary features favoring benignity?</Label>
 			<Hint></Hint>
 			<ChoiceInfo>
@@ -490,7 +612,7 @@
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
 
-		<ChoiceDataElement Id="adjustcategorybasedonAncillary" DisplaySequence="13">
+		<ChoiceDataElement Id="adjustcategorybasedonAncillary" DisplaySequence="20">
 			<Label>Do you want to adjust category based on ancillary features? </Label>
 			<Diagrams>
 				<Diagram>
@@ -534,7 +656,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 
-		<ChoiceDataElement Id="lesionalenhancement" IsRequired="true" DisplaySequence="14">
+		<ChoiceDataElement Id="lesionalenhancement" IsRequired="true" DisplaySequence="21">
 			<Label>Is there lesional enhancement?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -552,7 +674,14 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="enhancementisexpectedpattern" IsRequired="true" DisplaySequence="15">
+		<NumericDataElement Id="sizeoftheenhancementComponents" IsRequired="true" DisplaySequence="22">
+			<Label>Size of enhancement components ( in mm)</Label>
+			<Hint>Size of enhancement components ( in mm)</Hint>
+			<Minimum>1</Minimum>
+			
+		</NumericDataElement>
+		
+		<ChoiceDataElement Id="enhancementisexpectedpattern" IsRequired="true" DisplaySequence="23">
 			<Label>Enhancement in an expected  treatment-specific pattern?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -566,7 +695,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 				
-		<ChoiceDataElement Id="irregularattheperiphery" IsRequired="true" DisplaySequence="16">
+		<ChoiceDataElement Id="irregularattheperiphery" IsRequired="true" DisplaySequence="24">
 			<Label>Is enhancement nodular OR mass-like OR thick irregular at the periphery?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -580,7 +709,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<MultiChoiceDataElement Id="patternofenhancement" DisplaySequence="17">
+		<MultiChoiceDataElement Id="patternofenhancement" DisplaySequence="25">
 			<Label>Pattern of Enhancement</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -597,14 +726,16 @@
 				</Choice>
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
+		
+
 				
 		<ComputedElement Id="patternInEnhancementCE">
 			<DecisionPoint>
 				<Branch>
 					<OrCondition>
-						<EqualCondition DataElementId="patternofenhancement" ComparisonValue="aphe"/>
-						<EqualCondition DataElementId="patternofenhancement" ComparisonValue="wo"/>
-						<EqualCondition DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment"/>
+						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="aphe"/>
+						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="wo"/>
+						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment"/>
 					</OrCondition>
 					<TextExpression>morethanone</TextExpression>
 				</Branch>
@@ -652,7 +783,7 @@
 			</DecisionPoint>
 		</ComputedElement>
 	
-		<ChoiceDataElement Id="IsTIVcontiguouswithaparenchymalmass" IsRequired="true" DisplaySequence="18">
+		<ChoiceDataElement Id="IsTIVcontiguouswithaparenchymalmass" IsRequired="true" DisplaySequence="25">
 		<Label>Is TIV contiguous with a parenchymal mass?</Label>
 		<ChoiceInfo>
 			<Choice>
@@ -666,7 +797,7 @@
 		</ChoiceInfo>
 	</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="Isparenchymalmassinfiltrative" IsRequired="true" DisplaySequence="19">
+		<ChoiceDataElement Id="Isparenchymalmassinfiltrative" IsRequired="true" DisplaySequence="26">
 			<Label>Is parenchymal mass infiltrative</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -680,7 +811,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="Isparenchymalmasstargetoid" IsRequired="true" DisplaySequence="20">
+		<ChoiceDataElement Id="Isparenchymalmasstargetoid" IsRequired="true" DisplaySequence="27">
 			<Label>Is parenchymal mass targetoid?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -694,7 +825,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 			
-		<ChoiceDataElement Id="IsparenchymalmassLR4" IsRequired="true" DisplaySequence="21">
+		<ChoiceDataElement Id="IsparenchymalmassLR4" IsRequired="true" DisplaySequence="28">
 			<Label>Is parenchymal mass LR-4?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -708,7 +839,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<ChoiceDataElement Id="IsparenchymalmassLR5" IsRequired="true" DisplaySequence="22">
+		<ChoiceDataElement Id="IsparenchymalmassLR5" IsRequired="true" DisplaySequence="29">
 			<Label>Is parenchymal mass LR-5?</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -722,7 +853,7 @@
 			</ChoiceInfo>
 		</ChoiceDataElement>
 		
-		<MultiChoiceDataElement Id="lrmtargetoidmass" IsRequired="true" DisplaySequence="23">
+		<MultiChoiceDataElement Id="lrmtargetoidmass" IsRequired="true" DisplaySequence="30">
 			<Label>Targetoid mass (any of the following)</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -748,7 +879,7 @@
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
 		
-		<MultiChoiceDataElement Id="lrmnontargetoidmass" IsRequired="true" DisplaySequence="24">
+		<MultiChoiceDataElement Id="lrmnontargetoidmass" IsRequired="true" DisplaySequence="31">
 			<Label>Nontargetoid mass (NOT LR-5 and no TIV)</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -769,7 +900,7 @@
 				</Choice>
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
-		
+				
 	</DataElements>
 
 	<Rules>
@@ -803,11 +934,13 @@
 				<DecisionPoint Id="treatedObservationDp">
 					<Label>LR-TR Nonevaluable</Label>
 					<Branch>
+						<Label>If treatment response cannot be evaluated due image degradation or omission</Label>
 						<NotRelevantDataElements>
 							<DataElementRef DataElementId="lesionalenhancement"/>
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 						</NotRelevantDataElements>
 						<EqualCondition DataElementId="treatedobservation"
 							ComparisonValue="LRTRNonevaluable"/>
@@ -828,6 +961,7 @@
 										<NotRelevantDataElements>
 											<DataElementRef DataElementId="irregularattheperiphery"/>
 											<DataElementRef DataElementId="patternofenhancement"/>
+											<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 										</NotRelevantDataElements>
 										<EqualCondition DataElementId="enhancementisexpectedpattern" ComparisonValue="yes"/>
 										<EndPointRef EndPointId="LRTRNonviable"></EndPointRef>
@@ -872,6 +1006,7 @@
 									<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 									<DataElementRef DataElementId="irregularattheperiphery"/>
 									<DataElementRef DataElementId="patternofenhancement"/>
+									<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 								</NotRelevantDataElements>
 								<EqualCondition DataElementId="lesionalenhancement" ComparisonValue="no"/>
 								<EndPointRef EndPointId="LRTRNonviable"></EndPointRef>
@@ -894,6 +1029,9 @@
 				<Label>Untreated Observation</Label>
 				<NotRelevantDataElements>
 					<DataElementRef DataElementId="treatedobservation"/>
+					<DataElementRef DataElementId="pretreatmentsize"/>
+					<DataElementRef DataElementId="pretreatmentCategory"/>
+					<DataElementRef DataElementId="TreatmentMethod"/>
 				</NotRelevantDataElements>
 
 				<EqualCondition DataElementId="observationinPatient" ComparisonValue="untreated"/>
@@ -904,7 +1042,6 @@
 					<Branch>
 						<Label>Cannot be categorized due to image degradation or omission</Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="arterialEnhancement"/>
 							<DataElementRef DataElementId="diameter"/>
 							<DataElementRef DataElementId="washout"/>
@@ -917,6 +1054,7 @@
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
 							<DataElementRef DataElementId="sixeincreatein6months"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
@@ -935,7 +1073,6 @@
 					<Branch>
 						<Label>Tumor in vein</Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="arterialEnhancement"/>
 							<DataElementRef DataElementId="diameter"/>
 							<DataElementRef DataElementId="washout"/>
@@ -947,6 +1084,7 @@
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
 							<DataElementRef DataElementId="sixeincreatein6months"/>
 							<DataElementRef DataElementId="lesionalenhancement"/>
@@ -1042,7 +1180,6 @@
 					<Branch>
 						<Label>Definitely Benign</Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="arterialEnhancement"/>
 							<DataElementRef DataElementId="diameter"/>
 							<DataElementRef DataElementId="washout"/>
@@ -1055,6 +1192,7 @@
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
 							<DataElementRef DataElementId="sixeincreatein6months"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
@@ -1073,7 +1211,6 @@
 					<Branch>
 						<Label>Probably Benign</Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="arterialEnhancement"/>
 							<DataElementRef DataElementId="diameter"/>
 							<DataElementRef DataElementId="washout"/>
@@ -1086,6 +1223,7 @@
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
 							<DataElementRef DataElementId="sixeincreatein6months"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
@@ -1104,7 +1242,6 @@
 					<Branch>
 						<Label>Probably or definitely malignant but not HCC specific </Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="arterialEnhancement"/>
 							<DataElementRef DataElementId="diameter"/>
 							<DataElementRef DataElementId="washout"/>
@@ -1117,6 +1254,7 @@
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
 							<DataElementRef DataElementId="sixeincreatein6months"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
@@ -1133,14 +1271,13 @@
 					<Branch>
 						<Label>None of the above </Label>
 						<NotRelevantDataElements>
-							<DataElementRef DataElementId="treatedobservation"/>
 							<DataElementRef DataElementId="lesionalenhancement"/>
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="patternofenhancement"/>
+							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
 							<DataElementRef DataElementId="irregularattheperiphery"/>
-							<DataElementRef DataElementId="patternofenhancement"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
 							<DataElementRef DataElementId="Isparenchymalmassinfiltrative"/>
 							<DataElementRef DataElementId="Isparenchymalmasstargetoid"/>
@@ -1345,7 +1482,7 @@
 												<DecisionPoint Id="lr4_5deciderDp">
 													<Label>APHE Present?</Label>
 													<Branch>
-														<Label>APHE Present?</Label>
+														<Label>Yes</Label>
 														<EqualCondition DataElementId="arterialEnhancement" ComparisonValue="aphe"/>
 														<DecisionPoint Id="aphefeatures">
 															<Label>How many features present</Label>
@@ -1881,22 +2018,75 @@
 				</SectionIf>
 			</SectionIfValueNot>
 		</TemplatePartial>
+		
+		<TemplatePartial Id="treatedreporttext">
+			Treated Observation# : <InsertValue DataElementId="observationnumber"/> \n
+			Treatment method : <InsertValue DataElementId="TreatmentMethod"/> \n
+			Location :  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
+			\n Pretreatment category: <InsertValue DataElementId="pretreatmentCategory"/>
+			\n Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/>mm
+			<SectionIfValue DataElementId="lesionalenhancement" ComparisonValue=""> <!-- if any value present -->
+				\n Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="lesionalenhancement"/>
+			</SectionIfValue>
+			<SectionIfValue DataElementId="sizeoftheenhancementComponents" ComparisonValue=""> <!-- if any value present -->
+				\n Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/>mm
+			</SectionIfValue>
+			<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="">
+				\n Enhancement characteristics :
+				\n \t Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
+				\n \t Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
+				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
+					\n \t Other: Enhancement similar to pretreatment	
+				</SectionIfValue>
+			</SectionIfValue>
+		</TemplatePartial>
+		
+		<TemplatePartial Id="untreatreporttext">
+			Observation# : <InsertValue DataElementId="observationnumber"/>
+			\n	Location :  Segment <InsertValue DataElementId="segmentlocation"/> 
+			<SectionIfValue DataElementId="diameter" ComparisonValue="">
+				\n	Size : <InsertValue DataElementId="diameter"/>mm (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
+			</SectionIfValue>
+			<SectionIfValue DataElementId="arterialEnhancement" ComparisonValue="">
+				\n	AP Hyperenhancement : <InsertValue DataElementId="arterialEnhancement"/>
+			</SectionIfValue>
+			<SectionIfValue DataElementId="thresholdgrowth" ComparisonValue="">
+				\n	Threshold Growth: <InsertValue DataElementId="thresholdgrowth"/>
+			</SectionIfValue>
+			<SectionIfValue DataElementId="washout" ComparisonValue="">
+				\n	PVP/DP Washout Appearance : <InsertValue DataElementId="washout"/>
+			</SectionIfValue>
+			<SectionIfValue DataElementId="capsule" ComparisonValue="">
+				\n	Capsule Appearance: <SectionIfValue DataElementId="capsule" ComparisonValue="yes">Present</SectionIfValue><SectionIfValue DataElementId="capsule" ComparisonValue="no">Absent</SectionIfValue>
+			</SectionIfValue>			
+			 <SectionIfValue DataElementId="ancillaryFavoringBenignity" ComparisonValue="">
+			 	\n	\t Ancillary Feature Favoring benignity : <InsertValue DataElementId="ancillaryFavoringBenignity"/>
+			 </SectionIfValue>
+			<SectionIfValue DataElementId="ancillaryFavoringMalignancy" ComparisonValue="">
+				\n	\t Ancillary Feature Favoring malignancy: <InsertValue DataElementId="ancillaryFavoringMalignancy"/>
+			</SectionIfValue>
+		</TemplatePartial>
 
 		<EndPoint Id="LRNC">
 			<Label>LR-NC</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-NC] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-NC]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 
 			</ReportTexts>
 		</EndPoint>
 
-
 		<EndPoint Id="LR1">
 			<Label>LR-1</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-1] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-1]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 
@@ -1906,7 +2096,10 @@
 		<EndPoint Id="LR2">
 			<Label>LR-2</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-2] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-2]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -1916,7 +2109,10 @@
 			<Label>LR-3</Label>
 
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-3] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-3]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -1925,7 +2121,10 @@
 		<EndPoint Id="LR4">
 			<Label>LR-4</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-4] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category[LR-4] 
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -1934,7 +2133,10 @@
 		<EndPoint Id="LR5">
 			<Label>LR-5</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-5] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-5] 
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -1943,16 +2145,19 @@
 		<EndPoint Id="LRTIV_Etiology_uncertain">
 			<Label>[LR-TIV, Etiology uncertain]</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TIV, Etiology uncertain]
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-TIV, Etiology uncertain]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 		
-
 		<EndPoint Id="LRTIV_proabably_hcc">
 			<Label>[LR-TIV, Probably due to HCC]</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TIV, Probably due to HCC] 
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-TIV, Probably due to HCC] 
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -1960,7 +2165,9 @@
 		<EndPoint Id="LRTIV_non_hcc">
 			<Label>[LR-TIV, May be due to non-HCC malignancy]</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TIV, May be due to non-HCC malignancy]
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-TIV, May be due to non-HCC malignancy]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -1968,26 +2175,32 @@
 		<EndPoint Id="LRTIV_def_hcc">
 			<Label>[LR-TIV, Definitely due to HCC] </Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TIV, Definitely due to HCC]
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-TIV, Definitely due to HCC]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 		
-
 		<EndPoint Id="LRM">
 			<Label>LR-M</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-M] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-M]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
-
 		<EndPoint Id="LR5g">
 			<Label>LR-5g</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-5g] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-5g]
+					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -1996,7 +2209,10 @@
 		<EndPoint Id="LR5us">
 			<Label>LR-5us</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-5us] <InsertPartial
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="untreatreporttext"/> 
+					\n	Overall Assessment: LI-RADS category [LR-5us]
+					<InsertPartial
 					PartialId="adjustcategorytext"/>
 				</ReportText>
 			</ReportTexts>
@@ -2005,28 +2221,64 @@
 		<EndPoint Id="LRTRNonevaluable">
 			<Label>LR-TR Nonevaluable</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TR Nonevaluable]</ReportText>
+				<ReportText SectionId="findings"> 
+					<InsertPartial PartialId="treatedreporttext"/>
+				\n	Overall Assessment: [LR-TR Nonevaluable]
+					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
+						( pretreatment unknown)
+					</SectionIfValue>
+					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
+						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					</SectionIfValueNot>
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
 		<EndPoint Id="LRTRNonviable">
 			<Label>LR-TR Nonviable</Label>
-			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TR Nonviable]</ReportText>
+			<ReportTexts>		
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="treatedreporttext"/>
+					\n	Overall Assessment:[LR-TR Nonviable]  					
+					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
+						( pretreatment unknown)
+					</SectionIfValue>
+					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
+						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					</SectionIfValueNot>
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
 		<EndPoint Id="LRTREquivoca">
 			<Label>LR-TR Equivocal</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TR Equivocal]</ReportText>
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="treatedreporttext"/>
+					\n	Overall Assessment:[LR-TR Equivocal] with <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
+					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
+						( pretreatment unknown)
+					</SectionIfValue>
+					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
+						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					</SectionIfValueNot>
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
 		<EndPoint Id="LRTRViable">
 			<Label>LR-TR Viable</Label>
 			<ReportTexts>
-				<ReportText SectionId="findings">[LR-TR Viable]</ReportText>
+				<ReportText SectionId="findings">
+					<InsertPartial PartialId="treatedreporttext"/>
+					\n	Overall Assessment:[LR-TR Viable] with <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
+					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
+						( pretreatment unknown)
+					</SectionIfValue>
+					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
+						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					</SectionIfValueNot>
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 

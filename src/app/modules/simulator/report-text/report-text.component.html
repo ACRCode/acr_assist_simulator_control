@@ -1,14 +1,13 @@
 <ng-container *ngFor="let ReportText of ReportTexts">
   <ng-container *ngIf="ReportText.ResultText != ''">
-    <div >
-      <label> {{ReportText.ResultText}} </label>
+    <div class="display-inline">
+      <p class="font-weight-normal display-inline" [innerHTML]="FormatReportText(ReportText.ResultText)">  </p>
     </div>
   </ng-container>
   <ng-container *ngIf="ReportText.DataElementID != ''">
-    <div >
-      <label> {{InsertValue(ReportText.DataElementID)}} </label>
+    <div class="display-inline">
+      <p class="font-weight-normal display-inline"> {{InsertValue(ReportText.DataElementID)}} </p>
     </div>
-    <br/>
   </ng-container>
 
   <ng-container *ngIf="ReportText.Condition != ''">
