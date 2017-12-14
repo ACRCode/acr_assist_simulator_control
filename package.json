@@ -1,6 +1,6 @@
 {
   "name": "acr-assist-simulator-test",
-  "version": "1.0.14",
+  "version": "1.0.18",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -8,14 +8,14 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve open",
     "build": "ng build",
     "test": "ng test",
     "test-watch-disabled": "ng test --watch=false --sourcemaps=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
-    "build-ci": "ng lint && ng test --code-coverage && ng build --prod --no-progress",
+    "build-ci": "ng lint  && ng build --prod --no-progress",
     "build-publish-npm": "ng lint && ng-packagr -p ng-package.json  &&  xcopy /s /i .\\src\\XMLFiles\\Samples\\Hello_RADS  .\\dist\\XMLFiles\\Hello_RADS  && cd ./dist  && npm publish"
   },
   "dependencies": {
@@ -30,7 +30,6 @@
     "@angular/router": "^4.2.4",
     "@types/jquery": "^3.2.16",
     "@types/node": "^6.0.90",
-    "angular-cli": "^1.0.0-beta.28.3",
     "core-js": "^2.4.1",
     "jquery": "^3.2.1",
     "ng2-bootstrap": "1.6.3",

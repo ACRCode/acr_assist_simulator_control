@@ -10,6 +10,6 @@ export class VersionDisplayComponent  {
    public appVersion;
 
     constructor() {
-      this.appVersion = '1.0.10';
+      this.appVersion = '1.0.111';
     }
 }
