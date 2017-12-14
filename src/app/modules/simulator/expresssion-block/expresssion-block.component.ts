@@ -26,19 +26,11 @@ export class ExpresssionBlockComponent {
     }
 
     evaluate(cond, notRelevantDataElments) {
-
-
         if (cond === '') {
             return false;
         }
         const result = eval(cond);
-
-        if (result) {
-            console.log(cond);
-            console.log(notRelevantDataElments);
-            console.log(this.globalsService.evaluateExpessions);
-        }
-        if (result && this.globalsService.evaluateExpessions) {
+        if (result  && this.globalsService.evaluateExpessions) {
             this.onExpressionChanged.emit(this.ExpBlock.NotRelavantDataElements);
         }
         return result;
