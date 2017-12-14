@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>AcrAssist_RefactoredSimulator</id>
+    <id>AcrAssist_RefactoredSimulaor</id> 
     <version>1.0.0</version>
-    <title>RefactoredSimulator</title>
+    <title>RefactoredSimulaor</title>
     <authors>American College of Radiology</authors>
     <owners>American College of Radiology</owners>
-    <projectUrl>https://dev-assist.acr.org/RefactoredSimulator</projectUrl>
+    <projectUrl>https://dev-assist.acr.org/RefactoredSimulaor</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ACR Assist</description>
     <summary />
@@ -15,8 +15,7 @@
     <tags>TRIAD, DICOM, Imaging</tags>
     <releaseNotes></releaseNotes>
   </metadata>
-  <files>
-    <file src="**\*.*" target="" />
-  </files>
+ 
+	 <file src="dist\*.*" target="" />
 
 </package>
