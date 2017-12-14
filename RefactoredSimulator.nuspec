@@ -15,7 +15,8 @@
     <tags>TRIAD, DICOM, Imaging</tags>
     <releaseNotes></releaseNotes>
   </metadata>
- 
-	 <files src="dist\*.*" target="" />
+  <files>
+    <file src="dist\*.*" target="" />
+  </files>
 
 </package>
