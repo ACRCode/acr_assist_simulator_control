@@ -16,6 +16,6 @@
     <releaseNotes></releaseNotes>
   </metadata>
  
-	 <file src="dist\*.*" target="" />
+	 <files src="dist\*.*" target="" />
 
 </package>
