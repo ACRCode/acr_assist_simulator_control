@@ -89,14 +89,6 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
 
     if (this.isEmptyContent === false) {
       this.resetData();
-      const valdiationResult = this.validateXML();
-      if (!valdiationResult.Result) {
-        this.isValid = false;
-        this.errorMessage = valdiationResult.ErrorMessage;
-      } else {
-        this.isValid = true;
-        this.errorMessage = '';
-      }
       this.previousNonRelevantDataItems = [];
 
       const templateDetails = new TemplateDetails();
