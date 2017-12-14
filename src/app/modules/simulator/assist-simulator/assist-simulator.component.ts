@@ -112,8 +112,8 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
         }
 
     }
-    displayDataElements(notRelevantDataElments) {
-
+    displayDataElements(notRelevantDataElments: number[]) {
+        console.log('hide method' + notRelevantDataElments);
         this.DataElements.forEach(de => {
             const deindex = this.DataElements.indexOf(de);
             if (notRelevantDataElments !== undefined && notRelevantDataElments.indexOf(deindex) !== -1) {
@@ -124,6 +124,9 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
         });
         this.globalsService.evaluateExpessions = false;
         this.cd.detectChanges();
+        console.log('Change Detection - Before:' + this.globalsService.evaluateExpessions);
         this.globalsService.evaluateExpessions = true;
+        console.log('Change Detection - after:' + this.globalsService.evaluateExpessions);
+
     }
 }
