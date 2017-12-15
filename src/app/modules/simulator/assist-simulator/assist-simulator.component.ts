@@ -152,10 +152,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
         de.Visible = true;
       }
     });
-
-    this.globalsService.evaluateExpessions = false;
     this.cd.detectChanges();
-    this.globalsService.evaluateExpessions = true;
     this.cacheNonRelevantElements(notRelevantDataElments);
   }
 }

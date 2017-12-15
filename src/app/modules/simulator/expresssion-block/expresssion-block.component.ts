@@ -30,8 +30,11 @@ export class ExpresssionBlockComponent {
             return false;
         }
         const result = eval(cond);
-        if (result  && this.globalsService.evaluateExpessions) {
+        if (result  ) {
+          setTimeout(() => {
             this.onExpressionChanged.emit(this.ExpBlock.NotRelavantDataElements);
+          }, 100);
+
         }
         return result;
     }
