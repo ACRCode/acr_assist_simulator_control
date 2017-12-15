@@ -124,7 +124,8 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
       doesNewElementExists = true;
      } else {
       for (let i = 0, len = notRelevantDataElments.length; i < len; i++) {
-        if (this.previousNonRelevantDataItems.indexOf(i) < 0) {
+        const notRelevantDataElment = notRelevantDataElments[i];
+        if (this.previousNonRelevantDataItems.indexOf(notRelevantDataElment) < 0) {
           doesNewElementExists = true;
           break;
         }
