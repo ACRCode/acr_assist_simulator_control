@@ -163,7 +163,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
   }
 
    recievedElements(value: ExecutedResults) {
-        if (value !== undefined) {
+        if (value !== undefined && value !== null) {
             this.sendValues.emit(value);
         }
     }
