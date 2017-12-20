@@ -5,7 +5,9 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges, 
+  Output, 
+  EventEmitter
 } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
 import { GlobalsService } from '../shared/services/globals.service';
@@ -17,6 +19,7 @@ import { TemplateDetails } from '../shared/models/template-details.model';
 import { XMLUtil } from '../shared/utils/XMLUtil';
 import { SchemaValidator } from '../shared/utils/SchemaValidator';
 import { debug } from 'util';
+import { ExecutedResults } from '../shared/models/executed-results.model';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -25,6 +28,7 @@ import { debug } from 'util';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssistSimulatorComponent implements OnInit, OnChanges {
+    @Output() sendValues = new EventEmitter<ExecutedResults>();
   @Input() templateContent: string;
   @Input() imagePath: string;
   errorMessage: string;
@@ -38,6 +42,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
   ValidationBlocks;
   DataElementObj;
   Metadata: Metadata;
+    expressionValues : ExecutedResults;
   previousNonRelevantDataItems: number[] = [];
 
   constructor(
@@ -141,6 +146,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
     ) {
       return;
     }
+   
      this.DataElements.forEach(de => {
       const deindex = this.DataElements.indexOf(de);
       if (
@@ -155,4 +161,11 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
     this.cd.detectChanges();
     this.cacheNonRelevantElements(notRelevantDataElments);
   }
+
+   recievedElements(value: ExecutedResults){
+        if(value!= undefined)
+        {
+            this.sendValues.emit(value);           
+        }
+    }
 }

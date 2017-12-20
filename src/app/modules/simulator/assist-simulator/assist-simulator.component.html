@@ -82,7 +82,9 @@
     <div class="col-sm-12">
       <ng-container>
         <ng-container *ngFor="let block of ExpressionBlocks">
-          <acr-expresssion-block [ExpBlock]="block" [FormValues]="FormValues" [DataElements]="DataElements" (onExpressionChanged)="displayDataElements($event)"></acr-expresssion-block>
+          <acr-expresssion-block [ExpBlock]="block" [FormValues]="FormValues" [DataElements]="DataElements" 
+          (onExpressionChanged)="displayDataElements($event)"
+          (onValueRecieved)="recievedElements($event)"></acr-expresssion-block>
         </ng-container>
       </ng-container>
     </div>

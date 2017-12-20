@@ -4,7 +4,7 @@
 
          <ng-container *ngIf="evaluate(ExpBlock.Condition, ExpBlock.NotRelavantDataElements)">
           <ng-container *ngIf="(ExpBlock.Result != undefined)">
-          <acr-expression-result [DataElements]="DataElements" [ExpBlock]="ExpBlock" [Result]="ExpBlock.Result" [FormValues]="FormValues"></acr-expression-result>
+          <acr-expression-result [DataElements]="DataElements" [ExpBlock]="ExpBlock" [Result]="ExpBlock.Result" [FormValues]="FormValues" (onValueChanged)="changedValues($event)"></acr-expression-result>
          </ng-container>
 
         <ng-container *ngIf="ExpBlock.NestedBlocks.length > 0">
