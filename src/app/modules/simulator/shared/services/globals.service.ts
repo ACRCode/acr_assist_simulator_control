@@ -5,14 +5,14 @@ import { ExecutedResults } from '../models/executed-results.model';
 export class GlobalsService {
 
   public ExecutedConditionsIndexes = {};
-  public ExecutedConditions : {};
+  public ExecutedConditions: {};
   public ComputedElementConditions = {};
   public XMLAcronyms = {};
   public LoadkeyDiagram = true;
   public evaluateExpessions = true;
-  public expressionResults : ExecutedResults;
+  public expressionResults: ExecutedResults;
 
-  constructor(){
-    this.expressionResults=new ExecutedResults();
+  constructor( ) {
+    this.expressionResults = new ExecutedResults();
   }
  }

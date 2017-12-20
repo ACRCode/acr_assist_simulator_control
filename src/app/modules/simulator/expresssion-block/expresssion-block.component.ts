@@ -13,9 +13,8 @@ export class ExpresssionBlockComponent {
     @Input() FormValues: Object = {};
     @Input() ExpBlock: ExpressionBlock;
     @Input() DataElements: DataElement[] = [];
-    @Output() onExpressionChanged: EventEmitter<DataElement[]> = new EventEmitter<DataElement[]>();    
+    @Output() onExpressionChanged: EventEmitter<DataElement[]> = new EventEmitter<DataElement[]>();
     @Output() onValueRecieved = new EventEmitter<ExecutedResults>();
-  
     constructor(private globalsService: GlobalsService) {
 
     }
@@ -35,20 +34,19 @@ export class ExpresssionBlockComponent {
         if (result  ) {
           setTimeout(() => {
             this.onExpressionChanged.emit(this.ExpBlock.NotRelavantDataElements);
-	    if(this.globalsService.expressionResults !=undefined)
-	    {
-	    	this.onValueRecieved.emit(this.globalsService.expressionResults);
-	        this.globalsService.expressionResults = null;
-	    }
+            if (this.globalsService.expressionResults !== undefined) {
+                this.onValueRecieved.emit(this.globalsService.expressionResults);
+                this.globalsService.expressionResults = null;
+            }
           }, 100);
 
         }
         return result;
     }
 
-  changedValues(expressionResult : ExecutedResults ){
+  changedValues(expressionResult: ExecutedResults ) {
       this.globalsService.expressionResults = expressionResult;
-          //this.onValueRecieved.emit([values]);
+          // this.onValueRecieved.emit([values]);
   }
 
 }

@@ -28,29 +28,27 @@ export class ExpressionResultComponent  implements OnInit {
    }
       ngOnInit()  {
           this.DataElementObj = {};
-        this.DataElements.forEach(de => {
-           
-            this.DataElementObj[de.ID] = de;
+          this.DataElements.forEach(de => {
+              this.DataElementObj[de.ID] = de;
         });
           if (this.Result !== undefined && this.Result.ReportSections.length > 0) {
               this.selectedSection = this.Result.ReportSections[0].Heading;
 
-              let reportSections = this.getResultText();
-              let formData = {};
-            for (let key in this.FormValues) {
+              const reportSections = this.getResultText();
+              const formData = {};
+            for (const key in this.FormValues) {
 
-                if (this.DataElementObj[key] != undefined && (this.DataElementObj[key].hasOwnProperty("Visible") && this.DataElementObj[key].Visible)
-                    && (!this.DataElementObj[key].hasOwnProperty("ShowValue") || (this.DataElementObj[key].ShowValue))) {
+                if (this.DataElementObj[key] !== undefined && (this.DataElementObj[key].hasOwnProperty('Visible') && this.DataElementObj[key].Visible)
+                    && (!this.DataElementObj[key].hasOwnProperty('ShowValue') || (this.DataElementObj[key].ShowValue))) {
 
-                    formData[this.globalsService.XMLAcronyms[key]] = this.globalsService.XMLAcronyms[this.FormValues[key]] == undefined ? this.FormValues[key] : this.globalsService.XMLAcronyms[this.FormValues[key]];
+                    formData[this.globalsService.XMLAcronyms[key]] = this.globalsService.XMLAcronyms[this.FormValues[key]] === undefined ? this.FormValues[key] : this.globalsService.XMLAcronyms[this.FormValues[key]];
                 }
             }
-            let block = JSON.parse(JSON.stringify(this.ExpBlock));
+            const block = JSON.parse(JSON.stringify(this.ExpBlock));
             this.executedResults.reportSections = reportSections;
             this.executedResults.block = block;
             this.executedResults.formData = formData;
-            if(this.executedResults != undefined)
-            {
+            if (this.executedResults !== undefined) {
                 this.onValueChanged.emit(this.executedResults);
             }
           }

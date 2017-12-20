@@ -5,8 +5,8 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnChanges,
-  SimpleChanges, 
-  Output, 
+  SimpleChanges,
+  Output,
   EventEmitter
 } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
@@ -42,7 +42,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
   ValidationBlocks;
   DataElementObj;
   Metadata: Metadata;
-    expressionValues : ExecutedResults;
+  expressionValues: ExecutedResults;
   previousNonRelevantDataItems: number[] = [];
 
   constructor(
@@ -146,8 +146,8 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
     ) {
       return;
     }
-   
-     this.DataElements.forEach(de => {
+
+   this.DataElements.forEach(de => {
       const deindex = this.DataElements.indexOf(de);
       if (
         notRelevantDataElments !== undefined &&
@@ -162,10 +162,9 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
     this.cacheNonRelevantElements(notRelevantDataElments);
   }
 
-   recievedElements(value: ExecutedResults){
-        if(value!= undefined)
-        {
-            this.sendValues.emit(value);           
+   recievedElements(value: ExecutedResults) {
+        if (value !== undefined) {
+            this.sendValues.emit(value);
         }
     }
 }

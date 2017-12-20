@@ -9,10 +9,10 @@ export class ExecutedResults {
 
   public block = {};
 
-  constructor(){
+  constructor ( ) {
     this.formData = {};
     this.reportSections = {};
-    this.block = {};
+    this.block  = {};
   }
 
 }
