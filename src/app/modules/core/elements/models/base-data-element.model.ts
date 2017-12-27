@@ -3,6 +3,4 @@ export abstract class BaseDataElement {
   isRequired: boolean;
   displaySequence: number;
   label: string;
-
-
 }

@@ -1,4 +1,4 @@
-import { Diagram } from '../diagram.model';
+import { Diagram } from '../../shared/models/diagram.model';
 
 export class Metadata {
   label: string;
