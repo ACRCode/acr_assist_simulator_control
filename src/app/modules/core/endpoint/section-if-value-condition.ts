@@ -1,7 +1,7 @@
-import {ConditionType} from '../models/conditiontype.model';
+import { ConditionType } from '../models/conditiontype.model';
 import { Condition } from '../condition';
-export class EqualCondition implements Condition {
 
+export class SectionIfValueCondition implements Condition {
   conditionType: ConditionType;
 
   constructor(conditionType: ConditionType) {
@@ -11,5 +11,4 @@ export class EqualCondition implements Condition {
   evaluate(value: string): boolean {
     return value === this.conditionType.comparisonValue;
   }
-
 }

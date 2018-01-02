@@ -1,3 +1,3 @@
 export class DataElementIdAttribute {
-    dataElementId: String;
+    dataElementId: string;
 }

@@ -1,3 +1,3 @@
 export class DataElementRef {
-  dataElementId: String;
+  dataElementId: string;
 }

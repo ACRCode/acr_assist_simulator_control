@@ -1,11 +1,14 @@
-import { Condition } from './condition';
-import { ConditionType } from './models/conditiontype.model';
+import { Condition } from '../condition';
+import { ConditionType } from '../models/conditiontype.model';
 
 export class LessThanOrEqualsCondition implements Condition {
   conditionType: ConditionType;
 
-  validate(newValue: any): boolean {
-    return newValue <= this.conditionType.comparisonValue;
+  constructor(conditionType: ConditionType) {
+    this.conditionType = conditionType;
+  }
+  evaluate(value: any): boolean {
+    return value <= this.conditionType.comparisonValue;
   }
 
 }

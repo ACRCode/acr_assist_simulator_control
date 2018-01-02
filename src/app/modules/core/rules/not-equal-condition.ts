@@ -1,6 +1,6 @@
 import {ConditionType} from '../models/conditiontype.model';
 import { Condition } from '../condition';
-export class EqualCondition implements Condition {
+export class NotEqualCondition implements Condition {
 
   conditionType: ConditionType;
 
@@ -9,7 +9,6 @@ export class EqualCondition implements Condition {
   }
 
   evaluate(value: string): boolean {
-    return value === this.conditionType.comparisonValue;
+    return value !== this.conditionType.comparisonValue;
   }
-
 }

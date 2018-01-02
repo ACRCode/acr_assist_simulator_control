@@ -1,15 +1,17 @@
-import { Condition } from './condition';
-import { ConditionType } from './models/conditiontype.model';
+import { Condition } from '../condition';
+import { ConditionType } from '../models/conditiontype.model';
 
-export class LessThanOrEqualsCondition implements Condition {
+export class ContainsCondition implements Condition {
   conditionType: ConditionType;
 
-  validate(newValue: any): boolean {
+    constructor(conditionType: ConditionType) {
+      this.conditionType = conditionType;
+    }
+   evaluate(value: any): boolean {
     const returnValue = false;
-    if (newValue instanceof Array){
-       return newValue.indexOf(this.conditionType.comparisonValue) >= 0;
+    if (value instanceof Array) {
+       return value.indexOf(this.conditionType.comparisonValue) >= 0;
     }
     return returnValue;
   }
-
 }
