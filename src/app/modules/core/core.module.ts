@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule , ModuleWithProviders } from '@angular/core';
+import {CommonModule } from '@angular/common';
+import {WorkflowEngineService} from './services/workflow-engine.service';
 
 @NgModule({
   imports: [
@@ -7,4 +8,13 @@ import { CommonModule } from '@angular/common';
   ],
   declarations: []
 })
-export class CoreModule { }
+export class CoreModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [ WorkflowEngineService]
+    };
+  }
+
+
+ }

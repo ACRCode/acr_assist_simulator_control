@@ -3,11 +3,16 @@ import { CommonModule } from '@angular/common';
 import {CoreModule} from '../core/core.module';
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator/acr-assist-simulator.component';
 import { TemplateManagerService } from './shared/services/template-manager.service';
+import {DiagramService} from './shared/services/diagram.service';
+import {InjectionToken} from '@angular/core';
+import { CreationServiceInjectorToken } from './constants';
+import {ChoiceDataElementCreationService} from './shared/services/choice-data-element-creation.service';
+import {MultipleChoiceDataElementCreationService} from './shared/services/multiple-choice-data-element-creation.service';
+import {NumericDataElementCreationService} from './shared/services/numeric-data-element-creation.service';
+import {IntegerDataElementCreationService} from './shared/services/integer-data-element-creation.service';
 
 
 const components = [AcrAssistSimulatorComponent];
-const services =  [TemplateManagerService];
-
 
 @NgModule({
   imports: [
@@ -15,7 +20,12 @@ const services =  [TemplateManagerService];
     CoreModule
   ],
   declarations: components,
-  providers: services,
+  providers: [TemplateManagerService, DiagramService,
+    {provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true }
+    ],
   exports: components
 })
 export class AcrAssistSimulatorModule { }

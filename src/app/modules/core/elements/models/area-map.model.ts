@@ -1,5 +1,5 @@
 import { Area } from './area-model';
 
-export class Map {
+export class AreaMap {
     areas: Area[];
 }

@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable , Inject  } from '@angular/core';
 import {Template} from '../../../core/models/template.model';
 import { Metadata } from '../../../core/metadata/models/metadata-model';
 import { Diagram } from '../../../core/models/diagram.model';
+import { DiagramService } from './diagram.service';
+import { CreationServiceInjectorToken } from '../../constants';
+import {DataElementCreationBaseService} from './data-element-creation-base-service';
+import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 declare var require: any;
 
 @Injectable()
 export class TemplateManagerService {
 
-  constructor() { }
+  constructor(private  diagramService: DiagramService ,
+    @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[]) { }
 
   getTemplate(templateContent: string): Template  {
    const template = new Template();
@@ -18,6 +23,7 @@ export class TemplateManagerService {
    }
 
    template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
+   template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
    return template;
 
   }
@@ -33,42 +39,52 @@ export class TemplateManagerService {
   return jsonResult;
  }
 
-
-private  returnDiagram(diagramJSON: any ): Diagram {
-  const metadataDiagram = new Diagram();
-  metadataDiagram.displaySequence = diagramJSON.Attr.DisplaySequence;
-  metadataDiagram.keyDiagram = diagramJSON.Attr.KeyDiagram ?  diagramJSON.Attr.KeyDiagram : false;
-  metadataDiagram.label = diagramJSON.Label;
-  metadataDiagram.location = diagramJSON.location;
-  return metadataDiagram;
-}
-
-
-isArray(item: any): boolean {
-  return Object.prototype.toString.call(item) === '[object Array]';
-}
-
  private getMetaData(metadataJSON: any): Metadata {
     const metadata = new Metadata();
     metadata.label = metadataJSON.Label;
     metadata.id = metadataJSON.ID;
     metadata.schemaVersion = metadataJSON.SchemaVersion;
     metadata.ruleVersion = metadataJSON.RuleVersion;
-    const diagrams = metadataJSON.Info.Diagrams.Diagram;
-    if (diagrams !== undefined) {
-       metadata.diagrams = new Array<Diagram>();
-       if (this.isArray(diagrams)) {
-        for (const diagram of diagrams) {
-            metadata.diagrams.push(this.returnDiagram(diagram));
-        }
-       } else {
-             metadata.diagrams.push(this.returnDiagram(diagrams));
-       }
-    }
+    const diagramsAsJSON = metadataJSON.Info.Diagrams.Diagram;
+    metadata.diagrams = this.diagramService.returnDiagrams(diagramsAsJSON);
+
     return metadata;
  }
 
+ private isArray(item: any): boolean {
+  return Object.prototype.toString.call(item) === '[object Array]';
+}
 
+ private  returnDataElement (elementType: string, dataElementsJSON: any): BaseDataElement[] {
+    const  dataElements = new Array<BaseDataElement>();
+    let dataElementCreationServiceInstance: DataElementCreationBaseService;
+    for (const dataElementCreationService of this.elememtcreationService)
+    {
+          if (dataElementCreationService.elementType === elementType) {
+            dataElementCreationServiceInstance = dataElementCreationService;
+            break;
+          }
+    }
 
+    if (dataElementCreationServiceInstance !== undefined)  {
+       if (this.isArray(dataElementsJSON)) {
+        for (const dataElementJSON of dataElementsJSON) {
+            const dataElement = dataElementCreationServiceInstance.createElement(dataElementJSON);
+            dataElements.push(dataElement);
+        }
+      } else {
+        const dataElement = dataElementCreationServiceInstance.createElement(dataElementsJSON);
+        dataElements.push(dataElement);
+      }
+    }
+    return dataElements;
+ }
 
+ private getDataElements(dataElementsJSON: any): BaseDataElement[] {
+   let  dataElements = new Array<BaseDataElement>();
+   dataElements = dataElements.concat(this.returnDataElement('ChoiceDataElement', dataElementsJSON.ChoiceDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('MultiChoiceDataElement', dataElementsJSON.MultiChoiceDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('NumericDataElement', dataElementsJSON.NumericDataElement));
+    return dataElements;
+ }
 }
