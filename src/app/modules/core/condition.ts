@@ -1,6 +1,7 @@
 import { ConditionType } from './models/conditiontype.model';
+import { DataElementValues } from './dataelementvalues';
 
 export interface Condition {
   readonly conditionType: ConditionType;
-  evaluate(value: any): boolean;
+  evaluate(dataElementValues: DataElementValues): boolean;
 }

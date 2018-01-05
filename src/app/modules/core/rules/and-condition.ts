@@ -1,22 +1,23 @@
 import { ConditionType } from '../models/conditiontype.model';
 import { CompositeCondition } from '../composite-condition';
 import { Condition } from '../condition';
+import { DataElementValues } from '../dataelementvalues';
 
 export class AndCondition implements CompositeCondition {
-  conditions: Condition[];
+  conditions: any[] = [];
 
-  constructor(conditions: Condition[]) {
-    this.conditions = conditions;
-  }
 
-   evaluate(values: any[]): boolean {
+
+
+  evaluate(dataElementValues: DataElementValues): boolean {
     let returnValue = true;
     for (const arrayCounter = 0 ; arrayCounter < this.conditions.length ; arrayCounter) {
-           const executedCondition = this.conditions[0].evaluate(values[arrayCounter]);
-           returnValue = (!executedCondition) ? false :  (returnValue && executedCondition);
-           if (!returnValue) {
-                break;
-           }
+         const condition = this.conditions[arrayCounter];
+         const executedCondition = condition.evaluate(dataElementValues);
+         returnValue = (!executedCondition) ? false :  (returnValue && executedCondition);
+         if (!returnValue) {
+             break;
+         }
     }
     return returnValue;
   }

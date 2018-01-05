@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Diagram } from '../../../core/models/diagram.model';
+import { ArrayCheckerService } from './array-checker.service';
 
 @Injectable()
 export class DiagramService {
 
-  private isArray(item: any): boolean {
-    if (item.length)  {
-      return true;
-    } else {
-        return false;
-    }
-  }
+ constructor(private arrayCheckerSeviceService: ArrayCheckerService) {
 
-  private  returnDiagram(diagramJSON: any ): Diagram {
+ }
+
+private  returnDiagram(diagramJSON: any ): Diagram {
 
     const diagram = new Diagram();
 
@@ -31,7 +28,7 @@ export class DiagramService {
   returnDiagrams(diagramsAsJSON: any): Diagram[] {
     const diagrams = new Array<Diagram>();
     if (diagramsAsJSON !== undefined) {
-         if (this.isArray(diagramsAsJSON)) {
+         if (this.arrayCheckerSeviceService.isArray(diagramsAsJSON)) {
           for (const diagram of diagramsAsJSON) {
             diagrams.push(this.returnDiagram(diagram));
         }

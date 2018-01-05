@@ -10,6 +10,10 @@ import {ChoiceDataElementCreationService} from './shared/services/choice-data-el
 import {MultipleChoiceDataElementCreationService} from './shared/services/multiple-choice-data-element-creation.service';
 import {NumericDataElementCreationService} from './shared/services/numeric-data-element-creation.service';
 import {IntegerDataElementCreationService} from './shared/services/integer-data-element-creation.service';
+import { GlobalValueCreationService } from './shared/services/global-value-creation.service';
+import { ArrayCheckerService } from './shared/services/array-checker.service';
+import { ConditionsCreationService } from './shared/services/conditions-creation.service';
+import { RulesCreationService } from './shared/services/rules-creation.service';
 
 
 const components = [AcrAssistSimulatorComponent];
@@ -20,11 +24,17 @@ const components = [AcrAssistSimulatorComponent];
     CoreModule
   ],
   declarations: components,
-  providers: [TemplateManagerService, DiagramService,
+  providers: [TemplateManagerService,
+     DiagramService,
+     ArrayCheckerService,
+     ConditionsCreationService,
+     RulesCreationService,
     {provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true }
+    {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true }
+
     ],
   exports: components
 })

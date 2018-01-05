@@ -6,24 +6,29 @@ import { DiagramService } from './diagram.service';
 import { CreationServiceInjectorToken } from '../../constants';
 import {DataElementCreationBaseService} from './data-element-creation-base-service';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
+import { ArrayCheckerService } from './array-checker.service';
+import { RulesCreationService } from './rules-creation.service';
 declare var require: any;
 
 @Injectable()
 export class TemplateManagerService {
 
   constructor(private  diagramService: DiagramService ,
-    @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[]) { }
+    @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[] ,
+    private arrayCheckerService: ArrayCheckerService , private rulesCreationService: RulesCreationService) { }
 
   getTemplate(templateContent: string): Template  {
    const template = new Template();
    let templateContentAsJSON: any;
    templateContentAsJSON = this.parseToJson(templateContent);
+   console.log(templateContentAsJSON);
    if (template === undefined) {
     throw  new Error('Unable to parse the template');
    }
 
    template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
    template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
+   template.rules = this.rulesCreationService.createRules(templateContentAsJSON.Rules);
    return template;
 
   }
@@ -51,9 +56,7 @@ export class TemplateManagerService {
     return metadata;
  }
 
- private isArray(item: any): boolean {
-  return Object.prototype.toString.call(item) === '[object Array]';
-}
+
 
  private  returnDataElement (elementType: string, dataElementsJSON: any): BaseDataElement[] {
     const  dataElements = new Array<BaseDataElement>();
@@ -67,7 +70,7 @@ export class TemplateManagerService {
     }
 
     if (dataElementCreationServiceInstance !== undefined)  {
-       if (this.isArray(dataElementsJSON)) {
+       if (this.arrayCheckerService.isArray(dataElementsJSON)) {
         for (const dataElementJSON of dataElementsJSON) {
             const dataElement = dataElementCreationServiceInstance.createElement(dataElementJSON);
             dataElements.push(dataElement);
@@ -85,6 +88,7 @@ export class TemplateManagerService {
    dataElements = dataElements.concat(this.returnDataElement('ChoiceDataElement', dataElementsJSON.ChoiceDataElement));
    dataElements = dataElements.concat(this.returnDataElement('MultiChoiceDataElement', dataElementsJSON.MultiChoiceDataElement));
    dataElements = dataElements.concat(this.returnDataElement('NumericDataElement', dataElementsJSON.NumericDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('GlobalValue', dataElementsJSON.GlobalValue));
     return dataElements;
  }
 }

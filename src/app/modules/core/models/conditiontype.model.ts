@@ -1,6 +1,6 @@
 import { DataElementIdAttribute } from './dataelementidattribute.model';
 
 export class ConditionType {
-  dataElementIdAttribute: DataElementIdAttribute;
+  dataElementId: string;
   comparisonValue: any;
 }

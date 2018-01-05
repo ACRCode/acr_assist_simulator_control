@@ -143,8 +143,7 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
   }
 
   displayDataElements(expressionResult: ExpressionResult) {
-    console.log ('Received' + expressionResult.nonRelevantElementIndex);
-    if (
+      if (
       !this.checkIfThereAreNewNonRelevantDataElements(expressionResult.nonRelevantElementIndex)
     ) {
       return;

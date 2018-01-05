@@ -1,5 +1,6 @@
 import { ConditionType } from '../models/conditiontype.model';
 import { Condition } from '../condition';
+import { DataElementValues } from '../dataelementvalues';
 
 export class SectionIfValueCondition implements Condition {
   conditionType: ConditionType;
@@ -8,7 +9,8 @@ export class SectionIfValueCondition implements Condition {
     this.conditionType = conditionType;
   }
 
-  evaluate(value: string): boolean {
+  evaluate(dataElementValues: DataElementValues): boolean {
+    const value = dataElementValues.get(this.conditionType.dataElementId);
     return value === this.conditionType.comparisonValue;
   }
 }

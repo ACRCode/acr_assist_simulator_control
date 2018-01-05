@@ -7,17 +7,16 @@ import { Choice } from '../../../core/elements/models/choice.model';
 import { ImageMap } from '../../../core/elements/models/image-map.model';
 import { Area } from '../../../core/elements/models/area-model';
 import { AreaMap } from '../../../core/elements/models/area-map.model';
+import { ArrayCheckerService } from './array-checker.service';
 
 @Injectable()
 export class ChoiceDataElementCreationService extends DataElementCreationBaseService {
-  constructor(diagramService: DiagramService) {
+  constructor(diagramService: DiagramService, private arrayCheckerService: ArrayCheckerService) {
     super(diagramService);
     this.elementType = 'ChoiceDataElement';
   }
 
-  private isArray(item: any): boolean {
-    return Object.prototype.toString.call(item) === '[object Array]';
-  }
+
 
   private returnChoice(choiceItem: any): Choice {
     const choice = new Choice();
@@ -43,7 +42,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     const choiceItems = data.ChoiceInfo.Choice;
     if (choiceItems !== undefined) {
       dataElement.choiceInfo = new Array<Choice>();
-      if (this.isArray(choiceItems)) {
+      if (this.arrayCheckerService.isArray(choiceItems)) {
         for (const choiceItem of choiceItems) {
           dataElement.choiceInfo.push(this.returnChoice(choiceItem));
         }
@@ -60,7 +59,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
       if (areaMaps !== undefined) {
         dataElement.imageMap.map = new AreaMap();
         dataElement.imageMap.map.areas = new Array<Area>();
-        if (this.isArray(areaMaps)) {
+        if (this.arrayCheckerService.isArray(areaMaps)) {
           for (const areaMap of areaMaps) {
             dataElement.imageMap.map.areas.push(this.returnArea(areaMap));
           }
