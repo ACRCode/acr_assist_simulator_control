@@ -7,7 +7,8 @@ import { CreationServiceInjectorToken } from '../../constants';
 import {DataElementCreationBaseService} from './data-element-creation-base-service';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { ArrayCheckerService } from './array-checker.service';
-import { RulesCreationService } from './rules-creation.service';
+import { DecisionPointsCreationService } from './decision-points-creation.service';
+import { Rules } from '../../../core/rules/models/rules.model';
 declare var require: any;
 
 @Injectable()
@@ -15,7 +16,7 @@ export class TemplateManagerService {
 
   constructor(private  diagramService: DiagramService ,
     @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[] ,
-    private arrayCheckerService: ArrayCheckerService , private rulesCreationService: RulesCreationService) { }
+    private arrayCheckerService: ArrayCheckerService , private decisionPointsCreationService: DecisionPointsCreationService) { }
 
   getTemplate(templateContent: string): Template  {
    const template = new Template();
@@ -28,7 +29,11 @@ export class TemplateManagerService {
 
    template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
    template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
-   template.rules = this.rulesCreationService.createRules(templateContentAsJSON.Rules);
+   if (templateContentAsJSON.Rules) {
+    template.rules  = new Rules();
+    template.rules.decisionPoints = this.decisionPointsCreationService.
+                          createDecisionPoints(templateContentAsJSON.Rules.DecisionPoint);
+  }
    return template;
 
   }
@@ -69,7 +74,7 @@ export class TemplateManagerService {
           }
     }
 
-    if (dataElementCreationServiceInstance !== undefined)  {
+    if (dataElementCreationServiceInstance !== undefined && dataElementsJSON !== undefined)  {
        if (this.arrayCheckerService.isArray(dataElementsJSON)) {
         for (const dataElementJSON of dataElementsJSON) {
             const dataElement = dataElementCreationServiceInstance.createElement(dataElementJSON);
@@ -89,6 +94,7 @@ export class TemplateManagerService {
    dataElements = dataElements.concat(this.returnDataElement('MultiChoiceDataElement', dataElementsJSON.MultiChoiceDataElement));
    dataElements = dataElements.concat(this.returnDataElement('NumericDataElement', dataElementsJSON.NumericDataElement));
    dataElements = dataElements.concat(this.returnDataElement('GlobalValue', dataElementsJSON.GlobalValue));
+   dataElements = dataElements.concat(this.returnDataElement('ComputedElement', dataElementsJSON.ComputedElement));
     return dataElements;
  }
 }

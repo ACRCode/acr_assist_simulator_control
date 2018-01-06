@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Rules } from '../../../core/rules/rules.model';
+import { Rules } from '../../../core/rules/models/rules.model';
 import { ArrayCheckerService } from './array-checker.service';
-import { DecisionPoint } from '../../../core/rules/decisionpoint.model';
-import { Branch } from '../../../core/rules/branch';
-import { EndPointRef } from '../../../core/rules/models/endpointref.model';
-import { DataElementRef } from '../../../core/rules/models/dataelementref.model';
-import { NotRelevantDataElements } from '../../../core/rules/models/notrelevantdataelements.model';
+import { DecisionPoint } from '../../../core/models/decisionpoint.model';
+import { Branch } from '../../../core//models/branch.model';
+import { EndPointRef } from '../../../core/models/endpointref.model';
+import { DataElementRef } from '../../../core/models/dataelementref.model';
+import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
 import { ConditionsCreationService } from './conditions-creation.service';
+import { ComputedValueCreationService } from './computed-value-creation.service';
 
 @Injectable()
-export class RulesCreationService {
+export class DecisionPointsCreationService {
 
-  constructor(private arrayCheckerService: ArrayCheckerService , private conditionsCreationService: ConditionsCreationService) {
+  constructor(private arrayCheckerService: ArrayCheckerService , private conditionsCreationService: ConditionsCreationService,
+  private computedValueCreationService: ComputedValueCreationService ) {
 
   }
 
@@ -30,9 +32,15 @@ export class RulesCreationService {
       branch.endPointRef.endPointId = branchJSON.EndPointRef.Attr.EndPointId;
     }
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
-    branch.compositeCondition =this.conditionsCreationService.returnCompositeCondition(branchJSON);
-     if (branchJSON.NotRelevantDataElements) {
-          const notRelevantDataElements = new NotRelevantDataElements();
+
+
+
+    branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
+    if (this.conditionsCreationService.isComposite(branchJSON)) {
+        branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);
+    }
+    if (branchJSON.NotRelevantDataElements) {
+           const notRelevantDataElements = new NotRelevantDataElements();
           notRelevantDataElements.dataElementRefrences = new Array<DataElementRef>();
           const dataElementRefs = branchJSON.NotRelevantDataElements.DataElementRef;
           if (this.arrayCheckerService.isArray(dataElementRefs)) {
@@ -42,6 +50,11 @@ export class RulesCreationService {
           } else {
             notRelevantDataElements.dataElementRefrences.push(dataElementRefs);
           }
+          branch.notRelevantDataElements = notRelevantDataElements;
+    }
+    if (branchJSON.DecisionPoint) {
+       branch.decisionPoints = new Array<DecisionPoint>();
+       this.addDecisionPoints(branchJSON.DecisionPoint,  branch.decisionPoints);
     }
     return branch;
   }
@@ -49,7 +62,9 @@ export class RulesCreationService {
 
   private addDecisionPoint(decsionPointAsJSON: any , decisionPoints: DecisionPoint[]) {
      const decisionPoint = new DecisionPoint();
-     decisionPoint.id = decsionPointAsJSON.Attr.Id;
+     if (decisionPoint.id) {
+        decisionPoint.id = decsionPointAsJSON.Attr.Id;
+     }
      decisionPoint.label = decsionPointAsJSON.Label;
      const branchesJSON = decsionPointAsJSON.Branch;
      if (branchesJSON !== undefined) {
@@ -75,12 +90,9 @@ export class RulesCreationService {
     }
   }
 
-  createRules(data: any): Rules {
-    const rules = new Rules();
-    const decsionPointAsJSON = data.DecisionPoint;
+  createDecisionPoints(data: any): DecisionPoint[] {
     const decisionPoints = new Array<DecisionPoint>();
-    this.addDecisionPoints(decsionPointAsJSON, decisionPoints);
-    rules.decisionPoints = decisionPoints;
-    return rules;
+    this.addDecisionPoints(data, decisionPoints);
+    return decisionPoints;
   }
 }

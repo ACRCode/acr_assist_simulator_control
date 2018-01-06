@@ -13,7 +13,9 @@ import {IntegerDataElementCreationService} from './shared/services/integer-data-
 import { GlobalValueCreationService } from './shared/services/global-value-creation.service';
 import { ArrayCheckerService } from './shared/services/array-checker.service';
 import { ConditionsCreationService } from './shared/services/conditions-creation.service';
-import { RulesCreationService } from './shared/services/rules-creation.service';
+import { DecisionPointsCreationService } from './shared/services/decision-points-creation.service';
+import { ComputedValueCreationService } from './shared/services/computed-value-creation.service';
+import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';
 
 
 const components = [AcrAssistSimulatorComponent];
@@ -28,12 +30,14 @@ const components = [AcrAssistSimulatorComponent];
      DiagramService,
      ArrayCheckerService,
      ConditionsCreationService,
-     RulesCreationService,
+     DecisionPointsCreationService,
+     ComputedValueCreationService,
     {provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true }
+    {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: ComputedElementCreationService, multi: true }
 
     ],
   exports: components

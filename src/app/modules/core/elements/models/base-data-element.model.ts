@@ -9,5 +9,5 @@ export  class BaseDataElement {
   diagrams: Diagram[];
   voiceCommand: String;
   currentValue: any;
-  dataElementType : string;
+  dataElementType: string;
 }

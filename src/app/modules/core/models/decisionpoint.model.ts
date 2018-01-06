@@ -1,4 +1,4 @@
-import { Branch } from './branch';
+import { Branch } from './branch.model';
 
 export class DecisionPoint {
   id: string;
