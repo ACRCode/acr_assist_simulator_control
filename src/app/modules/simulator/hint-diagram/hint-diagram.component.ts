@@ -8,6 +8,7 @@ import { DataElement } from '../shared/models/data-element.model';
 })
 export class HintDiagramComponent {
   @Input() DataElement: DataElement;
+  @Input() imagePath: string;
 
   activeSlideIndex = 0;
 

@@ -2,24 +2,24 @@
 
 
 
-<button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.ID}}" (click)="resetCarouselIndex()">
+<button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.id}}" (click)="resetCarouselIndex()">
   <span class=" glyphicon glyphicon-cd" aria-hidden="true" data-toggle="tooltip"  data-placement="right" title="Hint Diagrams"></span>
 
 </button>
-<div class="modal fade adjust-diagram " tabindex="-1" role="dialog" attr.id="{{'diag_'+DataElement.ID}}" aria-labelledby="mySmallModalLabel">
+<div class="modal fade adjust-diagram " tabindex="-1" role="dialog" attr.id="{{'diag_'+DataElement.id}}" aria-labelledby="mySmallModalLabel">
 <div class="modal-dialog modal-lg adjust-diagram-image " role="document">
 <div class="modal-content">
 <div class="modal-header">
 <h4 class="modal-title">
-{{DataElement.Label}}
+{{DataElement.label}}
 </h4>
 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 </div>
 <ng-container>
     <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-        <ng-container *ngFor="let diag of DataElement.Diagrams ">
+        <ng-container *ngFor="let diag of DataElement.diagrams ">
             <slide>
-                <img src="{{diag.Location}}">
+                <img src="{{imagePath}}/{{diag.location}}">
             </slide>
         </ng-container>  
     </carousel>
