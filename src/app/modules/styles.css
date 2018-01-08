@@ -935,3 +935,7 @@ h3 {
 .color-white {
   color: #ffffff;
 }
+
+.bottom-margin{
+  margin-bottom: 25px;
+}

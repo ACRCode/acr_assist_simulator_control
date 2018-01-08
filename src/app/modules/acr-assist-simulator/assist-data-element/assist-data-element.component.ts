@@ -15,9 +15,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() keyDiagrams: ImageElements[];
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.dataElements);
-    this.dataElements = this.dataElements.sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
-    console.log(this.dataElements);
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
   }
   constructor() { }
 

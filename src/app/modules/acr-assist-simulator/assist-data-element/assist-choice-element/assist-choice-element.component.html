@@ -1,3 +1,6 @@
+<canvas id='Can-ImgMap'>
+
+</canvas>
 <div class="col-xs-12 col-sm-5 text-left content-padding">
   <label class="control-label DEElement" id="{{choiceDataElement.id}}">
     {{choiceDataElement.label}}
@@ -13,10 +16,6 @@
 </div>
 
 <div class="col-xs-12 col-sm-7 text-left content-padding">
-  <!-- <label class="control-label DEElement" id="{{choiceDataElement.id}}">
-    {{choiceDataElement.label}}
-  </label> -->
-
   <div class="input-group">
     <div class="row">
       <div class="col-sm-12">
@@ -70,11 +69,10 @@
       </div>
     </div>
     <!-- imagemap will be displyed here -->
-    <ng-container *ngIf="choiceDataElement.imageMap != undefined">
+    <ng-container *ngIf="choiceDataElement.imageMap != undefined && imagePath != undefined">
       <div class="row">
         <div class="col-sm-12">
-          <acr-image-map [DataElement]="DataElement" [DataElements]="DataElements" [FormValues]="FormValues"></acr-image-map>
-          <!-- <acr-image-map [DataElements]="choiceDataElement"></acr-image-map> -->
+          <acr-image-map [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-image-map>
         </div>
       </div>
     </ng-container>

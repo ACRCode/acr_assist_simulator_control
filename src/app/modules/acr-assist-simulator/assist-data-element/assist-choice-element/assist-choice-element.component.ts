@@ -18,8 +18,5 @@ export class AssistChoiceElementComponent implements OnInit {
     for (let index = 0; index < this.keyDiagrams.length; index++) {
       this.keyDiagrams[index].location =  this.imagePath + '/' + this.keyDiagrams[index].location;
     }
-    if (this.choiceDataElement.imageMap !== undefined) {
-      console.log(this.choiceDataElement.imageMap);
-    }
   }
 }

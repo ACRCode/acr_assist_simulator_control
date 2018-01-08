@@ -1,6 +1,6 @@
 <ng-container *ngFor="let DataElement of dataElements">
     <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement' || DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement' || DataElement.dataElementType == 'MultiChoiceDataElement') ">
-      <div class="row">        
+      <div class="row bottom-margin">        
           <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
               <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' [keyDiagrams]="keyDiagrams"></acr-assist-choice-element>
           </ng-container>
@@ -9,7 +9,7 @@
               <acr-assist-multi-choice-element [multiChoiceElement]='DataElement' [imagePath]='imagePath'></acr-assist-multi-choice-element>
           </ng-container>
 
-          <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement'">
+          <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
               <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath'></acr-assist-numeric-element>
           </ng-container>
       </div>  
