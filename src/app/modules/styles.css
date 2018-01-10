@@ -904,7 +904,7 @@ h3 {
 
 @media (min-width:1921px) {
   .adjust-diagram-image {
-    width: 100%;
+    width: 50%;
   }
 }
 
@@ -934,4 +934,8 @@ h3 {
 
 .color-white {
   color: #ffffff;
+}
+
+.bottom-margin{
+  margin-bottom: 25px;
 }

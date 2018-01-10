@@ -1,1 +1,15 @@
+<ng-container *ngIf="!isEmptyContent">
+    <div class="row">
+        <div class="col-sm-6 text-right border-0">
+          <h4>
+            <ng-container *ngIf="template.metadata != undefined">
+              <strong>{{template.metadata.label}} </strong>
+            </ng-container>  
+          </h4>
+        </div>
+    </div>
+    <ng-container>
+        <acr-assist-data-element [dataElements]="template.dataElements" [imagePath]="imagePath" [keyDiagrams]="keyDiagrams"></acr-assist-data-element>    
+    </ng-container>    
+</ng-container>
 

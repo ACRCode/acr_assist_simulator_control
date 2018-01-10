@@ -1,0 +1,80 @@
+<canvas id='Can-ImgMap'>
+
+</canvas>
+<div class="col-xs-12 col-sm-5 text-left content-padding">
+  <label class="control-label DEElement" id="{{choiceDataElement.id}}">
+    {{choiceDataElement.label}}
+  </label>
+  <ng-container *ngIf="choiceDataElement.hint!=''">
+      <a>
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{choiceDataElement.hint}}"></span>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+      <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+    </ng-container>
+</div>
+
+<div class="col-xs-12 col-sm-7 text-left content-padding">
+  <div class="input-group">
+    <div class="row">
+      <div class="col-sm-12">
+        <ng-container *ngIf="choiceDataElement.choiceInfo.length == 2">          
+          <ng-container *ngIf="imagePath != undefined">
+            <div id="radio-inline">
+              <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="imagePath == undefined">
+            <div id="radio-inline">
+              <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
+          <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
+            <!-- <select id="{{DataElement.ID}}" (ngModelChange)="itemSelected()"> -->
+            <select id="{{choiceDataElement.id}}">
+              <option [value]="Select">--Select--</option>
+              <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value">{{choice.label}}</option>
+            </select>
+          </ng-container>
+          <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 5">
+            <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+              <div id="radio-inline">
+                <div class="row">
+                  <div class="col-sm-12">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <!-- imagemap will be displyed here -->
+    <ng-container *ngIf="choiceDataElement.imageMap != undefined && imagePath != undefined">
+      <div class="row">
+        <div class="col-sm-12">
+          <acr-image-map [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-image-map>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

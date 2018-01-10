@@ -1,5 +1,6 @@
 import { Component, OnInit , Input} from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
+import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 
 declare var require: any;
 
@@ -13,9 +14,11 @@ export class ImageMapComponent  implements OnInit {
 
 
       $ = require('jquery');
-      @Input() DataElement: DataElement;
+      @Input() DataElement: ChoiceDataElement;
       @Input() DataElements: Object = {};
       @Input() FormValues: Object = {};
+      @Input() imagePath: string;
+
       imageExist = true;
       SelectionValue = '';
 
@@ -24,15 +27,18 @@ export class ImageMapComponent  implements OnInit {
         if (this.DataElement === undefined) {
             return;
         }
-        const request = new XMLHttpRequest();
-        request.open('HEAD',  this.DataElement.ImagePath, false);
-        request.send();
+        // const request = new XMLHttpRequest();
+        // request.open('HEAD',  this.DataElement.ImagePath, false);
+        // request.send();
         // if (request.status === 200) {
         //   this.imageExist = true;
         // } else {
         //   this.imageExist = false;
         // }
         this.displayValue('');
+        for (let i = 0; i < this.DataElement.imageMap.map.areas.length; i++) {
+            console.log('ImDE' + this.DataElement.imageMap.map.areas[i].choiceValue);
+        }
       }
 
       isInRectangle(mouseX, mouseY, Coordinates) {
@@ -118,7 +124,7 @@ export class ImageMapComponent  implements OnInit {
 
         setValue(val) {
 
-            this.FormValues[this.DataElement.ID] = val;
+            this.FormValues[this.DataElement.id] = val;
         }
 
         displayValue(val) {
