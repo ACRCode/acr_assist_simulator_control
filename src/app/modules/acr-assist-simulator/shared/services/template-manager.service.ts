@@ -9,10 +9,15 @@ import { BaseDataElement } from '../../../core/elements/models/base-data-element
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
 import { Rules } from '../../../core/rules/models/rules.model';
+import { fail } from 'assert';
+import { TemplatePartial } from '../../../core/endpoint/template-partial';
 declare var require: any;
+
 
 @Injectable()
 export class TemplateManagerService {
+
+  private stringParser: any = require('string');
 
   constructor(private  diagramService: DiagramService ,
     @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[] ,
@@ -22,7 +27,6 @@ export class TemplateManagerService {
    const template = new Template();
    let templateContentAsJSON: any;
    templateContentAsJSON = this.parseToJson(templateContent);
-   console.log(templateContentAsJSON);
    if (template === undefined) {
     throw  new Error('Unable to parse the template');
    }
@@ -33,9 +37,58 @@ export class TemplateManagerService {
     template.rules  = new Rules();
     template.rules.decisionPoints = this.decisionPointsCreationService.
                           createDecisionPoints(templateContentAsJSON.Rules.DecisionPoint);
+     this.returnEndpoints(templateContent);
   }
    return template;
 
+  }
+
+  private returnEndPointContents(content: string, startToken: string, endToken: string): string[] {
+    const contents = new Array<string>();
+    let templateSearchIndexPosition = 0;
+    while (true) {
+         const contentStartPosition = content.indexOf(startToken, templateSearchIndexPosition);
+         const contentEndPosition  = content.indexOf(endToken, templateSearchIndexPosition);
+
+         if (contentStartPosition >= 0  && contentEndPosition >= 0) {
+            const endPosition = contentEndPosition + endToken.length;
+            const contentData = content.substring(contentStartPosition, endPosition);
+            contents.push(contentData);
+            templateSearchIndexPosition = endPosition + 1;
+         } else {
+            break;
+         }
+    }
+    return contents;
+  }
+
+private returnTemplatePartials(templatePartialArray: string[]): TemplatePartial[] {
+      const templatePartials = new Array<TemplatePartial>();
+      for (const arrayItem of templatePartialArray) {
+        const templatePartial = new TemplatePartial();
+        const templatePartialAsJSON = this.parseToJson(arrayItem);
+        templatePartial.id = templatePartialAsJSON.Attr.Id;
+
+      }
+
+      return templatePartials;
+}
+
+
+  private returnEndpoints(xmlData: string) {
+      const endPointStartToken = '<EndPoints>';
+      const endPointEndToken = '</EndPoints>';
+
+      const endPointStartTokenPosition = xmlData.indexOf(endPointStartToken);
+      const endPointEndTokenPosition = xmlData.indexOf(endPointEndToken);
+      if (endPointStartTokenPosition >= 0  && endPointEndTokenPosition >= 0 ) {
+          const contentStartPosition =  (endPointStartTokenPosition + endPointStartToken.length);
+          const endPointContent = xmlData.substring(contentStartPosition , endPointEndTokenPosition);
+           if (endPointContent.length > 0 ) {
+               const templatePartials = this.returnEndPointContents(endPointContent, '<TemplatePartial' , '</TemplatePartial>');
+              console.log(templatePartials);
+           }
+        }
   }
 
 
