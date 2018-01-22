@@ -5,7 +5,9 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { DataElement } from '../shared/models/data-element.model';
 import { GlobalsService } from '../shared/services/globals.service';
@@ -17,14 +19,16 @@ import { TemplateDetails } from '../shared/models/template-details.model';
 import { XMLUtil } from '../shared/utils/XMLUtil';
 import { SchemaValidator } from '../shared/utils/SchemaValidator';
 import { debug } from 'util';
+import { ExecutedResults } from '../shared/models/executed-results.model';
+import { ExpressionResult } from '../shared/models/expression-result.model';
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './assist-simulator.component.html',
-  styleUrls: ['../../styles.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['../../styles.css']
 })
 export class AssistSimulatorComponent implements OnInit, OnChanges {
+  @Output() onUpdateExecutedResult = new EventEmitter<ExecutedResults>();
   @Input() templateContent: string;
   @Input() imagePath: string;
   errorMessage: string;
@@ -39,12 +43,15 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
   DataElementObj;
   Metadata: Metadata;
   previousNonRelevantDataItems: number[] = [];
+  public settingsService: SettingsService;
 
   constructor(
     private globalsService: GlobalsService,
-    private settingsService: SettingsService,
+     settingsService: SettingsService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+    this.settingsService = settingsService;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.processData();
@@ -135,24 +142,26 @@ export class AssistSimulatorComponent implements OnInit, OnChanges {
     return doesNewElementExists;
   }
 
-  displayDataElements(notRelevantDataElments: number[]) {
-    if (
-      !this.checkIfThereAreNewNonRelevantDataElements(notRelevantDataElments)
+  displayDataElements(expressionResult: ExpressionResult) {
+      if (
+      !this.checkIfThereAreNewNonRelevantDataElements(expressionResult.nonRelevantElementIndex)
     ) {
       return;
     }
-     this.DataElements.forEach(de => {
+   this.DataElements.forEach(de => {
       const deindex = this.DataElements.indexOf(de);
       if (
-        notRelevantDataElments !== undefined &&
-        notRelevantDataElments.indexOf(deindex) !== -1
+        expressionResult.nonRelevantElementIndex !== undefined &&
+        expressionResult.nonRelevantElementIndex.indexOf(deindex) !== -1
       ) {
         de.Visible = false;
       } else {
         de.Visible = true;
       }
     });
-    this.cd.detectChanges();
-    this.cacheNonRelevantElements(notRelevantDataElments);
+    if (expressionResult.executedResults != null) {
+        this.onUpdateExecutedResult.emit(expressionResult.executedResults);
+    }
+    this.cacheNonRelevantElements(expressionResult.nonRelevantElementIndex);
   }
 }

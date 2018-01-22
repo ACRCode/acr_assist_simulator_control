@@ -1,12 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import {SimulatorModule} from './modules/simulator/simulator.module';
+import {AcrAssistSimulatorModule} from './modules/acr-assist-simulator/acr-assist-simulator.module';
 import {SimulatorLoaderModule} from './modules/simulatorloader/simulatorloader.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-
 
 @NgModule({
   declarations: [
@@ -14,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    SimulatorModule,
+    AcrAssistSimulatorModule,
     CommonModule,
     FormsModule,
     SimulatorLoaderModule
