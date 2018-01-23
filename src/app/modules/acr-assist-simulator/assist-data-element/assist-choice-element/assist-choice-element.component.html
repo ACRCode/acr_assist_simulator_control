@@ -26,7 +26,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                       <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
-                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="choiceSelected(choiceDataElement.id, choice.value)">{{choice.label}}</label>
                   </div>
                 </div>
               </ng-container>
@@ -38,7 +38,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                       <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
-                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="choiceSelected(choiceDataElement.id, choice.value)">{{choice.label}}</label>
                   </div>
                 </div>
               </ng-container>
@@ -47,8 +47,7 @@
         </ng-container>
         <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
           <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
-            <!-- <select id="{{DataElement.ID}}" (ngModelChange)="itemSelected()"> -->
-            <select id="{{choiceDataElement.id}}">
+            <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target)">
               <option [value]="Select">--Select--</option>
               <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value">{{choice.label}}</option>
             </select>
@@ -59,7 +58,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                       <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}">
-                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="itemSelected()">{{choice.label}}</label>
+                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" (click)="choiceSelected(choiceDataElement.id, choice.value)">{{choice.label}}</label>
                   </div>
                 </div>
               </div>

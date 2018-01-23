@@ -26,11 +26,12 @@ import { ImageMapComponent } from '../simulator/image-map/image-map.component';
 import { DecisionPointsCreationService } from './shared/services/decision-points-creation.service';
 import { ComputedValueCreationService } from './shared/services/computed-value-creation.service';
 import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';
+import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
 
 
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
-    AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent, ImageMapComponent];
+    AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent, ImageMapComponent, AssistReportTextComponent];
 
 @NgModule({
   imports: [

@@ -1,0 +1,19 @@
+<ng-container>
+    <div class="panel panel-group panel-default">
+        <div class="panel-heading findings">Report Text: 
+            <div>
+                <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
+                    <ng-container *ngFor="let Section of reportText.allReportText" >
+                        <option [value]="Section.sectionId" [selected]="Section.sectionId == 'findings'" >{{Section.sectionId}}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+        <div class="panel-body" >
+            <div class="reportText-content">
+                {{reportText.reportTextMainContent}}
+                {{selectedSection}}
+            </div>
+        </div>
+    </div>
+</ng-container>

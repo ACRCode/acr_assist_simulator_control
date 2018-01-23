@@ -36,9 +36,6 @@ export class ImageMapComponent  implements OnInit {
         //   this.imageExist = false;
         // }
         this.displayValue('');
-        for (let i = 0; i < this.DataElement.imageMap.map.areas.length; i++) {
-            console.log('ImDE' + this.DataElement.imageMap.map.areas[i].choiceValue);
-        }
       }
 
       isInRectangle(mouseX, mouseY, Coordinates) {

@@ -238,7 +238,8 @@ button.active,
   background-image: none !important;
   font-weight: bold;
   text-transform: capitalize;
-  height: 40px;
+  height: 45px;
+  font-size: 16px;
 }
 
 .table-row {
@@ -337,6 +338,10 @@ select {
   width: 100%;
 }
 
+.findings select{
+  max-width: 150px;
+  margin-top: -3px;
+}
 .fixed-keydiagram {
   position: fixed !important;
   float: right;
@@ -938,4 +943,13 @@ h3 {
 
 .bottom-margin{
   margin-bottom: 25px;
+}
+
+.reportText-content {
+  white-space: pre-line; 
+  font-weight: bold
+}
+
+.reportText-main-content{
+  font-size: 16px;
 }

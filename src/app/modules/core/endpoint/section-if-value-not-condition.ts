@@ -1,10 +1,13 @@
 import { Condition } from '../condition';
 import { ConditionType } from '../models/conditiontype.model';
 import { DataElementValues } from '../dataelementvalues';
+import { SectionIfValueCondition } from './section-if-value-condition';
 
 
-export class SectionIfValueCondition implements Condition {
+export class SectionIfValueNotCondition implements Condition {
   conditionType: ConditionType;
+  sectionIfValue: SectionIfValueCondition[];
+  sectionIfValueNot: SectionIfValueNotCondition[];
 
   constructor(conditionType: ConditionType) {
     this.conditionType = conditionType;

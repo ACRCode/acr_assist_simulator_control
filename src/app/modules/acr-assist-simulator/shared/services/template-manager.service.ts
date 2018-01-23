@@ -11,11 +11,14 @@ import { DecisionPointsCreationService } from './decision-points-creation.servic
 import { Rules } from '../../../core/rules/models/rules.model';
 import { fail } from 'assert';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
+import { SectionIfValueNotCondition } from '../../../core/endpoint/section-if-value-not-condition';
+import { SectionIfValueCondition } from '../../../core/endpoint/section-if-value-condition';
 declare var require: any;
 
 
 @Injectable()
 export class TemplateManagerService {
+  private endPointXMLString: string[] = [];
 
   private stringParser: any = require('string');
 
@@ -37,10 +40,22 @@ export class TemplateManagerService {
     template.rules  = new Rules();
     template.rules.decisionPoints = this.decisionPointsCreationService.
                           createDecisionPoints(templateContentAsJSON.Rules.DecisionPoint);
-     this.returnEndpoints(templateContent);
   }
-   return template;
+    template.endPoints = templateContentAsJSON.EndPoints.EndPoint;
+    template.templatePartial = this.returnEndpoints(templateContent);
+    template.endPointsString = this.endPointXMLString;
 
+
+    return template;
+
+  }
+
+  private getTemplatePartial(templatePartialJSON: any): TemplatePartial {
+    const templatePartial = new TemplatePartial;
+    templatePartial.id = templatePartialJSON.Attr.Id;
+    templatePartial.sectionIfNotValue = templatePartialJSON.SectionIfValueNot;
+    templatePartial.sectionIfValues = templatePartialJSON.SectionIfValue;
+    return templatePartial;
   }
 
   private returnEndPointContents(content: string, startToken: string, endToken: string): string[] {
@@ -74,26 +89,35 @@ private returnTemplatePartials(templatePartialArray: string[]): TemplatePartial[
       return templatePartials;
 }
 
+  private returnEndpoints(xmlData: string): string[] {
+    const endPointStartToken = '<EndPoints>';
+    const endPointEndToken = '</EndPoints>';
 
-  private returnEndpoints(xmlData: string) {
-      const endPointStartToken = '<EndPoints>';
-      const endPointEndToken = '</EndPoints>';
-
-      const endPointStartTokenPosition = xmlData.indexOf(endPointStartToken);
-      const endPointEndTokenPosition = xmlData.indexOf(endPointEndToken);
-      if (endPointStartTokenPosition >= 0  && endPointEndTokenPosition >= 0 ) {
-          const contentStartPosition =  (endPointStartTokenPosition + endPointStartToken.length);
-          const endPointContent = xmlData.substring(contentStartPosition , endPointEndTokenPosition);
-           if (endPointContent.length > 0 ) {
-               const templatePartials = this.returnEndPointContents(endPointContent, '<TemplatePartial' , '</TemplatePartial>');
-              console.log(templatePartials);
-           }
+    const endPointStartTokenPosition = xmlData.indexOf(endPointStartToken);
+    const endPointEndTokenPosition = xmlData.indexOf(endPointEndToken);
+    if (endPointStartTokenPosition >= 0  && endPointEndTokenPosition >= 0 ) {
+      const contentStartPosition =  (endPointStartTokenPosition + endPointStartToken.length);
+      const endPointContent = xmlData.substring(contentStartPosition , endPointEndTokenPosition);
+    if (endPointContent.length > 0 ) {
+            const templatePartials = this.returnEndPointContents(endPointContent, '<TemplatePartial' , '</TemplatePartial>');
+            this.endPointXMLString = this.returnEndPointContents(endPointContent, '<EndPoint' , '</EndPoint>');
+    return templatePartials;
         }
+    }
   }
 
+private getEndpoint (xmlData: string, endpointId: string) {
+  const xmlreader = require('xmlreader');
+  xmlreader.read(xmlData, function (err, res){
+    if (err) { return console.log(err); }
 
-
-  private parseToJson(xmlData: string): any {
+    console.log( res.EndPoint.text() );
+    for (let i = 0; i < res.EndPoint.ReportTexts.ReportText.count(); i++) {
+        console.log( res.EndPoint.ReportTexts.ReportText.at(i).attributes().SectionId );
+    }
+  });
+}
+private parseToJson(xmlData: string): any {
     let jsonResult: JSON;
     const parseString =  require('xml2js').parseString;
     parseString(xmlData, {explicitRoot : false, explicitArray : false, attrkey : 'Attr'} , function (err, result) {
