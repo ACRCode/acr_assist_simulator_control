@@ -12,7 +12,8 @@ import { ComputedValueCreationService } from './computed-value-creation.service'
 @Injectable()
 export class DecisionPointsCreationService {
 
-  constructor(private arrayCheckerService: ArrayCheckerService , private conditionsCreationService: ConditionsCreationService,
+  constructor(private arrayCheckerService: ArrayCheckerService ,
+    private conditionsCreationService: ConditionsCreationService,
   private computedValueCreationService: ComputedValueCreationService ) {
 
   }
@@ -41,14 +42,14 @@ export class DecisionPointsCreationService {
     }
     if (branchJSON.NotRelevantDataElements) {
            const notRelevantDataElements = new NotRelevantDataElements();
-          notRelevantDataElements.dataElementRefrences = new Array<DataElementRef>();
+          notRelevantDataElements.dataElementReferences = new Array<DataElementRef>();
           const dataElementRefs = branchJSON.NotRelevantDataElements.DataElementRef;
           if (this.arrayCheckerService.isArray(dataElementRefs)) {
               for (const dataElementRefJSON of  dataElementRefs) {
-                notRelevantDataElements.dataElementRefrences.push(this.createRelevantDataElementReferences(dataElementRefJSON));
+                notRelevantDataElements.dataElementReferences.push(this.createRelevantDataElementReferences(dataElementRefJSON));
               }
           } else {
-            notRelevantDataElements.dataElementRefrences.push(dataElementRefs);
+            notRelevantDataElements.dataElementReferences.push(dataElementRefs);
           }
           branch.notRelevantDataElements = notRelevantDataElements;
     }
@@ -62,7 +63,7 @@ export class DecisionPointsCreationService {
 
   private addDecisionPoint(decsionPointAsJSON: any , decisionPoints: DecisionPoint[]) {
      const decisionPoint = new DecisionPoint();
-     if (decisionPoint.id) {
+     if (decsionPointAsJSON.Attr.Id) {
         decisionPoint.id = decsionPointAsJSON.Attr.Id;
      }
      decisionPoint.label = decsionPointAsJSON.Label;

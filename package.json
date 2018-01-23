@@ -35,11 +35,12 @@
     "jquery": "^3.2.1",
     "ng2-bootstrap": "1.6.3",
     "rxjs": "^5.4.2",
+    "sax": "^1.2.4",
     "string": "^3.3.3",
     "xml-parser": "^1.2.1",
     "xml2js": "^0.4.19",
-    "zone.js": "^0.8.14",
-    "sax": "^1.2.4"
+    "xmlreader": "^0.2.3",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.4.5",

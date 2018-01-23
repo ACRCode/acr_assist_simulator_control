@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CoreModule} from '../core/core.module';
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator/acr-assist-simulator.component';
-import { TemplateManagerService } from './shared/services/template-manager.service';
+import {TemplateManagerService } from './shared/services/template-manager.service';
 import {DiagramService} from './shared/services/diagram.service';
 import {InjectionToken} from '@angular/core';
 import { CreationServiceInjectorToken } from './constants';
@@ -22,11 +22,12 @@ import { AssistNumericElementComponent } from './assist-data-element/assist-nume
 import { AssistChoiceElementComponent } from './assist-data-element/assist-choice-element/assist-choice-element.component';
 import { AssistMultiChoiceElementComponent } from './assist-data-element/assist-multi-choice-element/assist-multi-choice-element.component';
 import { ImageMapComponent } from '../simulator/image-map/image-map.component';
-
 import { DecisionPointsCreationService } from './shared/services/decision-points-creation.service';
 import { ComputedValueCreationService } from './shared/services/computed-value-creation.service';
 import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';
 import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
+import { SimulatorEngineService } from '../core/services/simulator-engine.service';
+
 
 
 
@@ -46,13 +47,13 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      ConditionsCreationService,
      DecisionPointsCreationService,
      ComputedValueCreationService,
+     SimulatorEngineService,
     {provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: ComputedElementCreationService, multi: true }
-
     ],
   exports: components
 })

@@ -111,7 +111,6 @@ private getEndpoint (xmlData: string, endpointId: string) {
   xmlreader.read(xmlData, function (err, res){
     if (err) { return console.log(err); }
 
-    console.log( res.EndPoint.text() );
     for (let i = 0; i < res.EndPoint.ReportTexts.ReportText.count(); i++) {
         console.log( res.EndPoint.ReportTexts.ReportText.at(i).attributes().SectionId );
     }

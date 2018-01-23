@@ -29,10 +29,8 @@ export class AssistMultiChoiceElementComponent implements OnInit {
         this.multiChoiceValues.splice(index, 1);
       }
     }
-    console.clear();
-    multiElement.elementId = elementId;
+     multiElement.elementId = elementId;
     multiElement.selectedValues = this.multiChoiceValues;
-    console.log(multiElement);
     this.returnMultiChoice.emit(multiElement);
   }
 

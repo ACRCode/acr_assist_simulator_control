@@ -43,11 +43,9 @@ export class AssistChoiceElementComponent implements OnInit {
         for (let br = 0; br < this.Rules.decisionPoints[index].branches.length; br++) {
           const text = this.Rules.decisionPoints[index].branches[br].label;
           if (text.toLowerCase() === selectedValue.toLowerCase()) {
-             console.log(this.Rules.decisionPoints[index].branches[br].notRelevantDataElements);
-             for (let NRD = 0; NRD < this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementRefrences.length; NRD++) {
-               $(document.getElementById('div_' + this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementRefrences[NRD].dataElementId)).hide();
-               console.log('div_' + this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementRefrences[NRD].dataElementId);
-             }
+             for (let NRD = 0; NRD < this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementReferences.length; NRD++) {
+               $(document.getElementById('div_' + this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementReferences[NRD].dataElementId)).hide();
+              }
              break;
           }
         }

@@ -1,5 +1,5 @@
 export class EndPointRef {
-  label: String;
-  description: String;
-  endPointId: String;
+  label: string;
+  description: string;
+  endPointId: string;
 }

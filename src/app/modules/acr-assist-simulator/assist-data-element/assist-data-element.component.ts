@@ -10,6 +10,8 @@ import { SectionIfValueNotCondition } from '../../core/endpoint/section-if-value
 import { SectionIfValueCondition } from '../../core/endpoint/section-if-value-condition';
 import { TemplatePartial } from '../../core/endpoint/template-partial';
 import { Console } from '@angular/core/src/console';
+import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
+
 
 @Component({
   selector: 'acr-assist-data-element',
@@ -26,31 +28,30 @@ export class AssistDataElementComponent implements OnChanges {
   @Input() endPointXMLString: string [] ;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
 
-  allElements: object [] = [];
+
+  constructor (private simulatorEngineService: SimulatorEngineService) {
+
+  }
+
   mainReportTextObj: MainReportText;
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
-    this.allElements = [];
   }
 
   choiceSelected(receivedChoiceElement: ChoiceElement) {
     const selectedChoiceElement = new ChoiceElement();
+    this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId , receivedChoiceElement.selectedValue);
 
-    this.allElements[receivedChoiceElement.elementId] = receivedChoiceElement.selectedValue;
-    this.generateReportText('hcc2Ep');
   }
 
   numericSelected(receivedChoiceElement: NumericElement) {
     const selectedChoiceElement = new ChoiceElement();
-
-    this.allElements[receivedChoiceElement.elementId] = receivedChoiceElement.selectedValue;
-    this.generateReportText('hcc2Ep');
+    this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId, receivedChoiceElement.selectedValue);
   }
 
   multiSelected(receivedElement: MultiChoiceElement) {
     const selectedChoiceElement = new ChoiceElement();
-    this.allElements[receivedElement.elementId] = receivedElement.selectedValues;
-    this.generateReportText('hcc2Ep');
+    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
   }
 
   generateReportText(endpointId: string) {
@@ -58,11 +59,10 @@ export class AssistDataElementComponent implements OnChanges {
   }
 
   private parseXml(EndPOintId: string): any {
-    console.clear();
     const templateIds: string[] = [];
     let canInsertText: boolean;
     let isSectionIf: boolean;
-    let selectedElements: object [] = [];
+    let selectedElements: Map<string, any>;
     let executeSectionIfNot: boolean;
     let hasSectionNot: boolean;
     let insertValue: boolean;
@@ -74,7 +74,7 @@ export class AssistDataElementComponent implements OnChanges {
 
     let findingsText: string;
     let impressionText: string;
-    selectedElements = this.allElements;
+    selectedElements = this.simulatorEngineService.getAllDataElementValues();
     for (const endpoint of this.Endpoints) {
       if (endpoint.Attr.Id === EndPOintId) {
         if (Array.isArray(endpoint.ReportTexts.ReportText)) {
@@ -86,17 +86,15 @@ export class AssistDataElementComponent implements OnChanges {
           } else if (reportText.InsertPartial !== undefined ) {
             templateIds.push(reportText.InsertPartial.Attr.PartialId);
           }
-            console.log(reportText._);
           }
         } else {
           templateIds.push(endpoint.ReportTexts.ReportText.InsertPartial.Attr.PartialId);
-          console.log(endpoint.ReportTexts.ReportText._);
         }
       }
     }
 
     findingsText = '';
-    const sax = require('../../../../../node_modules/sax/lib/sax'),
+     const sax = require('../../../../../node_modules/sax/lib/sax'),
       strict = true,
       normalize = true, // set to false for html-mode
       trim = true,
@@ -348,9 +346,7 @@ export class AssistDataElementComponent implements OnChanges {
         const reportTextObj: AllReportText = new AllReportText();
         reportTextObj.sectionId = 'impression';
         reportTextObj.reportText = impressionText;
-
         allReportText.push(reportTextObj);
-        console.log(allReportText);
       };
 
       parser.write(this.templatePartial).onend();

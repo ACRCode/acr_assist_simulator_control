@@ -24,6 +24,9 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     choice.value = choiceItem.Value;
     choice.hint = choiceItem.Hint;
     choice.default = false;
+    if (choiceItem.Attr &&  choiceItem.Attr.Default) {
+      choice.default = choiceItem.Attr.Default;
+    }
     return choice;
   }
 
@@ -40,17 +43,26 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     const dataElement = new ChoiceDataElement();
     super.populateBasicData(data, dataElement);
     const choiceItems = data.ChoiceInfo.Choice;
+    let defaultValue: any;
     if (choiceItems !== undefined) {
       dataElement.choiceInfo = new Array<Choice>();
       if (this.arrayCheckerService.isArray(choiceItems)) {
         for (const choiceItem of choiceItems) {
-          dataElement.choiceInfo.push(this.returnChoice(choiceItem));
+          const choice =  this.returnChoice(choiceItem);
+          if (choice.default) {
+            defaultValue =  choice.value;
+          }
+          dataElement.choiceInfo.push(choice);
         }
       } else {
-        dataElement.choiceInfo.push(this.returnChoice(choiceItems));
+        const choice =  this.returnChoice(choiceItems);
+          if (choice.default) {
+            defaultValue =  choice.value;
+          }
+        dataElement.choiceInfo.push(choice);
       }
     }
-
+    dataElement.currentValue = defaultValue;
     const imageMap = data.ImageMap;
     if (imageMap !== undefined) {
       dataElement.imageMap = new ImageMap();

@@ -48,7 +48,6 @@ export class ExpresssionBlockComponent implements OnInit {
            if (this.globalsService.expressionResults !== undefined) {
                this.globalsService.expressionResults = undefined;
            }
-           console.log ('Send' + expressionResult.nonRelevantElementIndex);
         }
         return result;
     }

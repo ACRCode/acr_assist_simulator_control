@@ -5,6 +5,7 @@ import {Template} from '../../core/models/template.model';
 import { SettingsService } from '../../simulator/shared/services/settings.service';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText } from '../assist-data-element/assist-data-element.component';
+import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
@@ -20,11 +21,18 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   isEmptyContent: boolean;
   keyDiagrams: ImageElements[] = [];
   resultText: MainReportText;
-  constructor(private templateManagerService: TemplateManagerService) { }
+  constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
+    this.simulatorEngineService.simulatorStateChanged.subscribe(this.handleSimulatorStateChange);
+   }
+
+   handleSimulatorStateChange(value) {
+     console.log(value);
+   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    this.simulatorEngineService.initialize(this.template);
     this.isEmptyContent =
     this.templateContent === undefined ||
     this.templateContent.length === 0;

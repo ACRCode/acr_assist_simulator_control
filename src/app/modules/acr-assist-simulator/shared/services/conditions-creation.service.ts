@@ -112,11 +112,10 @@ export class ConditionsCreationService {
          compositeCondtionJSON = data.OrCondition;
          compositeCondition = new OrCondition();
       }
-
       if (!this.isComposite(compositeCondtionJSON)) {
-        compositeCondition.conditions.push(this.returnConditions(compositeCondtionJSON));
+         compositeCondition.conditions = this.returnConditions(compositeCondtionJSON);
       } else {
-        this.returnInnerConditions(compositeCondtionJSON, compositeCondition);
+          this.returnInnerConditions(compositeCondtionJSON, compositeCondition);
       }
       return compositeCondition;
     }
@@ -135,7 +134,7 @@ export class ConditionsCreationService {
         if (this.arrayCheckerService.isArray(compositeConditionJSON)) {
                 for(const arrayItem of compositeConditionJSON){
                   if (!this.isComposite(arrayItem)) {
-                    innerCompositionCondition.conditions.push(this.returnConditions(arrayItem));
+                    innerCompositionCondition.conditions = this.returnConditions(arrayItem);
                   } else {
                     this.returnInnerConditions(arrayItem, innerCompositionCondition);
                   }
