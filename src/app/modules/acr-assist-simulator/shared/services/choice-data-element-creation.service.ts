@@ -62,6 +62,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
         dataElement.choiceInfo.push(choice);
       }
     }
+    dataElement.defaultValue = defaultValue;
     dataElement.currentValue = defaultValue;
     const imageMap = data.ImageMap;
     if (imageMap !== undefined) {

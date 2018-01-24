@@ -34,6 +34,7 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
        dataElement.diagrams = this.diagramService.returnDiagrams(data.Diagrams.Diagram);
     }
     dataElement.currentValue = undefined;
+    dataElement.defaultValue = undefined;
   }
 
 }

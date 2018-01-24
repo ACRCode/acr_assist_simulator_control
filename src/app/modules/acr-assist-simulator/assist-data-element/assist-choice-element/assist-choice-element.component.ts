@@ -33,7 +33,6 @@ export class AssistChoiceElementComponent implements OnInit {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
-    // this.hideNonRelevantData(element.id, element.selectedOptions[0].innerHTML);
     this.returnChoiceElement.emit(choiceElement);
   }
 

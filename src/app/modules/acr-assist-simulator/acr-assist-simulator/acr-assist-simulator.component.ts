@@ -22,12 +22,9 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   keyDiagrams: ImageElements[] = [];
   resultText: MainReportText;
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
-    this.simulatorEngineService.simulatorStateChanged.subscribe(this.handleSimulatorStateChange);
+
    }
 
-   handleSimulatorStateChange(value) {
-     console.log(value);
-   }
 
 
   ngOnChanges(changes: SimpleChanges): void {

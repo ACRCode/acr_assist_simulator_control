@@ -30,20 +30,22 @@ export class SimulatorEngineService {
     this.evaluateDecisionPoints();
   }
 
-  evaluateDecisionPoint(decisionPoint: DecisionPoint, nonRelevantDataElementIds: string[] ) {
+  evaluateDecisionPoint(decisionPoint: DecisionPoint, nonRelevantDataElementIds: string[] , branchingLevel: number) {
+     console.log( this.dataElementValues);
+      let currentBranchCount = 0;
       for (const branch of decisionPoint.branches) {
        let conditionMet = false;
        if (branch.compositeCondition !== undefined) {
           conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
          } else if  (branch.condition !== undefined) {
-        conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
+         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
        }
-       console.log(branch.label + ' ' + conditionMet);
+       console.log(branch.label + ', Branching Level :-'  , branchingLevel + ', Condition Met :-' + conditionMet);
+
        if (conditionMet) {
          if (nonRelevantDataElementIds === undefined) {
           nonRelevantDataElementIds = new Array<string>();
          }
-
          if ( branch.notRelevantDataElements !== undefined) {
           for (const nonRelevantDataElementReference of  branch.notRelevantDataElements.dataElementReferences ) {
             nonRelevantDataElementIds.push(nonRelevantDataElementReference.dataElementId);
@@ -51,8 +53,9 @@ export class SimulatorEngineService {
          }
          if (branch.decisionPoints !== undefined) {
             for (const branchDecisionPoint of branch.decisionPoints) {
-                 this.evaluateDecisionPoint(branchDecisionPoint, nonRelevantDataElementIds);
-          }
+                branchingLevel++;
+                this.evaluateDecisionPoint(branchDecisionPoint, nonRelevantDataElementIds,branchingLevel);
+           }
          } else if (branch.endPointRef !==  undefined) {
               const simulatorState = new SimulatorState();
               simulatorState.endPointId  = branch.endPointRef.endPointId;
@@ -63,24 +66,32 @@ export class SimulatorEngineService {
               this.resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds);
               this.simulatorStateChanged.next(simulatorState);
               return;
-         } else {
-             return;
          }
+        } else {
+          continue;
         }
+        currentBranchCount++;
      }
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
      for (const nonRelevantDataElementId of nonRelevantDataElementIds)
      {
-          this.dataElementValues[nonRelevantDataElementId] = undefined;
+          let defaultValue: any;
+           for (const dataElement of this.template.dataElements) {
+              if (dataElement.id === nonRelevantDataElementId ) {
+                 defaultValue = dataElement.defaultValue;
+                 break;
+              }
+           }
+          this.dataElementValues[nonRelevantDataElementId] = defaultValue;
      }
   }
 
   private evaluateDecisionPoints() {
       for (const decisionPoint of this.template.rules.decisionPoints)
       {
-          this.evaluateDecisionPoint(decisionPoint, undefined);
+          this.evaluateDecisionPoint(decisionPoint, undefined, 1);
       }
 
   }
@@ -90,6 +101,7 @@ export class SimulatorEngineService {
     for (const dataElement of  this.template.dataElements) {
        this.dataElementValues[dataElement.id] = dataElement.currentValue;
     }
+    console.log( this.dataElementValues);
   }
 
 

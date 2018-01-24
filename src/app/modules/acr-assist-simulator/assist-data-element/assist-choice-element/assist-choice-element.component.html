@@ -19,7 +19,7 @@
   <div class="input-group">
     <div class="row">
       <div class="col-sm-12">
-        <ng-container *ngIf="choiceDataElement.choiceInfo.length == 2">          
+        <ng-container *ngIf="choiceDataElement.choiceInfo.length == 2">
           <ng-container *ngIf="imagePath != undefined">
             <div id="radio-inline">
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
@@ -49,7 +49,7 @@
           <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
             <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target)">
               <option [value]="Select">--Select--</option>
-              <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value">{{choice.label}}</option>
+              <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
             </select>
           </ng-container>
           <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 5">

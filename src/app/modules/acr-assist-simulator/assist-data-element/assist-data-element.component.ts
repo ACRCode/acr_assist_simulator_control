@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DataElement } from '../../simulator/shared/models/data-element.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import {Template} from '../../core/models/template.model';
@@ -11,6 +11,7 @@ import { SectionIfValueCondition } from '../../core/endpoint/section-if-value-co
 import { TemplatePartial } from '../../core/endpoint/template-partial';
 import { Console } from '@angular/core/src/console';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
+import { SimulatorState } from '../../core/models/simulator-state.model';
 
 
 @Component({
@@ -18,7 +19,8 @@ import { SimulatorEngineService } from '../../core/services/simulator-engine.ser
   templateUrl: './assist-data-element.component.html',
   styleUrls: ['../../../modules/styles.css']
 })
-export class AssistDataElementComponent implements OnChanges {
+export class AssistDataElementComponent implements OnInit, OnChanges {
+
   @Input() dataElements: BaseDataElement[];
   @Input() imagePath: string;
   @Input() keyDiagrams: ImageElements[];
@@ -27,54 +29,55 @@ export class AssistDataElementComponent implements OnChanges {
   @Input() Rules: Rules;
   @Input() endPointXMLString: string [] ;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
-  nonRelevantDataElementIds: string[];
+  mainReportTextObj: MainReportText;
+  simulatorState: SimulatorState;
+
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
   }
 
-  mainReportTextObj: MainReportText;
+
+  ngOnInit(): void {
+    this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
+
+      this.simulatorState =  message as  SimulatorState;
+       for (const dataElement of this.dataElements) {
+        if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
+          if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
+            dataElement.isVisible = false;
+          } else {
+            dataElement.isVisible = true;
+          }
+        } else {
+          dataElement.isVisible = true;
+        }
+      }
+      if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+          this.generateReportText(this.simulatorState.endPointId);
+      }
+
+    });
+  }
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
   }
 
   choiceSelected(receivedChoiceElement: ChoiceElement) {
-    const selectedChoiceElement = new ChoiceElement();
-    this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId , receivedChoiceElement.selectedValue);
-    if ( receivedChoiceElement.selectedValue === 'treatedObservation' || receivedChoiceElement.selectedValue === 'definitelyBenign'
-        || receivedChoiceElement.selectedValue === 'probablyBenign' || receivedChoiceElement.selectedValue === 'notspecificforhcc'
-        || receivedChoiceElement.selectedValue === 'tumorInVein') {
-      this.nonRelevantDataElementIds = ['diameter', 'arterialEnhancement', 'washout', 'capsule', 'thresholdgrowth', 'ancillaryFavoringMalignancy', 'ancillaryFavoringBenignity', 'adjustcategorybasedonAncillary'];
-    } else if (receivedChoiceElement.selectedValue === 'notDefProbBenign') {
-      this.nonRelevantDataElementIds = [];
-    }
-
-    for (const dataElement of this.dataElements) {
-      if (this.nonRelevantDataElementIds.length > 0) {
-        for (const nonRelevanrtId of this.nonRelevantDataElementIds) {
-          if (dataElement.id === nonRelevanrtId) {
-            dataElement.isVisible = false;
-          }
-        }
-      } else {
-        dataElement.isVisible = true;
-      }
-    }
-  this.generateReportText('');
+     this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId , receivedChoiceElement.selectedValue);
   }
 
   numericSelected(receivedChoiceElement: NumericElement) {
-    const selectedChoiceElement = new ChoiceElement();
-    this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId, receivedChoiceElement.selectedValue);
+     this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId, receivedChoiceElement.selectedValue);
   }
 
   multiSelected(receivedElement: MultiChoiceElement) {
-    const selectedChoiceElement = new ChoiceElement();
+
     this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
   }
 
   generateReportText(endpointId: string) {
-    this.parseXml('hcc2Ep');
+    this.parseXml(endpointId);
   }
 
   private parseXml(endPointId: string): any {

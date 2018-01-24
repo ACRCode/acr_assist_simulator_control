@@ -8,10 +8,12 @@ export class OrCondition implements CompositeCondition {
 
   evaluate(dataElementValues: DataElementValues): boolean {
     let returnValue = false;
-    for (const arrayCounter = 0 ; arrayCounter < this.conditions.length ; arrayCounter) {
-         const condition = this.conditions[arrayCounter];
+    for (const condition of this.conditions) {
          const executedCondition = condition.evaluate(dataElementValues);
          returnValue = (returnValue || executedCondition);
+         if (returnValue) {
+           break;
+         }
     }
     return returnValue;
   }
