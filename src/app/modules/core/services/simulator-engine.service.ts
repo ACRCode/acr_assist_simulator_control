@@ -27,7 +27,6 @@ export class SimulatorEngineService {
 
   addOrUpdateDataElementValue(dataElementId: string, value: any) {
     this.dataElementValues[dataElementId] = value;
-    console.log(this.dataElementValues);
     this.evaluateDecisionPoints();
   }
 

@@ -27,7 +27,7 @@ export class AssistDataElementComponent implements OnChanges {
   @Input() Rules: Rules;
   @Input() endPointXMLString: string [] ;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
-
+  nonRelevantDataElementIds: string[];
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
@@ -41,7 +41,26 @@ export class AssistDataElementComponent implements OnChanges {
   choiceSelected(receivedChoiceElement: ChoiceElement) {
     const selectedChoiceElement = new ChoiceElement();
     this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId , receivedChoiceElement.selectedValue);
+    if ( receivedChoiceElement.selectedValue === 'treatedObservation' || receivedChoiceElement.selectedValue === 'definitelyBenign'
+        || receivedChoiceElement.selectedValue === 'probablyBenign' || receivedChoiceElement.selectedValue === 'notspecificforhcc'
+        || receivedChoiceElement.selectedValue === 'tumorInVein') {
+      this.nonRelevantDataElementIds = ['diameter', 'arterialEnhancement', 'washout', 'capsule', 'thresholdgrowth', 'ancillaryFavoringMalignancy', 'ancillaryFavoringBenignity', 'adjustcategorybasedonAncillary'];
+    } else if (receivedChoiceElement.selectedValue === 'notDefProbBenign') {
+      this.nonRelevantDataElementIds = [];
+    }
 
+    for (const dataElement of this.dataElements) {
+      if (this.nonRelevantDataElementIds.length > 0) {
+        for (const nonRelevanrtId of this.nonRelevantDataElementIds) {
+          if (dataElement.id === nonRelevanrtId) {
+            dataElement.isVisible = false;
+          }
+        }
+      } else {
+        dataElement.isVisible = true;
+      }
+    }
+  this.generateReportText('');
   }
 
   numericSelected(receivedChoiceElement: NumericElement) {
@@ -55,10 +74,10 @@ export class AssistDataElementComponent implements OnChanges {
   }
 
   generateReportText(endpointId: string) {
-    this.parseXml('LR1');
+    this.parseXml('hcc2Ep');
   }
 
-  private parseXml(EndPOintId: string): any {
+  private parseXml(endPointId: string): any {
     const templateIds: string[] = [];
     let canInsertText: boolean;
     let isSectionIf: boolean;
@@ -76,7 +95,7 @@ export class AssistDataElementComponent implements OnChanges {
     let impressionText: string;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     for (const endpoint of this.Endpoints) {
-      if (endpoint.Attr.Id === EndPOintId) {
+      if (endpoint.Attr.Id === endPointId) {
         if (Array.isArray(endpoint.ReportTexts.ReportText)) {
           for (const reportText of endpoint.ReportTexts.ReportText) {
             if (Array.isArray (reportText.InsertPartial) && reportText.InsertPartial !== undefined ) {
@@ -118,7 +137,7 @@ export class AssistDataElementComponent implements OnChanges {
         switch (node.name) {
           case 'Label': canInsertText = false;
                         break;
-          case 'EndPoint' : if (node.attributes.Id === EndPOintId) {
+          case 'EndPoint' : if (node.attributes.Id === endPointId) {
                                 canInsertText = true;
                                 isImpression = true;
                             } else {
@@ -241,7 +260,7 @@ export class AssistDataElementComponent implements OnChanges {
           case 'Label': canInsertText = false;
           isReportText = false;
           break;
-          case 'EndPoint' : if (node.attributes.Id === EndPOintId) {
+          case 'EndPoint' : if (node.attributes.Id === endPointId) {
                                 canInsertText = true;
                                 executeTemplate = true;
                                 isImpression = true;

@@ -41,7 +41,6 @@ export class TemplateManagerService {
     template.rules.decisionPoints = this.decisionPointsCreationService.
                           createDecisionPoints(templateContentAsJSON.Rules.DecisionPoint);
   }
-    template.endPoints = templateContentAsJSON.EndPoints.EndPoint;
     template.templatePartial = this.returnEndpoints(templateContent);
     template.endPointsString = this.endPointXMLString;
 

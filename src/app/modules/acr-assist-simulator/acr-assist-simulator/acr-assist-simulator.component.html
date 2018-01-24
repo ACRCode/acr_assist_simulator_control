@@ -9,7 +9,7 @@
         </div>
     </div>
     <ng-container>
-        <acr-assist-data-element [dataElements]="template.dataElements" [Endpoints]="template.endPoints" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+        <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
         [imagePath]="imagePath" [keyDiagrams]="keyDiagrams" [Rules]="template.rules"  (returnReportText)='recieveReportText($event)'></acr-assist-data-element>    
     </ng-container>    
     <ng-container *ngIf="resultText !== undefined">

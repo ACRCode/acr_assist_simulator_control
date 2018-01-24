@@ -8,7 +8,6 @@ export class Template {
   metadata: Metadata;
   dataElements: BaseDataElement[];
   rules: Rules;
-  endPoints = {};
   templatePartial: string[];
   endPointsString: string[];
 }

@@ -10,4 +10,5 @@ export  class BaseDataElement {
   voiceCommand: String;
   currentValue: any;
   dataElementType: string;
+  isVisible: Boolean = true;
 }
