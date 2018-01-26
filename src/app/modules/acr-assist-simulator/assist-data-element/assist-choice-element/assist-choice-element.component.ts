@@ -34,7 +34,7 @@ export class AssistChoiceElementComponent implements OnInit {
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
     this.returnChoiceElement.emit(choiceElement);
-  }
+   }
 
   hideNonRelevantData(elementId: string, selectedValue: string) {
     for (let index = 0; index < this.Rules.decisionPoints.length; index++) {

@@ -8,12 +8,12 @@ export class AndCondition implements CompositeCondition {
 
   evaluate(dataElementValues: DataElementValues): boolean {
     let returnValue = true;
-        for (const condition of this.conditions) {
-         const executedCondition = condition.evaluate(dataElementValues);
-         returnValue = (!executedCondition) ? false :  (returnValue && executedCondition);
-         if (!returnValue) {
-             break;
-         }
+    for (const condition of this.conditions) {
+      const executedCondition = condition.evaluate(dataElementValues);
+      returnValue = (!executedCondition) ? false :  (returnValue && executedCondition);
+      if (!returnValue) {
+          break;
+      }
     }
     return returnValue;
   }

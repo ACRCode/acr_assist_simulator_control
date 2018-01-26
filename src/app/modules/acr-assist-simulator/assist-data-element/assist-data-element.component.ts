@@ -42,7 +42,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
 
       this.simulatorState =  message as  SimulatorState;
-       for (const dataElement of this.dataElements) {
+       console.log(this.simulatorState);
+       console.log(this.simulatorEngineService.getAllDataElementValues())
+        for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
           if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
             dataElement.isVisible = false;
@@ -63,17 +65,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
   }
 
-  choiceSelected(receivedChoiceElement: ChoiceElement) {
-     this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId , receivedChoiceElement.selectedValue);
+  choiceSelected(receivedElement: ChoiceElement) {
+       this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId , receivedElement.selectedValue);
   }
 
-  numericSelected(receivedChoiceElement: NumericElement) {
-     this.simulatorEngineService.addOrUpdateDataElementValue(receivedChoiceElement.elementId, receivedChoiceElement.selectedValue);
+  numericSelected(receivedElement: NumericElement) {
+
+     this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValue);
   }
 
   multiSelected(receivedElement: MultiChoiceElement) {
-
-    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
+      this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
   }
 
   generateReportText(endpointId: string) {
