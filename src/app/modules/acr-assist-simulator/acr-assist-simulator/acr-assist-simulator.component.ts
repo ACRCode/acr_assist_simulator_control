@@ -39,6 +39,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
       element.location = this.template.metadata.diagrams[index].location;
       this.keyDiagrams.push(element);
     }
+    this.resultText = undefined;
   }
   recieveReportText (textReport: MainReportText) {
     this.resultText = textReport;

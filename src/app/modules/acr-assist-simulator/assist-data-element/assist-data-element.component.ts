@@ -43,7 +43,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.simulatorState =  message as  SimulatorState;
        console.log(this.simulatorState);
-       console.log(this.simulatorEngineService.getAllDataElementValues())
+       console.log(this.simulatorEngineService.getAllDataElementValues());
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
           if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
@@ -57,6 +57,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       }
       if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
           this.generateReportText(this.simulatorState.endPointId);
+      } else {
+        this.returnReportText.emit(undefined);
       }
 
     });
@@ -95,11 +97,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let isNewTemplate: boolean;
     executeSectionIfNot = false;
     const allReportText: AllReportText[] = [];
+    const endpoints = this.Endpoints;
 
     let findingsText: string;
     let impressionText: string;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
-    for (const endpoint of this.Endpoints) {
+    for (const endpoint of endpoints) {
       if (endpoint.Attr.Id === endPointId) {
         if (Array.isArray(endpoint.ReportTexts.ReportText)) {
           for (const reportText of endpoint.ReportTexts.ReportText) {
@@ -112,7 +115,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           }
           }
         } else {
-          templateIds.push(endpoint.ReportTexts.ReportText.InsertPartial.Attr.PartialId);
+          if (endpoint.ReportTexts.ReportText.InsertPartial !== undefined) {
+            templateIds.push(endpoint.ReportTexts.ReportText.InsertPartial.Attr.PartialId);
+          }
         }
       }
     }
@@ -369,7 +374,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       reportTextParser.onend = function () {
         const reportTextObj: AllReportText = new AllReportText();
         reportTextObj.sectionId = 'impression';
-        reportTextObj.reportText = impressionText;
+        reportTextObj.reportText = impressionText.trim();
         allReportText.push(reportTextObj);
       };
 

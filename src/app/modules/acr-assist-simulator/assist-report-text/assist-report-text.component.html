@@ -4,7 +4,12 @@
             <div>
                 <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
                     <ng-container *ngFor="let Section of reportText.allReportText" >
-                        <option [value]="Section.sectionId" [selected]="Section.sectionId == 'findings'" >{{Section.sectionId}}</option>
+                        <ng-container *ngIf="Section.sectionId === 'findings'">
+                            <option [value]="Section.sectionId" [selected]="Section.sectionId == 'findings'" >{{Section.sectionId}}</option>
+                        </ng-container>
+                        <ng-container *ngIf="Section.sectionId !== 'findings' && Section.reportText !== undefined && Section.reportText !== ''">
+                            <option [value]="Section.sectionId" >{{Section.sectionId}}</option>
+                        </ng-container>
                     </ng-container>
                 </select>
             </div>

@@ -35,20 +35,4 @@ export class AssistChoiceElementComponent implements OnInit {
     choiceElement.selectedValue = element.value;
     this.returnChoiceElement.emit(choiceElement);
    }
-
-  hideNonRelevantData(elementId: string, selectedValue: string) {
-    for (let index = 0; index < this.Rules.decisionPoints.length; index++) {
-      if (this.Rules.decisionPoints[index].branches !== undefined) {
-        for (let br = 0; br < this.Rules.decisionPoints[index].branches.length; br++) {
-          const text = this.Rules.decisionPoints[index].branches[br].label;
-          if (text.toLowerCase() === selectedValue.toLowerCase()) {
-             for (let NRD = 0; NRD < this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementReferences.length; NRD++) {
-               $(document.getElementById('div_' + this.Rules.decisionPoints[index].branches[br].notRelevantDataElements.dataElementReferences[NRD].dataElementId)).hide();
-              }
-             break;
-          }
-        }
-      }
-    }
-  }
 }
