@@ -43,8 +43,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
 
       this.simulatorState =  message as  SimulatorState;
-       console.log(this.simulatorState);
-       console.log(this.simulatorEngineService.getAllDataElementValues());
+        console.log(this.simulatorState);
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
           if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
@@ -312,7 +311,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const reportTextObj: AllReportText = new AllReportText();
         reportTextObj.sectionId = 'impression';
         reportTextObj.reportText = impressionText;
-        console.log(findingsText);
         for (let i = 0 ; i < allReportText.length; i++) {
             if (allReportText[i].sectionId === 'findings') {
               allReportText[i].reportText = findingsText;
@@ -320,8 +318,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             }
         }
         allReportText.push(reportTextObj);
-        console.log(allReportText);
-      };
+       };
 
       reportTextParser.write(endpointContent).onend();
 
@@ -396,8 +393,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                               break;
               case 'SectionIfValue':
                                     if (executeTemplate) {
-              console.log(selectedElements[node.attributes.DataElementId]);
-              if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+                      if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
                 selectedElements.forEach((selectedElement, selectedValue) => {
                   if (selectedValue === node.attributes.ComparisonValue &&
                     selectedValue !== undefined) {

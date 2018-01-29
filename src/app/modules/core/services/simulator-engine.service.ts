@@ -35,9 +35,6 @@ export class SimulatorEngineService {
   evaluateDecisionPoint(decisionPoint: DecisionPoint,  branchingLevel, nonRelevantDataElementIds: string[] = []) {
       let currentBranchCount = 0;
       const totalBranchesInDecisionPoint = decisionPoint.branches.length;
-
-
-
       for (const branch of decisionPoint.branches) {
        currentBranchCount++;
        let conditionMet = false;
@@ -45,13 +42,14 @@ export class SimulatorEngineService {
           break;
        }
        if (branch.compositeCondition !== undefined) {
-          conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-         } else if  (branch.condition !== undefined) {
-         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-        }
+            conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+          } else if  (branch.condition !== undefined) {
+            conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
+           }
+
 
          // console.log('Branch:- ' + branch.label + ', My Branching Level:-' +  branchingLevel  + ', Last Condition Met Branch Level :-' +
-         // this.lastConditionMetBranchLevel + ', Condition Met :- ' + conditionMet  + ', endOfRoadReached' + this.endOfRoadReached);
+         //  this.lastConditionMetBranchLevel + ', Condition Met :- ' + conditionMet  + ', endOfRoadReached' + this.endOfRoadReached);
         if (conditionMet) {
           this.lastConditionMetBranchLevel =  branchingLevel;
          if (nonRelevantDataElementIds === undefined) {
@@ -110,9 +108,10 @@ export class SimulatorEngineService {
   }
 
   private evaluateDecisionPoints() {
-      this.endOfRoadReached = false;
+     this.endOfRoadReached = false;
       for (const decisionPoint of this.template.rules.decisionPoints)
       {
+
         if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())){
           break;
         }
@@ -122,6 +121,8 @@ export class SimulatorEngineService {
 
   initialize(template:  Template) {
     this.template = template;
+    console.log(this.template);
+
     for (const dataElement of  this.template.dataElements) {
        this.dataElementValues[dataElement.id] = dataElement.currentValue;
     }

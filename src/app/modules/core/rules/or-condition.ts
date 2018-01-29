@@ -7,8 +7,10 @@ export class OrCondition implements CompositeCondition {
   conditions: any[] = [];
 
   evaluate(dataElementValues: DataElementValues): boolean {
+
     let returnValue = false;
-    for (const condition of this.conditions) {
+    for (let conditionCounter = 0 ;  conditionCounter < this.conditions.length ;  conditionCounter++) {
+        const condition = this.conditions[conditionCounter];
          const executedCondition = condition.evaluate(dataElementValues);
          returnValue = (returnValue || executedCondition);
          if (returnValue) {

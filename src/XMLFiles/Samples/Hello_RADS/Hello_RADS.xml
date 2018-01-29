@@ -549,7 +549,7 @@
     <Rules>
         <DecisionPoint Id="ObservationDp">
         	<Label> Observation in high-risk patient </Label>
-            <Branch>
+           <!-- <Branch>
             	<Label>Treated Observation</Label>
 				<NotRelevantDataElements>
 					<DataElementRef DataElementId="diameter"/>
@@ -609,7 +609,7 @@
                 <EqualCondition DataElementId="observationCharacter" ComparisonValue="notspecificforhcc"/>
 				<EndPointRef EndPointId="hccmEp"></EndPointRef>
             </Branch>         
-			<Branch>
+			<Branch>-->
 				<Label>Tumor in vein</Label>
 				<NotRelevantDataElements>
 					<DataElementRef DataElementId="diameter"></DataElementRef>
@@ -969,7 +969,7 @@
 					</Branch>
                 </DecisionPoint>
             </Branch>
-       		<Branch>
+       		<!--<Branch>
        		<Label>Adjust category</Label>
        			<AndCondition>
        				<NotCondition>
@@ -1009,7 +1009,7 @@
        				</Branch>
        				
        			</DecisionPoint>
-       		</Branch>
+       		</Branch>-->
         </DecisionPoint>
     </Rules>
     

@@ -10,8 +10,14 @@ export class GreaterThanCondition implements Condition {
   }
 
   evaluate(dataElementValues: DataElementValues): boolean {
-    const value = dataElementValues.get(this.conditionType.dataElementId);
-    return value > this.conditionType.comparisonValue;
+    const value = +dataElementValues.get(this.conditionType.dataElementId) as number;
+    let comparisonValue =  -1;
+    if (isNaN(this.conditionType.comparisonValue))  {
+      comparisonValue = + dataElementValues.get(this.conditionType.comparisonValue) as number;
+    } else {
+      comparisonValue =  + this.conditionType.comparisonValue as number;
+    }
+    return value > comparisonValue;
   }
 
 }

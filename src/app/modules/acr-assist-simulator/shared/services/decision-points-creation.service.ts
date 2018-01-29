@@ -33,9 +33,6 @@ export class DecisionPointsCreationService {
       branch.endPointRef.endPointId = branchJSON.EndPointRef.Attr.EndPointId;
     }
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
-
-
-
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {
         branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);

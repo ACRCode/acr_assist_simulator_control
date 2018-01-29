@@ -11,7 +11,8 @@ export class GlobalValueCreationService extends DataElementCreationBaseService {
   createElement(data: any): BaseDataElement {
    const dataElement = new GlobalValue();
    dataElement.id  = data.Attr.Id;
-   dataElement.value = data._;
+   dataElement.currentValue = data._;
+   dataElement.dataElementType = 'GlobalValue';
     return dataElement;
   }
 
