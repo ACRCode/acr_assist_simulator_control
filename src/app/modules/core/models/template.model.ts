@@ -10,6 +10,6 @@ export class Template {
   rules: Rules;
   templatePartial: string[];
   endPointsString: string[];
-  endPoints = {};
+  xmlContent: string;
 
 }
