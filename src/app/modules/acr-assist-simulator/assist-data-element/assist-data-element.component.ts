@@ -48,17 +48,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
           if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
-            dataElement.currentValue = undefined;
-            dataElement.isVisible = false;
+              dataElement.isVisible = false;
           } else {
-          dataElement.currentValue = this.dataElementValues[dataElement.id];
-          dataElement.isVisible = true;
+            dataElement.isVisible = true;
           }
         } else {
-          dataElement.currentValue = this.dataElementValues[dataElement.id];
-          dataElement.isVisible = true;
+             dataElement.isVisible = true;
         }
+        dataElement.currentValue = this.dataElementValues[dataElement.id];
       }
+
       if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
           this.generateReportText(this.simulatorState.endPointId);
       } else {

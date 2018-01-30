@@ -112,7 +112,7 @@ export class SimulatorEngineService {
       for (const decisionPoint of this.template.rules.decisionPoints)
       {
 
-        if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())){
+        if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())) {
           break;
         }
       }
