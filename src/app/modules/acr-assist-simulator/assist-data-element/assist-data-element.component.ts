@@ -32,7 +32,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
-
+  dataElementValues: Map<string, any>;
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
@@ -44,14 +44,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.simulatorState =  message as  SimulatorState;
         console.log(this.simulatorState);
+        this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
           if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
+            dataElement.currentValue = undefined;
             dataElement.isVisible = false;
           } else {
-            dataElement.isVisible = true;
+          dataElement.currentValue = this.dataElementValues[dataElement.id];
+          dataElement.isVisible = true;
           }
         } else {
+          dataElement.currentValue = this.dataElementValues[dataElement.id];
           dataElement.isVisible = true;
         }
       }
