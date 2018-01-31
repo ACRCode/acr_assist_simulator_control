@@ -28,11 +28,15 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    this.isEmptyContent =  this.templateContent === undefined || this.templateContent.length === 0;
+    if (this.isEmptyContent) {
+      return;
+    }
+
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
-    this.isEmptyContent =
-    this.templateContent === undefined ||
-    this.templateContent.length === 0;
+
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
       const element = new ImageElements();
       element.label = this.template.metadata.diagrams[index].label;

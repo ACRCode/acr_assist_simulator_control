@@ -106,16 +106,7 @@ private returnTemplatePartials(templatePartialArray: string[]): TemplatePartial[
     }
   }
 
-private getEndpoint (xmlData: string, endpointId: string) {
-  const xmlreader = require('xmlreader');
-  xmlreader.read(xmlData, function (err, res){
-    if (err) { return console.log(err); }
 
-    for (let i = 0; i < res.EndPoint.ReportTexts.ReportText.count(); i++) {
-        console.log( res.EndPoint.ReportTexts.ReportText.at(i).attributes().SectionId );
-    }
-  });
-}
 private parseToJson(xmlData: string): any {
     let jsonResult: JSON;
     const parseString =  require('xml2js').parseString;

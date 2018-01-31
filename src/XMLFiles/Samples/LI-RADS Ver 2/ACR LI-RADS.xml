@@ -192,23 +192,23 @@
 			<ChoiceInfo>
 				<Choice>
 					<Value>LR-1</Value>
-					<Label>LR 1</Label>
+					<Label>LR-1</Label>
 				</Choice>
 				<Choice>
 					<Value>LR-2</Value>
-					<Label>LR 2</Label>
+					<Label>LR-2</Label>
 				</Choice>
 				<Choice>
 					<Value>LR-3</Value>
-					<Label>LR 3</Label>
+					<Label>LR-3</Label>
 				</Choice>
 				<Choice>
 					<Value>LR-4</Value>
-					<Label>LR 4</Label>
+					<Label>LR-4</Label>
 				</Choice>
 				<Choice>
 					<Value>LR-5</Value>
-					<Label>LR 5</Label>
+					<Label>LR-5</Label>
 				</Choice>
 				<Choice>
 					<Value>LR-TIV</Value>
@@ -395,7 +395,7 @@
 					<Label>Capsule</Label>
 				</Diagram>
 				<Diagram>
-					<Location>capsule2</Location>
+					<Location>capsule2.Png</Location>
 					<Label>Capsule Size</Label>
 				</Diagram>
 			</Diagrams>
@@ -727,8 +727,6 @@
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
 		
-
-				
 		<ComputedElement Id="patternInEnhancementCE">
 			<DecisionPoint>
 				<Branch>
@@ -869,8 +867,8 @@
 					<Label>Delayed central enhancement</Label>
 				</Choice>
 				<Choice>
-					<Value>Targetoid on DWI</Value>
-					<Label>Targetoid_on_DWI</Label>
+					<Value>Targetoid_on_DWI</Value>
+					<Label>Targetoid on DWI</Label>
 				</Choice>
 				<Choice>
 					<Value>Targetoid_on_transitional_phase/hepatobiliary_phase</Value>
@@ -1277,7 +1275,6 @@
 							<DataElementRef DataElementId="patternofenhancement"/>
 							<DataElementRef DataElementId="sizeoftheenhancementComponents"/>
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
-							<DataElementRef DataElementId="irregularattheperiphery"/>
 							<DataElementRef DataElementId="IsTIVcontiguouswithaparenchymalmass"/>
 							<DataElementRef DataElementId="Isparenchymalmassinfiltrative"/>
 							<DataElementRef DataElementId="Isparenchymalmasstargetoid"/>
@@ -1316,10 +1313,8 @@
 												<Label>None</Label>
 												<!-- None / Zero Y's -->
 												<AndCondition>
-												<EqualCondition DataElementId="washout"
-												ComparisonValue="no"/>
-												<EqualCondition DataElementId="capsule"
-												ComparisonValue="no"/>
+												<EqualCondition DataElementId="washout" ComparisonValue="no"/>
+												<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
 												<OrCondition>
 													<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
 													<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
@@ -2006,6 +2001,8 @@
 
 	<EndPoints>
 
+		<!-- Template Partials start -->
+		
 		<TemplatePartial Id="adjustcategorytext">
 			<SectionIfValueNot DataElementId="adjustcategorybasedonAncillary" ComparisonValue="No">
 				<SectionIf DataElementId="ancillaryFavoringMalignancy"> LR category has been
@@ -2019,64 +2016,89 @@
 			</SectionIfValueNot>
 		</TemplatePartial>
 		
-		<TemplatePartial Id="treatedreporttext">
+		<TemplatePartial Id="treatedFindingsReporttext">
 			Treated Observation# : <InsertValue DataElementId="observationnumber"/> \n
 			Treatment method : <InsertValue DataElementId="TreatmentMethod"/> \n
 			Location :  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			\n Pretreatment category: <InsertValue DataElementId="pretreatmentCategory"/>
 			\n Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/>mm
-			<SectionIfValue DataElementId="lesionalenhancement" ComparisonValue=""> <!-- if any value present -->
-				\n Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="lesionalenhancement"/>
-			</SectionIfValue>
-			<SectionIfValue DataElementId="sizeoftheenhancementComponents" ComparisonValue=""> <!-- if any value present -->
+			<SectionIf DataElementId="irregularattheperiphery"> <!-- if any value present -->
+				\n Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
+			</SectionIf>
+			<SectionIf DataElementId="sizeoftheenhancementComponents"> <!-- if any value present -->
 				\n Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/>mm
-			</SectionIfValue>
-			<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="">
+			</SectionIf>
+			<SectionIf DataElementId="patternofenhancement">
 				\n Enhancement characteristics :
 				\n \t Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
 				\n \t Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
 				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
 					\n \t Other: Enhancement similar to pretreatment	
 				</SectionIfValue>
-			</SectionIfValue>
+			</SectionIf>
+		</TemplatePartial>
+		
+		
+		<TemplatePartial Id="treatedimpressiontext">
+			Observation# [<InsertValue DataElementId="observationnumber"/>]: 
+			<SectionIf DataElementId="sizeoftheenhancementComponents"> 
+				[<InsertValue DataElementId="sizeoftheenhancementComponents"/>]mm 
+			</SectionIf> 
+		</TemplatePartial>
+		
+		
+		<TemplatePartial Id="untreatedimpressiontext">
+			Observation# [<InsertValue DataElementId="observationnumber"/>]: 
+			<SectionIf DataElementId="pretreatmentsize" >
+				[<InsertValue DataElementId="pretreatmentsize"/>]mm
+			</SectionIf> 
 		</TemplatePartial>
 		
 		<TemplatePartial Id="untreatreporttext">
 			Observation# : <InsertValue DataElementId="observationnumber"/>
 			\n	Location :  Segment <InsertValue DataElementId="segmentlocation"/> 
-			<SectionIfValue DataElementId="diameter" ComparisonValue="">
+			<SectionIf DataElementId="diameter">
 				\n	Size : <InsertValue DataElementId="diameter"/>mm (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
-			</SectionIfValue>
-			<SectionIfValue DataElementId="arterialEnhancement" ComparisonValue="">
+			</SectionIf>
+			<SectionIf DataElementId="arterialEnhancement">
 				\n	AP Hyperenhancement : <InsertValue DataElementId="arterialEnhancement"/>
-			</SectionIfValue>
-			<SectionIfValue DataElementId="thresholdgrowth" ComparisonValue="">
+			</SectionIf>
+			<SectionIf DataElementId="thresholdgrowth" >
 				\n	Threshold Growth: <InsertValue DataElementId="thresholdgrowth"/>
-			</SectionIfValue>
-			<SectionIfValue DataElementId="washout" ComparisonValue="">
+			</SectionIf>
+			<SectionIf DataElementId="washout">
 				\n	PVP/DP Washout Appearance : <InsertValue DataElementId="washout"/>
-			</SectionIfValue>
-			<SectionIfValue DataElementId="capsule" ComparisonValue="">
+			</SectionIf>
+			<SectionIf DataElementId="capsule" >
 				\n	Capsule Appearance: <SectionIfValue DataElementId="capsule" ComparisonValue="yes">Present</SectionIfValue><SectionIfValue DataElementId="capsule" ComparisonValue="no">Absent</SectionIfValue>
-			</SectionIfValue>			
-			 <SectionIfValue DataElementId="ancillaryFavoringBenignity" ComparisonValue="">
+			</SectionIf>			
+			 <SectionIf DataElementId="ancillaryFavoringBenignity" >
 			 	\n	\t Ancillary Feature Favoring benignity : <InsertValue DataElementId="ancillaryFavoringBenignity"/>
-			 </SectionIfValue>
-			<SectionIfValue DataElementId="ancillaryFavoringMalignancy" ComparisonValue="">
+			 </SectionIf>
+			<SectionIf DataElementId="ancillaryFavoringMalignancy" >
 				\n	\t Ancillary Feature Favoring malignancy: <InsertValue DataElementId="ancillaryFavoringMalignancy"/>
-			</SectionIfValue>
+			</SectionIf>
 		</TemplatePartial>
 
+
+		<!-- Template Partials end -->
+		
+		<!-- Untreated Endpoints start -->
+		
 		<EndPoint Id="LRNC">
 			<Label>LR-NC</Label>
 			<ReportTexts>
 				<ReportText SectionId="findings">
 					<InsertPartial PartialId="untreatreporttext"/> 
-					\n	Overall Assessment: LI-RADS category [LR-NC]
+					\n	Overall Assessment: LI-RADS category [LR-NC](Noncategorizable)
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
-
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-NC](Noncategorizable) in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2089,7 +2111,11 @@
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
-
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-1](Definitely benign) in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2101,6 +2127,11 @@
 					\n	Overall Assessment: LI-RADS category [LR-2]
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-2](Probably benign) in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2115,6 +2146,11 @@
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-3] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2126,6 +2162,11 @@
 					\n	Overall Assessment: LI-RADS category[LR-4] 
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-4] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2139,6 +2180,11 @@
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-5] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2148,6 +2194,11 @@
 				<ReportText SectionId="findings">
 					<InsertPartial PartialId="untreatreporttext"/> 
 					\n	Overall Assessment: LI-RADS category [LR-TIV, Etiology uncertain]
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-TIV, Etiology uncertain] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2159,6 +2210,11 @@
 					<InsertPartial PartialId="untreatreporttext"/> 
 					\n	Overall Assessment: LI-RADS category [LR-TIV, Probably due to HCC] 
 				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-TIV, Probably due to HCC] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2169,6 +2225,11 @@
 					<InsertPartial PartialId="untreatreporttext"/> 
 					\n	Overall Assessment: LI-RADS category [LR-TIV, May be due to non-HCC malignancy]
 				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-TIV, May be due to non-HCC malignancy] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 		
@@ -2178,6 +2239,11 @@
 				<ReportText SectionId="findings">
 					<InsertPartial PartialId="untreatreporttext"/> 
 					\n	Overall Assessment: LI-RADS category [LR-TIV, Definitely due to HCC]
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-TIV, Definitely due to HCC] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2191,6 +2257,11 @@
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
 				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-M] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
@@ -2202,6 +2273,11 @@
 					\n	Overall Assessment: LI-RADS category [LR-5g]
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-5g] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2215,21 +2291,36 @@
 					<InsertPartial
 					PartialId="adjustcategorytext"/>
 				</ReportText>
+			
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="untreatedimpressiontext"/> 
+					[LR-5us] in segment 
+					[<InsertValue DataElementId="segmentlocation"/>]
+				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
+		<!-- Untreated Endpoints end -->
+		
+		<!-- Treated Endpoints start -->
+		
 		<EndPoint Id="LRTRNonevaluable">
 			<Label>LR-TR Nonevaluable</Label>
 			<ReportTexts>
 				<ReportText SectionId="findings"> 
-					<InsertPartial PartialId="treatedreporttext"/>
+					<InsertPartial PartialId="treatedFindingsReporttext"/>
 				\n	Overall Assessment: [LR-TR Nonevaluable]
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
 						( pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="treatedimpressiontext"/>
+					[LR-TR Nonevaluable]
+					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2238,14 +2329,19 @@
 			<Label>LR-TR Nonviable</Label>
 			<ReportTexts>		
 				<ReportText SectionId="findings">
-					<InsertPartial PartialId="treatedreporttext"/>
+					<InsertPartial PartialId="treatedFindingsReporttext"/>
 					\n	Overall Assessment:[LR-TR Nonviable]  					
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
 						( pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="treatedimpressiontext"/>
+					[LR-TR Nonviable] 
+					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2254,14 +2350,20 @@
 			<Label>LR-TR Equivocal</Label>
 			<ReportTexts>
 				<ReportText SectionId="findings">
-					<InsertPartial PartialId="treatedreporttext"/>
-					\n	Overall Assessment:[LR-TR Equivocal] with <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
+					<InsertPartial PartialId="treatedFindingsReporttext"/>
+					\n	Overall Assessment:[LR-TR Equivocal] 
+					<InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
 						( pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="treatedimpressiontext"/>
+					[LR-TR Equivocal]
+					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2270,18 +2372,26 @@
 			<Label>LR-TR Viable</Label>
 			<ReportTexts>
 				<ReportText SectionId="findings">
-					<InsertPartial PartialId="treatedreporttext"/>
-					\n	Overall Assessment:[LR-TR Viable] with <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
+					<InsertPartial PartialId="treatedFindingsReporttext"/>
+					\n	Overall Assessment:[LR-TR Viable] 
+					<InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
 						( pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment, <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
+				</ReportText>
+				<ReportText SectionId="impression">
+					<InsertPartial PartialId="treatedimpressiontext"/>
+					[LR-TR Viable]
+					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
 
+		<!-- Treated Endpoints end -->
+		
 	</EndPoints>
 
 </ReportingModule>

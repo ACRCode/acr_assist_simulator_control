@@ -26,6 +26,7 @@ export class DecisionPointsCreationService {
 
 
   private  returnBranch(branchJSON): Branch {
+
     const branch = new Branch();
     branch.label = branchJSON.Label;
     if (branchJSON.EndPointRef) {
@@ -60,7 +61,7 @@ export class DecisionPointsCreationService {
 
   private addDecisionPoint(decsionPointAsJSON: any , decisionPoints: DecisionPoint[]) {
      const decisionPoint = new DecisionPoint();
-     if (decsionPointAsJSON.Attr.Id) {
+      if (decsionPointAsJSON.Attr && decsionPointAsJSON.Attr.Id) {
         decisionPoint.id = decsionPointAsJSON.Attr.Id;
      }
      decisionPoint.label = decsionPointAsJSON.Label;

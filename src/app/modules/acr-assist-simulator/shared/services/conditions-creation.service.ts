@@ -134,15 +134,24 @@ export class ConditionsCreationService {
       if (!this.isComposite(compositeConditionJSON)) {
                compositeCondition.conditions = this.returnConditions(compositeConditionJSON);
       } else if (this.isHybrid(compositeConditionJSON)) {
-         const jsonKeys = Object.keys(compositeConditionJSON);
+           const jsonKeys = Object.keys(compositeConditionJSON);
          for (const jsonKey of jsonKeys) {
               const jsonValue =  compositeConditionJSON[jsonKey];
               const jsonString =  '{"' + jsonKey  + '":' + JSON.stringify(jsonValue) + '}' ;
               const jsonObject = JSON.parse(jsonString);
               if (this.isComposite(jsonObject)) {
-                this.returnInnerConditions(jsonObject, compositeCondition);
+                 this.returnInnerConditions(jsonObject, compositeCondition);
               } else {
-                compositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, jsonValue));
+                  if (this.arrayCheckerService.isArray(jsonValue)) {
+                      for (const arrayValue of  jsonValue) {
+                        compositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, arrayValue));
+                      }
+
+                  } else {
+                    compositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, jsonValue));
+                  }
+
+
               }
          }
       } else {
@@ -179,7 +188,7 @@ export class ConditionsCreationService {
        const jsonKeys = Object.keys(innerConditionsJSON);
         for ( const key of jsonKeys ) {
           const values = innerConditionsJSON[key];
-          if (this.arrayCheckerService.isArray(values)) {
+            if (this.arrayCheckerService.isArray(values)) {
                for (const value of values) {
                  const condition = this.returnCompositeConditionFromName(key);
                  compositeCondition.conditions.push(condition);
