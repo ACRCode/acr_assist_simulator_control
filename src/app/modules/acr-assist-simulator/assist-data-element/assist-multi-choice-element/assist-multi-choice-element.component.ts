@@ -20,10 +20,10 @@ export class AssistMultiChoiceElementComponent implements OnInit {
   }
 
   updateMultiChoice(elementId: string, value: string, event) {
-  const multiElement = new MultiChoiceElement();
-  if (event.currentTarget.checked) {
+    const multiElement = new MultiChoiceElement();
+    if (event.currentTarget.checked) {
       this.multiChoiceValues.push(value);
-    }else {
+    } else {
       const index = this.multiChoiceValues.indexOf(value);
       if (index > -1) {
         this.multiChoiceValues.splice(index, 1);

@@ -212,11 +212,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
           case 'SectionIfValueNot':
             if (executeTemplate) {
-                if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
-                  selectedElements[node.attributes.DataElementId] !== undefined  &&
-                  selectedElements[node.attributes.DataElementId] !== null) {
-                    canInsertText = true;
-                executeSectionIfNot = true;
+              if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+                selectedElements[node.attributes.DataElementId] !== undefined  &&
+                selectedElements[node.attributes.DataElementId] !== null) {
+                  canInsertText = true;
+                  executeSectionIfNot = true;
               } else {
                 canInsertText = false;
                 executeSectionIfNot = false;
@@ -226,11 +226,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             isMainText = false;
             break;
           case 'SectionIf':
-            if (!hasSectionNot || hasSectionNot === undefined ) {
-                canInsertText = true;
-              }
+            if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0) {
               isSectionIf = true;
-
+              canInsertText = true;
+            } else {
+              isSectionIf = false;
+              canInsertText = false;
+            }
             break;
           case 'SectionIfValue':
             if (executeTemplate) {
@@ -389,10 +391,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                     hasSectionNot = true;
 
                                     break;
-            case 'SectionIf': if (!hasSectionNot || hasSectionNot === undefined ) {
+            case 'SectionIf':
+                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0) {
+                                isSectionIf = true;
                                 canInsertText = true;
+                              } else {
+                                isSectionIf = false;
+                                canInsertText = false;
                               }
-                              isSectionIf = true;
                               break;
               case 'SectionIfValue':
                                     if (executeTemplate) {
