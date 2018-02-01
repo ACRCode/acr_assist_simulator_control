@@ -6,29 +6,41 @@ import { AllReportText, MainReportText } from '../assist-data-element/assist-dat
   templateUrl: './assist-report-text.component.html',
   styleUrls: ['../../../modules/styles.css']
 })
-export class AssistReportTextComponent implements OnInit, OnChanges {
+export class AssistReportTextComponent implements OnChanges {
 @Input() reportText: MainReportText;
-
+allReportTexts: AllReportText [] = [];
 selectedSection: string;
+mainReportTexts: MainReportText;
 ngOnChanges(changes: SimpleChanges): void {
-    this.onSelect(this.reportText.allReportText[0].sectionId);
+  this.mainReportTexts = new MainReportText();
+  this.onSelect(this.reportText.allReportText['findings'].sectionId);
 
   }
   constructor() { }
 
-  ngOnInit() {
+  // ngOnInit() {
 
-    this.onSelect(this.reportText.allReportText[0].sectionId);
-  }
+  //   this.onSelect(this.reportText.allReportText['findings'].sectionId);
+  // }
   onSelect(sectionId) {
     this.selectedSection = null;
-    for (let i = 0; i < this.reportText.allReportText.length; i++) {
-      if (this.reportText.allReportText[i].sectionId === sectionId) {
-        this.selectedSection = this.reportText.allReportText[i].reportText;
+    for (const section in this.reportText.allReportText) {
+      if (this.reportText.allReportText[section].sectionId === sectionId) {
+        this.selectedSection = this.reportText.allReportText[section].reportText;
         this.selectedSection = this.removeEmptyLine(this.selectedSection);
         break;
       }
     }
+    this.mainReportTexts = new MainReportText();
+    this.allReportTexts = [];
+    for (const section in this.reportText.allReportText) {
+      const allreportText = new AllReportText();
+      allreportText.reportText = this.reportText.allReportText[section].reportText;
+      allreportText.sectionId = this.reportText.allReportText[section].sectionId;
+      this.allReportTexts.push(allreportText);
+    }
+    this.mainReportTexts.allReportText = this.allReportTexts;
+    this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
 }
 removeEmptyLine(inputText: string): string {
     if (inputText.trim().length !== 0) {

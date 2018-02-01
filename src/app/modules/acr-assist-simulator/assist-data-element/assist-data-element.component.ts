@@ -150,19 +150,36 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         let isTextInserted: boolean;
         isTextInserted = false;
         if (executeTemplate) {
-         if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && isImpression) {
-          impressionText = impressionText + t;
-          } else if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && !isImpression) {
+        //  if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && isImpression) {
+        //   impressionText = impressionText + t;
+        //   } else if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && !isImpression) {
+        //     findingsText = findingsText + t;
+        //     } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
+        //     findingsText = findingsText + t;
+        //     isNewTemplate = false;
+        //   } else if (canInsertText && (!hasSectionNot || isNewTemplate) && isImpression) {
+        //     impressionText = impressionText + t;
+        //     isTextInserted = true;
+        //   } else if (canInsertText  && !isImpression && !isMainText) {
+        //     findingsText = findingsText + t;
+        //   }
+        if (!isImpression) {
+          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
             findingsText = findingsText + t;
-            } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
+          } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
             findingsText = findingsText + t;
-            isNewTemplate = false;
-          } else if (canInsertText && (!hasSectionNot || isNewTemplate) && isImpression) {
-            impressionText = impressionText + t;
-            isTextInserted = true;
           } else if (canInsertText  && !isImpression && !isMainText) {
             findingsText = findingsText + t;
           }
+        } else {
+          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+            impressionText = impressionText + t;
+            } else if (canInsertText && !hasSectionNot && isImpression) {
+              impressionText = impressionText + t;
+            } else if (canInsertText  && isNewTemplate) {
+              impressionText = impressionText + t;
+            }
+        }
 
           if (isReportText && !isTextInserted && isMainText) {
             reportTextContent = reportTextContent + t;
@@ -193,7 +210,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
           case 'InsertPartial' :
              if (executeTemplate) {
-                generatePartialView(node.attributes.PartialId);
+                generatePartialView(node.attributes.PartialId, isImpression);
                 // this.generatePartialView(parId);
                 executeTemplate = true;
                 canInsertText = true;
@@ -213,6 +230,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           case 'SectionIfValueNot':
             if (executeTemplate) {
               if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+                selectedElements[node.attributes.DataElementId] !== '--Select--' &&
                 selectedElements[node.attributes.DataElementId] !== undefined  &&
                 selectedElements[node.attributes.DataElementId] !== null) {
                   canInsertText = true;
@@ -297,7 +315,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               const reportTextObj: AllReportText = new AllReportText();
               reportTextObj.sectionId = 'findings';
               reportTextObj.reportText = findingsText;
-              allReportText.push(reportTextObj);
+              allReportText[reportTextObj.sectionId] = reportTextObj;
             }
             hasInsertPartial = false;
             break;
@@ -316,18 +334,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const reportTextObj: AllReportText = new AllReportText();
         reportTextObj.sectionId = 'impression';
         reportTextObj.reportText = impressionText;
-        for (let i = 0 ; i < allReportText.length; i++) {
-            if (allReportText[i].sectionId === 'findings') {
-              allReportText[i].reportText = findingsText;
-              break;
-            }
-        }
-        allReportText.push(reportTextObj);
+        // for (let i = 0 ; i < allReportText.length; i++) {
+        //     if (allReportText[i].sectionId === 'findings') {
+        //       allReportText[i].reportText = findingsText;
+        //       break;
+        //     }
+        // }
+        allReportText[reportTextObj.sectionId] = reportTextObj;
        };
 
       reportTextParser.write(endpointContent).onend();
 
-      function generatePartialView(partialViewId: string) {
+      function generatePartialView(partialViewId: string, isImpressionTemplate: boolean) {
         // this.templateIds = [];
         const sax = require('../../../../../node_modules/sax/lib/sax'),
         parser = sax.parser(strict, trim);
@@ -337,12 +355,22 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         };
         parser.ontext = function (t) {
           if (executeTemplate) {
-           if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-            findingsText = findingsText + t;
-            } else if (canInsertText && !hasSectionNot && isImpression) {
-              findingsText = findingsText + t;
-            } else if (canInsertText  && isNewTemplate) {
-              findingsText = findingsText + t;
+            if (!isImpressionTemplate) {
+              if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+                findingsText = findingsText + t;
+              } else if (canInsertText && !hasSectionNot && isImpression) {
+                findingsText = findingsText + t;
+              } else if (canInsertText  && isNewTemplate) {
+                findingsText = findingsText + t;
+              }
+            } else {
+              if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+                impressionText = impressionText + t;
+                } else if (canInsertText && !hasSectionNot && isImpression) {
+                  impressionText = impressionText + t;
+                } else if (canInsertText  && isNewTemplate) {
+                  impressionText = impressionText + t;
+                }
             }
           }
         };
@@ -379,6 +407,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                   break;
           case 'SectionIfValueNot':  if (executeTemplate) {
                                         if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+                                          selectedElements[node.attributes.DataElementId] !== '--Select--' &&
                                           selectedElements[node.attributes.DataElementId] !== undefined  &&
                                           selectedElements[node.attributes.DataElementId] !== null) {
                                         canInsertText = true;
@@ -431,14 +460,23 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                 if (executeTemplate) {
                                   insertValue = true;
                                   if (node.attributes.Id === 'findings' || canInsertText) {
-                                    if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                      findingsText = findingsText + selectedElements[node.attributes.DataElementId];
-                                    } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                                      findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
-                                    }
                                     if (isImpression) {
                                       canInsertText = true;
+                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
+                                        impressionText = impressionText + selectedElements[node.attributes.DataElementId];
+                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
+                                        impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                      }
+                                    } else {
+                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
+                                        findingsText = findingsText + selectedElements[node.attributes.DataElementId];
+                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
+                                        findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                      }
                                     }
+                                    // if (isImpression) {
+                                    //   canInsertText = true;
+                                    // }
                                   }
                                   break;
                                 }
@@ -469,7 +507,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           const reportTextObj: AllReportText = new AllReportText();
           reportTextObj.sectionId = 'findings';
           reportTextObj.reportText = findingsText;
-          allReportText.push(reportTextObj);
+          allReportText[reportTextObj.sectionId] = reportTextObj;
         };
       parser.write(templatePartialsText).onend();
 
