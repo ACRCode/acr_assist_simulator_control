@@ -22,10 +22,11 @@ export class AssistChoiceElementComponent implements OnInit {
       this.keyDiagrams[index].location =  this.imagePath + '/' + this.keyDiagrams[index].location;
     }
   }
-  choiceSelected(elementId: string, selectedValue: string) {
+  choiceSelected(elementId: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = elementId;
     choiceElement.selectedValue = selectedValue;
+    choiceElement.selectedText = selectedText;
     this.returnChoiceElement.emit(choiceElement);
   }
 

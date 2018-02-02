@@ -34,6 +34,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
   comparisonValues: string[] = [];
+  selectedChoiceValues: string[] = [];
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
@@ -72,7 +73,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   choiceSelected(receivedElement: ChoiceElement) {
-       this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId , receivedElement.selectedValue);
+    this.selectedChoiceValues[receivedElement.elementId + 'SelectedValue'] = receivedElement.selectedText;
+    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId , receivedElement.selectedValue);
   }
 
   numericSelected(receivedElement: NumericElement) {
@@ -127,9 +129,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let selectedComparisonValues: string [];
     let findingsText: string;
     let impressionText: string;
+    let selectedChoiceTexts: string[];
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
     selectedComparisonValues = this.comparisonValues;
+    selectedChoiceTexts = this.selectedChoiceValues;
     executeSectionIfNot = false;
     hasInsertPartial = false;
 
@@ -292,15 +296,31 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               if (node.attributes.Id === 'findings' || canInsertText) {
                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                   if (isImpression) {
-                    impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    } else {
+                      impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                    }
                   } else {
-                    findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    } else {
+                      findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                    }
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                   if (isImpression) {
-                    impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    } else {
+                      impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                    }
                   } else {
-                    findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    } else {
+                      findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                    }
                   }
                 }
                 if (isImpression) {
@@ -488,15 +508,35 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                     if (isImpression) {
                                       canInsertText = true;
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                        impressionText = impressionText + selectedElements[node.attributes.DataElementId];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        } else {
+                                          impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                        }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                                        impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        } else {
+                                          if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                          } else {
+                                            impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                          }
+                                        }
                                       }
                                     } else {
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                        findingsText = findingsText + selectedElements[node.attributes.DataElementId];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        } else {
+                                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                        }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                                        findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
+                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        } else {
+                                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                        }
                                       }
                                     }
                                   }
@@ -547,6 +587,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 export class ChoiceElement {
   elementId: string;
   selectedValue: string;
+  selectedText: string;
 }
 
 export class NumericElement {
