@@ -47,7 +47,7 @@ export class DecisionPointsCreationService {
                 notRelevantDataElements.dataElementReferences.push(this.createRelevantDataElementReferences(dataElementRefJSON));
               }
           } else {
-            notRelevantDataElements.dataElementReferences.push(dataElementRefs);
+            notRelevantDataElements.dataElementReferences.push(this.createRelevantDataElementReferences(dataElementRefs));
           }
           branch.notRelevantDataElements = notRelevantDataElements;
     }
@@ -75,6 +75,11 @@ export class DecisionPointsCreationService {
        } else {
         decisionPoint.branches.push(this.returnBranch(branchesJSON));
       }
+      const defaultBranchJSON = decsionPointAsJSON.DefaultBranch;
+      if (defaultBranchJSON !== undefined) {
+        decisionPoint.defaultBranch = this.createDefaultBranch(defaultBranchJSON);
+      }
+
      }
      decisionPoints.push(decisionPoint);
   }
@@ -93,5 +98,14 @@ export class DecisionPointsCreationService {
     const decisionPoints = new Array<DecisionPoint>();
     this.addDecisionPoints(data, decisionPoints);
     return decisionPoints;
+  }
+
+
+  createDefaultBranch(data: any): Branch {
+   
+    const defaultBranch: Branch  = new Branch();
+    defaultBranch.label =  'Default Branch';
+    defaultBranch.computedValue = this.computedValueCreationService.createComputedValue(data);
+    return defaultBranch;
   }
 }

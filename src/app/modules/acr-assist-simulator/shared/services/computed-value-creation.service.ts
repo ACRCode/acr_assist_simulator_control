@@ -10,11 +10,12 @@ export class ComputedValueCreationService {
 
   createComputedValue(dataAsJSON: any): ComputedValue {
 
-       if (dataAsJSON.hasOwnProperty('TextExpression')) {
-          const computedValue = new TextExpression();
+       if (dataAsJSON['TextExpression'] !== undefined) {
+         const computedValue = new TextExpression();
           computedValue.expressionText = dataAsJSON.TextExpression;
           return computedValue;
-      } else  if (dataAsJSON.hasOwnProperty('ArithmeticExpression')) { {
+      }
+      if (dataAsJSON['ArithmeticExpression'] !== undefined) { {
         const computedValue = new ArithmeticExpression();
         computedValue.expressionText = dataAsJSON.ArithmeticExpression;
         return computedValue;

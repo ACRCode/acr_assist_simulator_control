@@ -4,6 +4,7 @@ import { SimulatorState } from '../models/simulator-state.model';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { DecisionPoint } from '../models/decisionpoint.model';
 import { DataElementValues } from '../dataelementvalues';
+import { ComputedElement } from '../elements/models/computed-element-model';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -45,11 +46,10 @@ export class SimulatorEngineService {
             conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
           } else if  (branch.condition !== undefined) {
             conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-           }
+         }
 
 
-         // console.log('Branch:- ' + branch.label + ', My Branching Level:-' +  branchingLevel  + ', Last Condition Met Branch Level :-' +
-         //  this.lastConditionMetBranchLevel + ', Condition Met :- ' + conditionMet  + ', endOfRoadReached' + this.endOfRoadReached);
+        // console.log( 'Decision Point:- ' + decisionPoint.id +  ', Branch:- ' + branch.label + ', Condition Met :- ' + conditionMet);
         if (conditionMet) {
           this.lastConditionMetBranchLevel =  branchingLevel;
          if (nonRelevantDataElementIds === undefined) {
@@ -107,17 +107,80 @@ export class SimulatorEngineService {
      }
   }
 
-  private evaluateDecisionPoints() {
-     this.endOfRoadReached = false;
-      for (const decisionPoint of this.template.rules.decisionPoints)
-      {
 
+  evaluateComputedElementDecisionPoint(elementId: string , decisionPoint: DecisionPoint,  branchingLevel) {
+    let currentBranchCount = 0;
+    const totalBranchesInDecisionPoint = decisionPoint.branches.length;
+    for (const branch of decisionPoint.branches) {
+     currentBranchCount++;
+     let conditionMet = false;
+     if (this.endOfRoadReached) {
+        break;
+     }
+     if (branch.compositeCondition !== undefined) {
+          conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+        } else if  (branch.condition !== undefined) {
+          conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
+       }
+      if (conditionMet) {
+       this.lastConditionMetBranchLevel =  branchingLevel;
+       if (branch.decisionPoints !== undefined) {
+          for (const branchDecisionPoint of branch.decisionPoints) {
+              const newBranchingLevel = branchingLevel + 1;
+              this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint,  newBranchingLevel);
+             }
+       } else if (branch.computedValue !==  undefined) {
+            this.dataElementValues[elementId] = branch.computedValue.expressionText;
+            this.endOfRoadReached = true;
+            break;
+       }
+      } else {
+          if (currentBranchCount >= totalBranchesInDecisionPoint) {
+               this.endOfRoadReached  = true;
+                return ;
+         } else {
+          continue;
+         }
+      }
+
+   }
+}
+
+
+  private evaluateComputedExpressions() {
+      this.endOfRoadReached = false;
+      let expressionValue: any ;
+      for (const element of this.template.dataElements)
+      {
+            if (element.dataElementType === 'ComputedElement') {
+              expressionValue = undefined;
+              const computedElement: ComputedElement = element as ComputedElement;
+              for (const decisionPoint of  computedElement.decisionPoints) {
+                this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
+                if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
+                  decisionPoint.defaultBranch.computedValue) {
+                  this.dataElementValues[element.id] =  decisionPoint.defaultBranch.computedValue.expressionText;
+                }
+
+            }
+       }
+     }
+
+
+  }
+  private evaluateDecisionPoints() {
+     this.evaluateComputedExpressions();
+     console.log(this.dataElementValues);
+     this.endOfRoadReached = false;
+     for (const decisionPoint of this.template.rules.decisionPoints)
+      {
         if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())) {
           break;
         }
       }
 
   }
+
 
   initialize(template:  Template) {
     this.template = template;

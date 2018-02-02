@@ -24,6 +24,7 @@ export class ComputedElementCreationService extends DataElementCreationBaseServi
     if (data.DecisionPoint) {
       dataElement.decisionPoints = this.decisionPointsCreationService.createDecisionPoints(data.DecisionPoint);
     }
+
     return dataElement;
   }
 

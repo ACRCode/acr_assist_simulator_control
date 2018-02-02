@@ -33,7 +33,6 @@ export class TemplateManagerService {
    if (template === undefined) {
     throw  new Error('Unable to parse the template');
    }
-
    template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
    template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
    if (templateContentAsJSON.Rules) {

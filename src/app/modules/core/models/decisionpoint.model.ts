@@ -4,4 +4,5 @@ export class DecisionPoint {
   id: string;
   label: string;
   branches: Branch[];
+  defaultBranch: Branch;
 }
