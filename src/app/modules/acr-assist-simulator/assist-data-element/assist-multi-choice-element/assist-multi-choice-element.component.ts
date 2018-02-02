@@ -14,6 +14,7 @@ export class AssistMultiChoiceElementComponent implements OnInit {
   @Output() returnMultiChoice: EventEmitter<MultiChoiceElement> = new EventEmitter<MultiChoiceElement> ();
   multiElements: MultiChoiceElement [] = [];
   multiChoiceValues: string[] = [];
+  multiChoiceComaprisonValues: string[] = [];
   constructor() { }
 
   ngOnInit() {
@@ -23,14 +24,20 @@ export class AssistMultiChoiceElementComponent implements OnInit {
     const multiElement = new MultiChoiceElement();
     if (event.currentTarget.checked) {
       this.multiChoiceValues.push(value);
+      this.multiChoiceComaprisonValues.push(event.currentTarget.value);
     } else {
       const index = this.multiChoiceValues.indexOf(value);
+      const comparisonIndex = this.multiChoiceComaprisonValues.indexOf(event.currentTarget.value);
       if (index > -1) {
         this.multiChoiceValues.splice(index, 1);
+      }
+      if (comparisonIndex > -1) {
+        this.multiChoiceComaprisonValues.splice(comparisonIndex, 1);
       }
     }
      multiElement.elementId = elementId;
     multiElement.selectedValues = this.multiChoiceValues;
+    multiElement.selectedComparisonValues = this.multiChoiceComaprisonValues;
     this.returnMultiChoice.emit(multiElement);
   }
 

@@ -27,12 +27,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
   @Input() Rules: Rules;
-  @Input() endPointXMLString: string [];
+  @Input() endPointXMLString: string[];
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
+  comparisonValues: string[] = [];
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
@@ -80,7 +81,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   multiSelected(receivedElement: MultiChoiceElement) {
-      this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
+    this.comparisonValues[receivedElement.elementId + 'ComparisonValue'] = receivedElement.selectedComparisonValues;
+    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
   }
 
   generateReportText(endpointId: string) {
@@ -122,18 +124,19 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     const allReportText: AllReportText[] = [];
     const endpoints = this.Endpoints;
     let templatePartialsText: string [];
+    let selectedComparisonValues: string [];
     let findingsText: string;
     let impressionText: string;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
+    selectedComparisonValues = this.comparisonValues;
     executeSectionIfNot = false;
     hasInsertPartial = false;
 
     findingsText = '';
       impressionText = '';
       let isReportText: boolean;
-       // selectedElements = this.allElements;
-        let reportTextContent = '';
+      let reportTextContent = '';
       const endpointSax = require('../../../../../node_modules/sax/lib/sax'),
       strict = true,
       normalize = true, // set to false for html-mode
@@ -150,36 +153,23 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         let isTextInserted: boolean;
         isTextInserted = false;
         if (executeTemplate) {
-        //  if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && isImpression) {
-        //   impressionText = impressionText + t;
-        //   } else if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot && !isImpression) {
-        //     findingsText = findingsText + t;
-        //     } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
-        //     findingsText = findingsText + t;
-        //     isNewTemplate = false;
-        //   } else if (canInsertText && (!hasSectionNot || isNewTemplate) && isImpression) {
-        //     impressionText = impressionText + t;
-        //     isTextInserted = true;
-        //   } else if (canInsertText  && !isImpression && !isMainText) {
-        //     findingsText = findingsText + t;
-        //   }
-        if (!isImpression) {
-          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-            findingsText = findingsText + t;
-          } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
-            findingsText = findingsText + t;
-          } else if (canInsertText  && !isImpression && !isMainText) {
-            findingsText = findingsText + t;
-          }
-        } else {
-          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-            impressionText = impressionText + t;
-            } else if (canInsertText && !hasSectionNot && isImpression) {
-              impressionText = impressionText + t;
-            } else if (canInsertText  && isNewTemplate) {
-              impressionText = impressionText + t;
+          if (!isImpression) {
+            if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+              findingsText = findingsText + t;
+            } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
+              findingsText = findingsText + t;
+            } else if (canInsertText  && !isImpression && !isMainText) {
+              findingsText = findingsText + t;
             }
-        }
+          } else {
+            if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+              impressionText = impressionText + t;
+            } else if (canInsertText && !hasSectionNot && isImpression) {
+                impressionText = impressionText + t;
+              } else if (canInsertText  && isNewTemplate) {
+                  impressionText = impressionText + t;
+                }
+          }
 
           if (isReportText && !isTextInserted && isMainText) {
             reportTextContent = reportTextContent + t;
@@ -211,10 +201,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           case 'InsertPartial' :
              if (executeTemplate) {
                 generatePartialView(node.attributes.PartialId, isImpression);
-                // this.generatePartialView(parId);
                 executeTemplate = true;
                 canInsertText = true;
-                // isNewTemplate = true;
                 if (isReportText) {
                   hasInsertPartial = true;
                 } else {
@@ -229,12 +217,24 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
           case 'SectionIfValueNot':
             if (executeTemplate) {
-              if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
-                selectedElements[node.attributes.DataElementId] !== '--Select--' &&
-                selectedElements[node.attributes.DataElementId] !== undefined  &&
-                selectedElements[node.attributes.DataElementId] !== null) {
-                  canInsertText = true;
-                  executeSectionIfNot = true;
+              if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+                for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                  if (comaprisonValue !== node.attributes.ComparisonValue &&
+                    comaprisonValue !== undefined && !isSectionIf) {
+                      canInsertText = true;
+                      executeSectionIfNot = true;
+                      break;
+                  } else {
+                    canInsertText = false;
+                    executeSectionIfNot = false;
+                  }
+                }
+              } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+                  selectedElements[node.attributes.DataElementId] !== '--Select--' &&
+                  selectedElements[node.attributes.DataElementId] !== undefined  &&
+                  selectedElements[node.attributes.DataElementId] !== null) {
+                canInsertText = true;
+                executeSectionIfNot = true;
               } else {
                 canInsertText = false;
                 executeSectionIfNot = false;
@@ -254,18 +254,34 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             break;
           case 'SectionIfValue':
             if (executeTemplate) {
-              if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
-                selectedElements[node.attributes.DataElementId] !== undefined) {
-                  canInsertText = true;
-                  isSectionIf = true;
-                  if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                    impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
-                  } else  if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && !isImpression) {
-                    findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+              if (executeTemplate) {
+                if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+                  for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                    if (comaprisonValue === node.attributes.ComparisonValue &&
+                      comaprisonValue !== undefined) {
+                        isSectionIf = true;
+                        if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                        }
+                      canInsertText = true;
+                      break;
+                    } else {
+                      isSectionIf = false;
+                      canInsertText = false;
+                        }
                   }
-                } else {
-                  canInsertText = false;
-                }
+                } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
+                      selectedElements[node.attributes.DataElementId] !== undefined) {
+                      isSectionIf = true;
+                      if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                        findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                      }
+                      canInsertText = true;
+                    } else {
+                        canInsertText = false;
+                      }
+              }
+              break;
               }
               isMainText = false;
             break;
@@ -303,6 +319,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           case 'SectionIfValueNot':
             executeSectionIfNot = false;
             hasSectionNot = false;
+            if (isSectionIf) {
+              canInsertText = true;
+            }
             break;
             case 'TemplatePartial':
             isNewTemplate = false;
@@ -334,12 +353,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const reportTextObj: AllReportText = new AllReportText();
         reportTextObj.sectionId = 'impression';
         reportTextObj.reportText = impressionText;
-        // for (let i = 0 ; i < allReportText.length; i++) {
-        //     if (allReportText[i].sectionId === 'findings') {
-        //       allReportText[i].reportText = findingsText;
-        //       break;
-        //     }
-        // }
         allReportText[reportTextObj.sectionId] = reportTextObj;
        };
 
@@ -396,8 +409,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                         executeTemplate = true;
                                         canInsertText = true;
                                         isNewTemplate = true;
-                                        // templateIds[templateIds.indexOf(parId)] = '';
-
                                           break;
                                         } else {
                                         isNewTemplate = false;
@@ -406,7 +417,19 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
                                   break;
           case 'SectionIfValueNot':  if (executeTemplate) {
-                                        if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+                                      if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+                                        for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                                          if (comaprisonValue !== node.attributes.ComparisonValue &&
+                                            comaprisonValue !== undefined && !isSectionIf) {
+                                              canInsertText = true;
+                                              executeSectionIfNot = true;
+                                              break;
+                                          } else {
+                                            canInsertText = false;
+                                            executeSectionIfNot = false;
+                                          }
+                                        }
+                                      } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
                                           selectedElements[node.attributes.DataElementId] !== '--Select--' &&
                                           selectedElements[node.attributes.DataElementId] !== undefined  &&
                                           selectedElements[node.attributes.DataElementId] !== null) {
@@ -431,30 +454,32 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                               break;
               case 'SectionIfValue':
                                     if (executeTemplate) {
-                      if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-                selectedElements.forEach((selectedElement, selectedValue) => {
-                  if (selectedValue === node.attributes.ComparisonValue &&
-                    selectedValue !== undefined) {
-                      isSectionIf = true;
-                      if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                        findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
-                      }
-                    canInsertText = true;
-                  } else {
-                        canInsertText = false;
-                      }
-                });
-              } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
-                                        selectedElements[node.attributes.DataElementId] !== undefined) {
-                                          isSectionIf = true;
-                                          if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                                            findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
-                                    }
-                                    canInsertText = true;
-                                        } else {
-                                          canInsertText = false;
+                                      if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+                                        for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                                          if (comaprisonValue === node.attributes.ComparisonValue &&
+                                            comaprisonValue !== undefined) {
+                                              isSectionIf = true;
+                                              if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                                                findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                              }
+                                            canInsertText = true;
+                                            break;
+                                          } else {
+                                            isSectionIf = false;
+                                            canInsertText = false;
+                                              }
                                         }
-                                      }
+                                      } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
+                                            selectedElements[node.attributes.DataElementId] !== undefined) {
+                                            isSectionIf = true;
+                                            if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                                              findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                            }
+                                            canInsertText = true;
+                                          } else {
+                                              canInsertText = false;
+                                            }
+                                    }
                                     break;
             case 'InsertValue':
                                 if (executeTemplate) {
@@ -474,9 +499,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                         findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
                                       }
                                     }
-                                    // if (isImpression) {
-                                    //   canInsertText = true;
-                                    // }
                                   }
                                   break;
                                 }
@@ -487,6 +509,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             case 'SectionIfValueNot':
               executeSectionIfNot = false;
               hasSectionNot = false;
+              if (isSectionIf) {
+                canInsertText = true;
+              }
               break;
               case 'TemplatePartial':
               isNewTemplate = true;
@@ -532,6 +557,7 @@ export class NumericElement {
 export class MultiChoiceElement {
   elementId: string;
   selectedValues: string [];
+  selectedComparisonValues: string [];
 }
 
 export class AllElements {

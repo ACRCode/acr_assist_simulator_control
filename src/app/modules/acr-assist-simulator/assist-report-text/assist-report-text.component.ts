@@ -11,6 +11,7 @@ export class AssistReportTextComponent implements OnChanges {
 allReportTexts: AllReportText [] = [];
 selectedSection: string;
 mainReportTexts: MainReportText;
+selectedSectionId: string;
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
   this.onSelect(this.reportText.allReportText['findings'].sectionId);
@@ -18,11 +19,8 @@ ngOnChanges(changes: SimpleChanges): void {
   }
   constructor() { }
 
-  // ngOnInit() {
-
-  //   this.onSelect(this.reportText.allReportText['findings'].sectionId);
-  // }
   onSelect(sectionId) {
+    this.selectedSectionId = sectionId;
     this.selectedSection = null;
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
