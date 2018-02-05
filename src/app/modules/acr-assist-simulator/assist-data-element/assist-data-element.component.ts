@@ -45,7 +45,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
 
       this.simulatorState =  message as  SimulatorState;
-       // console.log(this.simulatorState);
+     //  console.log(this.simulatorState);
         this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {

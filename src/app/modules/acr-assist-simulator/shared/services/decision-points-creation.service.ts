@@ -26,7 +26,6 @@ export class DecisionPointsCreationService {
 
 
   private  returnBranch(branchJSON): Branch {
-
     const branch = new Branch();
     branch.label = branchJSON.Label;
     if (branchJSON.EndPointRef) {
@@ -36,7 +35,7 @@ export class DecisionPointsCreationService {
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {
-        branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);
+         branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);
     }
     if (branchJSON.NotRelevantDataElements) {
            const notRelevantDataElements = new NotRelevantDataElements();
@@ -65,7 +64,7 @@ export class DecisionPointsCreationService {
         decisionPoint.id = decsionPointAsJSON.Attr.Id;
      }
      decisionPoint.label = decsionPointAsJSON.Label;
-     const branchesJSON = decsionPointAsJSON.Branch;
+      const branchesJSON = decsionPointAsJSON.Branch;
      if (branchesJSON !== undefined) {
       decisionPoint.branches = new Array<Branch>();
       if (this.arrayCheckerService.isArray(branchesJSON))  {

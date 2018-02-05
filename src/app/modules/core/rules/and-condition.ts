@@ -6,6 +6,11 @@ import { DataElementValues } from '../dataelementvalues';
 export class AndCondition implements CompositeCondition {
   conditions: any = [];
 
+   conditionType: string;
+   constructor() {
+     this.conditionType =  'AndCondition';
+   }
+
   evaluate(dataElementValues: DataElementValues): boolean {
     let returnValue = true;
     for (let conditionCounter = 0 ;  conditionCounter < this.conditions.length ;  conditionCounter++) {

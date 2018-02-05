@@ -43,8 +43,6 @@ export class TemplateManagerService {
     template.templatePartial = this.returnEndpoints(templateContent);
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
-
-
     return template;
 
   }

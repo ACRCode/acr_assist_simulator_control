@@ -184,19 +184,52 @@ export class ConditionsCreationService {
     }
 
 
+    private  addConditionsToInnerConditions(key: any , value: any, compositeCondition: CompositeCondition) {
+
+      const condition = this.returnCompositeConditionFromName(key);
+      compositeCondition.conditions.push(condition);
+      if (this.isHybrid(value)) {
+         const jsonKeys = Object.keys(value);
+        for (const jsonKey of jsonKeys) {
+             const jsonValue =  value[jsonKey];
+             const jsonString =  '{"' + jsonKey  + '":' + JSON.stringify(jsonValue) + '}' ;
+             const jsonObject = JSON.parse(jsonString);
+             if (this.isComposite(jsonObject)) {
+                this.returnInnerConditions(jsonObject, condition);
+             } else {
+                 if (this.arrayCheckerService.isArray(jsonValue)) {
+                     for (const arrayValue of  jsonValue) {
+                      condition.conditions.push(this.returnConditionFromJSON(jsonKey, arrayValue));
+                     }
+
+                 } else {
+                  condition.conditions.push(this.returnConditionFromJSON(jsonKey, jsonValue));
+                 }
+
+
+             }
+        }
+
+      } else  if (this.isComposite(value)) {
+        console.log( 'isComposite');
+      } else {
+          condition.conditions = this.returnConditions(value);
+      }
+
+    }
+
     private returnInnerConditions(innerConditionsJSON: any, compositeCondition: CompositeCondition) {
-       const jsonKeys = Object.keys(innerConditionsJSON);
-        for ( const key of jsonKeys ) {
-          const values = innerConditionsJSON[key];
+        const jsonKeys = Object.keys(innerConditionsJSON);
+        for (const key of jsonKeys ) {
+            const values = innerConditionsJSON[key];
             if (this.arrayCheckerService.isArray(values)) {
                for (const value of values) {
-                 const condition = this.returnCompositeConditionFromName(key);
-                 compositeCondition.conditions.push(condition);
-                 if (!this.isComposite(value)) {
-                  condition.conditions = this.returnConditions(value);
-                 }
+                   this.addConditionsToInnerConditions(key, value, compositeCondition);
                }
-          }
+            } else {
+                this.addConditionsToInnerConditions(key, innerConditionsJSON[key], compositeCondition);
+              }
+            }
+
         }
     }
-}

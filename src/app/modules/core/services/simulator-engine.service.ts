@@ -123,16 +123,19 @@ export class SimulatorEngineService {
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
+
      currentBranchCount++;
      let conditionMet = false;
      if (this.endOfRoadReached) {
         break;
      }
-     if (branch.compositeCondition !== undefined) {
+      if (branch.compositeCondition !== undefined) {
           conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
         } else if  (branch.condition !== undefined) {
-          conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
+         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
        }
+
+
         if (conditionMet) {
        this.lastConditionMetBranchLevel =  branchingLevel;
        if (branch.decisionPoints !== undefined) {
@@ -168,12 +171,12 @@ export class SimulatorEngineService {
               expressionValue = undefined;
               const computedElement: ComputedElement = element as ComputedElement;
               for (const decisionPoint of  computedElement.decisionPoints) {
-                this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
+               this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
                 if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
                   decisionPoint.defaultBranch.computedValue) {
                   this.dataElementValues[element.id] =  decisionPoint.defaultBranch.computedValue.expressionText;
                 }
-
+                this.endOfRoadReached = false;
             }
        }
      }
@@ -181,9 +184,12 @@ export class SimulatorEngineService {
 
   }
   private evaluateDecisionPoints() {
+
+
      this.evaluateComputedExpressions();
-    // console.log(this.dataElementValues);
+
      this.endOfRoadReached = false;
+     console.log(this.dataElementValues);
      for (const decisionPoint of this.template.rules.decisionPoints)
       {
         if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())) {
