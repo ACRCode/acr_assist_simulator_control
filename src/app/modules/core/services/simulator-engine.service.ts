@@ -27,7 +27,7 @@ export class SimulatorEngineService {
   }
 
   getAllDataElementTexts(): Map<string, any> {
-    return this.dataElementValues;
+    return this.dataElementTexts;
   }
 
   getDataElementValue(dataElementId: string): any {
@@ -148,7 +148,8 @@ export class SimulatorEngineService {
       } else {
           if (currentBranchCount >= totalBranchesInDecisionPoint) {
                this.endOfRoadReached  = true;
-                return ;
+            this.dataElementValues[elementId] = undefined;
+            return ;
          } else {
           continue;
          }

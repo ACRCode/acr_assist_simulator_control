@@ -27,6 +27,7 @@ import { ComputedValueCreationService } from './shared/services/computed-value-c
 import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';
 import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
 import { SimulatorEngineService } from '../core/services/simulator-engine.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -37,7 +38,9 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
 @NgModule({
   imports: [
     CommonModule,
-    CoreModule
+    CoreModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: components,
   providers: [TemplateManagerService,

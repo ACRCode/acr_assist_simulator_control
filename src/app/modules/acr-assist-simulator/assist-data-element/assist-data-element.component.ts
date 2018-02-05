@@ -132,11 +132,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let selectedComparisonValues: string [];
     let findingsText: string;
     let impressionText: string;
-    let selectedChoiceTexts: string[];
+    let selectedChoiceTexts: Map<string, any>;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
     selectedComparisonValues = this.comparisonValues;
-    selectedChoiceTexts = this.selectedChoiceValues;
+    selectedChoiceTexts = this.simulatorEngineService.getAllDataElementTexts();
     executeSectionIfNot = false;
     hasInsertPartial = false;
 
@@ -225,7 +225,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           case 'SectionIfValueNot':
             if (executeTemplate) {
               if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-                for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
                   if (comaprisonValue !== node.attributes.ComparisonValue &&
                     comaprisonValue !== undefined && !isSectionIf) {
                       canInsertText = true;
@@ -263,12 +263,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             if (executeTemplate) {
               if (executeTemplate) {
                 if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-                  for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+                  for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
                     if (comaprisonValue === node.attributes.ComparisonValue &&
                       comaprisonValue !== undefined) {
                         isSectionIf = true;
                         if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                         }
                       canInsertText = true;
                       break;
@@ -281,7 +281,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                       selectedElements[node.attributes.DataElementId] !== undefined) {
                       isSectionIf = true;
                       if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                        findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                        findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                       }
                       canInsertText = true;
                     } else {
@@ -299,30 +299,30 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               if (node.attributes.Id === 'findings' || canInsertText) {
                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                   if (isImpression) {
-                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     } else {
-                      impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     }
                   } else {
-                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     } else {
-                      findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     }
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                   if (isImpression) {
-                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     } else {
-                      impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     }
                   } else {
-                    if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     } else {
-                      findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                     }
                   }
                 }
@@ -483,7 +483,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                             comaprisonValue !== undefined) {
                                               isSectionIf = true;
                                               if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                                                findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                                findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                               }
                                             canInsertText = true;
                                             break;
@@ -496,7 +496,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                             selectedElements[node.attributes.DataElementId] !== undefined) {
                                             isSectionIf = true;
                                             if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                                              findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                              findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                             }
                                             canInsertText = true;
                                           } else {
@@ -511,34 +511,34 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                     if (isImpression) {
                                       canInsertText = true;
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         } else {
-                                          impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         } else {
-                                          if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                          if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                           } else {
-                                            impressionText = impressionText + ' ' + selectedElements[node.attributes.DataElementId];
+                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                           }
                                         }
                                       }
                                     } else {
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         } else {
-                                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                          findingsText = findingsText + ' ' +  selectedChoiceTexts[node.attributes.DataElementId];
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                                        if (selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'] !== undefined) {
-                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId + 'SelectedValue'];
+                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         } else {
-                                          findingsText = findingsText + ' ' + selectedElements[node.attributes.DataElementId];
+                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
                                         }
                                       }
                                     }

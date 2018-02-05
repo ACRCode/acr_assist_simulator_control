@@ -1,22 +1,27 @@
-<div class="col-xs-12 col-sm-5 text-left content-padding">
+<form [formGroup]="numericElementForm" novalidate>
+  <div class="col-xs-12 col-sm-5 text-left content-padding">
     <label class="control-label DEElement" id="{{numericDataElement.id}}">
       {{numericDataElement.label}}
     </label>
     <ng-container *ngIf="numericDataElement.hint!=''">
-        <a>
-          <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
-        </a>
-      </ng-container>
-      <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-        <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-      </ng-container>
+      <a>
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+      <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+    </ng-container>
+    <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="required-field">
+     * Is Required.
+    </div>
   </div>
   
   <div class="col-xs-12 col-sm-7 text-left content-padding">
       <div class="row">
           <div class="col-sm-12">
-            <input id="{{numericDataElement.id}}" type="number" class="form-control" name="{{numericDataElement.id}}"
+            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
               (keyup)="choiceSelected($event.target)" required>
           </div>
         </div>
   </div>
+</form>

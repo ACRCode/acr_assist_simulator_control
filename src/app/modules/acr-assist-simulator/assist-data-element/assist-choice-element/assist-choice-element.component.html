@@ -1,6 +1,7 @@
 <canvas id='Can-ImgMap'>
 
 </canvas>
+<form [formGroup]="choiceElementForm" novalidate>
 <div class="col-xs-12 col-sm-5 text-left content-padding">
   <label class="control-label DEElement" id="{{choiceDataElement.id}}">
     {{choiceDataElement.label}}
@@ -13,6 +14,9 @@
     <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
+    <div *ngIf="choiceElementForm.controls['checkBox'].invalid" class="required-field">
+     * Is Required.
+    </div>
 </div>
 
 <div class="col-xs-12 col-sm-7 text-left content-padding">
@@ -25,7 +29,7 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -37,7 +41,7 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -47,8 +51,8 @@
         </ng-container>
         <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
           <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
-            <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target)">
-              <option [value]="Select">--Select--</option>
+              <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target)" formControlName="checkBox">
+                <option [value]="Select" [selected]="true">--Select--</option>
               <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
             </select>
           </ng-container>
@@ -57,7 +61,7 @@
               <div id="radio-inline">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" name="{{choiceDataElement.id}}" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -77,3 +81,4 @@
     </ng-container>
   </div>
 </div>
+</form>

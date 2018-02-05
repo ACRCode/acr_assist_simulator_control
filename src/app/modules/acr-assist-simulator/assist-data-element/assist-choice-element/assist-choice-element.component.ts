@@ -4,6 +4,7 @@ import { ChoiceDataElement } from '../../../core/elements/models/choice-data-ele
 import { ChoiceElement } from '../assist-data-element.component';
 import { Rules } from '../../../core/rules/models/rules.model';
 const $ = require('jquery');
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'acr-assist-choice-element',
   templateUrl: './assist-choice-element.component.html',
@@ -15,7 +16,10 @@ export class AssistChoiceElementComponent implements OnInit {
   @Input() Rules: Rules;
   @Input() keyDiagrams: ImageElements[];
   @Output() returnChoiceElement: EventEmitter<ChoiceElement> = new EventEmitter<ChoiceElement>();
-  constructor() { }
+  choiceElementForm: FormGroup;
+  constructor(private formBuilder: FormBuilder) {
+    this.createChoiceElementForm();
+  }
 
   ngOnInit() {
     for (let index = 0; index < this.keyDiagrams.length; index++) {
@@ -34,6 +38,26 @@ export class AssistChoiceElementComponent implements OnInit {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
+    choiceElement.selectedText = element.selectedOptions[0].label;
     this.returnChoiceElement.emit(choiceElement);
    }
+
+  private createChoiceElementForm() {
+    this.choiceElementForm = this.formBuilder.group({
+      checkBox: ['', Validators.required],
+    }, {
+      validator: this.specificValueInsideRange('checkBox')
+    });
+  }
+
+  private specificValueInsideRange(checkBoxKey: string) {
+    return (group: FormGroup) => {
+      const choiceControl = group.controls[checkBoxKey];
+      if (choiceControl.value === 'undefined' || choiceControl.value === '') {
+        return choiceControl.setErrors({ notEquivalent: true });
+      }else {
+        return choiceControl.setErrors(null);
+      }
+    };
+  }
 }

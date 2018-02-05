@@ -1,24 +1,27 @@
-<div class="col-xs-12 col-sm-5 text-left content-padding">
+<form [formGroup]="multiChoiceElementForm" novalidate>
+  <div class="col-xs-12 col-sm-5 text-left content-padding">
     <label class="control-label DEElement" id="{{multiChoiceElement.id}}">
       {{multiChoiceElement.label}}
     </label>
     <ng-container *ngIf="multiChoiceElement.hint!=''">
-        <a>
-          <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{multiChoiceElement.hint}}"></span>
-        </a>
-      </ng-container>
-      <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
-        <acr-hint-diagram [DataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
-      </ng-container>
+      <a>
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{multiChoiceElement.hint}}"></span>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
+      <acr-hint-diagram [DataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
+    </ng-container>
+    <div *ngIf="multiChoiceElementForm.controls['checkBox'].invalid || !multiChoiceValues.length" class="required-field">
+      * Is Required.
+    </div>
   </div>
-  
   <div class="col-xs-12 col-sm-7 text-left content-padding">
     <div class="row">
       <div class="col-sm-12">
         <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo">
           <div class="checkbox">
             <label>
-              <input type="checkbox" value={{choice.value}} (change)="updateMultiChoice(multiChoiceElement.id, choice.label, $event)">
+              <input type="checkbox" value={{choice.value}} formControlName="checkBox" (change)="updateMultiChoice(multiChoiceElement.id, choice.label, $event)">
               <span> {{choice.label}}</span>
             </label>
           </div>
@@ -26,3 +29,4 @@
       </div>
     </div>
   </div>
+</form>

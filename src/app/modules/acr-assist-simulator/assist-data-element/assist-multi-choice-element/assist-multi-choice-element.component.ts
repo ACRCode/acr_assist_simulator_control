@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { MultiChoiceDataElement } from '../../../core/elements/models/multi-choice-data-element';
 import { MultiChoiceElement } from '../assist-data-element.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
@@ -15,8 +16,10 @@ export class AssistMultiChoiceElementComponent implements OnInit {
   multiElements: MultiChoiceElement [] = [];
   multiChoiceValues: string[] = [];
   multiChoiceComaprisonValues: string[] = [];
-  constructor() { }
-
+  multiChoiceElementForm: FormGroup;
+  constructor(private formBuilder: FormBuilder) {
+    this.createMultiChoiceElementForm();
+  }
   ngOnInit() {
   }
 
@@ -39,6 +42,12 @@ export class AssistMultiChoiceElementComponent implements OnInit {
     multiElement.selectedValues = this.multiChoiceValues;
     multiElement.selectedComparisonValues = this.multiChoiceComaprisonValues;
     this.returnMultiChoice.emit(multiElement);
+  }
+
+  private createMultiChoiceElementForm() {
+    this.multiChoiceElementForm = this.formBuilder.group({
+      checkBox: ['', Validators.required ],
+    });
   }
 
 }
