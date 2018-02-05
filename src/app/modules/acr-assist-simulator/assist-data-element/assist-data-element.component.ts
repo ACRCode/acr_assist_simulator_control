@@ -45,7 +45,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
 
       this.simulatorState =  message as  SimulatorState;
-        console.log(this.simulatorState);
+       // console.log(this.simulatorState);
         this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
@@ -74,17 +74,20 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   choiceSelected(receivedElement: ChoiceElement) {
     this.selectedChoiceValues[receivedElement.elementId + 'SelectedValue'] = receivedElement.selectedText;
-    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId , receivedElement.selectedValue);
+    this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId , receivedElement.selectedValue ,
+      receivedElement.selectedText);
   }
 
   numericSelected(receivedElement: NumericElement) {
 
-     this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValue);
+     this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId, receivedElement.selectedValue ,
+      receivedElement.selectedValue);
   }
 
   multiSelected(receivedElement: MultiChoiceElement) {
     this.comparisonValues[receivedElement.elementId + 'ComparisonValue'] = receivedElement.selectedComparisonValues;
-    this.simulatorEngineService.addOrUpdateDataElementValue(receivedElement.elementId, receivedElement.selectedValues);
+    this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId, receivedElement.selectedComparisonValues ,
+      receivedElement.selectedValues);
   }
 
   generateReportText(endpointId: string) {

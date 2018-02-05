@@ -102,7 +102,6 @@ export class DecisionPointsCreationService {
 
 
   createDefaultBranch(data: any): Branch {
-   
     const defaultBranch: Branch  = new Branch();
     defaultBranch.label =  'Default Branch';
     defaultBranch.computedValue = this.computedValueCreationService.createComputedValue(data);

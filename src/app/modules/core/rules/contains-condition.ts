@@ -10,10 +10,10 @@ export class ContainsCondition implements Condition {
     }
 
    evaluate(dataElementValues: DataElementValues): boolean {
-    const returnValue = false;
+    let returnValue = false;
     const value = dataElementValues.get(this.conditionType.dataElementId);
-    if (value instanceof Array) {
-       return value.indexOf(this.conditionType.comparisonValue) >= 0;
+    if (value !== undefined) {
+      returnValue =  value.indexOf(this.conditionType.comparisonValue) >= 0;
     }
     return returnValue;
   }

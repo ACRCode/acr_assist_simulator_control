@@ -11,6 +11,7 @@ export class SimulatorEngineService {
 
   private template:  Template;
   private dataElementValues: Map<string, any>;
+  private dataElementTexts: Map<string, any>;
   private endOfRoadReached = false;
   private lastConditionMetBranchLevel = 1;
 
@@ -18,9 +19,14 @@ export class SimulatorEngineService {
 
   constructor() {
     this. dataElementValues = new Map<string, any>();
+    this.dataElementTexts = new Map<string, any>();
   }
 
   getAllDataElementValues(): Map<string, any> {
+    return this.dataElementValues;
+  }
+
+  getAllDataElementTexts(): Map<string, any> {
     return this.dataElementValues;
   }
 
@@ -28,8 +34,13 @@ export class SimulatorEngineService {
     return this.dataElementValues[dataElementId];
   }
 
-  addOrUpdateDataElementValue(dataElementId: string, value: any) {
+  getDataElementText(dataElementId: string): any {
+    return this.dataElementTexts[dataElementId];
+  }
+
+  addOrUpdateDataElement(dataElementId: string, value: any , text: any) {
     this.dataElementValues[dataElementId] = value;
+    this.dataElementTexts[dataElementId] = text;
     this.evaluateDecisionPoints();
   }
 
@@ -122,7 +133,7 @@ export class SimulatorEngineService {
         } else if  (branch.condition !== undefined) {
           conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
        }
-      if (conditionMet) {
+        if (conditionMet) {
        this.lastConditionMetBranchLevel =  branchingLevel;
        if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
@@ -170,7 +181,7 @@ export class SimulatorEngineService {
   }
   private evaluateDecisionPoints() {
      this.evaluateComputedExpressions();
-     console.log(this.dataElementValues);
+    // console.log(this.dataElementValues);
      this.endOfRoadReached = false;
      for (const decisionPoint of this.template.rules.decisionPoints)
       {
@@ -184,7 +195,7 @@ export class SimulatorEngineService {
 
   initialize(template:  Template) {
     this.template = template;
-    console.log(this.template);
+   // console.log(this.template);
 
     for (const dataElement of  this.template.dataElements) {
        this.dataElementValues[dataElement.id] = dataElement.currentValue;
