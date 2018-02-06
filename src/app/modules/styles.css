@@ -947,7 +947,8 @@ h3 {
 
 .reportText-content {
   white-space: pre-line; 
-  font-weight: bold
+  font-weight: bold;
+  margin-top: -60px;
 }
 
 .reportText-main-content{

@@ -11,8 +11,12 @@
         </div>
         <div class="panel-body" >
             <div class="reportText-content">
-                {{reportText.reportTextMainContent}}
-                {{selectedSection}}
+                <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined">
+                    {{reportText.reportTextMainContent}}
+                </div>
+                <div>
+                    {{selectedSection}}
+                </div>
             </div>
         </div>
     </div>

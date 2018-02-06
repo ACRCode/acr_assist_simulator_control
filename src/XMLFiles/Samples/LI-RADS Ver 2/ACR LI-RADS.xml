@@ -2048,9 +2048,7 @@
 		
 		
 		<TemplatePartial Id="untreatedimpressiontext">
-			Observation# [<InsertValue DataElementId="observationnumber"/>]: 
-			<SectionIf DataElementId="pretreatmentsize" >
-				[<InsertValue DataElementId="pretreatmentsize"/>]mm
+			Observation# [<InsertValue DataElementId="observationnumber"/>]:  <SectionIf DataElementId="pretreatmentsize" >[<InsertValue DataElementId="pretreatmentsize"/>]mm
 			</SectionIf> 
 		</TemplatePartial>
 		
@@ -2070,7 +2068,8 @@
 					PVP/DP Washout Appearance : <InsertValue DataElementId="washout"/>
 			</SectionIf>
 			<SectionIf DataElementId="capsule" >
-					Capsule Appearance: <SectionIfValue DataElementId="capsule" ComparisonValue="yes">Present</SectionIfValue><SectionIfValue DataElementId="capsule" ComparisonValue="no">Absent</SectionIfValue>
+					Capsule Appearance: <SectionIfValue DataElementId="capsule" ComparisonValue="yes">Present
+					</SectionIfValue><SectionIfValue DataElementId="capsule" ComparisonValue="no">Absent</SectionIfValue>
 			</SectionIf>			
 			 <SectionIf DataElementId="ancillaryFavoringBenignity" >
 			 	 Ancillary Feature Favoring benignity : <InsertValue DataElementId="ancillaryFavoringBenignity"/>
@@ -2096,8 +2095,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-NC](Noncategorizable) in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-NC](Noncategorizable) in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2113,8 +2111,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-1](Definitely benign) in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-1](Definitely benign) in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2130,8 +2127,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-2](Probably benign) in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-2](Probably benign) in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2148,8 +2144,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-3] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-3] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2165,8 +2160,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-4] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-4] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2182,8 +2176,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-5] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-5] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2197,8 +2190,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-TIV, Etiology uncertain] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-TIV, Etiology uncertain] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2212,8 +2204,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-TIV, Probably due to HCC] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-TIV, Probably due to HCC] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2227,8 +2218,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-TIV, May be due to non-HCC malignancy] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-TIV, May be due to non-HCC malignancy] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2242,8 +2232,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-TIV, Definitely due to HCC] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-TIV, Definitely due to HCC] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2259,8 +2248,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-M] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-M] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2276,8 +2264,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-5g] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-5g] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2294,8 +2281,7 @@
 			
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="untreatedimpressiontext"/> 
-					[LR-5us] in segment 
-					[<InsertValue DataElementId="segmentlocation"/>]
+					[LR-5us] in segment [<InsertValue DataElementId="segmentlocation"/>]
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2319,8 +2305,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Nonevaluable]
-					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Nonevaluable] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2340,8 +2325,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Nonviable] 
-					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Nonviable] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2362,8 +2346,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Equivocal]
-					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Equivocal] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2384,8 +2367,7 @@
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Viable]
-					( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Viable] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
