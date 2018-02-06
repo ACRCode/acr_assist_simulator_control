@@ -202,7 +202,7 @@ export class SimulatorEngineService {
 
   initialize(template:  Template) {
     this.template = template;
-   // console.log(this.template);
+    console.log(this.template);
 
     for (const dataElement of  this.template.dataElements) {
        this.dataElementValues[dataElement.id] = dataElement.currentValue;

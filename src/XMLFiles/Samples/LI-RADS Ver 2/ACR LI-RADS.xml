@@ -758,19 +758,28 @@
 						<AndCondition>
 							<EqualCondition DataElementId="washout" ComparisonValue="yes"/>
 							<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
-							<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+							 <OrCondition>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
+							 </OrCondition>								
 						</AndCondition>
 						
 						<AndCondition>
 							<EqualCondition DataElementId="washout" ComparisonValue="no"/>
 							<EqualCondition DataElementId="capsule" ComparisonValue="yes"/>
-							<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+							<OrCondition>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
+							 </OrCondition>	
 						</AndCondition>
 						
 						<AndCondition>
 							<EqualCondition DataElementId="washout" ComparisonValue="no"/>
 							<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
-							<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="yes"/>
+							<OrCondition>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
+							 </OrCondition>	
 						</AndCondition>
 					</OrCondition>
 					<TextExpression>one</TextExpression>
