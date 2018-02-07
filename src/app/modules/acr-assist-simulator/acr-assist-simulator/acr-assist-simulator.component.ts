@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
-import { SettingsService } from '../../simulator/shared/services/settings.service';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';

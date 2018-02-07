@@ -11,7 +11,7 @@ import {MultipleChoiceDataElementCreationService} from './shared/services/multip
 import {NumericDataElementCreationService} from './shared/services/numeric-data-element-creation.service';
 import {IntegerDataElementCreationService} from './shared/services/integer-data-element-creation.service';
 import { AssistDataElementComponent } from './assist-data-element/assist-data-element.component';
-import { HintDiagramComponent } from '../simulator/hint-diagram/hint-diagram.component';
+import { HintDiagramComponent } from './assist-data-element/hint-diagram/hint-diagram.component';
 import { SlideComponent } from 'ng2-bootstrap/carousel/slide.component';
 import { GlobalValueCreationService } from './shared/services/global-value-creation.service';
 import { ArrayCheckerService } from './shared/services/array-checker.service';
@@ -21,7 +21,7 @@ import { CarouselConfig } from 'ng2-bootstrap/carousel/carousel.config';
 import { AssistNumericElementComponent } from './assist-data-element/assist-numeric-element/assist-numeric-element.component';
 import { AssistChoiceElementComponent } from './assist-data-element/assist-choice-element/assist-choice-element.component';
 import { AssistMultiChoiceElementComponent } from './assist-data-element/assist-multi-choice-element/assist-multi-choice-element.component';
-import { ImageMapComponent } from '../simulator/image-map/image-map.component';
+import { ImageMapComponent } from './assist-data-element/image-map/image-map.component';
 import { DecisionPointsCreationService } from './shared/services/decision-points-creation.service';
 import { ComputedValueCreationService } from './shared/services/computed-value-creation.service';
 import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';

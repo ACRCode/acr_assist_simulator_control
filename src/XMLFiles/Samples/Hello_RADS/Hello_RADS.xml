@@ -76,7 +76,7 @@
     		<Hint> Observation : Area with imaging features that differ from those of adjacent liver parenchyma \r\n high risk patient:in whom the incidence of HCC is sufficient to justify screening or surveillance according to AASLD guidelines  </Hint>
     		<Diagrams>
     			<Diagram>
-    				<Location>observation.png</Location>
+    				<Location>observation.PNG</Location>
     				<Label>observation</Label>
     			</Diagram>
     		</Diagrams>
@@ -186,23 +186,23 @@
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
     			<Diagram>
-    				<Location>diameter1.png</Location>
+    				<Location>diameter1.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>diameter2.png</Location>
+    				<Location>diameter2.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>diameter3.png</Location>
+    				<Location>diameter3.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>diameter4.png</Location>
+    				<Location>diameter4.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>diameter5.png</Location>
+    				<Location>diameter5.PNG</Location>
     				<Label></Label>
     			</Diagram>
     		</Diagrams>
@@ -284,51 +284,51 @@
     		<Hint>Imaging features that modify likelihood of HCC. In isolation, these features do not permit reliable categorization of observations and hence are considered ancillary.</Hint>
     		<Diagrams>
     			<Diagram>
-    				<Location>AF_favoringMal1.png</Location>
+    				<Location>AF_favoringMal1.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal2.png</Location>
+    				<Location>AF_favoringMal2.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal3.png</Location>
+    				<Location>AF_favoringMal3.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal4.png</Location>
+    				<Location>AF_favoringMal4.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal5.png</Location>
+    				<Location>AF_favoringMal5.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal6.png</Location>
+    				<Location>AF_favoringMal6.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal7.png</Location>
+    				<Location>AF_favoringMal7.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal8.png</Location>
+    				<Location>AF_favoringMal8.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal9.png</Location>
+    				<Location>AF_favoringMal9.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal10.png</Location>
+    				<Location>AF_favoringMal10.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal11.png</Location>
+    				<Location>AF_favoringMal11.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>
-    				<Location>AF_favoringMal12.png</Location>
+    				<Location>AF_favoringMal12.PNG</Location>
     				<Label></Label>
     			</Diagram>
     		</Diagrams>
@@ -496,7 +496,7 @@
     		<Label>Do you want to adjust category based on ancillary features? </Label>
     		<Diagrams>
     			<Diagram>
-    				<Location>AF1.png</Location>
+    				<Location>AF1.PNG</Location>
     				<Label></Label>
     			</Diagram>
     			<Diagram>

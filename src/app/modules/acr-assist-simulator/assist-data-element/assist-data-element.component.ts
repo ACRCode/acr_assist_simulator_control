@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { DataElement } from '../../simulator/shared/models/data-element.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import {Template} from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
-import { EndPoint } from '../../simulator/shared/models/endpoint.model';
 import { EndPointRef } from '../../core/models/endpointref.model';
 import { Rules } from '../../core/rules/models/rules.model';
 import { SectionIfValueNotCondition } from '../../core/endpoint/section-if-value-not-condition';

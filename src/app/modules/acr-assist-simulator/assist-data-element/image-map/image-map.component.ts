@@ -1,13 +1,13 @@
 import { Component, OnInit , Input} from '@angular/core';
-import { DataElement } from '../shared/models/data-element.model';
-import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+import { DataElement } from '../../../core/models/data-element.model';
+import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 
 declare var require: any;
 
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
-  styleUrls: ['../../styles.css']
+  styleUrls: ['../../../../modules/styles.css']
 })
 
 export class ImageMapComponent  implements OnInit {

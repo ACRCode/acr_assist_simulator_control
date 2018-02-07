@@ -23,7 +23,7 @@
         "styles.css"
       ],
       "scripts": [
-        "app/modules/simulator/shared/utils/xmlinit.js"
+        "assets/utils/xmlinit.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
