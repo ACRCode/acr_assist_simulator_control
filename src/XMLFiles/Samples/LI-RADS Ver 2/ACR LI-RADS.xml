@@ -761,13 +761,13 @@
 							 <OrCondition>
 								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
 								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
-							 </OrCondition>								
+							 </OrCondition>	
 						</AndCondition>
 						
 						<AndCondition>
 							<EqualCondition DataElementId="washout" ComparisonValue="no"/>
 							<EqualCondition DataElementId="capsule" ComparisonValue="yes"/>
-							<OrCondition>
+							 <OrCondition>
 								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
 								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
 							 </OrCondition>	
@@ -776,10 +776,7 @@
 						<AndCondition>
 							<EqualCondition DataElementId="washout" ComparisonValue="no"/>
 							<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
-							<OrCondition>
-								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
-								<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
-							 </OrCondition>	
+							<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="yes"/>
 						</AndCondition>
 					</OrCondition>
 					<TextExpression>one</TextExpression>
@@ -939,7 +936,7 @@
 				<EqualCondition DataElementId="observationinPatient" ComparisonValue="treated"/>
 						
 				<DecisionPoint Id="treatedObservationDp">
-					<Label>LR-TR Nonevaluable</Label>
+					<Label>Treated observation behavior</Label>
 					<Branch>
 						<Label>If treatment response cannot be evaluated due image degradation or omission</Label>
 						<NotRelevantDataElements>
@@ -954,7 +951,7 @@
 						<EndPointRef EndPointId="LRTRNonevaluable"/>
 					</Branch>
 					<Branch>
-						<Label>otherwise</Label>
+						<Label>Otherwise</Label>
 						<EqualCondition DataElementId="treatedobservation" ComparisonValue="otherwise"/>
 						<DecisionPoint Id="lesionalenhancementDp">
 							<Label>Is there lesional enhancement?</Label>
@@ -992,12 +989,12 @@
 												<DecisionPoint Id="patterenenhancementdp">
 													<Label>Pattern of enhancement</Label>
 													<Branch>
-														<Label>No</Label>
+														<Label>No Selection</Label>
 														<EqualCondition DataElementId="patternInEnhancementCE" ComparisonValue="none"/>
 														<EndPointRef EndPointId="LRTREquivoca"></EndPointRef>
 													</Branch>
 													<Branch>
-														<Label>Yes</Label>
+														<Label>At least one selected</Label>
 														<EqualCondition DataElementId="patternInEnhancementCE" ComparisonValue="morethanone"/>
 														<EndPointRef EndPointId="LRTRViable"></EndPointRef>
 													</Branch>
@@ -1102,7 +1099,7 @@
 							ComparisonValue="tumorInVein"/>
 			
 							<DecisionPoint Id="istheretumorinveinDp">
-								<Label>Is TIV contiguous with a parenchymal mass</Label>
+								<Label>Is TIV contiguous with a parenchymal mass?</Label>
 								<Branch>
 										<Label>Yes</Label>
 										<EqualCondition DataElementId="IsTIVcontiguouswithaparenchymalmass" ComparisonValue="yes"/>
@@ -1276,7 +1273,7 @@
 					</Branch>
 
 					<Branch>
-						<Label>None of the above </Label>
+						<Label>Otherwise</Label>
 						<NotRelevantDataElements>
 							<DataElementRef DataElementId="lesionalenhancement"/>
 							<DataElementRef DataElementId="enhancementisexpectedpattern"/>
@@ -1296,9 +1293,9 @@
 						<EqualCondition DataElementId="untreatedobservation" ComparisonValue="nonofabove"/>
 						
 						<DecisionPoint Id="ArterialphaseDp">
-							<Label>Arterial phase hyperenhancement (APHE) </Label>
+							<Label>Arterial phase hyperenhancement (APHE) / Do you want to adjust category based on ancillary features? </Label>
 							<Branch>
-								<Label>APHE (not rim)</Label>
+								<Label>APHE / No </Label>
 								<!-- NO APHE -->
 								<AndCondition>
 								<EqualCondition DataElementId="arterialEnhancement" ComparisonValue="aphe"/>
@@ -1306,7 +1303,7 @@
 								</AndCondition>
 								
 								<DecisionPoint Id="diameterDp">
-									<Label>Diameter</Label>
+									<Label>Observation size (mm)</Label>
 									<Branch>
 										<Label>&lt; 10</Label>
 										<NotRelevantDataElements>
@@ -1322,8 +1319,8 @@
 												<Label>None</Label>
 												<!-- None / Zero Y's -->
 												<AndCondition>
-												<EqualCondition DataElementId="washout" ComparisonValue="no"/>
-												<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
+												<EqualCondition DataElementId="washout"	ComparisonValue="no"/>
+												<EqualCondition DataElementId="capsule"	ComparisonValue="no"/>
 												<OrCondition>
 													<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
 													<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
@@ -1332,40 +1329,38 @@
 												<EndPointRef EndPointId="LR3"/>
 											</Branch>
 											<Branch>
-												<Label>One</Label>
+												<Label>One </Label>
 												<!-- One / One Y -->
 												<OrCondition>
-												<AndCondition>
-												<EqualCondition DataElementId="washout"
-												ComparisonValue="yes"/>
-												<!-- Washout = Yes -->
-												<EqualCondition DataElementId="capsule"
-												ComparisonValue="no"/>
-													<OrCondition>
-														<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
-														<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
-													</OrCondition>
-												</AndCondition>
-												<AndCondition>
-												<EqualCondition DataElementId="washout"
-												ComparisonValue="no"/>
-												<!-- Capsule = Yes -->
-												<EqualCondition DataElementId="capsule"
-												ComparisonValue="yes"/>
-													<OrCondition>
-														<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
-														<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
-													</OrCondition>
-												</AndCondition>
-												<AndCondition>
-												<EqualCondition DataElementId="washout"
-												ComparisonValue="no"/>
-												<!-- Thresholdgrowth = Yes -->
-												<EqualCondition DataElementId="capsule"
-												ComparisonValue="no"/>
-												<EqualCondition DataElementId="thresholdgrowth"
-												ComparisonValue="yes"/>
-												</AndCondition>
+													<AndCondition>
+														<EqualCondition DataElementId="washout"	ComparisonValue="yes"/>
+														<!-- Washout = Yes -->
+														<EqualCondition DataElementId="capsule"	ComparisonValue="no"/>
+															<OrCondition>
+																<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+																<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
+															</OrCondition>
+													</AndCondition>
+													<AndCondition>
+														<EqualCondition DataElementId="washout"
+														ComparisonValue="no"/>
+														<!-- Capsule = Yes -->
+														<EqualCondition DataElementId="capsule"
+														ComparisonValue="yes"/>
+															<OrCondition>
+																<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="no"/>
+																<EqualCondition DataElementId="thresholdgrowth" ComparisonValue="na"/>
+															</OrCondition>
+													</AndCondition>
+													<AndCondition>
+														<EqualCondition DataElementId="washout"
+														ComparisonValue="no"/>
+														<!-- Thresholdgrowth = Yes -->
+														<EqualCondition DataElementId="capsule"
+														ComparisonValue="no"/>
+														<EqualCondition DataElementId="thresholdgrowth"
+														ComparisonValue="yes"/>
+													</AndCondition>
 												</OrCondition>
 												<EndPointRef EndPointId="LR4"/>
 											</Branch>
@@ -1489,7 +1484,7 @@
 														<Label>Yes</Label>
 														<EqualCondition DataElementId="arterialEnhancement" ComparisonValue="aphe"/>
 														<DecisionPoint Id="aphefeatures">
-															<Label>How many features present</Label>
+															<Label>washout / capsule / thresholdgrowth</Label>
 															<Branch>
 																<Label>More than two</Label>
 																<EqualCondition DataElementId="washoutcapsulethreshold" ComparisonValue="twoormore"/>
@@ -1521,7 +1516,7 @@
 																		</DecisionPoint>
 																	</Branch>
 																	<Branch>
-																		<Label>TG Present</Label>
+																		<Label>Thresholdgrowth Present</Label>
 																		<NotRelevantDataElements>
 																			<DataElementRef DataElementId="HistoryofVisibilityonUS"></DataElementRef>
 																		</NotRelevantDataElements>
@@ -1722,7 +1717,7 @@
 								</DecisionPoint>
 							</Branch>
 							<Branch>
-								<Label>NO APHE</Label>
+								<Label>NO APHE / No</Label>
 								<NotRelevantDataElements>
 									<DataElementRef DataElementId="sixeincreatein6months"/>
 									<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
@@ -1734,7 +1729,7 @@
 								</AndCondition>
 								
 								<DecisionPoint Id="DiameterDp2">
-									<Label>Diameter</Label>
+									<Label>Observation size (mm)</Label>
 									<Branch>
 										<Label>&lt; 20</Label>
 										<!-- Diameter < 20 -->
@@ -1952,7 +1947,7 @@
 								</DecisionPoint>
 							</Branch>
 							<Branch>
-								<Label>Adjust category</Label>
+								<Label> Any / Adjust category</Label>
 								<NotRelevantDataElements>
 									<DataElementRef DataElementId="sixeincreatein6months"/>
 									<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
@@ -1964,36 +1959,43 @@
 								<DecisionPoint Id="AdjustcategoryDp">
 									<Label>Adjust category</Label>
 									<Branch>
+									<Label>Upgrade to LR-2</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Upgradetohcc2"/>
 										<EndPointRef EndPointId="LR2"/>
 									</Branch>
 									<Branch>
+									<Label>Upgrade to LR-3</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Upgradetohcc3"/>
 										<EndPointRef EndPointId="LR3"/>
 									</Branch>
 									<Branch>
+									<Label>Upgrade to LR-4</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Upgradetohcc4"/>
 										<EndPointRef EndPointId="LR4"/>
 									</Branch>
 									<Branch>
+									<Label>Downgrade to LR-4</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Downgradetohcc4"/>
 										<EndPointRef EndPointId="LR4"/>
 									</Branch>
 									<Branch>
+										<Label>Downgrade to LR-3</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Downgradetohcc3"/>
 										<EndPointRef EndPointId="LR3"/>
 									</Branch>
 									<Branch>
+										<Label>Downgrade to LR-2</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Downgradetohcc2"/>
 										<EndPointRef EndPointId="LR2"/>
 									</Branch>
 									<Branch>
+										<Label>Downgrade to LR-1</Label>
 										<EqualCondition DataElementId="adjustcategorybasedonAncillary"
 											ComparisonValue="Downgradetohcc1"/>
 										<EndPointRef EndPointId="LR1"/>
@@ -2046,6 +2048,7 @@
 				</SectionIfValue>
 			</SectionIf>
 		</TemplatePartial>
+
 		
 		
 		<TemplatePartial Id="treatedimpressiontext">
@@ -2060,6 +2063,7 @@
 			Observation# [<InsertValue DataElementId="observationnumber"/>]:  <SectionIf DataElementId="pretreatmentsize" >[<InsertValue DataElementId="pretreatmentsize"/>]mm
 			</SectionIf> 
 		</TemplatePartial>
+
 		
 		<TemplatePartial Id="untreatreporttext">
 			Observation# : <InsertValue DataElementId="observationnumber"/>
@@ -2092,7 +2096,6 @@
 		<!-- Template Partials end -->
 		
 		<!-- Untreated Endpoints start -->
-		
 		<EndPoint Id="LRNC">
 			<Label>LR-NC</Label>
 			<ReportTexts>
@@ -2109,6 +2112,7 @@
 			</ReportTexts>
 		</EndPoint>
 
+
 		<EndPoint Id="LR1">
 			<Label>LR-1</Label>
 			<ReportTexts>
@@ -2124,6 +2128,7 @@
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
+
 
 		<EndPoint Id="LR2">
 			<Label>LR-2</Label>
@@ -2157,6 +2162,7 @@
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
+
 
 		<EndPoint Id="LR4">
 			<Label>LR-4</Label>
@@ -2382,7 +2388,7 @@
 		</EndPoint>
 
 		<!-- Treated Endpoints end -->
-		
+
 	</EndPoints>
 
 </ReportingModule>
