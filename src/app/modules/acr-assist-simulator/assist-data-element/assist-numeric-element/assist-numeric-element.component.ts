@@ -3,6 +3,7 @@ import { BaseDataElement } from '../../../core/elements/models/base-data-element
 import { NumericDataElement } from '../../../core/elements/models/numeric-data-element.model';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SelectedCondition } from '../../../core/models/executed-result.model';
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -12,8 +13,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AssistNumericElementComponent implements OnInit {
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
-  @Output() returnNumericElement: EventEmitter<NumericElement> = new EventEmitter<NumericElement>();
+  @Output() returnNumericElement = new EventEmitter();
   numericElementForm: FormGroup;
+  selectedCondition: SelectedCondition;
 
   constructor(private formBuilder: FormBuilder) {
    }
@@ -21,11 +23,17 @@ export class AssistNumericElementComponent implements OnInit {
   ngOnInit() {
     this.createNumericElementForm();
   }
-  choiceSelected(element) {
+  choiceSelected(element, selectedCondition) {
     const choiceElement = new NumericElement ();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
-    this.returnNumericElement.emit(choiceElement);
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = element.id;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = element.value;
+    this.returnNumericElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
 
   private createNumericElementForm() {

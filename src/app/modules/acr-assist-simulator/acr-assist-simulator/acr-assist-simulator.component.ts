@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
 import { SettingsService } from '../../simulator/shared/services/settings.service';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
-import { MainReportText } from '../assist-data-element/assist-data-element.component';
+import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 @Component({
   selector: 'acr-assist-simulator',
@@ -16,6 +16,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
 
   @Input() templateContent: string;
   @Input() imagePath: string;
+  @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
 
   template: Template;
   isEmptyContent: boolean;
@@ -49,4 +50,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     this.resultText = textReport;
   }
 
+  recievedExecutionHistory (finalExecutionHistory: FinalExecutedHistory) {
+       this.returnExecutionHistory.emit(finalExecutionHistory);
+  }
 }

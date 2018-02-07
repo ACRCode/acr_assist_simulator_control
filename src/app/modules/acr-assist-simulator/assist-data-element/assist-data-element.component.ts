@@ -12,6 +12,7 @@ import { TemplatePartial } from '../../core/endpoint/template-partial';
 import { Console } from '@angular/core/src/console';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
+import { SelectedCondition } from '../../core/models/executed-result.model';
 
 
 @Component({
@@ -30,11 +31,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() endPointXMLString: string[];
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
+  @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
   comparisonValues: string[] = [];
   selectedChoiceValues: string[] = [];
+  executedResultIds: any[] = [];
+  executedResultHistories: ExecutedResultHistory[] = [];
 
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
@@ -72,27 +76,84 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
   }
 
-  choiceSelected(receivedElement: ChoiceElement) {
-    this.selectedChoiceValues[receivedElement.elementId + 'SelectedValue'] = receivedElement.selectedText;
-    this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId , receivedElement.selectedValue ,
-      receivedElement.selectedText);
+  choiceSelected($event) {
+    this.selectedChoiceValues[$event.receivedElement.elementId + 'SelectedValue'] = $event.receivedElement.selectedText;
+    this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId , $event.receivedElement.selectedValue ,
+      $event.receivedElement.selectedText);
+    const executedResults: string[] = [];
+    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+
+    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+      this.generateExecutionHistory();
+    }
   }
 
-  numericSelected(receivedElement: NumericElement) {
+  numericSelected($event) {
 
-     this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId, receivedElement.selectedValue ,
-      receivedElement.selectedValue);
+     this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue ,
+      $event.receivedElement.selectedValue);
+    const executedResults: string[] = [];
+    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+
+    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+      this.generateExecutionHistory();
+    }
   }
 
-  multiSelected(receivedElement: MultiChoiceElement) {
-    this.comparisonValues[receivedElement.elementId + 'ComparisonValue'] = receivedElement.selectedComparisonValues;
-    this.simulatorEngineService.addOrUpdateDataElement(receivedElement.elementId, receivedElement.selectedComparisonValues ,
-      receivedElement.selectedValues);
+  multiSelected($event) {
+    this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
+    this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues ,
+      $event.receivedElement.selectedValues);
+    const executedResults: string[] = [];
+    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+
+    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+      this.generateExecutionHistory();
+    }
   }
 
   generateReportText(endpointId: string) {
     const endpointContent = this.returnEndPointContents(this.xmlContent, '<EndPoint Id="' + endpointId + '">' , '</EndPoint>');
     this.parseXml(endpointId, endpointContent);
+  }
+
+  private generateExecutionHistory () {
+    this.executedResultHistories = [];
+    let isNonRelevant: boolean;
+    isNonRelevant = false;
+    for (const resultId in this.executedResultIds) {
+      for (const nonRelevantDataElement of this.simulatorState.nonRelevantDataElementIds) {
+        if (nonRelevantDataElement === resultId) {
+          isNonRelevant = true;
+          break;
+        } else {
+          isNonRelevant = false;
+        }
+      }
+      if (!isNonRelevant) {
+        for (const label in this.executedResultIds[resultId]) {
+          const executedResultHistory: ExecutedResultHistory = new ExecutedResultHistory();
+
+          executedResultHistory.resultCondition = label;
+          executedResultHistory.resultValue = this.executedResultIds[resultId][label];
+
+          this.executedResultHistories.push(executedResultHistory);
+        }
+      }
+    }
+    const finalExecution: FinalExecutedHistory = new FinalExecutedHistory();
+    if (this.executedResultHistories.length > 0) {
+      finalExecution.executionHistories = this.executedResultHistories;
+      finalExecution.resultText = this.mainReportTextObj;
+    }
+    // for (const executionHistory of finalExecution.executionHistories) {
+    //   console.log(executionHistory.resultCondition + ' = ' + executionHistory.resultValue);
+    // }
+
+    this.returnExecutionHistory.emit(finalExecution);
   }
 
   private returnEndPointContents(content: string, startToken: string, endToken: string): string {
@@ -616,4 +677,13 @@ export class MainReportText {
 export class AllReportText {
   sectionId: string;
   reportText: string;
+}
+
+export class ExecutedResultHistory {
+  resultCondition: string;
+  resultValue: any;
+}
+export class FinalExecutedHistory {
+  executionHistories: ExecutedResultHistory[];
+  resultText: MainReportText;
 }

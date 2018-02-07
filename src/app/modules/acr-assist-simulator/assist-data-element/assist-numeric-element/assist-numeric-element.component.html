@@ -20,7 +20,7 @@
       <div class="row">
           <div class="col-sm-12">
             <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
-              (keyup)="choiceSelected($event.target)" required>
+              (keyup)="choiceSelected($event.target, numericDataElement.label)" required>
           </div>
         </div>
   </div>

@@ -3,6 +3,7 @@ import { ImageElements } from '../../../core/elements/models/image-elements.mode
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 import { ChoiceElement } from '../assist-data-element.component';
 import { Rules } from '../../../core/rules/models/rules.model';
+import { SelectedCondition } from '../../../core/models/executed-result.model';
 const $ = require('jquery');
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
@@ -15,8 +16,9 @@ export class AssistChoiceElementComponent implements OnInit {
   @Input() imagePath: string;
   @Input() Rules: Rules;
   @Input() keyDiagrams: ImageElements[];
-  @Output() returnChoiceElement: EventEmitter<ChoiceElement> = new EventEmitter<ChoiceElement>();
+  @Output() returnChoiceElement = new EventEmitter();
   choiceElementForm: FormGroup;
+  selectedCondition: SelectedCondition;
   constructor(private formBuilder: FormBuilder) {
     this.createChoiceElementForm();
   }
@@ -26,20 +28,33 @@ export class AssistChoiceElementComponent implements OnInit {
       this.keyDiagrams[index].location =  this.imagePath + '/' + this.keyDiagrams[index].location;
     }
   }
-  choiceSelected(elementId: string, selectedText: string, selectedValue: string) {
+  choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = elementId;
     choiceElement.selectedValue = selectedValue;
     choiceElement.selectedText = selectedText;
-    this.returnChoiceElement.emit(choiceElement);
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = elementId;
+    this.selectedCondition.selectedCondition = selectedElement;
+    this.selectedCondition.selectedValue = selectedText;
+
+this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
 
-  dropdownChoiceSelected(element) {
+  dropdownChoiceSelected(element, selectedCondition) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
     choiceElement.selectedText = element.selectedOptions[0].label;
-    this.returnChoiceElement.emit(choiceElement);
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = element.id;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = element.selectedOptions[0].label;
+    this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
    }
 
   private createChoiceElementForm() {

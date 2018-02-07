@@ -29,7 +29,7 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
         </ng-container>
         <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
           <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
-              <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target)" formControlName="checkBox">
+              <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox">
                 <option [value]="Select" [selected]="true">--Select--</option>
               <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
             </select>
@@ -61,7 +61,7 @@
               <div id="radio-inline">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
