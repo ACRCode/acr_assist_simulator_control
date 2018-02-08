@@ -203,7 +203,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       impressionText = '';
       let isReportText: boolean;
       let reportTextContent = '';
-      const endpointSax = require('../../../../../node_modules/sax/lib/sax'),
+      const endpointSax = require('sax'),
       strict = true,
       normalize = true, // set to false for html-mode
       trim = true,
@@ -442,7 +442,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       function generatePartialView(partialViewId: string, isImpressionTemplate: boolean) {
         // this.templateIds = [];
-        const sax = require('../../../../../node_modules/sax/lib/sax'),
+        const sax = require('sax'),
         parser = sax.parser(strict, trim);
         parser.onerror = function (e) {
           // an error happened.
