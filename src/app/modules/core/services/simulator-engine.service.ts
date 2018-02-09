@@ -189,7 +189,6 @@ export class SimulatorEngineService {
      this.evaluateComputedExpressions();
 
      this.endOfRoadReached = false;
-     console.log(this.dataElementValues);
      for (const decisionPoint of this.template.rules.decisionPoints)
       {
         if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())) {
@@ -202,7 +201,6 @@ export class SimulatorEngineService {
 
   initialize(template:  Template) {
     this.template = template;
-    console.log(this.template);
 
     for (const dataElement of  this.template.dataElements) {
        this.dataElementValues[dataElement.id] = dataElement.currentValue;

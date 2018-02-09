@@ -14,8 +14,7 @@
                 <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined">
                     {{reportText.reportTextMainContent}}
                 </div>
-                <div>
-                    {{selectedSection}}
+                <div [innerHTML]="selectedSection">
                 </div>
             </div>
         </div>

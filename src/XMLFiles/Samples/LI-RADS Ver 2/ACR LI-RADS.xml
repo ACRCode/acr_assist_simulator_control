@@ -989,12 +989,12 @@
 												<DecisionPoint Id="patterenenhancementdp">
 													<Label>Pattern of enhancement</Label>
 													<Branch>
-														<Label>No Selection</Label>
+														<Label>None</Label>
 														<EqualCondition DataElementId="patternInEnhancementCE" ComparisonValue="none"/>
 														<EndPointRef EndPointId="LRTREquivoca"></EndPointRef>
 													</Branch>
 													<Branch>
-														<Label>At least one selected</Label>
+														<Label>At least one pattern of enhancement</Label>
 														<EqualCondition DataElementId="patternInEnhancementCE" ComparisonValue="morethanone"/>
 														<EndPointRef EndPointId="LRTRViable"></EndPointRef>
 													</Branch>
@@ -1293,9 +1293,9 @@
 						<EqualCondition DataElementId="untreatedobservation" ComparisonValue="nonofabove"/>
 						
 						<DecisionPoint Id="ArterialphaseDp">
-							<Label>Arterial phase hyperenhancement (APHE) / Do you want to adjust category based on ancillary features? </Label>
+							<Label>Arterial phase hyperenhancement (APHE)</Label>
 							<Branch>
-								<Label>APHE / No </Label>
+								<Label>APHE</Label>
 								<!-- NO APHE -->
 								<AndCondition>
 								<EqualCondition DataElementId="arterialEnhancement" ComparisonValue="aphe"/>
@@ -1717,7 +1717,7 @@
 								</DecisionPoint>
 							</Branch>
 							<Branch>
-								<Label>NO APHE / No</Label>
+								<Label>NO APHE</Label>
 								<NotRelevantDataElements>
 									<DataElementRef DataElementId="sixeincreatein6months"/>
 									<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
@@ -1947,7 +1947,7 @@
 								</DecisionPoint>
 							</Branch>
 							<Branch>
-								<Label> Any / Adjust category</Label>
+								<Label> Adjust category</Label>
 								<NotRelevantDataElements>
 									<DataElementRef DataElementId="sixeincreatein6months"/>
 									<DataElementRef DataElementId="HistoryofVisibilityonUS"/>
@@ -2011,17 +2011,12 @@
 	</Rules>
 
 	<EndPoints>
-
-		<!-- Template Partials start -->
-		
-		<TemplatePartial Id="adjustcategorytext">
+		<TemplatePartial Id="adjustcategorytext"><!-- Template Partials start -->
 			<SectionIfValueNot DataElementId="adjustcategorybasedonAncillary" ComparisonValue="No">
-				<SectionIf DataElementId="ancillaryFavoringMalignancy"> LR category has been
-					adjusted based on the selected Ancillary features favoring Malignancy
+				<SectionIf DataElementId="ancillaryFavoringMalignancy"> LR category has been adjusted based on the selected Ancillary features favoring Malignancy
 						<InsertValue DataElementId="ancillaryFavoringMalignancy"/>
 				</SectionIf>
-				<SectionIf DataElementId="ancillaryFavoringBenignity"> LR category has been adjusted
-					based on the selected Ancillary features favoring Benignity <InsertValue
+				<SectionIf DataElementId="ancillaryFavoringBenignity"> LR category has been adjusted based on the selected Ancillary features favoring Benignity <InsertValue
 						DataElementId="ancillaryFavoringBenignity"/>
 				</SectionIf>
 			</SectionIfValueNot>
@@ -2032,7 +2027,7 @@
 			Treatment method : <InsertValue DataElementId="TreatmentMethod"/> 
 			Location :  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			Pretreatment category: <InsertValue DataElementId="pretreatmentCategory"/>
-			Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/>mm
+			Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/> mm
 			<SectionIf DataElementId="irregularattheperiphery"> <!-- if any value present -->
 			Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
 			</SectionIf>
@@ -2040,21 +2035,18 @@
 			Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/>mm
 			</SectionIf>
 			<SectionIf DataElementId="patternofenhancement">
-				Enhancement characteristics :
-				Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
-				Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
+				 Enhancement characteristics :
+				  Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
+				  Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
 				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
-				Other: Enhancement similar to pretreatment	
+					  Other: Enhancement similar to pretreatment	
 				</SectionIfValue>
 			</SectionIf>
 		</TemplatePartial>
-
 		
 		
 		<TemplatePartial Id="treatedimpressiontext">
-			Observation# [<InsertValue DataElementId="observationnumber"/>]: 
-			<SectionIf DataElementId="sizeoftheenhancementComponents"> 
-				[<InsertValue DataElementId="sizeoftheenhancementComponents"/>]mm 
+			Observation# [<InsertValue DataElementId="observationnumber"/>]: <SectionIf DataElementId="sizeoftheenhancementComponents"> [<InsertValue DataElementId="sizeoftheenhancementComponents"/>]mm 
 			</SectionIf> 
 		</TemplatePartial>
 		
@@ -2063,7 +2055,6 @@
 			Observation# [<InsertValue DataElementId="observationnumber"/>]:  <SectionIf DataElementId="pretreatmentsize" >[<InsertValue DataElementId="pretreatmentsize"/>]mm
 			</SectionIf> 
 		</TemplatePartial>
-
 		
 		<TemplatePartial Id="untreatreporttext">
 			Observation# : <InsertValue DataElementId="observationnumber"/>
@@ -2084,11 +2075,8 @@
 					Capsule Appearance: <SectionIfValue DataElementId="capsule" ComparisonValue="yes">Present
 					</SectionIfValue><SectionIfValue DataElementId="capsule" ComparisonValue="no">Absent</SectionIfValue>
 			</SectionIf>			
-			 <SectionIf DataElementId="ancillaryFavoringBenignity" >
-			 	 Ancillary Feature Favoring benignity : <InsertValue DataElementId="ancillaryFavoringBenignity"/>
-			 </SectionIf>
-			<SectionIf DataElementId="ancillaryFavoringMalignancy" >
-				 Ancillary Feature Favoring malignancy: <InsertValue DataElementId="ancillaryFavoringMalignancy"/>
+			<SectionIf DataElementId="ancillaryFavoringBenignity" >Ancillary Feature Favoring benignity : <InsertValue DataElementId="ancillaryFavoringBenignity"/>
+			</SectionIf>			<SectionIf DataElementId="ancillaryFavoringMalignancy" >Ancillary Feature Favoring malignancy: <InsertValue DataElementId="ancillaryFavoringMalignancy"/>
 			</SectionIf>
 		</TemplatePartial>
 
@@ -2096,6 +2084,7 @@
 		<!-- Template Partials end -->
 		
 		<!-- Untreated Endpoints start -->
+		
 		<EndPoint Id="LRNC">
 			<Label>LR-NC</Label>
 			<ReportTexts>
@@ -2112,7 +2101,6 @@
 			</ReportTexts>
 		</EndPoint>
 
-
 		<EndPoint Id="LR1">
 			<Label>LR-1</Label>
 			<ReportTexts>
@@ -2128,7 +2116,6 @@
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
-
 
 		<EndPoint Id="LR2">
 			<Label>LR-2</Label>
@@ -2163,12 +2150,11 @@
 			</ReportTexts>
 		</EndPoint>
 
-
 		<EndPoint Id="LR4">
 			<Label>LR-4</Label>
 			<ReportTexts>
 				<ReportText SectionId="findings">
-					<InsertPartial PartialId="untreatreporttext"/> 
+					<InsertPartial PartialId="untreatreporttext"/>
 						Overall Assessment: LI-RADS category[LR-4] 
 					<InsertPartial
 						PartialId="adjustcategorytext"/>
@@ -2388,7 +2374,7 @@
 		</EndPoint>
 
 		<!-- Treated Endpoints end -->
-
+		
 	</EndPoints>
 
 </ReportingModule>

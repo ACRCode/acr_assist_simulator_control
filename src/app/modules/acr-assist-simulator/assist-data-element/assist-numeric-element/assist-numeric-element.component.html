@@ -3,7 +3,7 @@
     <label class="control-label DEElement" id="{{numericDataElement.id}}">
       {{numericDataElement.label}}
     </label>
-    <ng-container *ngIf="numericDataElement.hint!=''">
+    <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
       <a>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
       </a>

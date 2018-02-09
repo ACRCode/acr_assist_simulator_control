@@ -3,7 +3,7 @@
     <label class="control-label DEElement" id="{{multiChoiceElement.id}}">
       {{multiChoiceElement.label}}
     </label>
-    <ng-container *ngIf="multiChoiceElement.hint!=''">
+    <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
       <a>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{multiChoiceElement.hint}}"></span>
       </a>

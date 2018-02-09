@@ -25,7 +25,7 @@ ngOnChanges(changes: SimpleChanges): void {
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].reportText;
-        this.selectedSection = this.removeEmptyLine(this.selectedSection);
+        this.selectedSection = this.removeEmptyLine(this.selectedSection.replace(new RegExp(' ', 'g'), '&nbsp;'));
         break;
       }
     }

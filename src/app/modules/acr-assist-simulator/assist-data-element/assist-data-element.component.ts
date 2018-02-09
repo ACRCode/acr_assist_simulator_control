@@ -147,9 +147,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       finalExecution.executionHistories = this.executedResultHistories;
       finalExecution.resultText = this.mainReportTextObj;
     }
-    // for (const executionHistory of finalExecution.executionHistories) {
-    //   console.log(executionHistory.resultCondition + ' = ' + executionHistory.resultValue);
-    // }
 
     this.returnExecutionHistory.emit(finalExecution);
   }
@@ -526,7 +523,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
                                     break;
             case 'SectionIf':
-                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0) {
+                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && !hasSectionNot) {
                                 isSectionIf = true;
                                 canInsertText = true;
                               } else {

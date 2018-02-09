@@ -6,7 +6,7 @@
   <label class="control-label DEElement" id="{{choiceDataElement.id}}">
     {{choiceDataElement.label}}
   </label>
-  <ng-container *ngIf="choiceDataElement.hint!=''">
+  <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
       <a>
         <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{choiceDataElement.hint}}"></span>
       </a>
