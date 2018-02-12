@@ -47,7 +47,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
 
       this.simulatorState =  message as  SimulatorState;
-     //  console.log(this.simulatorState);
         this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
         for (const dataElement of this.dataElements) {
         if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
@@ -523,7 +522,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
                                     break;
             case 'SectionIf':
-                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && !hasSectionNot) {
+                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && (!hasSectionNot || (hasSectionNot && executeSectionIfNot))) {
                                 isSectionIf = true;
                                 canInsertText = true;
                               } else {

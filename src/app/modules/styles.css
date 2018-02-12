@@ -954,3 +954,7 @@ h3 {
 .reportText-main-content{
   font-size: 16px;
 }
+
+.split-length-word {
+  word-wrap: break-word;
+}

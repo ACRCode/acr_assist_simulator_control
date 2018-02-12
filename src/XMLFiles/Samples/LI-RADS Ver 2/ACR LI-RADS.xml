@@ -2028,31 +2028,27 @@
 			Location :  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			Pretreatment category: <InsertValue DataElementId="pretreatmentCategory"/>
 			Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/> mm
-			<SectionIf DataElementId="irregularattheperiphery"> <!-- if any value present -->
-			Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
+			<SectionIf DataElementId="irregularattheperiphery"><!-- if any value present -->Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
 			</SectionIf>
-			<SectionIf DataElementId="sizeoftheenhancementComponents"> <!-- if any value present -->
-			Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/>mm
+			<SectionIf DataElementId="sizeoftheenhancementComponents"><!-- if any value present -->Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
 			</SectionIf>
 			<SectionIf DataElementId="patternofenhancement">
-				 Enhancement characteristics :
-				  Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
-				  Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
+				Enhancement characteristics :
+				        Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
+				        Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
 				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
-					  Other: Enhancement similar to pretreatment	
+				        Other: Enhancement similar to pretreatment	
 				</SectionIfValue>
 			</SectionIf>
 		</TemplatePartial>
 		
 		
 		<TemplatePartial Id="treatedimpressiontext">
-			Observation# [<InsertValue DataElementId="observationnumber"/>]: <SectionIf DataElementId="sizeoftheenhancementComponents"> [<InsertValue DataElementId="sizeoftheenhancementComponents"/>]mm 
-			</SectionIf> 
-		</TemplatePartial>
+			Observation# [<InsertValue DataElementId="observationnumber"/>]: <SectionIf DataElementId="sizeoftheenhancementComponents"> [<InsertValue DataElementId="sizeoftheenhancementComponents"/>] mm </SectionIf></TemplatePartial>
 		
 		
 		<TemplatePartial Id="untreatedimpressiontext">
-			Observation# [<InsertValue DataElementId="observationnumber"/>]:  <SectionIf DataElementId="pretreatmentsize" >[<InsertValue DataElementId="pretreatmentsize"/>]mm
+			Observation# [<InsertValue DataElementId="observationnumber"/>]:  <SectionIf DataElementId="pretreatmentsize" >[<InsertValue DataElementId="pretreatmentsize"/>] mm
 			</SectionIf> 
 		</TemplatePartial>
 		
@@ -2060,7 +2056,7 @@
 			Observation# : <InsertValue DataElementId="observationnumber"/>
 				Location :  Segment <InsertValue DataElementId="segmentlocation"/> 
 			<SectionIf DataElementId="diameter">
-					Size : <InsertValue DataElementId="diameter"/>mm (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
+					Size : <InsertValue DataElementId="diameter"/> mm (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			</SectionIf>
 			<SectionIf DataElementId="arterialEnhancement">
 					AP Hyperenhancement : <InsertValue DataElementId="arterialEnhancement"/>
@@ -2346,8 +2342,7 @@
 					</SectionIfValueNot>
 				</ReportText>
 				<ReportText SectionId="impression">
-					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Equivocal] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					<InsertPartial PartialId="treatedimpressiontext"/> [LR-TR Equivocal] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
