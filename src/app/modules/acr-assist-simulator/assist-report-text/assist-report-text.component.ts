@@ -12,6 +12,7 @@ allReportTexts: AllReportText [] = [];
 selectedSection: string;
 mainReportTexts: MainReportText;
 selectedSectionId: string;
+sections: string [] = [];
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
   this.onSelect(this.reportText.allReportText['findings'].sectionId);
@@ -21,7 +22,13 @@ ngOnChanges(changes: SimpleChanges): void {
 
   onSelect(sectionId) {
     this.selectedSectionId = sectionId;
+    this.sections = [];
     this.selectedSection = null;
+    for (const section in this.reportText.allReportText) {
+      if (this.reportText.allReportText[section].reportText !== '' || this.reportText.allReportText[section].sectionId === 'findings') {
+        this.sections.push(section);
+      }
+    }
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].reportText;

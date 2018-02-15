@@ -3,8 +3,8 @@
         <div class="panel-heading findings">Report Text: 
             <div>
                 <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
-                    <ng-container *ngFor="let Section of mainReportTexts.allReportText" >
-                        <option [value]="Section.sectionId" [selected]="Section.sectionId == selectedSectionId" >{{Section.sectionId}}</option>
+                    <ng-container *ngFor="let Section of sections" >
+                        <option [value]="Section" [selected]="Section == selectedSectionId" >{{Section}}</option>
                     </ng-container>
                 </select>
             </div>

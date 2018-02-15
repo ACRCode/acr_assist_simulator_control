@@ -5,21 +5,23 @@ import {Template} from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
+import { Diagram } from '../../core/models/diagram.model';
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
-  styleUrls: ['./acr-assist-simulator.component.css']
+  styleUrls: ['../../../modules/styles.css']
 })
 export class AcrAssistSimulatorComponent implements  OnChanges {
 
 
   @Input() templateContent: string;
   @Input() imagePath: string;
+  @Input() showKeyDiagram: boolean;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
 
   template: Template;
   isEmptyContent: boolean;
-  keyDiagrams: ImageElements[] = [];
+  keyDiagram: Diagram;
   resultText: MainReportText;
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
 
@@ -38,10 +40,14 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     this.simulatorEngineService.initialize(this.template);
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-      const element = new ImageElements();
-      element.label = this.template.metadata.diagrams[index].label;
-      element.location = this.template.metadata.diagrams[index].location;
-      this.keyDiagrams.push(element);
+      if (this.template.metadata.diagrams[index].keyDiagram) {
+        const element = new Diagram();
+        element.label = this.template.metadata.diagrams[index].label;
+        element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
+        element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
+        this.keyDiagram = element;
+        break;
+      }
     }
     this.resultText = undefined;
   }

@@ -3,8 +3,7 @@
         <ng-container *ngIf="DataElement.isVisible">
             <div id="div_{{DataElement.id}}" class="row bottom-margin"> 
                     <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
-                        <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' [keyDiagrams]="keyDiagrams" [Rules]="Rules"
-                        (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+                        <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
                     </ng-container>          
         
                     <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">

@@ -3,7 +3,6 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import {Template} from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { EndPointRef } from '../../core/models/endpointref.model';
-import { Rules } from '../../core/rules/models/rules.model';
 import { SectionIfValueNotCondition } from '../../core/endpoint/section-if-value-not-condition';
 import { SectionIfValueCondition } from '../../core/endpoint/section-if-value-condition';
 import { TemplatePartial } from '../../core/endpoint/template-partial';
@@ -22,10 +21,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   @Input() dataElements: BaseDataElement[];
   @Input() imagePath: string;
-  @Input() keyDiagrams: ImageElements[];
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
-  @Input() Rules: Rules;
+
   @Input() endPointXMLString: string[];
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
