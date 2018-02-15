@@ -15,7 +15,7 @@
 			</References>
 			<Diagrams>
 				<Diagram DisplaySequence="1" KeyDiagram="true">
-					<Location>KeyDiagram.png</Location>
+					<Location>KeyDiagram.PNG</Location>
 					<Label>ACR LI-RADS</Label>
 				</Diagram>
 				<Diagram DisplaySequence="2">
