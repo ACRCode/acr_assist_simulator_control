@@ -1014,15 +1014,8 @@
     </Rules>
     
     <EndPoints>
-    	
-    	<TemplatePartial Id="adjustcategorytext">
-    		<SectionIfValueNot DataElementId="adjustcategorybasedonAncillary" ComparisonValue="No">
-    			<SectionIf DataElementId="ancillaryFavoringMalignancy">
-    				HCC category has been adjusted based on the selected Ancillary features favoring Malignancy  <InsertValue DataElementId="ancillaryFavoringMalignancy"/>
-    			</SectionIf>
-    			
-    			<SectionIf DataElementId="ancillaryFavoringBenignity">
-    				HCC category has been adjusted based on the selected Ancillary features favoring Benignity <InsertValue DataElementId="ancillaryFavoringBenignity"/>
+    	<TemplatePartial Id="adjustcategorytext"><SectionIfValueNot DataElementId="adjustcategorybasedonAncillary" ComparisonValue="No"><SectionIf DataElementId="ancillaryFavoringMalignancy">HCC category has been adjusted based on the selected Ancillary features favoring Malignancy  <InsertValue DataElementId="ancillaryFavoringMalignancy"/></SectionIf> 
+			<SectionIf DataElementId="ancillaryFavoringBenignity">HCC category has been adjusted based on the selected Ancillary features favoring Benignity <InsertValue DataElementId="ancillaryFavoringBenignity"/>
     			</SectionIf>
     		</SectionIfValueNot>
     	</TemplatePartial>
@@ -1040,8 +1033,7 @@
     	<EndPoint Id="hcc2Ep">
             <Label>HCC-2</Label>
            <ReportTexts>
-               <ReportText SectionId="findings">[HCC-2] Observation with imaging features suggestive but not diagnostic of a benign entity.
-               	<InsertPartial PartialId="adjustcategorytext"/>
+               <ReportText SectionId="findings">[HCC-2] Observation with imaging features suggestive but not diagnostic of a benign entity.<InsertPartial PartialId="adjustcategorytext"/>
                </ReportText>
            </ReportTexts>
         </EndPoint>

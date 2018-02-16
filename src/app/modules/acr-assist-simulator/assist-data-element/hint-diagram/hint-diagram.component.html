@@ -7,24 +7,24 @@
 
 </button>
 <div class="modal fade adjust-diagram " tabindex="-1" role="dialog" attr.id="{{'diag_'+DataElement.id}}" aria-labelledby="mySmallModalLabel">
-<div class="modal-dialog modal-lg adjust-diagram-image " role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h4 class="modal-title">
-{{DataElement.label}}
-</h4>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<ng-container>
-    <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-        <ng-container *ngFor="let diag of DataElement.diagrams ">
-            <slide>
-                <img src="{{imagePath}}/{{diag.location}}">
-            </slide>
-        </ng-container>  
-    </carousel>
-</ng-container>
-</div>
-</div>
+    <div class="modal-dialog modal-lg adjust-diagram-image " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{DataElement.label}}
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <ng-container>
+                <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+                    <ng-container *ngFor="let diag of DataElement.diagrams ">
+                        <slide>
+                            <img src="{{imagePath}}/{{diag.location}}">
+                        </slide>
+                    </ng-container>  
+                </carousel>
+            </ng-container>
+        </div>
+    </div>
 </div>
 </ng-container>

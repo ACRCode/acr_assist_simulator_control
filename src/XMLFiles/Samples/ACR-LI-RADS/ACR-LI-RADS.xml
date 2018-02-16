@@ -15,7 +15,7 @@
 			</References>
 			<Diagrams>
 				<Diagram DisplaySequence="1" KeyDiagram="true">
-					<Location>KeyDiagram.PNG</Location>
+					<Location>KeyDiagram.png</Location>
 					<Label>ACR LI-RADS</Label>
 				</Diagram>
 				<Diagram DisplaySequence="2">
@@ -332,11 +332,11 @@
 			<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
 			<Diagrams>
 				<Diagram>
-					<Location>aphenorim.png</Location>
+					<Location>aphenorim.PNG</Location>
 					<Label>APHE No RIM</Label>
 				</Diagram>
 				<Diagram>
-					<Location>apherim.png</Location>
+					<Location>apherim.PNG</Location>
 					<Label>APHE RIM</Label>
 				</Diagram>
 			</Diagrams>
@@ -368,7 +368,7 @@
 				phase hypoenhancement.</Hint>
 			<Diagrams>
 				<Diagram>
-					<Location>Washout.png</Location>
+					<Location>washout.PNG</Location>
 					<Label>Washout</Label>
 				</Diagram>
 			</Diagrams>
@@ -391,11 +391,11 @@
 				background nodule.</Hint>
 			<Diagrams>
 				<Diagram>
-					<Location>capsule.png</Location>
+					<Location>capsule.PNG</Location>
 					<Label>Capsule</Label>
 				</Diagram>
 				<Diagram>
-					<Location>capsule2.Png</Location>
+					<Location>capsule2.PNG</Location>
 					<Label>Capsule Size</Label>
 				</Diagram>
 			</Diagrams>
@@ -419,7 +419,7 @@
 				diameter increase </Hint>
 			<Diagrams>
 				<Diagram>
-					<Location>tg.png</Location>
+					<Location>tg.PNG</Location>
 					<Label>Threshold Growth</Label>
 				</Diagram>
 			</Diagrams>
@@ -471,7 +471,7 @@
 			<Label>Are there Ancillary features favoring malignancy? </Label>
 			<Diagrams>
 				<Diagram>
-					<Location>AF.png</Location>
+					<Location>af.PNG</Location>
 					<Label/>
 				</Diagram>
 			</Diagrams>
@@ -616,7 +616,7 @@
 			<Label>Do you want to adjust category based on ancillary features? </Label>
 			<Diagrams>
 				<Diagram>
-					<Location>af.png</Location>
+					<Location>af.PNG</Location>
 					<Label/>
 				</Diagram>
 			</Diagrams>
