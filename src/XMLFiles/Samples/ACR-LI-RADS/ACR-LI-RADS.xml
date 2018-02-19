@@ -735,7 +735,7 @@
 				<Branch>
 					<OrCondition>
 						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="aphe"/>
-						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="wo"/>
+						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="washout"/>
 						<ContainsCondition DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment"/>
 					</OrCondition>
 					<TextExpression>morethanone</TextExpression>
