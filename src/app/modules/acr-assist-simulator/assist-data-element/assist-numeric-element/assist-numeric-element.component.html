@@ -11,15 +11,13 @@
     <ng-container *ngIf="numericDataElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
-    <!-- <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="required-field">
-     * Is Required.
-    </div> -->
+
     <div *ngIf="numericElementForm.controls['numericElement'].invalid">
       <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
-       * Is Required.
+        * Is Required.
       </div>
       <div *ngIf="numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
-       * Minimum value is {{numericDataElement.minimum}}.
+        * Minimum value is {{numericDataElement.minimum}}.
       </div>
      </div>
   </div>
