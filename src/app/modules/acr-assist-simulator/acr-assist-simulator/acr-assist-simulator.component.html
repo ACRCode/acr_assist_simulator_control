@@ -15,9 +15,6 @@
             <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
             [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
             (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>    
-          </ng-container>    
-          <ng-container *ngIf="resultText !== undefined">
-            <acr-assist-report-text [reportText]="resultText" ></acr-assist-report-text>
           </ng-container>
         </div>
      
@@ -26,18 +23,23 @@
             <img class="img-max-width" src="{{keyDiagram.location}}">
           </ng-container>
         </div>
-    </ng-container>
+      </ng-container>
 
-    <ng-container *ngIf="showKeyDiagram !== true">
-        <ng-container>
-            <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-            [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-            (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>    
-          </ng-container>    
-          <ng-container *ngIf="resultText !== undefined">
-            <acr-assist-report-text [reportText]="resultText" ></acr-assist-report-text>
-          </ng-container>
-    </ng-container>
+      <ng-container *ngIf="showKeyDiagram !== true">
+          <ng-container>
+              <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+              [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+              (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>    
+            </ng-container>    
+            <ng-container *ngIf="resultText !== undefined">
+              <acr-assist-report-text [reportText]="resultText" ></acr-assist-report-text>
+            </ng-container>
+      </ng-container>
     </div>
 </ng-container>
 
+<div class="row report-text-top-margin">
+  <ng-container *ngIf="resultText !== undefined">
+    <acr-assist-report-text [reportText]="resultText" ></acr-assist-report-text>
+  </ng-container>
+</div>

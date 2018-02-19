@@ -82,14 +82,17 @@
 		
 		<NumericDataElement Id="observationnumber" IsRequired="true" DisplaySequence="1">
 			<Label>Observation#</Label>
+			<Minimum>1</Minimum>
 		</NumericDataElement>
 		
 		<NumericDataElement Id="seriesnumber" IsRequired="true" DisplaySequence="2">
 			<Label>Series#</Label>
+			<Minimum>1</Minimum>
 		</NumericDataElement>
 		
 		<NumericDataElement Id="imagenumber" IsRequired="true" DisplaySequence="3">
 			<Label>Image#</Label>
+			<Minimum>1</Minimum>
 		</NumericDataElement>
 		
 		<ChoiceDataElement Id="segmentlocation" IsRequired="true" DisplaySequence="4">

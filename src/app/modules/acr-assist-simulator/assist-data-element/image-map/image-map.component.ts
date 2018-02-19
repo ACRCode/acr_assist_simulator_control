@@ -120,8 +120,15 @@ export class ImageMapComponent  implements OnInit {
         }
 
         setValue(val) {
-
-            this.FormValues[this.DataElement.id] = val;
+            for (const optValue of this.DataElement.choiceInfo) {
+                if (optValue.value === val) {
+                    this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
+                } else {
+                    this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
+                }
+            }
+            this.DataElement.currentValue = val;
+            // this.FormValues[this.DataElement.id] = val;
         }
 
         displayValue(val) {

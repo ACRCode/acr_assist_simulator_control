@@ -11,16 +11,24 @@
     <ng-container *ngIf="numericDataElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
-    <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="required-field">
+    <!-- <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="required-field">
      * Is Required.
-    </div>
+    </div> -->
+    <div *ngIf="numericElementForm.controls['numericElement'].invalid">
+      <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
+       * Is Required.
+      </div>
+      <div *ngIf="numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
+       * Minimum value is {{numericDataElement.minimum}}.
+      </div>
+     </div>
   </div>
   
   <div class="col-xs-8 col-sm-7 text-left content-padding">
       <div class="row">
           <div class="col-sm-12">
-            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
-              (keyup)="choiceSelected($event.target, numericDataElement.label)" required>
+            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" onkeypress="return event.charCode >= 48"
+            onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
           </div>
         </div>
   </div>

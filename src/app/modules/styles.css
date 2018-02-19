@@ -964,3 +964,11 @@ h3 {
 .img-max-width {
   width: 100% !important;
 }
+
+.numeric-validator {
+  width: 140px;
+}
+
+.report-text-top-margin {
+  margin-top: 15px;
+}
