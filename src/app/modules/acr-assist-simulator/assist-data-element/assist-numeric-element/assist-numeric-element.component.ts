@@ -41,4 +41,8 @@ export class AssistNumericElementComponent implements OnInit {
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
     });
   }
+
+  onlyNumberKey(event) {
+    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
 }
