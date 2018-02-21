@@ -27,7 +27,7 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
     dataElement.dataElementType = this.elementType;
     dataElement.displaySequence = data.Attr.DisplaySequence;
     dataElement.id = data.Attr.Id;
-    dataElement.isRequired = data.Attr.IsRequired;
+    dataElement.isRequired = data.Attr.IsRequired ? data.Attr.IsRequired : false ;
     dataElement.label = data.Label;
     dataElement.hint = data.Hint;
     if (data.Diagrams) {
