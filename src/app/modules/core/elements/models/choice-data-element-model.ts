@@ -7,5 +7,6 @@ export class ChoiceDataElement extends BaseDataElement  {
 
   choiceInfo: Choice[];
   imageMap: ImageMap;
+  allowFreetext = false;
 
 }

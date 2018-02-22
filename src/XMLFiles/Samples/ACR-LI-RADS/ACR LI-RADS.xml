@@ -95,7 +95,7 @@
 			<Minimum>1</Minimum>
 		</NumericDataElement>
 		
-		<ChoiceDataElement Id="segmentlocation" IsRequired="true" DisplaySequence="4">
+		<ChoiceDataElement Id="segmentlocation" IsRequired="true" DisplaySequence="4" AllowFreetext="true">
 			<Label>Segment#</Label>
 			<ChoiceInfo>
 				<Choice>
@@ -281,17 +281,31 @@
 				<Choice>
 					<Value>definitelyBenign</Value>
 					<Label>Definitely benign</Label>
-					<Hint> Cyst Hemangioma Vascular anomaly Perfusion alteration Hepatic fat
-						deposition or sparing Hypertrophic pseudomass Confluent fibrosis Focal scar
-						Observation that spontaneously disappears at follow-up</Hint>
+					<Hint> Cyst 
+						Hemangioma 
+						Perfusion alteration 
+						Hepatic fat deposition
+						Focal fat sparing 
+						Hypertrophic pseudomass 
+						Confluent fibrosis 
+						Focal scar
+						
+					</Hint>
 				</Choice>
 
 				<Choice>
 					<Value>probablyBenign</Value>
 					<Label>Probably benign</Label>
-					<Hint>Probable benign entities (examples) Probable: Cyst Hemangioma Vascular
-						anomaly Perfusion alteration Hepatic fat deposition or sparing Hypertrophic
-						pseudomass Confluent fibrosis Focal scar LR-2 cirrhosis associated nodule
+					<Hint>Cyst 
+						Hemangioma 
+						Perfusion alteration 
+						Hepatic fat deposition
+						Focal fat sparing 
+						Hypertrophic pseudomass 
+						Confluent fibrosis 
+						Focal scar						
+						Distinctive nodule without malignant imaging features
+						
 					</Hint>
 				</Choice>
 
@@ -2026,9 +2040,9 @@
 		</TemplatePartial>
 		
 		<TemplatePartial Id="treatedFindingsReporttext">
-			Treated Observation# : <InsertValue DataElementId="observationnumber"/> 
-			Treatment method : <InsertValue DataElementId="TreatmentMethod"/> 
-			Location :  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
+			Treated Observation#: <InsertValue DataElementId="observationnumber"/> 
+			Treatment method: <InsertValue DataElementId="TreatmentMethod"/> 
+			Location:  Segment <InsertValue DataElementId="segmentlocation"/> (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			Pretreatment category: <InsertValue DataElementId="pretreatmentCategory"/>
 			Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/> mm
 			<SectionIf DataElementId="irregularattheperiphery"><!-- if any value present -->Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
@@ -2036,9 +2050,9 @@
 			<SectionIf DataElementId="sizeoftheenhancementComponents"><!-- if any value present -->Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
 			</SectionIf>
 			<SectionIf DataElementId="patternofenhancement">
-				Enhancement characteristics :
-				        Arterial phase hyperenhancement : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
-				        Washout appearance : <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
+				Enhancement characteristics:
+				        Arterial phase hyperenhancement: <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
+				        Washout appearance: <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
 				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
 				        Other: Enhancement similar to pretreatment	
 				</SectionIfValue>
@@ -2317,15 +2331,15 @@
 					<InsertPartial PartialId="treatedFindingsReporttext"/>
 						Overall Assessment:[LR-TR Nonviable]  					
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
-						( pretreatment unknown)
+						(pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						(pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Nonviable] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Nonviable] (pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
@@ -2338,10 +2352,10 @@
 						Overall Assessment:[LR-TR Equivocal] 
 					<InsertValue DataElementId="sizeoftheenhancementComponents"/> mm 
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
-						( pretreatment unknown)
+						(pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						(pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
 				</ReportText>
 				<ReportText SectionId="impression">
@@ -2358,15 +2372,15 @@
 						Overall Assessment:[LR-TR Viable] 
 					<InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
 					<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
-						( pretreatment unknown)
+						(pretreatment unknown)
 					</SectionIfValue>
 					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
-						( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+						(pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 					</SectionIfValueNot>
 				</ReportText>
 				<ReportText SectionId="impression">
 					<InsertPartial PartialId="treatedimpressiontext"/>
-					[LR-TR Viable] ( pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
+					[LR-TR Viable] (pretreatment  <InsertValue DataElementId="pretreatmentCategory"/>, <InsertValue DataElementId="pretreatmentsize"/> mm)
 				</ReportText>
 			</ReportTexts>
 		</EndPoint>
