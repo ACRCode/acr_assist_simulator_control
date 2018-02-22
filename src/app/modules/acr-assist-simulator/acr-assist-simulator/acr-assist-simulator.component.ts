@@ -37,6 +37,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    console.log(this.template);
     this.simulatorEngineService.initialize(this.template);
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
