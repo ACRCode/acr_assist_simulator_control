@@ -20,10 +20,10 @@ export class AssistMultiChoiceElementComponent implements OnInit {
   multiChoiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.createMultiChoiceElementForm();
-  }
+  constructor(private formBuilder: FormBuilder) {}
+
   ngOnInit() {
+    this.createMultiChoiceElementForm();
   }
 
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
@@ -56,8 +56,20 @@ export class AssistMultiChoiceElementComponent implements OnInit {
 
   private createMultiChoiceElementForm() {
     this.multiChoiceElementForm = this.formBuilder.group({
-      checkBox: ['', Validators.required ],
+      multiCheckBox: ['', Validators.required ],
+    }, {
+      validator: this.specificValueInsideRange('multiCheckBox')
     });
   }
 
+  private specificValueInsideRange(checkBoxKey: string) {
+    return (group: FormGroup) => {
+      const choiceControl = group.controls[checkBoxKey];
+      if ( this.multiChoiceElement.isRequired ) {
+        return choiceControl.setErrors({ notEquivalent: true });
+      }else {
+        return choiceControl.setErrors(null);
+      }
+    };
+  }
 }

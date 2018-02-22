@@ -11,7 +11,7 @@
     <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
-    <div *ngIf="multiChoiceElementForm.controls['checkBox'].invalid || !multiChoiceValues.length" class="required-field">
+    <div *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length" class="required-field">
       * Is Required.
     </div>
   </div>
@@ -21,7 +21,7 @@
         <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo">
           <div class="checkbox">
             <label>
-              <input type="checkbox" value={{choice.value}} formControlName="checkBox" (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, choice.label, $event)">
+              <input type="checkbox" value={{choice.value}} formControlName="multiCheckBox" (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, choice.label, $event)">
               <span> {{choice.label}}</span>
             </label>
           </div>

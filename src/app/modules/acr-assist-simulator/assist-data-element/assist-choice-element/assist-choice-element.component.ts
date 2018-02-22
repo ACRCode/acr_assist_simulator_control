@@ -10,16 +10,16 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './assist-choice-element.component.html',
   styleUrls: ['./assist-choice-element.component.css', '../../../../modules/styles.css']
 })
-export class AssistChoiceElementComponent {
+export class AssistChoiceElementComponent implements OnInit {
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnChoiceElement = new EventEmitter();
   choiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {}
+  ngOnInit(): void {
     this.createChoiceElementForm();
   }
-
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = elementId;
@@ -60,7 +60,7 @@ this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
-      if (choiceControl.value === 'undefined' || choiceControl.value === '') {
+      if ((choiceControl.value === 'undefined' || choiceControl.value === '') && this.choiceDataElement.isRequired ) {
         return choiceControl.setErrors({ notEquivalent: true });
       }else {
         return choiceControl.setErrors(null);

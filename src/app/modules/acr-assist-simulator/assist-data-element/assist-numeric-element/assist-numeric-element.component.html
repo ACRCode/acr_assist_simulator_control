@@ -12,7 +12,7 @@
       <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
 
-    <div *ngIf="numericElementForm.controls['numericElement'].invalid">
+    <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
       <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
         * Is Required.
       </div>

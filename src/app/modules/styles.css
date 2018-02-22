@@ -985,3 +985,7 @@ input[type="number"]:focus,
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.numeric-align {
+  display: inline;
+}
