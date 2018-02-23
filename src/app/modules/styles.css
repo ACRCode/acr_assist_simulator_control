@@ -39,6 +39,7 @@ input[type=file].inputfile:focus+label {
 }
 
 
+
 /* Master Styles */
 
 h1 {
@@ -988,4 +989,11 @@ input[type="number"] {
 
 .numeric-align {
   display: inline;
+}
+
+input[type="text"] {
+max-width: 280px;
+margin-left: 0px !important;
+border-radius: 5px !important;
+text-transform: capitalize;
 }

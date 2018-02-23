@@ -34,29 +34,38 @@
                   </div>
                 </div>
               </ng-container>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="imagePath == undefined">
-            <div id="radio-inline">
-              <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+              <ng-container *ngIf="choiceDataElement.allowFreetext">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
-                      <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
+                      <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                      <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other</label>
                   </div>
                 </div>
-              </ng-container>
+              </ng-container> 
+              <ng-container *ngIf="choiceDataElement.allowFreetext">
+                <div id='div_{{choiceDataElement.id}}_other' class="row">
+                  <div class="col-sm-12">
+                      <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other" (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)' > <!--  (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', choice.value)" -->
+                  </div>
+                </div>
+              </ng-container>        
             </div>
           </ng-container>
         </ng-container>
         <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
-          <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5">
+          <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5 || (choiceDataElement.choiceInfo.length === 5 && choiceDataElement.allowFreetext) ">
               <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox">
                 <option [value]="Select" [selected]="true">--Select--</option>
-              <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
-            </select>
+                <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
+                <option *ngIf="choiceDataElement.allowFreetext" [value]="other" [selected]='other' >Other</option>
+              </select>
+              <div id='div_{{choiceDataElement.id}}_other' class="row">
+                  <div class="col-sm-12">
+                      <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"  (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
+                  </div>
+                </div>
           </ng-container>
-          <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 5">
+          <ng-container *ngIf="choiceDataElement.choiceInfo.length === 5 && !choiceDataElement.allowFreetext">
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
               <div id="radio-inline">
                 <div class="row">
@@ -68,6 +77,34 @@
               </div>
             </ng-container>
           </ng-container>
+
+          <ng-container *ngIf="(choiceDataElement.choiceInfo.length < 5 && choiceDataElement.allowFreetext) || (choiceDataElement.choiceInfo.length < 5 && !choiceDataElement.allowFreetext)">
+              <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+                <div id="radio-inline">
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
+                        <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="choiceDataElement.allowFreetext">
+                <div id="radio-inline">
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                          <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div id='div_{{choiceDataElement.id}}_other' class="row">
+                      <div class="col-sm-12">
+                          <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other" (keyup)="updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)">
+                      </div>
+                    </div>
+                </ng-container>
+            </ng-container>
         </ng-container>
       </div>
     </div>
