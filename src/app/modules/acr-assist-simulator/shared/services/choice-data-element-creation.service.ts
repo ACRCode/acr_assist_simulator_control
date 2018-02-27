@@ -23,9 +23,10 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     choice.label = choiceItem.Label;
     choice.value = choiceItem.Value;
     choice.hint = choiceItem.Hint;
+    choice.reportText = choiceItem.ReportText;
     choice.default = false;
-    if (choiceItem.Attr &&  choiceItem.Attr.Default) {
-      choice.default = choiceItem.Attr.Default;
+    if (choiceItem.Attr &&  choiceItem.Attr.IsDefault) {
+      choice.default = choiceItem.Attr.IsDefault;
     }
     return choice;
   }

@@ -1,23 +1,38 @@
-import { Component, Output ,  EventEmitter } from '@angular/core';
+import { Component, Output , EventEmitter, OnInit } from '@angular/core';
 import { FileDetails } from '../shared/models/file-details.model';
-
+const $ = require('jquery');
 
 @Component({
   selector: 'acr-file-upload-loader',
   templateUrl: './file-upload-loader.component.html',
   styleUrls: ['../../styles.css']
 })
-export class FileUploadLoaderComponent  {
 
-
+export class FileUploadLoaderComponent implements OnInit  {
   @Output() onFileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
   fileReader: FileReader = new FileReader();
   readFile: File;
 
-  changeListener($event): void {
-    this.readThis($event.target);
+  ngOnInit(): void {
+    this.hideMessage();
   }
 
+  changeListener($event): void {
+    let fileName: string;
+    fileName = $event.target.value;
+    if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML')) {
+      this.hideMessage();
+    this.readThis($event.target);
+    } else {
+      if (fileName !== '' && fileName !== undefined) {
+        $('#xmlOnlyMsg').show();
+      }
+    }
+  }
+
+  hideMessage() {
+    $('#xmlOnlyMsg').hide();
+  }
 
   readThis(inputValue: any): void {
     this.readFile = inputValue.files[0];

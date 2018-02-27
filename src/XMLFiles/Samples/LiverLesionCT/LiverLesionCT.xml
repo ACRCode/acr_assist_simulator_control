@@ -12,7 +12,7 @@
                 <Citation></Citation>
             </References>
             <Diagrams>
-                <Diagram DisplaySequence="1" KeyDiagram="true">
+                <Diagram DisplaySequence="1" IsKeyDiagram="true">
                     <Location>keydiagram.PNG</Location>
                     <Label>Liver Lesion</Label>
                 </Diagram>
@@ -67,7 +67,7 @@
         <GlobalValue Id="largeSize">1.5</GlobalValue>
         
 
-        <NumericDataElement Id="size" DisplaySequence="1" IsRequired="true">
+        <NumericDataElement Id="lesionSize" DisplaySequence="1" IsRequired="true">
             <Label>Size (cm)</Label>
             <Hint>Size of the lesion in centimeters</Hint>
             <Minimum>0</Minimum>
@@ -168,7 +168,7 @@
                     <DataElementRef DataElementId="imagingfeatureforlargelesion"></DataElementRef>
                     <DataElementRef DataElementId="patientriskforlargelesion"></DataElementRef>
                 </NotRelevantDataElements>
-                <LessThanCondition DataElementId="size" ComparisonValue="smallSize"/>
+                <LessThanCondition DataElementId="lesionSize" ComparisonValue="smallSize"/>
                <DecisionPoint Id="patientriskdp">
                    <Label>Patient Risk</Label>
                    <Branch>
@@ -189,8 +189,8 @@
                     <DataElementRef DataElementId="patientriskforlargelesion"></DataElementRef>
                 </NotRelevantDataElements>
                 <AndCondition>
-                    <LessThanOrEqualsCondition DataElementId="size" ComparisonValue="largeSize"/>
-                    <GreaterThanOrEqualsCondition DataElementId="size" ComparisonValue="smallSize"/>
+                    <LessThanOrEqualsCondition DataElementId="lesionSize" ComparisonValue="largeSize"/>
+                    <GreaterThanOrEqualsCondition DataElementId="lesionSize" ComparisonValue="smallSize"/>
                 </AndCondition>
                 <DecisionPoint Id="imagingfeaturesDp">
                     <Label>Imaging features</Label>
@@ -231,7 +231,7 @@
                     <DataElementRef DataElementId="patientriskfprflashfilling"></DataElementRef>
 					<DataElementRef DataElementId="patientrisk"></DataElementRef>
                 </NotRelevantDataElements>
-                <GreaterThanCondition DataElementId="size" ComparisonValue="largeSize"/>
+                <GreaterThanCondition DataElementId="lesionSize" ComparisonValue="largeSize"/>
                 <DecisionPoint Id="largelesionimagingfeatures">
                     <Label>Imaging features</Label>
                     <Branch>

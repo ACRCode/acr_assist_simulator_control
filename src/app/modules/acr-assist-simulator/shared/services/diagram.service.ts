@@ -15,7 +15,7 @@ private  returnDiagram(diagramJSON: any ): Diagram {
 
     if ( diagramJSON.Attr)  {
       diagram.displaySequence = diagramJSON.Attr.DisplaySequence;
-      diagram.keyDiagram = diagramJSON.Attr.KeyDiagram ?  diagramJSON.Attr.KeyDiagram : false;
+      diagram.keyDiagram = diagramJSON.Attr.IsKeyDiagram ?  diagramJSON.Attr.IsKeyDiagram : false;
     } else {
       diagram.displaySequence = undefined;
       diagram.keyDiagram = false;

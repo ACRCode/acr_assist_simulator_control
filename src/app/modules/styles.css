@@ -299,6 +299,17 @@ button.active,
   font-weight: bold;
 }
 
+.xml-only-msg {
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 12px;
+  color: white;
+  width: 240px;
+  display: inline-block;
+  font-weight: bold;
+}
+
 .col-per-10 {
   border: 1px solid blue;
   padding: 15px 10px 15px 10px;

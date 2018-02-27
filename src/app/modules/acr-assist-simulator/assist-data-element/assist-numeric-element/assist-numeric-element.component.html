@@ -21,13 +21,25 @@
       </div>
      </div>
   </div>
-  
-  <div class="col-xs-8 col-sm-7 text-left content-padding">
+  <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
+    <div class="col-xs-8 col-sm-7 text-left content-padding">
+        <div class="row">
+            <div class="col-sm-12">
+              <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
+              onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
+            </div>
+          </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
+    <div class="col-xs-8 col-sm-7 text-left content-padding">
       <div class="row">
           <div class="col-sm-12">
-            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
-            onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
+            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
+            onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" pattern="/^(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/" required>
           </div>
         </div>
-  </div>
+    </div>
+  </ng-container>
 </form>

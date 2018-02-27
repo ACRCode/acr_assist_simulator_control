@@ -16,7 +16,7 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
   private  returnDiagram(diagramJSON: any ): Diagram {
     const metadataDiagram = new Diagram();
     metadataDiagram.displaySequence = diagramJSON.Attr.DisplaySequence;
-    metadataDiagram.keyDiagram = diagramJSON.Attr.KeyDiagram ?  diagramJSON.Attr.KeyDiagram : false;
+    metadataDiagram.keyDiagram = diagramJSON.Attr.IsKeyDiagram ?  diagramJSON.Attr.IsKeyDiagram : false;
     metadataDiagram.label = diagramJSON.Label;
     metadataDiagram.location = diagramJSON.Location;
     return metadataDiagram;

@@ -12,5 +12,6 @@
   </div>
 </div> -->
 
-<input id="xmlFileUpload" class="inputfile" type="file" accept=".xml" (change)="changeListener($event)">
-<label for="xmlFileUpload">Choose a file</label>
+<input id="xmlFileUpload" class="inputfile" type="file" accept=".xml" (change)="changeListener($event)" (click)="hideMessage()">
+<label for="xmlFileUpload">Choose a file</label><br>
+<div id="xmlOnlyMsg" class="xml-only-msg"> Only XML files are supported !!!</div>

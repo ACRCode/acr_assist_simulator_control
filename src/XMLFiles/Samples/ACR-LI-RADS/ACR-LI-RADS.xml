@@ -5,7 +5,7 @@
 		<Label>ACR LI-RADS</Label>
 		<ID>ACR_LI_RADS</ID>
 		<SchemaVersion>1.0</SchemaVersion>
-		<RuleVersion>2.0</RuleVersion>
+		<ModuleVersion>2.0</ModuleVersion>
 		<Info>
 			<Description>This module can be used for characterizing liver lesion for
 				MRI</Description>
@@ -14,7 +14,7 @@
 				<Citation Url="https://nrdr.acr.org/liradsapp/"> </Citation>
 			</References>
 			<Diagrams>
-				<Diagram DisplaySequence="1" KeyDiagram="true">
+				<Diagram DisplaySequence="1" IsKeyDiagram="true">
 					<Location>KeyDiagram.png</Location>
 					<Label>ACR LI-RADS</Label>
 				</Diagram>
@@ -39,7 +39,7 @@
 		</Info>
 		<ReportCitationText/>
 		<Ontology>
-			<AnatomicRegions codingSystemAttr="http://radlex.org/">
+			<AnatomicRegions CodingSystem="http://radlex.org/">
 				<Region Code="RID58"> Liver </Region>
 			</AnatomicRegions>
 			<PossibleDiagnoses>
@@ -638,7 +638,7 @@
 				</Diagram>
 			</Diagrams>
 			<ChoiceInfo>
-				<Choice Default="true">
+				<Choice IsDefault="true">
 					<Value>No</Value>
 					<Label>No</Label>
 				</Choice>
@@ -744,7 +744,7 @@
 			</ChoiceInfo>
 		</MultiChoiceDataElement>
 		
-		<ComputedElement Id="patternInEnhancementCE">
+		<ComputedDataElement Id="patternInEnhancementCE">
 			<DecisionPoint>
 				<Branch>
 					<OrCondition>
@@ -758,9 +758,9 @@
 					<TextExpression>none</TextExpression>
 				</DefaultBranch>
 			</DecisionPoint>
-		</ComputedElement>
+		</ComputedDataElement>
 		
-		<ComputedElement Id="washoutcapsulethreshold" >
+		<ComputedDataElement Id="washoutcapsulethreshold" >
 			<DecisionPoint>
 				<Branch>
 					<AndCondition>
@@ -802,7 +802,7 @@
 					<TextExpression>twoormore</TextExpression>
 				</DefaultBranch>
 			</DecisionPoint>
-		</ComputedElement>
+		</ComputedDataElement>
 	
 		<ChoiceDataElement Id="IsTIVcontiguouswithaparenchymalmass" IsRequired="true" DisplaySequence="25">
 		<Label>Is TIV contiguous with a parenchymal mass?</Label>
@@ -2047,12 +2047,15 @@
 			Pretreatment size: <InsertValue DataElementId="pretreatmentsize"/> mm
 			<SectionIf DataElementId="irregularattheperiphery"><!-- if any value present -->Enhancement in a nodular or mass like pattern : <InsertValue DataElementId="irregularattheperiphery"/>
 			</SectionIf>
-			<SectionIf DataElementId="sizeoftheenhancementComponents"><!-- if any value present -->Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
+			<SectionIf DataElementId="sizeoftheenhancementComponents"><!-- if any value present -->
+			Size of enhancing component : <InsertValue DataElementId="sizeoftheenhancementComponents"/> mm
 			</SectionIf>
 			<SectionIf DataElementId="patternofenhancement">
 				Enhancement characteristics:
 				        Arterial phase hyperenhancement: <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="aphe">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="aphe">No</SectionIfValueNot>
-				        Washout appearance: <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No</SectionIfValueNot>
+				        Washout appearance: <SectionIfValue DataElementId="patternofenhancement" ComparisonValue="washout">Yes
+						</SectionIfValue><SectionIfValueNot DataElementId="patternofenhancement" ComparisonValue="washout">No
+						</SectionIfValueNot>
 				<SectionIfValue DataElementId="patternofenhancement" ComparisonValue="similar_to_pretreatment">
 				        Other: Enhancement similar to pretreatment	
 				</SectionIfValue>
@@ -2071,7 +2074,7 @@
 		
 		<TemplatePartial Id="untreatreporttext">
 			Observation# : <InsertValue DataElementId="observationnumber"/>
-				Location :  Segment <InsertValue DataElementId="segmentlocation"/> 
+				Location :  Segment <InsertValue DataElementId="segmentlocation"/>&amp;nbsp;
 			<SectionIf DataElementId="diameter">
 					Size : <InsertValue DataElementId="diameter"/> mm (image# <InsertValue DataElementId="imagenumber"/>, series# <InsertValue DataElementId="seriesnumber"/>)
 			</SectionIf>

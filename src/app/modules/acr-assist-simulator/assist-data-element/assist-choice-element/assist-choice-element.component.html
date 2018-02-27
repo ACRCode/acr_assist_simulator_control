@@ -29,7 +29,8 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
+                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -37,7 +38,8 @@
               <ng-container *ngIf="choiceDataElement.allowFreetext">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                      <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" 
+                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
                       <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other</label>
                   </div>
                 </div>
@@ -70,7 +72,8 @@
               <div id="radio-inline">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
+                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
+                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -83,7 +86,8 @@
                 <div id="radio-inline">
                   <div class="row">
                     <div class="col-sm-12">
-                        <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, choice.label, choice.value)">
+                        <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
+                        (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                         <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                     </div>
                   </div>
@@ -93,7 +97,8 @@
                 <div id="radio-inline">
                     <div class="row">
                       <div class="col-sm-12">
-                          <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                          <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" 
+                          (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
                           <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other</label>
                       </div>
                     </div>

@@ -14,7 +14,7 @@ export class ComputedElementCreationService extends DataElementCreationBaseServi
     private computedValueCreationService: ComputedValueCreationService ,
     private decisionPointsCreationService: DecisionPointsCreationService) {
     super(diagramService);
-    this.elementType = 'ComputedElement';
+    this.elementType = 'ComputedDataElement';
   }
 
   createElement(data: any): BaseDataElement {

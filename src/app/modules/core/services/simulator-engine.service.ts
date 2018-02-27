@@ -167,7 +167,7 @@ export class SimulatorEngineService {
       let expressionValue: any ;
       for (const element of this.template.dataElements)
       {
-            if (element.dataElementType === 'ComputedElement') {
+            if (element.dataElementType === 'ComputedDataElement') {
               expressionValue = undefined;
               const computedElement: ComputedElement = element as ComputedElement;
               for (const decisionPoint of  computedElement.decisionPoints) {

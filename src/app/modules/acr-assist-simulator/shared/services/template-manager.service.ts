@@ -158,7 +158,8 @@ private parseToJson(xmlData: string): any {
    dataElements = dataElements.concat(this.returnDataElement('MultiChoiceDataElement', dataElementsJSON.MultiChoiceDataElement));
    dataElements = dataElements.concat(this.returnDataElement('NumericDataElement', dataElementsJSON.NumericDataElement));
    dataElements = dataElements.concat(this.returnDataElement('GlobalValue', dataElementsJSON.GlobalValue));
-   dataElements = dataElements.concat(this.returnDataElement('ComputedElement', dataElementsJSON.ComputedElement));
-    return dataElements;
+   dataElements = dataElements.concat(this.returnDataElement('ComputedDataElement', dataElementsJSON.ComputedDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('IntegerDataElement', dataElementsJSON.IntegerDataElement));
+   return dataElements;
  }
 }
