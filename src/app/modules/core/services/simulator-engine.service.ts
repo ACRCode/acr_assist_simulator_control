@@ -4,7 +4,7 @@ import { SimulatorState } from '../models/simulator-state.model';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { DecisionPoint } from '../models/decisionpoint.model';
 import { DataElementValues } from '../dataelementvalues';
-import { ComputedElement } from '../elements/models/computed-element-model';
+import { ComputedDataElement } from '../elements/models/computed-data-element-model';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -169,7 +169,7 @@ export class SimulatorEngineService {
       {
             if (element.dataElementType === 'ComputedDataElement') {
               expressionValue = undefined;
-              const computedElement: ComputedElement = element as ComputedElement;
+              const computedElement: ComputedDataElement = element as ComputedDataElement;
               for (const decisionPoint of  computedElement.decisionPoints) {
                this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
                 if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
@@ -185,7 +185,7 @@ export class SimulatorEngineService {
   }
   private evaluateDecisionPoints() {
 
-
+     console.log(this.dataElementValues);
      this.evaluateComputedExpressions();
 
      this.endOfRoadReached = false;

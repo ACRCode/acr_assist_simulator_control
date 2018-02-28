@@ -4,11 +4,11 @@ import { ArrayCheckerService } from './array-checker.service';
 import { DiagramService } from './diagram.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { ComputedElement } from '../../../core/elements/models/computed-element-model';
+import { ComputedDataElement } from '../../../core/elements/models/computed-data-element-model';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
 
 @Injectable()
-export class ComputedElementCreationService extends DataElementCreationBaseService  {
+export class ComputedDataElementCreationService extends DataElementCreationBaseService  {
 
   constructor(diagramService: DiagramService, private arrayCheckerService: ArrayCheckerService,
     private computedValueCreationService: ComputedValueCreationService ,
@@ -18,7 +18,7 @@ export class ComputedElementCreationService extends DataElementCreationBaseServi
   }
 
   createElement(data: any): BaseDataElement {
-    const dataElement =  new ComputedElement();
+    const dataElement =  new ComputedDataElement();
     super.populateBasicData(data, dataElement);
     dataElement.computeValue = this.computedValueCreationService.createComputedValue(data);
     if (data.DecisionPoint) {

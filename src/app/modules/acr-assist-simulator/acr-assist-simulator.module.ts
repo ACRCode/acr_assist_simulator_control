@@ -24,7 +24,7 @@ import { AssistMultiChoiceElementComponent } from './assist-data-element/assist-
 import { ImageMapComponent } from './assist-data-element/image-map/image-map.component';
 import { DecisionPointsCreationService } from './shared/services/decision-points-creation.service';
 import { ComputedValueCreationService } from './shared/services/computed-value-creation.service';
-import { ComputedElementCreationService } from './shared/services/computed-element-creation.service';
+import { ComputedDataElementCreationService } from './shared/services/computed-data-element-creation.service';
 import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
 import { SimulatorEngineService } from '../core/services/simulator-engine.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -56,7 +56,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
     {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: ComputedElementCreationService, multi: true }
+    {provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true }
     ],
   exports: components
 })
