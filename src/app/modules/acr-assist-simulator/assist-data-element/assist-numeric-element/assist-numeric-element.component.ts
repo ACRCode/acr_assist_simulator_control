@@ -39,9 +39,21 @@ export class AssistNumericElementComponent implements OnInit {
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
+    }, {
+      validator: this.specificValueInsideRange('numericElement')
     });
   }
 
+  private specificValueInsideRange(numericKey: string) {
+    return (group: FormGroup) => {
+      const numericControl = group.controls[numericKey];
+      if ((numericControl.value === 'undefined' || numericControl.value === '') && this.numericDataElement.isRequired ) {
+        return numericControl.setErrors({ notEquivalent: true });
+      }else {
+        return numericControl.setErrors(null);
+      }
+    };
+  }
   onlyNumberKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }

@@ -321,7 +321,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                       comaprisonValue !== undefined) {
                         isSectionIf = true;
                         if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                          findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                         }
                       canInsertText = true;
                       break;
@@ -334,7 +334,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                       selectedElements[node.attributes.DataElementId] !== undefined) {
                       isSectionIf = true;
                       if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                        findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                        findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                       }
                       canInsertText = true;
                     } else {
@@ -349,33 +349,34 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             if (executeTemplate) {
               isReportText = false;
               insertValue = true;
+              const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
               if (node.attributes.Id === 'findings' || canInsertText) {
                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   }
                 }
@@ -399,12 +400,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               canInsertText = true;
             }
             break;
-            case 'TemplatePartial':
+          case 'TemplatePartial':
             isNewTemplate = false;
             canInsertText = false;
             executeTemplate = false;
             break;
-            case 'ReportText':
+          case 'ReportText':
             isImpression = false;
             if (!hasInsertPartial) {
               const reportTextObj: AllReportText = new AllReportText();
@@ -414,13 +415,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             }
             hasInsertPartial = false;
             break;
-            case 'SectionIf':
-              isSectionIf = false;
-              break;
-            case 'InsertPartial':
+          case 'SectionIf':
+            isSectionIf = false;
+            canInsertText = true;
+            break;
+          case 'InsertPartial':
+            canInsertText = true;
+            break;
+          case 'InsertValue':
+            if (hasSectionNot && executeSectionIfNot) {
               canInsertText = true;
-              break;
-
+            }
+            break;
         }
       };
 
@@ -536,7 +542,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                             comaprisonValue !== undefined) {
                                               isSectionIf = true;
                                               if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                                                findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                                findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                                               }
                                             canInsertText = true;
                                             break;
@@ -549,7 +555,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                             selectedElements[node.attributes.DataElementId] !== undefined) {
                                             isSectionIf = true;
                                             if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
-                                              findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                              findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                                             }
                                             canInsertText = true;
                                           } else {
@@ -560,38 +566,39 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             case 'InsertValue':
                                 if (executeTemplate) {
                                   insertValue = true;
+                                  const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
                                   if (node.attributes.Id === 'findings' || canInsertText) {
                                     if (isImpression) {
                                       canInsertText = true;
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
-                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                          impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
                                           if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                            impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                           } else {
-                                            impressionText = impressionText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                            impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                           }
                                         }
                                       }
                                     } else {
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
-                                          findingsText = findingsText + ' ' +  selectedChoiceTexts[node.attributes.DataElementId];
+                                          findingsText = findingsText +  (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
-                                          findingsText = findingsText + ' ' + selectedChoiceTexts[node.attributes.DataElementId];
+                                          findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       }
                                     }
@@ -609,15 +616,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                 canInsertText = true;
               }
               break;
-              case 'TemplatePartial':
+            case 'TemplatePartial':
               isNewTemplate = true;
               canInsertText = false;
               executeTemplate = true;
               break;
-              case 'InsertPartial':
+            case 'InsertPartial':
               canInsertText = true;
               break;
-              case 'SectionIf' || 'SectionIfValue':
+            case 'SectionIf' || 'SectionIfValue':
               isSectionIf = false;
               break;
           }
