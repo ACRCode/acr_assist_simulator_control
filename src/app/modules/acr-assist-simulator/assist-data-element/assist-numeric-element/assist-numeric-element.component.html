@@ -12,14 +12,16 @@
       <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
 
-    <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
-      <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
-        * Is Required.
+    <ng-container *ngIf="this.numericDataElement.isRequired">
+      <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
+        <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
+          * Is Required.
+        </div>
       </div>
-      <div *ngIf="numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
+    </ng-container>    
+    <div *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
         * Minimum value is {{numericDataElement.minimum}}.
       </div>
-     </div>
   </div>
   <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
     <div class="col-xs-8 col-sm-7 text-left content-padding">

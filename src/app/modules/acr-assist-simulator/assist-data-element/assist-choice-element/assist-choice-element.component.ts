@@ -43,7 +43,7 @@ this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition
   dropdownChoiceSelected(element, selectedCondition) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = element.id;
-    choiceElement.selectedValue = (element.selectedOptions[0].label === 'Other') ? 'other' : element.value;
+    choiceElement.selectedValue = (element.selectedOptions[0].label === 'Other, please specify…') ? 'other' : element.value;
     choiceElement.selectedText = element.selectedOptions[0].label;
     this.showOrHideFreeText(element.id, choiceElement.selectedValue);
     this.selectedCondition = new SelectedCondition();

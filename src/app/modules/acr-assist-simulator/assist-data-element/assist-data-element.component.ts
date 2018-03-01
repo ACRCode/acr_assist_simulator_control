@@ -570,17 +570,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                   if (node.attributes.Id === 'findings' || canInsertText) {
                                     if (isImpression) {
                                       canInsertText = true;
-                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+                                        if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined ) {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
-                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
+                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
-                                          if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                                          if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                             impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                           } else {
                                             impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
@@ -588,13 +588,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                         }
                                       }
                                     } else {
-                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
+                                      if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
                                           findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
                                           findingsText = findingsText +  (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
-                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
+                                      } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
                                           findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {

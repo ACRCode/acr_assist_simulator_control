@@ -39,8 +39,6 @@ export class AssistNumericElementComponent implements OnInit {
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
-    }, {
-      validator: this.specificValueInsideRange('numericElement')
     });
   }
 
