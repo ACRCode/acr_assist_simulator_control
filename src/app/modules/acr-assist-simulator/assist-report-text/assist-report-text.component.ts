@@ -21,7 +21,7 @@ ngOnChanges(changes: SimpleChanges): void {
   constructor() { }
 
   onSelect(sectionId) {
-    this.selectedSectionId = sectionId;
+    this.selectedSectionId = (sectionId === 'undefined') ? 'All' : sectionId;
     this.sections = [];
     this.selectedSection = null;
     for (const section in this.reportText.allReportText) {

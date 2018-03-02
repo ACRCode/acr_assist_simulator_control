@@ -1008,3 +1008,11 @@ margin-left: 0px !important;
 border-radius: 5px !important;
 text-transform: capitalize;
 }
+
+.all-reporttext-heading {
+  font-size: 18px;
+  text-decoration: underline;
+  text-transform: capitalize;
+  height: 25px;
+  margin-top: -65px;
+}

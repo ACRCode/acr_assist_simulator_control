@@ -231,7 +231,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                 }
           }
 
-          if (isReportText && !isTextInserted && isMainText) {
+          if (isReportText && !isTextInserted && isMainText && canInsertText) {
             reportTextContent = reportTextContent + t;
           }
         }
@@ -426,6 +426,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             if (hasSectionNot && executeSectionIfNot) {
               canInsertText = true;
             }
+            break;
+          case 'SectionIfValue':
+            canInsertText = true;
             break;
         }
       };

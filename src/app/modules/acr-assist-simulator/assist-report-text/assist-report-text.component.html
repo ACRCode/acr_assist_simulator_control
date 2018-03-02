@@ -3,19 +3,32 @@
         <div class="panel-heading findings">Report Text: 
             <div>
                 <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
-                    <ng-container *ngFor="let Section of sections" >
-                        <option [value]="Section" [selected]="Section == selectedSectionId" >{{Section}}</option>
-                    </ng-container>
+                    <option [value]="All" [selected]="All">All</option>
+                    <option *ngFor="let Section of sections" [value]="Section" [selected]="Section == selectedSectionId" >{{Section}}</option>
                 </select>
             </div>
         </div>
         <div class="panel-body" >
             <div class="reportText-content">
-                <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined" class="split-length-word">
-                    {{reportText.reportTextMainContent}}
-                </div>
-                <div [innerHTML]="selectedSection"  class="split-length-word">
-                </div>
+                <ng-container *ngIf="selectedSectionId !=='All'">
+                    <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined" class="split-length-word">
+                        {{reportText.reportTextMainContent}}
+                    </div>
+                    <div [innerHTML]="selectedSection"  class="split-length-word">
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="selectedSectionId === 'All'">
+                    <ng-container *ngFor="let section of mainReportTexts.allReportText">
+                        <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined" class="split-length-word">
+                            {{reportText.reportTextMainContent}}
+                        </div>
+                        <div class="all-reporttext-heading">
+                            {{section.sectionId}}
+                        </div>
+                        <div [innerHTML]="section.reportText"  class="split-length-word">
+                        </div>                        
+                    </ng-container>                    
+                </ng-container>
             </div>
         </div>
     </div>
