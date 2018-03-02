@@ -3,7 +3,7 @@
         <div class="panel-heading findings">Report Text: 
             <div>
                 <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
-                    <option [value]="All" [selected]="All">All</option>
+                    <option *ngIf="sections.length > 1" [value]="All" [selected]="All">All</option>
                     <option *ngFor="let Section of sections" [value]="Section" [selected]="Section == selectedSectionId" >{{Section}}</option>
                 </select>
             </div>

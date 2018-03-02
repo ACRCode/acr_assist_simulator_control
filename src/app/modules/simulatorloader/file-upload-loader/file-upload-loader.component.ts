@@ -19,7 +19,9 @@ export class FileUploadLoaderComponent implements OnInit  {
 
   changeListener($event): void {
     let fileName: string;
+    let folderName: string;
     fileName = $event.target.value;
+folderName = $event.target.value;
     if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML')) {
       this.hideMessage();
     this.readThis($event.target);
