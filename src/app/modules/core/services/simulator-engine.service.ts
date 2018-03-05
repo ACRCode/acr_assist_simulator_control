@@ -18,7 +18,12 @@ export class SimulatorEngineService {
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
   constructor() {
-    this. dataElementValues = new Map<string, any>();
+    this.dataElementValues = new Map<string, any>();
+    this.dataElementTexts = new Map<string, any>();
+  }
+
+  resetAllDataElementValues() {
+    this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
   }
 

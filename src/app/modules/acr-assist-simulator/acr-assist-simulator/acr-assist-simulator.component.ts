@@ -6,6 +6,7 @@ import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { Diagram } from '../../core/models/diagram.model';
+import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -53,7 +54,14 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   }
 
   resetElements () {
+    const resetDataElement: BaseDataElement[] = new Array<BaseDataElement>();
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    for (const dataElement of  this.template.dataElements) {
+      dataElement.currentValue = dataElement.defaultValue;
+      resetDataElement.push(dataElement);
+   }
+   this.template.dataElements = resetDataElement;
+   this.simulatorEngineService.resetAllDataElementValues();
     this.resultText = undefined;
   }
 
