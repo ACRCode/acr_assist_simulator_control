@@ -2,18 +2,18 @@
     <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement' || DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement' || DataElement.dataElementType == 'MultiChoiceDataElement') ">
         <ng-container *ngIf="DataElement.isVisible">
             <div id="div_{{DataElement.id}}" class="row bottom-margin"> 
-                    <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
-                        <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
-                    </ng-container>          
-        
-                    <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
-                        <acr-assist-multi-choice-element [multiChoiceElement]='DataElement' [imagePath]='imagePath'  (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
-                    </ng-container>
-        
-                    <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
-                        <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
-                    </ng-container>
-                </div>  
+                <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
+                    <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+                </ng-container>          
+    
+                <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
+                    <acr-assist-multi-choice-element [multiChoiceElement]='DataElement' [imagePath]='imagePath'  (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
+                </ng-container>
+    
+                <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
+                    <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
+                </ng-container>
+            </div>  
         </ng-container>        
     </ng-container>
 </ng-container>

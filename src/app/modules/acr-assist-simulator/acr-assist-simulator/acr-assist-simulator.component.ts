@@ -6,6 +6,7 @@ import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { Diagram } from '../../core/models/diagram.model';
+
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
@@ -26,8 +27,6 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
 
    }
-
-
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -52,6 +51,12 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     }
     this.resultText = undefined;
   }
+
+  resetElements () {
+    this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    this.resultText = undefined;
+  }
+
   recieveReportText (textReport: MainReportText) {
     this.resultText = textReport;
   }

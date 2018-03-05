@@ -310,6 +310,17 @@ button.active,
   font-weight: bold;
 }
 
+@media (min-width: 400px) and (max-width: 1024px) {
+  .xml-only-msg {
+    width: 120px;
+  }
+}
+
+@media (max-width: 475px)  {
+  .xml-only-msg {
+    color: #000000
+  }
+}
 .col-per-10 {
   border: 1px solid blue;
   padding: 15px 10px 15px 10px;
