@@ -18,7 +18,7 @@
           * Is Required.
         </div>
       </div>
-    </ng-container>    
+    </ng-container>
     <div *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
         * Minimum value is {{numericDataElement.minimum}}.
       </div>
@@ -39,7 +39,7 @@
       <div class="row">
           <div class="col-sm-12">
             <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
-            onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" pattern="/^(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/" required>
+            onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"  required>
           </div>
         </div>
     </div>

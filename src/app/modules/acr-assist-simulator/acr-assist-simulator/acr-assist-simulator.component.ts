@@ -37,7 +37,6 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
-    console.log(this.template);
     this.simulatorEngineService.initialize(this.template);
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
@@ -53,17 +52,14 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     this.resultText = undefined;
   }
 
-  resetElements () {
-    const resetDataElement: BaseDataElement[] = new Array<BaseDataElement>();
-    this.template =  this.templateManagerService.getTemplate(this.templateContent);
-    for (const dataElement of  this.template.dataElements) {
-      dataElement.currentValue = dataElement.defaultValue;
-      resetDataElement.push(dataElement);
-   }
-   this.template.dataElements = resetDataElement;
-   this.simulatorEngineService.resetAllDataElementValues();
-    this.resultText = undefined;
+
+  reset() {
+     for (const  dataElement in this.template.dataElements){
+
+
+     }
   }
+
 
   recieveReportText (textReport: MainReportText) {
     this.resultText = textReport;

@@ -37,7 +37,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedCondition = selectedElement;
     this.selectedCondition.selectedValue = selectedText;
 
-this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
+    this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
 
   dropdownChoiceSelected(element, selectedCondition) {

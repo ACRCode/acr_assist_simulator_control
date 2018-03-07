@@ -43,7 +43,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
-
       this.simulatorState =  message as  SimulatorState;
         this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
         for (const dataElement of this.dataElements) {
@@ -67,6 +66,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
     });
   }
+
+
+
+
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
   }

@@ -22,10 +22,7 @@ export class SimulatorEngineService {
     this.dataElementTexts = new Map<string, any>();
   }
 
-  resetAllDataElementValues() {
-    this.dataElementValues = new Map<string, any>();
-    this.dataElementTexts = new Map<string, any>();
-  }
+ 
 
   getAllDataElementValues(): Map<string, any> {
     return this.dataElementValues;
