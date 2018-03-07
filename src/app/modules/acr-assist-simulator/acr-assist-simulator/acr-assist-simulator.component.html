@@ -4,14 +4,14 @@
           <h4>
             <ng-container *ngIf="template.metadata != undefined">
               <strong>{{template.metadata.label}} </strong>
-            </ng-container>  
+            </ng-container>
           </h4>
         </div>
-        <div class="col-sm-6 text-right border-0">
+        <!--<div class="col-sm-6 text-right border-0">
             <h4>
                 <button class="btn btn-md" (click)="resetElements()"><strong>Reset</strong></button>
             </h4>
-        </div>
+        </div>-->
     </div>
     <div class="row">
       <ng-container *ngIf="showKeyDiagram === true">
@@ -19,10 +19,10 @@
           <ng-container>
             <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
             [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-            (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>    
+            (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
           </ng-container>
         </div>
-     
+
         <div class="col-sm-6 text-right border-0">
           <ng-container *ngIf="keyDiagram !== undefined">
             <img class="img-max-width" src="{{keyDiagram.location}}">
@@ -34,7 +34,7 @@
           <ng-container>
               <acr-assist-data-element [dataElements]="template.dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
               [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-              (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>    
+              (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
             </ng-container>
       </ng-container>
     </div>
