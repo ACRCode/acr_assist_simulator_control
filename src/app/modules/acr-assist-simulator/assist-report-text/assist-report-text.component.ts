@@ -40,7 +40,7 @@ ngOnChanges(changes: SimpleChanges): void {
     this.allReportTexts = [];
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
-      allreportText.reportText = this.reportText.allReportText[section].reportText;
+      allreportText.reportText = this.removeEmptyLine(this.reportText.allReportText[section].reportText.replace(new RegExp(' ', 'g'), '&nbsp;'));
       allreportText.sectionId = this.reportText.allReportText[section].sectionId;
       this.allReportTexts.push(allreportText);
     }

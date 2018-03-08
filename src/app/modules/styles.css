@@ -1027,3 +1027,7 @@ text-transform: capitalize;
   height: 25px;
   margin-top: -65px;
 }
+
+.all-reportText-content {
+  margin-top: 10px;
+}
