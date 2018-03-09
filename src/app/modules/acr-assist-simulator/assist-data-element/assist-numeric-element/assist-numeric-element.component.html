@@ -38,7 +38,7 @@
     <div class="col-xs-8 col-sm-7 text-left content-padding">
       <div class="row">
           <div class="col-sm-12">
-            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
+            <input id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
             onpaste="return false;" (keyup)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"  required>
           </div>
         </div>
