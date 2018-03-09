@@ -4,7 +4,7 @@
             <div>
                 <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
                     <option *ngIf="sections.length > 1" [value]="All" [selected]="All">All</option>
-                    <option *ngFor="let Section of sections" [value]="Section" [selected]="Section == selectedSectionId" >{{Section}}</option>
+                    <option *ngFor="let Section of sections" [value]="Section" >{{Section}}</option>
                 </select>
             </div>
         </div>

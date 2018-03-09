@@ -307,7 +307,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             isMainText = false;
             break;
           case 'SectionIf':
-            if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0) {
+            if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
               isSectionIf = true;
               canInsertText = true;
             } else {
@@ -323,7 +323,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                     if (comaprisonValue === node.attributes.ComparisonValue &&
                       comaprisonValue !== undefined) {
                         isSectionIf = true;
-                        if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                        if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                           findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                         }
                       canInsertText = true;
@@ -336,7 +336,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                 } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
                       selectedElements[node.attributes.DataElementId] !== undefined) {
                       isSectionIf = true;
-                      if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                      if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                         findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                       }
                       canInsertText = true;
@@ -356,13 +356,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               if (node.attributes.Id === 'findings' || canInsertText) {
                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
                   if (isImpression) {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
@@ -370,13 +370,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                   if (isImpression) {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
@@ -532,7 +532,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
                                     break;
             case 'SectionIf':
-                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && (!hasSectionNot || (hasSectionNot && executeSectionIfNot))) {
+                              if ( selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && (!hasSectionNot || (hasSectionNot && executeSectionIfNot))
+                                && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                 isSectionIf = true;
                                 canInsertText = true;
                               } else {
@@ -547,7 +548,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                           if (comaprisonValue === node.attributes.ComparisonValue &&
                                             comaprisonValue !== undefined) {
                                               isSectionIf = true;
-                                              if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                                              if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                                 findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                                               }
                                             canInsertText = true;
@@ -560,7 +561,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                       } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
                                             selectedElements[node.attributes.DataElementId] !== undefined) {
                                             isSectionIf = true;
-                                            if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf) {
+                                            if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                               findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
                                             }
                                             canInsertText = true;
