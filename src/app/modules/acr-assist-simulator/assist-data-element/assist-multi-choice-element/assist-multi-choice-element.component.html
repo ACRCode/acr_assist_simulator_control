@@ -21,9 +21,9 @@
         <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo">
           <div class="checkbox" title="{{choice.hint}}">
             <label>
-              <input type="checkbox" value={{choice.value}} formControlName="multiCheckBox" 
-              (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
-              <span> {{choice.label}}</span>
+                <input [(ngModel)]="checked" id="{{multiChoiceElement.id}}_{{choice.value}}" type="checkbox" value={{choice.value}} [checked]="false" formControlName="multiCheckBox" 
+                (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
+                <span> {{choice.label}}</span>
             </label>
           </div>
         </ng-container>

@@ -17,8 +17,13 @@
 
     <div class="col-md-10 col-md-offset-2 main">
       <div class="row">
+          <h4>
+              <button class="btn btn-md" (click)="loadElements()"><strong>Load Data</strong></button>
+          </h4>
+      </div>
+      <div class="row">
         <div class="col-md-12">
-          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [showKeyDiagram]="false"></acr-assist-simulator>
+          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [showKeyDiagram]="false"[inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements($event)"></acr-assist-simulator>
         </div>
       </div>
     </div>

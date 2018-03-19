@@ -7,6 +7,7 @@ import { MainReportText, FinalExecutedHistory } from '../assist-data-element/ass
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { Diagram } from '../../core/models/diagram.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
+import { InputData } from '../../core/models/input-data.model';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -20,24 +21,37 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
-
+  @Output() returnDefaultElements = new EventEmitter();
   template: Template;
   isEmptyContent: boolean;
   keyDiagram: Diagram;
   resultText: MainReportText;
+  @Input() inputValues: InputData[]= [];
+  isReset: boolean;
+  dataElements: BaseDataElement[];
+
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
 
    }
 
   ngOnChanges(changes: SimpleChanges): void {
-
-    this.isEmptyContent =  this.templateContent === undefined || this.templateContent.length === 0;
+    this.isReset = true;
+    this.isEmptyContent =  (this.templateContent === undefined || this.templateContent.length === 0) && this.inputValues.length === 0;
     if (this.isEmptyContent) {
       return;
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
+    if (this.inputValues.length !== 0) {
+      for (const dataeElement of this.template.dataElements) {
+        const inputValue = this.inputValues.filter( x => x.dataElementId === dataeElement.id);
+        if (inputValue !== undefined && inputValue.length > 0 ) {
+          dataeElement.currentValue = inputValue[0].dataElementValue;
+        }
+      }
+    }
+    this.dataElements = this.template.dataElements;
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
       if (this.template.metadata.diagrams[index].keyDiagram) {
@@ -51,13 +65,13 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     }
     this.resultText = undefined;
   }
+  resetElements() {
+    this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    this.simulatorEngineService.initialize(this.template);
 
-
-  reset() {
-     for (const  dataElement in this.template.dataElements){
-
-
-     }
+    this.dataElements = this.template.dataElements;
+    this.resultText = undefined;
+    this.returnDefaultElements.emit();
   }
 
 

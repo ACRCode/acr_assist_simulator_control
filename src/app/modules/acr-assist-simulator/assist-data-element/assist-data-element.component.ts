@@ -10,7 +10,9 @@ import { Console } from '@angular/core/src/console';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
 import { SelectedCondition } from '../../core/models/executed-result.model';
-
+import { InputData } from '../../core/models/input-data.model';
+import { AssistChoiceElementComponent } from './assist-choice-element/assist-choice-element.component';
+const $ = require('jquery');
 
 @Component({
   selector: 'acr-assist-data-element',
@@ -28,6 +30,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
+  @Input() isReset: boolean;
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
@@ -35,7 +38,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   selectedChoiceValues: string[] = [];
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
-
+  @Input() inputValues: InputData[] = [];
   constructor (private simulatorEngineService: SimulatorEngineService) {
 
   }
@@ -55,7 +58,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         } else {
              dataElement.isVisible = true;
         }
-        dataElement.currentValue = this.dataElementValues[dataElement.id];
+        dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
       }
 
       if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
@@ -75,42 +78,148 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   choiceSelected($event) {
-    this.selectedChoiceValues[$event.receivedElement.elementId + 'SelectedValue'] = $event.receivedElement.selectedText;
-    this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId , $event.receivedElement.selectedValue ,
-      $event.receivedElement.selectedText);
-    const executedResults: string[] = [];
-    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+      this.selectedChoiceValues[$event.receivedElement.elementId + 'SelectedValue'] = $event.receivedElement.selectedText;
+      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId , $event.receivedElement.selectedValue ,
+        $event.receivedElement.selectedText);
+      const executedResults: string[] = [];
+      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
-      this.generateExecutionHistory();
+      if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+        this.generateExecutionHistory();
+      }
     }
   }
 
   numericSelected($event) {
+    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue ,
+        $event.receivedElement.selectedValue);
+      const executedResults: string[] = [];
+      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-     this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue ,
-      $event.receivedElement.selectedValue);
-    const executedResults: string[] = [];
-    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
-      this.generateExecutionHistory();
+      if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+        this.generateExecutionHistory();
+      }
     }
   }
 
   multiSelected($event) {
-    this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
-    this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues ,
-      $event.receivedElement.selectedValues);
-    const executedResults: string[] = [];
-    executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-    this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+      this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
+      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues ,
+        $event.receivedElement.selectedValues);
+      const executedResults: string[] = [];
+      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-    if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
-      this.generateExecutionHistory();
+      if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
+        this.generateExecutionHistory();
+      }
     }
+  }
+
+  load (inputValues: InputData[], isReset: boolean) {
+    if (inputValues !== undefined) {
+      if (isReset) {
+        $('select').prop('selectedIndex', 0);
+      }
+      this.returnReportText.emit(undefined);
+      for (const inputValue of inputValues) {
+        if (inputValue !== undefined) {
+          for (const dataElement of this.dataElements) {
+            if ( dataElement.id === inputValue.dataElementId) {
+              switch (dataElement.dataElementType) {
+                case 'ChoiceDataElement' :
+                  if (inputValue.dataElementValue !== undefined) {
+                    if (!isReset) {
+                      $('#' + inputValue.dataElementValue + '_' + inputValue.dataElementId).prop('checked', true);
+                      this.simulatorEngineService.addOrUpdateDataElement(inputValue.dataElementId, inputValue.dataElementValue,
+                          inputValue.dataElementValue);
+                    } else {
+                      $('#' + inputValue.dataElementValue + '_' + inputValue.dataElementId).prop('checked', false);
+                      // $('#' + inputValue.dataElementValue + '_' + inputValue.dataElementId).trigger('click');
+                      this.isReset = true;
+                    }
+                  }
+                  break;
+                case 'IntegerDataElement' :
+                  if (inputValue.dataElementValue !== undefined) {
+                    if (!isReset) {
+                      $('#' + inputValue.dataElementId).val(inputValue.dataElementValue);
+                      this.simulatorEngineService.addOrUpdateDataElement(inputValue.dataElementId, inputValue.dataElementValue,
+                        inputValue.dataElementValue);
+                      $('#' + inputValue.dataElementId).trigger('change');
+                    } else {
+                      $('#' + inputValue.dataElementId).val('');
+                      $('#' + inputValue.dataElementId).trigger('change');
+                    }
+                    const customEvent = document.createEvent('Event');
+                    customEvent.initEvent('change', true, true);
+                    $('#' + inputValue.dataElementId)[0].dispatchEvent(customEvent);
+                  }
+                  break;
+                case 'NumericDataElement' :
+                  if (inputValue.dataElementValue !== undefined) {
+                    if (!isReset) {
+                      $('#' + inputValue.dataElementId).val(inputValue.dataElementValue);
+                      this.simulatorEngineService.addOrUpdateDataElement(inputValue.dataElementId, inputValue.dataElementValue,
+                        inputValue.dataElementValue);
+                      $('#' + inputValue.dataElementId).trigger('keyup');
+                    } else {
+                      $('#' + inputValue.dataElementId).val('');
+                      $('#' + inputValue.dataElementId).trigger('keyup');
+                    }
+                    const customEvent = document.createEvent('Event');
+                    customEvent.initEvent('change', true, true);
+                    $('#' + inputValue.dataElementId)[0].dispatchEvent(customEvent);
+                  }
+                  break;
+                case 'MultiChoiceDataElement' :
+                  if (inputValue.dataElementValue !== undefined) {
+                    const customEvent = document.createEvent('Event');
+                    customEvent.initEvent('change', true, true);
+                    if (inputValue.dataElementValue.length !== undefined && inputValue.dataElementValue.length > 0) {
+                      if (!isReset) {
+                        if (Array.isArray(inputValue.dataElementValue)) {
+                          for (const element in inputValue.dataElementValue) { $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element]).prop('checked', true);
+                            $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element])[0].dispatchEvent(customEvent);
+                          }
+                        } else {
+                          $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue).prop('checked', true);
+                          $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue)[0].dispatchEvent(customEvent);
+                        }
+                      } else {
+                        if (Array.isArray(inputValue.dataElementValue)) {
+                          for (const element in inputValue.dataElementValue) {
+                            $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element]).prop('checked', false);
+                            customEvent.initEvent('change', true, true);
+                            $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element])[0].dispatchEvent(customEvent);
+                          }
+                        } else {
+                          $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue).prop('checked', false);
+                          $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue)[0].dispatchEvent(customEvent);
+                        }
+                      }
+                      // if (isReset) {
+                      //   for (const value in inputValue.dataElementValue) {
+                      //     customEvent.initEvent('change', true, true);
+                      //     $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[value])[0].dispatchEvent(customEvent);
+                      //   }
+                      // }
+                    }
+                  }
+                  break;
+                }
+              }
+            }
+          }
+        }
+      } else {
+        throw console.error('Invalid values');
+      }
   }
 
   generateReportText(endpointId: string) {

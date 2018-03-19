@@ -4,6 +4,8 @@ import { NumericDataElement } from '../../../core/elements/models/numeric-data-e
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
+import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+const $ = require('jquery');
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -16,12 +18,20 @@ export class AssistNumericElementComponent implements OnInit {
   @Output() returnNumericElement = new EventEmitter();
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-
-  constructor(private formBuilder: FormBuilder) {
+  numberValue: number;
+  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {
    }
 
   ngOnInit() {
     this.createNumericElementForm();
+    if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
+      this.numberValue = this.numericDataElement.currentValue;
+      this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
+        this.numericDataElement.currentValue);
+      // const customEvent = document.createEvent('Event');
+      // customEvent.initEvent('change', true, true);
+      // $('#' + this.numericDataElement.id)[0].dispatchEvent(customEvent);
+    }
   }
   choiceSelected(element, selectedCondition) {
     const choiceElement = new NumericElement ();

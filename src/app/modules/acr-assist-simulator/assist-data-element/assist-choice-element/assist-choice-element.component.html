@@ -3,7 +3,7 @@
 </canvas>
 <form [formGroup]="choiceElementForm" novalidate>
 <div class="col-xs-4 col-sm-5 text-left content-padding">
-  <label class="control-label DEElement" id="{{choiceDataElement.id}}">
+  <label class="control-label DEElement" >
     {{choiceDataElement.label}}
   </label>
   <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
@@ -14,7 +14,7 @@
     <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
-    <div *ngIf="choiceElementForm.controls['checkBox'].invalid" class="required-field">
+    <div *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired " class="required-field">
      * Is Required.
     </div>
 </div>
@@ -29,8 +29,8 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
-                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
+                      <input [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}"
+                      (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                       <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other"  
-                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                      (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
                       <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other, please specify…</label>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
         </ng-container>
         <ng-container *ngIf="choiceDataElement.choiceInfo.length != 2">
           <ng-container *ngIf="choiceDataElement.choiceInfo.length > 5 || (choiceDataElement.choiceInfo.length === 5 && choiceDataElement.allowFreetext) ">
-              <select id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox">
+              <select [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox">
                 <option [value]="Select" [selected]="true">--Select--</option>
                 <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected] = "choice.value === choiceDataElement.currentValue" >{{choice.label}}</option>
                 <option *ngIf="choiceDataElement.allowFreetext" [value]="other" [selected]='other' >Other, please specify…</option>
@@ -74,8 +74,8 @@
               <div id="radio-inline">
                 <div class="row">
                   <div class="col-sm-12">
-                      <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
-                      (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
+                      <input [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
+                      (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                   </div>
                 </div>
@@ -88,8 +88,8 @@
                 <div id="radio-inline">
                   <div class="row">
                     <div class="col-sm-12">
-                        <input id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
-                        (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
+                        <input  [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}" 
+                        (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                         <label for="{{choice.value}}_{{choiceDataElement.id}}" class="rad DEValues" >{{choice.label}}</label>
                     </div>
                   </div>
@@ -100,7 +100,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                           <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" 
-                          (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
+                          (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')">
                           <label for="other_{{choiceDataElement.id}}" class="rad DEValues" >Other, please specify…</label>
                       </div>
                     </div>

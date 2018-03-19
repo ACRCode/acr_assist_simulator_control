@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, NgModule } from '@angular/core';
 import { ImageElements } from '../../../core/elements/models/image-elements.model';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 const $ = require('jquery');
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 @Component({
   selector: 'acr-assist-choice-element',
   templateUrl: './assist-choice-element.component.html',
@@ -14,14 +15,28 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnChoiceElement = new EventEmitter();
+  @Output() choiceChange = new EventEmitter();
+  choiceValue: string;
+
   choiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  constructor(private formBuilder: FormBuilder) {}
+  selectedIndex: number;
+  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {}
   ngOnInit(): void {
     this.createChoiceElementForm();
   }
 
   ngAfterViewInit(): void {
+    if (this.choiceDataElement.currentValue !== undefined) {
+      $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id).prop('checked', true);
+      this.choiceValue = this.choiceDataElement.currentValue;
+      for (const choice in this.choiceDataElement.choiceInfo) {
+        if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
+          this.simulatorEngineService.addOrUpdateDataElement( this.choiceDataElement.id, this.choiceDataElement.currentValue,
+            this.choiceDataElement.choiceInfo[choice].label);
+        }
+      }
+    }
     $('#div_' + this.choiceDataElement.id + '_other').hide();
   }
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
@@ -86,7 +101,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
-      if ((choiceControl.value === 'undefined' || choiceControl.value === '') && this.choiceDataElement.isRequired ) {
+      if ((choiceControl.value === 'undefined' || choiceControl.value === '' || this.choiceValue === undefined || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
       }else {
         return choiceControl.setErrors(null);
