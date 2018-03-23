@@ -21,7 +21,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
-    background-color: #222d32;
+    background-color: #1e89b5;
     border-right: 1px solid #eee;
   }
 }
@@ -42,8 +42,10 @@
  */
 
 .main {
-  padding: 20px;
+  padding: 0px;
 }
+
+
 
 @media (min-width: 768px) {
   .main {
@@ -52,6 +54,29 @@
   }
 }
 
+@media (min-width: 893px) {
+  .col-md-10.main {
+    margin-top: -50px;
+  }
+}
+
+@media (max-width: 892px) {
+  .col-md-10.main {
+    margin-top: 00px;
+  }
+}
+
 .main .page-header {
   margin-top: 0;
+}
+img.logo {
+  width: 100% !important;
+  max-height: 50px;
+}
+
+@media (min-width: 991px) {
+.img.logo {
+  width: 100% !important;
+  max-width: 150px;
+}
 }

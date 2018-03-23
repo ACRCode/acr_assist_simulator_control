@@ -8,6 +8,7 @@ input[type=file].inputfile {
   margin: 0;
 }
 
+input[type=file].inputfile+label:active,
 input[type=file].inputfile+label {
   max-width: 80%;
   font-size: 1.5rem;
@@ -23,7 +24,6 @@ input[type=file].inputfile+label {
   background-color: #d3394c;
 }
 
-input[type=file].inputfile:focus+label,
 input[type=file].inputfile+label:hover {
   background-color: #722040;
 }
@@ -33,7 +33,7 @@ input[type=file].inputfile+label {
   /* "hand" cursor */
 }
 
-input[type=file].inputfile:focus+label {
+input[type=file].inputfile:hover+label {
   outline: 1px dotted #000;
   outline: -webkit-focus-ring-color auto 5px;
 }
@@ -1026,6 +1026,7 @@ text-transform: capitalize;
   text-transform: capitalize;
   height: 25px;
   margin-top: -65px;
+  text-align: left;
 }
 
 .all-reportText-content {

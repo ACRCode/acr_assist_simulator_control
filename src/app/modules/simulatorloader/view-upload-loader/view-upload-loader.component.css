@@ -11,8 +11,10 @@
 .nav-sidebar>li>a {
   padding-right: 20px;
   padding-left: 20px;
-  color: #b8c7ce;
+  color: white;
   border-left: 3px solid transparent;
+  border-bottom: 1px solid;
+  margin-top: 5px; 
 }
 
 .nav-sidebar>.active>a {
@@ -32,13 +34,17 @@
   font-size: 12px;
 }
 .nav-sidebar>li.header {
-  color:#899ca5;
-  background: #1a2226;
+  color:white;
+  background: #115b82;
   padding: 10px 25px 10px 15px;
   font-size: 13px;
 }
 
-
+.nav-sidebar>li.header.module-header {
+  font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
 
 .col-centered {
   float: none;
@@ -61,7 +67,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
-    background-color: #222d32;
+    background-color: #115675;
     border-right: 1px solid #eee;
   }
 }
@@ -82,7 +88,7 @@
  */
 
 .main {
-  padding: 20px;
+  padding: 0px;
 }
 
 @media (min-width: 768px) {

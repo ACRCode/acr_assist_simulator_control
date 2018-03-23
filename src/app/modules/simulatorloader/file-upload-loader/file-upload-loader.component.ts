@@ -22,7 +22,8 @@ export class FileUploadLoaderComponent implements OnInit  {
     let folderName: string;
     fileName = $event.target.value;
 folderName = $event.target.value;
-    if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML')) {
+    if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML') ||
+    fileName.includes('.zip') || fileName.includes('.Zip') || fileName.includes('.ZIP')) {
       this.hideMessage();
     this.readThis($event.target);
     } else {
