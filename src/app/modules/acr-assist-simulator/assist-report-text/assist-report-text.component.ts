@@ -6,7 +6,7 @@ import { AllReportText, MainReportText } from '../assist-data-element/assist-dat
   templateUrl: './assist-report-text.component.html',
   styleUrls: ['../../../modules/styles.css']
 })
-export class AssistReportTextComponent implements OnInit, OnChanges {
+export class AssistReportTextComponent implements OnChanges {
 @Input() reportText: MainReportText;
 allReportTexts: AllReportText [] = [];
 selectedSection: string;
@@ -14,19 +14,15 @@ mainReportTexts: MainReportText;
 selectedSectionId: string;
 sections: string [] = [];
 prevSectionId: string;
-
-ngOnInit() {
-  this.selectedSectionId = 'All';
-  this.onSelect(this.reportText.allReportText['findings'].sectionId, 'All');
-}
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
-  this.onSelect(this.selectedSectionId);
+  this.onSelect(this.reportText.allReportText['findings'].sectionId);
+
   }
   constructor() { }
 
-  onSelect(sectionId, selectedSectionId = 'default') {
-    this.selectedSectionId = (sectionId === 'undefined' || selectedSectionId === 'All') ? 'All' : sectionId;
+  onSelect(sectionId) {
+    this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
     for (const section in this.reportText.allReportText) {

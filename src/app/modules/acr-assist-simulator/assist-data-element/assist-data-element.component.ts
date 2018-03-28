@@ -297,7 +297,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let selectedComparisonValues: string [];
     let findingsText: string;
     let impressionText: string;
-    let selectedSection: string;
+    // let selectedSection: string;
     let selectedChoiceTexts: Map<string, any>;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
@@ -361,7 +361,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             if (executeTemplate) {
               isReportText = true;
               canInsertText = true;
-              selectedSection = node.attributes.SectionId;
+              // selectedSection = node.attributes.SectionId;
               if (node.attributes.SectionId === 'findings' && executeTemplate) {
                 isImpression = false;
               } else if (node.attributes.SectionId === 'impression' && executeTemplate) {
@@ -550,7 +550,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       reportTextParser.onend = function () {
         // parser stream is done, and ready to have more stuff written to it.
         const reportTextObj: AllReportText = new AllReportText();
-        reportTextObj.sectionId = selectedSection;
+        reportTextObj.sectionId = 'impression';
         reportTextObj.reportText = impressionText;
         allReportText[reportTextObj.sectionId] = reportTextObj;
        };

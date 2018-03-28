@@ -38,7 +38,15 @@ input[type=file].inputfile:hover+label {
   outline: -webkit-focus-ring-color auto 5px;
 }
 
+.right-fixed {
+  position: fixed;
+  right: 0px;
+}
 
+.row.report-text-top-margin.right-align{
+  width: 80%;
+  margin-left: 135px;
+}
 
 /* Master Styles */
 
@@ -267,7 +275,7 @@ button.active,
 }
 
 .panel-default {
-  min-width: 100%;
+  min-width: 90%;
 }
 
 #footer {

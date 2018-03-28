@@ -32,10 +32,11 @@
 
   padding: 10px 25px 1px 15px;
   font-size: 12px;
+  text-align: center;
 }
 .nav-sidebar>li.header {
   color:white;
-  background: #115b82;
+  background: #1a2226;
   padding: 10px 25px 10px 15px;
   font-size: 13px;
 }
@@ -67,7 +68,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
-    background-color: #115675;
+    background-color: #222d32;
     border-right: 1px solid #eee;
   }
 }
