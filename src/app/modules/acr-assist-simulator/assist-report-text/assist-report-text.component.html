@@ -10,9 +10,9 @@
         </div>
         <div class="panel-body" >
             <div class="reportText-content">
-                    <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined" class="split-length-word">
+                    <!-- <div *ngIf="reportText.reportTextMainContent !== '' && reportText.reportTextMainContent !== undefined" class="split-length-word">
                             {{reportText.reportTextMainContent}}
-                        </div>
+                        </div> -->
                         <div [innerHTML]="selectedSection"  class="split-length-word">
                     </div>
                 <!-- <ng-container *ngIf="selectedSectionId !=='All'">

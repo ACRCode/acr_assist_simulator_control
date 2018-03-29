@@ -16,7 +16,7 @@ sections: string [] = [];
 prevSectionId: string;
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
-  this.onSelect(this.reportText.allReportText['findings'].sectionId);
+  this.onSelect((this.selectedSectionId !== undefined && this.selectedSectionId !== '') ? this.selectedSectionId : this.reportText.allReportText['findings'].sectionId);
 
   }
   constructor() { }
@@ -33,7 +33,7 @@ ngOnChanges(changes: SimpleChanges): void {
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].reportText;
-        this.selectedSection = this.removeEmptyLine(this.selectedSection.replace(new RegExp(' ', 'g'), '&nbsp;'));
+        this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.removeEmptyLine(this.selectedSection.replace(new RegExp(' ', 'g'), '&nbsp;')) : '');
         break;
       }
     }
