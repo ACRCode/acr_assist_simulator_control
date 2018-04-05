@@ -469,13 +469,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
-                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   }
@@ -483,13 +479,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
-                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     }
                   }
@@ -691,16 +683,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined ) {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                                        } else {
-                                          impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         } else {
                                           if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                                            impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                                          } else {
                                             impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                           }
                                         }
@@ -709,13 +697,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
                                           findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                                        } else {
-                                          findingsText = findingsText +  (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                                          findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                                        } else {
                                           findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       }

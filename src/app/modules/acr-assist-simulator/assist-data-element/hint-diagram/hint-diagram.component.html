@@ -19,7 +19,7 @@
                 <carousel [(activeSlide)]="activeSlideIndex" interval="false">
                     <ng-container *ngFor="let diag of DataElement.diagrams ">
                         <slide>
-                            <img src="{{imagePath}}/{{diag.location}}">
+                            <img  src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
                         </slide>
                     </ng-container>  
                 </carousel>

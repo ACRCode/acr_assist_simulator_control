@@ -60,7 +60,14 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = (element.selectedOptions[0].label === 'Other, please specify…') ? 'other' : element.value;
     choiceElement.selectedText = element.selectedOptions[0].label;
+
     this.showOrHideFreeText(element.id, choiceElement.selectedValue);
+
+    if (this.choiceValue === 'undefined' || this.choiceValue === undefined || this.choiceValue === '') {
+      choiceElement.selectedText = '';
+      choiceElement.selectedValue = '';
+    }
+
     this.selectedCondition = new SelectedCondition();
 
     this.selectedCondition.selectedConditionId = element.id;
@@ -82,6 +89,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       $('#div_' + elementId + '_other').show();
     } else {
       $('#div_' + elementId + '_other').hide();
+      $('#txt_other_' + elementId).val('');
     }
   }
 
