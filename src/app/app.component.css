@@ -21,7 +21,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
-    background-color: #222d32;
+    background-color: #2e3752;
     border-right: 1px solid #eee;
   }
 }
@@ -29,7 +29,7 @@
 
 
 .navbar-blue {
-  background-color: #1e89b5;
+  background-color: #2e3752;
 }
 
 .navbar-blue .navbar-brand {
@@ -57,6 +57,7 @@
 @media (min-width: 893px) {
   .col-md-10.main {
     margin-top: -50px;
+    margin-left: 330px;
   }
 }
 
@@ -70,10 +71,63 @@
   margin-top: 0;
 }
 img.logo {
-  width: 100% !important;
-  max-height: 50px;
+  height: 100%;
+  margin: auto;
+  min-height: 30px;
+  width: 100%;
+}
+.sidebar nav.navbar.navbar-fixed-top.navbar-blue {
+  width: 16.666667%;
 }
 
+@media (max-width: 767px) {
+  .text-right.border-0 {
+    padding-right: 30px !important;
+  }
+  .sidebar nav.navbar.navbar-fixed-top.navbar-blue {
+    width: 100% !important;
+  }
+
+  img.logo {
+    height: 100%;
+    margin: auto;
+    min-height: 30px;
+    width: auto;
+    margin-left: 0px;
+  }
+}
+
+@media(max-width:991px) and (min-width:768px) {
+  .col-md-2.sidebar {
+    width: 16.666667%;
+  }
+}
+
+@media(max-width:1179px) and (min-width:768px) {
+  .col-md-10.main {
+    margin-top: -50px;
+    margin-left: 200px;
+  }
+}
+
+@media(max-width:1379px) and (min-width:1180px) {
+  .col-md-10.main {
+    margin-top: -50px;
+    margin-left: 240px;
+  }
+}
+
+@media(max-width:1679px) and (min-width:1380px) {
+  .col-md-10.main {
+    margin-top: -50px;
+    margin-left: 290px;
+  }
+}
+.navbar-header.logo-section,
+.navbar-brand.logo-section {
+  width: 100%;
+  margin-left: 0px;
+}
 @media (min-width: 991px) {
 .img.logo {
   width: 100% !important;

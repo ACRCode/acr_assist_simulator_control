@@ -1,5 +1,6 @@
 import { Component, Output , EventEmitter, OnInit } from '@angular/core';
 import { FileDetails } from '../shared/models/file-details.model';
+import { GlobalsService } from '../shared/services/globals.service';
 const $ = require('jquery');
 
 @Component({
@@ -12,16 +13,17 @@ export class FileUploadLoaderComponent implements OnInit  {
   @Output() onFileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
   fileReader: FileReader = new FileReader();
   readFile: File;
+constructor (private configService: GlobalsService) {
 
+}
   ngOnInit(): void {
     this.hideMessage();
+    this.showDefaultModule();
   }
 
   changeListener($event): void {
     let fileName: string;
-    let folderName: string;
     fileName = $event.target.value;
-folderName = $event.target.value;
     if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML') ||
     fileName.includes('.zip') || fileName.includes('.Zip') || fileName.includes('.ZIP')) {
       this.hideMessage();
@@ -45,5 +47,13 @@ folderName = $event.target.value;
       self.onFileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition),    self.readFile.name, this.fileReader.result));
     };
     this.fileReader.readAsText(this.readFile);
+  }
+
+  showDefaultModule() {
+    this.configService.getDefaultModulePath()
+      .subscribe(data => {
+        const self = this;
+        self.onFileContentRead.emit( new FileDetails('Hello RADS', 'Hello_RADS.xml', data));
+      });
   }
 }

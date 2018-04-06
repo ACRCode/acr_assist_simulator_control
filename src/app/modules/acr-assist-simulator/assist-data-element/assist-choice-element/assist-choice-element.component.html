@@ -2,7 +2,7 @@
 
 </canvas>
 <form [formGroup]="choiceElementForm" novalidate>
-<div class="col-xs-4 col-sm-5 text-left content-padding">
+<div class="col-xs-4 col-sm-6 text-left content-padding">
   <label class="control-label DEElement" >
     {{choiceDataElement.label}}
   </label>
@@ -14,12 +14,12 @@
     <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
       <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
     </ng-container>
-    <div *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired " class="required-field">
-     * Is Required.
+    <div *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired " class="required-field" title="Required Field">
+     *
     </div>
 </div>
 
-<div class="col-xs-8 col-sm-7 text-left content-padding">
+<div class="col-xs-8 col-sm-6 text-left content-padding">
   <div class="input-group">
     <div class="row">
       <div class="col-sm-12">

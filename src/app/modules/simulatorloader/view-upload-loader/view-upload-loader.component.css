@@ -6,6 +6,7 @@
   /* 20px padding + 1px border */
   /* margin-bottom: 20px; */
   margin-left: -20px;
+  background-color: #2e3752;
 }
 
 .nav-sidebar>li>a {
@@ -13,12 +14,12 @@
   padding-left: 20px;
   color: white;
   border-left: 3px solid transparent;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #464850;
   margin-top: 5px; 
 }
 
 .nav-sidebar>.active>a {
-  border-left-color: #1e89b5 ;
+  border-left-color: white ;
 }
 
 .nav-sidebar>.active>a,
@@ -27,16 +28,16 @@
 .nav-sidebar>li>a:hover {
   color: #fff;
   background-color: #1e282c;
+  font-weight: bold;
 }
 .nav-sidebar>li.fileUploader {
-
+  text-align: center;
   padding: 10px 25px 1px 15px;
   font-size: 12px;
-  text-align: center;
 }
 .nav-sidebar>li.header {
   color:white;
-  background: #1a2226;
+  background: #5c5d5f;
   padding: 10px 25px 10px 15px;
   font-size: 13px;
 }
@@ -68,7 +69,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
-    background-color: #222d32;
+    background-color: #2e3752;
     border-right: 1px solid #eee;
   }
 }
@@ -76,7 +77,7 @@
 
 
 .navbar-blue {
-  background-color: #1e89b5;
+  background-color: #2e3752;
 }
 
 .navbar-blue .navbar-brand {
