@@ -10,7 +10,7 @@ input[type=file].inputfile {
 
 input[type=file].inputfile+label:active,
 input[type=file].inputfile+label {
-  max-width: 80%;
+  max-width: 100%;
   font-size: 1.5rem;
   font-weight: 700;
   text-overflow: ellipsis;
@@ -120,7 +120,7 @@ input[type="radio"]+div {
   color: #4a4a4a;
   letter-spacing: -0.29px;
   width: 100%;
-  min-width: 200px;
+  min-width: 180px;
   max-width: 280px;
 }
 
@@ -275,7 +275,7 @@ button.active,
 }
 
 .panel-default {
-  min-width: 90%;
+  min-width: 100%;
 }
 
 #footer {
@@ -297,12 +297,12 @@ button.active,
 }
 
 .required-field {
-  border: 1px solid red;
-  border-radius: 5px;
+  /* border: 1px solid red; */
+  /* border-radius: 5px; */
   padding: 5px;
-  font-size: 12px;
+  font-size: 16px;
   color: red;
-  width: 120px;
+  /* width: 120px; */
   display: inline-block;
   font-weight: bold;
 }
@@ -981,8 +981,12 @@ h3 {
   white-space: pre-line; 
   font-weight: bold;
   margin: -40px 0px;
+  height: fit-content;
 }
 
+.no-bottom-margin {
+  margin-bottom: 0px !important;
+}
 .reportText-main-content{
   font-size: 16px;
 }
@@ -990,10 +994,16 @@ h3 {
 .split-length-word {
   word-wrap: break-word;
   text-align: left;
+  margin: 0px 0px;
 }
 
 .img-max-width {
-  width: 100% !important;
+  width: 70% !important;
+}
+
+.keydiagram {
+  text-align: center;
+  margin-top: 10px;
 }
 
 .numeric-validator {
@@ -1029,14 +1039,82 @@ text-transform: capitalize;
 }
 
 .all-reporttext-heading {
-  font-size: 18px;
   text-decoration: underline;
+  font-weight: bold;
   text-transform: capitalize;
-  height: 25px;
-  margin-top: -65px;
+  font-size: 18px;
+  margin-top: -50px;
   text-align: left;
 }
 
 .all-reportText-content {
-  margin-top: 10px;
+  margin-top: -10px;
 }
+
+.fixed-report-text-sidebar {
+  position: fixed;
+  right: 0;
+  width: 45%;
+}
+
+.fixed-report-text-footer {
+  position: fixed;
+  left: 15 !important;
+  bottom: 0;
+  background-color: white;
+}
+
+.left-margin {
+  margin-left: 60px;
+  width: 90%;
+}
+
+.overflow {
+  /* max-height: 500px; */
+  overflow-x: hidden;
+}
+
+@media (max-width: 650px) {
+  
+
+  .left-margin {
+    margin-left: 20px;
+  }
+
+  .keydiagram {
+    width: 100%;
+    margin-left: 4%;
+  } 
+  .row.content-area {
+    padding: 0px 5px;
+  }
+
+  .text-right.border-0 > h4 {
+    padding-right: 20px;
+  }
+
+  .keydiagram {
+    width: 100%;
+    text-align: center;
+    margin-left: 0px !important;
+  }
+}
+@media (max-width: 1024px) {
+  .keydiagram {
+    width: 100%;
+    margin-left: 9%;
+  }
+  .img-max-width {
+    width: 80% !important;
+  }
+}
+@media (max-width: 1023px) {
+  .fixed-report-text-sidebar {
+    position: relative;
+  }
+}
+
+.upload-button-size {
+	font-size: 100% !important;
+}
+  

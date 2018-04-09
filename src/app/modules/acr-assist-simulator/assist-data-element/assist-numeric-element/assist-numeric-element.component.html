@@ -1,5 +1,5 @@
 <form [formGroup]="numericElementForm" novalidate>
-  <div class="col-xs-4 col-sm-5 text-left content-padding">
+  <div class="col-xs-4 col-sm-6 text-left content-padding">
     <label class="control-label DEElement">
       {{numericDataElement.label}}
     </label>
@@ -14,17 +14,18 @@
 
     <ng-container *ngIf="this.numericDataElement.isRequired">
       <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
-        <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field">
-          * Is Required.
+        <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field" title="Required Field">
+          *
         </div>
       </div>
     </ng-container>
-    <div *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator">
-        * Minimum value is {{numericDataElement.minimum}}.
+    <div *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator"
+    title=" Minimum value is {{numericDataElement.minimum}}">
+        *
       </div>
   </div>
   <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
-    <div class="col-xs-8 col-sm-7 text-left content-padding">
+    <div class="col-xs-8 col-sm-6 text-left content-padding">
         <div class="row">
             <div class="col-sm-12">
               <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
@@ -35,7 +36,7 @@
   </ng-container>
 
   <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
-    <div class="col-xs-8 col-sm-7 text-left content-padding">
+    <div class="col-xs-8 col-sm-6 text-left content-padding">
       <div class="row">
           <div class="col-sm-12">
             <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"

@@ -1,27 +1,15 @@
 
- <div class="row">
-    <div class="col-md-2">
-      <nav class="navbar navbar-fixed-top navbar-blue col-md-2">
-        <div class="container-fluid">
-          <div class="navbar-header">
-
-            <a class="navbar-brand" href="#"><img src="./assets/images/acr-assist-white.png" class="logo"> </a>
-          </div>
-        </div>
-      </nav>
-  </div>
-  <div class="col-md-10 main">
-      <!-- <div class="row">
-          <h4>
-              <button class="btn btn-md" (click)="loadElements()"><strong>Load Data</strong></button>
-          </h4>
-      </div> -->
-      <div class="row">
-        <div class="col-md-12">
-          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+ 
+<div class="row">
+  <div class="col-md-2 sidebar">
+    <nav class="navbar navbar-fixed-top navbar-blue">
+      <div class="container-fluid">
+        <div class="navbar-header logo-section">
+          <a class="navbar-brand logo-section" href="#"><img src="./assets/images/acr-assist-white.png" class="logo"> </a>
         </div>
       </div>
-    </div>
+    </nav>
+  </div>
 </div>
 <div class="container-fluid">
   <div class="row">
@@ -29,6 +17,13 @@
       <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
     </div>
 
-    
+    <div class="col-md-10 main">
+      <div class="row">
+        <div class="col-md-12">
+          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

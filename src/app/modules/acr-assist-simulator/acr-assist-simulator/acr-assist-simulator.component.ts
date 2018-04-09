@@ -8,6 +8,7 @@ import { SimulatorEngineService } from '../../core/services/simulator-engine.ser
 import { Diagram } from '../../core/models/diagram.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { InputData } from '../../core/models/input-data.model';
+import { ReportTextPosition } from '../../core/models/report-text.model';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -20,6 +21,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
+  @Input() reportTextPosition: string;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDefaultElements = new EventEmitter();
   template: Template;
@@ -29,10 +31,9 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   @Input() inputValues: InputData[]= [];
   isReset: boolean;
   dataElements: BaseDataElement[];
-
+  position =  ReportTextPosition;
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
-
-   }
+    }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isReset = true;

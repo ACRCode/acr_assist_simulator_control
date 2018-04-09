@@ -5,6 +5,7 @@ import {AcrAssistSimulatorModule} from './modules/acr-assist-simulator/acr-assis
 import {SimulatorLoaderModule} from './modules/simulatorloader/simulatorloader.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     AcrAssistSimulatorModule,
     CommonModule,
     FormsModule,
+    HttpModule,
     SimulatorLoaderModule
   ],
   bootstrap: [AppComponent]
