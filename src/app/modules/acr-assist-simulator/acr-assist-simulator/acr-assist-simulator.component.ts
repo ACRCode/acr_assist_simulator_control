@@ -29,6 +29,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   keyDiagram: Diagram;
   resultText: MainReportText;
   @Input() inputValues: InputData[]= [];
+  @Input() inputData: string;
   isReset: boolean;
   dataElements: BaseDataElement[];
   position =  ReportTextPosition;
@@ -37,9 +38,13 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isReset = true;
-    this.isEmptyContent =  (this.templateContent === undefined || this.templateContent.length === 0) && this.inputValues.length === 0;
+    this.isEmptyContent =   this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
+    this.inputData === undefined ;
     if (this.isEmptyContent) {
       return;
+    }
+    if (this.inputData.length > 0) {
+      this.inputValues = JSON.parse(this.inputData);
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
