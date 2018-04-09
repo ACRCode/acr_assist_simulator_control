@@ -3,6 +3,7 @@ import { FileDetails } from '../models/file-details.model';
 import { Dictionary } from '../models/dictionary';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GlobalsService {
@@ -13,7 +14,7 @@ export class GlobalsService {
   constructor(private http: Http) { }
 
 
-  getDefaultModulePath() {
+  getDefaultModulePath(): Observable<string> {
     return this.http.get(this.defaultModule).map(res => res.text());
   }
 }

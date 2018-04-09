@@ -22,8 +22,6 @@ export class SimulatorEngineService {
     this.dataElementTexts = new Map<string, any>();
   }
 
- 
-
   getAllDataElementValues(): Map<string, any> {
     return this.dataElementValues;
   }
