@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-sm-12">
               <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
-              onpaste="return false;" (change)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
+              onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
             </div>
           </div>
     </div>
@@ -40,7 +40,7 @@
       <div class="row">
           <div class="col-sm-12">
             <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
-            onpaste="return false;" (change)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"  required>
+            onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"  required>
           </div>
         </div>
     </div>

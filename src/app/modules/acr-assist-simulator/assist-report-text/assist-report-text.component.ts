@@ -7,7 +7,7 @@ const $ = require('jquery');
   templateUrl: './assist-report-text.component.html',
   styleUrls: ['../../../modules/styles.css']
 })
-export class AssistReportTextComponent implements OnChanges, AfterViewInit {
+export class AssistReportTextComponent implements OnChanges {
 
 @Input() reportText: MainReportText;
 allReportTexts: AllReportText [] = [];
@@ -20,24 +20,9 @@ prevSectionId: string;
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
   this.onSelect(this.selectedSectionId);
-  this.adjustReportTextHeight();
-}
-
-ngAfterViewInit(): void {
-  this.adjustReportTextHeight();
 }
   constructor() { }
 
-  adjustReportTextHeight() {
-    $('.content-area').css('height', $(window).height() + 100);
-    const simualtorReportText = document.getElementsByClassName('left-margin');
-    if (simualtorReportText.length === 0) {
-      const height = $('.fixed-report-text-footer').height();
-      let contentArea = $('.content-area').height();
-      contentArea = contentArea - ((1.4 * height) + 75);
-      $('.content-area').css('height', contentArea);
-    }
-  }
   onSelect(sectionId) {
     this.selectedSectionId = sectionId;
     this.sections = [];

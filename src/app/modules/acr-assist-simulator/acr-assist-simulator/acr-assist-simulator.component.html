@@ -10,7 +10,7 @@
     </div>
   </div>
   
-  <div class="row content-area" [ngClass]="{overflow: reportTextPosition != position.Right && resultText !== undefined ? true : false }">
+  <div class="row content-area" >
     <div [ngClass]="{'col-sm-6' : reportTextPosition == position.Right ? true : false, 'col-sm-12' : reportTextPosition == position.Right ? false : true}" class="text-right border-0">
       <ng-container>
         <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="col-sm-8 report-text-top-margin fixed-report-text-footer" *ngIf="reportTextPosition == position.Down">
+    <div class="col-sm-8 report-text-top-margin" *ngIf="reportTextPosition == position.Down">
       <ng-container *ngIf="resultText !== undefined">
         <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
       </ng-container>
