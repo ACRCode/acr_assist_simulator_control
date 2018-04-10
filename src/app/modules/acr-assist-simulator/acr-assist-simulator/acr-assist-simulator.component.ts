@@ -43,8 +43,10 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     if (this.isEmptyContent) {
       return;
     }
-    if (this.inputData.length > 0) {
-      this.inputValues = JSON.parse(this.inputData);
+    if (this.inputData !== undefined) {
+      if (this.inputData.length > 0) {
+        this.inputValues = JSON.parse(this.inputData);
+      }
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
