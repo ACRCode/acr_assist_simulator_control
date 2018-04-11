@@ -28,7 +28,7 @@ ngOnChanges(changes: SimpleChanges): void {
     this.sections = [];
     this.selectedSection = null;
     for (const section in this.reportText.allReportText) {
-      if (this.reportText.allReportText[section].reportText !== '' || this.reportText.allReportText[section].sectionId === 'findings') {
+      if (this.reportText.allReportText[section].reportText !== '') {
         this.sections.push(section);
       }
     }
@@ -38,16 +38,18 @@ ngOnChanges(changes: SimpleChanges): void {
         this.allTextReport = [];
         allText = '';
         for (const section in this.reportText.allReportText) {
-          const textReport: AllTextReport = new AllTextReport();
-          textReport.heading =  section;
-          textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
-          this.allTextReport.push (textReport);
+          if (this.reportText.allReportText[section].reportText !== '') {
+            const textReport: AllTextReport = new AllTextReport();
+            textReport.heading =  section;
+            textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
+            this.allTextReport.push (textReport);
+          }
         }
         // $('#allTextReport').html(allText);
         this.selectedSectionId = 'All';
       }
     } else {
-      sectionId = 'findings';
+      sectionId = this.sections[0];
     }
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {

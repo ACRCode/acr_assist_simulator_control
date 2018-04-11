@@ -297,7 +297,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let selectedComparisonValues: string [];
     let findingsText: string;
     let impressionText: string;
-    // let selectedSection: string;
+    let selectedSection: string;
     let selectedChoiceTexts: Map<string, any>;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
@@ -331,7 +331,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               findingsText = findingsText + t;
             } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
               findingsText = findingsText + t;
-            } else if (canInsertText  && !isImpression && !isMainText) {
+            } else if (canInsertText  && !isImpression ) {
               findingsText = findingsText + t;
             }
           } else {
@@ -361,7 +361,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             if (executeTemplate) {
               isReportText = true;
               canInsertText = true;
-              // selectedSection = node.attributes.SectionId;
+              selectedSection = node.attributes.SectionId;
+              impressionText = '';
               if (node.attributes.SectionId === 'findings' && executeTemplate) {
                 isImpression = false;
               } else if (node.attributes.SectionId === 'impression' && executeTemplate) {
@@ -369,7 +370,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
               }
             }
               isSectionIf = false;
-              isMainText = true;
+              // isMainText = true;
               break;
 
           case 'InsertPartial' :
@@ -469,20 +470,28 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                    } else {
+                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                    } else {
+                      findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
                     }
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
                   if (isImpression) {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                    } else {
+                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                    } else {
+                      findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
                     }
                   }
                 }
@@ -512,13 +521,20 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             executeTemplate = false;
             break;
           case 'ReportText':
-            isImpression = false;
-            if (!hasInsertPartial) {
+            // isImpression = false;
+            if (!hasInsertPartial && !isImpression) {
               const reportTextObj: AllReportText = new AllReportText();
               reportTextObj.sectionId = 'findings';
               reportTextObj.reportText = findingsText;
               allReportText[reportTextObj.sectionId] = reportTextObj;
             }
+
+            if (impressionText !== '' && impressionText !== undefined) {
+              const reportTextObj: AllReportText = new AllReportText();
+              reportTextObj.sectionId = selectedSection;
+              reportTextObj.reportText = impressionText;
+              allReportText[reportTextObj.sectionId] = reportTextObj;
+              }
             hasInsertPartial = false;
             break;
           case 'SectionIf':
@@ -529,7 +545,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             canInsertText = true;
             break;
           case 'InsertValue':
-            if (hasSectionNot && executeSectionIfNot) {
+            if ((hasSectionNot && executeSectionIfNot || !hasSectionNot)) {
               canInsertText = true;
             }
             break;
@@ -541,10 +557,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       reportTextParser.onend = function () {
         // parser stream is done, and ready to have more stuff written to it.
-        const reportTextObj: AllReportText = new AllReportText();
-        reportTextObj.sectionId = 'impression';
-        reportTextObj.reportText = impressionText;
-        allReportText[reportTextObj.sectionId] = reportTextObj;
+        // if (impressionText !== '' && impressionText !== undefined) {
+        // const reportTextObj: AllReportText = new AllReportText();
+        // reportTextObj.sectionId = selectedSection;
+        // reportTextObj.reportText = impressionText;
+        // allReportText[reportTextObj.sectionId] = reportTextObj;
+        // }
        };
 
       reportTextParser.write(endpointContent).onend();
@@ -682,6 +700,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                                       canInsertText = true;
                                       if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                                         if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined ) {
+                                          impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                                        } else {
                                           impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                                         }
                                       } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
