@@ -1,26 +1,34 @@
-
- 
-<div class="row">
-  <div class="col-md-2 sidebar">
-    <nav class="navbar navbar-fixed-top navbar-blue">
-      <div class="container-fluid">
-        <div class="navbar-header logo-section">
-          <a class="navbar-brand logo-section" href="#"><img src="./assets/images/acr-assist-white.png" class="logo"> </a>
+<div id="wrapper">
+  <nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <div class="navbar-brand">
+          <a id="menu-toggle" class="glyphicon glyphicon-align-justify btn-menu toggle cursor">
+            <i class="fa fa-bars"></i>
+          </a>
+          <img src="./assets/images/acr-assist-white.png" class="logo">
         </div>
       </div>
+    </div>
+  </nav>
+
+  <div id="sidebar-wrapper">
+    <nav id="spy">
+      <ul class="sidebar-nav nav">
+        <li>
+          <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+        </li>
+      </ul>
     </nav>
   </div>
-</div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-2 sidebar">
-      <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
-    </div>
 
-    <div class="col-md-10 main">
-      <div class="row">
-        <div class="col-md-12">
-          <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+  <div id="page-content-wrapper">
+    <div class="page-content">
+      <div class="container-fluid">
+        <div class="row content-overflow">
+          <div class="col-md-10">
+            <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+          </div>
         </div>
       </div>
     </div>

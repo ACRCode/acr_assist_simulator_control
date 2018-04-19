@@ -11,7 +11,8 @@ input[type=file].inputfile + label {
     font-weight: 700;
     color: white;
     background-color: black;
-    display: inline-block;
+	display: inline-block;
+	padding: 0px !important;
 }
 
 input[type=file].inputfile:focus + label,

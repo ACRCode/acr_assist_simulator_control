@@ -1,136 +1,162 @@
-
-
-.col-centered {
-  float: none;
-  margin: 0 auto;
+.cursor {
+  cursor: pointer;
 }
 
 
 .navbar-fixed-top {
   border: 0;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* Scrollable contents if viewport is shorter than content. */
-    background-color: #2e3752;
-    border-right: 1px solid #eee;
-  }
+  background: #2e3752;
+  width: 322px;
 }
 
 
 
-.navbar-blue {
-  background-color: #2e3752;
-}
-
-.navbar-blue .navbar-brand {
-  color: #fff;
-}
-
-
-/*
- * Main content
- */
-
-.main {
-  padding: 0px;
-}
-
-
-
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-
-@media (min-width: 893px) {
-  .col-md-10.main {
-    margin-top: -50px;
-    margin-left: 330px;
-  }
-}
-
-@media (max-width: 892px) {
-  .col-md-10.main {
-    margin-top: 00px;
-  }
-}
-
-.main .page-header {
-  margin-top: 0;
-}
 img.logo {
-  height: 100%;
-  margin: auto;
-  min-height: 30px;
-  width: 100%;
-}
-.sidebar nav.navbar.navbar-fixed-top.navbar-blue {
-  width: 16.666667%;
+    height: 100%;
+    margin-bottom: -3px;
+    min-height: 30px;
+    width: 88%;
+    margin-left: 40px;
 }
 
 @media (max-width: 767px) {
-  .text-right.border-0 {
-    padding-right: 30px !important;
-  }
-  .sidebar nav.navbar.navbar-fixed-top.navbar-blue {
-    width: 100% !important;
-  }
-
   img.logo {
     height: 100%;
-    margin: auto;
     min-height: 30px;
-    width: auto;
     margin-left: 0px;
   }
 }
 
-@media(max-width:991px) and (min-width:768px) {
-  .col-md-2.sidebar {
-    width: 16.666667%;
-  }
-}
-
-@media(max-width:1179px) and (min-width:768px) {
-  .col-md-10.main {
-    margin-top: -50px;
-    margin-left: 200px;
-  }
-}
-
-@media(max-width:1379px) and (min-width:1180px) {
-  .col-md-10.main {
-    margin-top: -50px;
-    margin-left: 240px;
-  }
-}
-
-@media(max-width:1679px) and (min-width:1380px) {
-  .col-md-10.main {
-    margin-top: -50px;
-    margin-left: 290px;
-  }
-}
-.navbar-header.logo-section,
-.navbar-brand.logo-section {
-  width: 100%;
-  margin-left: 0px;
-}
 @media (min-width: 991px) {
 .img.logo {
   width: 100% !important;
   max-width: 150px;
+}
+}
+
+#wrapper {
+  padding-left: 322px;
+  transition: all 0.4s ease 0s;
+}
+
+#sidebar-wrapper {
+  margin-left: -322px;
+  top: 51px;
+  left: 322px;
+  width: 322px;
+  background: #2e3752;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+}
+
+#wrapper.active {
+  padding-left: 0;
+}
+
+#wrapper.active #sidebar-wrapper {
+  left: 0;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  transition: all 0.4s ease 0s;
+}
+
+.content-overflow {
+  overflow: scroll;
+  max-height: 900px;
+  overflow-x: hidden;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 322px;
+  list-style: none;
+  margin: 0;
+  padding: 0;  
+}
+
+.sidebar-nav li {
+  line-height: 40px;
+  text-indent: 20px;
+}
+
+.sidebar-nav li a {
+  color: #999999;
+  display: block;
+  text-decoration: none;
+  padding-left: 60px;
+}
+
+.sidebar-nav li a span:before {
+  position: absolute;
+  left: 0;
+  color: #41484c;
+  text-align: center;
+  width: 20px;
+  line-height: 18px;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li.active {
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+  text-decoration: none;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+  height: 65px;
+  line-height: 60px;
+  font-size: 18px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
+}
+
+#menu-toggle {
+    text-decoration: none;
+    float: left;
+    color: white;
+    padding-right: 15px;
+}
+
+@media (max-width:767px) {
+
+#wrapper {
+  padding-left: 0;
+}
+
+#sidebar-wrapper {
+  left: 0;
+}
+
+#wrapper.active {
+  position: relative;
+  left: 322px;
+}
+
+#wrapper.active #sidebar-wrapper {
+  left: 322px;
+  width: 322px;
+  transition: all 0.4s ease 0s;
+}
+
+#menu-toggle {
+  display: inline-block;
 }
 }
