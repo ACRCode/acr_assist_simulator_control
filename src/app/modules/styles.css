@@ -993,7 +993,7 @@ h3 {
 }
 
 .split-length-word {
-  word-wrap: break-word;
+  word-break: break-all;
   text-align: left;
   margin: 0px 0px;
 }
