@@ -35,7 +35,7 @@
                 <map name="{{'imgMap_'+DataElement.id}}">
                   <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
                     <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}" attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                      onmouseover='myHover(this);' onmouseout='myLeave();' (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
+                      (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
                       (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
                   </ng-container>
                 </map>

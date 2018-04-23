@@ -1,4 +1,4 @@
-import { Component, OnInit , Input, AfterViewInit} from '@angular/core';
+import { Component, OnInit , Input} from '@angular/core';
 import { DataElement } from '../../../core/models/data-element.model';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 
@@ -10,7 +10,7 @@ declare var require: any;
   styleUrls: ['../../../../modules/styles.css']
 })
 
-export class ImageMapComponent  implements OnInit, AfterViewInit {
+export class ImageMapComponent  implements OnInit {
 
 
       $ = require('jquery');
@@ -36,18 +36,6 @@ export class ImageMapComponent  implements OnInit, AfterViewInit {
         //   this.imageExist = false;
         // }
         this.displayValue('');
-      }
-      ngAfterViewInit() {
-        this.loadScript('assets/js/ImgMapHover.js');
-      }
-
-      private loadScript(scriptUrl: string) {
-        return new Promise((resolve, reject) => {
-          const scriptElement = document.createElement('script');
-          scriptElement.src = scriptUrl;
-          scriptElement.onload = resolve;
-          document.body.appendChild(scriptElement);
-        });
       }
 
       isInRectangle(mouseX, mouseY, Coordinates) {
