@@ -1,4 +1,4 @@
-import { Component, OnInit , Input} from '@angular/core';
+import { Component, OnInit , Input, AfterViewInit} from '@angular/core';
 import { DataElement } from '../../../core/models/data-element.model';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 
@@ -10,7 +10,7 @@ declare var require: any;
   styleUrls: ['../../../../modules/styles.css']
 })
 
-export class ImageMapComponent  implements OnInit {
+export class ImageMapComponent  implements OnInit, AfterViewInit {
 
 
       $ = require('jquery');
@@ -28,7 +28,7 @@ export class ImageMapComponent  implements OnInit {
             return;
         }
         // const request = new XMLHttpRequest();
-        // request.open('HEAD',  this.DataElement.ImagePath, false);
+        // request.open('HEAD',  this.imagePath + '/' + this.DataElement.imageMap.location, false);
         // request.send();
         // if (request.status === 200) {
         //   this.imageExist = true;
@@ -36,6 +36,18 @@ export class ImageMapComponent  implements OnInit {
         //   this.imageExist = false;
         // }
         this.displayValue('');
+      }
+      ngAfterViewInit() {
+        this.loadScript('assets/js/ImgMapHover.js');
+      }
+
+      private loadScript(scriptUrl: string) {
+        return new Promise((resolve, reject) => {
+          const scriptElement = document.createElement('script');
+          scriptElement.src = scriptUrl;
+          scriptElement.onload = resolve;
+          document.body.appendChild(scriptElement);
+        });
       }
 
       isInRectangle(mouseX, mouseY, Coordinates) {
@@ -121,10 +133,21 @@ export class ImageMapComponent  implements OnInit {
 
         setValue(val) {
             for (const optValue of this.DataElement.choiceInfo) {
-                if (optValue.value === val) {
-                    this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
+                if (this.DataElement.choiceInfo.length <= 5 && this.DataElement.choiceInfo.length > 0) {
+                    if (optValue.value === val) {
+                        this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
+                        break;
+                    } else {
+                        this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
+                    }
                 } else {
-                    this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
+                    if (optValue.value === val) {
+                        this.$('#' + this.DataElement.id).val(optValue.value);
+                        const customEvent = document.createEvent('Event');
+                        customEvent.initEvent('change', true, true);
+                        this.$('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
+                        break;
+                    }
                 }
             }
             this.DataElement.currentValue = val;
