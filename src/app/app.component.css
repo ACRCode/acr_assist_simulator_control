@@ -16,7 +16,7 @@ img.logo {
     margin-bottom: -3px;
     min-height: 30px;
     width: 88%;
-    margin-left: 40px;
+    padding-left: 25px;
 }
 
 @media (max-width: 767px) {
@@ -132,7 +132,7 @@ img.logo {
     text-decoration: none;
     float: left;
     color: white;
-    padding-right: 15px;
+    padding-right: 5px;
 }
 
 @media (max-width:767px) {
