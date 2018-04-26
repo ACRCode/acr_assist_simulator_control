@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { NumericDataElement } from '../../../core/elements/models/numeric-data-element.model';
 import { NumericElement } from '../assist-data-element.component';
@@ -12,7 +12,8 @@ const $ = require('jquery');
   templateUrl: './assist-numeric-element.component.html',
   styleUrls: ['../../../../modules/styles.css']
 })
-export class AssistNumericElementComponent implements OnInit {
+export class AssistNumericElementComponent implements OnInit, AfterViewInit {
+
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
@@ -24,15 +25,34 @@ export class AssistNumericElementComponent implements OnInit {
 
   ngOnInit() {
     this.createNumericElementForm();
+  }
+
+  ngAfterViewInit(): void {
     if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
+      this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
+        this.numericDataElement.currentValue);
+      const customEvent = document.createEvent('Event');
+      // customEvent.initEvent('change', true, true);
+      // $('#' + this.numericDataElement.id)[0].dispatchEvent(customEvent);
       this.numberValue = this.numericDataElement.currentValue;
       this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
         this.numericDataElement.currentValue);
-      // const customEvent = document.createEvent('Event');
-      // customEvent.initEvent('change', true, true);
-      // $('#' + this.numericDataElement.id)[0].dispatchEvent(customEvent);
+        this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     }
   }
+  loadedNumericValue(id, value, selectedCondition) {
+    const choiceElement = new NumericElement ();
+    choiceElement.elementId = id;
+    choiceElement.selectedValue = value;
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = id;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = value;
+    this.returnNumericElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
+  }
+
   choiceSelected(element, selectedCondition) {
     const choiceElement = new NumericElement ();
     choiceElement.elementId = element.id;
