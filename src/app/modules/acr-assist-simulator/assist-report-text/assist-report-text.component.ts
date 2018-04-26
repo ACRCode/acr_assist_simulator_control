@@ -21,7 +21,10 @@ ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
   this.onSelect(this.selectedSectionId);
 }
-  constructor() { }
+  constructor() {
+      setInterval(() => {
+    }, 1000);
+   }
 
   onSelect(sectionId) {
     this.selectedSectionId = sectionId;
