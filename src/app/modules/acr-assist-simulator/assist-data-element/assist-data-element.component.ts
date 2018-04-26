@@ -43,7 +43,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   }
 
-
   ngOnInit(): void {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState =  message as  SimulatorState;
@@ -75,6 +74,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.executedResultIds = [];
   }
 
   choiceSelected($event) {
@@ -299,6 +299,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     let impressionText: string;
     let selectedSection: string;
     let selectedChoiceTexts: Map<string, any>;
+    let textExpressionValue: string;
     selectedElements = this.simulatorEngineService.getAllDataElementValues();
     templatePartialsText = this.templatePartial;
     selectedComparisonValues = this.comparisonValues;
@@ -471,13 +472,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
+                      getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
                     }
                   } else {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
+                      getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+                      findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
                     }
                   }
                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
@@ -485,13 +488,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
                     } else {
-                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
+                      getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+                      impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
                     }
                   } else {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
-                      findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : selectedElements[node.attributes.DataElementId]);
+                      if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+                        findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+                      } else {
+                        getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+                        findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
                     }
                   }
                 }
@@ -567,6 +572,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       reportTextParser.write(endpointContent).onend();
 
+      function getTextExpressionValue(textExpression: string) {
+        if (textExpression.indexOf('{') === 0 && (textExpression.indexOf('}') > 1)) {
+          const subString = textExpression.substr(textExpression.indexOf('{') + 1, textExpression.indexOf('}') - 1);
+          getTextExpressionValue(selectedElements[subString]);
+        } else {
+          textExpressionValue = textExpression;
+        }
+      }
       function generatePartialView(partialViewId: string, isImpressionTemplate: boolean) {
         // this.templateIds = [];
         const sax = require('sax'),

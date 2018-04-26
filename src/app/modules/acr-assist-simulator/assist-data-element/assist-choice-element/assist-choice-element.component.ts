@@ -36,7 +36,16 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
             this.choiceDataElement.choiceInfo[choice].label);
         }
       }
+      const customEvent = document.createEvent('Event');
+      customEvent.initEvent('change', true, true);
+      if (this.choiceDataElement.choiceInfo.length <= 5) {
+        $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
+      } else {
+        $('#' + this.choiceDataElement.id).val(this.choiceDataElement.currentValue);
+        $('#' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
+      }
     }
+
     $('#div_' + this.choiceDataElement.id + '_other').hide();
   }
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {

@@ -1048,6 +1048,11 @@ text-transform: capitalize;
   margin-top: -10px;
 }
 
+.split-length-word.all-reportText-content {
+  text-align: justify;
+  word-break: unset;
+}
+
 .fixed-report-text-sidebar {
   position: fixed;
   right: 0;
