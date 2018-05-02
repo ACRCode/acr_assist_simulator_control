@@ -14,6 +14,10 @@
     <div *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length" class="required-field" title="Required Field">
       *
     </div>
+    <br>
+    <a *ngIf="multiChoiceElement.cdeId !== undefined && multiChoiceElement.cdeId !== ''" target="_blank" href="http://radelement.org/element/{{numericDataElement.cdeId}}" >
+      <label class="cdeId">CDEID</label>
+    </a>
   </div>
   <div class="col-xs-8 col-sm-6 text-left content-padding">
     <div class="row">

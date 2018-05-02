@@ -23,6 +23,10 @@
     title=" Minimum value is {{numericDataElement.minimum}}">
         *
       </div>
+      <br>
+    <a *ngIf="numericDataElement.cdeId !== undefined && numericDataElement.cdeId !== ''" target="_blank" href="http://radelement.org/element/{{numericDataElement.cdeId}}" >
+      <label class="cdeId">CDEID</label>
+    </a>
   </div>
   <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
     <div class="col-xs-8 col-sm-6 text-left content-padding">

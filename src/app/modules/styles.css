@@ -1120,3 +1120,7 @@ text-transform: capitalize;
 	font-size: 100% !important;
 }
   
+.cdeId{
+  cursor: pointer;
+  text-decoration: underline;
+}

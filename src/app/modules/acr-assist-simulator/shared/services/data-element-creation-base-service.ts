@@ -30,6 +30,7 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
     dataElement.isRequired = data.Attr.IsRequired === 'true' ? true : false ;
     dataElement.label = data.Label;
     dataElement.hint = data.Hint;
+    dataElement.cdeId = data.Attr.CdeId;
     if (data.Diagrams) {
        dataElement.diagrams = this.diagramService.returnDiagrams(data.Diagrams.Diagram);
     }
