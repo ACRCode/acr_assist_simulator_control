@@ -7,16 +7,20 @@
     {{choiceDataElement.label}}
   </label>
   <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
-      <a>
-        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{choiceDataElement.hint}}"></span>
-      </a>
-    </ng-container>
-    <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
-      <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-    </ng-container>
-    <div *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired " class="required-field" title="Required Field">
-     *
-    </div>
+    <a>
+      <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{choiceDataElement.hint}}"></span>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+    <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+  </ng-container>
+  <div *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired " class="required-field" title="Required Field">
+    *
+  </div>
+  <br>
+  <a *ngIf="choiceDataElement.cdeId !== undefined && choiceDataElement.cdeId !== ''" target="_blank" href="http://radelement.org/element/{{choiceDataElement.cdeId}}" >
+    <label class="cdeId">CDEID</label>
+  </a>
 </div>
 
 <div class="col-xs-8 col-sm-6 text-left content-padding">

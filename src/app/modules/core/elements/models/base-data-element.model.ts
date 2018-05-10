@@ -12,4 +12,5 @@ export  class BaseDataElement {
   dataElementType: string;
   isVisible: Boolean = true;
   defaultValue: any;
+  cdeId: string;
 }
