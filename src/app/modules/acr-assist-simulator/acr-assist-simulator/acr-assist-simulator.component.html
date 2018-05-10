@@ -1,41 +1,39 @@
 <ng-container *ngIf="!isEmptyContent">
-  
-  <div class="row">
-    <div class="text-right border-0">
-      <h4>
-        <button class="btn btn-md" (click)="resetElements()">
-          <strong>Reset Data</strong>
-        </button>
-      </h4>
-    </div>
-  </div>
-  
-  <div class="row content-area" >
-    <div [ngClass]="{'col-sm-6' : reportTextPosition == position.Right ? true : false, 'col-sm-12' : reportTextPosition == position.Right ? false : true}" class="text-right border-0">
-      <ng-container>
-        <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-          [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)' [inputValues]="inputValues"
-          [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
-      </ng-container>
-    </div>
-
-    <div class="col-sm-6 text-right border-0 fixed-report-text-sidebar" *ngIf="reportTextPosition == position.Right">
-      <div class="row report-text-top-margin left-margin">
-        <ng-container *ngIf="resultText !== undefined">
-          <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
-        </ng-container>
-      </div>
-      <div *ngIf=" showKeyDiagram === true && keyDiagram !== undefined" class="keydiagram">
-          <img class="img-max-width" src="{{keyDiagram.location}}">
+    <div id="toggle-wrapper">
+  <div id="div-simulator-results-block">
+    <div class="row">
+      <div class="text-right border-0">
+        <h4>
+          <button class="btn btn-md" (click)="resetElements()">
+            <strong>Reset Data</strong>
+          </button>
+        </h4>
       </div>
     </div>
-
-    <div class="col-sm-8 report-text-top-margin" *ngIf="reportTextPosition == position.Down">
+    <div class="col-sm-12 report-text-top-margin">
       <ng-container *ngIf="resultText !== undefined">
         <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
       </ng-container>
     </div>
   </div>
+  <div id="div-simulator-form" class="padding-r-10">
+    <form class="form-horizontal">
+      <div class="row content-area">
+        <div class="border-0">
+          <ng-container>
+            <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+              [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)' [inputValues]="inputValues"
+              [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+          </ng-container>
+        </div>
+
+        <div class="col-sm-6 text-right border-0 fixed-report-text-sidebar">
+          <div *ngIf=" showKeyDiagram === true && keyDiagram !== undefined" class="keydiagram">
+            <img class="img-max-width" src="{{keyDiagram.location}}">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 </ng-container>
-
-

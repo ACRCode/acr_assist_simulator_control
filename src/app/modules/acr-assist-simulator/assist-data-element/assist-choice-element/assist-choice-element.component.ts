@@ -21,12 +21,16 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   choiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
   selectedIndex: number;
+  selectedChoiceReportText: string;
+  selectedChoiceReportLabel: string;
+
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {}
   ngOnInit(): void {
     this.createChoiceElementForm();
   }
 
   ngAfterViewInit(): void {
+    $('#div_' + this.choiceDataElement.id + '_other').hide();
     if (this.choiceDataElement.currentValue !== undefined) {
       $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id).prop('checked', true);
       this.choiceValue = this.choiceDataElement.currentValue;
@@ -34,19 +38,44 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
           this.simulatorEngineService.addOrUpdateDataElement( this.choiceDataElement.id, this.choiceDataElement.currentValue,
             this.choiceDataElement.choiceInfo[choice].label);
+
+            if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
+              this.selectedChoiceReportText = this.choiceDataElement.choiceInfo[choice].reportText;
+            } else {
+              this.selectedChoiceReportLabel = this.choiceDataElement.choiceInfo[choice].label;
+            }
         }
       }
       const customEvent = document.createEvent('Event');
       customEvent.initEvent('change', true, true);
       if (this.choiceDataElement.choiceInfo.length <= 5) {
-        $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
+        this.updateChoiceValue(this.choiceDataElement.id, this.choiceDataElement.label,
+          (this.selectedChoiceReportText !== undefined) ? this.selectedChoiceReportText : this.selectedChoiceReportLabel, this.choiceDataElement.currentValue);
+
+        // $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
       } else {
-        $('#' + this.choiceDataElement.id).val(this.choiceDataElement.currentValue);
-        $('#' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
+        this.updateDropdownChoiceSelected(this.choiceDataElement.id, this.selectedChoiceReportLabel, this.choiceDataElement.currentValue, this.choiceDataElement.label);
+        // $('#' + this.choiceDataElement.id).val(this.choiceDataElement.currentValue);
+        // $('#' + this.choiceDataElement.id)[0].dispatchEvent(customEvent);
       }
     }
 
-    $('#div_' + this.choiceDataElement.id + '_other').hide();
+  }
+
+  updateChoiceValue (elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
+    const choiceElement = new ChoiceElement ();
+    choiceElement.elementId = elementId;
+    choiceElement.selectedValue = selectedValue;
+    choiceElement.selectedText = selectedText;
+    this.showOrHideFreeText(elementId, choiceElement.selectedValue);
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = elementId;
+    this.selectedCondition.selectedCondition = selectedElement;
+    this.selectedCondition.selectedValue = selectedText;
+
+    this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement ();
@@ -63,6 +92,27 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
+
+  updateDropdownChoiceSelected(elementId, elementLabel, elementValue, selectedCondition) {
+    const choiceElement = new ChoiceElement ();
+    choiceElement.elementId = elementId;
+    choiceElement.selectedValue = elementValue;
+    choiceElement.selectedText = elementLabel;
+
+    // this.showOrHideFreeText(element.id, choiceElement.selectedValue);
+
+    if (this.choiceValue === 'undefined' || this.choiceValue === undefined || this.choiceValue === '') {
+      choiceElement.selectedText = '';
+      choiceElement.selectedValue = '';
+    }
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = elementId;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = elementLabel;
+    this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
+   }
 
   dropdownChoiceSelected(element, selectedCondition) {
     const choiceElement = new ChoiceElement ();

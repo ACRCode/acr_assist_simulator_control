@@ -3,10 +3,10 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <div class="navbar-brand">
-          <a id="menu-toggle" class="glyphicon glyphicon-align-justify btn-menu toggle cursor">
+          <a id="menu-toggle" class="btn-menu toggle cursor">
             <i class="fa fa-bars"></i>
           </a>
-          <img src="./assets/images/acr-assist-white.png" class="logo">
+          <img src="./assets/img/acr-assist-white.png" class="logo">
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-10">
-            <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+            <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Down" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
           </div>
         </div>
       </div>

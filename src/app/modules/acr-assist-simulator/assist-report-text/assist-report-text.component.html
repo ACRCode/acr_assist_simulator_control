@@ -1,29 +1,29 @@
-<ng-container>
-    <div class="panel panel-group panel-default no-bottom-margin">
-        <div class="panel-heading findings">Report Text: 
-            <div>
-                <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
-                    <option *ngIf="sections.length > 1" [value]="All" [selected]="All">All</option>
-                    <option *ngFor="let Section of sections" [value]="Section" >{{Section}}</option>
-                </select>
+<div>
+    <div id="div-simulator-results-block">
+        <div class="box box-primary ">
+            <div class="box-header padding-t-b-5 padding-l-20">
+                <span> Result </span>
+                <a href="#" class="pull-right commments-icon text-sm">
+                    <i class="fa fa-comment text-bright-green"></i>
+                </a>
             </div>
-        </div>
-        <div class="panel-body" >
-            <div class="reportText-content">
-                <ng-container *ngIf="selectedSectionId !=='All'">
-                    <div [innerHTML]="selectedSection"  class="split-length-word all-reportText-content">
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="selectedSectionId ==='All'">
-                    <ng-container *ngFor="let textReport of allTextReport">
-                        <div class="all-reporttext-heading">
-                            {{textReport.heading}}
+            <div class="box-body padding-5 bg-light-grey">
+                <ng-container *ngFor="let textReport of allTextReport">
+                    <div class="box box-solid margin-b-5">
+                        <div class="box-header padding-t-b-5">
+                            <div class="box-tools box-tools-left" data-widget="collapse">
+                                <button type="button" class="btn btn-box-tool">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <span class="text-capitalize"> {{textReport.heading}} </span>
+                            </div>
                         </div>
-                        <div [innerHTML]="textReport.content"  class="split-length-word all-reportText-content">
-                        </div> 
-                    </ng-container>
+                        <div class="box-body padding-t-b-5">
+                            <p class="white-space-line" [innerHTML]="textReport.content"></p>
+                        </div>
+                    </div>
                 </ng-container>
             </div>
         </div>
     </div>
-</ng-container>
+</div>

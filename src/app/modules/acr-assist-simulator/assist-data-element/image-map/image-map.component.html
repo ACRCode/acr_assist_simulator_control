@@ -1,17 +1,9 @@
-<div class="row">
-  <div class="col-sm-4 text-center">
-    OR
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-12 text-left">
+<div class="col-sm-8">
     Select value from image:-
       <button type="button" class="btn btn-default" data-toggle="modal" attr.data-target="#{{'imgMap_Modal_'+DataElement.id}}">
       <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Image Map"></span>
     </button>
   </div>
-</div>
-
 <ng-container *ngIf="imagePath != undefined">
   <div class="modal fade img-modal" tabindex="-1" role="dialog" attr.id="{{'imgMap_Modal_'+DataElement.id}}" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-lg" role="document">

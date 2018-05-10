@@ -19,10 +19,25 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "acr",
-      "styles": [
-        "styles.css"
+      "styles": [        
+        "styles.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",        
+        "assets/css/AdminLTE.min.css",
+        "assets/css/styles.css",
+        "assets/font-awesome/css/font-awesome.min.css",
+        "assets/css/helper.css",
+        "assets/css/custom.css",
+        "assets/css/cover.css"
       ],
       "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "assets/js/adminlte.min.js",
+        "../node_modules/fastclick/lib/fastclick.js",
+        "assets/js/sidebar.js",
+        "assets/js/jquery.loupe.min.js",
+        "assets/js/typeahead.min.js",
         "assets/utils/xmlinit.js"
       ],
       "environmentSource": "environments/environment.ts",
