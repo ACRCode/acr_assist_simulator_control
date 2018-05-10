@@ -6,16 +6,19 @@
 .navbar-fixed-top {
   border: 0;
   background: #2e3752;
-  width: 322px;
+  width: 100%;
 }
 
-
+@media (max-width: 320px) {
+  img.logo {
+    padding-left: 5px !important;
+  }
+}
 
 img.logo {
     height: 100%;
     margin-bottom: -3px;
     min-height: 30px;
-    width: 88%;
     padding-left: 25px;
 }
 
@@ -33,6 +36,13 @@ img.logo {
   max-width: 150px;
 }
 }
+
+@media (max-width: 1024px) {
+  .row {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+  }
 
 #wrapper {
   padding-left: 322px;

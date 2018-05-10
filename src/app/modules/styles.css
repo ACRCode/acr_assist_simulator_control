@@ -49,6 +49,11 @@ input[type=file].inputfile:hover+label {
   margin-left: 135px;
 }
 
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
 /* Master Styles */
 
 h1 {
@@ -227,9 +232,12 @@ button.active,
 
 
 /* Styles for Assist bootstrap*/
+.text-red {
+  color: #dd4b39 !important;
+}
 
-.control-label {
-  text-align: left !important;
+.text-right.border-0 {
+  padding-right: 25px;
 }
 
 .box-style {

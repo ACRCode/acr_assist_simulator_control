@@ -44,7 +44,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice]).prop('checked', true);
               customEvent.initEvent('change', true, true);
               this.selctValue = currValue;
-              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice])[0].dispatchEvent(customEvent);
+              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, currValue, this.multiChoiceElement.currentValue[choice].label);
+              // $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice])[0].dispatchEvent(customEvent);
               break;
             }
           }
@@ -56,8 +57,9 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
                 this.choiceValue = this.multiChoiceElement.currentValue;
                 const customEvent = document.createEvent('Event');
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
-              customEvent.initEvent('change', true, true);
-              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue)[0].dispatchEvent(customEvent);
+              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.currentValue[choice].label);
+              // customEvent.initEvent('change', true, true);
+              // $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue)[0].dispatchEvent(customEvent);
           }
         }
         if (this.selctValue === this.multiChoiceElement.choiceInfo[choice].value) {
@@ -68,6 +70,42 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
   }
+
+  selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: string, choiceLabel) {
+    const multiElement = new MultiChoiceElement();
+    if ($('#' + elementId + '_' + choiceValue).is(':checked')) {
+      this.multiChoiceValues.push(choiceLabel);
+      this.multiChoiceComaprisonValues.push(choiceValue);
+      this.checked = choiceValue;
+      if (this.selctValue === choiceValue) {
+        this.checked = choiceValue;
+      } else {
+        this.checked = undefined;
+      }
+    } else {
+      const index = this.multiChoiceValues.indexOf(choiceLabel);
+      this.checked = undefined;
+      const comparisonIndex = this.multiChoiceComaprisonValues.indexOf(choiceValue);
+      if (index > -1) {
+        this.multiChoiceValues.splice(index, 1);
+      }
+      if (comparisonIndex > -1) {
+        this.multiChoiceComaprisonValues.splice(comparisonIndex, 1);
+      }
+    }
+     multiElement.elementId = elementId;
+    multiElement.selectedValues = this.multiChoiceValues;
+    multiElement.selectedComparisonValues = this.multiChoiceComaprisonValues;
+
+    this.selectedCondition = new SelectedCondition();
+
+    this.selectedCondition.selectedConditionId = elementId;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = this.multiChoiceValues;
+    this.returnMultiChoice.emit({receivedElement: multiElement, selectedCondition: this.selectedCondition});
+    // this.returnMultiChoice.emit(multiElement);
+  }
+
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
     const multiElement = new MultiChoiceElement();
     if (event.currentTarget.checked) {

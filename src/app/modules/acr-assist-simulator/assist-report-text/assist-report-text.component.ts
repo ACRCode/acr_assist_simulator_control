@@ -20,13 +20,14 @@ prevSectionId: string;
 ngOnChanges(changes: SimpleChanges): void {
   this.mainReportTexts = new MainReportText();
   this.onSelect(this.selectedSectionId);
+  this.loadScript('assets/js/adminlte.min.js');
 }
   constructor() {
       setInterval(() => {
     }, 1000);
    }
 
-  onSelect(sectionId) {
+   onSelect(sectionId) {
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
@@ -35,25 +36,25 @@ ngOnChanges(changes: SimpleChanges): void {
         this.sections.push(section);
       }
     }
-    if (this.sections.length > 1) {
-      if (sectionId === 'undefined' || sectionId === undefined || sectionId === 'All' ) {
-        let allText: string;
-        this.allTextReport = [];
-        allText = '';
-        for (const section in this.reportText.allReportText) {
-          if (this.reportText.allReportText[section].reportText !== '') {
-            const textReport: AllTextReport = new AllTextReport();
-            textReport.heading =  section;
-            textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
-            this.allTextReport.push (textReport);
-          }
+    if (sectionId === 'undefined' || sectionId === undefined || sectionId === 'All' ) {
+      let allText: string;
+      this.allTextReport = [];
+      allText = '';
+      for (const section in this.reportText.allReportText) {
+        if (this.reportText.allReportText[section].reportText !== '') {
+          const textReport: AllTextReport = new AllTextReport();
+          textReport.heading =  section;
+          textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
+          this.allTextReport.push (textReport);
         }
-        // $('#allTextReport').html(allText);
-        this.selectedSectionId = 'All';
       }
-    } else {
-      sectionId = this.sections[0];
+      // $('#allTextReport').html(allText);
+      this.selectedSectionId = 'All';
     }
+    // if (this.sections.length > 1) {
+    // } else {
+    //   sectionId = this.sections[0];
+    // }
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].reportText;
@@ -83,5 +84,14 @@ removeEmptyLine(inputText: string): string {
       });
       return uniquelines.join('\n');
     }
+  }
+
+  private loadScript(scriptUrl: string) {
+    return new Promise((resolve, reject) => {
+      const scriptElement = document.createElement('script');
+      scriptElement.src = scriptUrl;
+      scriptElement.onload = resolve;
+      document.body.appendChild(scriptElement);
+    });
   }
 }
