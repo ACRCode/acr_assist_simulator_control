@@ -5,7 +5,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',
-  styleUrls: ['../../../modules/styles.css']
+  styleUrls: ['./assist-report-text.component.css']
 })
 export class AssistReportTextComponent implements OnChanges {
 
@@ -35,25 +35,21 @@ ngOnChanges(changes: SimpleChanges): void {
         this.sections.push(section);
       }
     }
-    if (this.sections.length > 1) {
-      if (sectionId === 'undefined' || sectionId === undefined || sectionId === 'All' ) {
-        let allText: string;
-        this.allTextReport = [];
-        allText = '';
-        for (const section in this.reportText.allReportText) {
-          if (this.reportText.allReportText[section].reportText !== '') {
-            const textReport: AllTextReport = new AllTextReport();
-            textReport.heading =  section;
-            textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
-            this.allTextReport.push (textReport);
-          }
+    if (sectionId === 'undefined' || sectionId === undefined || sectionId === 'All' ) {
+      let allText: string;
+      this.allTextReport = [];
+      allText = '';
+      for (const section in this.reportText.allReportText) {
+        if (this.reportText.allReportText[section].reportText !== '') {
+          const textReport: AllTextReport = new AllTextReport();
+          textReport.heading =  section;
+          textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
+          this.allTextReport.push (textReport);
         }
-        // $('#allTextReport').html(allText);
-        this.selectedSectionId = 'All';
       }
-    } else {
-      sectionId = this.sections[0];
+      this.selectedSectionId = 'All';
     }
+
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].reportText;

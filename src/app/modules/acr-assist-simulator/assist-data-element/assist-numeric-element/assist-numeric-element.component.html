@@ -1,52 +1,44 @@
 <form [formGroup]="numericElementForm" novalidate>
-  <div class="col-xs-4 col-sm-6 text-left content-padding">
-    <label class="control-label DEElement">
-      {{numericDataElement.label}}
-    </label>
-    <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
-      <a>
-        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
-      </a>
-    </ng-container>
-    <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-      <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-    </ng-container>
-
-    <ng-container *ngIf="this.numericDataElement.isRequired">
-      <div *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
-        <div *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field" title="Required Field">
-          *
-        </div>
-      </div>
-    </ng-container>
-    <div *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min" class="required-field numeric-validator"
-    title=" Minimum value is {{numericDataElement.minimum}}">
+  <div class="form-group">
+    <div class="col-sm-5 text-right">
+      <label class="control-label DEElement">
+        {{numericDataElement.label}}
+      </label>
+      <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+        <i>
+          <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
+        </i>
+      </ng-container>
+      <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+        <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+      </ng-container>
+      <ng-container *ngIf="this.numericDataElement.isRequired">
+        <span *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
+          <span *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field" title="Required Field">
+            *
+          </span>
+        </span>
+      </ng-container>
+      <span *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
+        class="required-field numeric-validator" title=" Minimum value is {{numericDataElement.minimum}}">
         *
-      </div>
-      <br>
-    <a *ngIf="numericDataElement.cdeId !== undefined && numericDataElement.cdeId !== ''" target="_blank" href="http://radelement.org/element/{{numericDataElement.cdeId}}" >
-      <label class="cdeId">CDEID</label>
-    </a>
-  </div>
-  <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
-    <div class="col-xs-8 col-sm-6 text-left content-padding">
-        <div class="row">
-            <div class="col-sm-12">
-              <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
-              onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}" required>
-            </div>
-          </div>
+      </span>
     </div>
-  </ng-container>
 
-  <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
-    <div class="col-xs-8 col-sm-6 text-left content-padding">
-      <div class="row">
-          <div class="col-sm-12">
-            <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement" (keypress)="onlyNumberKey($event)"
-            onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"  required>
-          </div>
-        </div>
-    </div>
-  </ng-container>
+    <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
+      <div class="col-sm-7">
+        <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
+          (keypress)="onlyNumberKey($event)" onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
+          min="{{numericDataElement.minimum}}" required>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
+      <div class="col-sm-7">
+        <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
+          (keypress)="onlyNumberKey($event)" onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
+          min="{{numericDataElement.minimum}}" required>
+      </div>
+    </ng-container>
+  </div>
 </form>
