@@ -11,7 +11,7 @@ input[type=file].inputfile {
 input[type=file].inputfile+label:active,
 input[type=file].inputfile+label {
   max-width: 100%;
-  font-size: 1.5rem;
+  font-size: 100%;
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -22,7 +22,7 @@ input[type=file].inputfile+label {
   color: #f1e5e6;
   background-color: #d3394c;
   text-indent: 0px;
-  width: 130px;
+  /* width: 130px; */
 }
 
 input[type=file].inputfile+label:hover {
@@ -292,10 +292,10 @@ button.active,
   width: 100%;
 }
 
-.modal-dialog {
+/* .modal-dialog {
   top: 100px;
   margin-left: 50% !important;
-}
+} */
 
 .required-field {
   /* border: 1px solid red; */
@@ -690,7 +690,7 @@ h3 {
 }
 
 .div-simulator-container .modal-dialog {
-  top: 100px;
+  /* top: 100px; */
   /*margin-left: 50% !important;*/
   margin-left: 0 !important;
 }
@@ -819,6 +819,19 @@ h3 {
   #page-content-wrapper {
     padding: 0px 20px;
     margin-top: 15px;
+  }
+}
+@media (max-width: 767px) {
+  .form-group {
+    padding-left: 30px;
+  }
+
+  .col-sm-5.text-right {
+    float: left;
+  }
+
+ .col-sm-8 {
+    padding-right: 30px;
   }
 }
 

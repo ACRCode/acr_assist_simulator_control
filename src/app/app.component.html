@@ -1,37 +1,37 @@
 <div id="wrapper">
-  <nav class="navbar navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <div class="navbar-brand">
-          <a id="menu-toggle" class="glyphicon glyphicon-align-justify btn-menu toggle cursor">
-            <i class="fa fa-bars"></i>
-          </a>
-          <img src="./assets/images/acr-assist-white.png" class="logo">
-        </div>
-      </div>
-    </div>
-  </nav>
-
   <div id="sidebar-wrapper">
-    <nav id="spy">
-      <ul class="sidebar-nav nav">
-        <li>
-          <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
-        </li>
-      </ul>
+    <nav class="navbar-default navbar-static-side" role="navigation">
+      <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+          <li class="nav-header">
+            <img src="./assets/images/acr-assist-white.png" class="logo">
+          </li>
+        </ul>
+        <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+      </div>
     </nav>
   </div>
 
   <div id="page-content-wrapper">
-    <div class="page-content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-10">
-            <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+    <div class="row border-bottom">
+      <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+          <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " id="menu-toggle" href="#menu-toggle">
+            <i class="fa fa-bars"></i>
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ibox margin-0">
+              <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+             
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>
-
+</div>

@@ -1,29 +1,16 @@
-<ng-container>
-    <div class="panel panel-group panel-default no-bottom-margin">
-        <div class="panel-heading findings">Report Text: 
+<div class="ibox-title">
+    <h5>Result</h5>
+</div>
+<div class="ibox-content" style="border:1px solid #f4f4f4;">
+    <section class="ac-container">
+        <ng-container *ngFor="let textReport of allTextReport">
             <div>
-                <select id="ddlSections" (change)="onSelect($event.target.value)" style="text-transform: capitalize">
-                    <option *ngIf="sections.length > 1" [value]="All" [selected]="All">All</option>
-                    <option *ngFor="let Section of sections" [value]="Section" >{{Section}}</option>
-                </select>
+                <input id="{{textReport.heading}}" name="accordion-{{textReport.heading}}" type="checkbox" checked="checked">
+                <label for="{{textReport.heading}}" class="text-capitalize">{{textReport.heading}}</label>
+                <article class="ac-small">
+                    <p class="white-space-line" [innerHTML]="textReport.content"></p>
+                </article>
             </div>
-        </div>
-        <div class="panel-body" >
-            <div class="reportText-content">
-                <ng-container *ngIf="selectedSectionId !=='All'">
-                    <div [innerHTML]="selectedSection"  class="split-length-word all-reportText-content">
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="selectedSectionId ==='All'">
-                    <ng-container *ngFor="let textReport of allTextReport">
-                        <div class="all-reporttext-heading">
-                            {{textReport.heading}}
-                        </div>
-                        <div [innerHTML]="textReport.content"  class="split-length-word all-reportText-content">
-                        </div> 
-                    </ng-container>
-                </ng-container>
-            </div>
-        </div>
-    </div>
-</ng-container>
+        </ng-container>
+    </section>
+</div>

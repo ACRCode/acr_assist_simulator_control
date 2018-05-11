@@ -1,22 +1,10 @@
-.cursor {
-  cursor: pointer;
-}
-
-
-.navbar-fixed-top {
-  border: 0;
-  background: #2e3752;
-  width: 322px;
-}
-
-
 
 img.logo {
-    height: 100%;
-    margin-bottom: -3px;
-    min-height: 30px;
-    width: 88%;
-    padding-left: 25px;
+  height: 100%;
+  margin-bottom: -3px;
+  min-height: 30px;
+  width: 100%;
+  /* padding-left: 25px; */
 }
 
 @media (max-width: 767px) {
@@ -28,135 +16,8 @@ img.logo {
 }
 
 @media (min-width: 991px) {
-.img.logo {
-  width: 100% !important;
-  max-width: 150px;
-}
-}
-
-#wrapper {
-  padding-left: 322px;
-  transition: all 0.4s ease 0s;
-}
-
-#sidebar-wrapper {
-  margin-left: -322px;
-  top: 51px;
-  left: 322px;
-  width: 322px;
-  background: #2e3752;
-  position: fixed;
-  height: 100%;
-  overflow-y: auto;
-  z-index: 1000;
-  transition: all 0.4s ease 0s;
-}
-
-#wrapper.active {
-  padding-left: 0;
-}
-
-#wrapper.active #sidebar-wrapper {
-  left: 0;
-}
-
-#page-content-wrapper {
-  width: 100%;
-  transition: all 0.4s ease 0s;
-}
-
-.content-overflow {
-  overflow: scroll;
-  max-height: 900px;
-  overflow-x: hidden;
-}
-
-.sidebar-nav {
-  position: absolute;
-  top: 0;
-  width: 322px;
-  list-style: none;
-  margin: 0;
-  padding: 0;  
-}
-
-.sidebar-nav li {
-  line-height: 40px;
-  text-indent: 20px;
-}
-
-.sidebar-nav li a {
-  color: #999999;
-  display: block;
-  text-decoration: none;
-  padding-left: 60px;
-}
-
-.sidebar-nav li a span:before {
-  position: absolute;
-  left: 0;
-  color: #41484c;
-  text-align: center;
-  width: 20px;
-  line-height: 18px;
-}
-
-.sidebar-nav li a:hover,
-.sidebar-nav li.active {
-  color: #fff;
-  background: rgba(255,255,255,0.2);
-  text-decoration: none;
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-  text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  line-height: 60px;
-  font-size: 18px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-  color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none;
-}
-
-#menu-toggle {
-    text-decoration: none;
-    float: left;
-    color: white;
-    padding-right: 5px;
-}
-
-@media (max-width:767px) {
-
-#wrapper {
-  padding-left: 0;
-}
-
-#sidebar-wrapper {
-  left: 0;
-}
-
-#wrapper.active {
-  position: relative;
-  left: 322px;
-}
-
-#wrapper.active #sidebar-wrapper {
-  left: 322px;
-  width: 322px;
-  transition: all 0.4s ease 0s;
-}
-
-#menu-toggle {
-  display: inline-block;
-}
+  .img.logo {
+    width: 100% !important;
+    max-width: 150px;
+  }
 }
