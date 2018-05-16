@@ -2,9 +2,11 @@
 
 # compiled output
 /dist
+/dist-server
 /tmp
 /out-tsc
 /.ng_build
+/.ng_pkg_build
 
 # dependencies
 /node_modules
@@ -24,7 +26,6 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/.vs
 
 # misc
 /.sass-cache
@@ -32,8 +33,11 @@
 /coverage
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
+/dist.tgz
+/src/app/.vs
 
 # e2e
 /e2e/*.js

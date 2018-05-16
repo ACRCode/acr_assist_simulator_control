@@ -5,7 +5,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',
-  styleUrls: ['./assist-report-text.component.css']
+  styleUrls: ['../../styles.css']
 })
 export class AssistReportTextComponent implements OnChanges {
 

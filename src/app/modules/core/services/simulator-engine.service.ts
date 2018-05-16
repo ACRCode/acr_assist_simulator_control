@@ -185,12 +185,9 @@ export class SimulatorEngineService {
   }
   private evaluateDecisionPoints() {
 
-     console.log(this.dataElementValues);
-     this.evaluateComputedExpressions();
-
-     this.endOfRoadReached = false;
-     for (const decisionPoint of this.template.rules.decisionPoints)
-      {
+    this.evaluateComputedExpressions();
+    this.endOfRoadReached = false;
+     for (const decisionPoint of this.template.rules.decisionPoints) {
         if ( this.evaluateDecisionPoint(decisionPoint, 1 , new Array<string>())) {
           break;
         }

@@ -77,7 +77,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
       const numericControl = group.controls[numericKey];
       if ((numericControl.value === 'undefined' || numericControl.value === '') && this.numericDataElement.isRequired ) {
         return numericControl.setErrors({ notEquivalent: true });
-      }else {
+      } else {
         return numericControl.setErrors(null);
       }
     };

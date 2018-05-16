@@ -184,7 +184,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                     if (inputValue.dataElementValue.length !== undefined && inputValue.dataElementValue.length > 0) {
                       if (!isReset) {
                         if (Array.isArray(inputValue.dataElementValue)) {
-                          for (const element in inputValue.dataElementValue) { $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element]).prop('checked', true);
+                          for (const element in inputValue.dataElementValue) {
+                            $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element]).prop('checked', true);
                             $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[element])[0].dispatchEvent(customEvent);
                           }
                         } else {
@@ -203,12 +204,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                           $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue)[0].dispatchEvent(customEvent);
                         }
                       }
-                      // if (isReset) {
-                      //   for (const value in inputValue.dataElementValue) {
-                      //     customEvent.initEvent('change', true, true);
-                      //     $('#' + inputValue.dataElementId + '_' + inputValue.dataElementValue[value])[0].dispatchEvent(customEvent);
-                      //   }
-                      // }
                     }
                   }
                   break;

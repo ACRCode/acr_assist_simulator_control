@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
 import { InputData } from './modules/core/models/input-data.model';
 import { BaseDataElement } from './modules/core/elements/models/base-data-element.model';
@@ -7,7 +7,8 @@ import { ReportTextPosition } from './modules/core/models/report-text.model';
 @Component({
   selector: 'acr-app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
 

@@ -12,12 +12,12 @@ import {NumericDataElementCreationService} from './shared/services/numeric-data-
 import {IntegerDataElementCreationService} from './shared/services/integer-data-element-creation.service';
 import { AssistDataElementComponent } from './assist-data-element/assist-data-element.component';
 import { HintDiagramComponent } from './assist-data-element/hint-diagram/hint-diagram.component';
-import { SlideComponent } from 'ng2-bootstrap/carousel/slide.component';
+import { SlideComponent } from 'ngx-bootstrap/carousel/slide.component';
 import { GlobalValueCreationService } from './shared/services/global-value-creation.service';
 import { ArrayCheckerService } from './shared/services/array-checker.service';
 import { ConditionsCreationService } from './shared/services/conditions-creation.service';
-import { CarouselComponent } from 'ng2-bootstrap/carousel/carousel.component';
-import { CarouselConfig } from 'ng2-bootstrap/carousel/carousel.config';
+import { CarouselComponent } from 'ngx-bootstrap/carousel/carousel.component';
+import { CarouselConfig } from 'ngx-bootstrap/carousel/carousel.config';
 import { AssistNumericElementComponent } from './assist-data-element/assist-numeric-element/assist-numeric-element.component';
 import { AssistChoiceElementComponent } from './assist-data-element/assist-choice-element/assist-choice-element.component';
 import { AssistMultiChoiceElementComponent } from './assist-data-element/assist-multi-choice-element/assist-multi-choice-element.component';
@@ -33,7 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
-    AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent, ImageMapComponent, AssistReportTextComponent];
+    AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
+    ImageMapComponent, AssistReportTextComponent];
 
 @NgModule({
   imports: [

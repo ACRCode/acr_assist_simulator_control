@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('component-library-template App', () => {
+describe('acr-assist-simulator App', () => {
   let page: AppPage;
 
   beforeEach(() => {

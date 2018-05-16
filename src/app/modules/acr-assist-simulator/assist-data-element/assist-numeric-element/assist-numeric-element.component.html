@@ -24,7 +24,6 @@
         *
       </span>
     </div>
-
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-7">
         <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"
@@ -32,7 +31,6 @@
           min="{{numericDataElement.minimum}}" required>
       </div>
     </ng-container>
-
     <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
       <div class="col-sm-7">
         <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="number" class="form-control" formControlName="numericElement"

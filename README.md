@@ -1,67 +1,27 @@
-# ACR Assist Simulator
+# AcrAssistSimulator
 
-This applciation helps users to test their own modules againest ACR Assist Schema. 
-## Getting Started
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Development server
 
-### Technical Specifications
-*  Nodejs
-* Angular 4
-* Bootstrap
-* JQuery
-* Angular- CLI
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-### Prerequisites
+## Code scaffolding
 
-Things you need to install to run this software
-  ```
-  Install Latest NodeJS 
-  ```
-### How to run application
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-* Install necessary configured node packages by running Node Package Manager (npm)
-    ```
-    $ cd AcrAssistSimulator
-    $ npm install -d
-    ```
-* Run nodejs applciation.
-    ```
-    $ cd AcrAssistSimulator
-    $ npm start
-    ```
-* Browse http://localhost:4200 to access application. 
- 
+## Build
 
-### How to  deploy the application as a standalone web site
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
- * Download and install Nodejs.
-* Install necessary configured node packages by running Node Package Manager (npm)
-    ```
-    $ cd AcrAssistSimulator
-    $ npm install
-    ```
- 
-* Run the following command to generate the files for deployment
-    ```
-    $ cd AcrAssistSimulator
-    $ npm run build-ci
-    ```
+## Running unit tests
 
-*  Copy the contents of the folder ~/AcrAssistSimulator/dist and deploy it as a website in any webserver(IIS / Apache)
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Installing Simulator as a control in existing application
-##### Installing Simulator control in angular applciation
+## Running end-to-end tests
 
-* Open project folder and type following commands to download latest simulator packages in to your application
-    ```
-        $ npm i acr-assist-simulator
-    ```
-* Import following modules in to your applciation
-    ```
-    import {SimulatorModule, SimulatorLoderModule } from 'acr-assist-simulator';
-    ```
-* Access simulator component using this html selector in your html
-    ```
-    <acr-assist-simulator templateContent="{{xmlfileContent}}" imagePath="{{xmlRelatedImagesPath}}"> Loading .... </acr-assist-simulator>
-    ```
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

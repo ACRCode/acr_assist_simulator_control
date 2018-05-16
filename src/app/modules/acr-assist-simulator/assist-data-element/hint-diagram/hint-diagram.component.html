@@ -1,59 +1,32 @@
 <ng-container *ngIf="DataElement !== undefined">
-
-
-
-    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.id}}" (click)="resetCarouselIndex()">
-        <span class=" glyphicon glyphicon-cd" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
-
-    </button>
-
-    <div class="modal inmodal fade" id="{{'diag_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title">{{DataElement.label}}</h4>
-                </div>
-                <div class="modal-body">
-                    <ng-container>
-                        <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-                            <ng-container *ngFor="let diag of DataElement.diagrams ">
-                                <slide>
-                                    <img src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
-                                </slide>
-                            </ng-container>
-                        </carousel>
-                    </ng-container>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.id}}" (click)="resetCarouselIndex()">
+    <span class=" glyphicon glyphicon-cd" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
+  </button>
+  <div class="modal inmodal fade" id="{{'diag_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title">{{DataElement.label}}</h4>
         </div>
-    </div>
-      
-<!-- <div class="modal fade adjust-diagram " tabindex="-1" role="dialog" attr.id="{{'diag_'+DataElement.id}}" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-lg adjust-diagram-image " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    {{DataElement.label}}
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            </div>
-            <ng-container>
-                <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-                    <ng-container *ngFor="let diag of DataElement.diagrams ">
-                        <slide>
-                            <img  src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
-                        </slide>
-                    </ng-container>  
-                </carousel>
-            </ng-container>
+        <div class="modal-body">
+          <ng-container>
+            <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+              <ng-container *ngFor="let diag of DataElement.diagrams ">
+                <slide>
+                  <img src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
+                </slide>
+              </ng-container>
+            </carousel>
+          </ng-container>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-</div> -->
+  </div>
 </ng-container>

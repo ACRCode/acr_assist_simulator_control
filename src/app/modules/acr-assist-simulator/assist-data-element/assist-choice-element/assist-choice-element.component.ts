@@ -9,7 +9,7 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 @Component({
   selector: 'acr-assist-choice-element',
   templateUrl: './assist-choice-element.component.html',
-  styleUrls: ['./assist-choice-element.component.css', '../../../../modules/styles.css']
+  styleUrls: ['../../../../modules/styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   @Input() choiceDataElement: ChoiceDataElement;
@@ -27,6 +27,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    $('#div_' + this.choiceDataElement.id + '_other').hide();
     if (this.choiceDataElement.currentValue !== undefined) {
       $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id).prop('checked', true);
       this.choiceValue = this.choiceDataElement.currentValue;
@@ -46,7 +47,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       }
     }
 
-    $('#div_' + this.choiceDataElement.id + '_other').hide();
   }
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement ();
@@ -120,7 +120,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       const choiceControl = group.controls[checkBoxKey];
       if ((choiceControl.value === 'undefined' || choiceControl.value === '' || this.choiceValue === undefined || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
-      }else {
+      } else {
         return choiceControl.setErrors(null);
       }
     };

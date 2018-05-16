@@ -17,17 +17,13 @@
         *
       </span>
     </div>
-
     <div class="col-sm-7">
-      <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo">
-        <div class="checkbox" title="{{choice.hint}}">
-          <label>
-            <input [(ngModel)]="checked" id="{{multiChoiceElement.id}}_{{choice.value}}" type="checkbox" value={{choice.value}} [checked]="false"
+        <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox" title="{{choice.hint}}">
+            <label>
+              <input type="checkbox"[(ngModel)]="checked" id="{{multiChoiceElement.id}}_{{choice.value}}"  [checked]="false"
               formControlName="multiCheckBox" (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
-            <span> {{choice.label}}</span>
-          </label>
-        </div>
-      </ng-container>
+              {{choice.label}}</label>
+          </div>
     </div>
   </div>
 </form>

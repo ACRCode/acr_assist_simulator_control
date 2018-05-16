@@ -27,14 +27,6 @@ export class ImageMapComponent  implements OnInit {
         if (this.DataElement === undefined) {
             return;
         }
-        // const request = new XMLHttpRequest();
-        // request.open('HEAD',  this.imagePath + '/' + this.DataElement.imageMap.location, false);
-        // request.send();
-        // if (request.status === 200) {
-        //   this.imageExist = true;
-        // } else {
-        //   this.imageExist = false;
-        // }
         this.displayValue('');
       }
 
@@ -124,7 +116,7 @@ export class ImageMapComponent  implements OnInit {
                 if (this.DataElement.choiceInfo.length <= 5 && this.DataElement.choiceInfo.length > 0) {
                     if (optValue.value === val) {
                         this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
-                        break;
+                        // break;
                     } else {
                         this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
                     }

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "component-library-template"
+    "name": "acr-assist-simulator"
   },
   "apps": [
     {
@@ -9,8 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "XMLFiles"
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -18,12 +17,18 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "acr",
+      "prefix": "app",
       "styles": [
-        "styles.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css"
       ],
       "scripts": [
-        "assets/utils/xmlinit.js"
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "assets/js/sidebar.js",
+        "assets/js/ImgMapHover.js",
+        "assets/js/typeahead.min.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -44,7 +49,7 @@
     },
     {
       "project": "src/tsconfig.spec.json",
-      "exclude":"**/node_modules/**"
+      "exclude": "**/node_modules/**"
     },
     {
       "project": "e2e/tsconfig.e2e.json",

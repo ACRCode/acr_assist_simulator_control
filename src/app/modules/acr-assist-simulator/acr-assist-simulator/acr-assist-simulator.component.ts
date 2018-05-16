@@ -17,7 +17,6 @@ import { ReportTextPosition } from '../../core/models/report-text.model';
 })
 export class AcrAssistSimulatorComponent implements  OnChanges {
 
-
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
@@ -28,7 +27,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   isEmptyContent: boolean;
   keyDiagram: Diagram;
   resultText: MainReportText;
-  @Input() inputValues: InputData[]= [];
+  @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
   isReset: boolean;
   dataElements: BaseDataElement[];
