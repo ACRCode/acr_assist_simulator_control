@@ -1,15 +1,13 @@
-<ul class="nav metismenu">
-  <li class="landing_link">
-    <a href="#">Want to try your assist module?</a>
-  </li>
+<ul class="sidebar-menu" data-widget="tree">
+  <li class="header">Want to try your assist module?</li>
   <li class="text-center">
     <acr-file-upload-loader (onFileContentRead)="onFileContentRead($event)"></acr-file-upload-loader>
   </li>
-</ul>
-<ul class="nav metismenu">
-  <li [ngClass]="{'active':(selectedXML != 'undefined' && selectedXML.fileLabel == file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()">
+  <li [ngClass]="{'active':(selectedXML != 'undefined' && selectedXML.fileLabel == file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()"
+     class="treeview">
     <a href="#" (click)="onFileClick(file)">
-      <span class="nav-label">{{file.fileLabel}}</span>
+      <i class="fa fa-book"></i>
+      <span>{{file.fileLabel}}</span>
     </a>
   </li>
 </ul>

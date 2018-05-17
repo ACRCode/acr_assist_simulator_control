@@ -10,7 +10,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-numeric-element',
   templateUrl: './assist-numeric-element.component.html',
-  styleUrls: ['../../../../modules/styles.css']
+  styleUrls: ['./assist-numeric-element.component.css']
 })
 export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 

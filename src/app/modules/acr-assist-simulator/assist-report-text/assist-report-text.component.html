@@ -1,16 +1,16 @@
-<div class="ibox-title">
-  <h5>Report Text</h5>
-</div>
-<div class="ibox-content" style="border:1px solid #f4f4f4;">
-  <section class="ac-container">
-    <ng-container *ngFor="let textReport of allTextReport">
-      <div>
-        <input id="{{textReport.heading}}" name="accordion-{{textReport.heading}}" type="checkbox" checked="checked">
-        <label for="{{textReport.heading}}" class="text-capitalize">{{textReport.heading}}</label>
-        <article class="ac-small">
-          <p class="white-space-line" [innerHTML]="textReport.content"></p>
-        </article>
+<ng-container *ngFor="let textReport of allTextReport; let i = index">
+  <div class="box box-solid margin-b-5">
+    <div class="box-header padding-t-b-5">
+      <div class="box-tools box-tools-left" data-widget="collapse">
+        <button type="button" class="btn btn-box-tool" (click)="collapsePanel(i)">
+          <i id="icon_{{i}}" class="fa fa-minus"></i>
+        </button>
+        <span class="text-capitalize"> {{textReport.heading}} </span>
       </div>
-    </ng-container>
-  </section>
-</div>
+    </div>
+    <div id="panel_{{i}}" class="box-body padding-t-b-5">
+      <p class="white-space-line" [innerHTML]="textReport.content"></p>
+    </div>
+  </div>
+</ng-container>
+

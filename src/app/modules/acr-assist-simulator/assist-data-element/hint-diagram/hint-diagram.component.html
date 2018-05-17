@@ -1,6 +1,6 @@
 <ng-container *ngIf="DataElement !== undefined">
   <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.id}}" (click)="resetCarouselIndex()">
-    <span class=" glyphicon glyphicon-cd" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
+    <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
   </button>
   <div class="modal inmodal fade" id="{{'diag_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -10,7 +10,7 @@
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
-          <h4 class="modal-title">{{DataElement.label}}</h4>
+          <h4 class="modal-title float-left">{{DataElement.label}}</h4>
         </div>
         <div class="modal-body">
           <ng-container>

@@ -4,6 +4,6 @@ export class AllTextReport {
 }
 
 export enum ReportTextPosition {
-    Down,
+    Top,
     Right
 }

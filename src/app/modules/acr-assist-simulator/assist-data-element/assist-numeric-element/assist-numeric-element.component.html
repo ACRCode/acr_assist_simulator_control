@@ -1,26 +1,24 @@
 <form [formGroup]="numericElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label DEElement">
+      <label class="control-label">
         {{numericDataElement.label}}
       </label>
       <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
-        <i>
-          <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right" title="{{numericDataElement.hint}}"></span>
-        </i>
+        <i class="fa fa-info-circle text-primary" title="{{numericDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="numericDataElement.diagrams != undefined ">
         <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
       <ng-container *ngIf="this.numericDataElement.isRequired">
-        <span *ngIf="numericElementForm.controls['numericElement'].invalid" class="numeric-align">
+        <span *ngIf="numericElementForm.controls['numericElement'].invalid">
           <span *ngIf="numericElementForm.controls['numericElement'].errors.required" class="required-field" title="Required Field">
             *
           </span>
         </span>
       </ng-container>
       <span *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
-        class="required-field numeric-validator" title=" Minimum value is {{numericDataElement.minimum}}">
+        class="required-field" title=" Minimum value is {{numericDataElement.minimum}}">
         *
       </span>
     </div>

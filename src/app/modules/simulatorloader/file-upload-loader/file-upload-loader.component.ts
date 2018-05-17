@@ -6,7 +6,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-file-upload-loader',
   templateUrl: './file-upload-loader.component.html',
-  styleUrls: ['../../styles.css']
+  styleUrls: ['./file-upload-loader.component.css']
 })
 
 export class FileUploadLoaderComponent implements OnInit  {
