@@ -9,23 +9,24 @@ import { Diagram } from '../../core/models/diagram.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
+const $ = require('jquery');
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
-  styleUrls: ['../../../modules/styles.css']
+  styleUrls: ['./acr-assist-simulator.component.css']
 })
 export class AcrAssistSimulatorComponent implements  OnChanges {
 
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
-  @Input() reportTextPosition: string;
+  @Input() reportTextPosition: ReportTextPosition;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDefaultElements = new EventEmitter();
   template: Template;
   isEmptyContent: boolean;
-  keyDiagram: Diagram;
+  keyDiagrams: Diagram[];
   resultText: MainReportText;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
@@ -59,16 +60,14 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
       }
     }
     this.dataElements = this.template.dataElements;
+    this.keyDiagrams = new Array<Diagram>();
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-      if (this.template.metadata.diagrams[index].keyDiagram) {
         const element = new Diagram();
         element.label = this.template.metadata.diagrams[index].label;
         element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
         element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-        this.keyDiagram = element;
-        break;
-      }
+        this.keyDiagrams.push(element);
     }
     this.resultText = undefined;
   }
@@ -89,4 +88,16 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   recievedExecutionHistory (finalExecutionHistory: FinalExecutedHistory) {
        this.returnExecutionHistory.emit(finalExecutionHistory);
   }
+
+  collapsePanel() {
+    if ($('#icon_collapse').hasClass('fa fa-minus')) {
+        $('#icon_collapse').removeClass('fa fa-minus');
+        $('#icon_collapse').addClass('fa fa-plus');
+        $('#body_collapse').css({'display': 'none'});
+    } else {
+        $('#icon_collapse').removeClass('fa fa-plus');
+        $('#icon_collapse').addClass('fa fa-minus');
+        $('#body_collapse').removeAttr('style');
+    }
+}
 }

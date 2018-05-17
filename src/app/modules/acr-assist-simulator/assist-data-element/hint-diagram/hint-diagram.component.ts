@@ -4,7 +4,7 @@ import { DataElement } from '../../../core/models/data-element.model';
 @Component({
   selector: 'acr-hint-diagram',
   templateUrl: './hint-diagram.component.html',
-  styleUrls: ['../../../../modules/styles.css']
+  styleUrls: ['./hint-diagram.component.css']
 })
 export class HintDiagramComponent {
   @Input() DataElement: DataElement;

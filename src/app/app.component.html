@@ -1,35 +1,34 @@
-<div id="wrapper">
-  <div id="sidebar-wrapper">
-    <nav class="navbar-default" role="navigation">
-        <ul class="nav metismenu" id="side-menu">
-          <li class="nav-header">
-            <img src="./assets/images/acr-assist-white.png" class="logo">
+<div class="wrapper">
+  <header class="main-header">
+    <a href="#" class="logo">
+      <span class="logo-lg">Assist Simulator </span>
+    </a>
+    <nav class="navbar navbar-static-top">
+      <a id="toggleWrapper" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="acr-logo">
+            <a href="https://www.acr.org/" target="_blank">
+              <img src="assets/images/acr-logo.png" alt="ACR Logo">
+            </a>
           </li>
         </ul>
-        <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
-    </nav>
-  </div>
-
-  <div id="page-content-wrapper">
-    <div class="row border-bottom">
-      <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-          <a class="minimalize-styl-2 btn btn-primary custom-btn" id="menu-toggle" href="#menu-toggle">
-            <i class="fa fa-bars"></i>
-          </a>
-        </div>
-      </nav>
-    </div>
-
-    <div class="wrapper wrapper-content animated fadeInRight">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="ibox margin-0">
-              <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="false" [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
-             
-          </div>
-        </div>
       </div>
-    </div>
-</div>
+    </nav>
+  </header>
+
+  <aside class="main-sidebar">
+    <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+  </aside>
+
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="row">
+        <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Top" [showKeyDiagram]="true"
+          [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+      </div>
+    </section>
+  </div>
 </div>

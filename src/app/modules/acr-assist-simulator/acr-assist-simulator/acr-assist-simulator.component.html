@@ -1,32 +1,112 @@
 <ng-container *ngIf="!isEmptyContent">
-  <div class="ibox-content">
-    <div class="box box-primary">
-      <ng-container *ngIf="resultText !== undefined">
-        <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
-      </ng-container>
-    </div>
-    <div class="box box-primary box-solid margin-b-0">
-    <div class="box-body">
-      <div id="div-simulator-form" class="padding-r-10">
-        <form class="form-horizontal">
-          <div class="row content-area">
-            <div class="border-0">
-              <ng-container>
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <h4>
+      <button class="btn btn-md" (click)="resetElements()">
+        <strong>Reset Data</strong>
+      </button>
+    </h4>
+  </div>
+  <div *ngIf="reportTextPosition === position.Top">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div id="div-simulator-block">
+        <div class="box box-primary box-solid margin-b-0">
+          <div class="box-body">
+            <ng-container *ngIf="resultText !== undefined">
+              <div id="div-simulator-results-block">
+                <div class="box box-primary">
+                  <div class="box-header padding-t-b-5 padding-l-20">
+                    <h3 class="box-title">Report Text</h3>
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool btn-box-tool-xs">
+                        <i class="fa fa-comment text-bright-green"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-body padding-5 bg-light-grey">
+                    <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div id="div-simulator-form" class="padding-r-10">
+              <div>
+              <form class="form-horizontal">
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
                   [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
                   [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
-              </ng-container>
+              </form>
             </div>
-
-            <div class="col-sm-6 text-right border-0 fixed-report-text-sidebar">
-              <div *ngIf=" showKeyDiagram === true" class="keydiagram">
-                <img class="img-max-width" src="../../../../assets/XMLFIles/Hello_RADS/LIRADS.png">
-              </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div *ngIf="reportTextPosition === position.Right">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div id="div-simulator-block">
+        <div class="box box-primary box-solid margin-b-0">
+          <div class="box-body">
+            <div id="div-simulator-form" class="padding-r-10" style="height: 535px; overflow-y: scroll; overflow-x: hidden;">
+              <form class="form-horizontal">
+                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+                  [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+                  [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <ng-container *ngIf="resultText !== undefined">
+        <div id="div-simulator-results-block">
+          <div class="box box-primary">
+            <div class="box-header padding-t-b-5 padding-l-20">
+              <h3 class="box-title">Report Text</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool btn-box-tool-xs">
+                  <i class="fa fa-comment text-bright-green"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body padding-5">
+              <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6" id="div-decissionTree-Block" *ngIf="showKeyDiagram === true">
+      <div class="box box-primary margin-b-0">
+        <div class="box-header with-border">
+          <h3 class="box-title">Key Diagrams</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapsePanel()">
+              <i id="icon_collapse" class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div id="body_collapse" class="box-body">
+          <div>
+            <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
+              <div class="carousel-inner">
+                <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
+                  <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
+                    <img class="img-responsive img-decissionTree" src="{{ diagram.location }}" alt="{{ diagram.label }}">
+                  </div>
+                </ng-container>
+              </div>
+              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="fa fa-angle-left"></span>
+              </a>
+              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="fa fa-angle-right"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>

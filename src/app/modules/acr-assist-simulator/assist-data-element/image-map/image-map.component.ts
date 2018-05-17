@@ -7,7 +7,7 @@ declare var require: any;
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
-  styleUrls: ['../../../../modules/styles.css']
+  styleUrls: ['./image-map.component.css']
 })
 
 export class ImageMapComponent  implements OnInit {
@@ -116,7 +116,9 @@ export class ImageMapComponent  implements OnInit {
                 if (this.DataElement.choiceInfo.length <= 5 && this.DataElement.choiceInfo.length > 0) {
                     if (optValue.value === val) {
                         this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
-                        // break;
+                        const customEvent = document.createEvent('Event');
+                        customEvent.initEvent('change', true, true);
+                        this.$('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
                     } else {
                         this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
                     }

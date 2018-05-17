@@ -1,13 +1,10 @@
 <form [formGroup]="multiChoiceElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label DEElement" id="{{multiChoiceElement.id}}">
-        {{multiChoiceElement.label}}
+      <label class="control-label">{{multiChoiceElement.label}}
       </label>
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-        <i>
-          <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right" title="{{multiChoiceElement.hint}}"></span>
-        </i>
+        <i class="fa fa-info-circle text-primary" title="{{multiChoiceElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [DataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
@@ -18,12 +15,12 @@
       </span>
     </div>
     <div class="col-sm-7">
-        <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox" title="{{choice.hint}}">
-            <label>
-              <input type="checkbox"[(ngModel)]="checked" id="{{multiChoiceElement.id}}_{{choice.value}}"  [checked]="false"
-              formControlName="multiCheckBox" (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
-              {{choice.label}}</label>
-          </div>
+      <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox" title="{{choice.hint}}">
+        <label>
+          <input type="checkbox" [(ngModel)]="checked" id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
+            (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)"> {{choice.label}}
+        </label>
+      </div>
     </div>
   </div>
 </form>

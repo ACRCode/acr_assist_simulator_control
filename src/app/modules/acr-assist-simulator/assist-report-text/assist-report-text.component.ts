@@ -5,7 +5,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',
-  styleUrls: ['../../styles.css']
+  styleUrls: ['./assist-report-text.component.css']
 })
 export class AssistReportTextComponent implements OnChanges {
 
@@ -79,5 +79,16 @@ removeEmptyLine(inputText: string): string {
       });
       return uniquelines.join('\n');
     }
+  }
+  collapsePanel(id) {
+      if ($('#icon_' + id).hasClass('fa fa-minus')) {
+          $('#icon_' + id).removeClass('fa fa-minus');
+          $('#icon_' + id).addClass('fa fa-plus');
+          $('#panel_' + id).css({'display': 'none'});
+      } else {
+          $('#icon_' + id).removeClass('fa fa-plus');
+          $('#icon_' + id).addClass('fa fa-minus');
+          $('#panel_' + id).removeAttr('style');
+      }
   }
 }
