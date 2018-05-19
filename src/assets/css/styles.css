@@ -41,6 +41,10 @@ body {
   display: block;
 }
 
+.image-logo-custom-width {
+  width: 200px;
+}
+
 .main-header .navbar {
   -webkit-transition: margin-left .3s ease-in-out;
   -o-transition: margin-left .3s ease-in-out;
@@ -174,6 +178,11 @@ a {
   color: #3c8dbc;
 }
 
+a:focus {
+  color: #23527c;
+  text-decoration: unset;
+}
+
 .content-wrapper {
   min-height: 100%;
   background-color: #ecf0f5;
@@ -254,7 +263,7 @@ a {
 .box-header {
   color: #444;
   display: block;
-  padding: 5px;
+  padding: 10px;
   position: relative;
 }
 
@@ -262,19 +271,19 @@ a {
   border-bottom: 1px solid #f4f4f4;
 }
 
-.div-simulator-testCases-block h3.box-title,
-#div-simulator-results-block h3.box-title {
-  font-size: 14px;
-}
-
 .box-header>.fa,
 .box-header>.glyphicon,
 .box-header>.ion,
 .box-header .box-title {
   display: inline-block;
-  font-size: 18px;
+  font-size: 17px;
   margin: 0;
   line-height: 1;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 h1,
@@ -300,13 +309,6 @@ h4.modal-title.float-left {
   position: absolute;
   right: 10px;
   top: 5px;
-}
-
-.btn-box-tool-xs {
-  padding: 0px 5px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
 }
 
 .btn-box-tool {
@@ -533,5 +535,11 @@ p {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px
+  }
+}
+
+@media (min-width: 768px) {
+  .form-horizontal .control-label {
+    padding-left: 20px;
   }
 }

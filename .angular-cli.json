@@ -30,7 +30,7 @@
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "assets/js/jquery.loupe.min.js",
         "assets/js/ui-changes.js",
-        "assets/js/sidebar.js",
+        "assets/js/common.js",
         "assets/js/ImgMapHover.js",
         "assets/js/typeahead.min.js"
 

@@ -1,5 +1,4 @@
 <ng-container *ngIf="!isEmptyContent">
- 
   <div *ngIf="reportTextPosition === position.Top">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div id="div-simulator-block">
@@ -8,28 +7,30 @@
             <ng-container *ngIf="resultText !== undefined">
               <div id="div-simulator-results-block">
                 <div class="box box-primary">
-                  <div class="box-header padding-t-b-5 padding-l-20">
+                  <div class="box-header with-border">
                     <h3 class="box-title">Report Text</h3>
                     <div class="box-tools pull-right">
-                      <button type="button" class="btn btn-box-tool btn-box-tool-xs">
-                        <i class="fa fa-comment text-bright-green"></i>
+                      <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
+                        <i id="icon_reporttext" class="fa fa-minus"></i>
                       </button>
                     </div>
                   </div>
-                  <div class="box-body padding-5 bg-light-grey">
-                    <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                  <div id="body_reporttext" class="box-body report-text">
+                    <dl>
+                      <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                    </dl>
                   </div>
                 </div>
               </div>
             </ng-container>
             <div id="div-simulator-form" class="padding-r-10">
               <div>
-              <form class="form-horizontal">
-                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-                  [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                  [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
-              </form>
-            </div>
+                <form class="form-horizontal">
+                  <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+                    [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+                    [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -56,16 +57,18 @@
       <ng-container *ngIf="resultText !== undefined">
         <div id="div-simulator-results-block">
           <div class="box box-primary">
-            <div class="box-header padding-t-b-5 padding-l-20">
+            <div class="box-header with-border">
               <h3 class="box-title">Report Text</h3>
               <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool btn-box-tool-xs">
-                  <i class="fa fa-comment text-bright-green"></i>
+                <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
+                  <i id="icon_reporttext" class="fa fa-minus"></i>
                 </button>
               </div>
             </div>
-            <div class="box-body padding-5">
-              <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+            <div id="body_reporttext" class="box-body report-text">
+              <dl>
+                <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+              </dl>
             </div>
           </div>
         </div>
@@ -75,13 +78,15 @@
       <div class="box box-primary margin-b-0">
         <div class="box-header with-border">
           <h3 class="box-title">Key Diagrams</h3>
+          <input id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
+          <label for="diagramUpload" class="btn btn-sm bg-olive margin" style="margin:10px;" title="Choose Diagrams">Choose a Diagram</label> 
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapsePanel()">
-              <i id="icon_collapse" class="fa fa-minus"></i>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
+              <i id="icon_keydiagram" class="fa fa-minus"></i>
             </button>
           </div>
         </div>
-        <div id="body_collapse" class="box-body">
+        <div id="body_keydiagram" class="box-body">
           <div>
             <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
               <div class="carousel-inner">

@@ -80,15 +80,4 @@ removeEmptyLine(inputText: string): string {
       return uniquelines.join('\n');
     }
   }
-  collapsePanel(id) {
-      if ($('#icon_' + id).hasClass('fa fa-minus')) {
-          $('#icon_' + id).removeClass('fa fa-minus');
-          $('#icon_' + id).addClass('fa fa-plus');
-          $('#panel_' + id).css({'display': 'none'});
-      } else {
-          $('#icon_' + id).removeClass('fa fa-plus');
-          $('#icon_' + id).addClass('fa fa-minus');
-          $('#panel_' + id).removeAttr('style');
-      }
-  }
 }

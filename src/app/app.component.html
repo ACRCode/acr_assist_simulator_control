@@ -1,8 +1,8 @@
 <div class="wrapper">
   <header class="main-header">
     <a href="#" class="logo">
-      <span class="logo-lg">Assist Simulator </span>
-    </a>
+      <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width" alt="Simulator Logo"> </span> 
+    </a> 
     <nav class="navbar navbar-static-top">
       <a id="toggleWrapper" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
@@ -26,7 +26,7 @@
   <div class="content-wrapper">
     <section class="content">
       <div class="row">
-        <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Top" [showKeyDiagram]="true"
+        <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="true"
           [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
       </div>
     </section>
