@@ -53,7 +53,7 @@ constructor (private configService: GlobalsService) {
     this.configService.getDefaultModulePath()
       .subscribe(data => {
         const self = this;
-        self.onFileContentRead.emit( new FileDetails('Hello RADS', 'Hello_RADS.xml', data));
+        self.onFileContentRead.emit( new FileDetails('Hello Assist', 'Hello_Assist.xml', data));
       });
   }
 }

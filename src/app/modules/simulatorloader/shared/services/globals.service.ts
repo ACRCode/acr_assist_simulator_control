@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GlobalsService {
-  defaultModule =  'assets/XMLFIles/Hello_RADS/Hello_RADS.xml';
+  defaultModule =  'assets/XMLFIles/hello_assist/Hello_Assist.xml';
 
   public XMLList: Dictionary<FileDetails> = new Dictionary<FileDetails>();
 
