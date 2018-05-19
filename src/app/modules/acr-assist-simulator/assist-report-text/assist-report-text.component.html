@@ -1,16 +1,7 @@
-<ng-container *ngFor="let textReport of allTextReport; let i = index">
-  <div class="box box-solid margin-b-5">
-    <div class="box-header">
-      <div class="box-tools box-tools-left" data-widget="collapse">
-        <button type="button" class="btn btn-box-tool" (click)="collapsePanel(i)">
-          <i id="icon_{{i}}" class="fa fa-minus"></i>
-        </button>
-        <span class="text-capitalize"> {{textReport.heading}} </span>
-      </div>
-    </div>
-    <div id="panel_{{i}}" class="box-body">
-      <p class="white-space-line" [innerHTML]="textReport.content"></p>
-    </div>
-  </div>
+<ng-container *ngFor="let textReport of allTextReport; let lastitem = last">
+  <dt class="text-capitalize">{{textReport.heading}}</dt>
+  <dd>
+    <p class="white-space-line" [innerHTML]="textReport.content"></p>
+  </dd>
+  <hr *ngIf="!lastitem">
 </ng-container>
-

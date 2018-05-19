@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnChanges, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
@@ -10,33 +10,41 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 const $ = require('jquery');
+declare var reportTextCollapse: any;
+declare var keyDiagramCollapse: any;
+declare var init_keyImagesUI: any;
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css']
 })
-export class AcrAssistSimulatorComponent implements  OnChanges {
-
+export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
   @Input() reportTextPosition: ReportTextPosition;
+  @Input() inputValues: InputData[] = [];
+  @Input() inputData: string;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDefaultElements = new EventEmitter();
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[];
   resultText: MainReportText;
-  @Input() inputValues: InputData[] = [];
-  @Input() inputData: string;
   isReset: boolean;
   dataElements: BaseDataElement[];
   position =  ReportTextPosition;
+
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
     }
 
+  ngAfterViewInit(): void {
+    this.reloadUI();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    this.reloadUI();
     this.isReset = true;
     this.isEmptyContent =   this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
     this.inputData === undefined ;
@@ -89,15 +97,42 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
        this.returnExecutionHistory.emit(finalExecutionHistory);
   }
 
-  collapsePanel() {
-    if ($('#icon_collapse').hasClass('fa fa-minus')) {
-        $('#icon_collapse').removeClass('fa fa-minus');
-        $('#icon_collapse').addClass('fa fa-plus');
-        $('#body_collapse').css({'display': 'none'});
-    } else {
-        $('#icon_collapse').removeClass('fa fa-plus');
-        $('#icon_collapse').addClass('fa fa-minus');
-        $('#body_collapse').removeAttr('style');
+  changeListener(event): void {
+    this.keyDiagrams = new Array<Diagram>();
+    for (const image in event.target.files) {
+      if (event.target.files.hasOwnProperty(image)) {
+        const reader = new FileReader();
+        const diagram = new Diagram();
+        diagram.label = event.target.files[image].name;
+        diagram.keyDiagram = image === '0' ? true : false;
+        const imageType = event.target.files[image].imageType;
+        const fileStream = event.target.files[image];
+
+        reader.onload = (event1: any) => {
+          diagram.location = reader.result;
+        };
+
+        reader.readAsDataURL(event.target.files[image]);
+
+        reader.onloadend = (event1: any) => {
+          this.keyDiagrams.push(diagram);
+          this.reloadUI();
+        };
+      }
     }
-}
+  }
+
+  collapseKeyDiagram() {
+    keyDiagramCollapse();
+  }
+
+  collapseReportText() {
+    reportTextCollapse();
+  }
+
+  reloadUI() {
+    setTimeout(_ => {
+      init_keyImagesUI();
+    });
+  }
 }
