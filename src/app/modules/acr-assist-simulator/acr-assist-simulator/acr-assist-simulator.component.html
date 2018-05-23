@@ -23,7 +23,7 @@
                 </div>
               </div>
             </ng-container>
-            <div id="div-simulator-form" class="padding-r-10">
+            <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
               <div>
                 <form class="form-horizontal">
                   <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
@@ -42,7 +42,7 @@
       <div id="div-simulator-block">
         <div class="box box-primary box-solid margin-b-0">
           <div class="box-body">
-            <div id="div-simulator-form" class="padding-r-10" style="height: 535px; overflow-y: scroll; overflow-x: hidden;">
+            <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
               <form class="form-horizontal">
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
                   [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
@@ -78,8 +78,8 @@
       <div class="box box-primary margin-b-0">
         <div class="box-header with-border">
           <h3 class="box-title">Key Diagrams</h3>
-          <input id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
-          <label for="diagramUpload" class="btn btn-sm bg-olive margin" style="margin:10px;" title="Choose Diagrams">Choose a Diagram</label> 
+          <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
+          <label for="diagramUpload" class="btn btn-sm bg-olive margin" style="margin:10px;" title="Choose Diagrams">Choose a Diagram</label>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
               <i id="icon_keydiagram" class="fa fa-minus"></i>
@@ -87,22 +87,20 @@
           </div>
         </div>
         <div id="body_keydiagram" class="box-body">
-          <div>
-            <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
-              <div class="carousel-inner">
-                <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
-                  <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
-                    <img class="img-responsive img-decissionTree" src="{{ diagram.location }}" alt="{{ diagram.label }}">
-                  </div>
-                </ng-container>
-              </div>
-              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                <span class="fa fa-angle-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                <span class="fa fa-angle-right"></span>
-              </a>
+          <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
+            <div class="carousel-inner">
+              <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
+                <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
+                  <img class="img-responsive img-decissionTree" src="{{ diagram.location }}" alt="{{ diagram.label }}">
+                </div>
+              </ng-container>
             </div>
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+              <span class="fa fa-angle-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+              <span class="fa fa-angle-right"></span>
+            </a>
           </div>
         </div>
       </div>

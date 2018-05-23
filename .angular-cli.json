@@ -26,14 +26,11 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",        
-        "assets/js/jquery-ui.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "assets/js/jquery.loupe.min.js",
-        "assets/js/ui-changes.js",
         "assets/js/common.js",
         "assets/js/ImgMapHover.js",
         "assets/js/typeahead.min.js"
-
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

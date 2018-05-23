@@ -7,7 +7,7 @@ declare var require: any;
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.css']
+  styleUrls: ['./image-map.component.css', '../../styles.css']
 })
 
 export class ImageMapComponent  implements OnInit {
