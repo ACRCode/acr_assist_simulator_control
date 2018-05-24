@@ -1,4 +1,12 @@
 <ng-container *ngIf="!isEmptyContent">
+<div class="col-sm-12 col-md-12 col-lg-12">
+  <h4>
+    <button class="btn btn-sm bg-olive margin" (click)="resetElements()">
+      <strong>Reset Data</strong>
+    </button>
+  </h4>
+</div>
+
   <div *ngIf="reportTextPosition === position.Top">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div id="div-simulator-block">
