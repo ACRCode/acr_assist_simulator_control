@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
-import { OnChanges, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnChanges, AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
@@ -10,16 +10,14 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 const $ = require('jquery');
-declare var reportTextCollapse: any;
-declare var keyDiagramCollapse: any;
 declare var init_keyImagesUI: any;
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
-  styleUrls: ['./acr-assist-simulator.component.css']
+  styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
+export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit {
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
@@ -28,6 +26,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
   @Input() inputData: string;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDefaultElements = new EventEmitter();
+  @ViewChild('imageUpload') imageUpload: any;
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[];
@@ -39,12 +38,11 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
     }
 
-  ngAfterViewInit(): void {
+  ngAfterContentInit(): void {
     this.reloadUI();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.reloadUI();
     this.isReset = true;
     this.isEmptyContent =   this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
     this.inputData === undefined ;
@@ -55,6 +53,9 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
       if (this.inputData.length > 0) {
         this.inputValues = JSON.parse(this.inputData);
       }
+    }
+    if (this.imageUpload !== undefined) {
+      this.imageUpload.nativeElement.value = '';
     }
 
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
@@ -77,6 +78,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
         element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
         this.keyDiagrams.push(element);
     }
+
     this.resultText = undefined;
   }
   resetElements() {
@@ -123,11 +125,31 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterViewInit {
   }
 
   collapseKeyDiagram() {
-    keyDiagramCollapse();
+    if ($('#icon_keydiagram').hasClass('fa fa-minus')) {
+      $('#icon_keydiagram').removeClass('fa fa-minus');
+      $('#icon_keydiagram').addClass('fa fa-plus');
+      $('#body_keydiagram').css({
+        'display': 'none'
+      });
+    } else {
+      $('#icon_keydiagram').removeClass('fa fa-plus');
+      $('#icon_keydiagram').addClass('fa fa-minus');
+      $('#body_keydiagram').removeAttr('style');
+    }
   }
 
   collapseReportText() {
-    reportTextCollapse();
+    if ($('#icon_reporttext').hasClass('fa fa-minus')) {
+      $('#icon_reporttext').removeClass('fa fa-minus');
+      $('#icon_reporttext').addClass('fa fa-plus');
+      $('#body_reporttext').css({
+        'display': 'none'
+      });
+    } else {
+      $('#icon_reporttext').removeClass('fa fa-plus');
+      $('#icon_reporttext').addClass('fa fa-minus');
+      $('#body_reporttext').removeAttr('style');
+    }
   }
 
   reloadUI() {

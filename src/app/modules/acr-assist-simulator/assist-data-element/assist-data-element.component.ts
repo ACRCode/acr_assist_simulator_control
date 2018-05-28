@@ -17,7 +17,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-data-element',
   templateUrl: './assist-data-element.component.html',
-  styleUrls: ['./assist-data-element.component.css']
+  styleUrls: ['./assist-data-element.component.css', '../styles.css']
 })
 export class AssistDataElementComponent implements OnInit, OnChanges {
 
