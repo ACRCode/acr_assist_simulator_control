@@ -36,9 +36,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       this.choiceValue = this.choiceDataElement.currentValue;
       for (const choice in this.choiceDataElement.choiceInfo) {
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
-          this.simulatorEngineService.addOrUpdateDataElement( this.choiceDataElement.id, this.choiceDataElement.currentValue,
-            this.choiceDataElement.choiceInfo[choice].label);
-
             if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
               this.selectedChoiceReportText = this.choiceDataElement.choiceInfo[choice].reportText;
             } else {

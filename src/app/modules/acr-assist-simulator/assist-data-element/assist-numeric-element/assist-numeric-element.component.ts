@@ -35,8 +35,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
       // customEvent.initEvent('change', true, true);
       // $('#' + this.numericDataElement.id)[0].dispatchEvent(customEvent);
       this.numberValue = this.numericDataElement.currentValue;
-      this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
-        this.numericDataElement.currentValue);
         this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     }
   }

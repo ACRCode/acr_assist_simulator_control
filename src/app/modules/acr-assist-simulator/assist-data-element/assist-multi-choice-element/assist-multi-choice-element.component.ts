@@ -38,8 +38,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
             // this.choiceValue = this.multiChoiceElement.currentValue;
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
               this.choiceValue = this.multiChoiceElement.currentValue;
-              this.simulatorEngineService.addOrUpdateDataElement( this.multiChoiceElement.id, this.multiChoiceElement.currentValue,
-                this.multiChoiceElement.choiceInfo[choice].label);
               const customEvent = document.createEvent('Event');
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice]).prop('checked', true);
               customEvent.initEvent('change', true, true);
@@ -51,8 +49,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
         } else {
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
                 // this.checked = true;
-                this.simulatorEngineService.addOrUpdateDataElement( this.multiChoiceElement.id, this.multiChoiceElement.currentValue,
-                  this.multiChoiceElement.choiceInfo[choice].label);
                 this.choiceValue = this.multiChoiceElement.currentValue;
                 const customEvent = document.createEvent('Event');
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
