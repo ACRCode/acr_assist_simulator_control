@@ -42,7 +42,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice]).prop('checked', true);
               customEvent.initEvent('change', true, true);
               this.selctValue = currValue;
-              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, currValue, this.multiChoiceElement.currentValue[choice].label);
+              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, currValue, this.multiChoiceElement.choiceInfo[choice].label);
               break;
             }
           }
@@ -53,7 +53,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
                 const customEvent = document.createEvent('Event');
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
               customEvent.initEvent('change', true, true);
-              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.currentValue[choice].label);
+              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.choiceInfo[choice].label);
           }
         }
         if (this.selctValue === this.multiChoiceElement.choiceInfo[choice].value) {
