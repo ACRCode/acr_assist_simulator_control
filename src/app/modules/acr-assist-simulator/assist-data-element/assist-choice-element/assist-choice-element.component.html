@@ -30,7 +30,7 @@
             <ng-container *ngIf="choiceDataElement.allowFreetext">
               <div class="radio" style="float:left; margin-right:15px;">
                 <label>
-                  <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')"> Other, please specify…</label>
+                  <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="freetext" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
               </div>
               <div id='div_{{choiceDataElement.id}}_other'>
                 <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
@@ -53,7 +53,7 @@
                 <ng-container *ngIf="choiceDataElement.allowFreetext">
                   <div class="radio" style="float:left; margin-right:15px;">
                     <label>
-                      <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'other')"> Other, please specify…</label>
+                      <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
                   </div>
                   <div id='div_{{choiceDataElement.id}}_other'>
                     <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
@@ -75,7 +75,7 @@
           formControlName="checkBox" class="form-control">
           <option [value]="Select" [selected]="true">--Select--</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
-          <option *ngIf="choiceDataElement.allowFreetext" [value]="other" [selected]='other'>Other, please specify…</option>
+          <option *ngIf="choiceDataElement.allowFreetext" [value]="freetext" [selected]='freetext'>Other, please specify…</option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
