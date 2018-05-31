@@ -39,7 +39,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
               this.choiceValue = this.multiChoiceElement.currentValue;
               const customEvent = document.createEvent('Event');
-              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue[choice]).prop('checked', true);
+              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
               customEvent.initEvent('change', true, true);
               this.selctValue = currValue;
               this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, currValue, this.multiChoiceElement.choiceInfo[choice].label);
