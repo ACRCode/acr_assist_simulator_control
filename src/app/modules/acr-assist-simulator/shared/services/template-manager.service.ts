@@ -30,7 +30,7 @@ export class TemplateManagerService {
    const template = new Template();
    let templateContentAsJSON: any;
    templateContentAsJSON = this.parseToJson(templateContent);
-   if (template === undefined) {
+   if (templateContentAsJSON === undefined) {
     throw  new Error('Unable to parse the template');
    }
    template.metadata = this.getMetaData(templateContentAsJSON.Metadata);

@@ -58,25 +58,29 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
       this.imageUpload.nativeElement.value = '';
     }
 
-    this.template =  this.templateManagerService.getTemplate(this.templateContent);
-    this.simulatorEngineService.initialize(this.template);
-    if (this.inputValues.length !== 0) {
-      for (const dataeElement of this.template.dataElements) {
-        const inputValue = this.inputValues.filter( x => x.dataElementId === dataeElement.id);
-        if (inputValue !== undefined && inputValue.length > 0 ) {
-          dataeElement.currentValue = inputValue[0].dataElementValue;
+    try {
+      this.template =  this.templateManagerService.getTemplate(this.templateContent);
+      this.simulatorEngineService.initialize(this.template);
+      if (this.inputValues.length !== 0) {
+        for (const dataeElement of this.template.dataElements) {
+          const inputValue = this.inputValues.filter( x => x.dataElementId === dataeElement.id);
+          if (inputValue !== undefined && inputValue.length > 0 ) {
+            dataeElement.currentValue = inputValue[0].dataElementValue;
+          }
         }
       }
-    }
-    this.dataElements = this.template.dataElements;
-    this.keyDiagrams = new Array<Diagram>();
+      this.dataElements = this.template.dataElements;
+      this.keyDiagrams = new Array<Diagram>();
 
-    for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-        const element = new Diagram();
-        element.label = this.template.metadata.diagrams[index].label;
-        element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
-        element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-        this.keyDiagrams.push(element);
+      for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
+          const element = new Diagram();
+          element.label = this.template.metadata.diagrams[index].label;
+          element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
+          element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
+          this.keyDiagrams.push(element);
+      }
+    } catch (error) {
+      this.template = undefined;
     }
 
     this.resultText = undefined;
