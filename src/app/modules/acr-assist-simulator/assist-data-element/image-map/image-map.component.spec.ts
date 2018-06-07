@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageMapComponent } from './image-map.component';
+import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 
 describe('ImageMapComponent', () => {
   let component: ImageMapComponent;
@@ -16,6 +17,7 @@ describe('ImageMapComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImageMapComponent);
     component = fixture.componentInstance;
+    component.DataElement = new ChoiceDataElement();
     fixture.detectChanges();
   });
 

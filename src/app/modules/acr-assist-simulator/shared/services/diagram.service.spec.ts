@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DiagramService } from './diagram.service';
+import { ArrayCheckerService } from './array-checker.service';
 
 describe('DiagramService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DiagramService]
+      providers: [DiagramService, ArrayCheckerService]
     });
   });
 
