@@ -37,10 +37,12 @@ describe('AcrAssistSimulatorComponent', () => {
   let component: AcrAssistSimulatorComponent;
   let fixture: ComponentFixture<AcrAssistSimulatorComponent>;
   const position = ReportTextPosition;
+  let nativeElement: any;
   let decisionTreeElement: DebugElement;
   let rightReportTextPositionElement: DebugElement;
   let topReportTextPositionElement: DebugElement;
-  let nativeElement: any;
+  let mainReportText: MainReportText;
+  let allReportText: AllReportText;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -80,10 +82,12 @@ describe('AcrAssistSimulatorComponent', () => {
   });
 
   afterEach(() => {
-    nativeElement = null;
-    decisionTreeElement = null;
-    rightReportTextPositionElement = null;
-    topReportTextPositionElement = null;
+    nativeElement = undefined;
+    decisionTreeElement = undefined;
+    rightReportTextPositionElement = undefined;
+    topReportTextPositionElement = undefined;
+    mainReportText = undefined;
+    allReportText = undefined;
   });
 
   // Intialise the component with valid values
@@ -94,19 +98,26 @@ describe('AcrAssistSimulatorComponent', () => {
     <?xml-model href="../../../XML Schema/ACRAssist_xml_schema.rnc" type="application/relax-ng-compact-syntax"?>
     <ReportingModule>
       <Metadata>
-        <Label>Epidural Spinal</Label>
-        <ID>EpiduralSpinal</ID>
+        <Label>Lymph Nodes</Label>
+        <ID>Lymph_Nodes</ID>
         <SchemaVersion>1.0</SchemaVersion>
         <ModuleVersion>1.0</ModuleVersion>
         <Info>
-          <Description>This module describes the Common Data elements and Macros for IEpidural Spinal</Description>
+          <Description>This module describes the Common Data elements and Macros for Lymph Nodes</Description>
+
           <References>
             <Citation Url="http://radelement.org/"> CDE URL </Citation>
+            <Citation Url="https://docs.google.com/spreadsheets/d/1mXqXAByeur3C5ud-wbLY2vggB29-nSxU5nYpoInGsK4/edit#gid=891834841"> CDE google sheet </Citation>
           </References>
+
           <Diagrams>
             <Diagram DisplaySequence="1" IsKeyDiagram="true">
               <Location>keydiagram.jpg</Location>
-              <Label>Epidural Spinal Key image</Label>
+              <Label>Key Diagram</Label>
+            </Diagram>
+            <Diagram DisplaySequence="2" >
+              <Location>lymphnodessupportingdiagram.jpg</Location>
+              <Label>lymph nodes supporting diagram</Label>
             </Diagram>
           </Diagrams>
           <Contact>
@@ -115,99 +126,37 @@ describe('AcrAssistSimulatorComponent', () => {
             <Institution>American College of Radiology</Institution>
           </Contact>
         </Info>
-        <ReportCitationText>Epidural Spinal</ReportCitationText>
+        <ReportCitationText>Lymph Nodes</ReportCitationText>
             <ApplicableSexes Value="Both"></ApplicableSexes>
+
       </Metadata>
       <DataElements>
+
         <GlobalValue Id="conditionConst">10</GlobalValue>
-        <IntegerDataElement Id="SPINALINSTABILITYNEOPLASTICSCORE" IsRequired="false" DisplaySequence="1" CdeId = "100">
-            <Label>SPINAL INSTABILITY NEOPLASTIC SCORE</Label>
-            <Hint>Points assigned to feature</Hint>
-            <Minimum>1</Minimum>
-            <Maximum>20</Maximum>
-          </IntegerDataElement>
-        <ChoiceDataElement Id="LOCATION" DisplaySequence="2" IsRequired="true" CdeId = "100">
-          <Label>LOCATION</Label>
+        <ChoiceDataElement Id="singlemultiple" DisplaySequence="1" IsRequired="true" CdeId = "100">
+          <Label>Number of nodes</Label>
           <ChoiceInfo>
             <Choice>
-              <Value>rigidspine</Value>
-              <Label>Rigid spine</Label>
+              <Value>Single</Value>
+              <Label>Single</Label>
             </Choice>
             <Choice>
-              <Value>semi-rigidspine</Value>
-              <Label>Semi-rigid spine</Label>
-            </Choice>
-            <Choice>
-              <Value>mobilespine</Value>
-              <Label>Mobile spine</Label>
-            </Choice>
-            <Choice>
-              <Value>junctional</Value>
-              <Label>Junctional</Label>
+              <Value>Multiple</Value>
+              <Label>Multiple</Label>
             </Choice>
           </ChoiceInfo>
         </ChoiceDataElement>
-        <ChoiceDataElement Id="LESIONQUALITY" DisplaySequence="3" IsRequired="true" CdeId = "100">
-          <Label>LESION QUALITY</Label>
+
+        <ChoiceDataElement Id="laterality" DisplaySequence="2" IsRequired="true" CdeId = "100">
+          <Label>Laterality</Label>
           <ChoiceInfo>
             <Choice>
-              <Value>blastic</Value>
-              <Label>Blastic</Label>
+              <Value>left</Value>
+              <Label>Unilateral-left</Label>
             </Choice>
             <Choice>
-              <Value>mixed</Value>
-              <Label>Mixed</Label>
-            </Choice>
-            <Choice>
-              <Value>lytic</Value>
-              <Label>Lytic</Label>
-            </Choice>
-          </ChoiceInfo>
-        </ChoiceDataElement>
-        <ChoiceDataElement Id="ALIGNMENT" DisplaySequence="4" IsRequired="true" CdeId = "100">
-          <Label>ALIGNMENT</Label>
-          <ChoiceInfo>
-            <Choice>
-              <Value>preserved</Value>
-              <Label>Preserved</Label>
-            </Choice>
-            <Choice>
-              <Value>deformity</Value>
-              <Label>Deformity</Label>
-            </Choice>
-            <Choice>
-              <Value>subluxation</Value>
-              <Label>Subluxation</Label>
-            </Choice>
-          </ChoiceInfo>
-        </ChoiceDataElement>
-        <ChoiceDataElement Id="COLLAPSE" DisplaySequence="5" IsRequired="true" CdeId = "100">
-          <Label>COLLAPSE</Label>
-          <ChoiceInfo>
-            <Choice>
-              <Value>none</Value>
-              <Label>None</Label>
-            </Choice>
-            <Choice>
-              <Value>morethan50</Value>
-                <Label>More than 50%</Label>
-            </Choice>
-            <Choice>
-              <Value>more than 50% body involved</Value>
-              <Label>More than 50% body involved</Label>
-            </Choice>
-          </ChoiceInfo>
-        </ChoiceDataElement>
-        <ChoiceDataElement Id="POSTERIORELEMENTS" IsRequired="true" DisplaySequence="6" CdeId = "100">
-          <Label>POSTERIOR ELEMENTS</Label>
-          <ChoiceInfo>
-            <Choice>
-              <Value>none</Value>
-              <Label>None</Label>
-            </Choice>
-            <Choice>
-              <Value>unilteral</Value>
-              <Label>Unilteral</Label>
+              <Value>right</Value>
+              <Label>Unilateral-right</Label>
             </Choice>
             <Choice>
               <Value>bilateral</Value>
@@ -215,37 +164,94 @@ describe('AcrAssistSimulatorComponent', () => {
             </Choice>
           </ChoiceInfo>
         </ChoiceDataElement>
-        <ChoiceDataElement Id="injurylevel" IsRequired="true" AllowFreetext="true" DisplaySequence="7">
-          <Label>Injury Level</Label>
+
+        <IntegerDataElement Id="sizeoflargestcluster" IsRequired="true" DisplaySequence="3" CdeId = "100">
+          <Label>Size of largest cluster(in mm)</Label>
+          <Hint>Use longest dimension (improved clinical-radiologic correlation and adherence to staging systems)</Hint>
+          <Minimum>1</Minimum>
+        </IntegerDataElement>
+
+        <MultiChoiceDataElement Id="levelsinvolved" IsRequired="true" DisplaySequence="4" CdeId = "100">
+          <Label>Which levels involved?</Label>
           <ChoiceInfo>
             <Choice>
-              <Value>Sensory</Value>
-              <Label>Sensory level</Label>
+              <Value>I</Value>
+              <Label>I</Label>
+
             </Choice>
             <Choice>
-              <Value>Neurologic</Value>
-              <Label>Neurologic level</Label>
+              <Value>II</Value>
+              <Label>II</Label>
             </Choice>
             <Choice>
-              <Value>Motor</Value>
-              <Label>Motor level</Label>
+              <Value>III</Value>
+              <Label>III</Label>
             </Choice>
             <Choice>
-              <Value>Skeletal</Value>
-              <Label>Skeletal level</Label>
+              <Value>IV</Value>
+              <Label>IV</Label>
+            </Choice>
+            <Choice>
+              <Value>V</Value>
+              <Label>V</Label>
+            </Choice>
+            <Choice>
+              <Value>VIa</Value>
+              <Label>VIa</Label>
+            </Choice>
+            <Choice>
+              <Value>VIb</Value>
+              <Label>VIb</Label>
+            </Choice>
+          </ChoiceInfo>
+        </MultiChoiceDataElement>
+
+        <ChoiceDataElement Id="degreeofcertainty"  DisplaySequence="6" CdeId = "100">
+          <Label>ECS (degree of certainty)</Label>
+          <Hint>Read with high specificity -- only call "definite" if uneqivocal</Hint>
+          <ChoiceInfo>
+            <Choice>
+              <Value>definite</Value>
+              <Label>Definite</Label>
+            </Choice>
+            <Choice>
+              <Value>possible</Value>
+              <Label>Possible</Label>
+            </Choice>
+            <Choice>
+              <Value>absent</Value>
+              <Label>Absent</Label>
             </Choice>
           </ChoiceInfo>
         </ChoiceDataElement>
-        <ChoiceDataElement Id="CompressionGrade" IsRequired="true" DisplaySequence="8" CdeId = "100">
-          <Label>Compression grade</Label>
+
+        <ChoiceDataElement Id="enhancement_pattern"  DisplaySequence="7" IsRequired="false" CdeId = "100">
+          <Label>Pattern of enhancement</Label>
+          <Hint>threshold: 20% or more cystic by volume</Hint>
           <ChoiceInfo>
             <Choice>
-              <Value>1a</Value>
-              <Label>1a</Label>
+              <Value>cystic</Value>
+              <Label>Cystic</Label>
             </Choice>
             <Choice>
-              <Value>1b</Value>
-              <Label>1b</Label>
+              <Value>solid</Value>
+              <Label>Solid</Label>
+            </Choice>
+            <Choice>
+              <Value>necrotic</Value>
+              <Label>Necrotic</Label>
+            </Choice>
+          </ChoiceInfo>
+        </ChoiceDataElement>
+
+
+        <ChoiceDataElement Id="degreeofcertaintyforinvolvement" DisplaySequence="8" IsRequired="true" CdeId = "100">
+          <Label>Degree of certainty for involvement (NIRADS)</Label>
+          <Hint>1 = negative; 2 = low likelihood; 3 = high likelihood; 4 = definite disease </Hint>
+          <ChoiceInfo>
+            <Choice>
+              <Value>1</Value>
+              <Label>1</Label>
             </Choice>
             <Choice>
               <Value>2</Value>
@@ -255,8 +261,46 @@ describe('AcrAssistSimulatorComponent', () => {
               <Value>3</Value>
               <Label>3</Label>
             </Choice>
+            <Choice>
+              <Value>4</Value>
+              <Label>4</Label>
+            </Choice>
           </ChoiceInfo>
         </ChoiceDataElement>
+
+        <ChoiceDataElement Id="drainagepattern" DisplaySequence="9" IsRequired="false" CdeId = "100">
+          <Label>Are these nodes in expected drainage pattern?</Label>
+          <ChoiceInfo>
+            <Choice>
+              <Value>yes</Value>
+              <Label>Yes</Label>
+            </Choice>
+            <Choice>
+              <Value>no</Value>
+              <Label>No</Label>
+            </Choice>
+          </ChoiceInfo>
+        </ChoiceDataElement>
+
+        <ChoiceDataElement Id="invasion_of_critical_structures" DisplaySequence="10" IsRequired="true" CdeId = "100">
+          <Label>Invasion of critical structures (carotid, prevertebral)</Label>
+          <Hint>rule of thumb: percentage of circumferential arterial contact = likelihood of invasion</Hint>
+          <ChoiceInfo>
+            <Choice>
+              <Value>probable</Value>
+              <Label>Probable</Label>
+            </Choice>
+            <Choice>
+              <Value>possible</Value>
+              <Label>Possible</Label>
+            </Choice>
+            <Choice>
+              <Value>negative</Value>
+              <Label>Negative (or percentage chance)</Label>
+            </Choice>
+          </ChoiceInfo>
+        </ChoiceDataElement>
+
       </DataElements>
       <Rules>
         <DecisionPoint Id="macrodp">
@@ -266,40 +310,79 @@ describe('AcrAssistSimulatorComponent', () => {
             <EndPointRef EndPointId="macroEndpoint"></EndPointRef>
           </Branch>
         </DecisionPoint>
+
       </Rules>
       <EndPoints>
-       <TemplatePartial Id ="ExamPartial">
-      EXAM TYPE: MR THORACIC SPINE W/O CONTRAST
-      EXAM DATE AND TIME: 5/9/2018 6:31 PM EDT
-      INDICATION: leg weakness
-      COMPARISON: NONE
-       </TemplatePartial>
+        <TemplatePartial Id ="ExamPartial">
+          EXAMINATION:  CT NECK WITH CONTRAST
+          EXAM DATE AND TIME: 5/9/2018 1:30 PM EDT
+          INDICATION: neck swelling
+          COMPARISON: None available.
+          </TemplatePartial>
         <EndPoint Id="macroEndpoint">
         <Label>A</Label>
-         <ReportTexts>
+          <ReportTexts>
             <ReportText SectionId="findings">
+                <!--<InsertPartial PartialId="ExamPartial">  </InsertPartial> -->
+
               &amp;nbsp;
               CDE Report text
               &amp;nbsp;
               &amp;nbsp;
-              <SectionIf DataElementId="SPINALINSTABILITYNEOPLASTICSCORE">&amp;nbsp;
-              Spinal Level:&amp;nbsp;<InsertValue DataElementId="SPINALINSTABILITYNEOPLASTICSCORE"/>&amp;nbsp;
+
+              <SectionIf DataElementId="singlemultiple">
+              <SectionIfValue DataElementId="singlemultiple" ComparisonValue="Single">A single pathologic lymph node is&amp;nbsp;</SectionIfValue>
+              <SectionIfValue DataElementId="singlemultiple" ComparisonValue="Multiple">Multiple pathologic lymph nodes are&amp;nbsp;</SectionIfValue>
+              <SectionIf DataElementId="laterality">present in the
+              <SectionIfValue DataElementId="laterality" ComparisonValue="right">&amp;nbsp;right</SectionIfValue>
+              <SectionIfValue DataElementId="laterality" ComparisonValue="left">&amp;nbsp;left</SectionIfValue>
+              <SectionIfValue DataElementId="laterality" ComparisonValue="bilateral">&amp;nbsp;bilateral</SectionIfValue>
+              <SectionIf DataElementId="singlemultiple">&amp;nbsp;neck.</SectionIf>
+              </SectionIf></SectionIf>
+
+              <SectionIf DataElementId="sizeoflargestcluster">&amp;nbsp;
+              The largest
+              <SectionIfValue DataElementId="singlemultiple" ComparisonValue="Single"><SectionIf DataElementId="sizeoflargestcluster">&amp;nbsp;node&amp;nbsp;</SectionIf></SectionIfValue>
+              <SectionIfValue DataElementId="singlemultiple" ComparisonValue="Multiple">&amp;nbsp;nodal cluster&amp;nbsp;</SectionIfValue>
+              <SectionIf DataElementId="sizeoflargestcluster">measures&amp;nbsp;<InsertValue DataElementId="sizeoflargestcluster">&amp;nbsp;mm.</InsertValue></SectionIf>
+
               </SectionIf>
-              <SectionIf DataElementId="LOCATION">&amp;nbsp;
-              LOCATION:&amp;nbsp;<InsertValue DataElementId="LOCATION"/>&amp;nbsp;
+              <SectionIf DataElementId="levelsinvolved">&amp;nbsp;
+              Involved surgical levels include:&amp;nbsp;<InsertValue DataElementId="levelsinvolved">&amp;nbsp;nodes.</InsertValue>
               </SectionIf>
-              <SectionIf DataElementId="LESIONQUALITY">&amp;nbsp;
-              LESION QUALITY:&amp;nbsp;<InsertValue DataElementId="LESIONQUALITY"/></SectionIf>&amp;nbsp;
-              <SectionIf DataElementId="ALIGNMENT">&amp;nbsp;
-              ALIGNMENT:&amp;nbsp;<InsertValue DataElementId="ALIGNMENT"/></SectionIf>  &amp;nbsp;
-              <SectionIf DataElementId="COLLAPSE">&amp;nbsp;
-              COLLAPSE:&amp;nbsp;<InsertValue DataElementId="COLLAPSE"/></SectionIf>  &amp;nbsp;
-              <SectionIf DataElementId="POSTERIORELEMENTS">&amp;nbsp;
-              POSTERIOR ELEMENTS:&amp;nbsp;<InsertValue DataElementId="POSTERIORELEMENTS"/></SectionIf>  &amp;nbsp;
-              <SectionIf DataElementId="injurylevel">&amp;nbsp;
-              Level of greatest compression:&amp;nbsp;<InsertValue DataElementId="injurylevel"/></SectionIf>  &amp;nbsp;
-              <SectionIf DataElementId="CompressionGrade">&amp;nbsp;
-              Compression grade:&amp;nbsp;<InsertValue DataElementId="CompressionGrade"/></SectionIf>  &amp;nbsp;
+
+              <SectionIf DataElementId="degreeofcertainty">&amp;nbsp;
+              There is&amp;nbsp;
+              <SectionIfValue DataElementId="degreeofcertainty" ComparisonValue="possible">no&amp;nbsp;</SectionIfValue>
+              <SectionIfValue DataElementId="degreeofcertainty" ComparisonValue="absent">no&amp;nbsp;</SectionIfValue>
+              <SectionIf DataElementId="degreeofcertainty">definite radiologic evidence of extracapsular spread.</SectionIf>
+              </SectionIf>
+
+              <SectionIf DataElementId="enhancement_pattern">&amp;nbsp;
+              There is&amp;nbsp;
+              <SectionIfValueNot DataElementId="enhancement_pattern" ComparisonValue="necrotic">no&amp;nbsp;</SectionIfValueNot>
+              evidence of central necrosis.
+
+              <SectionIfValueNot DataElementId="enhancement_pattern" ComparisonValue="necrotic">&amp;nbsp;
+              The enhancement pattern is&amp;nbsp;
+                <SectionIfValue DataElementId="enhancement_pattern" ComparisonValue="cystic">predominantly cystic.</SectionIfValue>
+                <SectionIfValue DataElementId="enhancement_pattern" ComparisonValue="solid">predominantly solid.</SectionIfValue>
+              </SectionIfValueNot>&amp;nbsp;
+              </SectionIf>
+              <SectionIf DataElementId="drainagepattern">&amp;nbsp;
+              These nodes are&amp;nbsp;
+              <SectionIfValue DataElementId="drainagepattern" ComparisonValue="no">not&amp;nbsp;</SectionIfValue> <SectionIf DataElementId="drainagepattern">in the expected drainage pattern of the primary tumor.</SectionIf>
+              </SectionIf>
+              <SectionIf DataElementId="invasion_of_critical_structures">&amp;nbsp;
+              There is&amp;nbsp;
+              <SectionIfValue DataElementId="invasion_of_critical_structures" ComparisonValue="negative">no evidence of invasion of critical structures.&amp;nbsp;</SectionIfValue>
+              <SectionIfValue DataElementId="invasion_of_critical_structures" ComparisonValue="possible">possible invasion of the carotid artery.&amp;nbsp;</SectionIfValue>
+              <SectionIfValue DataElementId="invasion_of_critical_structures" ComparisonValue="probable">probable invasion of the prevertebral space.&amp;nbsp;</SectionIfValue>&amp;nbsp;
+              </SectionIf>
+              <SectionIf DataElementId="degreeofcertaintyforinvolvement">&amp;nbsp;
+              NIRADS category&amp;nbsp;
+              <InsertValue DataElementId="degreeofcertaintyforinvolvement"></InsertValue>
+              </SectionIf>
             </ReportText>
           </ReportTexts>
         </EndPoint>
@@ -333,13 +416,36 @@ describe('AcrAssistSimulatorComponent', () => {
     component.imagePath = 'XMLFiles/Samples/Hello Assist';
   }
 
+  // Intialise the report text with sample data
+  function setSampleReportText() {
+    mainReportText = new MainReportText();
+    mainReportText.reportTextMainContent = '';
+    mainReportText.allReportText = [];
+
+    allReportText = new AllReportText();
+    allReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
+    allReportText.sectionId = 'findings';
+    mainReportText.allReportText.push(allReportText);
+
+    component.resultText = mainReportText;
+  }
+
   it('Created the AcrAssistSimulatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
   it('AcrAssistSimulatorComponent with valid template content', () => {
     setValidValues(position.Right, true);
-    component.ngOnChanges(undefined);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
 
     // Checks if is empty content
     expect(component.isEmptyContent).toBeDefined();
@@ -356,43 +462,71 @@ describe('AcrAssistSimulatorComponent', () => {
 
     component.template.dataElements.forEach(element => {
 
-      if (element instanceof ChoiceDataElement) { // Checks if dataelement is of choice element type
-        const choiceDataElement  = <ChoiceDataElement> element;
-        expect(choiceDataElement.id).toBeDefined();
-        expect(choiceDataElement.id).toBeTruthy();
-        expect(choiceDataElement.dataElementType).toBeDefined();
-        expect(choiceDataElement.dataElementType).toBeTruthy();
-        expect(choiceDataElement.dataElementType).toBe('ChoiceDataElement');
-        expect(choiceDataElement.choiceInfo).toBeDefined();
-        expect(choiceDataElement.choiceInfo).toBeTruthy();
+      // Checks if data element is of choice element type
+      if (element instanceof ChoiceDataElement && element.dataElementType === 'ChoiceDataElement') {
+        const choiceElement  = <ChoiceDataElement> element;
 
-        choiceDataElement.choiceInfo.forEach(choice => {
-          expect(choice.label).toBeDefined();
-          expect(choice.label).toBeTruthy();
-          expect(choice.value).toBeDefined();
-          expect(choice.value).toBeTruthy();
-          expect(choice.reportText).toBeUndefined();
-          expect(choice.default).toBeDefined();
-          expect(choice.default).toBeFalsy();
+        expect(choiceElement.id).toBeDefined();
+        expect(choiceElement.id).toBeTruthy();
+        expect(choiceElement.dataElementType).toBeDefined();
+        expect(choiceElement.dataElementType).toBeTruthy();
+        expect(choiceElement.dataElementType).toEqual('ChoiceDataElement');
+        expect(choiceElement.choiceInfo).toBeDefined();
+        expect(choiceElement.choiceInfo).toBeTruthy();
+
+        choiceElement.choiceInfo.forEach(elem => {
+          expect(elem.label).toBeDefined();
+          expect(elem.label).toBeTruthy();
+          expect(elem.value).toBeDefined();
+          expect(elem.value).toBeTruthy();
+          expect(elem.reportText).toBeUndefined();
+          expect(elem.default).toBeDefined();
+          expect(elem.default).toBeFalsy();
         });
 
-      } else if (element instanceof IntegerDataElement) { // Checks if dataelement is of integer element type
+        // Checks if data element is of multi choice element type
+      } else if (element instanceof ChoiceDataElement && element.dataElementType === 'MultiChoiceDataElement') {
+        const multiChoiceElement  = <ChoiceDataElement> element;
+
+        expect(multiChoiceElement.id).toBeDefined();
+        expect(multiChoiceElement.id).toBeTruthy();
+        expect(multiChoiceElement.dataElementType).toBeDefined();
+        expect(multiChoiceElement.dataElementType).toBeTruthy();
+        expect(multiChoiceElement.dataElementType).toEqual('MultiChoiceDataElement');
+        expect(multiChoiceElement.choiceInfo).toBeDefined();
+        expect(multiChoiceElement.choiceInfo).toBeTruthy();
+
+        multiChoiceElement.choiceInfo.forEach(elem => {
+          expect(elem.label).toBeDefined();
+          expect(elem.label).toBeTruthy();
+          expect(elem.value).toBeDefined();
+          expect(elem.value).toBeTruthy();
+          expect(elem.reportText).toBeUndefined();
+          expect(elem.default).toBeDefined();
+          expect(elem.default).toBeFalsy();
+        });
+
+        // Checks if data element is of integer element type
+      } else if (element instanceof IntegerDataElement) {
         const integerDataElement  = <IntegerDataElement> element;
+
         expect(integerDataElement.id).toBeDefined();
         expect(integerDataElement.id).toBeTruthy();
         expect(integerDataElement.dataElementType).toBeDefined();
         expect(integerDataElement.dataElementType).toBeTruthy();
-        expect(integerDataElement.dataElementType).toBe('IntegerDataElement');
+        expect(integerDataElement.dataElementType).toEqual('IntegerDataElement');
         expect(integerDataElement.label).toBeDefined();
         expect(integerDataElement.label).toBeTruthy();
 
-      } else if (element instanceof GlobalValue) { // Checks if dataelement is of global value type
+        // Checks if data element is of global value type
+      } else if (element instanceof GlobalValue) {
         const integerDataElement  = <GlobalValue> element;
+
         expect(integerDataElement.id).toBeDefined();
         expect(integerDataElement.id).toBeTruthy();
         expect(integerDataElement.dataElementType).toBeDefined();
         expect(integerDataElement.dataElementType).toBeTruthy();
-        expect(integerDataElement.dataElementType).toBe('GlobalValue');
+        expect(integerDataElement.dataElementType).toEqual('GlobalValue');
         expect(integerDataElement.currentValue).toBeDefined();
         expect(integerDataElement.currentValue).toBeTruthy();
         expect(integerDataElement.isVisible).toBeDefined();
@@ -425,7 +559,6 @@ describe('AcrAssistSimulatorComponent', () => {
       expect(element.displaySequence).toBeDefined();
       expect(element.displaySequence).toBeTruthy();
       expect(element.keyDiagram).toBeDefined();
-      expect(element.keyDiagram).toBeTruthy();
     });
 
     // Checks the rules inside template
@@ -474,7 +607,16 @@ describe('AcrAssistSimulatorComponent', () => {
 
   it('AcrAssistSimulatorComponent with empty template content', () => {
     setInValidValuesWithEmptyXml();
-    component.ngOnChanges(undefined);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
 
     // Checks if is empty content
     expect(component.isEmptyContent).toBeDefined();
@@ -490,7 +632,16 @@ describe('AcrAssistSimulatorComponent', () => {
 
   it('AcrAssistSimulatorComponent with invalid template content', () => {
     setInValidValuesWithInvalidXml();
-    component.ngOnChanges(undefined);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).toThrow();
 
     // Checks if is empty content
     expect(component.isEmptyContent).toBeDefined();
@@ -503,7 +654,17 @@ describe('AcrAssistSimulatorComponent', () => {
 
   it('AcrAssistSimulatorComponent with ShowKeydiagram as true', () => {
     setValidValues(position.Right, true);
-    component.ngOnChanges(undefined);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+
     fixture.detectChanges();
 
     decisionTreeElement = fixture.debugElement.query(By.css('#diagramUpload'));
@@ -515,11 +676,75 @@ describe('AcrAssistSimulatorComponent', () => {
   it('AcrAssistSimulatorComponent with ShowKeydiagram as false', () => {
     setValidValues(position.Right, false);
     component.showKeyDiagram = false;
-    component.ngOnChanges(undefined);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+
     fixture.detectChanges();
 
     decisionTreeElement = fixture.debugElement.query(By.css('#diagramUpload'));
 
     expect(component.imageUpload).toBeUndefined();
+  });
+
+  it('AcrAssistSimulatorComponent with ReportTextPosition on Top', () => {
+    setValidValues(position.Top, true);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+
+    fixture.detectChanges();
+    setSampleReportText();
+    fixture.detectChanges();
+
+    topReportTextPositionElement = fixture.debugElement.query(By.css('#topReportTextPosition'));
+    rightReportTextPositionElement = fixture.debugElement.query(By.css('#rightReportTextPosition'));
+
+    expect(nativeElement.querySelector('acr-assist-report-text')).not.toBe(null);
+    expect(component.reportTextPosition).toEqual(position.Top);
+    expect(topReportTextPositionElement).toBeDefined();
+    expect(topReportTextPositionElement).toBeTruthy();
+    expect(rightReportTextPositionElement).toBeNull();
+  });
+
+  it('AcrAssistSimulatorComponent with ReportTextPosition on Right', () => {
+    setValidValues(position.Right, true);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+
+    fixture.detectChanges();
+    setSampleReportText();
+    fixture.detectChanges();
+
+    topReportTextPositionElement = fixture.debugElement.query(By.css('#topReportTextPosition'));
+    rightReportTextPositionElement = fixture.debugElement.query(By.css('#rightReportTextPosition'));
+
+    expect(nativeElement.querySelector('acr-assist-report-text')).not.toBe(null);
+    expect(component.reportTextPosition).toEqual(position.Right);
+    expect(rightReportTextPositionElement).toBeDefined();
+    expect(rightReportTextPositionElement).toBeTruthy();
+    expect(topReportTextPositionElement).toBeNull();
   });
 });

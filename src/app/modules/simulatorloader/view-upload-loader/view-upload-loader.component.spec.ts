@@ -10,8 +10,6 @@ import { Observable } from 'rxjs/Observable';
 // Mock Service class for Global service
 class MockGlobalService extends GlobalsService {
 
-  defaultModule = 'assets/XMLFIles/hello_assist/Hello_Assist.xml';
-
   getDefaultModulePath(): Observable<string>  {
     return new Observable(observer => {
       observer.next('sample data');
@@ -20,10 +18,10 @@ class MockGlobalService extends GlobalsService {
 }
 
 describe('ViewUploadLoaderComponent', () => {
-  let nativeElement: any;
   let component: ViewUploadLoaderComponent;
   let fixture: ComponentFixture<ViewUploadLoaderComponent>;
-  let testBedService: GlobalsService;
+  let nativeElement: any;
+  let mockGlobalService: GlobalsService;
   let mockData: FileDetails;
   let selectedXML: FileDetails;
 
@@ -51,7 +49,7 @@ describe('ViewUploadLoaderComponent', () => {
     nativeElement = fixture.debugElement;
 
     // GlobalsService provided to the TestBed
-    testBedService = TestBed.get(GlobalsService);
+    mockGlobalService = TestBed.get(GlobalsService);
 
     mockData = new FileDetails('sample', 'sample.xml', 'sample data');
 
@@ -59,9 +57,10 @@ describe('ViewUploadLoaderComponent', () => {
   });
 
   afterEach(() => {
-    testBedService = null;
-    mockData = null;
-    selectedXML = null;
+    nativeElement = undefined;
+    mockGlobalService = undefined;
+    mockData = undefined;
+    selectedXML = undefined;
   });
 
   it('Created the ViewUploadLoaderComponent', () => {
@@ -70,10 +69,10 @@ describe('ViewUploadLoaderComponent', () => {
 
   it('Created same instance for the Service injected via inject() and TestBed.get()',
       inject([GlobalsService], (injectService: GlobalsService) => {
-        expect(injectService).toBe(testBedService);
+        expect(injectService).toBe(mockGlobalService);
   }));
 
-  it('Called onFileContentRead() method to get the selected xml details', () => {
+  it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details', () => {
     component.onFileSelected.subscribe(data => {
       selectedXML = data;
      });
@@ -83,24 +82,24 @@ describe('ViewUploadLoaderComponent', () => {
     expect(selectedXML.fileLabel).toBe(mockData.fileLabel);
     expect(selectedXML.fileName).toBe(mockData.fileName);
     expect(selectedXML.fileContents).toBe(mockData.fileContents);
-    expect(testBedService.XMLList).toBeDefined();
-    expect(testBedService.XMLList.ContainsKey(mockData.fileLabel));
-    expect(testBedService.XMLList).toBeTruthy();
+    expect(mockGlobalService.XMLList).toBeDefined();
+    expect(mockGlobalService.XMLList.ContainsKey(mockData.fileLabel));
+    expect(mockGlobalService.XMLList).toBeTruthy();
   });
 
-  it('Called onFileClick() method to show the selected xml details', () => {
+  it('Called onFileClick(fileDetails: FileDetails) method to show the selected xml details', () => {
     component.onFileSelected.subscribe(data => {
       selectedXML = data;
      });
 
     component.onFileClick(mockData);
 
-    expect(selectedXML.fileLabel).toBe(mockData.fileLabel);
-    expect(selectedXML.fileName).toBe(mockData.fileName);
-    expect(selectedXML.fileContents).toBe(mockData.fileContents);
-    expect(testBedService.XMLList).toBeDefined();
-    expect(testBedService.XMLList.ContainsKey(mockData.fileLabel));
-    expect(testBedService.XMLList).toBeTruthy();
+    expect(selectedXML.fileLabel).toEqual(mockData.fileLabel);
+    expect(selectedXML.fileName).toEqual(mockData.fileName);
+    expect(selectedXML.fileContents).toEqual(mockData.fileContents);
+    expect(mockGlobalService.XMLList).toBeDefined();
+    expect(mockGlobalService.XMLList.ContainsKey(mockData.fileLabel));
+    expect(mockGlobalService.XMLList).toBeTruthy();
   });
 
 });

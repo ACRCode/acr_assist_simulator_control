@@ -4,9 +4,11 @@ import { AssistReportTextComponent } from './assist-report-text.component';
 import { MainReportText, AllReportText } from '../assist-data-element/assist-data-element.component';
 
 describe('AssistReportTextComponent', () => {
-  let nativeElement: any;
   let component: AssistReportTextComponent;
   let fixture: ComponentFixture<AssistReportTextComponent>;
+  let nativeElement: any;
+  let mainReportText: MainReportText;
+  let allReportText: AllReportText;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,31 +28,39 @@ describe('AssistReportTextComponent', () => {
     // get native element of test component from the fixture
     nativeElement = fixture.debugElement;
 
-    component.reportText = new MainReportText();
-    component.reportText.reportTextMainContent = '';
-    component.reportText.allReportText = [];
-
     fixture.detectChanges();
   });
 
   afterEach(() => {
-    component.reportText = null;
+    nativeElement = undefined;
+    mainReportText = undefined;
+    allReportText = undefined;
   });
+
+  function initialiseReportText() {
+    mainReportText = new MainReportText();
+    mainReportText.reportTextMainContent = '';
+    mainReportText.allReportText = [];
+
+    allReportText = new AllReportText();
+    allReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
+    allReportText.sectionId = 'findings';
+    mainReportText.allReportText.push(allReportText);
+
+    component.reportText = mainReportText;
+  }
 
   it('Created the AssistReportTextComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Called onSelect() method with invalid sectionid to show the relevant report text', () => {
-    const dummyReportText = new AllReportText();
-    dummyReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
-    dummyReportText.sectionId = 'findings';
-    component.reportText.allReportText.push(dummyReportText);
+  it('Called onSelect(sectionId) method with invalid sectionid to show the relevant report text', () => {
+    initialiseReportText();
 
     component.onSelect(undefined);
 
     expect(component.selectedSectionId).toBeDefined();
-    expect(component.selectedSectionId).toBe('All');
+    expect(component.selectedSectionId).toEqual('All');
     expect(component.sections).toBeDefined();
     expect(component.sections).toBeTruthy();
     expect(component.allTextReport).toBeDefined();
@@ -67,17 +77,14 @@ describe('AssistReportTextComponent', () => {
     expect(component.mainReportTexts.allReportText).toBeTruthy();
   });
 
-  it('Called ngOnChanges() method with invalid sectionid to show the relevant report text', () => {
-    const dummyReportText = new AllReportText();
-    dummyReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
-    dummyReportText.sectionId = 'findings';
-    component.reportText.allReportText.push(dummyReportText);
+  it('Called ngOnChanges(sectionId) method with invalid sectionid to show the relevant report text', () => {
+    initialiseReportText();
 
     component.selectedSectionId = undefined;
     component.ngOnChanges(undefined);
 
     expect(component.selectedSectionId).toBeDefined();
-    expect(component.selectedSectionId).toBe('All');
+    expect(component.selectedSectionId).toEqual('All');
     expect(component.sections).toBeDefined();
     expect(component.sections).toBeTruthy();
     expect(component.allTextReport).toBeDefined();
@@ -94,16 +101,13 @@ describe('AssistReportTextComponent', () => {
     expect(component.mainReportTexts.allReportText).toBeTruthy();
   });
 
-  it('Called onSelect() method with valid sectionid to show the relevant report text', () => {
-    const dummyReportText = new AllReportText();
-    dummyReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
-    dummyReportText.sectionId = 'findings';
-    component.reportText.allReportText.push(dummyReportText);
+  it('Called onSelect(sectionId) method with valid sectionid to show the relevant report text', () => {
+    initialiseReportText();
 
     component.onSelect('findings');
 
     expect(component.selectedSectionId).toBeDefined();
-    expect(component.selectedSectionId).toBe('findings');
+    expect(component.selectedSectionId).toEqual('findings');
     expect(component.sections).toBeDefined();
     expect(component.sections).toBeTruthy();
     expect(component.allTextReport).toBeUndefined();
@@ -120,16 +124,13 @@ describe('AssistReportTextComponent', () => {
   });
 
   it('Called ngOnChanges() method with valid sectionid to show the relevant report text', () => {
-    const dummyReportText = new AllReportText();
-    dummyReportText.reportText = '[LR-Treated] An observation that has undergone loco-regional treatment.';
-    dummyReportText.sectionId = 'findings';
-    component.reportText.allReportText.push(dummyReportText);
-
+    initialiseReportText();
     component.selectedSectionId = 'findings';
+
     component.ngOnChanges(undefined);
 
     expect(component.selectedSectionId).toBeDefined();
-    expect(component.selectedSectionId).toBe('findings');
+    expect(component.selectedSectionId).toEqual('findings');
     expect(component.sections).toBeDefined();
     expect(component.sections).toBeTruthy();
     expect(component.allTextReport).toBeUndefined();
@@ -156,8 +157,8 @@ describe('AssistReportTextComponent', () => {
     expect(value).toBeDefined();
     expect(value).toBeTruthy();
     expect(splittedValue).toBeDefined();
-    expect(splittedValue[0]).toBe('This is a sample data.');
-    expect(splittedValue[1]).toBe('It is to remove the empty space.');
+    expect(splittedValue[0]).toEqual('This is a sample data.');
+    expect(splittedValue[1]).toEqual('It is to remove the empty space.');
   });
 
 });

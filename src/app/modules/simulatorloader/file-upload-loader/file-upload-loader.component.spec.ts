@@ -11,8 +11,6 @@ import { Observable } from 'rxjs/Observable';
 // Mock Service class for Global service
 class MockGlobalService extends GlobalsService {
 
-  defaultModule = 'assets/XMLFIles/hello_assist/Hello_Assist.xml';
-
   getDefaultModulePath(): Observable<string>  {
     return new Observable(observer => {
       observer.next('sample data');
@@ -22,9 +20,9 @@ class MockGlobalService extends GlobalsService {
 
 describe('FileUploadLoaderComponent', () => {
   let component: FileUploadLoaderComponent;
-  let nativeElement: any;
-  let testBedService: GlobalsService;
   let fixture: ComponentFixture<FileUploadLoaderComponent>;
+  let nativeElement: any;
+  let mockGlobalService: GlobalsService;
   let inputFile: DebugElement;
   let invalidMessageElement: any;
   let fileDetails: FileDetails;
@@ -52,17 +50,18 @@ describe('FileUploadLoaderComponent', () => {
     // get native element of test component from the fixture
     nativeElement = fixture.debugElement;
 
-    // AuthService provided to the TestBed
-    testBedService = TestBed.get(GlobalsService);
+    // GlobalsService provided to the TestBed
+    mockGlobalService = TestBed.get(GlobalsService);
 
     fixture.detectChanges();
   });
 
   afterEach(() => {
-    testBedService = null;
-    inputFile = null;
-    invalidMessageElement = null;
-    fileDetails = null;
+    nativeElement = undefined;
+    mockGlobalService = undefined;
+    inputFile = undefined;
+    invalidMessageElement = undefined;
+    fileDetails = undefined;
   });
 
   it('Created the FileUploadLoaderComponent', () => {
@@ -71,7 +70,7 @@ describe('FileUploadLoaderComponent', () => {
 
   it('Created same instance for the Service injected via inject() and TestBed.get()',
       inject([GlobalsService], (injectService: GlobalsService) => {
-        expect(injectService).toBe(testBedService);
+        expect(injectService).toBe(mockGlobalService);
   }));
 
   it('Called hideMessage() method to hide the invalid file message', () => {
