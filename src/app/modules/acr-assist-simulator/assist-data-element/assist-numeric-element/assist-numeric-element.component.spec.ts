@@ -113,7 +113,7 @@ describe('AssistNumericElementComponent', () => {
       receivedData = data;
      });
 
-    component.choiceSelected(event, component.numericDataElement);
+    component.choiceSelected(event, component.numericDataElement.label);
 
     // Checks the received data
     expect(receivedData).toBeDefined();
@@ -139,8 +139,7 @@ describe('AssistNumericElementComponent', () => {
 
     expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
     expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
-    expect(receivedData.selectedCondition.selectedCondition instanceof NumericElement);
-    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.numericDataElement);
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.numericDataElement.label);
 
     expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
     expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
@@ -149,5 +148,115 @@ describe('AssistNumericElementComponent', () => {
     expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
     expect(receivedData.selectedCondition.selectedValue).toEqual(component.numericDataElement.currentValue);
 
+  });
+
+  it('Called choiceSelected(element, selectedCondition) method with invalid value', () => {
+    setDataElements(5);
+    const event = { id: undefined, value: undefined };
+
+    component.returnNumericElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.choiceSelected(event, undefined);
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof NumericElement);
+    expect(receivedData.receivedElement.elementId).toBeUndefined();
+    expect(receivedData.receivedElement.selectedValue).toBeUndefined();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeUndefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeUndefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeUndefined();
+  });
+
+  it('Called loadedNumericValue(id, value, selectedCondition) method with valid value', () => {
+    setDataElements(5);
+    const id = component.numericDataElement.id;
+    const value = component.numericDataElement.currentValue;
+    const label = component.numericDataElement.label;
+
+    component.returnNumericElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.loadedNumericValue(id, value, label);
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof NumericElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+    expect(receivedData.receivedElement.elementId).toEqual(component.numericDataElement.id);
+    expect(receivedData.receivedElement.selectedValue).toBeDefined();
+    expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+    expect(receivedData.receivedElement.selectedValue).toBe(component.numericDataElement.currentValue);
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.numericDataElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.numericDataElement.id);
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedValue).toEqual(component.numericDataElement.currentValue);
+  });
+
+  it('Called loadedNumericValue(id, value, selectedCondition) method with invalid value', () => {
+    setDataElements(5);
+    component.returnNumericElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.loadedNumericValue(undefined, undefined, undefined);
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof NumericElement);
+    expect(receivedData.receivedElement.elementId).toBeUndefined();
+    expect(receivedData.receivedElement.selectedValue).toBeUndefined();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeUndefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeUndefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeUndefined();
   });
 });

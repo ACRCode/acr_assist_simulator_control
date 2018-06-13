@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
-import { AssistDataElementComponent } from './assist-data-element.component';
+import { AssistDataElementComponent, ChoiceElement, MultiChoiceElement, NumericElement, FinalExecutedHistory, ExecutedResultHistory, MainReportText, AllReportText } from './assist-data-element.component';
 import { AssistChoiceElementComponent } from './assist-choice-element/assist-choice-element.component';
 import { AssistMultiChoiceElementComponent } from './assist-multi-choice-element/assist-multi-choice-element.component';
 import { AssistNumericElementComponent } from './assist-numeric-element/assist-numeric-element.component';
@@ -43,6 +43,7 @@ import { EndPointRef } from '../../core/models/endpointref.model';
 import { ConditionType } from '../../core/models/conditiontype.model';
 import { EqualCondition } from '../../core/rules/equal-condition';
 import { IntegerDataElement } from '../../core/elements/models/integer-data-element.model';
+import { SelectedCondition } from '../../core/models/executed-result.model';
 
 class MockSimulatorEngineService extends SimulatorEngineService {
 
@@ -59,6 +60,7 @@ describe('AssistDataElementComponent', () => {
   let template: Template;
   let choice: Choice;
   let reportData: any;
+  let executionHistory: any;
   let mockSimulatorEngineService: SimulatorEngineService;
 
   beforeEach(async(() => {
@@ -111,6 +113,7 @@ describe('AssistDataElementComponent', () => {
     template = undefined;
     choice = undefined;
     reportData = undefined;
+    executionHistory = undefined;
     mockSimulatorEngineService = undefined;
   });
 
@@ -829,6 +832,360 @@ describe('AssistDataElementComponent', () => {
      // Checks the xml content
      expect(component.xmlContent).toBeDefined();
      expect(component.xmlContent).toBeTruthy();
+  });
+
+  it('Called numericSelected(event) with a valid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const selectedCondition = new SelectedCondition();
+    selectedCondition.selectedConditionId = 'sizeoflargestcluster';
+    selectedCondition.selectedCondition = 'Size of largest cluster(in mm)';
+    selectedCondition.selectedValue = '2';
+
+    const numericElement = new NumericElement();
+    numericElement.elementId = 'sizeoflargestcluster';
+    numericElement.selectedValue = 2;
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: numericElement, selectedCondition: selectedCondition };
+
+    component.numericSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeDefined();
+    expect(reportData).toBeTruthy();
+    expect(reportData instanceof MainReportText);
+
+    expect(reportData.allReportText).toBeDefined();
+    expect(reportData.allReportText).toBeTruthy();
+    expect(reportData.allReportText instanceof AllReportText);
+    expect(reportData.reportTextMainContent).toBeDefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeDefined();
+    expect(executionHistory).toBeTruthy();
+    expect(executionHistory instanceof FinalExecutedHistory);
+
+    expect(executionHistory.executionHistories).toBeDefined();
+    expect(executionHistory.executionHistories).toBeTruthy();
+    expect(executionHistory.executionHistories instanceof ExecutedResultHistory);
+
+    // Checks the execution history results
+    expect(executionHistory.executionHistories[0].resultCondition).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultCondition).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultCondition).toEqual(selectedCondition.selectedCondition);
+    expect(executionHistory.executionHistories[0].resultValue).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultValue).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultValue).toBe(numericElement.selectedValue.toString());
+
+    // Checks the report text inside execution history
+    expect(executionHistory.resultText).toBeDefined();
+    expect(executionHistory.resultText).toBeTruthy();
+    expect(executionHistory.resultText instanceof MainReportText);
+
+    expect(executionHistory.resultText.allReportText).toBeDefined();
+    expect(executionHistory.resultText.allReportText).toBeTruthy();
+    expect(executionHistory.resultText.allReportText instanceof AllReportText);
+    expect(executionHistory.resultText.reportTextMainContent).toBeDefined();
+
+    // Checks whether report text and report text of execution history are equal
+    expect(reportData).toEqual(executionHistory.resultText);
+  });
+
+  it('Called numericSelected(event) with a invalid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: undefined, selectedCondition: undefined };
+
+    component.numericSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeUndefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeUndefined();
+  });
+
+  it('Called choiceSelected(event) with a valid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const selectedCondition = new SelectedCondition();
+    selectedCondition.selectedConditionId = 'singlemultiple';
+    selectedCondition.selectedCondition = 'Number of nodes';
+    selectedCondition.selectedValue = 'Single';
+
+    const choiceElement = new ChoiceElement();
+    choiceElement.elementId = 'singlemultiple';
+    choiceElement.selectedValue = 'Single';
+    choiceElement.selectedText = 'Single';
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: choiceElement, selectedCondition: selectedCondition };
+
+    component.choiceSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeDefined();
+    expect(reportData).toBeTruthy();
+    expect(reportData instanceof MainReportText);
+
+    expect(reportData.allReportText).toBeDefined();
+    expect(reportData.allReportText).toBeTruthy();
+    expect(reportData.allReportText instanceof AllReportText);
+    expect(reportData.reportTextMainContent).toBeDefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeDefined();
+    expect(executionHistory).toBeTruthy();
+    expect(executionHistory instanceof FinalExecutedHistory);
+
+    expect(executionHistory.executionHistories).toBeDefined();
+    expect(executionHistory.executionHistories).toBeTruthy();
+    expect(executionHistory.executionHistories instanceof ExecutedResultHistory);
+
+    // Checks the execution history results
+    expect(executionHistory.executionHistories[0].resultCondition).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultCondition).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultCondition).toEqual(selectedCondition.selectedCondition);
+    expect(executionHistory.executionHistories[0].resultValue).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultValue).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultValue).toEqual(choiceElement.selectedValue);
+
+    // Checks the report text inside execution history
+    expect(executionHistory.resultText).toBeDefined();
+    expect(executionHistory.resultText).toBeTruthy();
+    expect(executionHistory.resultText instanceof MainReportText);
+
+    expect(executionHistory.resultText.allReportText).toBeDefined();
+    expect(executionHistory.resultText.allReportText).toBeTruthy();
+    expect(executionHistory.resultText.allReportText instanceof AllReportText);
+    expect(executionHistory.resultText.reportTextMainContent).toBeDefined();
+
+    // Checks whether report text and report text of execution history are equal
+    expect(reportData).toEqual(executionHistory.resultText);
+  });
+
+  it('Called choiceSelected(event) with a invalid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: undefined, selectedCondition: undefined };
+
+    component.choiceSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeUndefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeUndefined();
+  });
+
+  it('Called multiSelected(event) with a valid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const selectedCondition = new SelectedCondition();
+    selectedCondition.selectedConditionId = 'levelsinvolved';
+    selectedCondition.selectedCondition = 'Which levels involved?';
+    selectedCondition.selectedValue = ['I', 'II', 'III'];
+
+    const multiChoiceElement = new MultiChoiceElement();
+    multiChoiceElement.elementId = 'levelsinvolved';
+    multiChoiceElement.selectedValues = ['I', 'II', 'III'];
+    multiChoiceElement.selectedComparisonValues = ['I', 'II', 'III'];
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: multiChoiceElement, selectedCondition: selectedCondition };
+
+    component.multiSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeDefined();
+    expect(reportData).toBeTruthy();
+    expect(reportData instanceof MainReportText);
+
+    expect(reportData.allReportText).toBeDefined();
+    expect(reportData.allReportText).toBeTruthy();
+    expect(reportData.allReportText instanceof AllReportText);
+    expect(reportData.reportTextMainContent).toBeDefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeDefined();
+    expect(executionHistory).toBeTruthy();
+    expect(executionHistory instanceof FinalExecutedHistory);
+
+    expect(executionHistory.executionHistories).toBeDefined();
+    expect(executionHistory.executionHistories).toBeTruthy();
+    expect(executionHistory.executionHistories instanceof ExecutedResultHistory);
+
+    // Checks the execution history results
+    expect(executionHistory.executionHistories[0].resultCondition).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultCondition).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultCondition).toEqual(selectedCondition.selectedCondition);
+    expect(executionHistory.executionHistories[0].resultValue).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultValue).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultValue).toEqual(multiChoiceElement.selectedValues);
+
+    // Checks the report text inside execution history
+    expect(executionHistory.resultText).toBeDefined();
+    expect(executionHistory.resultText).toBeTruthy();
+    expect(executionHistory.resultText instanceof MainReportText);
+
+    expect(executionHistory.resultText.allReportText).toBeDefined();
+    expect(executionHistory.resultText.allReportText).toBeTruthy();
+    expect(executionHistory.resultText.allReportText instanceof AllReportText);
+    expect(executionHistory.resultText.reportTextMainContent).toBeDefined();
+
+        // Checks whether report text and report text of execution history are equal
+    expect(reportData).toEqual(executionHistory.resultText);
+  });
+
+  it('Called multiSelected(event) with a invalid event to generate execution history', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    const event = { receivedElement: undefined, selectedCondition: undefined };
+
+    component.multiSelected(event);
+
+    // Checks the report text
+    expect(reportData).toBeUndefined();
+
+    // Checks the execution history
+    expect(executionHistory).toBeUndefined();
+  });
+
+  it('Called generateReportText(endpointId: string) with a valid endpoint', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const endPointId = template.rules.decisionPoints[0].branches[0].endPointRef.endPointId;
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.ngOnInit();
+
+    const generateReportText = function () {
+      try {
+        component.generateReportText(endPointId);
+      } catch (error) {
+        throw error;
+      }
+    };
+    expect(generateReportText).not.toThrow();
+    expect(generateReportText).toBeDefined();
+
+    // Checks the report text
+    expect(reportData).toBeDefined();
+    expect(reportData).toBeTruthy();
+    expect(reportData instanceof MainReportText);
+
+    expect(reportData.allReportText).toBeDefined();
+    expect(reportData.allReportText).toBeTruthy();
+    expect(reportData.allReportText instanceof AllReportText);
+    expect(reportData.reportTextMainContent).toBeDefined();
+  });
+
+  it('Called generateReportText(endpointId: string) with a invalid endpoint', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const endPointId = 'macro';
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.ngOnInit();
+
+    const generateReportText = function () {
+      try {
+        component.generateReportText(endPointId);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(generateReportText).toThrow();
+
+    // Checks the report text
+    expect(reportData).toBeUndefined();
+  });
+
+  it('Called generateReportText(endpointId: string) with a empty endpoint', () => {
+    setTemplateData();
+    initialiseEngineService();
+
+    const endPointId = '';
+
+    component.returnReportText.subscribe(data => {
+      reportData = data;
+    });
+
+    component.ngOnInit();
+
+    const generateReportText = function () {
+      try {
+        component.generateReportText(endPointId);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(generateReportText).toThrow();
+
+    // Checks the report text
+    expect(reportData).toBeUndefined();
   });
 
 });

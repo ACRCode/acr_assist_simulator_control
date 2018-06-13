@@ -134,17 +134,19 @@ describe('AssistMultiChoiceElementComponent', () => {
     expect(multiChoiceElement.errors).toBeNull();
   });
 
-  it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' + 
-     ' method with valid value', () => {
+  it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' +
+  ' method with valid value', () => {
     setDataElements('I');
     const event = { currentTarget : { checked: true, value: component.multiChoiceElement.choiceInfo.choices[0].value }};
+    const id = component.multiChoiceElement.id;
+    const label = component.multiChoiceElement.label;
+    const choiceLabel = component.multiChoiceElement.choiceInfo.choices[0].label;
 
     component.returnMultiChoice.subscribe(data => {
       receivedData = data;
      });
 
-    component.updateMultiChoice(component.multiChoiceElement.id, component.multiChoiceElement.label,
-                                component.multiChoiceElement.choiceInfo.choices[0].label, event);
+    component.updateMultiChoice(id, label, choiceLabel, event);
 
     // Checks the received data
     expect(receivedData).toBeDefined();
@@ -196,4 +198,26 @@ describe('AssistMultiChoiceElementComponent', () => {
 
   });
 
+  it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' +
+  ' method with invalid value', () => {
+    setDataElements('I');
+    const event = { currentTarget : { checked: true, value: undefined }};
+
+    component.returnMultiChoice.subscribe(data => {
+      receivedData = data;
+     });
+
+    const updateMultiChoice = function () {
+      try {
+        component.updateMultiChoice(undefined, undefined, undefined, undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(updateMultiChoice).toThrow();
+
+    // Checks the received data
+    expect(receivedData).toBeUndefined();
+  });
 });

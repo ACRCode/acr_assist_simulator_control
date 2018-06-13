@@ -345,7 +345,7 @@ describe('TemplateService', () => {
     </ReportingModule>`;
   }
 
-  it('should be created', inject([TemplateManagerService], (service: TemplateManagerService) => {
+  it('Created the TemplateManagerService', inject([TemplateManagerService], (service: TemplateManagerService) => {
     expect(service).toBeTruthy();
   }));
 

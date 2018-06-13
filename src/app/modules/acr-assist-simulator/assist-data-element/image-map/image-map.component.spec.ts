@@ -21,7 +21,19 @@ describe('ImageMapComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('Created the ImageMapComponent', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Called displayValue(val) with empty value', () => {
+    component.displayValue('');
+    expect(component.SelectionValue).toEqual('Image Map Diagram');
+  });
+
+  it('Called displayValue(val) with valid value', () => {
+    const value = 'test';
+    component.displayValue('test');
+    expect(component.SelectionValue).toEqual('Selected Value : ' + value);
+  });
+
 });
