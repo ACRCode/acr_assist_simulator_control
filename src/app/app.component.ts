@@ -17,45 +17,31 @@ export class AppComponent {
   position =  ReportTextPosition;
   testInputValue: InputData[] = [
     {
-         'dataElementId': 'modality',
-         'dataElementValue': 'CT'
-       },
-       {
-         'dataElementId': 'observationnumber',
-         'dataElementValue': '1'
-       },
-       {
-         'dataElementId': 'seriesnumber',
-         'dataElementValue': '1'
-       },
-       {
-         'dataElementId': 'imagenumber',
-         'dataElementValue': '1'
-       },
-   {
-         'dataElementId': 'segmentlocation',
-         'dataElementValue': 'II'
-       },
-   {
-         'dataElementId': 'observationinPatient',
-         'dataElementValue': 'untreated'
-       },
-   {
-         'dataElementId': 'untreatedobservation',
-         'dataElementValue': 'malignantbutnothcc'
-       },
-   {
-         'dataElementId': 'diameter',
-         'dataElementValue': '5'
-       },
-   {
-         'dataElementId': 'lrmtargetoidmass',
-         'dataElementValue': 'Rim_APHE'
-       },
-   {
-         'dataElementId': 'lrmnontargetoidmass',
-         'dataElementValue': 'Infiltrative_appearance'
-       }
+      'dataElementId': 'ObservationCharacter',
+      'dataElementValue': 'notDefProbBenign'
+    },
+    {
+      'dataElementId': 'diameter',
+      'dataElementValue': '10'
+    },
+    {
+      'dataElementId': 'washout',
+      'dataElementValue': 'yes'
+    },
+    {
+      'dataElementId': 'capsule',
+      'dataElementValue': 'yes'
+    },
+
+    {
+      'dataElementId': 'ArterialEnhancement',
+      'dataElementValue': 'hypoEnhancing'
+    },
+
+    {
+      'dataElementId': 'thresholdgrowth',
+      'dataElementValue': 'yes'
+    }
 
      ];
 
@@ -71,7 +57,7 @@ export class AppComponent {
   }
 
   loadElements() {
-    this.inputValues = this.testInputValue;
+    this.inputValues = this.testInputValue.map(input => Object.assign({}, input));
   }
 
   returnDefaultElements() {

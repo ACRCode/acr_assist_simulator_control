@@ -44,7 +44,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
         }
       }
 
-      if (this.choiceDataElement.choiceInfo.length <= 5) {
+      if (this.choiceDataElement.choiceInfo.length <= 2) {
         this.updateChoiceValue(this.choiceDataElement.id, this.choiceDataElement.label,
           (this.selectedChoiceReportText !== undefined) ? this.selectedChoiceReportText : this.selectedChoiceReportLabel, this.choiceDataElement.currentValue);
       } else {
