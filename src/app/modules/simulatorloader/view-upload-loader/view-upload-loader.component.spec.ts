@@ -72,13 +72,28 @@ describe('ViewUploadLoaderComponent', () => {
         expect(injectService).toBe(mockGlobalService);
   }));
 
-  it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details', () => {
+  it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details of a newly selected module', () => {
     component.onFileSelected.subscribe(data => {
       selectedXML = data;
      });
 
     component.onFileContentRead(mockData);
 
+    expect(selectedXML.fileLabel).toBe(mockData.fileLabel);
+    expect(selectedXML.fileName).toBe(mockData.fileName);
+    expect(selectedXML.fileContents).toBe(mockData.fileContents);
+    expect(mockGlobalService.XMLList).toBeDefined();
+    expect(mockGlobalService.XMLList.ContainsKey(mockData.fileLabel));
+    expect(mockGlobalService.XMLList).toBeTruthy();
+  });
+
+  it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details of an existing selected module', () => {
+    component.onFileSelected.subscribe(data => {
+      selectedXML = data;
+     });
+
+    mockGlobalService.XMLList.Add(mockData.fileLabel, mockData);
+    component.onFileContentRead(mockData);
     expect(selectedXML.fileLabel).toBe(mockData.fileLabel);
     expect(selectedXML.fileName).toBe(mockData.fileName);
     expect(selectedXML.fileContents).toBe(mockData.fileContents);

@@ -13,12 +13,14 @@ import { ChoiceInfo } from '../../../core/elements/models/choiceInfo.model';
 import { Choice } from '../../../core/elements/models/choice.model';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
+import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
+import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 
 describe('AssistMultiChoiceElementComponent', () => {
   let component: AssistMultiChoiceElementComponent;
   let fixture: ComponentFixture<AssistMultiChoiceElementComponent>;
   let nativeElement: any;
-  let multiChoiceDataElement: MultiChoiceDataElement;
+  let multiChoiceDataElement: ChoiceDataElement;
   let receivedData: any;
   let choice: Choice;
 
@@ -54,8 +56,9 @@ describe('AssistMultiChoiceElementComponent', () => {
   });
 
   function setDataElements(currentValue) {
-    multiChoiceDataElement = new MultiChoiceDataElement();
-    multiChoiceDataElement.choiceInfo = new ChoiceInfo();
+    const dataElements = Array<BaseDataElement>();
+
+    multiChoiceDataElement = new ChoiceDataElement();
     multiChoiceDataElement.cdeId = '100';
     multiChoiceDataElement.currentValue = currentValue;
     multiChoiceDataElement.dataElementType = 'MultiChoiceDataElement';
@@ -67,7 +70,7 @@ describe('AssistMultiChoiceElementComponent', () => {
     multiChoiceDataElement.isVisible = true;
     multiChoiceDataElement.label = 'Which levels involved?';
 
-    multiChoiceDataElement.choiceInfo.choices = [];
+    multiChoiceDataElement.choiceInfo = [];
 
     choice = new Choice();
     choice.label = 'I';
@@ -75,7 +78,7 @@ describe('AssistMultiChoiceElementComponent', () => {
     choice.default = false;
     choice.hint = undefined;
     choice.reportText = undefined;
-    multiChoiceDataElement.choiceInfo.choices.push(choice);
+    multiChoiceDataElement.choiceInfo.push(choice);
 
     choice = new Choice();
     choice.label = 'II';
@@ -83,7 +86,7 @@ describe('AssistMultiChoiceElementComponent', () => {
     choice.default = false;
     choice.hint = undefined;
     choice.reportText = undefined;
-    multiChoiceDataElement.choiceInfo.choices.push(choice);
+    multiChoiceDataElement.choiceInfo.push(choice);
 
     choice = new Choice();
     choice.label = 'III';
@@ -91,9 +94,11 @@ describe('AssistMultiChoiceElementComponent', () => {
     choice.default = false;
     choice.hint = undefined;
     choice.reportText = undefined;
-    multiChoiceDataElement.choiceInfo.choices.push(choice);
+    multiChoiceDataElement.choiceInfo.push(choice);
 
-    component.multiChoiceElement = multiChoiceDataElement;
+    dataElements.push(multiChoiceDataElement);
+
+    component.multiChoiceElement = <MultiChoiceDataElement>dataElements[0];
     component.imagePath = 'XMLFiles/Samples/Hello Assist';
   }
 
@@ -111,6 +116,96 @@ describe('AssistMultiChoiceElementComponent', () => {
     component.ngAfterViewInit();
 
     expect(receivedData).toBeUndefined();
+  });
+
+  it('Called ngAfterViewInit() method with current values as array', () => {
+    setDataElements(['I', 'II']);
+
+    component.returnMultiChoice.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.ngAfterViewInit();
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof MultiChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
+    expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedValues).toBeDefined();
+    expect(receivedData.receivedElement.selectedValues).toBeTruthy();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.multiChoiceElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.multiChoiceElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+  });
+
+  it('Called ngAfterViewInit() method with current values as non array', () => {
+    setDataElements('I');
+
+    component.returnMultiChoice.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.ngAfterViewInit();
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof MultiChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
+    expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedValues).toBeDefined();
+    expect(receivedData.receivedElement.selectedValues).toBeTruthy();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.multiChoiceElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.multiChoiceElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
   });
 
   it('MultiChoiceDataElement shows isRequired during the initial load', () => {
@@ -135,12 +230,12 @@ describe('AssistMultiChoiceElementComponent', () => {
   });
 
   it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' +
-  ' method with valid value', () => {
+  ' method with valid value and checked as true', () => {
     setDataElements('I');
-    const event = { currentTarget : { checked: true, value: component.multiChoiceElement.choiceInfo.choices[0].value }};
+    const event = { currentTarget : { checked: true, value: component.multiChoiceElement.choiceInfo[0].value }};
     const id = component.multiChoiceElement.id;
     const label = component.multiChoiceElement.label;
-    const choiceLabel = component.multiChoiceElement.choiceInfo.choices[0].label;
+    const choiceLabel = component.multiChoiceElement.choiceInfo[0].label;
 
     component.returnMultiChoice.subscribe(data => {
       receivedData = data;
@@ -152,15 +247,15 @@ describe('AssistMultiChoiceElementComponent', () => {
     expect(receivedData).toBeDefined();
     expect(receivedData).toBeTruthy();
 
-    //
+    // Checks the multiChoiceValues
     expect(component.multiChoiceValues).toBeDefined();
     expect(component.multiChoiceValues).toBeTruthy();
-    expect(component.multiChoiceValues[0]).toEqual(component.multiChoiceElement.choiceInfo.choices[0].value);
+    expect(component.multiChoiceValues[0]).toEqual(component.multiChoiceElement.choiceInfo[0].value);
 
-    //
+    // Checks the multiChoiceComaprisonValues
     expect(component.multiChoiceComaprisonValues).toBeDefined();
     expect(component.multiChoiceComaprisonValues).toBeTruthy();
-    expect(component.multiChoiceComaprisonValues[0]).toEqual(component.multiChoiceElement.choiceInfo.choices[0].value);
+    expect(component.multiChoiceComaprisonValues[0]).toEqual(component.multiChoiceElement.choiceInfo[0].value);
 
     // Checks the received element of received data
     expect(receivedData.receivedElement).toBeDefined();
@@ -172,11 +267,9 @@ describe('AssistMultiChoiceElementComponent', () => {
 
     expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
     expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
-    expect(receivedData.receivedElement.selectedComparisonValues[0]).toEqual(component.multiChoiceElement.choiceInfo.choices[0].value);
 
     expect(receivedData.receivedElement.selectedValues).toBeDefined();
     expect(receivedData.receivedElement.selectedValues).toBeTruthy();
-    expect(receivedData.receivedElement.selectedValues[0]).toEqual(component.multiChoiceElement.choiceInfo.choices[0].value);
 
     // Checks the selectedCondition of received data
     expect(receivedData.selectedCondition).toBeDefined();
@@ -194,8 +287,50 @@ describe('AssistMultiChoiceElementComponent', () => {
 
     expect(receivedData.selectedCondition.selectedValue).toBeDefined();
     expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
-    expect(receivedData.selectedCondition.selectedValue[0]).toEqual(component.multiChoiceElement.choiceInfo.choices[0].value);
+  });
 
+  it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' +
+  ' method with valid value and checked as false', () => {
+    setDataElements('I');
+    const event = { currentTarget : { checked: false, value: component.multiChoiceElement.choiceInfo[0].value }};
+    const id = component.multiChoiceElement.id;
+    const label = component.multiChoiceElement.label;
+    const choiceLabel = component.multiChoiceElement.choiceInfo[0].label;
+
+    component.returnMultiChoice.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.updateMultiChoice(id, label, choiceLabel, event);
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof MultiChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.multiChoiceElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.multiChoiceElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
   });
 
   it('Called updateMultiChoice(elementId: string, selectedCondition: string, value: string, event)' +
@@ -219,5 +354,49 @@ describe('AssistMultiChoiceElementComponent', () => {
 
     // Checks the received data
     expect(receivedData).toBeUndefined();
+  });
+
+  it('Called selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: string, choiceLabel)' +
+  ' method with valid value and checked as false', () => {
+    setDataElements('I');
+    const id = component.multiChoiceElement.id;
+    const label = component.multiChoiceElement.label;
+    const choiceLabel = component.multiChoiceElement.choiceInfo[0].label;
+    const value = component.multiChoiceElement.choiceInfo[0].value;
+
+    component.returnMultiChoice.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.selectedMultiChoice(id, label, value, choiceLabel);
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof MultiChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.multiChoiceElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.multiChoiceElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
   });
 });

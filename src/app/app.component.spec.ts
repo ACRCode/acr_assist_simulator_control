@@ -71,6 +71,32 @@ describe('AppComponent', () => {
     expect(component.inputValues).toEqual(component.testInputValue);
   });
 
+  it('Called returnDefaultElements() to clear the test input values ', () => {
+
+    expect(component.inputValues).toBeDefined();
+    expect(component.inputValues.length).toEqual(0);
+
+    component.loadElements();
+
+    expect(component.inputValues).toBeDefined();
+    expect(component.inputValues).toBeTruthy();
+    expect(component.inputValues.length).toBeGreaterThan(0);
+
+    component.inputValues.forEach(element => {
+      expect(element.dataElementId).toBeDefined();
+      expect(element.dataElementId).toBeTruthy();
+      expect(element.dataElementValue).toBeDefined();
+      expect(element.dataElementValue).toBeTruthy();
+    });
+
+    expect(component.inputValues instanceof InputData);
+    expect(component.inputValues).toEqual(component.testInputValue);
+
+    component.returnDefaultElements();
+    expect(component.inputValues).toBeDefined();
+    expect(component.inputValues.length).toEqual(0);
+  });
+
   it('Called onFileSelected(fileDetails: FileDetails) to invalid data set file content', () => {
     const fileLabel = undefined;
     const fileName = undefined;
