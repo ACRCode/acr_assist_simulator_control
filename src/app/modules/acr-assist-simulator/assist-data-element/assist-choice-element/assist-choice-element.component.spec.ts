@@ -82,12 +82,28 @@ describe('AssistChoiceElementComponent', () => {
     choice.value = 'semi-rigidspine';
     choice.default = false;
     choice.hint = undefined;
-    choice.reportText = undefined;
+    choice.reportText = 'NA';
     choiceDataElement.choiceInfo.push(choice);
 
     choice = new Choice();
     choice.label = 'Mobile spine';
     choice.value = 'mobilespine';
+    choice.default = false;
+    choice.hint = undefined;
+    choice.reportText = undefined;
+    choiceDataElement.choiceInfo.push(choice);
+
+    choice = new Choice();
+    choice.label = 'Tech spine';
+    choice.value = 'techspine';
+    choice.default = false;
+    choice.hint = undefined;
+    choice.reportText = undefined;
+    choiceDataElement.choiceInfo.push(choice);
+
+    choice = new Choice();
+    choice.label = 'New spine';
+    choice.value = 'newspine';
     choice.default = false;
     choice.hint = undefined;
     choice.reportText = undefined;
@@ -99,6 +115,159 @@ describe('AssistChoiceElementComponent', () => {
 
   it('Created the AssistChoiceElementComponent', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Called ngAfterViewInit() method for with valid value normal choice criteria with undefined report text in choice', () => {
+    setDataElements('rigidspine');
+
+    component.returnChoiceElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.ngAfterViewInit();
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof ChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedText).toBeDefined();
+    expect(receivedData.receivedElement.selectedText).toBeTruthy();
+    expect(receivedData.receivedElement.selectedText).toEqual(component.choiceDataElement.choiceInfo[0].label);
+
+    expect(receivedData.receivedElement.selectedValue).toBeDefined();
+    expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+    expect(receivedData.receivedElement.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].value);
+
+    // // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].label);
+  });
+
+  it('Called ngAfterViewInit() method for with valid value normal choice criteria with defined report text in choice', () => {
+    setDataElements('semi-rigidspine');
+
+    component.returnChoiceElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.ngAfterViewInit();
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof ChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedText).toBeDefined();
+    expect(receivedData.receivedElement.selectedText).toBeTruthy();
+    expect(receivedData.receivedElement.selectedText).toEqual(component.choiceDataElement.choiceInfo[1].reportText);
+
+    expect(receivedData.receivedElement.selectedValue).toBeDefined();
+    expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+    expect(receivedData.receivedElement.selectedValue).toEqual(component.choiceDataElement.choiceInfo[1].value);
+
+    // // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[1].reportText);
+  });
+
+  it('Called ngAfterViewInit() method for with valid value for drop down choice criteria', () => {
+    setDataElements('sixspine');
+
+    choice = new Choice();
+    choice.label = 'Six spine';
+    choice.value = 'sixspine';
+    choice.default = false;
+    choice.hint = undefined;
+    choice.reportText = undefined;
+    choiceDataElement.choiceInfo.push(choice);
+    component.choiceDataElement = choiceDataElement;
+
+    component.returnChoiceElement.subscribe(data => {
+      receivedData = data;
+     });
+
+    component.ngAfterViewInit();
+
+    // Checks the received data
+    expect(receivedData).toBeDefined();
+    expect(receivedData).toBeTruthy();
+
+    // // Checks the received element of received data
+    expect(receivedData.receivedElement).toBeDefined();
+    expect(receivedData.receivedElement).toBeTruthy();
+
+    expect(receivedData.receivedElement instanceof ChoiceElement);
+    expect(receivedData.receivedElement.elementId).toBeDefined();
+    expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+    expect(receivedData.receivedElement.selectedText).toBeDefined();
+    expect(receivedData.receivedElement.selectedText).toBeTruthy();
+    expect(receivedData.receivedElement.selectedText).toEqual(component.choiceDataElement.choiceInfo[5].label);
+
+    expect(receivedData.receivedElement.selectedValue).toBeDefined();
+    expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+    expect(receivedData.receivedElement.selectedValue).toEqual(component.choiceDataElement.choiceInfo[5].value);
+
+    // // Checks the selectedCondition of received data
+    expect(receivedData.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition).toBeTruthy();
+
+    expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+    expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+    expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
+
+    expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+    expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
+
+    expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+    expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+    expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[5].label);
   });
 
   it('Called ngAfterViewInit() method with invalid value', () => {
@@ -113,7 +282,7 @@ describe('AssistChoiceElementComponent', () => {
     expect(receivedData).toBeUndefined();
   });
 
-  it('MultiChoiceDataElement shows isRequired during the initial load', () => {
+  it('ChoiceDataElement shows isRequired during the initial load', () => {
     setDataElements('rigidspine');
     component.ngOnInit();
 
@@ -124,7 +293,7 @@ describe('AssistChoiceElementComponent', () => {
     expect(errors['notEquivalent']).toBeTruthy();
   });
 
-  it('MultiChoiceDataElement removes isRequired during the value intialization', () => {
+  it('ChoiceDataElement removes isRequired during the value intialization', () => {
     component.ngOnInit();
 
     const choiceElement = component.choiceElementForm.controls['checkBox'];
@@ -188,10 +357,9 @@ describe('AssistChoiceElementComponent', () => {
   });
 
   it('Called dropdownChoiceSelected(element, selectedCondition) method with invalid value', () => {
-    component.choiceValue = 'rigidspine';
 
     const event = { id: undefined, value: undefined,
-                    selectedOptions: [ { label: undefined } ] };
+                    selectedOptions: [ { label: 'Other, please specify…' } ] };
 
     component.returnChoiceElement.subscribe(data => {
       receivedData = data;
@@ -209,7 +377,8 @@ describe('AssistChoiceElementComponent', () => {
 
       expect(receivedData.receivedElement instanceof ChoiceElement);
       expect(receivedData.receivedElement.elementId).toBeUndefined();
-      expect(receivedData.receivedElement.selectedValue).toBeUndefined();
+      expect(receivedData.receivedElement.selectedValue).toEqual('');
+      expect(receivedData.receivedElement.selectedText).toEqual('');
 
       // Checks the selectedCondition of received data
       expect(receivedData.selectedCondition).toBeDefined();
@@ -218,7 +387,8 @@ describe('AssistChoiceElementComponent', () => {
       expect(receivedData.selectedCondition instanceof SelectedCondition);
       expect(receivedData.selectedCondition.selectedCondition).toBeUndefined();
       expect(receivedData.selectedCondition.selectedConditionId).toBeUndefined();
-      expect(receivedData.selectedCondition.selectedValue).toBeUndefined();
+      expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+      expect(receivedData.selectedCondition.selectedValue).toEqual(event.selectedOptions[0].label);
   });
 
   it('Called updateDropdownChoiceSelected(elementId, elementLabel, elementValue, selectedCondition) method with valid value', () => {
@@ -276,7 +446,6 @@ describe('AssistChoiceElementComponent', () => {
   });
 
   it('Called updateDropdownChoiceSelected(elementId, elementLabel, elementValue, selectedCondition) method with invalid value', () => {
-    component.choiceValue = 'rigidspine';
 
     component.returnChoiceElement.subscribe(data => {
       receivedData = data;
@@ -294,7 +463,8 @@ describe('AssistChoiceElementComponent', () => {
 
     expect(receivedData.receivedElement instanceof ChoiceElement);
     expect(receivedData.receivedElement.elementId).toBeUndefined();
-    expect(receivedData.receivedElement.selectedValue).toBeUndefined();
+    expect(receivedData.receivedElement.selectedValue).toEqual('');
+    expect(receivedData.receivedElement.selectedText).toEqual('');
 
     // Checks the selectedCondition of received data
     expect(receivedData.selectedCondition).toBeDefined();
@@ -307,61 +477,61 @@ describe('AssistChoiceElementComponent', () => {
   });
 
   it('Called choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string)' +
-  ' method with valid value', () => {
-      setDataElements('rigidspine');
+     ' method with valid value', () => {
+       setDataElements('rigidspine');
 
-      const id = component.choiceDataElement.id;
-      const label = component.choiceDataElement.label;
-      const chocieLabel = component.choiceDataElement.choiceInfo[0].label;
-      const value = component.choiceDataElement.choiceInfo[0].value;
+       const id = component.choiceDataElement.id;
+       const label = component.choiceDataElement.label;
+       const chocieLabel = component.choiceDataElement.choiceInfo[0].label;
+       const value = component.choiceDataElement.choiceInfo[0].value;
 
-      component.returnChoiceElement.subscribe(data => {
-        receivedData = data;
-      });
+       component.returnChoiceElement.subscribe(data => {
+         receivedData = data;
+       });
 
-      component.choiceSelected(id, label, chocieLabel, value);
+       component.choiceSelected(id, label, chocieLabel, value);
 
-      // Checks the received data
-      expect(receivedData).toBeDefined();
-      expect(receivedData).toBeTruthy();
+       // Checks the received data
+       expect(receivedData).toBeDefined();
+       expect(receivedData).toBeTruthy();
 
-      // // Checks the received element of received data
-      expect(receivedData.receivedElement).toBeDefined();
-      expect(receivedData.receivedElement).toBeTruthy();
+       // // Checks the received element of received data
+       expect(receivedData.receivedElement).toBeDefined();
+       expect(receivedData.receivedElement).toBeTruthy();
 
-      expect(receivedData.receivedElement instanceof ChoiceElement);
-      expect(receivedData.receivedElement.elementId).toBeDefined();
-      expect(receivedData.receivedElement.elementId).toBeTruthy();
+       expect(receivedData.receivedElement instanceof ChoiceElement);
+       expect(receivedData.receivedElement.elementId).toBeDefined();
+       expect(receivedData.receivedElement.elementId).toBeTruthy();
 
-      expect(receivedData.receivedElement.selectedText).toBeDefined();
-      expect(receivedData.receivedElement.selectedText).toBeTruthy();
-      expect(receivedData.receivedElement.selectedText).toEqual(component.choiceDataElement.choiceInfo[0].label);
+       expect(receivedData.receivedElement.selectedText).toBeDefined();
+       expect(receivedData.receivedElement.selectedText).toBeTruthy();
+       expect(receivedData.receivedElement.selectedText).toEqual(component.choiceDataElement.choiceInfo[0].label);
 
-      expect(receivedData.receivedElement.selectedValue).toBeDefined();
-      expect(receivedData.receivedElement.selectedValue).toBeTruthy();
-      expect(receivedData.receivedElement.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].value);
+       expect(receivedData.receivedElement.selectedValue).toBeDefined();
+       expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+       expect(receivedData.receivedElement.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].value);
 
-      // // Checks the selectedCondition of received data
-      expect(receivedData.selectedCondition).toBeDefined();
-      expect(receivedData.selectedCondition).toBeTruthy();
+       // // Checks the selectedCondition of received data
+       expect(receivedData.selectedCondition).toBeDefined();
+       expect(receivedData.selectedCondition).toBeTruthy();
 
-      expect(receivedData.selectedCondition instanceof SelectedCondition);
+       expect(receivedData.selectedCondition instanceof SelectedCondition);
 
-      expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
-      expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
-      expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
+       expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+       expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+       expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
 
-      expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
-      expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
-      expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
+       expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+       expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+       expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
 
-      expect(receivedData.selectedCondition.selectedValue).toBeDefined();
-      expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
-      expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].label);
+       expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+       expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+       expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].label);
     });
 
     it('Called choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string)' +
-    ' method with invalid value', () => {
+       ' method with invalid value', () => {
 
       component.returnChoiceElement.subscribe(data => {
         receivedData = data;
@@ -392,7 +562,7 @@ describe('AssistChoiceElementComponent', () => {
     });
 
     it('Called updateChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string)' +
-    ' method with valid value', () => {
+       ' method with valid value', () => {
       setDataElements('rigidspine');
 
       const id = component.choiceDataElement.id;
@@ -446,7 +616,7 @@ describe('AssistChoiceElementComponent', () => {
     });
 
     it('Called updateChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string)' +
-    ' method with invalid value', () => {
+       ' method with invalid value', () => {
 
       component.returnChoiceElement.subscribe(data => {
         receivedData = data;
@@ -526,6 +696,58 @@ describe('AssistChoiceElementComponent', () => {
       expect(receivedData.selectedCondition.selectedValue).toBeDefined();
       expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
       expect(receivedData.selectedCondition.selectedValue).toEqual(component.choiceDataElement.choiceInfo[0].value);
+    });
+
+    it('Called updateFreeText (element, elementId, selectedCondition) with valid value as "other"', () => {
+      setDataElements('rigidspine');
+
+      const id = component.choiceDataElement.id;
+      const label = component.choiceDataElement.label;
+      const element = { value: 'Other' };
+
+      component.returnChoiceElement.subscribe(data => {
+        receivedData = data;
+      });
+
+      component.updateFreeText(element, id, label);
+
+      // Checks the received data
+      expect(receivedData).toBeDefined();
+      expect(receivedData).toBeTruthy();
+
+      // // Checks the received element of received data
+      expect(receivedData.receivedElement).toBeDefined();
+      expect(receivedData.receivedElement).toBeTruthy();
+
+      expect(receivedData.receivedElement instanceof ChoiceElement);
+      expect(receivedData.receivedElement.elementId).toBeDefined();
+      expect(receivedData.receivedElement.elementId).toBeTruthy();
+
+      expect(receivedData.receivedElement.selectedText).toBeDefined();
+      expect(receivedData.receivedElement.selectedText).toBeTruthy();
+      expect(receivedData.receivedElement.selectedText).toEqual(element.value);
+
+      expect(receivedData.receivedElement.selectedValue).toBeDefined();
+      expect(receivedData.receivedElement.selectedValue).toBeTruthy();
+      expect(receivedData.receivedElement.selectedValue).toEqual('freetext');
+
+      // // Checks the selectedCondition of received data
+      expect(receivedData.selectedCondition).toBeDefined();
+      expect(receivedData.selectedCondition).toBeTruthy();
+
+      expect(receivedData.selectedCondition instanceof SelectedCondition);
+
+      expect(receivedData.selectedCondition.selectedCondition).toBeDefined();
+      expect(receivedData.selectedCondition.selectedCondition).toBeTruthy();
+      expect(receivedData.selectedCondition.selectedCondition).toEqual(component.choiceDataElement.label);
+
+      expect(receivedData.selectedCondition.selectedConditionId).toBeDefined();
+      expect(receivedData.selectedCondition.selectedConditionId).toBeTruthy();
+      expect(receivedData.selectedCondition.selectedConditionId).toEqual(component.choiceDataElement.id);
+
+      expect(receivedData.selectedCondition.selectedValue).toBeDefined();
+      expect(receivedData.selectedCondition.selectedValue).toBeTruthy();
+      expect(receivedData.selectedCondition.selectedValue).toEqual(element.value);
     });
 
     it('Called updateFreeText (element, elementId, selectedCondition) with invalid values', () => {

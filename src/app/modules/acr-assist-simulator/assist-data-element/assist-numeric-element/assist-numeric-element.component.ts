@@ -29,11 +29,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
-      this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
-        this.numericDataElement.currentValue);
-      const customEvent = document.createEvent('Event');
-      // customEvent.initEvent('change', true, true);
-      // $('#' + this.numericDataElement.id)[0].dispatchEvent(customEvent);
       this.numberValue = this.numericDataElement.currentValue;
         this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     }
@@ -70,16 +65,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private specificValueInsideRange(numericKey: string) {
-    return (group: FormGroup) => {
-      const numericControl = group.controls[numericKey];
-      if ((numericControl.value === 'undefined' || numericControl.value === '') && this.numericDataElement.isRequired ) {
-        return numericControl.setErrors({ notEquivalent: true });
-      } else {
-        return numericControl.setErrors(null);
-      }
-    };
-  }
   onlyNumberKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }

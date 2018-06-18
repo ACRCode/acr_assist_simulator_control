@@ -16,6 +16,9 @@ import { EndPointRef } from '../models/endpointref.model';
 import { ConditionType } from '../models/conditiontype.model';
 import { EqualCondition } from '../rules/equal-condition';
 import { SimulatorState } from '../models/simulator-state.model';
+import { ComputedDataElement } from '../elements/models/computed-data-element-model';
+import { TextExpression } from '../models/text-expression.model';
+import { Component } from '@angular/core';
 
 class MockSimulatorEngineService extends SimulatorEngineService {
 }
@@ -26,6 +29,7 @@ describe('SimulatorEngineService', () => {
   let multiChoiceDataElement: ChoiceDataElement;
   let choiceDataElement: ChoiceDataElement;
   let globalDataElement: GlobalValue;
+  let computedDataElement: ComputedDataElement;
   let template: Template;
   let choice: Choice;
   let xmlContent: string;
@@ -48,6 +52,7 @@ describe('SimulatorEngineService', () => {
     multiChoiceDataElement = undefined;
     choiceDataElement = undefined;
     globalDataElement = undefined;
+    computedDataElement = undefined;
     template = undefined;
     choice = undefined;
     xmlContent = '';
@@ -439,6 +444,7 @@ describe('SimulatorEngineService', () => {
     createIntegerDataElement();
     createChoiceDataElement();
     createMultiChoiceDataElement();
+    createComputedDataElement();
   }
 
   function createGlobalDataElement() {
@@ -574,6 +580,42 @@ describe('SimulatorEngineService', () => {
     multiChoiceDataElement.choiceInfo.push(choice);
 
     dataElements.push(multiChoiceDataElement);
+  }
+
+  function createComputedDataElement() {
+    computedDataElement = new ComputedDataElement();
+    computedDataElement.cdeId = undefined;
+    computedDataElement.currentValue = undefined;
+    computedDataElement.computeValue = undefined;
+    computedDataElement.dataElementType = 'ComputedDataElement';
+    computedDataElement.defaultValue = undefined;
+    computedDataElement.displaySequence = undefined;
+    computedDataElement.hint = undefined;
+    computedDataElement.id = 'hasSelectedBaseCategory';
+    computedDataElement.isRequired = false;
+    computedDataElement.isVisible = true;
+    computedDataElement.label = undefined;
+    computedDataElement.decisionPoints = [];
+
+    const decisionPoint = new DecisionPoint();
+    decisionPoint.label = undefined;
+
+    computedDataElement.decisionPoints.push(decisionPoint);
+    computedDataElement.decisionPoints[0].branches = [];
+
+    const branch = new Branch();
+    branch.computedValue = new TextExpression();
+    branch.computedValue.expressionText = 'There is a potentially significant incidental finding.';
+    branch.label = undefined;
+
+    const conditionType = new ConditionType();
+    conditionType.comparisonValue = 'yes';
+    conditionType.dataElementId = 'significantAdditionalFindings';
+    branch.condition = new EqualCondition(conditionType);
+
+    computedDataElement.decisionPoints[0].branches.push(branch);
+
+    dataElements.push(computedDataElement);
   }
 
   function initialiseEngineService() {
@@ -726,7 +768,8 @@ describe('SimulatorEngineService', () => {
     expect(elementText).toBeUndefined();
   });
 
-  it('Called addOrUpdateDataElement(dataElementId: string, value: any , text: any) by initializing the template', () => {
+  it('Called addOrUpdateDataElement(dataElementId: string, value: any , text: any) with non computed element by initializing ' +
+     'the template', () => {
     setTemplateData();
     initialiseEngineService();
     const dataElementId = 'sizeoflargestcluster';
@@ -783,6 +826,66 @@ describe('SimulatorEngineService', () => {
     expect(simulatorState.selectedDecisionPointLabel).toEqual(template.rules.decisionPoints[0].label);
   });
 
+  it('Called addOrUpdateDataElement(dataElementId: string, value: any , text: any) with computed element by initializing ' +
+     'the template', () => {
+    setTemplateData();
+    initialiseEngineService();
+    const dataElementId = 'significantAdditionalFindings';
+    const dataElementValue = 'yes';
+    const dataElementText = 'yes';
+
+    mockedSimulatorEngineService.simulatorStateChanged.subscribe((message) => {
+      simulatorState =  message as  SimulatorState;
+    });
+
+    const addOrUpdateDataElement = function () {
+      try {
+        mockedSimulatorEngineService.addOrUpdateDataElement(dataElementId, dataElementValue, dataElementText);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    // addOrUpdateDataElement method should not throw as template is not intialized
+    expect(addOrUpdateDataElement).not.toThrow();
+
+    // Checks the data element values
+    const elementValues = mockedSimulatorEngineService.getAllDataElementValues();
+
+    expect(elementValues).toBeDefined();
+    expect(elementValues).toBeTruthy();
+    expect(elementValues['conditionConst']).toBeDefined();
+    expect(elementValues['conditionConst']).toEqual('10');
+    expect(elementValues['levelsinvolved']).toBeUndefined();
+    expect(elementValues['singlemultiple']).toBeUndefined();
+    expect(elementValues['sizeoflargestcluster']).toBeUndefined();
+    expect(elementValues['significantAdditionalFindings']).toBeDefined();
+    expect(elementValues['significantAdditionalFindings']).toEqual(dataElementValue);
+
+    // Checks the data element texts
+    const elementTexts = mockedSimulatorEngineService.getAllDataElementTexts();
+
+    expect(elementTexts).toBeDefined();
+    expect(elementTexts).toBeTruthy();
+    expect(elementTexts['conditionConst']).toBeUndefined();
+    expect(elementTexts['levelsinvolved']).toBeUndefined();
+    expect(elementTexts['singlemultiple']).toBeUndefined();
+    expect(elementTexts['sizeoflargestcluster']).toBeUndefined();
+    expect(elementTexts['significantAdditionalFindings']).toBeDefined();
+    expect(elementTexts['significantAdditionalFindings']).toEqual(dataElementText);
+
+    // Checks the simulator content state
+    expect(simulatorState).toBeDefined();
+    expect(simulatorState.endPointId).toBeDefined();
+    expect(simulatorState.endPointId).toEqual(template.rules.decisionPoints[0].branches[0].endPointRef.endPointId);
+    expect(simulatorState.nonRelevantDataElementIds).toBeDefined();
+    expect(simulatorState.selectedBranchLabel).toBeUndefined();
+    expect(simulatorState.selectedDecisionPointId).toBeDefined();
+    expect(simulatorState.selectedDecisionPointId).toEqual(template.rules.decisionPoints[0].id);
+    expect(simulatorState.selectedDecisionPointLabel).toBeDefined();
+    expect(simulatorState.selectedDecisionPointLabel).toEqual(template.rules.decisionPoints[0].label);
+  });
+
   it('Called addOrUpdateDataElement(dataElementId: string, value: any , text: any) without initializing the template', () => {
     const dataElementId = 'sizeoflargestcluster';
     const dataElementValue = '5';
@@ -801,7 +904,7 @@ describe('SimulatorEngineService', () => {
   });
 
   it('Called evaluateDecisionPoint(decisionPoint: DecisionPoint,  branchingLevel, nonRelevantDataElementIds: string[] = []) ' +
-  'without initializing the template', () => {
+     'without initializing the template', () => {
     const decisionPoint = undefined;
     const branchingLevel = '0';
     const nonRelevantDataElementIds = [];
@@ -819,13 +922,13 @@ describe('SimulatorEngineService', () => {
   });
 
   it('Called evaluateDecisionPoint(decisionPoint: DecisionPoint,  branchingLevel, nonRelevantDataElementIds: string[] = []) ' +
-  'without initializing the template', () => {
+     'by initializing the template and passing nonRelevantDataElementIds', () => {
     setTemplateData();
     initialiseEngineService();
 
     const decisionPoint = template.rules.decisionPoints[0];
     const branchingLevel = '0';
-    const nonRelevantDataElementIds = [];
+    const nonRelevantDataElementIds = ['singlemultiple'];
 
     const evaluateDecisionPoint = function () {
       try {
@@ -853,5 +956,185 @@ describe('SimulatorEngineService', () => {
     expect(simulatorState.selectedDecisionPointLabel).toBeDefined();
     expect(simulatorState.selectedDecisionPointLabel).toEqual(template.rules.decisionPoints[0].label);
   });
+
+  it('Called evaluateDecisionPoint(decisionPoint: DecisionPoint,  branchingLevel, nonRelevantDataElementIds: string[] = [])' +
+     'by initializing the template and endOfRoadReached true', () => {
+       setTemplateData();
+       initialiseEngineService();
+
+       const decisionPoint = template.rules.decisionPoints[0];
+       const branchingLevel = '0';
+       const nonRelevantDataElementIds = undefined;
+
+       mockedSimulatorEngineService.simulatorStateChanged.subscribe((message) => {
+         simulatorState = message as SimulatorState;
+       });
+
+       const evaluateDecisionPoint = function () {
+         try {
+           mockedSimulatorEngineService.evaluateDecisionPoint(decisionPoint, branchingLevel, undefined);
+         } catch (error) {
+           throw error;
+         }
+       };
+
+       // evaluateDecisionPoint method should not throw as template is not intialized
+       expect(evaluateDecisionPoint).not.toThrow();
+
+       // Checks the data element values
+       const elementValues = mockedSimulatorEngineService.getAllDataElementValues();
+
+       expect(elementValues).toBeDefined();
+       expect(elementValues).toBeTruthy();
+       expect(elementValues['conditionConst']).toBeDefined();
+       expect(elementValues['conditionConst']).toEqual('10');
+       expect(elementValues['levelsinvolved']).toBeUndefined();
+       expect(elementValues['singlemultiple']).toBeUndefined();
+       expect(elementValues['sizeoflargestcluster']).toBeUndefined();
+       expect(elementValues['significantAdditionalFindings']).toBeUndefined();
+
+       // Checks the data element texts
+       const elementTexts = mockedSimulatorEngineService.getAllDataElementTexts();
+
+       expect(elementTexts).toBeDefined();
+       expect(elementTexts).toBeTruthy();
+       expect(elementTexts['conditionConst']).toBeUndefined();
+       expect(elementTexts['levelsinvolved']).toBeUndefined();
+       expect(elementTexts['singlemultiple']).toBeUndefined();
+       expect(elementTexts['sizeoflargestcluster']).toBeUndefined();
+       expect(elementTexts['significantAdditionalFindings']).toBeUndefined();
+
+       // Checks the simulator content state
+       expect(simulatorState).toBeDefined();
+       expect(simulatorState.endPointId).toBeDefined();
+       expect(simulatorState.endPointId).toEqual(template.rules.decisionPoints[0].branches[0].endPointRef.endPointId);
+       expect(simulatorState.nonRelevantDataElementIds).toBeDefined();
+       expect(simulatorState.selectedBranchLabel).toBeUndefined();
+       expect(simulatorState.selectedDecisionPointId).toBeDefined();
+       expect(simulatorState.selectedDecisionPointId).toEqual(template.rules.decisionPoints[0].id);
+       expect(simulatorState.selectedDecisionPointLabel).toBeDefined();
+       expect(simulatorState.selectedDecisionPointLabel).toEqual(template.rules.decisionPoints[0].label);
+
+       // evaluateComputedElementDecisionPoint method called again to end point reached condition
+       expect(evaluateDecisionPoint).not.toThrow();
+
+       // Checks the simulator content state
+       expect(simulatorState).toBeDefined();
+       expect(simulatorState.endPointId).toBeDefined();
+       expect(simulatorState.endPointId).toEqual(template.rules.decisionPoints[0].branches[0].endPointRef.endPointId);
+       expect(simulatorState.nonRelevantDataElementIds).toBeDefined();
+       expect(simulatorState.selectedBranchLabel).toBeUndefined();
+       expect(simulatorState.selectedDecisionPointId).toBeDefined();
+       expect(simulatorState.selectedDecisionPointId).toEqual(template.rules.decisionPoints[0].id);
+       expect(simulatorState.selectedDecisionPointLabel).toBeDefined();
+       expect(simulatorState.selectedDecisionPointLabel).toEqual(template.rules.decisionPoints[0].label);
+    });
+
+    it('Called evaluateComputedElementDecisionPoint(elementId: string , decisionPoint: DecisionPoint,  branchingLevel)' +
+       'by initializing the template and endOfRoadReached true', () => {
+         setTemplateData();
+         initialiseEngineService();
+
+         const decisionPoint = (<ComputedDataElement>template.dataElements.find(x => x.dataElementType === 'ComputedDataElement')).decisionPoints[0];
+         const branchingLevel = '1';
+         const elementId = template.dataElements.find(x => x.dataElementType === 'ComputedDataElement').id;
+
+         const evaluateComputedElementDecisionPoint = function () {
+           try {
+             mockedSimulatorEngineService.evaluateComputedElementDecisionPoint(elementId, decisionPoint, branchingLevel);
+           } catch (error) {
+             throw error;
+           }
+         };
+
+         // evaluateComputedElementDecisionPoint method should not throw as template is not intialized
+         expect(evaluateComputedElementDecisionPoint).not.toThrow();
+
+         // Checks the data element values
+         const elementValues = mockedSimulatorEngineService.getAllDataElementValues();
+
+         expect(elementValues).toBeDefined();
+         expect(elementValues).toBeTruthy();
+         expect(elementValues['conditionConst']).toBeDefined();
+         expect(elementValues['conditionConst']).toEqual('10');
+         expect(elementValues['levelsinvolved']).toBeUndefined();
+         expect(elementValues['singlemultiple']).toBeUndefined();
+         expect(elementValues['sizeoflargestcluster']).toBeUndefined();
+         expect(elementValues['significantAdditionalFindings']).toBeUndefined();
+
+         // Checks the data element texts
+         const elementTexts = mockedSimulatorEngineService.getAllDataElementTexts();
+
+         expect(elementTexts).toBeDefined();
+         expect(elementTexts).toBeTruthy();
+         expect(elementTexts['conditionConst']).toBeUndefined();
+         expect(elementTexts['levelsinvolved']).toBeUndefined();
+         expect(elementTexts['singlemultiple']).toBeUndefined();
+         expect(elementTexts['sizeoflargestcluster']).toBeUndefined();
+         expect(elementTexts['significantAdditionalFindings']).toBeUndefined();
+
+         // evaluateComputedElementDecisionPoint method called again to end point reached condition
+         expect(evaluateComputedElementDecisionPoint).not.toThrow();
+   });
+
+   it('Called evaluateDecisionPoint(decisionPoint: DecisionPoint,  branchingLevel, nonRelevantDataElementIds: string[] = [])' +
+     'by initializing the template and passing empty dataelement values', () => {
+       setTemplateData();
+       initialiseEngineService();
+
+       const decisionPoint = template.rules.decisionPoints[0];
+       const branchingLevel = '0';
+       const nonRelevantDataElementIds = undefined;
+       template.rules.decisionPoints[0].branches[0].condition.conditionType.comparisonValue = 11;
+
+       mockedSimulatorEngineService.simulatorStateChanged.subscribe((message) => {
+         simulatorState = message as SimulatorState;
+       });
+
+       const evaluateDecisionPoint = function () {
+         try {
+           mockedSimulatorEngineService.evaluateDecisionPoint(decisionPoint, branchingLevel, undefined);
+         } catch (error) {
+           throw error;
+         }
+       };
+
+       // evaluateDecisionPoint method should not throw as template is not intialized
+       expect(evaluateDecisionPoint).not.toThrow();
+
+       // Checks the data element values
+       const elementValues = mockedSimulatorEngineService.getAllDataElementValues();
+
+       expect(elementValues).toBeDefined();
+       expect(elementValues).toBeTruthy();
+       expect(elementValues['conditionConst']).toBeDefined();
+       expect(elementValues['conditionConst']).toEqual('10');
+       expect(elementValues['levelsinvolved']).toBeUndefined();
+       expect(elementValues['singlemultiple']).toBeUndefined();
+       expect(elementValues['sizeoflargestcluster']).toBeUndefined();
+       expect(elementValues['significantAdditionalFindings']).toBeUndefined();
+
+       // Checks the data element texts
+       const elementTexts = mockedSimulatorEngineService.getAllDataElementTexts();
+
+       expect(elementTexts).toBeDefined();
+       expect(elementTexts).toBeTruthy();
+       expect(elementTexts['conditionConst']).toBeUndefined();
+       expect(elementTexts['levelsinvolved']).toBeUndefined();
+       expect(elementTexts['singlemultiple']).toBeUndefined();
+       expect(elementTexts['sizeoflargestcluster']).toBeUndefined();
+       expect(elementTexts['significantAdditionalFindings']).toBeUndefined();
+
+       // Checks the simulator content state
+       expect(simulatorState).toBeDefined();
+       expect(simulatorState.endPointId).toBeDefined();
+       expect(simulatorState.endPointId).toBeFalsy();
+       expect(simulatorState.selectedBranchLabel).toBeDefined();
+       expect(simulatorState.selectedBranchLabel).toBeFalsy();
+       expect(simulatorState.selectedDecisionPointId).toBeDefined();
+       expect(simulatorState.selectedDecisionPointId).toBeFalsy();
+       expect(simulatorState.selectedDecisionPointLabel).toBeDefined();
+       expect(simulatorState.selectedDecisionPointLabel).toBeFalsy();
+    });
 
 });

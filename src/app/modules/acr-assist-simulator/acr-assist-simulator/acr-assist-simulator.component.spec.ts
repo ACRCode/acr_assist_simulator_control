@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator.component';
-import { AssistDataElementComponent, AllReportText, MainReportText } from '../assist-data-element/assist-data-element.component';
+import { AssistDataElementComponent, AllReportText, MainReportText, FinalExecutedHistory, ExecutedResultHistory } from '../assist-data-element/assist-data-element.component';
 import { AssistChoiceElementComponent } from '../assist-data-element/assist-choice-element/assist-choice-element.component';
 import { AssistMultiChoiceElementComponent } from '../assist-data-element/assist-multi-choice-element/assist-multi-choice-element.component';
 import { AssistNumericElementComponent } from '../assist-data-element/assist-numeric-element/assist-numeric-element.component';
@@ -32,17 +32,23 @@ import { IntegerDataElement } from '../../core/elements/models/integer-data-elem
 import { GlobalValue } from '../../core/elements/models/globalvalue.model';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { Diagram } from '../../core/models/diagram.model';
 
 describe('AcrAssistSimulatorComponent', () => {
   let component: AcrAssistSimulatorComponent;
   let fixture: ComponentFixture<AcrAssistSimulatorComponent>;
   const position = ReportTextPosition;
+  let mainReportText: MainReportText;
+  let allReportText: AllReportText;
+  let finalExecutionHistory: FinalExecutedHistory;
   let nativeElement: any;
   let decisionTreeElement: DebugElement;
   let rightReportTextPositionElement: DebugElement;
   let topReportTextPositionElement: DebugElement;
-  let mainReportText: MainReportText;
-  let allReportText: AllReportText;
+  let iconKeydiagramElement: DebugElement;
+  let bodyKeydiagramElement: DebugElement;
+  let iconReporttextElement: DebugElement;
+  let bodyReporttextElement: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -82,12 +88,17 @@ describe('AcrAssistSimulatorComponent', () => {
   });
 
   afterEach(() => {
+    mainReportText = undefined;
+    allReportText = undefined;
+    finalExecutionHistory = undefined;
     nativeElement = undefined;
     decisionTreeElement = undefined;
     rightReportTextPositionElement = undefined;
     topReportTextPositionElement = undefined;
-    mainReportText = undefined;
-    allReportText = undefined;
+    iconKeydiagramElement = undefined;
+    bodyKeydiagramElement = undefined;
+    iconReporttextElement = undefined;
+    bodyReporttextElement = undefined;
   });
 
   // Intialise the component with valid values
@@ -430,12 +441,31 @@ describe('AcrAssistSimulatorComponent', () => {
     component.resultText = mainReportText;
   }
 
+  // Creates the final execution history
+  function createFinalExecutionHistory() {
+    finalExecutionHistory = new FinalExecutedHistory();
+    finalExecutionHistory.executionHistories = [];
+
+    const result = new ExecutedResultHistory();
+    result.resultCondition = 'result';
+    result.resultValue = 'yes';
+    finalExecutionHistory.executionHistories.push(result);
+
+    finalExecutionHistory.resultText = component.resultText;
+  }
+
   it('Created the AcrAssistSimulatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
   it('AcrAssistSimulatorComponent with valid template content', () => {
     setValidValues(position.Right, true);
+
+    component.inputValues = [
+      {
+        'dataElementId': 'singlemultiple',
+        'dataElementValue': 'Single'
+      }];
 
     const ngOnChanges = function () {
       try {
@@ -746,5 +776,252 @@ describe('AcrAssistSimulatorComponent', () => {
     expect(rightReportTextPositionElement).toBeDefined();
     expect(rightReportTextPositionElement).toBeTruthy();
     expect(topReportTextPositionElement).toBeNull();
+  });
+
+  it('Called resetElements() to reset the template content', () => {
+    // Checks the template values
+    expect(component.template).toBeUndefined();
+
+    // Checks the data elements inside template
+    expect(component.dataElements).toBeUndefined();
+
+    // Checks the result text
+    expect(component.resultText).toBeUndefined();
+
+    let receivedData: any;
+
+    component.returnDefaultElements.subscribe(data => {
+      receivedData = data;
+    });
+
+    // Set template values
+    setValidValues(position.Top, true);
+
+    // Resets the elements
+    component.resetElements();
+
+    // Checks the template values
+    expect(component.template).toBeDefined();
+    expect(component.template).toBeTruthy();
+
+    // Checks the data elements inside template
+    expect(component.dataElements).toBeDefined();
+    expect(component.dataElements).toBeTruthy();
+
+    component.dataElements.forEach(element => {
+
+      // Checks if data element is of choice element type
+      if (element instanceof ChoiceDataElement && element.dataElementType === 'ChoiceDataElement') {
+        const choiceElement = <ChoiceDataElement>element;
+
+        expect(choiceElement.id).toBeDefined();
+        expect(choiceElement.id).toBeTruthy();
+        expect(choiceElement.dataElementType).toBeDefined();
+        expect(choiceElement.dataElementType).toBeTruthy();
+        expect(choiceElement.dataElementType).toEqual('ChoiceDataElement');
+        expect(choiceElement.choiceInfo).toBeDefined();
+        expect(choiceElement.choiceInfo).toBeTruthy();
+
+        choiceElement.choiceInfo.forEach(elem => {
+          expect(elem.label).toBeDefined();
+          expect(elem.label).toBeTruthy();
+          expect(elem.value).toBeDefined();
+          expect(elem.value).toBeTruthy();
+          expect(elem.reportText).toBeUndefined();
+          expect(elem.default).toBeDefined();
+          expect(elem.default).toBeFalsy();
+        });
+
+        // Checks if data element is of multi choice element type
+      } else if (element instanceof ChoiceDataElement && element.dataElementType === 'MultiChoiceDataElement') {
+        const multiChoiceElement = <ChoiceDataElement>element;
+
+        expect(multiChoiceElement.id).toBeDefined();
+        expect(multiChoiceElement.id).toBeTruthy();
+        expect(multiChoiceElement.dataElementType).toBeDefined();
+        expect(multiChoiceElement.dataElementType).toBeTruthy();
+        expect(multiChoiceElement.dataElementType).toEqual('MultiChoiceDataElement');
+        expect(multiChoiceElement.choiceInfo).toBeDefined();
+        expect(multiChoiceElement.choiceInfo).toBeTruthy();
+
+        multiChoiceElement.choiceInfo.forEach(elem => {
+          expect(elem.label).toBeDefined();
+          expect(elem.label).toBeTruthy();
+          expect(elem.value).toBeDefined();
+          expect(elem.value).toBeTruthy();
+          expect(elem.reportText).toBeUndefined();
+          expect(elem.default).toBeDefined();
+          expect(elem.default).toBeFalsy();
+        });
+
+        // Checks if data element is of integer element type
+      } else if (element instanceof IntegerDataElement) {
+        const integerDataElement = <IntegerDataElement>element;
+
+        expect(integerDataElement.id).toBeDefined();
+        expect(integerDataElement.id).toBeTruthy();
+        expect(integerDataElement.dataElementType).toBeDefined();
+        expect(integerDataElement.dataElementType).toBeTruthy();
+        expect(integerDataElement.dataElementType).toEqual('IntegerDataElement');
+        expect(integerDataElement.label).toBeDefined();
+        expect(integerDataElement.label).toBeTruthy();
+
+        // Checks if data element is of global value type
+      } else if (element instanceof GlobalValue) {
+        const integerDataElement = <GlobalValue>element;
+
+        expect(integerDataElement.id).toBeDefined();
+        expect(integerDataElement.id).toBeTruthy();
+        expect(integerDataElement.dataElementType).toBeDefined();
+        expect(integerDataElement.dataElementType).toBeTruthy();
+        expect(integerDataElement.dataElementType).toEqual('GlobalValue');
+        expect(integerDataElement.currentValue).toBeDefined();
+        expect(integerDataElement.currentValue).toBeTruthy();
+        expect(integerDataElement.isVisible).toBeDefined();
+      }
+    });
+    // Checks the result text
+    expect(component.resultText).toBeUndefined();
+  });
+
+  it('Called recievedExecutionHistory (finalExecutionHistory: FinalExecutedHistory) to check the execution history', () => {
+    setSampleReportText();
+    createFinalExecutionHistory();
+
+    let executionHistory: any;
+    component.returnExecutionHistory.subscribe(data => {
+      executionHistory = data;
+    });
+
+    component.recievedExecutionHistory(finalExecutionHistory);
+
+    // Checks the execution history
+    expect(executionHistory).toBeDefined();
+    expect(executionHistory).toBeTruthy();
+    expect(executionHistory instanceof FinalExecutedHistory);
+
+    expect(executionHistory.executionHistories).toBeDefined();
+    expect(executionHistory.executionHistories).toBeTruthy();
+    expect(executionHistory.executionHistories instanceof ExecutedResultHistory);
+
+    // Checks the execution history results
+    expect(executionHistory.executionHistories[0].resultCondition).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultCondition).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultCondition).toEqual('result');
+    expect(executionHistory.executionHistories[0].resultValue).toBeDefined();
+    expect(executionHistory.executionHistories[0].resultValue).toBeTruthy();
+    expect(executionHistory.executionHistories[0].resultValue).toBe('yes');
+
+    // Checks the report text inside execution history
+    expect(executionHistory.resultText).toBeDefined();
+    expect(executionHistory.resultText).toBeTruthy();
+    expect(executionHistory.resultText instanceof MainReportText);
+
+    expect(executionHistory.resultText.allReportText).toBeDefined();
+    expect(executionHistory.resultText.allReportText).toBeTruthy();
+    expect(executionHistory.resultText.allReportText instanceof AllReportText);
+    expect(executionHistory.resultText.reportTextMainContent).toBeDefined();
+  });
+
+  it('Called changeListener(event) to check the uploaded key diagrams', () => {
+    setValidValues(position.Right, true);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+    fixture.detectChanges();
+
+    decisionTreeElement = fixture.debugElement.query(By.css('#diagramUpload'));
+
+    const file1 = new File([new ArrayBuffer(2e+5)], 'sample-file1.jpg', { lastModified: null, type: 'image/jpeg' });
+    const file2 = new File([new ArrayBuffer(2e+5)], 'sample-file2.jpg', { lastModified: null, type: 'image/jpeg' });
+    const event = { target : { value: 'C:\fakepath\sample-file.jpg', files: [file1, file2] } };
+
+    decisionTreeElement.triggerEventHandler('change', event);
+
+    expect(component.keyDiagrams).toBeDefined();
+    expect(component.keyDiagrams).toBeTruthy();
+  });
+
+  it('Called collapseKeyDiagram() to check the collapse / expansion of key diagrams', () => {
+    setValidValues(position.Right, true);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+    fixture.detectChanges();
+    setSampleReportText();
+
+    component.collapseKeyDiagram();
+    fixture.detectChanges();
+
+    iconKeydiagramElement = fixture.debugElement.query(By.css('#icon_keydiagram'));
+    bodyKeydiagramElement = fixture.debugElement.query(By.css('#body_keydiagram'));
+
+    expect(iconKeydiagramElement).toBeDefined();
+    expect(iconKeydiagramElement.nativeElement.className).toEqual('fa fa-plus');
+    expect(bodyKeydiagramElement).toBeDefined();
+    expect(bodyKeydiagramElement.nativeElement.style.display).toEqual('none');
+
+    component.collapseKeyDiagram();
+    fixture.detectChanges();
+
+    iconKeydiagramElement = fixture.debugElement.query(By.css('#icon_keydiagram'));
+    bodyKeydiagramElement = fixture.debugElement.query(By.css('#body_keydiagram'));
+
+    expect(iconKeydiagramElement).toBeDefined();
+    expect(iconKeydiagramElement.nativeElement.className).toEqual('fa fa-minus');
+    expect(bodyKeydiagramElement).toBeDefined();
+    expect(bodyKeydiagramElement.nativeElement.style.display).toEqual('');
+  });
+
+  it('Called collapseReportText() to check the collapse / expansion of key diagrams', () => {
+    setValidValues(position.Right, true);
+
+    const ngOnChanges = function () {
+      try {
+        component.ngOnChanges(undefined);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    expect(ngOnChanges).not.toThrow();
+    fixture.detectChanges();
+    setSampleReportText();
+
+    component.collapseReportText();
+    fixture.detectChanges();
+
+    iconReporttextElement = fixture.debugElement.query(By.css('#icon_reporttext'));
+    bodyReporttextElement = fixture.debugElement.query(By.css('#body_reporttext'));
+
+    expect(iconReporttextElement).toBeDefined();
+    expect(iconReporttextElement.nativeElement.className).toEqual('fa fa-minus');
+    expect(bodyReporttextElement).toBeDefined();
+    expect(bodyReporttextElement.nativeElement.style.display).toEqual('');
+
+    component.collapseReportText();
+    fixture.detectChanges();
+
+    iconReporttextElement = fixture.debugElement.query(By.css('#icon_reporttext'));
+    bodyReporttextElement = fixture.debugElement.query(By.css('#body_reporttext'));
+
+    expect(iconReporttextElement).toBeDefined();
+    expect(iconReporttextElement.nativeElement.className).toEqual('fa fa-plus');
+    expect(bodyReporttextElement).toBeDefined();
+    expect(bodyReporttextElement.nativeElement.style.display).toEqual('none');
   });
 });

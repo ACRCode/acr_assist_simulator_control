@@ -23,7 +23,14 @@ describe('HintDiagramComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('Create the HintDiagram Component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Called resetCarouselIndex() to reset the carousel index value' , () => {
+    component.activeSlideIndex = 5;
+    component.resetCarouselIndex();
+    expect(component.activeSlideIndex).toBeDefined();
+    expect(component.activeSlideIndex).toEqual(0);
   });
 });
