@@ -87,7 +87,7 @@ describe('ViewUploadLoaderComponent', () => {
     expect(mockGlobalService.XMLList).toBeTruthy();
   });
 
-  it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details of an existing selected module', () => {
+  /*it('Called onFileContentRead(fileDetails: FileDetails) method to get the xml details of an existing selected module', () => {
     component.onFileSelected.subscribe(data => {
       selectedXML = data;
      });
@@ -115,6 +115,6 @@ describe('ViewUploadLoaderComponent', () => {
     expect(mockGlobalService.XMLList).toBeDefined();
     expect(mockGlobalService.XMLList.ContainsKey(mockData.fileLabel));
     expect(mockGlobalService.XMLList).toBeTruthy();
-  });
+  });*/
 
 });
