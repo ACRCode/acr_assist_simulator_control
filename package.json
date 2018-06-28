@@ -12,12 +12,13 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
-    "test-watch-disabled": "ng test --watch=false --sourcemaps=false",
+    "test-ci": "ng test --watch=false --sourcemaps=false  --browsers=ChromeHeadless --code-coverage=true",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint  && ng build --prod --no-progress",
-    "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public"
+    "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
+    "test-code-coverage": "ng test --watch=false --sourcemaps=false --code-coverage=true"
   },
   "peerDependencies": {
     "@angular/animations": "^5.2.0",
@@ -89,5 +90,4 @@
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0"
   }
-
 }
