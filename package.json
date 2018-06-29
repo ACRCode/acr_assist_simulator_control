@@ -18,7 +18,8 @@
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint  && ng build --prod --no-progress",
     "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
-    "test-code-coverage": "ng test --watch=false --sourcemaps=false --code-coverage=true"
+    "test-code-coverage": "ng test --watch=false --sourcemaps=false --code-coverage=true",
+    "build-package": "ng-packagr"
   },
   "peerDependencies": {
     "@angular/animations": "^5.2.0",
