@@ -81,8 +81,10 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "classlist.js": "^1.1.20150312",
     "rxjs-compat": "^6.2.1",
     "stream": "0.0.2",
-    "timers": "^0.1.1"
+    "timers": "^0.1.1",
+    "web-animations-js": "^2.3.1"
   }
 }

@@ -107,8 +107,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   dropdownChoiceSelected(element, selectedCondition) {
     const choiceElement = new ChoiceElement ();
     choiceElement.elementId = element.id;
-    choiceElement.selectedValue = (element.selectedOptions[0].label === 'Other, please specify…') ? 'freetext' : element.value;
-    choiceElement.selectedText = element.selectedOptions[0].label;
+    choiceElement.selectedValue = (element.options[element.selectedIndex].text === 'Other, please specify…') ? 'freetext' : element.value;
+    choiceElement.selectedText = element.options[element.selectedIndex].text;
 
     this.showOrHideFreeText(element.id, choiceElement.selectedValue);
 
@@ -121,7 +121,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.selectedCondition.selectedConditionId = element.id;
     this.selectedCondition.selectedCondition = selectedCondition;
-    this.selectedCondition.selectedValue = element.selectedOptions[0].label;
+    this.selectedCondition.selectedValue = element.options[element.selectedIndex].text;
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
    }
 
