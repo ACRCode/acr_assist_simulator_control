@@ -1,9 +1,5 @@
 <ng-container *ngIf="!isEmptyContent">
 
-    <div class="col-sm-12 col-md-12 col-lg-12">
-        "version": "0.0.48"
-    </div>
-
 
   <div id="topReportTextPosition" *ngIf="reportTextPosition === position.Top">
     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -93,7 +89,7 @@
           </div>
         </div>
         <div id="body_keydiagram" class="box-body">
-          <div id="carousel-example-generic" class="carousel slide" data-interval="false" data-ride="carousel">
+          <div id="carousel-example-generic" class="carousel slide carousel-example-generic-height" data-interval="false" data-ride="carousel">
             <div class="carousel-inner">
               <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                 <div class="item" [ngClass]="{'active': diagram.keyDiagram}">

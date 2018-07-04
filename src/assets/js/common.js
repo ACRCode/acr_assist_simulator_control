@@ -13,12 +13,6 @@ var init_SimulatorUI = function () {
 
 var init_keyImagesUI = function () {
   $('.img-decissionTree').loupe();
-  windowHeight = window.innerHeight;
-  $('#carousel-example-generic').css({
-    "height": '' + (windowHeight - 455) + 'px',
-    "overflow-y": "auto",
-    "overflow-x": "hidden"
-  });
 }
 
 

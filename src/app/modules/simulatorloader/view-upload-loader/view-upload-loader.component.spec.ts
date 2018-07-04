@@ -17,7 +17,7 @@ class MockGlobalService extends GlobalsService {
   }
 }
 
-/* describe('ViewUploadLoaderComponent', () => {
+describe('ViewUploadLoaderComponent', () => {
   let component: ViewUploadLoaderComponent;
   let fixture: ComponentFixture<ViewUploadLoaderComponent>;
   let nativeElement: any;
@@ -117,4 +117,4 @@ class MockGlobalService extends GlobalsService {
     expect(mockGlobalService.XMLList).toBeTruthy();
   });
 
-});*/
+});

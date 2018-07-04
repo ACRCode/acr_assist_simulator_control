@@ -101,26 +101,23 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
 
   changeListener(event): void {
     this.keyDiagrams = new Array<Diagram>();
-    for (const image in event.target.files) {
-      if (event.target.files.hasOwnProperty(image)) {
-        const reader = new FileReader();
+
+    for (let i = 0; i < event.target.files.length; i++) {
+      const reader = new FileReader();
         const diagram = new Diagram();
-        diagram.label = event.target.files[image].name;
-        diagram.keyDiagram = image === '0' ? true : false;
-        const imageType = event.target.files[image].imageType;
-        const fileStream = event.target.files[image];
+        diagram.label = event.target.files[i].name;
+        diagram.keyDiagram = i === 0 ? true : false;
 
         reader.onload = (event1: any) => {
           diagram.location = reader.result;
         };
 
-        reader.readAsDataURL(event.target.files[image]);
+        reader.readAsDataURL(event.target.files[i]);
 
         reader.onloadend = (event1: any) => {
           this.keyDiagrams.push(diagram);
           this.reloadUI();
         };
-      }
     }
   }
 

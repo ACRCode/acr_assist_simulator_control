@@ -18,7 +18,7 @@ class MockGlobalService extends GlobalsService {
   }
 }
 
-/*describe('FileUploadLoaderComponent', () => {
+describe('FileUploadLoaderComponent', () => {
   let component: FileUploadLoaderComponent;
   let fixture: ComponentFixture<FileUploadLoaderComponent>;
   let nativeElement: any;
@@ -166,4 +166,4 @@ class MockGlobalService extends GlobalsService {
     component.readThis(event.target);
   });
 
-});*/
+});

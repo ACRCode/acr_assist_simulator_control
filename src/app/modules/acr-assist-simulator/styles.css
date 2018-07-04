@@ -2,6 +2,14 @@
   color: red;
 }
 
+.control-label {
+  margin-right: 3px;
+}
+
+.margin-left-3 {
+  margin-left: 3px;
+}
+
 .carousel-control>.fa {
   font-size: 40px;
   position: absolute;
@@ -43,6 +51,12 @@
 
 .div-simulator-form-height {
   height: calc(100vh - 100px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.carousel-example-generic-height {
+  height: calc(100vh - 455px);
   overflow-y: scroll;
   overflow-x: hidden;
 }
