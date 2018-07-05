@@ -53,14 +53,14 @@
   overflow-x: hidden;
 }
 
-.div-report-text-key-images-height {
-  height: calc(100vh - 100px);
-  overflow-y: hidden;
+.carousel-example-generic-fullheight {
+  height: calc(100vh - 450px);
+  overflow-y: scroll; 
   overflow-x: hidden;
 }
 
-.carousel-example-generic {
-  height: 650px;
+.carousel-example-generic-partialheight {
+  height: calc(100vh - 180px);
   overflow-y: scroll; 
   overflow-x: hidden;
 }

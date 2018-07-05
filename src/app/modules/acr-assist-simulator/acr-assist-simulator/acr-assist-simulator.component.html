@@ -76,7 +76,7 @@
         </div>
       </ng-container>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 div-report-text-key-images-height">
+    <div class="col-sm-6 col-md-6 col-lg-6">
       <ng-container *ngIf="showKeyDiagram === true">
         <div class="box box-primary margin-b-0">
           <div class="box-header with-border">
@@ -91,7 +91,9 @@
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
           <div id="body_keydiagram" class="box-body">
-            <div id="carousel-example-generic" class="carousel slide carousel-example-generic" data-interval="false" data-ride="carousel">
+            <div id="carousel-example-generic" class="carousel slide" 
+              [ngClass]="{'carousel-example-generic-fullheight': resultText !== undefined, 'carousel-example-generic-partialheight': resultText === undefined}" 
+              data-interval="false" data-ride="carousel">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                   <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
