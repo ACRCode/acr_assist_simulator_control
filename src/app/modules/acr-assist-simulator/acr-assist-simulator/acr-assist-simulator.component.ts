@@ -34,6 +34,8 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
   isReset: boolean;
   dataElements: BaseDataElement[];
   position =  ReportTextPosition;
+  isInvalidFile: boolean;
+  acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
     }
@@ -100,6 +102,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
   }
 
   changeListener(event): void {
+    this.isInvalidFile = false;
     this.keyDiagrams = new Array<Diagram>();
 
     for (let i = 0; i < event.target.files.length; i++) {
@@ -107,6 +110,10 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
         const diagram = new Diagram();
         diagram.label = event.target.files[i].name;
         diagram.keyDiagram = i === 0 ? true : false;
+
+        if (!(this.acceptedFileTypes.indexOf(event.target.files[i].type) > -1)) {
+          this.isInvalidFile = true;
+        }
 
         reader.onload = (event1: any) => {
           diagram.location = reader.result;

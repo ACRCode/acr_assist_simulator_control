@@ -12,7 +12,7 @@ var init_SimulatorUI = function () {
 }
 
 var init_keyImagesUI = function () {
-  $('.img-decissionTree').loupe();
+  // $('.img-decissionTree').loupe();
 }
 
 

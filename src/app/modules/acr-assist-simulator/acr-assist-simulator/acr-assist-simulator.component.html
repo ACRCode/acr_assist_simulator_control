@@ -76,36 +76,41 @@
         </div>
       </ng-container>
     </div>
-    <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6" id="div-decissionTree-Block" *ngIf="showKeyDiagram === true">
-      <div class="box box-primary margin-b-0">
-        <div class="box-header with-border">
-          <h3 class="box-title">Key Diagrams</h3>
-          <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
-          <label for="diagramUpload" class="btn btn-sm bg-olive margin" style="margin:10px;" title="Choose Diagrams">Choose a Diagram</label>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
-              <i id="icon_keydiagram" class="fa fa-minus"></i>
-            </button>
+    <div class="col-sm-6 col-md-6 col-lg-6 div-report-text-key-images-height">
+      <ng-container *ngIf="showKeyDiagram === true">
+        <div class="box box-primary margin-b-0">
+          <div class="box-header with-border">
+            <h3 class="box-title">Key Diagrams</h3>
+            <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
+            <label for="diagramUpload" class="btn btn-success bg-olive margin-10" title="Choose Diagrams">Choose a Diagram</label>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
+                <i id="icon_keydiagram" class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
-        </div>
-        <div id="body_keydiagram" class="box-body">
-          <div id="carousel-example-generic" class="carousel slide carousel-example-generic-height" data-interval="false" data-ride="carousel">
-            <div class="carousel-inner">
-              <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
-                <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
-                  <img class="img-responsive img-decissionTree" src="{{ diagram.location }}" alt="{{ diagram.label }}">
-                </div>
+          <div id="body_keydiagram" class="box-body">
+            <div id="carousel-example-generic" class="carousel slide carousel-example-generic" data-interval="false" data-ride="carousel">
+              <div class="carousel-inner">
+                <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
+                  <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
+                    <img class="img-responsive img-decissionTree" src="{{ diagram.location }}">
+                  </div>
+                </ng-container>
+              </div>
+              <ng-container *ngIf="keyDiagrams && keyDiagrams.length > 1">
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span class="fa fa-angle-left slide-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span class="fa fa-angle-right slide-right"></span>
+                </a>
               </ng-container>
             </div>
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-              <span class="fa fa-angle-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-              <span class="fa fa-angle-right"></span>
-            </a>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>
