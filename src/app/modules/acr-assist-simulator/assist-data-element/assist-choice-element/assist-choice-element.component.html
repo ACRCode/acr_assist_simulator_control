@@ -20,7 +20,7 @@
         <ng-container *ngIf="imagePath != undefined">
           <ng-container *ngIf="choiceDataElement.imageMap == undefined">
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
-              <div class="radio" style="float:left; margin-right:15px;">
+              <div class="radio custom-radio-style">
                 <label>
                   <input [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
@@ -28,7 +28,7 @@
               </div>
             </ng-container>
             <ng-container *ngIf="choiceDataElement.allowFreetext">
-              <div class="radio" style="float:left; margin-right:15px;">
+              <div class="radio custom-radio-style">
                 <label>
                   <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="freetext" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
               </div>
@@ -43,7 +43,7 @@
             <div class="row">
               <div class="col-xs-6 col-sm-2">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
-                  <div class="radio" style="float:left; margin-right:15px;">
+                  <div class="radio custom-radio-style">
                     <label>
                       <input [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
@@ -51,7 +51,7 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="choiceDataElement.allowFreetext">
-                  <div class="radio" style="float:left; margin-right:15px;">
+                  <div class="radio custom-radio-style">
                     <label>
                       <input id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
                   </div>

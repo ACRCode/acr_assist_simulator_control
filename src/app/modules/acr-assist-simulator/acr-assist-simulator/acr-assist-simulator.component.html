@@ -92,7 +92,7 @@
           </div>
           <div id="body_keydiagram" class="box-body">
             <div id="carousel-example-generic" class="carousel slide" 
-              [ngClass]="{'carousel-example-generic-fullheight': resultText !== undefined, 'carousel-example-generic-partialheight': resultText === undefined}" 
+              [ngClass]="{'carousel-example-generic-fullheight': resultText === undefined, 'carousel-example-generic-partialheight': resultText !== undefined}" 
               data-interval="false" data-ride="carousel">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
