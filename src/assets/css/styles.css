@@ -45,6 +45,11 @@ body {
   width: 200px;
 }
 
+.whitespace {
+  margin-left: 5px;
+}
+
+
 .main-header .navbar {
   -webkit-transition: margin-left .3s ease-in-out;
   -o-transition: margin-left .3s ease-in-out;

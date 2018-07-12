@@ -9,8 +9,7 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 @Component({
   selector: 'acr-assist-choice-element',
   templateUrl: './assist-choice-element.component.html',
-  styleUrls: ['./assist-choice-element.component.css', '../../styles.css'],
-  preserveWhitespaces: true
+  styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   @Input() choiceDataElement: ChoiceDataElement;

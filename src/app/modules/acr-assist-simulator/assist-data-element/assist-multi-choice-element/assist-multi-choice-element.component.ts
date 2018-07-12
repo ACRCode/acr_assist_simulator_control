@@ -10,8 +10,7 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-assist-multi-choice-element',
   templateUrl: './assist-multi-choice-element.component.html',
-  styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css'],
-  preserveWhitespaces: true
+  styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
 export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
   @Input() multiChoiceElement: MultiChoiceDataElement;

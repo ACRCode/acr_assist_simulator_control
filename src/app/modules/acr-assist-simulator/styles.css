@@ -2,6 +2,10 @@
   color: red;
 }
 
+.whitespace {
+  margin-left: 5px;
+}
+
 .carousel-control>.fa {
   font-size: 40px;
   position: absolute;
