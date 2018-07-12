@@ -5,7 +5,7 @@
         {{numericDataElement.label}}
       </label>
       <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary" title="{{numericDataElement.hint}}"></i>
+        <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="numericDataElement.diagrams != undefined ">
         <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>

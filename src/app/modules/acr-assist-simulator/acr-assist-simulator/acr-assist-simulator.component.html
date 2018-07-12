@@ -1,13 +1,11 @@
 <ng-container *ngIf="!isEmptyContent">
-
-
   <div id="topReportTextPosition" *ngIf="reportTextPosition === position.Top">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div id="div-simulator-block">
         <div class="box box-primary box-solid margin-b-0">
           <div class="box-body">
-            <ng-container *ngIf="resultText !== undefined">
-              <div id="div-simulator-results-block">
+            <div #simulatorResultsBlock>
+              <ng-container *ngIf="resultText !== undefined">
                 <div class="box box-primary">
                   <div class="box-header with-border">
                     <h3 class="box-title">Report Text</h3>
@@ -23,16 +21,14 @@
                     </dl>
                   </div>
                 </div>
-              </div>
-            </ng-container>
-            <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
-              <div>
-                <form class="form-horizontal">
-                  <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-                    [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                    [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
-                </form>
-              </div>
+              </ng-container>
+            </div>
+            <div class="padding-r-10 scroll" acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock">
+              <form class="form-horizontal">
+                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
+                  [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+                  [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+              </form>
             </div>
           </div>
         </div>
@@ -56,8 +52,8 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <ng-container *ngIf="resultText !== undefined">
-        <div id="div-simulator-results-block">
+      <div #simulatorResultsBlock>
+        <ng-container *ngIf="resultText !== undefined">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Report Text</h3>
@@ -73,8 +69,8 @@
               </dl>
             </div>
           </div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6">
       <ng-container *ngIf="showKeyDiagram === true">
@@ -91,9 +87,7 @@
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
           <div id="body_keydiagram" class="box-body">
-            <div id="carousel-example-generic" class="carousel slide" 
-              [ngClass]="{'carousel-example-generic-fullheight': resultText === undefined, 'carousel-example-generic-partialheight': resultText !== undefined}" 
-              data-interval="false" data-ride="carousel">
+            <div class="carousel slide scroll" data-interval="false" data-ride="carousel" acrDynamicHeightDirective [carouselElement]="simulatorResultsBlock">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                   <div class="item" [ngClass]="{'active': diagram.keyDiagram}">

@@ -2,12 +2,8 @@
   color: red;
 }
 
-.control-label {
-  margin-right: 3px;
-}
-
-.margin-left-3 {
-  margin-left: 3px;
+.whitespace {
+  margin-left: 5px;
 }
 
 .carousel-control>.fa {
@@ -47,21 +43,14 @@
   background-repeat: repeat-x;
 }
 
-.div-simulator-form-height {
-  height: calc(100vh - 100px);
+.scroll {
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
-.carousel-example-generic-fullheight {
-  height: calc(100vh - 180px);
-  overflow-y: scroll; 
-  overflow-x: hidden;
-}
-
-.carousel-example-generic-partialheight {
-  height: calc(100vh - 500px);
-  overflow-y: scroll; 
+.div-simulator-form-height {
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 

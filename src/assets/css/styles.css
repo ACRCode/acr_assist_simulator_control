@@ -45,6 +45,11 @@ body {
   width: 200px;
 }
 
+.whitespace {
+  margin-left: 5px;
+}
+
+
 .main-header .navbar {
   -webkit-transition: margin-left .3s ease-in-out;
   -o-transition: margin-left .3s ease-in-out;
@@ -328,10 +333,6 @@ h6,
   border: 5px solid rgba(0, 0, 0, 0);
   cursor: move;
   z-index: 9999999;
-}
-
-.margin-left-3 {
-  margin-left: 5px;
 }
 
 @media (min-width: 768px) {

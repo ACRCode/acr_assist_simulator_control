@@ -28,13 +28,11 @@ import { ComputedDataElementCreationService } from './shared/services/computed-d
 import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
 import { SimulatorEngineService } from '../core/services/simulator-engine.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-
+import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
-    ImageMapComponent, AssistReportTextComponent];
+    ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective];
 
 @NgModule({
   imports: [

@@ -5,14 +5,14 @@
         {{choiceDataElement.label}}
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
-        <i>
+        <i class="whitespace">
           <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right" title="{{choiceDataElement.hint}}"></span>
         </i>
       </ng-container>
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field margin-left-3"
+      <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field whitespace"
         title="Required Field">*</span>
     </div>
     <div class="col-sm-7 text-left content-padding">
