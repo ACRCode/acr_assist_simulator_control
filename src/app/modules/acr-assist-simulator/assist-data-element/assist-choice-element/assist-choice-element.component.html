@@ -12,7 +12,7 @@
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field margin-left-3"
+      <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field"
         title="Required Field">*</span>
     </div>
     <div class="col-sm-7 text-left content-padding">

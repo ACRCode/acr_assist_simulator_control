@@ -330,10 +330,6 @@ h6,
   z-index: 9999999;
 }
 
-.margin-left-3 {
-  margin-left: 5px;
-}
-
 @media (min-width: 768px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .main-footer {

@@ -2,7 +2,6 @@ import { Component, Input, Output, SimpleChanges, EventEmitter, ViewChild } from
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges, AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
-import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { Diagram } from '../../core/models/diagram.model';
@@ -83,6 +82,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
 
     this.resultText = undefined;
   }
+
   resetElements() {
     this.template =  this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
@@ -91,7 +91,6 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
     this.resultText = undefined;
     this.returnDefaultElements.emit();
   }
-
 
   recieveReportText (textReport: MainReportText) {
     this.resultText = textReport;

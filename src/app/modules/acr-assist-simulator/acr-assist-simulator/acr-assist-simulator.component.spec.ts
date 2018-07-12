@@ -32,6 +32,7 @@ import { IntegerDataElement } from '../../core/elements/models/integer-data-elem
 import { GlobalValue } from '../../core/elements/models/globalvalue.model';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { DynamicHeightDirective } from '../shared/directives/dynamicheight.directive';
 
 describe('AcrAssistSimulatorComponent', () => {
   let component: AcrAssistSimulatorComponent;
@@ -49,7 +50,7 @@ describe('AcrAssistSimulatorComponent', () => {
       imports: [FormsModule, ReactiveFormsModule],
       declarations: [ AcrAssistSimulatorComponent, AssistDataElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
                       AssistNumericElementComponent, HintDiagramComponent, ImageMapComponent, AssistReportTextComponent,
-                      SlideComponent, CarouselComponent ],
+                      SlideComponent, CarouselComponent, DynamicHeightDirective ],
       providers: [TemplateManagerService,
         DiagramService,
         CarouselConfig,

@@ -139,8 +139,8 @@ describe('AssistChoiceElementComponent', () => {
     setDataElements('rigidspine');
     component.choiceValue = 'rigidspine';
 
-    const event = { id: component.choiceDataElement.id, value: component.choiceDataElement.choiceInfo[0].value,
-                    selectedOptions: [ { label: component.choiceDataElement.choiceInfo[0].label } ] };
+    const event = { id: component.choiceDataElement.id, value: component.choiceDataElement.choiceInfo[0].value, selectedIndex: 0,
+                    options: [ { text: component.choiceDataElement.choiceInfo[0].label } ] };
 
     component.returnChoiceElement.subscribe(data => {
       receivedData = data;
@@ -190,8 +190,8 @@ describe('AssistChoiceElementComponent', () => {
   it('Called dropdownChoiceSelected(element, selectedCondition) method with invalid value', () => {
     component.choiceValue = 'rigidspine';
 
-    const event = { id: undefined, value: undefined,
-                    selectedOptions: [ { label: undefined } ] };
+    const event = { id: undefined, value: undefined, selectedIndex: 0,
+      options: [ { text: undefined } ] };
 
     component.returnChoiceElement.subscribe(data => {
       receivedData = data;

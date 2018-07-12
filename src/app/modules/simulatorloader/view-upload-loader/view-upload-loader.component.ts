@@ -6,7 +6,8 @@ const $ = require('jquery');
 @Component({
   selector: 'acr-view-upload-loader',
   templateUrl: './view-upload-loader.component.html',
-  styleUrls: ['./view-upload-loader.component.css']
+  styleUrls: ['./view-upload-loader.component.css'],
+  preserveWhitespaces: true
 })
 export class ViewUploadLoaderComponent {
 
