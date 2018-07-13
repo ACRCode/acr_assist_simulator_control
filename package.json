@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "acr-assist-simulator-module",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -17,7 +17,9 @@
     "e2e": "ng e2e",
     "build-lib": "ng lint && ng-packagr -p ng-package.json  && cd ./dist && npm pack && move /y  *.tgz  ../../libs",
     "build-ci": "ng lint  && ng build --prod --no-progress",
-    "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public"
+    "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
+    "build-package": "ng-packagr",
+    "test-ci": "ng test --watch=false --sourcemaps=false --browsers ChromeHeadless"
   },
   "peerDependencies": {
     "@types/xml-parser": "^1.2.29",
