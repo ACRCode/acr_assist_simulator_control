@@ -19,7 +19,7 @@
     "build-ci": "ng lint  && ng build --prod --no-progress",
     "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
     "build-package": "ng-packagr",
-    "test-ci": "ng test --watch=false --sourcemaps=false --browsers ChromeHeadless"
+    "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
   },
   "peerDependencies": {
     "@types/xml-parser": "^1.2.29",
