@@ -3,7 +3,7 @@
   <li class="text-center">
     <acr-file-upload-loader (onFileContentRead)="onFileContentRead($event)"></acr-file-upload-loader>
   </li>
-  <li [ngClass]="{'active':(selectedXML != 'undefined' && selectedXML.fileLabel == file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()"
+  <li [ngClass]="{'active':(selectedXML.fileLabel === file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()"
      class="treeview">
     <a href="#" (click)="onFileClick(file)">
       <i class="fa fa-book"></i>

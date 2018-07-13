@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DataElement } from '../../../core/models/data-element.model';
+import { Component, Input } from '@angular/core';
+import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 
 @Component({
   selector: 'acr-hint-diagram',
@@ -7,7 +7,7 @@ import { DataElement } from '../../../core/models/data-element.model';
   styleUrls: ['./hint-diagram.component.css', '../../styles.css']
 })
 export class HintDiagramComponent {
-  @Input() DataElement: DataElement;
+  @Input() dataElement: BaseDataElement;
   @Input() imagePath: string;
 
   activeSlideIndex = 0;

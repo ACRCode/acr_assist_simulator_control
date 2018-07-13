@@ -1,8 +1,8 @@
-<ng-container *ngIf="DataElement !== undefined">
-  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+DataElement.id}}" (click)="resetCarouselIndex()">
+<ng-container *ngIf="dataElement !== undefined">
+  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+dataElement.id}}" (click)="resetCarouselIndex()">
     <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
   </button>
-  <div class="modal inmodal fade" id="{{'diag_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal inmodal fade" id="{{'diag_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -10,12 +10,12 @@
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
           </button>
-          <h4 class="modal-title float-left">{{DataElement.label}}</h4>
+          <h4 class="modal-title float-left">{{dataElement.label}}</h4>
         </div>
         <div class="modal-body">
           <ng-container>
             <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-              <ng-container *ngFor="let diag of DataElement.diagrams ">
+              <ng-container *ngFor="let diag of dataElement.diagrams ">
                 <slide>
                   <img src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
                 </slide>

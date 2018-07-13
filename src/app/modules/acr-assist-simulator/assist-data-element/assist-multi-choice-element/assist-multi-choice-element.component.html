@@ -7,7 +7,7 @@
         <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
-        <acr-hint-diagram [DataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
+        <acr-hint-diagram [dataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
       <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length" class="required-field"
         title="Required Field">

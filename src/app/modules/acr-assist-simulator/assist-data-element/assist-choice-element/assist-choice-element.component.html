@@ -10,7 +10,7 @@
         </i>
       </ng-container>
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
-        <acr-hint-diagram [DataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+        <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
       <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field whitespace"
         title="Required Field">*</span>
@@ -73,9 +73,9 @@
       <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">
         <select [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control">
-          <option [value]="Select" [selected]="true">--Select--</option>
+          <option [selected]="true">--Select--</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
-          <option *ngIf="choiceDataElement.allowFreetext" [value]="freetext" [selected]='freetext'>Other, please specify…</option>
+          <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="'freetext'">Other, please specify…</option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"

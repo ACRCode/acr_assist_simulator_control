@@ -8,7 +8,7 @@
         <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-        <acr-hint-diagram [DataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+        <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
       <ng-container *ngIf="this.numericDataElement.isRequired">
         <span *ngIf="numericElementForm.controls['numericElement'].invalid">

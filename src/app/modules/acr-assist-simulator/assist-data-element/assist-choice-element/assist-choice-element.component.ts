@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, NgModule } from '@angular/core';
-import { ImageElements } from '../../../core/elements/models/image-elements.model';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -75,7 +74,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     choiceElement.selectedValue = elementValue;
     choiceElement.selectedText = elementLabel;
 
-    if (this.choiceValue === 'undefined' || this.choiceValue === undefined || this.choiceValue === '') {
+    if (this.choiceValue === 'undefined' || this.choiceValue === '--Select--' || this.choiceValue === undefined || this.choiceValue === '') {
       choiceElement.selectedText = '';
       choiceElement.selectedValue = '';
     }
@@ -112,7 +111,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.showOrHideFreeText(element.id, choiceElement.selectedValue);
 
-    if (this.choiceValue === 'undefined' || this.choiceValue === undefined || this.choiceValue === '') {
+    if (this.choiceValue === 'undefined' || this.choiceValue === '--Select--' || this.choiceValue === undefined || this.choiceValue === '') {
       choiceElement.selectedText = '';
       choiceElement.selectedValue = '';
     }
@@ -158,7 +157,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
-      if ((choiceControl.value === 'undefined' || choiceControl.value === '' || this.choiceValue === undefined || this.choiceValue === '')) {
+      if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === '--Select--' || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {
         return choiceControl.setErrors(null);
