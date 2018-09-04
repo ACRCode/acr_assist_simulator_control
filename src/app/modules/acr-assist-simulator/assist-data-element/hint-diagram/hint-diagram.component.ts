@@ -9,10 +9,14 @@ import { BaseDataElement } from '../../../core/elements/models/base-data-element
 export class HintDiagramComponent {
   @Input() dataElement: BaseDataElement;
   @Input() imagePath: string;
-
+  isDataURL = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
   activeSlideIndex = 0;
 
   resetCarouselIndex() {
     this.activeSlideIndex = 0;
+  }
+
+  isImageDataUrl(location: string): boolean {
+    return !! location.match(this.isDataURL);
   }
 }

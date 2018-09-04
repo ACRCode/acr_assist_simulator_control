@@ -1,5 +1,6 @@
 <ng-container *ngIf="dataElement !== undefined">
-  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+dataElement.id}}" (click)="resetCarouselIndex()">
+  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+dataElement.id}}"
+    (click)="resetCarouselIndex()">
     <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
   </button>
   <div class="modal inmodal fade" id="{{'diag_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -17,7 +18,12 @@
             <carousel [(activeSlide)]="activeSlideIndex" interval="false">
               <ng-container *ngFor="let diag of dataElement.diagrams ">
                 <slide>
-                  <img src="{{imagePath}}/{{diag.location}}" alt="Image Not Available!!!">
+                  <ng-container *ngIf="isImageDataUrl(diag.location); else other_content">
+                    <img src="{{ diag.location }}" alt="{{ diag.label }}">
+                  </ng-container>
+                  <ng-template #other_content>
+                    <img src="{{imagePath}}/{{diag.location}}" alt="{{ diag.label }}">
+                  </ng-template>
                 </slide>
               </ng-container>
             </carousel>
