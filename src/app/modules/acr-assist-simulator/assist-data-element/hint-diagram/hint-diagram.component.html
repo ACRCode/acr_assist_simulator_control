@@ -19,10 +19,10 @@
               <ng-container *ngFor="let diag of dataElement.diagrams ">
                 <slide>
                   <ng-container *ngIf="isImageDataUrl(diag.location); else other_content">
-                    <img src="{{ diag.location }}" alt="{{ diag.label }}">
+                    <img class="img-responsive max-w-h-100" src="{{ diag.location }}" alt="{{ diag.label }}">
                   </ng-container>
                   <ng-template #other_content>
-                    <img src="{{imagePath}}/{{diag.location}}" alt="{{ diag.label }}">
+                    <img class="img-responsive max-w-h-100" src="{{imagePath}}/{{diag.location}}" alt="{{ diag.label }}">
                   </ng-template>
                 </slide>
               </ng-container>
