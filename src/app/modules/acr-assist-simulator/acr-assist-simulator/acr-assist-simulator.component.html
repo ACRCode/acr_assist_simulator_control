@@ -25,9 +25,10 @@
             </div>
             <div class="padding-r-10 scroll" acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock">
               <form class="form-horizontal">
-                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-                  [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                  [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
+                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
+                  (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -42,9 +43,10 @@
           <div class="box-body">
             <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
               <form class="form-horizontal">
-                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial" [endPointXMLString]="template.endPointsString"
-                  [imagePath]="imagePath" [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                  [inputValues]="inputValues" [isReset]="isReset" (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
+                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
+                  (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -78,8 +80,13 @@
           <div class="box-header with-border">
             <h3 class="box-title">Key Images</h3>
             <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
-            <label for="diagramUpload" class="btn btn-success bg-olive margin-10" title="Choose Diagrams">Choose a Diagram</label>
+            <label for="diagramUpload" class="btn btn-success bg-olive margin-10" title="Choose Diagrams">Choose a
+              Diagram</label>
             <div class="box-tools pull-right">
+              <button type="button" id="btn-toggle-magnifier" class="btn btn-default btn-sm " [ngClass]="{'active':isMagnifierActive}"
+                (click)="switchMagnifier()">
+                <i class="fa fa-search-plus fa-lg"></i>
+              </button>
               <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
                 <i id="icon_keydiagram" class="fa fa-minus"></i>
               </button>
@@ -87,7 +94,8 @@
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
           <div id="body_keydiagram" class="box-body">
-            <div class="carousel slide scroll" data-interval="false" data-ride="carousel" acrDynamicHeightDirective [carouselElement]="simulatorResultsBlock">
+            <div id="carousel-example-generic" class="carousel slide scroll" data-interval="false" data-ride="carousel" acrDynamicHeightDirective
+              [carouselElement]="simulatorResultsBlock">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                   <div class="item" [ngClass]="{'active': diagram.keyDiagram}">

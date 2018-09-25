@@ -29,10 +29,10 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/jquery.loupe.min.js",
               "src/assets/js/common.js",
               "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
+              "src/assets/js/typeahead.min.js",
+              "src/assets/js/blowup.js"
             ]
           },
           "configurations": {

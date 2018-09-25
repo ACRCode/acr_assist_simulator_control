@@ -10,6 +10,7 @@ import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 const $ = require('jquery');
 declare var init_keyImagesUI: any;
+declare var loadMangnifier: any;
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -35,6 +36,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
   position =  ReportTextPosition;
   isInvalidFile: boolean;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
+  isMagnifierActive = false;
 
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
     }
@@ -102,6 +104,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
 
   changeListener(event): void {
     this.isInvalidFile = false;
+    this.isMagnifierActive = false;
     this.keyDiagrams = new Array<Diagram>();
 
     for (let i = 0; i < event.target.files.length; i++) {
@@ -125,6 +128,11 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
           this.reloadUI();
         };
     }
+  }
+
+  switchMagnifier() {
+    this.isMagnifierActive = !this.isMagnifierActive;
+    loadMangnifier(this.isMagnifierActive);
   }
 
   collapseKeyDiagram() {
