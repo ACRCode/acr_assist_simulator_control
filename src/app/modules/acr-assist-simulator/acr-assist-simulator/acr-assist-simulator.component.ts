@@ -8,6 +8,7 @@ import { Diagram } from '../../core/models/diagram.model';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
+import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 const $ = require('jquery');
 declare var init_keyImagesUI: any;
 declare var loadMangnifier: any;
@@ -61,15 +62,10 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
       this.imageUpload.nativeElement.value = '';
     }
 
-    this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    this.template = this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
     if (this.inputValues.length !== 0) {
-      for (const dataeElement of this.template.dataElements) {
-        const inputValue = this.inputValues.filter( x => x.dataElementId === dataeElement.id);
-        if (inputValue !== undefined && inputValue.length > 0 ) {
-          dataeElement.currentValue = inputValue[0].dataElementValue;
-        }
-      }
+      this.populateTestCaseData();
     }
     this.dataElements = this.template.dataElements;
     this.keyDiagrams = new Array<Diagram>();
@@ -167,5 +163,29 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
     setTimeout(_ => {
       init_keyImagesUI();
     });
+  }
+
+  populateTestCaseData() {
+    for (const dataeElement of this.template.dataElements) {
+      const inputValue = this.inputValues.filter(x => x.dataElementId.toUpperCase() === dataeElement.id.toUpperCase());
+      if (inputValue !== undefined && inputValue.length > 0) {
+        if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
+          const choiceElement = <ChoiceDataElement>dataeElement;
+          choiceElement.choiceInfo.forEach(choice => {
+            if (Array.isArray(inputValue[0].dataElementValue)) {
+              inputValue[0].dataElementValue.forEach(value => {
+                if (choice.value.toUpperCase() === value.toUpperCase()) {
+                  value = choice.value;
+                }
+              });
+            } else if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
+              inputValue[0].dataElementValue = choice.value;
+              return;
+            }
+          });
+        }
+        dataeElement.currentValue = inputValue[0].dataElementValue;
+      }
+    }
   }
 }
