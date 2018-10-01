@@ -13,7 +13,12 @@ export class ContainsCondition implements Condition {
     let returnValue = false;
     const value = dataElementValues.get(this.conditionType.dataElementId);
     if (value !== undefined) {
-      returnValue =  value.indexOf(this.conditionType.comparisonValue) >= 0;
+      for (let counter = 0 ;  counter < value.length ;  counter++) {
+        const value1 = value[counter];
+        if (value1.toUpperCase() === this.conditionType.comparisonValue.toUpperCase()) {
+          returnValue = true;
+        }
+      }
     }
     return returnValue;
   }

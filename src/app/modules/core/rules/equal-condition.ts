@@ -10,9 +10,12 @@ export class EqualCondition implements Condition {
   }
 
   evaluate(dataElementValues: DataElementValues): boolean {
-
     const value = dataElementValues.get(this.conditionType.dataElementId);
-    return value === this.conditionType.comparisonValue;
+    if (value !== undefined) {
+      return value.toUpperCase() === this.conditionType.comparisonValue.toUpperCase();
+    }
+
+    return false;
   }
 
 }
