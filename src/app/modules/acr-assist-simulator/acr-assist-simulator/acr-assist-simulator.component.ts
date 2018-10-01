@@ -171,18 +171,24 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
       if (inputValue !== undefined && inputValue.length > 0) {
         if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
           const choiceElement = <ChoiceDataElement>dataeElement;
-          choiceElement.choiceInfo.forEach(choice => {
-            if (Array.isArray(inputValue[0].dataElementValue)) {
+          if (Array.isArray(inputValue[0].dataElementValue)) {
+            const values = [];
+            choiceElement.choiceInfo.forEach(choice => {
               inputValue[0].dataElementValue.forEach(value => {
                 if (choice.value.toUpperCase() === value.toUpperCase()) {
-                  value = choice.value;
+                  values.push(choice.value);
                 }
               });
-            } else if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
-              inputValue[0].dataElementValue = choice.value;
-              return;
-            }
-          });
+            });
+            inputValue[0].dataElementValue = values;
+          } else {
+            choiceElement.choiceInfo.forEach(choice => {
+              if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
+                inputValue[0].dataElementValue = choice.value;
+                return;
+              }
+            });
+          }
         }
         dataeElement.currentValue = inputValue[0].dataElementValue;
       }
