@@ -77,7 +77,15 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
       }
     };
   }
-  onlyNumberKey(event) {
+
+  onlyIntegerKey(event) {
+    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+
+  onlyNumericKey(event) {
+    if (event.charCode === 46) {
+      return true;
+    }
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 }
