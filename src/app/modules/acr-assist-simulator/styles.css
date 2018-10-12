@@ -58,6 +58,11 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+.div-report-text-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+}
 
 .padding-r-10 {
   padding-right: 10px;
