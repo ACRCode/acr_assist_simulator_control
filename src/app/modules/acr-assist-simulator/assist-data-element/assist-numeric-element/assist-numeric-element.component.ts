@@ -35,6 +35,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
       this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     }
   }
+
   loadedNumericValue(id, value, selectedCondition) {
     const choiceElement = new NumericElement ();
     choiceElement.elementId = id;
@@ -61,31 +62,13 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.returnNumericElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
 
-  private createNumericElementForm() {
-    this.numericElementForm = this.formBuilder.group({
-      numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
-    });
-  }
-
-  private specificValueInsideRange(numericKey: string) {
-    return (group: FormGroup) => {
-      const numericControl = group.controls[numericKey];
-      if ((numericControl.value === 'undefined' || numericControl.value === '') && this.numericDataElement.isRequired ) {
-        return numericControl.setErrors({ notEquivalent: true });
-      } else {
-        return numericControl.setErrors(null);
-      }
-    };
-  }
-
   onlyIntegerKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 
-  onlyNumericKey(event) {
-    if (event.charCode === 46) {
-      return true;
-    }
-    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
-  }
+  private createNumericElementForm() {
+    this.numericElementForm = this.formBuilder.group({
+      numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
+    });
+  }  
 }

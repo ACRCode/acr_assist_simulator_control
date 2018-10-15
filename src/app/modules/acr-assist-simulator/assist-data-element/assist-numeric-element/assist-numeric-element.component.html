@@ -24,8 +24,8 @@
     </div>
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-7">
-        <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
-          (keypress)="onlyNumericKey($event)" onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
+        <input acrNumericOnly [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
+          onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
           min="{{numericDataElement.minimum}}" required>
       </div>
     </ng-container>

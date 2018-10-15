@@ -29,10 +29,11 @@ import { AssistReportTextComponent } from './assist-report-text/assist-report-te
 import { SimulatorEngineService } from '../core/services/simulator-engine.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
+import { NumericOnlyDirective } from './shared/directives/numeric-only.directive';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
-    ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective];
+    ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective];
 
 @NgModule({
   imports: [
