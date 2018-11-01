@@ -30,6 +30,7 @@ import { SimulatorEngineService } from '../core/services/simulator-engine.servic
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
 import { NumericOnlyDirective } from './shared/directives/numeric-only.directive';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
@@ -40,7 +41,8 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     CommonModule,
     CoreModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DragScrollModule
   ],
   declarations: components,
   providers: [TemplateManagerService,
@@ -51,12 +53,12 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      DecisionPointsCreationService,
      ComputedValueCreationService,
      SimulatorEngineService,
-    {provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true }
+    { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
+    { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
+    { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
+    { provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
+    { provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
+    { provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true }
     ],
   exports: components
 })
