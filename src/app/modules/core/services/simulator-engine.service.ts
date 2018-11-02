@@ -7,6 +7,7 @@ import { DataElementValues } from '../dataelementvalues';
 import { ComputedDataElement } from '../elements/models/computed-data-element-model';
 import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
+const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
 export class SimulatorEngineService {
@@ -180,11 +181,7 @@ export class SimulatorEngineService {
         computedValue = computedValue.replace(replacingValue, dataElementValue);
       }
     }
-
-    computedValue = computedValue.replace('pow', 'Math.pow').replace('sqrt', 'Math.sqrt')
-                                 .replace('max', 'Math.max').replace('min', 'Math.min');
-    // tslint:disable-next-line:no-eval
-    return eval(computedValue).toString();
+    return expressionParser.evaluate(computedValue).toString();
   }
 
   private evaluateComputedExpressions() {
