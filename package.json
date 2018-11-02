@@ -25,7 +25,8 @@
     "@types/xml-parser": "^1.2.29",
     "core-js": "^2.5.7",
     "jquery": "^3.2.1",
-    "ngx-bootstrap": "^3.0.1",
+    "ngx-bootstrap": "^3.0.1",    
+    "ngx-drag-scroll": "^2.0.2",
     "sax": "^1.2.4",
     "string": "^3.3.3",
     "xml-parser": "^1.2.1",
@@ -92,8 +93,5 @@
     "stream": "0.0.2",
     "timers": "^0.1.1",
     "web-animations-js": "^2.3.1"
-  },
-  "dependencies": {
-    "ngx-drag-scroll": "^2.0.2"
   }
 }
