@@ -4,6 +4,7 @@ import { DataElementValues } from '../dataelementvalues';
 export class NotEqualCondition implements Condition {
 
   conditionType: ConditionType;
+  IsRelevant: boolean;
 
   constructor(conditionType: ConditionType) {
     this.conditionType = conditionType;

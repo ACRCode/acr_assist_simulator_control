@@ -5,6 +5,7 @@ import { DataElementValues } from '../dataelementvalues';
 
 export class AndCondition implements CompositeCondition {
   conditions: any = [];
+  IsRelevant: boolean;
 
    conditionType: string;
    constructor() {

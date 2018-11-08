@@ -3,7 +3,8 @@ import { DataElementValues } from '../dataelementvalues';
 
 export class NotCondition implements CompositeCondition {
   conditions: any = [];
-
+  IsRelevant: boolean;
+  
   conditionType: string;
   constructor() {
     this.conditionType =  'NotCondition';

@@ -2,6 +2,7 @@ import {ConditionType} from '../models/conditiontype.model';
 import { Condition } from '../condition';
 import { DataElementValues } from '../dataelementvalues';
 export class EqualCondition implements Condition {
+  IsRelevant: boolean;
 
   conditionType: ConditionType;
 

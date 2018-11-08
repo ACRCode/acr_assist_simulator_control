@@ -8,10 +8,19 @@ import { ImageMap } from '../../../core/elements/models/image-map.model';
 import { Area } from '../../../core/elements/models/area-model';
 import { AreaMap } from '../../../core/elements/models/area-map.model';
 import { ArrayCheckerService } from './array-checker.service';
+import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
+import { ConditionalProperty } from '../../../core/elements/models/conditionalproperty.model';
+import { ConditionsCreationService } from './conditions-creation.service';
+import { ComputedValueCreationService } from './computed-value-creation.service';
+import { Branch } from '../../../core/models/branch.model';
 
 @Injectable()
 export class ChoiceDataElementCreationService extends DataElementCreationBaseService {
-  constructor(diagramService: DiagramService, private arrayCheckerService: ArrayCheckerService) {
+
+  constructor(diagramService: DiagramService, private arrayCheckerService: ArrayCheckerService,
+    private conditionsCreationService: ConditionsCreationService,
+    private computedValueCreationService: ComputedValueCreationService
+  ) {
     super(diagramService);
     this.elementType = 'ChoiceDataElement';
   }
@@ -25,7 +34,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     choice.hint = choiceItem.Hint;
     choice.reportText = choiceItem.ReportText;
     choice.default = false;
-    if (choiceItem.Attr &&  choiceItem.Attr.IsDefault) {
+    if (choiceItem.Attr && choiceItem.Attr.IsDefault) {
       choice.default = choiceItem.Attr.IsDefault;
     }
     return choice;
@@ -43,24 +52,24 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
   createElement(data: any): BaseDataElement {
     const dataElement = new ChoiceDataElement();
     super.populateBasicData(data, dataElement);
-    dataElement.allowFreetext =  data.Attr.AllowFreetext ?  data.Attr.AllowFreetext : false;
+    dataElement.allowFreetext = data.Attr.AllowFreetext ? data.Attr.AllowFreetext : false;
     const choiceItems = data.ChoiceInfo.Choice;
     let defaultValue: any;
     if (choiceItems !== undefined) {
       dataElement.choiceInfo = new Array<Choice>();
       if (this.arrayCheckerService.isArray(choiceItems)) {
         for (const choiceItem of choiceItems) {
-          const choice =  this.returnChoice(choiceItem);
+          const choice = this.returnChoice(choiceItem);
           if (choice.default) {
-            defaultValue =  choice.value;
+            defaultValue = choice.value;
           }
           dataElement.choiceInfo.push(choice);
         }
       } else {
-        const choice =  this.returnChoice(choiceItems);
-          if (choice.default) {
-            defaultValue =  choice.value;
-          }
+        const choice = this.returnChoice(choiceItems);
+        if (choice.default) {
+          defaultValue = choice.value;
+        }
         dataElement.choiceInfo.push(choice);
       }
     }
@@ -70,7 +79,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     if (imageMap !== undefined) {
       dataElement.imageMap = new ImageMap();
       dataElement.imageMap.location = imageMap.Location;
-      const areaMaps =   imageMap.Map.Area;
+      const areaMaps = imageMap.Map.Area;
       if (areaMaps !== undefined) {
         dataElement.imageMap.map = new AreaMap();
         dataElement.imageMap.map.areas = new Array<Area>();
@@ -83,6 +92,41 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
         }
       }
     }
+
+
+    const ConditionalProperties = data.ConditionalProperties;
+    if (ConditionalProperties !== undefined) {
+      const notRelevantDataElements = new NotRelevantDataElements();
+      const dataElementRefs = data.ConditionalProperties;
+      // .NotRelevantDataElements.DataElementRef;
+
+      if (data.ConditionalProperties !== undefined) {
+        dataElement.conditionalProperties = new Array<ConditionalProperty>();
+        if (data.ConditionalProperties.ConditionalProperty instanceof Array) {
+          for (const conditionalProperty of data.ConditionalProperties.ConditionalProperty) {
+            dataElement.conditionalProperties.push(this.GetConditionalProperties(conditionalProperty));
+          }
+        } else {
+          dataElement.conditionalProperties.push(this.GetConditionalProperties(data.ConditionalProperties.ConditionalProperty));
+        }
+      }
+    }
+
+    console.log(dataElement);
     return dataElement;
+  }
+
+  private GetConditionalProperties(conditionalProperty): ConditionalProperty {
+    const _conditionalProperty = new ConditionalProperty();
+    _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
+    // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
+    if (this.conditionsCreationService.isComposite(conditionalProperty)) {
+      _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
+    }
+
+    _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
+    _conditionalProperty.isRequired = conditionalProperty.IsRequired;
+    _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
+    return _conditionalProperty;
   }
 }

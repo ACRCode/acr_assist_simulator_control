@@ -47,6 +47,13 @@ export class ConditionsCreationService {
         if (branchJSON.hasOwnProperty('ContainsCondition')) {
           condition = new ContainsCondition(this.returnConditionType(branchJSON.ContainsCondition));
         }
+
+        // if (condition !== undefined) {
+        //   condition.IsRelevant = branchJSON.IsRelevant !== undefined
+        //                          ? branchJSON.IsRelevant : false;
+        // }
+        // condition.IsRelevant = branchJSON.IsRelevant !== undefined
+        //                               ? branchJSON.IsRelevant : true;
         return condition;
     }
 
@@ -131,6 +138,10 @@ export class ConditionsCreationService {
         compositeConditionJSON = data.NotCondition;
         compositeCondition = new NotCondition();
      }
+// if (data.hasOwnProperty('IsRelevant')){
+//   compositeConditionJSON += data.IsRelevant;
+// }
+
       if (!this.isComposite(compositeConditionJSON)) {
                compositeCondition.conditions = this.returnConditions(compositeConditionJSON);
       } else if (this.isHybrid(compositeConditionJSON)) {

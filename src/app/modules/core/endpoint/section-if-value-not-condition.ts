@@ -5,6 +5,7 @@ import { SectionIfValueCondition } from './section-if-value-condition';
 
 
 export class SectionIfValueNotCondition implements Condition {
+  IsRelevant: boolean;
   conditionType: ConditionType;
   sectionIfValue: SectionIfValueCondition[];
   sectionIfValueNot: SectionIfValueNotCondition[];

@@ -4,6 +4,7 @@ import { DataElementValues } from '../dataelementvalues';
 
 export class LessThanOrEqualsCondition implements Condition {
   conditionType: ConditionType;
+  IsRelevant: boolean;
 
   constructor(conditionType: ConditionType) {
     this.conditionType = conditionType;

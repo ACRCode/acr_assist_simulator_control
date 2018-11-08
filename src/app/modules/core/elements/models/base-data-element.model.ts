@@ -1,4 +1,5 @@
 import { Diagram } from '../../models/diagram.model';
+import { ConditionalProperty } from './conditionalproperty.model';
 
 export  class BaseDataElement {
   id: string;
@@ -13,4 +14,5 @@ export  class BaseDataElement {
   isVisible: Boolean = true;
   defaultValue: any;
   cdeId: string;
+  conditionalProperties: ConditionalProperty[];
 }

@@ -4,9 +4,10 @@ import { DataElementValues } from '../dataelementvalues';
 
 export class GreaterThanCondition implements Condition {
   conditionType: ConditionType;
+  IsRelevant: boolean;
 
   constructor(conditionType: ConditionType) {
-    this.conditionType = conditionType;
+    this.conditionType = conditionType;    
   }
 
   evaluate(dataElementValues: DataElementValues): boolean {

@@ -45,11 +45,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
-      this.simulatorState =  message as  SimulatorState;
+      this.simulatorState =  message as SimulatorState;
         this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
+        const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
+
+        console.log('test');
+        console.log(this.dataElements);
+
         for (const dataElement of this.dataElements) {
-        if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
-          if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
+          if (nonRelevantIDs && nonRelevantIDs.length > 0) {
+          if  (nonRelevantIDs.indexOf(dataElement.id) >= 0 ) {
               dataElement.isVisible = false;
           } else {
             dataElement.isVisible = true;
@@ -57,8 +62,24 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         } else {
              dataElement.isVisible = true;
         }
+
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
       }
+
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+
+      //   for (const dataElement of this.dataElements) {
+      //   if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
+      //     if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
+      //         dataElement.isVisible = false;
+      //     } else {
+      //       dataElement.isVisible = true;
+      //     }
+      //   } else {
+      //        dataElement.isVisible = true;
+      //   }
+      //   dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
+      // }
 
       if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
           this.generateReportText(this.simulatorState.endPointId);
@@ -68,9 +89,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
     });
   }
-
-
-
 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
