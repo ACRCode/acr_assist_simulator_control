@@ -5,6 +5,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DecisionPoint } from '../models/decisionpoint.model';
 import { DataElementValues } from '../dataelementvalues';
 import { ComputedDataElement } from '../elements/models/computed-data-element-model';
+import { ArithmeticExpression } from '../models/arithmetic-expression.model';
+import { isArray } from 'util';
+import { ChoiceDataElement } from '../elements/models/choice-data-element-model';
+const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
 export class SimulatorEngineService {
@@ -61,9 +65,7 @@ export class SimulatorEngineService {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-      }
-
-      // conditionMet = this.isCondtionMet();
+      }     
 
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
@@ -75,8 +77,7 @@ export class SimulatorEngineService {
         //     nonRelevantDataElementIds.push(nonRelevantDataElementReference.dataElementId);
         //   }
         // }
-
-        //  nonRelevantDataElementIds = this.evaluateDecisionAndConditionalProperty();
+       
         if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
             const newBranchingLevel = branchingLevel + 1;
@@ -91,6 +92,7 @@ export class SimulatorEngineService {
           simulatorState.selectedDecisionPointId = decisionPoint.id;
           simulatorState.selectedDecisionPointLabel = decisionPoint.label;
           // this.resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds);
+
           this.simulatorStateChanged.next(simulatorState);
           this.endOfRoadReached = true;
           break;
@@ -125,7 +127,6 @@ export class SimulatorEngineService {
     }
   }
 
-
   evaluateComputedElementDecisionPoint(elementId: string, decisionPoint: DecisionPoint, branchingLevel) {
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
@@ -142,7 +143,6 @@ export class SimulatorEngineService {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
 
-
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
         if (branch.decisionPoints !== undefined) {
@@ -151,8 +151,17 @@ export class SimulatorEngineService {
             this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.computedValue !== undefined) {
+
           this.dataElementValues[elementId] = branch.computedValue.expressionText;
           this.endOfRoadReached = true;
+          if (branch.computedValue instanceof ArithmeticExpression) {
+            this.dataElementValues[elementId] = this.evaluateArithmeticExpression(branch.computedValue.expressionText);
+            this.endOfRoadReached = true;
+          } else {
+            this.dataElementValues[elementId] = branch.computedValue.expressionText;
+            this.endOfRoadReached = true;
+          }
+
           break;
         }
       } else {
@@ -164,8 +173,32 @@ export class SimulatorEngineService {
           continue;
         }
       }
-
     }
+  }
+
+  private evaluateArithmeticExpression(computedValue: string): any {
+    let startIndex = 0;
+    let endIndex = 0;
+    while (startIndex !== -1 && endIndex !== -1) {
+      startIndex = computedValue.indexOf('{');
+      endIndex = computedValue.indexOf('}');
+      if (startIndex !== -1 && endIndex !== -1) {
+        const dataElementId = computedValue.substring(startIndex + 1, endIndex);
+        const replacingValue = computedValue.substring(startIndex, endIndex + 1);
+        let dataElementValue = this.dataElementValues[dataElementId];
+        if (isArray(dataElementValue)) {
+          let sum = 0;
+          dataElementValue.forEach(val => {
+            sum += +val;
+          });
+          dataElementValue = sum;
+        }
+
+        computedValue = computedValue.replace(replacingValue, dataElementValue);
+      }
+    }
+    
+    return expressionParser.evaluate(computedValue).toString();
   }
 
 
@@ -186,22 +219,9 @@ export class SimulatorEngineService {
         }
       }
     }
-
-
-  }
-  private evaluateDecisionPoints() {
-    // new Array<string>()
-    this.evaluateComputedExpressions();
-    this.endOfRoadReached = false;
-    for (const decisionPoint of this.template.rules.decisionPoints) {
-      if (this.evaluateDecisionPoint(decisionPoint, 1)) {
-        break;
-      }
-    }
-  }
+  } 
 
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
-    //  console.log(dataelement);
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
       let isCompositeCondition = false;
@@ -226,10 +246,17 @@ export class SimulatorEngineService {
             dataelement.isRequired = conditionalProperty.isRequired !== undefined ?
             (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
             : true;
+
+            if (dataelement.dataElementType === 'ChoiceDataElement') {
+                (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              }
           }
 
-          console.log(this.nonRelevantDataElementIds);
           return this.nonRelevantDataElementIds;
+        } else {
+          if (dataelement.dataElementType === 'ChoiceDataElement') {
+            (dataelement as ChoiceDataElement).ChoiceNotRelevant = null;
+          }
         }
       }
     }
@@ -269,13 +296,35 @@ export class SimulatorEngineService {
     return this.nonRelevantDataElementIds;
   }
 
+  // initialize(template: Template) {
+  //   this.template = template;
+  // }
+
+  //  private evaluateDecisionPoints() {
+  //   // new Array<string>()
+  //   this.evaluateComputedExpressions();
+  //   this.endOfRoadReached = false;
+  //   for (const decisionPoint of this.template.rules.decisionPoints) {
+  //     if (this.evaluateDecisionPoint(decisionPoint, 1)) {
+  //       break;
+  //     }
+  //   }
+  // }
+
+  private evaluateDecisionPoints() {
+    this.evaluateComputedExpressions();
+    this.endOfRoadReached = false;
+    for (const decisionPoint of this.template.rules.decisionPoints) {
+      if (this.evaluateDecisionPoint(decisionPoint, 1)) {
+        break;
+      }
+    }
+  }
+
   initialize(template: Template) {
     this.template = template;
-
     for (const dataElement of this.template.dataElements) {
       this.dataElementValues[dataElement.id] = dataElement.currentValue;
     }
   }
-
-
 }

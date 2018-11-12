@@ -1,4 +1,4 @@
-<ng-container *ngFor="let DataElement of dataElements">
+<ng-container *ngFor="let DataElement of dataElements">  
   <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement' || DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement' || DataElement.dataElementType == 'MultiChoiceDataElement') ">
     <ng-container *ngIf="DataElement.isVisible">
       <div id="div_{{DataElement.id}}">

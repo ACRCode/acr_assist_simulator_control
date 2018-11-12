@@ -1,6 +1,6 @@
 import { Component, Input, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
-import { OnChanges, AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import {Template} from '../../core/models/template.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
@@ -10,15 +10,13 @@ import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 const $ = require('jquery');
-declare var init_keyImagesUI: any;
-declare var loadMangnifier: any;
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit {
+export class AcrAssistSimulatorComponent implements  OnChanges {
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
@@ -37,13 +35,8 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
   position =  ReportTextPosition;
   isInvalidFile: boolean;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
-  isMagnifierActive = false;
 
   constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
-    }
-
-  ngAfterContentInit(): void {
-    this.reloadUI();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,45 +83,38 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
     this.returnDefaultElements.emit();
   }
 
-  recieveReportText (textReport: MainReportText) {
+  recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
   }
 
-  recievedExecutionHistory (finalExecutionHistory: FinalExecutedHistory) {
-       this.returnExecutionHistory.emit(finalExecutionHistory);
+  recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
+    this.returnExecutionHistory.emit(finalExecutionHistory);
   }
 
   changeListener(event): void {
     this.isInvalidFile = false;
-    this.isMagnifierActive = false;
     this.keyDiagrams = new Array<Diagram>();
 
     for (let i = 0; i < event.target.files.length; i++) {
       const reader = new FileReader();
-        const diagram = new Diagram();
-        diagram.label = event.target.files[i].name;
-        diagram.keyDiagram = i === 0 ? true : false;
+      const diagram = new Diagram();
+      diagram.label = event.target.files[i].name;
+      diagram.keyDiagram = i === 0 ? true : false;
 
-        if (!(this.acceptedFileTypes.indexOf(event.target.files[i].type) > -1)) {
-          this.isInvalidFile = true;
-        }
+      if (!(this.acceptedFileTypes.indexOf(event.target.files[i].type) > -1)) {
+        this.isInvalidFile = true;
+      }
 
-        reader.onload = (event1: any) => {
-          diagram.location = reader.result;
-        };
+      reader.onload = (event1: any) => {
+        diagram.location = reader.result;
+      };
 
-        reader.readAsDataURL(event.target.files[i]);
+      reader.readAsDataURL(event.target.files[i]);
 
-        reader.onloadend = (event1: any) => {
-          this.keyDiagrams.push(diagram);
-          this.reloadUI();
-        };
+      reader.onloadend = (event1: any) => {
+        this.keyDiagrams.push(diagram);
+      };
     }
-  }
-
-  switchMagnifier() {
-    this.isMagnifierActive = !this.isMagnifierActive;
-    loadMangnifier(this.isMagnifierActive);
   }
 
   collapseKeyDiagram() {
@@ -157,12 +143,6 @@ export class AcrAssistSimulatorComponent implements  OnChanges, AfterContentInit
       $('#icon_reporttext').addClass('fa fa-minus');
       $('#body_reporttext').removeAttr('style');
     }
-  }
-
-  reloadUI() {
-    setTimeout(_ => {
-      init_keyImagesUI();
-    });
   }
 
   populateTestCaseData() {

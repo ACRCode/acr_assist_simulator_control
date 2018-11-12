@@ -70,11 +70,17 @@
           </ng-container>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">
+      <!-- [hidden]="choice.value == 'treatedObservation' ? true: null" -->
+      <!-- [hidden]="choice.value == ChoiceNotRelevant ? null: true"    -->  
+      <!-- [hidden]="choice.value == choiceDataElement.ChoiceNotRelevant ? true: null" -->
+      
+      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">        
         <select [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control">
-          <option [selected]="true">--Select--</option>
-          <option *ngFor="let choice of choiceDataElement.choiceInfo" [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
+          <option [selected]="choiceDataElement.currentValue == choiceDataElement.ChoiceNotRelevant ? true : false">--Select--</option>
+          <option *ngFor="let choice of choiceDataElement.choiceInfo"  
+          [hidden]="choice.value == choiceDataElement.ChoiceNotRelevant ? true: null"
+          [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="'freetext'">Other, please specify…</option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>

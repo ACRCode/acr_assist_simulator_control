@@ -42,7 +42,6 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
       }
     }
 
-    console.log(dataElement);
     return dataElement;
   }
 
@@ -53,6 +52,7 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
     if (this.conditionsCreationService.isComposite(conditionalProperty)) {
       _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
     }
+    
     
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
     _conditionalProperty.isRequired = conditionalProperty.IsRequired;

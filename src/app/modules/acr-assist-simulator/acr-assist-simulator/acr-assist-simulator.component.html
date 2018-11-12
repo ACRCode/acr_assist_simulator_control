@@ -82,24 +82,32 @@
             <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
             <label for="diagramUpload" class="btn btn-success bg-olive margin-10" title="Choose Diagrams">Choose a
               Diagram</label>
-            <div class="box-tools pull-right">
-              <button type="button" id="btn-toggle-magnifier" class="btn btn-default btn-sm " [ngClass]="{'active':isMagnifierActive}"
-                (click)="switchMagnifier()">
-                <i class="fa fa-search-plus fa-lg"></i>
-              </button>
+            <div class="pull-right padding-l-5">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
                 <i id="icon_keydiagram" class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="pull-right padding-l-5">
+              <button type="button" class="btn btn-zoom btn-sm" onclick="zoomIn()">
+                <i class="fa fa-search-plus fa-lg"></i>
+              </button>
+            </div>
+            <div class="pull-right padding-l-5">
+              <button type="button" class="btn btn-zoom btn-sm" onclick="zoomOut()">
+                <i class="fa fa-search-minus fa-lg"></i>
               </button>
             </div>
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
           <div id="body_keydiagram" class="box-body">
-            <div id="carousel-example-generic" class="carousel slide scroll" data-interval="false" data-ride="carousel" acrDynamicHeightDirective
-              [carouselElement]="simulatorResultsBlock">
+            <div id="carousel-example-generic" class="carousel slide scroll" data-interval="false" data-ride="carousel"
+              acrDynamicHeightDirective [carouselElement]="simulatorResultsBlock">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
-                  <div class="item" [ngClass]="{'active': diagram.keyDiagram}">
-                    <img class="img-responsive img-decissionTree" src="{{ diagram.location }}">
+                  <div class="item zoom" [ngClass]="{'active': diagram.keyDiagram}">
+                    <drag-scroll>
+                      <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree" src="{{ diagram.location }}">
+                    </drag-scroll>
                   </div>
                 </ng-container>
               </div>

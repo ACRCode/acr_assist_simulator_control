@@ -33,7 +33,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     if (this.choiceDataElement.currentValue !== undefined) {
       $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id).prop('checked', true);
       this.choiceValue = this.choiceDataElement.currentValue;
+      // tslint:disable-next-line:forin
       for (const choice in this.choiceDataElement.choiceInfo) {
+        // if (this.choiceDataElement.choiceInfo[choice].value === 'hypoEnhancing'){
+        //     console.log('asdasd');
+        // }
+        
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
             if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
               this.selectedChoiceReportText = this.choiceDataElement.choiceInfo[choice].reportText;
@@ -99,7 +104,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedElement;
     this.selectedCondition.selectedValue = selectedText;
-
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
 
@@ -121,6 +125,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = element.id;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.options[element.selectedIndex].text;
+
+    // Code should comes here //
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
    }
 
@@ -152,6 +158,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.value;
+    alert('4');
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
   private specificValueInsideRange(checkBoxKey: string) {

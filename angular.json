@@ -31,8 +31,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/common.js",
               "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js",
-              "src/assets/js/blowup.js"
+              "src/assets/js/typeahead.min.js"
             ]
           },
           "configurations": {

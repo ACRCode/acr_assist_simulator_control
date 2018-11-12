@@ -3,29 +3,27 @@ $(document).ready(function () {
 });
 
 var init_SimulatorUI = function () {
-  
   $("#toggleWrapper").click(function (e) {
     $("body").toggleClass("sidebar-collapse");
   });
-
-  init_keyImagesUI();
 }
 
-var init_keyImagesUI = function () {
-  // $('.img-decissionTree').loupe();
+function zoomIn() {
+  var id = document.getElementsByClassName('item zoom active')[0].children[0].children[0].children[0].id;
+  var myImg = document.getElementById(id);
+  var currWidth = myImg.clientWidth;
+  if (currWidth == 2500) return false;
+  else {
+    myImg.style.width = (currWidth + 100) + "px";
+  }
 }
 
-function loadMangnifier(activate) {
-  $("#BlowupLens").remove();
-  $('.img-decissionTree').each(function (i, img) {
-    if (activate) {
-      let $maginifier = $(img).blowup({
-        background: "#FCEBB6"
-      });
-    } else {
-      $("#BlowupLens").remove();
-      $(img).css('cursor', 'pointer');
-    }
-  });
-
+function zoomOut() {
+  var id = document.getElementsByClassName('item zoom active')[0].children[0].children[0].children[0].id;
+  var myImg = document.getElementById(id);
+  var currWidth = myImg.clientWidth;
+  if (currWidth == 100) return false;
+  else {
+    myImg.style.width = (currWidth - 100) + "px";
+  }
 }

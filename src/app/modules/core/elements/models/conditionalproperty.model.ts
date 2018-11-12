@@ -9,4 +9,5 @@ export class ConditionalProperty {
     isRelevant: boolean;
     isRequired: boolean;
     DisplaySequence: number;
+    ChoiceNotRelevant: string;
 }
