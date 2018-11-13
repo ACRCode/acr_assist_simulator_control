@@ -219,7 +219,7 @@ export class SimulatorEngineService {
         }
       }
     }
-  } 
+  }
 
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
     if (dataelement.conditionalProperties !== undefined) {
@@ -255,7 +255,7 @@ export class SimulatorEngineService {
           return this.nonRelevantDataElementIds;
         } else {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
-            (dataelement as ChoiceDataElement).ChoiceNotRelevant = null;
+            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
           }
         }
       }

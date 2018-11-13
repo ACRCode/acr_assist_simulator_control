@@ -70,20 +70,20 @@
           </ng-container>
         </ng-container>
       </ng-container>
-      <!-- [hidden]="choice.value == 'treatedObservation' ? true: null" -->
-      <!-- [hidden]="choice.value == ChoiceNotRelevant ? null: true"    -->  
-      <!-- [hidden]="choice.value == choiceDataElement.ChoiceNotRelevant ? true: null" -->
-      
+    
       <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">        
         <select [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control">
           <option [selected]="choiceDataElement.currentValue == choiceDataElement.ChoiceNotRelevant ? true : false">--Select--</option>
-          <option *ngFor="let choice of choiceDataElement.choiceInfo"  
-          [hidden]="choice.value == choiceDataElement.ChoiceNotRelevant ? true: null"
+          <option *ngFor="let choice of choiceDataElement.choiceInfo"
+          [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+              choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
+              : null"
           [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="'freetext'">Other, please specify…</option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
+
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
             placeholder="Please specify '{{choiceDataElement.label}}'" (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>

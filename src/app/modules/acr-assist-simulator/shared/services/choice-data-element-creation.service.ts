@@ -126,11 +126,12 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
     _conditionalProperty.isRequired = conditionalProperty.IsRequired;
     _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
-
     if (conditionalProperty.ChoiceNotRelevant !== undefined) {
-    _conditionalProperty.ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant.Attr.ChoiceValue;
+      _conditionalProperty.ChoiceNotRelevant = new Array<string>();
+      for (const choiceNotRelevant of conditionalProperty.ChoiceNotRelevant) {
+        _conditionalProperty.ChoiceNotRelevant.push(choiceNotRelevant.Attr.ChoiceValue);
+      }
     }
-    // _conditionalProperty.ChoiceNotRelevant = conditionalProperty.
 
     return _conditionalProperty;
   }
