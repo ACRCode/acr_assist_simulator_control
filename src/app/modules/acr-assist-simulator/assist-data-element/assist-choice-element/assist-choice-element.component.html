@@ -74,12 +74,36 @@
       <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">        
         <select [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control">
-          <option [selected]="choiceDataElement.currentValue == choiceDataElement.ChoiceNotRelevant ? true : false">--Select--</option>
+          <!-- <option 
+          [selected]="choiceDataElement.currentValue == choiceDataElement.ChoiceNotRelevant ? true : false">--Select--</option>
+         -->
+        <!-- <option>{{ choiceDataElement.ChoiceNotRelevant != undefined ?
+          (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
+          true :
+          false)
+          : false}}</option> -->
+
+           <option [selected]="
+          choiceDataElement.ChoiceNotRelevant != undefined ?
+          (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
+          true :
+          true)
+          : true">--Select--</option>
+
+          <!-- [selected]="choice.value === choiceDataElement.currentValue" -->
+
+        
           <option *ngFor="let choice of choiceDataElement.choiceInfo"
           [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
               choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
               : null"
-          [value]="choice.value" [selected]="choice.value === choiceDataElement.currentValue">{{choice.label}}</option>
+          [value]="choice.value"   
+          [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
+           choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
+           || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
+           choice.value === choiceDataElement.currentValue ? true : false
+           : choice.value === choiceDataElement.currentValue ? true : false"       
+          >{{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="'freetext'">Other, please specify…</option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
