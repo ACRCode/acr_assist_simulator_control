@@ -22,6 +22,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   selectedIndex: number;
   selectedChoiceReportText: string;
   selectedChoiceReportLabel: string;
+  @Input() disabled: boolean;
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {}
   ngOnInit(): void {

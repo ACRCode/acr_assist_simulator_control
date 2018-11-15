@@ -6,4 +6,9 @@ export class Metadata {
   schemaVersion: string;
   ruleVersion: string;
   diagrams: Diagram[];
+  createdDate: Date;
+  lastModifiedDate: Date;
+  approvedBy: string;
+  reviewedBy: string;
+  developedBy: string;
  }

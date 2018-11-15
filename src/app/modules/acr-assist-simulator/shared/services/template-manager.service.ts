@@ -122,6 +122,12 @@ private parseToJson(xmlData: string): any {
     const diagramsAsJSON = metadataJSON.Info.Diagrams.Diagram;
     metadata.diagrams = this.diagramService.returnDiagrams(diagramsAsJSON);
 
+    metadata.approvedBy = metadataJSON.ApprovedBy;
+    metadata.createdDate = metadataJSON.CreatedDate;
+    metadata.lastModifiedDate = metadataJSON.LastModifiedDate;
+    metadata.reviewedBy = metadataJSON.ReviewedBy;
+    metadata.developedBy = metadataJSON.DevelopedBy;
+
     return metadata;
  }
 

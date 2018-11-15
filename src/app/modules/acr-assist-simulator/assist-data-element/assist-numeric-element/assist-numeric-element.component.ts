@@ -68,7 +68,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
-      numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum)])],
+      numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])],
     });
   }  
 }

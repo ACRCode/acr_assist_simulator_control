@@ -1,9 +1,10 @@
 import { Diagram } from '../../models/diagram.model';
 import { ConditionalProperty } from './conditionalproperty.model';
+import { CodableConcept } from './codableConcept.model';
 
 export  class BaseDataElement {
   id: string;
-  isRequired: boolean;
+  isRequired: Boolean = true;
   displaySequence: number;
   label: string;
   hint: string;
@@ -15,4 +16,10 @@ export  class BaseDataElement {
   defaultValue: any;
   cdeId: string;
   conditionalProperties: ConditionalProperty[];
+  isEditable: Boolean = true;
+  hasprefilled: Boolean = false;
+  output: Boolean = false;
+  unit: string;
+  sourceFilled: string;
+  codableConcept: CodableConcept;
 }

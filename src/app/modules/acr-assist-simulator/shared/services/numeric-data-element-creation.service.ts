@@ -48,7 +48,7 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
   private GetConditionalProperties(conditionalProperty): ConditionalProperty {
     const _conditionalProperty = new ConditionalProperty();
     _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
-    var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
+    // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
     if (this.conditionsCreationService.isComposite(conditionalProperty)) {
       _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
     }

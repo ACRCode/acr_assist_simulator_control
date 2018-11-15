@@ -3,6 +3,7 @@
     <div class="col-sm-5 text-right">
       <label class="control-label">
         {{numericDataElement.label}}
+        <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''"> ({{numericDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
@@ -20,20 +21,25 @@
       <span *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
         class="required-field" title=" Minimum value is {{numericDataElement.minimum}}">
         *
+      </span>      
+
+      <span *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
+        class="required-field" title=" Maximum value is {{numericDataElement.maximum}}">
+        *
       </span>
     </div>
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-7">
-        <input acrNumericOnly [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
+        <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
           onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
-          min="{{numericDataElement.minimum}}" required>
+          min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}" required>          
       </div>
     </ng-container>
     <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
       <div class="col-sm-7">
-        <input [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
+        <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control" formControlName="numericElement"
           (keypress)="onlyIntegerKey($event)" onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
-          min="{{numericDataElement.minimum}}" required>
+          min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}" required>
       </div>
     </ng-container>
   </div>
