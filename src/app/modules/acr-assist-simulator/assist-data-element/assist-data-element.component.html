@@ -1,5 +1,9 @@
 <ng-container *ngFor="let DataElement of dataElements">  
-  <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement' || DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement' || DataElement.dataElementType == 'MultiChoiceDataElement') ">
+  <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement'
+    || DataElement.dataElementType == 'NumericDataElement'
+    || DataElement.dataElementType == 'IntegerDataElement' 
+    || DataElement.dataElementType == 'MultiChoiceDataElement'
+    || DataElement.dataElementType == 'DateTimeDataElement') ">
     <ng-container *ngIf="DataElement.isVisible">
       <div id="div_{{DataElement.id}}">
         <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
@@ -10,6 +14,9 @@
         </ng-container>
         <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
           <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
+        </ng-container>
+        <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
+          <acr-assist-date-time-element [dateTimeDataElement]='DataElement'></acr-assist-date-time-element>
         </ng-container>
       </div>
     </ng-container>

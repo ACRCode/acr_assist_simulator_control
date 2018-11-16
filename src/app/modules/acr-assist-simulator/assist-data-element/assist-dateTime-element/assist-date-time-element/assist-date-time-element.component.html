@@ -1,0 +1,29 @@
+<form [formGroup]="dateTimeElementForm" novalidate>
+  <div class="form-group">
+    <div class="col-sm-5 text-right">
+      <label class="control-label">
+        {{dateTimeDataElement.label}}
+      </label>
+      <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
+        <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
+      </ng-container>
+      <ng-container *ngIf="dateTimeDataElement.diagrams != undefined ">
+        <acr-hint-diagram [dataElement]="dateTimeDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+      </ng-container>
+      <!-- <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length" class="required-field"
+        title="Required Field">
+        *
+      </span> -->
+    </div>
+    <div class="col-sm-7">
+      <!-- <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox" title="{{choice.hint}}">
+        <label>
+          <input type="checkbox" id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox" value="{{choice.value}}"
+            (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)"> {{choice.label}}
+        </label>
+      </div> -->
+
+      
+    </div>
+  </div>
+</form>

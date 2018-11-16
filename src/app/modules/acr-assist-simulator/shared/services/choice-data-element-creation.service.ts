@@ -25,8 +25,6 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     this.elementType = 'ChoiceDataElement';
   }
 
-
-
   private returnChoice(choiceItem: any): Choice {
     const choice = new Choice();
     choice.label = choiceItem.Label;

@@ -44,6 +44,7 @@ import { ConditionType } from '../../core/models/conditiontype.model';
 import { EqualCondition } from '../../core/rules/equal-condition';
 import { IntegerDataElement } from '../../core/elements/models/integer-data-element.model';
 import { SelectedCondition } from '../../core/models/executed-result.model';
+import { DateTimeDataElementCreationService } from '../shared/services/dateTime-data-element-creation.service';
 
 class MockSimulatorEngineService extends SimulatorEngineService {
 
@@ -82,7 +83,8 @@ describe('AssistDataElementComponent', () => {
        {provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
        {provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
        {provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
-       {provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true }]
+       {provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true },
+       {provide: CreationServiceInjectorToken, useClass: DateTimeDataElementCreationService, multi: true }]
     })
     .compileComponents();
   }));

@@ -166,6 +166,7 @@ private parseToJson(xmlData: string): any {
    dataElements = dataElements.concat(this.returnDataElement('GlobalValue', dataElementsJSON.GlobalValue));
    dataElements = dataElements.concat(this.returnDataElement('ComputedDataElement', dataElementsJSON.ComputedDataElement));
    dataElements = dataElements.concat(this.returnDataElement('IntegerDataElement', dataElementsJSON.IntegerDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('DateTimeDataElement', dataElementsJSON.DateTimeDataElement))
    return dataElements;
  }
 }
