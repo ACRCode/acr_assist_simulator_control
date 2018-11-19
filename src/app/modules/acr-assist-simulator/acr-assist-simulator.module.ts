@@ -33,6 +33,7 @@ import { NumericOnlyDirective } from './shared/directives/numeric-only.directive
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { DateTimeDataElementCreationService } from './shared/services/dateTime-data-element-creation.service';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-dateTime-element/assist-date-time-element/assist-date-time-element.component';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
@@ -45,7 +46,8 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    DragScrollModule
+    DragScrollModule,
+    AngularDateTimePickerModule
   ],
   declarations: components,
   providers: [TemplateManagerService,

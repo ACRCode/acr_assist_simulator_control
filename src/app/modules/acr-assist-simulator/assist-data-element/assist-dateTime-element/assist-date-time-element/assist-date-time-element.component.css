@@ -1,0 +1,16 @@
+.ng-scope.wc-time-sec.wc-time-sec[_ngcontent-c13]{
+    cursor: pointer;
+}
+
+.inc-btn[_ngcontent-c13], .dec-btn[_ngcontent-c13]{
+    cursor: pointer;
+}
+
+.wc-date-container[_ngcontent-c13] > span[_ngcontent-c13]{
+    color: black !important;
+}
+
+
+.wc-date-container[_ngcontent-c13]{
+    color: black !important;
+}

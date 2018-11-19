@@ -22,8 +22,8 @@
             (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)"> {{choice.label}}
         </label>
       </div> -->
-
-      
+      <!-- (onDateSelect)="onDateSelect($event)" -->
+      <angular2-date-picker formControlName="dateTimeElement"  [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
     </div>
   </div>
 </form>
