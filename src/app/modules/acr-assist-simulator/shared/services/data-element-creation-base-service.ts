@@ -44,6 +44,9 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
     dataElement.unit = data.Attr.Unit !== undefined ? data.Attr.Unit : '';
     dataElement.sourceFilled = data.Attr.SourceFilled;
 
+    dataElement.displaySequenceOverrider = data.Attr.DisplaySequence;
+    dataElement.isRequiredOverrider = data.Attr.IsRequired === 'true' ? true : false;
+
     if (data.CodableConcept !== undefined) {
       dataElement.codableConcept = new CodableConcept();
       dataElement.codableConcept.name = data.CodableConcept.Attr.Name;
@@ -62,7 +65,5 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
         }
       }
     }
-
-    console.log(dataElement);
   }
 }

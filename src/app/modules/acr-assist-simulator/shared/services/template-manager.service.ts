@@ -43,6 +43,10 @@ export class TemplateManagerService {
     template.templatePartial = this.returnEndpoints(templateContent);
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
+
+// console.log(template.templatePartial);
+console.log(template.endPointsString);
+
     return template;
 
   }
@@ -71,6 +75,7 @@ export class TemplateManagerService {
             break;
          }
     }
+    
     return contents;
   }
 
@@ -166,7 +171,8 @@ private parseToJson(xmlData: string): any {
    dataElements = dataElements.concat(this.returnDataElement('GlobalValue', dataElementsJSON.GlobalValue));
    dataElements = dataElements.concat(this.returnDataElement('ComputedDataElement', dataElementsJSON.ComputedDataElement));
    dataElements = dataElements.concat(this.returnDataElement('IntegerDataElement', dataElementsJSON.IntegerDataElement));
-   dataElements = dataElements.concat(this.returnDataElement('DateTimeDataElement', dataElementsJSON.DateTimeDataElement))
+   dataElements = dataElements.concat(this.returnDataElement('DateTimeDataElement', dataElementsJSON.DateTimeDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('DurationDataElement', dataElementsJSON.DurationDataElement));
    return dataElements;
  }
 }

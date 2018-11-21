@@ -68,6 +68,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
+      // if (nonRelevantIDs.length === 0) {
+        
+      // }
+
       // Code comes here
       // if (this.dataElements[0].dataElementType === 'ChoiceDataElement') {
       //   (this.dataElements[0] as ChoiceDataElement).choiceInfo.splice(1, 1);
@@ -100,6 +104,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       } else {
         this.returnReportText.emit(undefined);
       }
+
+      console.log('asdasd');
+      console.log(this.dataElements );
     });
   }
 
@@ -222,6 +229,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     return contents;
   }
   private parseXml(endPointId: string, endpointContent: string): any {
+    // console.log('asdasd');
+    // console.log(endpointContent);
     const templateIds: string[] = [];
     let canInsertText: boolean;
     let isSectionIf: boolean;

@@ -28,6 +28,10 @@ export class SimulatorEngineService {
     this.nonRelevantDataElementIds = new Array<string>();
   }
 
+  getTemplate(): Template {
+    return this.template;
+  }
+
   getAllDataElementValues(): Map<string, any> {
     return this.dataElementValues;
   }
@@ -65,7 +69,7 @@ export class SimulatorEngineService {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-      }     
+      }
 
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
@@ -77,7 +81,7 @@ export class SimulatorEngineService {
         //     nonRelevantDataElementIds.push(nonRelevantDataElementReference.dataElementId);
         //   }
         // }
-       
+
         if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
             const newBranchingLevel = branchingLevel + 1;
@@ -113,6 +117,7 @@ export class SimulatorEngineService {
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
+    console.log(this.template.dataElements);
     if (nonRelevantDataElementIds !== undefined) {
       for (const nonRelevantDataElementId of nonRelevantDataElementIds) {
         let defaultValue: any;
@@ -122,6 +127,7 @@ export class SimulatorEngineService {
             break;
           }
         }
+
         this.dataElementValues[nonRelevantDataElementId] = defaultValue;
       }
     }
@@ -197,7 +203,7 @@ export class SimulatorEngineService {
         computedValue = computedValue.replace(replacingValue, dataElementValue);
       }
     }
-    
+
     return expressionParser.evaluate(computedValue).toString();
   }
 
@@ -244,12 +250,12 @@ export class SimulatorEngineService {
           } else {
             dataelement.displaySequence = conditionalProperty.DisplaySequence;
             dataelement.isRequired = conditionalProperty.isRequired !== undefined ?
-            (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
-            : true;
+              (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
+              : true;
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
-                (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
-              }
+              (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+            }
           }
 
           return this.nonRelevantDataElementIds;
@@ -257,8 +263,18 @@ export class SimulatorEngineService {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
             (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
           }
+
+          // temp code
+          // if (this.nonRelevantDataElementIds.length === 0) {
+          //   dataelement.isRequired = true;
+          // }
         }
       }
+    } else {
+      // temp code
+      // if (this.nonRelevantDataElementIds.length === 0) {
+      //   dataelement.isRequired = true;
+      // }
     }
   }
 
@@ -288,11 +304,18 @@ export class SimulatorEngineService {
 
   evaluateDecisionAndConditionalProperty(): Array<string> {
     this.nonRelevantDataElementIds = new Array<string>();
+
+    for (const dataelement of this.template.dataElements) {
+      dataelement.isRequired = dataelement.isRequiredOverrider;
+      dataelement.displaySequence = dataelement.displaySequenceOverrider;
+    }
+    
     for (const dataelement of this.template.dataElements) {
       this.evaluateConditionalProperty(dataelement, new Array<string>());
     }
 
     this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
+
     return this.nonRelevantDataElementIds;
   }
 

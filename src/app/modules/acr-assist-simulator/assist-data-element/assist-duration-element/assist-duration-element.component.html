@@ -1,0 +1,32 @@
+<form [formGroup]="durationElementForm" novalidate>
+  <div class="form-group">
+    <div class="col-sm-5 text-right">
+      <label class="control-label">
+        <!-- {{dateTimeDataElement | json}} -->
+        {{durationDataElement.label}}
+      </label>
+      <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
+        <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i>
+      </ng-container>
+      <ng-container *ngIf="durationDataElement.diagrams != undefined ">
+        <acr-hint-diagram [dataElement]="durationDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+      </ng-container>
+      <ng-container *ngIf="this.durationDataElement.isRequired">
+        <!-- <span *ngIf="durationElementForm.controls['durationElement'].invalid">
+          <span *ngIf="durationElementForm.controls['durationElement'].errors.required" class="required-field" title="Required Field">
+            *
+          </span>
+        </span> -->
+        <span *ngIf="DurationVal == 'PT0S' || DurationVal == null" class="required-field" title="Duration field should be non zero">
+          *
+        </span>
+      </ng-container>
+    </div>
+    
+    <div class="col-sm-7">
+      <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
+        <ngx-duration-picker formControlName="durationElement" [options]="durationOptions" [(value)]="DurationVal"></ngx-duration-picker>
+      </div>
+    </div>
+  </div>
+</form>

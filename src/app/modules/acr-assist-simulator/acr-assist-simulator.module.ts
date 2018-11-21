@@ -33,12 +33,17 @@ import { NumericOnlyDirective } from './shared/directives/numeric-only.directive
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { DateTimeDataElementCreationService } from './shared/services/dateTime-data-element-creation.service';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-dateTime-element/assist-date-time-element/assist-date-time-element.component';
+import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
+
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { DurationPickerModule } from 'ngx-duration-picker';
+import { DurationDataElementCreationService } from './shared/services/duration-data-element-creation.service';
+
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
     ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
-    AssistDateTimeElementComponent];
+    AssistDateTimeElementComponent, AssistDurationElementComponent];
 
 @NgModule({
   imports: [
@@ -47,7 +52,9 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     FormsModule,
     ReactiveFormsModule,
     DragScrollModule,
-    AngularDateTimePickerModule
+    AngularDateTimePickerModule,
+    // TimeDurationPickerModule
+    DurationPickerModule
   ],
   declarations: components,
   providers: [TemplateManagerService,
@@ -64,7 +71,8 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     { provide: CreationServiceInjectorToken, useClass: IntegerDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true },
-    {provide: CreationServiceInjectorToken, useClass: DateTimeDataElementCreationService, multi: true }
+    {provide: CreationServiceInjectorToken, useClass: DateTimeDataElementCreationService, multi: true },
+    {provide: CreationServiceInjectorToken, useClass: DurationDataElementCreationService, multi: true }
     ],
   exports: components
 })

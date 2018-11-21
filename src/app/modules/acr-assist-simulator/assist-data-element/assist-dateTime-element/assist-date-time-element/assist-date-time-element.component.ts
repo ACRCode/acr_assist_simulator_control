@@ -17,20 +17,29 @@ export class AssistDateTimeElementComponent implements OnInit {
     format: 'dd-MMM-yyyy hh:mm a',
     defaultOpen: false,
     timePicker: true,
-    closeOnSelect: true
+    closeOnSelect: true,
+    // disabled: true
 };
+
+// durationOptions = {
+//   showNegative: false,
+//   showPreview: false,
+//   showYears: false,
+//   showMonths: false,
+//   showWeeks: false
+// };
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
   ngOnInit() {
-    this.createNumericElementForm();
+    this.createDateTimeElementForm();
   }
 
   onDateSelect(){
     // alert();
   }
 
-  private createNumericElementForm() {
+  private createDateTimeElementForm() {
     this.dateTimeElementForm = this.formBuilder.group({
       dateTimeElement: ['', Validators.compose([Validators.required, Validators.min(+0), Validators.max(+1)])],
     });

@@ -22,4 +22,7 @@ export  class BaseDataElement {
   unit: string;
   sourceFilled: string;
   codableConcept: CodableConcept;
+
+  isRequiredOverrider: Boolean = true;
+  displaySequenceOverrider: number;
 }
