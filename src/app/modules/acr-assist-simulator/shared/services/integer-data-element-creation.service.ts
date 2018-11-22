@@ -24,6 +24,8 @@ export class IntegerDataElementCreationService extends DataElementCreationBaseSe
     super.populateBasicData(data, dataElement);
     dataElement.minimum = data.Minimum;
     dataElement.maximum = data.Maximum;
+    dataElement.maximumOverrider = data.Maximum;
+    dataElement.minimumOverrider = data.Minimum;
 
     const ConditionalProperties = data.ConditionalProperties;
     if (ConditionalProperties !== undefined) {
@@ -57,6 +59,8 @@ export class IntegerDataElementCreationService extends DataElementCreationBaseSe
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
     _conditionalProperty.isRequired = conditionalProperty.IsRequired;
     _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
+    _conditionalProperty.Minimum = conditionalProperty.Minimum;
+    _conditionalProperty.Maximum = conditionalProperty.Maximum;
     return _conditionalProperty;
   }
 }

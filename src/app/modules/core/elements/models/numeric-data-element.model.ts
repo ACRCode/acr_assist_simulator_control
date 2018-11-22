@@ -5,4 +5,6 @@ export class NumericDataElement extends BaseDataElement {
   minimum: Number;
   maximum: Number;
 
+  minimumOverrider: Number;
+  maximumOverrider: Number;
 }

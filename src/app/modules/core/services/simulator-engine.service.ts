@@ -8,6 +8,8 @@ import { ComputedDataElement } from '../elements/models/computed-data-element-mo
 import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
 import { ChoiceDataElement } from '../elements/models/choice-data-element-model';
+import { NumericDataElement } from '../elements/models/numeric-data-element.model';
+import { IntegerDataElement } from '../elements/models/integer-data-element.model';
 const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
@@ -253,6 +255,13 @@ export class SimulatorEngineService {
               (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
               : true;
 
+            if (conditionalProperty.Minimum !== undefined && conditionalProperty.Minimum != null  ) {
+              dataelement.minimum = +conditionalProperty.Minimum;
+            }
+            if (conditionalProperty.Maximum !== undefined && conditionalProperty.Maximum != null) {
+              dataelement.maximum = +conditionalProperty.Maximum;
+            }
+
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
             }
@@ -308,8 +317,16 @@ export class SimulatorEngineService {
     for (const dataelement of this.template.dataElements) {
       dataelement.isRequired = dataelement.isRequiredOverrider;
       dataelement.displaySequence = dataelement.displaySequenceOverrider;
+      if (dataelement.dataElementType === 'NumericDataElement') {
+        (dataelement as NumericDataElement).minimum = +(dataelement as NumericDataElement).minimumOverrider;
+        (dataelement as NumericDataElement).maximum = +(dataelement as NumericDataElement).maximumOverrider;
+      }
+      if (dataelement.dataElementType === 'IntegerDataElement') {
+        (dataelement as IntegerDataElement).minimum = +(dataelement as IntegerDataElement).minimumOverrider;
+        (dataelement as IntegerDataElement).maximum = +(dataelement as IntegerDataElement).maximumOverrider;
+      }
     }
-    
+
     for (const dataelement of this.template.dataElements) {
       this.evaluateConditionalProperty(dataelement, new Array<string>());
     }

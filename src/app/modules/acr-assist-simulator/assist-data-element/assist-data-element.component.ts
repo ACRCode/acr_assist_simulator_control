@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, ViewChild } from '@angular/core';
 import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { Template } from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
@@ -13,6 +13,8 @@ import { SelectedCondition } from '../../core/models/executed-result.model';
 import { InputData } from '../../core/models/input-data.model';
 import { AssistChoiceElementComponent } from './assist-choice-element/assist-choice-element.component';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+// import { AssistNumericElementComponent } from './assist-numeric-element/assist-numeric-element.component';
+import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 const $ = require('jquery');
 
 @Component({
@@ -40,19 +42,22 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
   @Input() inputValues: InputData[] = [];
-  constructor(private simulatorEngineService: SimulatorEngineService) {
+  // @ViewChild(AssistNumericElementComponent) child: AssistNumericElementComponent;
+  constructor(private simulatorEngineService: SimulatorEngineService,
+    private simulatorCommunicationService: SimulatorCommunicationService
+    ) {
 
   }
 
   ngOnInit(): void {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
-      this.simulatorState =  message as SimulatorState;
-        this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
-        const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
-        for (const dataElement of this.dataElements) {
-          if (nonRelevantIDs && nonRelevantIDs.length > 0) {
-          if  (nonRelevantIDs.indexOf(dataElement.id) >= 0 ) {
-              dataElement.isVisible = false;
+      this.simulatorState = message as SimulatorState;
+      this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
+      const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
+      for (const dataElement of this.dataElements) {
+        if (nonRelevantIDs && nonRelevantIDs.length > 0) {
+          if (nonRelevantIDs.indexOf(dataElement.id) >= 0) {
+            dataElement.isVisible = false;
           } else {
             dataElement.isVisible = true;
           }
@@ -68,36 +73,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-      // if (nonRelevantIDs.length === 0) {
-        
-      // }
-
-      // Code comes here
-      // if (this.dataElements[0].dataElementType === 'ChoiceDataElement') {
-      //   (this.dataElements[0] as ChoiceDataElement).choiceInfo.splice(1, 1);
-      // }
-
-
-      //   for (const dataElement of this.dataElements) {
-      //   if (this.simulatorState.nonRelevantDataElementIds && this.simulatorState.nonRelevantDataElementIds.length > 0) {
-      //     if  (this.simulatorState.nonRelevantDataElementIds.indexOf(dataElement.id) >= 0 ) {
-      //         dataElement.isVisible = false;
-      //     } else {
-      //       dataElement.isVisible = true;
-      //     }
-      //   } else {
-      //        dataElement.isVisible = true;
-      //   }
-      //   dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
-      // }
-
-      // if (this.simulatorState.endPointId &&  this.simulatorState.endPointId.length > 0) {
-      //     this.generateReportText(this.simulatorState.endPointId);
-
-      //   //  dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
-
-      // }
-
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateReportText(this.simulatorState.endPointId);
 
@@ -105,8 +80,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         this.returnReportText.emit(undefined);
       }
 
-      console.log('asdasd');
-      console.log(this.dataElements );
+      // if (this.child !== undefined) {
+      //   this.child.UpdateFormValidator();
+      // }
+
+      this.simulatorCommunicationService.messageEmitter('');
     });
   }
 

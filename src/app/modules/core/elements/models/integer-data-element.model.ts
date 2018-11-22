@@ -4,5 +4,6 @@ export class IntegerDataElement extends BaseDataElement {
 
   minimum: Number;
   maximum: Number;
-
+  minimumOverrider: Number;
+  maximumOverrider: Number;
 }

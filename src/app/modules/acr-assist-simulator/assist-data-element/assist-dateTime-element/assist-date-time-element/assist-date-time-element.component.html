@@ -4,6 +4,7 @@
       <label class="control-label">
         <!-- {{dateTimeDataElement | json}} -->
         {{dateTimeDataElement.label}}
+        <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''"> ({{dateTimeDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>

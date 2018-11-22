@@ -141,8 +141,7 @@ private parseToJson(xmlData: string): any {
  private  returnDataElement (elementType: string, dataElementsJSON: any): BaseDataElement[] {
     const  dataElements = new Array<BaseDataElement>();
     let dataElementCreationServiceInstance: DataElementCreationBaseService;
-    for (const dataElementCreationService of this.elememtcreationService)
-    {
+    for (const dataElementCreationService of this.elememtcreationService) {
           if (dataElementCreationService.elementType === elementType) {
             dataElementCreationServiceInstance = dataElementCreationService;
             break;

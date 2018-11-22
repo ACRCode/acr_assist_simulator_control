@@ -7,13 +7,15 @@ import { ConditionalProperty } from '../../../core/elements/models/conditionalpr
 import { ConditionsCreationService } from './conditions-creation.service';
 import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
 import { ComputedValueCreationService } from './computed-value-creation.service';
+import { Subscription } from 'rxjs'
 
 @Injectable()
 export class NumericDataElementCreationService extends DataElementCreationBaseService {
-
+  subscription: Subscription;
   constructor(diagramService: DiagramService,
     private conditionsCreationService: ConditionsCreationService,
-    private computedValueCreationService: ComputedValueCreationService) {
+    private computedValueCreationService: ComputedValueCreationService
+    ) {
     super(diagramService);
     this.elementType = 'NumericDataElement';
   }
@@ -23,6 +25,9 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
     super.populateBasicData(data, dataElement);
     dataElement.minimum = data.Minimum;
     dataElement.maximum = data.Maximum;
+
+    dataElement.maximumOverrider = data.Maximum;
+    dataElement.minimumOverrider = data.Minimum;
 
     const ConditionalProperties = data.ConditionalProperties;
     if (ConditionalProperties !== undefined) {
@@ -56,6 +61,8 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
     _conditionalProperty.isRequired = conditionalProperty.IsRequired;
     _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
+    _conditionalProperty.Minimum = conditionalProperty.Minimum;
+    _conditionalProperty.Maximum = conditionalProperty.Maximum;
     return _conditionalProperty;
   }
 

@@ -14,6 +14,7 @@ export class AssistDurationElementComponent implements OnInit {
   durationElementForm: FormGroup;
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
+  DurationVal = 'PT0S';
   durationOptions = {
     showNegative: false,
     showPreview: false,

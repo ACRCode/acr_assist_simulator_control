@@ -10,4 +10,6 @@ export class ConditionalProperty {
     isRequired: boolean;
     DisplaySequence: number;
     ChoiceNotRelevant: string[];
+    Minimum: number;
+    Maximum: number;
 }

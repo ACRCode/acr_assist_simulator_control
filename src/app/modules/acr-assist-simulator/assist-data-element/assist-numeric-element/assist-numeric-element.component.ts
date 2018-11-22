@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, SimpleChanges, SimpleChange } from '@angular/core';
 import { NumericDataElement } from '../../../core/elements/models/numeric-data-element.model';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
-const $ = require('jquery');
+import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -13,18 +14,34 @@ const $ = require('jquery');
   styleUrls: ['./assist-numeric-element.component.css', '../../styles.css']
 })
 export class AssistNumericElementComponent implements OnInit, AfterViewInit {
-
+  subscription: Subscription;
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
   numberValue: number;
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {
+  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
+    simulatorCommunicationService: SimulatorCommunicationService) {
+    this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
+      mission => {
+       this.UpdateFormValidator();
+    });
    }
 
   ngOnInit() {
     this.createNumericElementForm();
+    // this.
+    // numericElementForm.
+    // valueChanges.
+    // subscribe(form => {
+    //   this.UpdateFormValidator();
+    // });
+  }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    console.log('asda');
   }
 
   ngAfterViewInit(): void {
@@ -70,5 +87,11 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.numericElementForm = this.formBuilder.group({
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])],
     });
-  }  
+  }
+
+  UpdateFormValidator() {
+    this.numericElementForm.controls['numericElement'].setValidators([Validators.compose([Validators.required,
+      Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
+    this.numericElementForm.controls['numericElement'].updateValueAndValidity();
+  }
 }
