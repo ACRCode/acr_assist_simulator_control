@@ -6,6 +6,11 @@
         <ID>Hello_Assist_1_0</ID>
         <SchemaVersion>1.0</SchemaVersion>
         <ModuleVersion>1.5</ModuleVersion>
+    	<CreatedDate>2018-12-31</CreatedDate>
+    	<LastModifiedDate>2018-11-26</LastModifiedDate>
+    	<ApprovedBy>Sujth</ApprovedBy>
+    	<ReviewedBy>Tony</ReviewedBy>
+    	<DevelopedBy>Deepak</DevelopedBy>
         <Info>
             <Description>This is a sample xml for ACR Assist based on LI-RADS (characterizing liver lesion for MRI)</Description>
             <References>          
@@ -67,10 +72,26 @@
     	
 		<GlobalValue Id="DiameterSmall">10</GlobalValue>
     	
-        <GlobalValue Id="DiameterLarge">20</GlobalValue>
-		       
-    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" >        	
-            <Label>Observation in high risk patient</Label>
+        <GlobalValue Id="DiameterLarge">20</GlobalValue>    	
+    	      
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
+    		<CodableConcept Name="Gender">
+    			<Coding>
+    				<System Value="Test"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDETest"></Code>
+    				<Display Value="Test"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>
+    			<Coding>
+    				<System Value="Test"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDETest"></Code>
+    				<Display Value="Test"></Display>    				
+    			</Coding>
+    		</CodableConcept>		
+    		
+    		<Label>Observation in high risk patient</Label>
     		<Hint>Observation : Area with imaging features that differ from those of adjacent liver parenchyma high risk patient:in whom the incidence of LR is sufficient to justify screening or surveillance according to AASLD guidelines  </Hint>
     		<Diagrams>
     			<Diagram>
@@ -132,7 +153,7 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="2">
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
@@ -177,10 +198,23 @@
                     <Label>Hyper-enhancement</Label>  
                 </Choice>
             </ChoiceInfo>
+    		
+    		<ConditionalProperties>    			
+    			<ConditionalProperty>
+    				<OrCondition>
+					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+    				</OrCondition>    				
+    				<IsRelevant>false</IsRelevant>    				
+    			</ConditionalProperty>		
+    		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3">
-    		<Label>Diameter (mm)</Label>
+    	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
+    		<Label>Diameter </Label>    		
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
     			<Diagram>
@@ -204,11 +238,28 @@
     				<Label></Label>
     			</Diagram>
     		</Diagrams>
-    		<Minimum>1</Minimum>
-    		
+    		<Minimum>10</Minimum>
+    		<Maximum>12</Maximum>
+			<ConditionalProperties>				
+				<ConditionalProperty>
+					<OrCondition>
+					    <EqualCondition DataElementId="ObservationCharacter" 
+							ComparisonValue="definitelyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="treatedObservation"/>						
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="probablyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="notspecificforLR"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="tumorInVein"/>
+					</OrCondition>
+					<IsRelevant>false</IsRelevant>
+				</ConditionalProperty>
+			</ConditionalProperties>	
     	</NumericDataElement>
         
-    	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4">
+    	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false">
             <Label>Washout</Label>
     		<Hint>Visually assessed temporal reduction in enhancement relative to liver from an earlier to a later phase resulting in portal venous phase hypoenhancement or delayed phase hypoenhancement.</Hint>
             <ChoiceInfo>
@@ -228,6 +279,23 @@
                     <Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
                 </Map>
             </ImageMap>
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+					<OrCondition>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="treatedObservation"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="definitelyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="probablyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="notspecificforLR"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="tumorInVein"/>
+					</OrCondition>
+    				<IsRelevant>false</IsRelevant>        				
+    			</ConditionalProperty>		
+    		</ConditionalProperties>	
         </ChoiceDataElement>
 		       
     	<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="5">
@@ -250,9 +318,21 @@
                     <Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
                 </Map>
             </ImageMap>
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>    					
+    				</OrCondition>
+    				<IsRelevant>false</IsRelevant>    	    				
+    			</ConditionalProperty>		
+    		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6">
+    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6" Unit="mm">
             <Label>Threshold Growth</Label>
     		<Hint>Increase in diameter of a mass compared to its baseline by a minimum of 5 mm AND depending on the time interval between examinations, by the following amounts: less than or equal to 6 months: >50% diameter increase greater than 6 months: >100% diameter increase
     		</Hint>
@@ -273,79 +353,57 @@
                     <Area Shape="rect" Coords="0,0,799,463" ChoiceValue="yes"/>
                 </Map>
             </ImageMap>
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>    					
+    				</OrCondition>
+    				<IsRelevant>false</IsRelevant>        				
+    			</ConditionalProperty>		
+    		</ConditionalProperties>
         </ChoiceDataElement>
-    	
-    
     </DataElements> 
 	
     <Rules>
         <DecisionPoint Id="ObservationDp">
         	<Label> Observation in high-risk patient </Label>
             <Branch>
-            	<Label>Treated Observation</Label>
-				<NotRelevantDataElements>
-					<DataElementRef DataElementId="diameter"/>
-					<DataElementRef DataElementId="ArterialEnhancement"/>
-					<DataElementRef DataElementId="washout"/>
-					<DataElementRef DataElementId="capsule"/>
-					<DataElementRef DataElementId="thresholdgrowth"/>
-				</NotRelevantDataElements>
-                <EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+            	<Label>Treated Observation</Label>			
+            	<OrCondition>
+            		<EqualCondition DataElementId="ObservationCharacter"
+            			ComparisonValue="treatedObservation"/>						
+            		<EqualCondition DataElementId="ObservationCharacter"
+            			ComparisonValue="tumorInVein"/>            		
+            	</OrCondition>
             	<EndPointRef EndPointId="LRtreatedEp"></EndPointRef>
             </Branch>
 			<Branch>
-				<Label>Definitely Benign</Label>
-				<NotRelevantDataElements>
-					<DataElementRef DataElementId="diameter"/>
-					<DataElementRef DataElementId="ArterialEnhancement"/>
-					<DataElementRef DataElementId="washout"/>
-					<DataElementRef DataElementId="capsule"/>
-					<DataElementRef DataElementId="thresholdgrowth"/>
-				</NotRelevantDataElements>
+				<Label>Definitely Benign</Label>			
                 <EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
                 <EndPointRef EndPointId="LR1Ep"></EndPointRef>
             </Branch>
 			<Branch>
-				<Label>Probably Benign</Label>
-				<NotRelevantDataElements>
-					<DataElementRef DataElementId="diameter"></DataElementRef>
-					<DataElementRef DataElementId="ArterialEnhancement"></DataElementRef>
-					<DataElementRef DataElementId="washout"></DataElementRef>
-					<DataElementRef DataElementId="capsule"></DataElementRef>
-					<DataElementRef DataElementId="thresholdgrowth"></DataElementRef>
-				</NotRelevantDataElements>
+				<Label>Probably Benign</Label>				
                 <EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
 				<EndPointRef EndPointId="LR2Ep"/>
             </Branch>  
 			<Branch>
-				<Label>Probable malignancy, not specific for LR</Label>
-				<NotRelevantDataElements>
-					<DataElementRef DataElementId="diameter"/>
-					<DataElementRef DataElementId="ArterialEnhancement"></DataElementRef>
-					<DataElementRef DataElementId="washout"/>
-					<DataElementRef DataElementId="capsule"/>
-					<DataElementRef DataElementId="thresholdgrowth"/>
-				</NotRelevantDataElements>
+				<Label>Probable malignancy, not specific for LR</Label>				
                 <EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
 				<EndPointRef EndPointId="LRmEp"></EndPointRef>
             </Branch>         
 			<Branch>
-				<Label>Tumor in vein</Label>
-				<NotRelevantDataElements>
-					<DataElementRef DataElementId="diameter"></DataElementRef>
-					<DataElementRef DataElementId="ArterialEnhancement"></DataElementRef>
-					<DataElementRef DataElementId="washout"></DataElementRef>
-					<DataElementRef DataElementId="capsule"></DataElementRef>
-					<DataElementRef DataElementId="thresholdgrowth"></DataElementRef>
-				</NotRelevantDataElements>
+				<Label>Tumor in vein</Label>				
                 <EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
                 <EndPointRef EndPointId="LR5vEp"></EndPointRef>
             </Branch>       
             <Branch>
                 <Label>Neither definite nor probable benign</Label>
-
-            		<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-                
+            		<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>                
             	<DecisionPoint Id="ArterialphaseDp ">
                     <Label>Arterial phase enhancement</Label>
                     <Branch>
@@ -688,15 +746,37 @@
         </DecisionPoint>
     </Rules>
     
-    <EndPoints>
-   	
+    <EndPoints>   	
     	<EndPoint Id="LR1Ep">
             <Label>LR-1</Label>
             <ReportTexts>
-                <ReportText SectionId="findings">[LR-1] Imaging features diagnostic of a benign entity or definite spontaneous disappearance at follow up.
+                <!--<ReportText SectionId="findings">[LR-1] Imaging features diagnostic of a benign entity or definite spontaneous disappearance at follow up.
                 	
-                </ReportText>
-            	
+                </ReportText>-->
+            	<ReportText SectionId="findings">             		
+            		[LR-1] Imaging features diagnostic of a benign entity or definite spontaneous disappearance at follow up.
+            		<SectionIfValue DataElementId="pretreatmentCategory" ComparisonValue="Unknown" >
+						(pretreatment unknown)
+					</SectionIfValue>
+					<SectionIfValueNot DataElementId="pretreatmentCategory" ComparisonValue="Unknown"> 
+						(pretreatment&amp;nbsp;<InsertValue DataElementId="pretreatmentCategory"/>,&amp;nbsp;<InsertValue DataElementId="pretreatmentsize"/>&amp;nbsp;mm)
+					</SectionIfValueNot>            		         
+            		
+            		<!--<ReportConditions>
+            			<ReportCondition>
+            				<ReportTextOrCondition>
+            					<SectionIfValue DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+            					<SectionIfValue DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>					
+            				</ReportTextOrCondition>	
+            				<Text>(test treatment)</Text>
+            			</ReportCondition>	
+            			
+            			<ReportCondition>
+            				<SectionIfValue DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+            				<Text>(pretreatment test tumor)</Text>
+            			</ReportCondition>
+            		</ReportConditions>   -->         		
+            	</ReportText>            	
             </ReportTexts>
         </EndPoint>
 	
@@ -757,10 +837,10 @@
 		
         <EndPoint Id="LRtreatedEp">
             <Label>LR-Treated</Label>
-            <ReportTexts>
+           <ReportTexts>
                 <ReportText SectionId="findings">[LR-Treated] An observation that has undergone loco-regional treatment.
                 </ReportText>
-            </ReportTexts>
+            </ReportTexts>        	
         </EndPoint>
        
         <EndPoint Id="LR4_5">
