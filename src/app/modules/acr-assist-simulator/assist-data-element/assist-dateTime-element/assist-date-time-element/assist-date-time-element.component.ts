@@ -21,14 +21,6 @@ export class AssistDateTimeElementComponent implements OnInit {
     // disabled: true
 };
 
-// durationOptions = {
-//   showNegative: false,
-//   showPreview: false,
-//   showYears: false,
-//   showMonths: false,
-//   showWeeks: false
-// };
-
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
   ngOnInit() {

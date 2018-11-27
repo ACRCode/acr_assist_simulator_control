@@ -1,5 +1,6 @@
 import { ViewChild, Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SimulatorCommunicationService {
@@ -13,8 +14,4 @@ export class SimulatorCommunicationService {
     messageEmitter(mission: string) {
         this.simulatorSource.next(mission);
     }
-
-    // confirmMission(astronaut: string) {
-    //     this.missionConfirmedSource.next(astronaut);
-    // }
 }

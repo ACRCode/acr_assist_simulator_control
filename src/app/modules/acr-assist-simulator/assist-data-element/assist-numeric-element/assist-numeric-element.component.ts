@@ -29,14 +29,14 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     });
    }
 
+   // tslint:disable-next-line:use-life-cycle-interface
+   ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
+
   ngOnInit() {
-    this.createNumericElementForm();
-    // this.
-    // numericElementForm.
-    // valueChanges.
-    // subscribe(form => {
-    //   this.UpdateFormValidator();
-    // });
+    this.createNumericElementForm();    
   }
 
   // tslint:disable-next-line:use-life-cycle-interface

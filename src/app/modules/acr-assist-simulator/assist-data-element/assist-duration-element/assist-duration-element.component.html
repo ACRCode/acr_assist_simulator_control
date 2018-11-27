@@ -9,9 +9,9 @@
       <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i>
       </ng-container>
-      <ng-container *ngIf="durationDataElement.diagrams != undefined ">
+      <!-- <ng-container *ngIf="durationDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="durationDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-      </ng-container>
+      </ng-container> -->
       <ng-container *ngIf="this.durationDataElement.isRequired">
         <!-- <span *ngIf="durationElementForm.controls['durationElement'].invalid">
           <span *ngIf="durationElementForm.controls['durationElement'].errors.required" class="required-field" title="Required Field">
