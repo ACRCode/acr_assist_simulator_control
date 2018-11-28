@@ -4,7 +4,8 @@
       <label class="control-label">
         <!-- {{dateTimeDataElement | json}} -->
         {{durationDataElement.label}}
-        <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''"> ({{durationDataElement.unit}})</span>
+        <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''">
+          ({{durationDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i>
@@ -12,22 +13,151 @@
       <!-- <ng-container *ngIf="durationDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="durationDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container> -->
-      <ng-container *ngIf="this.durationDataElement.isRequired">
-        <!-- <span *ngIf="durationElementForm.controls['durationElement'].invalid">
-          <span *ngIf="durationElementForm.controls['durationElement'].errors.required" class="required-field" title="Required Field">
-            *
-          </span>
-        </span> -->
+
+      <!-- <ng-container *ngIf="this.durationDataElement.isRequired">      
         <span *ngIf="DurationVal == 'PT0S' || DurationVal == null" class="required-field" title="Duration field should be non zero">
           *
         </span>
-      </ng-container>
+      </ng-container> -->
+      <ng-container *ngIf="this.durationDataElement.isRequired">
+        <span *ngIf="durationElementForm.controls['durationdayselement'].invalid
+         || durationElementForm.controls['durationminuteselement'].invalid
+         || durationElementForm.controls['durationhourselement'].invalid">
+          <span *ngIf="durationElementForm.controls['durationdayselement'].errors != null && durationElementForm.controls['durationdayselement'].errors.required 
+          || durationElementForm.controls['durationminuteselement'].errors != null && durationElementForm.controls['durationminuteselement'].errors.required 
+          ||  durationElementForm.controls['durationhourselement'].errors != null && durationElementForm.controls['durationhourselement'].errors.required "
+            class="required-field" title="Required Field">
+            *
+          </span>
+        </span>
+      </ng-container>      
+
+      <span *ngIf="showdayminValidation"
+        class="required-field" title=" Minimum value for day is {{supportedUnits['day'].min}}">
+        *
+      </span>
+      
+      <span *ngIf="showdaymaxValidation"
+        class="required-field" title=" Maximum value for day is {{supportedUnits['day'].max}}">
+        *
+      </span>
+
+      <span *ngIf="showminuteminValidation"
+        class="required-field" title=" Minimum value for minute is {{supportedUnits['minute'].min}}">
+        *
+      </span>
+      <span *ngIf="showminutemaxValidation"
+        class="required-field" title=" Maximum value for minute is {{supportedUnits['minute'].max}}">
+        *
+      </span>
+
+      <span *ngIf="showhourminValidation"
+        class="required-field" title=" Minimum value for hour is {{supportedUnits['hour'].min}}">
+        *
+      </span>
+      <span *ngIf="showhourmaxValidation"
+        class="required-field" title=" Maximum value for hour is {{supportedUnits['hour'].max}}">
+        *
+      </span>
+
+
     </div>
-    
-    <div class="col-sm-7">
+
+    <div class="col-sm-7" style="display:inline-flex">
+      <!-- <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
+        <ngx-duration-picker min="0" formControlName="durationElement" [options]="durationOptions" [(value)]="DurationVal"></ngx-duration-picker>
+      </div> -->
+
+
+      <!-- <div class="form-group"> -->
       <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
-        <ngx-duration-picker formControlName="durationElement" [options]="durationOptions" [(value)]="DurationVal"></ngx-duration-picker>
+        <table>
+          <tbody>
+            <tr class="text-center">
+              <td>
+                <button type="button" (click)="increaseValue('days')" class="btn btn-link btn-decrementer">
+                  +
+                </button>
+              </td>
+            </tr>
+            <tr class="text-center">
+              <td class="input-group input-group-sm">
+                <input tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                  formControlName="durationdayselement" [(ngModel)]="daysvalue" class="form-control text-center txt-duration"
+                  (blur)="checkValue($event, 'days')" type="number" min="{{supportedUnits['day'].min}}" max="{{supportedUnits['day'].max}}"
+                  required />
+                <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['day'].label}}</span>
+              </td>
+            </tr>
+            <tr class="text-center">
+              <td>
+                <button type="button" (click)="decreaseValue('days')" class="btn btn-link btn-decrementer">
+                  -
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <table style="margin-left:10px;">
+        <tbody>
+          <tr class="text-center">
+            <td>
+              <button type="button" (click)="increaseValue('hour')" class="btn btn-link btn-incrementer">
+                +
+              </button>
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td class="input-group input-group-sm">
+              <input tabindex="2" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                formControlName="durationhourselement" [(ngModel)]="hoursvalue" class="form-control text-center txt-duration"
+                (blur)="checkValue($event,'hour')" type="number" min="{{supportedUnits['hour'].min}}" max="{{supportedUnits['hour'].max}}"
+                required />
+              <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['hour'].label}}</span>
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td>
+              <button type="button" (click)="decreaseValue('hour')" class="btn btn-link btn-decrementer">
+                -
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table style="margin-left:10px;">
+        <tbody>
+          <tr class="text-center">
+            <td>
+              <button type="button" (click)="increaseValue('minute')" class="btn btn-link btn-decrementer">
+                +
+              </button>
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td class="input-group input-group-sm">
+              <input tabindex="3" [(ngModel)]="minutesvalue" formControlName="durationminuteselement" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                class="form-control text-center txt-duration" (blur)="checkValue($event, 'minute')" type="number" min="{{supportedUnits['minute'].min}}"
+                max="{{supportedUnits['minute'].max}}" required />
+              <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['minute'].label}}</span>
+            </td>
+          </tr>
+          <tr class="text-center">
+            <td>
+              <button type="button" (click)="decreaseValue('minute')" class="btn btn-link btn-decrementer">
+                -
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- </div> -->
+
+
     </div>
   </div>
 </form>

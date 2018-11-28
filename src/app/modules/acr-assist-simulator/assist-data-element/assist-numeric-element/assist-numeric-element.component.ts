@@ -41,7 +41,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log('asda');
+    // console.log('asda');
   }
 
   ngAfterViewInit(): void {

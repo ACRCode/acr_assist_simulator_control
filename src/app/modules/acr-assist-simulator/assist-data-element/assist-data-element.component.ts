@@ -87,6 +87,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       //   this.child.UpdateFormValidator();
       // }
 
+      console.log('asda');
+      console.log(this.dataElements);
       this.simulatorCommunicationService.messageEmitter('');
     });
   }

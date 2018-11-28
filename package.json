@@ -43,7 +43,8 @@
     "timers": "^0.1.1",
     "web-animations-js": "^2.3.1",
     "angular2-datetimepicker": "^1.1.1",
-    "ngx-duration-picker": "^3.0.0"
+    "ngx-duration-picker": "^3.0.0",
+    "angular2-time-duration-picker": "^1.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -99,6 +100,10 @@
     "timers": "^0.1.1",
     "web-animations-js": "^2.3.1",
     "angular2-datetimepicker": "^1.1.1",
-    "ngx-duration-picker": "^3.0.0"
+    "ngx-duration-picker": "^3.0.0",
+    "angular2-time-duration-picker": "^1.1.0"
+  },
+  "dependencies": {
+    
   }
 }
