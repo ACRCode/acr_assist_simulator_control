@@ -25,28 +25,28 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     simulatorCommunicationService: SimulatorCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
-       this.UpdateFormValidator();
-    });
-   }
+        this.UpdateFormValidator();
+      });
+  }
 
-   // tslint:disable-next-line:use-life-cycle-interface
-   ngOnDestroy() {
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
 
   ngOnInit() {
-    this.createNumericElementForm();    
+    this.createNumericElementForm();
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log('asda');
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    // console.log('asda');
   }
 
   ngAfterViewInit(): void {
     if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
-      this.simulatorEngineService.addOrUpdateDataElement( this.numericDataElement.id, this.numericDataElement.currentValue,
+      this.simulatorEngineService.addOrUpdateDataElement(this.numericDataElement.id, this.numericDataElement.currentValue,
         this.numericDataElement.currentValue);
       this.numberValue = this.numericDataElement.currentValue;
       this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
@@ -54,7 +54,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   }
 
   loadedNumericValue(id, value, selectedCondition) {
-    const choiceElement = new NumericElement ();
+    const choiceElement = new NumericElement();
     choiceElement.elementId = id;
     choiceElement.selectedValue = value;
 
@@ -63,11 +63,11 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = id;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = value;
-    this.returnNumericElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
+    this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
   choiceSelected(element, selectedCondition) {
-    const choiceElement = new NumericElement ();
+    const choiceElement = new NumericElement();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
 
@@ -76,7 +76,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = element.id;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.value;
-    this.returnNumericElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
+    this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
   onlyIntegerKey(event) {
@@ -91,7 +91,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   UpdateFormValidator() {
     this.numericElementForm.controls['numericElement'].setValidators([Validators.compose([Validators.required,
-      Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
+    Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
     this.numericElementForm.controls['numericElement'].updateValueAndValidity();
   }
 }

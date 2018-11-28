@@ -1,7 +1,7 @@
 import { Component, Input, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import {Template} from '../../core/models/template.model';
+import { Template } from '../../core/models/template.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { Diagram } from '../../core/models/diagram.model';
@@ -16,7 +16,7 @@ const $ = require('jquery');
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements  OnChanges {
+export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
@@ -24,6 +24,7 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
+  @Output() onDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @ViewChild('imageUpload') imageUpload: any;
   template: Template;
@@ -32,17 +33,17 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
   resultText: MainReportText;
   isReset: boolean;
   dataElements: BaseDataElement[];
-  position =  ReportTextPosition;
+  position = ReportTextPosition;
   isInvalidFile: boolean;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
-  constructor(private templateManagerService: TemplateManagerService , private simulatorEngineService: SimulatorEngineService) {
+  constructor(private templateManagerService: TemplateManagerService, private simulatorEngineService: SimulatorEngineService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.isReset = true;
-    this.isEmptyContent =   this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
-    this.inputData === undefined ;
+    this.isEmptyContent = this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
+      this.inputData === undefined;
     if (this.isEmptyContent) {
       return;
     }
@@ -64,18 +65,18 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
     this.keyDiagrams = new Array<Diagram>();
 
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-        const element = new Diagram();
-        element.label = this.template.metadata.diagrams[index].label;
-        element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
-        element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-        this.keyDiagrams.push(element);
+      const element = new Diagram();
+      element.label = this.template.metadata.diagrams[index].label;
+      element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
+      element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
+      this.keyDiagrams.push(element);
     }
 
     this.resultText = undefined;
   }
 
   resetElements() {
-    this.template =  this.templateManagerService.getTemplate(this.templateContent);
+    this.template = this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
 
     this.dataElements = this.template.dataElements;
@@ -89,6 +90,9 @@ export class AcrAssistSimulatorComponent implements  OnChanges {
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
     this.returnExecutionHistory.emit(finalExecutionHistory);
+  }
+  recivedOnDataElementChanged(data: InputData[]) {
+    this.onDataElementChanged.emit(data);
   }
 
   changeListener(event): void {

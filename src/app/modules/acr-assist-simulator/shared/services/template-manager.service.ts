@@ -45,7 +45,7 @@ export class TemplateManagerService {
     template.xmlContent = templateContent;
 
 // console.log(template.templatePartial);
-console.log(template.endPointsString);
+//console.log(template.endPointsString);
 
     return template;
 
