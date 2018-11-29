@@ -158,8 +158,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
-    this.selectedCondition.selectedValue = element.value;
-    alert('4');
+    this.selectedCondition.selectedValue = element.value;    
     this.returnChoiceElement.emit({receivedElement: choiceElement, selectedCondition: this.selectedCondition});
   }
   private specificValueInsideRange(checkBoxKey: string) {

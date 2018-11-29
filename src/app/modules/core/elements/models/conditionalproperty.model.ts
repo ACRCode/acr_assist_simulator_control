@@ -12,4 +12,10 @@ export class ConditionalProperty {
     ChoiceNotRelevant: string[];
     Minimum: number;
     Maximum: number;
+    MinimumDay: number;
+    MaximumDay: number;
+    MinimumHours: number;
+    MaximumHours: number;
+    MinimumMinutes: number;
+    MaxmimumMinutes: number;
 }

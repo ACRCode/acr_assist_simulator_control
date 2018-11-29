@@ -10,6 +10,8 @@ import { isArray } from 'util';
 import { ChoiceDataElement } from '../elements/models/choice-data-element-model';
 import { NumericDataElement } from '../elements/models/numeric-data-element.model';
 import { IntegerDataElement } from '../elements/models/integer-data-element.model';
+import { DurationDataElement } from '../elements/models/duration-data-element.model';
+import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
 const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
@@ -265,6 +267,19 @@ export class SimulatorEngineService {
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
             }
+
+            if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+              (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+            }
+
+            if (dataelement.dataElementType === 'DurationDataElement') {
+              (dataelement as DurationDataElement).MinimumDay = +conditionalProperty.MinimumDay;
+              (dataelement as DurationDataElement).MaximumDay = +conditionalProperty.MaximumDay;
+              (dataelement as DurationDataElement).MinimumHours = +conditionalProperty.MinimumHours;
+              (dataelement as DurationDataElement).MaximumHours = +conditionalProperty.MaximumHours;
+              (dataelement as DurationDataElement).MinimumMinutes = +conditionalProperty.MinimumMinutes;
+              (dataelement as DurationDataElement).MaxmimumMinutes = +conditionalProperty.MaxmimumMinutes;
+            }
           }
 
           return this.nonRelevantDataElementIds;
@@ -272,11 +287,9 @@ export class SimulatorEngineService {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
             (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
           }
-
-          // temp code
-          // if (this.nonRelevantDataElementIds.length === 0) {
-          //   dataelement.isRequired = true;
-          // }
+          if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+          }
         }
       }
     } else {
@@ -313,7 +326,16 @@ export class SimulatorEngineService {
 
   evaluateDecisionAndConditionalProperty(): Array<string> {
     this.nonRelevantDataElementIds = new Array<string>();
+    this.RevertConditionValues();
+    for (const dataelement of this.template.dataElements) {
+      this.evaluateConditionalProperty(dataelement, new Array<string>());
+    }
 
+    this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
+    return this.nonRelevantDataElementIds;
+  }
+
+  private RevertConditionValues() {
     for (const dataelement of this.template.dataElements) {
       dataelement.isRequired = dataelement.isRequiredOverrider;
       dataelement.displaySequence = dataelement.displaySequenceOverrider;
@@ -325,15 +347,16 @@ export class SimulatorEngineService {
         (dataelement as IntegerDataElement).minimum = +(dataelement as IntegerDataElement).minimumOverrider;
         (dataelement as IntegerDataElement).maximum = +(dataelement as IntegerDataElement).maximumOverrider;
       }
+
+      if (dataelement.dataElementType === 'DurationDataElement') {
+        (dataelement as DurationDataElement).MinimumDay = +(dataelement as DurationDataElement).MinimumDayOverrider;
+        (dataelement as DurationDataElement).MaximumDay = +(dataelement as DurationDataElement).MaximumDayOverrider;
+        (dataelement as DurationDataElement).MinimumHours = +(dataelement as DurationDataElement).MinimumHoursOverrider;
+        (dataelement as DurationDataElement).MaximumHours = +(dataelement as DurationDataElement).MaximumHoursOverrider;
+        (dataelement as DurationDataElement).MinimumMinutes = +(dataelement as DurationDataElement).MinimumMinutesOverrider;
+        (dataelement as DurationDataElement).MaxmimumMinutes = +(dataelement as DurationDataElement).MaxmimumMinutesOverrider;
+      }
     }
-
-    for (const dataelement of this.template.dataElements) {
-      this.evaluateConditionalProperty(dataelement, new Array<string>());
-    }
-
-    this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
-
-    return this.nonRelevantDataElementIds;
   }
 
   // initialize(template: Template) {

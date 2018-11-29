@@ -15,6 +15,7 @@
       <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field whitespace"
         title="Required Field">*</span>
     </div>
+    
     <div class="col-sm-7 text-left content-padding">
       <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 2">
         <ng-container *ngIf="imagePath != undefined">

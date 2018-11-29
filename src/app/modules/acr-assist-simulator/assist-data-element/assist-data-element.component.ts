@@ -22,6 +22,9 @@ const $ = require('jquery');
   templateUrl: './assist-data-element.component.html',
   styleUrls: ['./assist-data-element.component.css', '../styles.css']
 })
+
+
+
 export class AssistDataElementComponent implements OnInit, OnChanges {
 
   @Input() dataElements: BaseDataElement[];
@@ -85,6 +88,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       //   this.child.UpdateFormValidator();
       // }
 
+      console.log('asda');
+      console.log(this.dataElements);
       this.simulatorCommunicationService.messageEmitter('');
     });
   }
@@ -223,9 +228,28 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     }
     return contents;
   }
+
+  // private parseXml(endpointId: string, endpointContent: string): any {
+  //   console.log(endpointContent);
+  //   console.log('--------');
+  //   console.log(endpointId);
+
+  //   const reportTextJSON =  this.parseToJson(endpointContent);
+
+  //   console.log(reportTextJSON);
+  // }
+
+  private parseToJson(xmlData: string): any {
+    let jsonResult: JSON;
+    const parseString =  require('xml2js').parseString;
+    parseString(xmlData, {explicitRoot : false, explicitArray : false, attrkey : 'Attr'} , function (err, result) {
+        jsonResult  = result;
+  });
+
+  return jsonResult;
+ }
+
   private parseXml(endPointId: string, endpointContent: string): any {
-    // console.log('asdasd');
-    // console.log(endpointContent);
     const templateIds: string[] = [];
     let canInsertText: boolean;
     let isSectionIf: boolean;

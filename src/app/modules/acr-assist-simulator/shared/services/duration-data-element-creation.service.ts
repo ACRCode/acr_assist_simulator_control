@@ -22,6 +22,26 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
     createElement(data: any): BaseDataElement {
         const dataElement = new DurationDataElement();
         super.populateBasicData(data, dataElement);
+
+        dataElement.MinimumDay = data.MinimumDay;
+        dataElement.MaximumDay = data.MaximumDay;
+
+        dataElement.MinimumHours = data.MinimumHours;
+        dataElement.MaximumHours = data.MaximumHours;
+
+        dataElement.MinimumMinutes = data.MinimumMinutes;
+        dataElement.MaxmimumMinutes = data.MaxmimumMinutes;
+
+
+        dataElement.MinimumDayOverrider = data.MinimumDay;
+        dataElement.MaximumDayOverrider = data.MaximumDay;
+
+        dataElement.MinimumHoursOverrider = data.MinimumHours;
+        dataElement.MaximumHoursOverrider = data.MaximumHours;
+
+        dataElement.MinimumMinutesOverrider = data.MinimumMinutes;
+        dataElement.MaxmimumMinutesOverrider = data.MaxmimumMinutes;
+
         const ConditionalProperties = data.ConditionalProperties;
         if (ConditionalProperties !== undefined) {
           const notRelevantDataElements = new NotRelevantDataElements();
@@ -52,6 +72,13 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
         _conditionalProperty.isRequired = conditionalProperty.IsRequired;
         _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
+
+        _conditionalProperty.MinimumDay = conditionalProperty.MinimumDay;
+        _conditionalProperty.MaximumDay = conditionalProperty.MaximumDay;
+        _conditionalProperty.MinimumHours = conditionalProperty.MinimumHours;
+        _conditionalProperty.MaximumHours = conditionalProperty.MaximumHours;
+        _conditionalProperty.MaxmimumMinutes = conditionalProperty.MaximumHours;
+        _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumHours;
         return _conditionalProperty;
       }
 }
