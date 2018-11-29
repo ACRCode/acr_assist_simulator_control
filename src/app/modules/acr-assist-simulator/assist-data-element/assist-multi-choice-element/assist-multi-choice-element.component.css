@@ -1,0 +1,18 @@
+.checkboxCustomized {
+    min-height: 0px !important;
+    padding-top: 0px !important;
+}
+
+.disabled-element {
+    cursor: not-allowed;
+ }
+ .disabled-element:before {
+    content: "";
+     z-index: 1;
+     position: absolute;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     background-color: rgba(255, 255, 255, 0.8);
+ }

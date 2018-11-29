@@ -11,6 +11,7 @@ import { ChoiceDataElement } from '../elements/models/choice-data-element-model'
 import { NumericDataElement } from '../elements/models/numeric-data-element.model';
 import { IntegerDataElement } from '../elements/models/integer-data-element.model';
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
+import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
 const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
@@ -267,6 +268,10 @@ export class SimulatorEngineService {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
             }
 
+            if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+              (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+            }
+
             if (dataelement.dataElementType === 'DurationDataElement') {
               (dataelement as DurationDataElement).MinimumDay = +conditionalProperty.MinimumDay;
               (dataelement as DurationDataElement).MaximumDay = +conditionalProperty.MaximumDay;
@@ -280,6 +285,9 @@ export class SimulatorEngineService {
           return this.nonRelevantDataElementIds;
         } else {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
+            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+          }
+          if (dataelement.dataElementType === 'MultiChoiceDataElement') {
             (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
           }
         }

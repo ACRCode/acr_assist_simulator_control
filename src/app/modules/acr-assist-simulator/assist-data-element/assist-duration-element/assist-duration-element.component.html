@@ -82,7 +82,7 @@
             </tr>
             <tr class="text-center">
               <td class="input-group input-group-sm">
-                <input tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                <input  tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
                   formControlName="durationdayselement" [(ngModel)]="daysvalue" class="form-control text-center txt-duration"
                   (blur)="checkValue($event, 'days')" type="number" min="{{supportedUnits['day'].min}}" max="{{supportedUnits['day'].max}}"
                   required />
