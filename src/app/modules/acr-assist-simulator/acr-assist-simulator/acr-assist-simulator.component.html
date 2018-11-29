@@ -28,7 +28,7 @@
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
                   (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
-                 (onDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                 (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -46,7 +46,7 @@
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
                   (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
-                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                  (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
