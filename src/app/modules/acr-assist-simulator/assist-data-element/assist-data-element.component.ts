@@ -36,6 +36,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
+  @Output() onDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
@@ -48,7 +49,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   // @ViewChild(AssistNumericElementComponent) child: AssistNumericElementComponent;
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService
-    ) {
+  ) {
 
   }
 
@@ -110,6 +111,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateExecutionHistory();
       }
+      this.afterDataElementChanged();
     }
   }
 
@@ -124,6 +126,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateExecutionHistory();
       }
+      this.afterDataElementChanged();
     }
   }
 
@@ -139,6 +142,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateExecutionHistory();
       }
+      this.afterDataElementChanged();
     }
   }
 
@@ -147,6 +151,19 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.parseXml(endpointId, endpointContent);
   }
 
+  afterDataElementChanged() {
+    let deValues: InputData[] = [];
+    for (const de of this.dataElements) {
+      if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
+        const inputData = new InputData();
+        inputData.dataElementId = de.id;
+        inputData.dataElementValue = de.currentValue;
+        deValues.push(inputData);
+      }
+    }
+   // console.log(deValues);
+    this.onDataElementChanged.emit(deValues);
+  }
   private generateExecutionHistory() {
 
     this.executedResultHistories = [];

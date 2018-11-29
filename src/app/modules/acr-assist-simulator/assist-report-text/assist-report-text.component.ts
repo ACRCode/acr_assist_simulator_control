@@ -27,7 +27,7 @@ ngOnChanges(changes: SimpleChanges): void {
    }
 
   onSelect(sectionId) {
-    console.log(this.reportText.allReportText);
+   // console.log(this.reportText.allReportText);
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
