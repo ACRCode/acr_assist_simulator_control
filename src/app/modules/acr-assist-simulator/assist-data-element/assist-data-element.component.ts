@@ -36,7 +36,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
-  @Output() onDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
+  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
@@ -152,7 +152,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   afterDataElementChanged() {
-    let deValues: InputData[] = [];
+    const deValues: InputData[] = [];
     for (const de of this.dataElements) {
       if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
         const inputData = new InputData();
@@ -161,8 +161,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         deValues.push(inputData);
       }
     }
-   // console.log(deValues);
-    this.onDataElementChanged.emit(deValues);
+   //  console.log(deValues);
+    this.returnDataElementChanged.emit(deValues);
   }
   private generateExecutionHistory() {
 

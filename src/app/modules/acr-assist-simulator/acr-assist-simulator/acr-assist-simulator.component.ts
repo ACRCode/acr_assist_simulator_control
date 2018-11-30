@@ -24,7 +24,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
-  @Output() onDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
+  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @ViewChild('imageUpload') imageUpload: any;
   template: Template;
@@ -92,7 +92,8 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.returnExecutionHistory.emit(finalExecutionHistory);
   }
   recivedOnDataElementChanged(data: InputData[]) {
-    this.onDataElementChanged.emit(data);
+   // console.log(data);
+    this.returnDataElementChanged.emit(data);
   }
 
   changeListener(event): void {
