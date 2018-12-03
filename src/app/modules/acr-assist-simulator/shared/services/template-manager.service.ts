@@ -132,11 +132,9 @@ private parseToJson(xmlData: string): any {
     metadata.lastModifiedDate = metadataJSON.LastModifiedDate;
     metadata.reviewedBy = metadataJSON.ReviewedBy;
     metadata.developedBy = metadataJSON.DevelopedBy;
-
+    metadata.radElementSetID = metadataJSON.RadElementSetID;
     return metadata;
  }
-
-
 
  private  returnDataElement (elementType: string, dataElementsJSON: any): BaseDataElement[] {
     const  dataElements = new Array<BaseDataElement>();
@@ -171,7 +169,7 @@ private parseToJson(xmlData: string): any {
    dataElements = dataElements.concat(this.returnDataElement('ComputedDataElement', dataElementsJSON.ComputedDataElement));
    dataElements = dataElements.concat(this.returnDataElement('IntegerDataElement', dataElementsJSON.IntegerDataElement));
    dataElements = dataElements.concat(this.returnDataElement('DateTimeDataElement', dataElementsJSON.DateTimeDataElement));
-   dataElements = dataElements.concat(this.returnDataElement('DurationDataElement', dataElementsJSON.DurationDataElement));
+   dataElements = dataElements.concat(this.returnDataElement('DurationDataElement', dataElementsJSON.TimeSpanDataElement));
    return dataElements;
  }
 }

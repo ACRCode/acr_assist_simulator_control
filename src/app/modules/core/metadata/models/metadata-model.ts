@@ -11,4 +11,5 @@ export class Metadata {
   approvedBy: string;
   reviewedBy: string;
   developedBy: string;
+  radElementSetID: string;
  }

@@ -19,7 +19,9 @@
           *
         </span>
       </ng-container> -->
-      <ng-container *ngIf="this.durationDataElement.isRequired">
+      <ng-container *ngIf="this.durationDataElement.isRequired
+      && (!showdayminValidation && !showdaymaxValidation && !showminuteminValidation
+           && !showminutemaxValidation && !showhourminValidation && !showhourmaxValidation)">
         <span *ngIf="durationElementForm.controls['durationdayselement'].invalid
          || durationElementForm.controls['durationminuteselement'].invalid
          || durationElementForm.controls['durationhourselement'].invalid">
