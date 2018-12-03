@@ -23,6 +23,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
+  @Input() resetButton: boolean;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
@@ -92,7 +93,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.returnExecutionHistory.emit(finalExecutionHistory);
   }
   recivedOnDataElementChanged(data: InputData[]) {
-   // console.log(data);
+    // console.log(data);
     this.returnDataElementChanged.emit(data);
   }
 
