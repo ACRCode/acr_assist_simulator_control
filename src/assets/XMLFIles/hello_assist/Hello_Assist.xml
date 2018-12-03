@@ -11,6 +11,7 @@
     	<ApprovedBy>Sujth</ApprovedBy>
     	<ReviewedBy>Tony</ReviewedBy>
     	<DevelopedBy>Deepak</DevelopedBy>
+		<RadElementSetID>5689</RadElementSetID>
         <Info>
             <Description>This is a sample xml for ACR Assist based on LI-RADS (characterizing liver lesion for MRI)</Description>
             <References>          
@@ -74,21 +75,15 @@
     	
         <GlobalValue Id="DiameterLarge">20</GlobalValue>    	
     	      
-    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
-    		<CodableConcept Name="Gender">
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
+    		<CodableConcept Name="ObservationCharacter">
     			<Coding>
-    				<System Value="Test"></System>
+    				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
-    				<Code Value="RDETest"></Code>
-    				<Display Value="Test"></Display>
+    				<Code Value="RDE65"></Code>
+    				<Display Value="RDE65"></Display>
     				<UserSelected Value="true"></UserSelected>
-    			</Coding>
-    			<Coding>
-    				<System Value="Test"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDETest"></Code>
-    				<Display Value="Test"></Display>    				
-    			</Coding>
+    			</Coding>    			
     		</CodableConcept>		
     		
     		<Label>Observation in high risk patient</Label>
@@ -153,7 +148,16 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
+		<CodableConcept Name="ArterialEnhancement">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE86"></Code>
+    				<Display Value="RDE86"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>	
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
@@ -214,7 +218,16 @@
         </ChoiceDataElement>
         
     	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
-    		<Label>Diameter </Label>    		
+    		<CodableConcept Name="diameter">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE81"></Code>
+    				<Display Value="RDE81"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>
+			<Label>Diameter </Label>    		
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
     			<Diagram>
@@ -260,7 +273,16 @@
     	</NumericDataElement>
         
     	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false">
-            <Label>Washout</Label>
+            <CodableConcept Name="washout">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE85"></Code>
+    				<Display Value="RDE85"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>
+			<Label>Washout</Label>
     		<Hint>Visually assessed temporal reduction in enhancement relative to liver from an earlier to a later phase resulting in portal venous phase hypoenhancement or delayed phase hypoenhancement.</Hint>
             <ChoiceInfo>
 			   <Choice>
@@ -299,6 +321,15 @@
         </ChoiceDataElement>
 		       
     	<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="5">
+		 <CodableConcept Name="capsule">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE83"></Code>
+    				<Display Value="RDE83"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>
             <Label>Capsule</Label>
     		<Hint>Peripheral rim of smooth hyper-enhancement in the portal venous phase or delayed phase that unequivocally is thicker or more conspicuous than the rims surrounding background nodule.</Hint>
             <ChoiceInfo>
@@ -333,6 +364,15 @@
         </ChoiceDataElement>
         
     	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6" Unit="mm">
+		 <CodableConcept Name="thresholdgrowth">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE84"></Code>
+    				<Display Value="RDE84"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>
             <Label>Threshold Growth</Label>
     		<Hint>Increase in diameter of a mass compared to its baseline by a minimum of 5 mm AND depending on the time interval between examinations, by the following amounts: less than or equal to 6 months: >50% diameter increase greater than 6 months: >100% diameter increase
     		</Hint>
