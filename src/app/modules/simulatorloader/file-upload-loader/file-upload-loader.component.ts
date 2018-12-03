@@ -18,6 +18,7 @@ constructor (private configService: GlobalsService) {
 }
   ngOnInit(): void {
     this.hideMessage();
+    this.showTestModule();
     this.showDefaultModule();
   }
 
@@ -53,7 +54,15 @@ constructor (private configService: GlobalsService) {
     this.configService.getDefaultModulePath()
       .subscribe(data => {
         const self = this;
-        self.onFileContentRead.emit( new FileDetails('Hello Assist', 'Hello_Assist.xml', data));
+        self.onFileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
       });
+  }
+
+  showTestModule() {
+    this.configService.getDefaultTestModulePath()
+    .subscribe(data => {
+      const self = this;
+      self.onFileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
+    });
   }
 }
