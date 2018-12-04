@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class GlobalsService {
   defaultModule =  'assets/XMLFIles/hello_assist/Hello_Assist.xml';
+  defaultTestModule = 'assets/XMLFIles/test_module/Test_Module.xml';
 
   public XMLList: Dictionary<FileDetails> = new Dictionary<FileDetails>();
 
@@ -16,6 +17,10 @@ export class GlobalsService {
 
   getDefaultModulePath(): Observable<string> {
     return this.http.get(this.defaultModule).map(res => res.text());
+  }
+
+  getDefaultTestModulePath(): Observable<string> {
+    return this.http.get(this.defaultTestModule).map(res => res.text());
   }
 }
 

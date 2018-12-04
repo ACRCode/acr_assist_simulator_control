@@ -2,12 +2,12 @@
 <?xml-model href="../../../XML Schema/ACRAssist_xml_schema.rnc" type="application/relax-ng-compact-syntax"?>
 <ReportingModule>	
     <Metadata>   
-        <Label>Hello Assist</Label>
+        <Label>Test Module</Label>
         <ID>Hello_Assist_1_0</ID>
         <SchemaVersion>2.0</SchemaVersion>
         <ModuleVersion>1.5</ModuleVersion>
     	<CreatedDate>2018-12-31</CreatedDate>
-    	<LastModifiedDate>2018-11-26</LastModifiedDate>
+    	<LastModifiedDate>2019-02-28</LastModifiedDate>
     	<ApprovedBy>Sujth</ApprovedBy>
     	<ReviewedBy>Tony</ReviewedBy>
     	<DevelopedBy>Deepak</DevelopedBy>
@@ -73,9 +73,139 @@
     	
 		<GlobalValue Id="DiameterSmall">10</GlobalValue>
     	
-        <GlobalValue Id="DiameterLarge">20</GlobalValue>    	
-    	      
-    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
+        <GlobalValue Id="DiameterLarge">20</GlobalValue>
+    	
+    	<DateTimeDataElement Id="consultationDate" DisplaySequence="7" IsRequired="true" Editable="true" Hasprefilled="false" Output="false">
+    		<Label>Consultation Date</Label>
+    		<Hint>Patient's consultation date</Hint>   
+    		<Diagrams>
+    			<Diagram>
+    				<Location>Arterialphase1.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase2.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase3.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase4.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase5.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase6.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    		</Diagrams>
+    		
+    		<VoiceCommand>Consultation Date</VoiceCommand>
+			<MinimumDate>2018-11-28</MinimumDate>
+			<MaximumDate>2018-12-20</MaximumDate>
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    				<IsRelevant>false</IsRelevant>    
+    				<IsRequired>false</IsRequired>
+    				<DisplaySequence>2</DisplaySequence>				
+    				<ChoiceNotRelevant ChoiceValue="hypoEnhancing"></ChoiceNotRelevant>
+    				<ChoiceNotRelevant ChoiceValue="isoEnhancing"></ChoiceNotRelevant>  
+					<MinimumDate>2018-11-25</MinimumDate>
+					<MaximumDate>2018-12-21</MaximumDate>					
+    			</ConditionalProperty>    			
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    				<IsRelevant>false</IsRelevant>    
+    				<IsRequired>false</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
+    			</ConditionalProperty>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+    				</OrCondition>    				
+    				<IsRelevant>false</IsRelevant>  
+    				<IsRequired>false</IsRequired>
+    			</ConditionalProperty>		
+    		</ConditionalProperties>
+    	</DateTimeDataElement>
+    			      
+    	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" >
+    		<Label>Admitted Duration</Label>
+    		<Hint>Patient's admitted duration</Hint>
+    		<Diagrams>
+    			<Diagram>
+    				<Location>Arterialphase1.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase2.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase3.png</Location> 
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase4.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase5.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase6.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    		</Diagrams>
+    		
+    		<VoiceCommand>Consultation Date</VoiceCommand>
+			<MinimumDay>1</MinimumDay>			
+			<MaximumDay>5</MaximumDay>			
+			<MinimumHours>1</MinimumHours>			
+			<MaximumHours>5</MaximumHours>			
+			<MinimumMinutes>1</MinimumMinutes>			
+			<MaxmimumMinutes>5</MaxmimumMinutes>	
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>3</DisplaySequence>				
+    				<MinimumDay>5</MinimumDay>			
+					<MaximumDay>10</MaximumDay>			
+					<MinimumHours>5</MinimumHours>			
+					<MaximumHours>10</MaximumHours>			
+					<MinimumMinutes>5</MinimumMinutes>			
+					<MaxmimumMinutes>10</MaxmimumMinutes>			
+    			</ConditionalProperty>    			
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>4</DisplaySequence>
+    			</ConditionalProperty>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+    				</OrCondition>    				
+    				<IsRelevant>false</IsRelevant>  
+    				<IsRequired>false</IsRequired>
+    			</ConditionalProperty>		
+    		</ConditionalProperties>    		
+    	</TimeSpanDataElement>
+		      
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true" SourceFilled="temp">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -83,7 +213,14 @@
     				<Code Value="RDE65"></Code>
     				<Display Value="RDE65"></Display>
     				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
+    			</Coding>
+    			<Coding>
+    				<System Value="Loinc"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE65"></Code>
+    				<Display Value="RDE65"></Display> 
+					<UserSelected Value="true"></UserSelected>					
+    			</Coding>
     		</CodableConcept>		
     		
     		<Label>Observation in high risk patient</Label>
@@ -148,16 +285,7 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
-		<CodableConcept Name="ArterialEnhancement">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE86"></Code>
-    				<Display Value="RDE86"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>	
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
@@ -203,31 +331,35 @@
                 </Choice>
             </ChoiceInfo>
     		
-    		<ConditionalProperties>    			
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>false</IsRequired>
+    				<DisplaySequence>2</DisplaySequence>				
+    				<ChoiceNotRelevant ChoiceValue="hypoEnhancing"></ChoiceNotRelevant>
+    				<ChoiceNotRelevant ChoiceValue="isoEnhancing"></ChoiceNotRelevant>    				
+    			</ConditionalProperty>    			
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>false</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
+    			</ConditionalProperty>
     			<ConditionalProperty>
     				<OrCondition>
-					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
-					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
     				</OrCondition>    				
-    				<IsRelevant>false</IsRelevant>    				
+    				<IsRelevant>false</IsRelevant>  
+    				<IsRequired>false</IsRequired>
     			</ConditionalProperty>		
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
-    		<CodableConcept Name="diameter">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE81"></Code>
-    				<Display Value="RDE81"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>
-			<Label>Diameter </Label>    		
+    	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="true" Unit="mm">
+    		<Label>Diameter </Label>    		
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
     			<Diagram>
@@ -253,11 +385,15 @@
     		</Diagrams>
     		<Minimum>10</Minimum>
     		<Maximum>12</Maximum>
-			<ConditionalProperties>				
+			<ConditionalProperties>
+				<ConditionalProperty>
+					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+					<IsRelevant>true</IsRelevant>    
+					<IsRequired>true</IsRequired>
+					<DisplaySequence>2</DisplaySequence>
+				</ConditionalProperty>
 				<ConditionalProperty>
 					<OrCondition>
-					    <EqualCondition DataElementId="ObservationCharacter" 
-							ComparisonValue="definitelyBenign"/>
 						<EqualCondition DataElementId="ObservationCharacter"
 							ComparisonValue="treatedObservation"/>						
 						<EqualCondition DataElementId="ObservationCharacter"
@@ -267,22 +403,17 @@
 						<EqualCondition DataElementId="ObservationCharacter"
 							ComparisonValue="tumorInVein"/>
 					</OrCondition>
-					<IsRelevant>false</IsRelevant>
+					<IsRelevant>true</IsRelevant>    
+					<IsRequired>true</IsRequired>
+					<DisplaySequence>1</DisplaySequence>
+					<Minimum>15</Minimum>
+					<Maximum>20</Maximum>
 				</ConditionalProperty>
 			</ConditionalProperties>	
     	</NumericDataElement>
         
-    	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false">
-            <CodableConcept Name="washout">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE85"></Code>
-    				<Display Value="RDE85"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>
-			<Label>Washout</Label>
+    	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4" Editable="false" Hasprefilled="true" Output="false">
+            <Label>Washout</Label>
     		<Hint>Visually assessed temporal reduction in enhancement relative to liver from an earlier to a later phase resulting in portal venous phase hypoenhancement or delayed phase hypoenhancement.</Hint>
             <ChoiceInfo>
 			   <Choice>
@@ -315,21 +446,14 @@
 						<EqualCondition DataElementId="ObservationCharacter"
 							ComparisonValue="tumorInVein"/>
 					</OrCondition>
-    				<IsRelevant>false</IsRelevant>        				
+    				<IsRelevant>false</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
     			</ConditionalProperty>		
     		</ConditionalProperties>	
         </ChoiceDataElement>
 		       
-    	<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="5">
-		 <CodableConcept Name="capsule">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE83"></Code>
-    				<Display Value="RDE83"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>
+    	<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="5" Unit="mm">
             <Label>Capsule</Label>
     		<Hint>Peripheral rim of smooth hyper-enhancement in the portal venous phase or delayed phase that unequivocally is thicker or more conspicuous than the rims surrounding background nodule.</Hint>
             <ChoiceInfo>
@@ -358,21 +482,14 @@
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>    					
     				</OrCondition>
-    				<IsRelevant>false</IsRelevant>    	    				
+    				<IsRelevant>false</IsRelevant>    	
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
     			</ConditionalProperty>		
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6" Unit="mm">
-		 <CodableConcept Name="thresholdgrowth">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE84"></Code>
-    				<Display Value="RDE84"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>
+    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6">
             <Label>Threshold Growth</Label>
     		<Hint>Increase in diameter of a mass compared to its baseline by a minimum of 5 mm AND depending on the time interval between examinations, by the following amounts: less than or equal to 6 months: >50% diameter increase greater than 6 months: >100% diameter increase
     		</Hint>
@@ -402,7 +519,9 @@
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
     					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>    					
     				</OrCondition>
-    				<IsRelevant>false</IsRelevant>        				
+    				<IsRelevant>false</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
     			</ConditionalProperty>		
     		</ConditionalProperties>
         </ChoiceDataElement>
@@ -877,10 +996,21 @@
 		
         <EndPoint Id="LRtreatedEp">
             <Label>LR-Treated</Label>
-           <ReportTexts>
+           <!-- <ReportTexts>
                 <ReportText SectionId="findings">[LR-Treated] An observation that has undergone loco-regional treatment.
                 </ReportText>
-            </ReportTexts>        	
+            </ReportTexts>-->
+        	<ReportTexts>
+        	<ReportText SectionId="findings">
+        		<SectionIfValue DataElementId="ObservationCharacter" ComparisonValue="treatedObservation" >
+        			(pretreatment unknown)
+        		</SectionIfValue>
+        		<SectionIfValue DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"> 
+        			(pretreatment&amp;nbsp;<InsertValue DataElementId="ObservationCharacter"/>,&amp;nbsp;<InsertValue DataElementId="ObservationCharacter"/>&amp;nbsp;mm)
+        		</SectionIfValue>
+        		<!--                	[LR-1] Imaging features diagnostic of a benign entity or definite spontaneous disappearance at follow up.                	-->
+        	</ReportText>
+        	</ReportTexts>
         </EndPoint>
        
         <EndPoint Id="LR4_5">
