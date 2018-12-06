@@ -23,7 +23,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() resetButton: boolean;
+  @Input() resetButton: boolean = true;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
@@ -153,6 +153,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
   populateTestCaseData() {
     for (const dataeElement of this.template.dataElements) {
+
       const inputValue = this.inputValues.filter(x => x.dataElementId.toUpperCase() === dataeElement.id.toUpperCase());
       if (inputValue !== undefined && inputValue.length > 0) {
         if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
@@ -169,10 +170,14 @@ export class AcrAssistSimulatorComponent implements OnChanges {
             inputValue[0].dataElementValue = values;
           } else {
             choiceElement.choiceInfo.forEach(choice => {
-              if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
-                inputValue[0].dataElementValue = choice.value;
-                return;
+
+              if (inputValue[0].dataElementValue !== undefined) {
+                if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
+                  inputValue[0].dataElementValue = choice.value;
+                  return;
+                }
               }
+
             });
           }
         }
