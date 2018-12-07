@@ -88,8 +88,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       //   this.child.UpdateFormValidator();
       // }
 
-    //  console.log('asda');
-    //  console.log(this.dataElements);
+      //  console.log('asda');
+      //  console.log(this.dataElements);
       this.simulatorCommunicationService.messageEmitter('');
     });
   }
@@ -100,48 +100,60 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   choiceSelected($event) {
-    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
-      this.selectedChoiceValues[$event.receivedElement.elementId + 'SelectedValue'] = $event.receivedElement.selectedText;
-      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
-        $event.receivedElement.selectedText);
-      const executedResults: string[] = [];
-      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.selectedChoiceValues[$event.receivedElement.elementId + 'SelectedValue'] = $event.receivedElement.selectedText;
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
+          $event.receivedElement.selectedText);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-      if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
-        this.generateExecutionHistory();
+        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+          this.generateExecutionHistory();
+        }
+        this.afterDataElementChanged();
       }
+    } else {
       this.afterDataElementChanged();
     }
   }
 
   numericSelected($event) {
-    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
-      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
-        $event.receivedElement.selectedValue);
-      const executedResults: string[] = [];
-      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
+          $event.receivedElement.selectedValue);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-      if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
-        this.generateExecutionHistory();
+        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+          this.generateExecutionHistory();
+        }
+        this.afterDataElementChanged();
       }
+    } else {
       this.afterDataElementChanged();
     }
   }
 
   multiSelected($event) {
-    if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
-      this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
-      this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues,
-        $event.receivedElement.selectedValues);
-      const executedResults: string[] = [];
-      executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
-      this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues,
+          $event.receivedElement.selectedValues);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
 
-      if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
-        this.generateExecutionHistory();
+        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+          this.generateExecutionHistory();
+        }
+        this.afterDataElementChanged();
       }
+    } else {
       this.afterDataElementChanged();
     }
   }
@@ -152,18 +164,38 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   afterDataElementChanged() {
+
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
       if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
         const inputData = new InputData();
         inputData.dataElementId = de.id;
+        inputData.dataElementLabel = de.label;
         inputData.dataElementValue = de.currentValue;
+
+        if (de.currentValue === undefined || de.currentValue === '') {
+          inputData.dataElementDisplayValue = undefined;
+        } else {
+          if (de.dataElementType === 'ChoiceDataElement') {
+            const choices = (de as ChoiceDataElement).choiceInfo;
+            inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
+          } else if (de.dataElementType === 'MultiChoiceDataElement') {
+            const choices = (de as ChoiceDataElement).choiceInfo;
+            choices.filter(ch => ch.value === de.currentValue).forEach(ch => {
+              inputData.dataElementDisplayValue += ch.label + ', ';
+            });
+          } else {
+            inputData.dataElementDisplayValue = de.currentValue;
+          }
+        }
+
         deValues.push(inputData);
       }
     }
-   //  console.log(deValues);
+
     this.returnDataElementChanged.emit(deValues);
   }
+
   private generateExecutionHistory() {
 
     this.executedResultHistories = [];
@@ -241,13 +273,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   private parseToJson(xmlData: string): any {
     let jsonResult: JSON;
-    const parseString =  require('xml2js').parseString;
-    parseString(xmlData, {explicitRoot : false, explicitArray : false, attrkey : 'Attr'} , function (err, result) {
-        jsonResult  = result;
-  });
+    const parseString = require('xml2js').parseString;
+    parseString(xmlData, { explicitRoot: false, explicitArray: false, attrkey: 'Attr' }, function (err, result) {
+      jsonResult = result;
+    });
 
-  return jsonResult;
- }
+    return jsonResult;
+  }
 
   private parseXml(endPointId: string, endpointContent: string): any {
     const templateIds: string[] = [];

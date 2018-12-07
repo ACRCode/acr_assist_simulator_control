@@ -14,50 +14,70 @@ export class AppComponent {
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
-  position =  ReportTextPosition;
+  position = ReportTextPosition;
   testInputValue: InputData[] = [
     {
-         'dataElementId': 'modality',
-         'dataElementValue': 'CT'
-       },
-       {
-         'dataElementId': 'observationnumber',
-         'dataElementValue': '1'
-       },
-       {
-         'dataElementId': 'seriesnumber',
-         'dataElementValue': '1'
-       },
-       {
-         'dataElementId': 'imagenumber',
-         'dataElementValue': '1'
-       },
-   {
-         'dataElementId': 'segmentlocation',
-         'dataElementValue': 'II'
-       },
-   {
-         'dataElementId': 'observationinPatient',
-         'dataElementValue': 'untreated'
-       },
-   {
-         'dataElementId': 'untreatedobservation',
-         'dataElementValue': 'malignantbutnothcc'
-       },
-   {
-         'dataElementId': 'diameter',
-         'dataElementValue': '5'
-       },
-   {
-         'dataElementId': 'lrmtargetoidmass',
-         'dataElementValue': 'Rim_APHE'
-       },
-   {
-         'dataElementId': 'lrmnontargetoidmass',
-         'dataElementValue': 'Infiltrative_appearance'
-       }
+      'dataElementId': 'modality',
+      'dataElementValue': 'CT',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'observationnumber',
+      'dataElementValue': '1',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'seriesnumber',
+      'dataElementValue': '1',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'imagenumber',
+      'dataElementValue': '1',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'segmentlocation',
+      'dataElementValue': 'II',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'observationinPatient',
+      'dataElementValue': 'untreated',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'untreatedobservation',
+      'dataElementValue': 'malignantbutnothcc',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'diameter',
+      'dataElementValue': '5',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'lrmtargetoidmass',
+      'dataElementValue': 'Rim_APHE',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    },
+    {
+      'dataElementId': 'lrmnontargetoidmass',
+      'dataElementValue': 'Infiltrative_appearance',
+      'dataElementLabel': '',
+      'dataElementDisplayValue': ''
+    }
 
-     ];
+  ];
 
   constructor() {
     this.fileContent = '';
