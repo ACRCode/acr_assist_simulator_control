@@ -46,6 +46,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
   @Input() inputValues: InputData[] = [];
+
+  items: any[] = [];
+
   // @ViewChild(AssistNumericElementComponent) child: AssistNumericElementComponent;
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService
@@ -54,6 +57,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    for (let i = 0; i < 10; i++) {
+     this.items.push(i);
+    }
+
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
