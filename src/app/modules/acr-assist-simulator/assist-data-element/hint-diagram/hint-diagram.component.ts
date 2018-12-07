@@ -16,7 +16,13 @@ export class HintDiagramComponent {
     this.activeSlideIndex = 0;
   }
 
-  isImageDataUrl(location: string): boolean {
-    return !! location.match(this.isDataURL);
+  getImageDataUrl(location: string): string {
+    const isDataURL = !!location.match(this.isDataURL);
+    if (isDataURL) {
+      location = location.replace('unsafe:', '');
+      return location;
+    } else {
+      return this.imagePath + '/' + location;
+    }
   }
 }
