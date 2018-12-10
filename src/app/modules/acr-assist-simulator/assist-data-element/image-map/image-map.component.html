@@ -21,7 +21,7 @@
               <ng-container *ngIf="imageExist == true">
                   <img class="ImgOption danger img-responsive max-w-h-100" alt="{{ DataElement.imageMap.label }}" data-dismiss="modal" attr.id="{{'imgMap_Img_'+DataElement.id}}"
                     (click)="imageClick($event,DataElement);" attr.data-elementID="{{DataElement.id}}" attr.usemap="#{{'imgMap_'+DataElement.id}}"
-                    src="{{ getImageDataUrl(DataElement.imageMap.location) }}">
+                    [src]="domSanitizer.bypassSecurityTrustUrl(getImageDataUrl(DataElement.imageMap.location))">
                 <map name="{{'imgMap_'+DataElement.id}}">
                   <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
                     <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}" attr.coords="{{imgOpt.coords}}"
