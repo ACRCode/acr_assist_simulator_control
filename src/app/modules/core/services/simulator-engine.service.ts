@@ -36,6 +36,10 @@ export class SimulatorEngineService {
     return this.template;
   }
 
+  setTemplate() {
+  
+  }
+
   getAllDataElementValues(): Map<string, any> {
     return this.dataElementValues;
   }

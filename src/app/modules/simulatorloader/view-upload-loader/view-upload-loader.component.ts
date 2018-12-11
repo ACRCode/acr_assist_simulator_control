@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
+import { ResetCommunicationService } from '../../acr-assist-simulator/shared/Reset-communication.service';
 const $ = require('jquery');
 @Component({
   selector: 'acr-view-upload-loader',
@@ -15,7 +16,7 @@ export class ViewUploadLoaderComponent {
   selectedXML: FileDetails;
   globalsService: GlobalsService;
 
-  constructor(globalsService: GlobalsService) {
+  constructor(globalsService: GlobalsService, private resetCommunicationService: ResetCommunicationService) {
     this.globalsService = globalsService;
   }
 
@@ -32,5 +33,7 @@ export class ViewUploadLoaderComponent {
     this.onFileSelected.emit(fileDetails);
 
     $('#xmlOnlyMsg').hide();
+
+    this.resetCommunicationService.messageEmitter('');
   }
 }

@@ -71,7 +71,7 @@
           </ng-container>
         </ng-container>
       </ng-container>
-    
+    <!-- {{choiceDataElement | json}} -->
       <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">            
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
          [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"

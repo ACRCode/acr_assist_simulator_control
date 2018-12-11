@@ -15,6 +15,10 @@ import { AssistChoiceElementComponent } from './assist-choice-element/assist-cho
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 // import { AssistNumericElementComponent } from './assist-numeric-element/assist-numeric-element.component';
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
+import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
+import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
+import { ResetCommunicationService } from '../shared/Reset-communication.service';
+import { Subscription } from 'rxjs';
 const $ = require('jquery');
 
 @Component({
@@ -26,8 +30,9 @@ const $ = require('jquery');
 
 
 export class AssistDataElementComponent implements OnInit, OnChanges {
-
+  subscription: Subscription;
   @Input() dataElements: BaseDataElement[];
+  @Input() $dataElements: BaseDataElement[];
   @Input() imagePath: string;
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
@@ -47,20 +52,26 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   executedResultHistories: ExecutedResultHistory[] = [];
   @Input() inputValues: InputData[] = [];
 
-  items: any[] = [];
-
-  // @ViewChild(AssistNumericElementComponent) child: AssistNumericElementComponent;
+  IsRepeating: boolean;
+  $RepeatedElementModel: any[] = [];
   constructor(private simulatorEngineService: SimulatorEngineService,
-    private simulatorCommunicationService: SimulatorCommunicationService
-  ) {
+    private simulatorCommunicationService: SimulatorCommunicationService,
+    resetCommunicationService: ResetCommunicationService) {
+    this.subscription = resetCommunicationService.resetSource$.subscribe(
+      mission => {
+        this.IsRepeating = false;
+        this.$RepeatedElementModel = [];
+      });
+  }
 
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 10; i++) {
-     this.items.push(i);
-    }
-
+    this.IsRepeating = false;
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
@@ -95,8 +106,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       //   this.child.UpdateFormValidator();
       // }
 
-    //  console.log('asda');
-    //  console.log(this.dataElements);
+      //  console.log('asda');
+      //  console.log(this.dataElements);
+
+      this.$dataElements = [];
+      for (const dataelement of this.dataElements) {
+        if (!dataelement.isRepeatable) {
+          this.$dataElements.push(dataelement);
+        }
+      }
+
       this.simulatorCommunicationService.messageEmitter('');
     });
   }
@@ -104,6 +123,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
+
+    this.$dataElements = [];
+    for (const dataelement of this.dataElements) {
+      if (!dataelement.isRepeatable) {
+        this.$dataElements.push(dataelement);
+      }
+    }
   }
 
   choiceSelected($event) {
@@ -133,7 +159,64 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateExecutionHistory();
       }
+
       this.afterDataElementChanged();
+      this.FindRepeatedElements($event);
+    }
+  }
+
+  IsAnyRepeatElementsExist(event): boolean {
+    let isExist = false;
+    for (const item of this.dataElements) {
+      if (item.isRepeatable === true && item.repeatRefID === event.receivedElement.elementId) {
+        isExist = true;
+        break;
+      }
+    }
+
+    return isExist;
+  }
+
+  FindRepeatedElements($event) {
+    if (this.IsAnyRepeatElementsExist($event)) {
+      this.IsRepeating = false;
+      const $repeatedElementModel = new RepeatedElementModel();
+
+      this.ResetRepeatedElements($event);
+      for (const item of this.dataElements) {
+        if (item.id === $event.receivedElement.elementId) {
+          $repeatedElementModel.ParentElement = item;
+          $repeatedElementModel.ParentElementId = $event.receivedElement.elementId;
+        }
+      }
+
+      for (let i = 0; i < $event.receivedElement.selectedValue; i++) {
+        const repeatedElementSection = new RepeatedElementSections();
+        for (const item of this.dataElements) {
+          if (item.isRepeatable === true && item.repeatRefID === $event.receivedElement.elementId) {
+            this.IsRepeating = true;
+            repeatedElementSection.SectionName = item.repeatGroup + ' ' + + (i + 1);
+            repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
+            item.id = item.id + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
+            item.currentValue = undefined;
+            const $item = Object.assign([], item);
+            repeatedElementSection.ChildElements.push($item);
+          }
+        }
+
+        $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
+      }
+
+      this.$RepeatedElementModel.push($repeatedElementModel);
+      console.log(this.simulatorEngineService.getTemplate());
+    }
+  }
+
+  ResetRepeatedElements($event) {
+    for (let index = 0; index < this.$RepeatedElementModel.length; index++) {
+      if (this.$RepeatedElementModel[index].ParentElementId === $event.receivedElement.elementId) {
+        this.$RepeatedElementModel.splice(index, 1);
+      }
     }
   }
 
@@ -168,7 +251,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         deValues.push(inputData);
       }
     }
-   //  console.log(deValues);
+    //  console.log(deValues);
     this.returnDataElementChanged.emit(deValues);
   }
   private generateExecutionHistory() {
@@ -248,13 +331,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   private parseToJson(xmlData: string): any {
     let jsonResult: JSON;
-    const parseString =  require('xml2js').parseString;
-    parseString(xmlData, {explicitRoot : false, explicitArray : false, attrkey : 'Attr'} , function (err, result) {
-        jsonResult  = result;
-  });
+    const parseString = require('xml2js').parseString;
+    parseString(xmlData, { explicitRoot: false, explicitArray: false, attrkey: 'Attr' }, function (err, result) {
+      jsonResult = result;
+    });
 
-  return jsonResult;
- }
+    return jsonResult;
+  }
 
   private parseXml(endPointId: string, endpointContent: string): any {
     const templateIds: string[] = [];
@@ -769,6 +852,7 @@ export class ChoiceElement {
 export class NumericElement {
   elementId: string;
   selectedValue: number;
+
 }
 
 export class MultiChoiceElement {

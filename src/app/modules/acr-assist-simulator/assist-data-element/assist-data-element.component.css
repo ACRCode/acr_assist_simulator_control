@@ -1,0 +1,43 @@
+header {
+    background-color: #cccccc;
+    margin-bottom: 10px;
+}
+
+header label {
+    margin: 0 !important;  
+    padding-bottom: 5px !important;  
+}
+
+.panel-default>.panel-heading{
+    color:white;
+    background-color: #3c8dbc;
+    border-color: #ddd;
+}
+
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: white;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.accordion-toggle:focus{
+    color: white !important;
+}
+
+.accordion-toggle:hover{
+    text-decoration: none !important;
+}
+
+.panel-title a {
+    display: block;
+    padding: 10px 15px;
+    margin: -10px -15px;
+    font-size: small;
+}
+

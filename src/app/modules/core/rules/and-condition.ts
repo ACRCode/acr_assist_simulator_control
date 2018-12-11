@@ -22,6 +22,7 @@ export class AndCondition implements CompositeCondition {
           break;
       }
     }
+    
     return returnValue;
   }
 }

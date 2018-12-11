@@ -12,7 +12,6 @@ export class OrCondition implements CompositeCondition {
     this.conditionType =  'OrCondition';
   }
 
-
   evaluate(dataElementValues: DataElementValues): boolean {
 
     let returnValue = false;

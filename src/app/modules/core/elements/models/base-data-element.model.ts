@@ -25,4 +25,8 @@ export  class BaseDataElement {
 
   isRequiredOverrider: Boolean = true;
   displaySequenceOverrider: number;
+
+  isRepeatable: boolean;
+  repeatGroup: string;
+  repeatRefID: string;
 }

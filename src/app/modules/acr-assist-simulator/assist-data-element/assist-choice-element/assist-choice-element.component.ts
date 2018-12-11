@@ -5,12 +5,14 @@ import { SelectedCondition } from '../../../core/models/executed-result.model';
 const $ = require('jquery');
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 @Component({
   selector: 'acr-assist-choice-element',
   templateUrl: './assist-choice-element.component.html',
   styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
+  @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnChoiceElement = new EventEmitter();
@@ -39,7 +41,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
         // if (this.choiceDataElement.choiceInfo[choice].value === 'hypoEnhancing'){
         //     console.log('asdasd');
         // }
-        
+
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
             if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
               this.selectedChoiceReportText = this.choiceDataElement.choiceInfo[choice].reportText;

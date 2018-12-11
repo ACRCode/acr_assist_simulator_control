@@ -1,4 +1,6 @@
-<ng-container *ngFor="let DataElement of dataElements">  
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+
+<ng-container *ngFor="let DataElement of $dataElements">
   <ng-container *ngIf="(DataElement.dataElementType == 'ChoiceDataElement'
     || DataElement.dataElementType == 'NumericDataElement'
     || DataElement.dataElementType == 'IntegerDataElement' 
@@ -7,21 +9,74 @@
     || DataElement.dataElementType == 'DurationDataElement') ">
     <ng-container *ngIf="DataElement.isVisible">
       <div id="div_{{DataElement.id}}">
+        <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
+          <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
+        </ng-container>       
+
+        <ng-container *ngIf="IsRepeating">
+          <ng-container *ngFor="let repeatedElementModel of $RepeatedElementModel">
+            <ng-container *ngFor="let repeatedElementSections of repeatedElementModel.RepeatedElementSections">                  
+                <!-- <header>
+                    <label class="control-label">{{repeatedElementSections.SectionName}}</label> 
+                </header>            -->
+
+                <ng-container *ngIf="repeatedElementModel.ParentElementId == DataElement.id">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a class="accordion-toggle" data-toggle="collapse" href="#{{repeatedElementSections.SectionId}}">
+                              {{repeatedElementSections.SectionName}}
+                            </a>
+                        </h4>
+                      </div>
+                      <div id="{{repeatedElementSections.SectionId}}" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <ng-container *ngFor="let childElement of repeatedElementSections.ChildElements">
+                                <ng-container *ngIf="childElement.dataElementType == 'NumericDataElement' || childElement.dataElementType == 'IntegerDataElement'">
+                                  <acr-assist-numeric-element [numericDataElement]='childElement' [imagePath]='imagePath'
+                                    (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
+                                </ng-container>
+                                <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
+                                  <acr-assist-choice-element [choiceDataElement]='childElement' [imagePath]='imagePath'
+                                    [repeatedElementSections]='repeatedElementSections'
+                                    (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+                                </ng-container>
+                                <ng-container *ngIf="childElement.dataElementType == 'MultiChoiceDataElement'">
+                                  <acr-assist-multi-choice-element [multiChoiceElement]='childElement' [imagePath]='imagePath'
+                                    (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
+                                </ng-container>
+                                <ng-container *ngIf="childElement.dataElementType == 'DateTimeDataElement'">
+                                  <acr-assist-date-time-element [dateTimeDataElement]='childElement'></acr-assist-date-time-element>
+                                </ng-container>
+                                <ng-container *ngIf="childElement.dataElementType == 'DurationDataElement'">
+                                  <acr-assist-duration-element [durationDataElement]='childElement'></acr-assist-duration-element>
+                                </ng-container>
+                              </ng-container>
+                        </div>
+                      </div>
+                    </div>        
+                  </div>
+                </ng-container>           
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
         <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
           <acr-assist-choice-element [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
         </ng-container>
+
         <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
-          <acr-assist-multi-choice-element [multiChoiceElement]='DataElement' [imagePath]='imagePath' (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
+          <acr-assist-multi-choice-element [multiChoiceElement]='DataElement' [imagePath]='imagePath'
+            (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
         </ng-container>
-        <ng-container *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
-          <acr-assist-numeric-element [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
-        </ng-container>
+
         <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
           <acr-assist-date-time-element [dateTimeDataElement]='DataElement'></acr-assist-date-time-element>
         </ng-container>
         <ng-container *ngIf="DataElement.dataElementType == 'DurationDataElement'">
-            <acr-assist-duration-element [durationDataElement]='DataElement'></acr-assist-duration-element>
-          </ng-container>
+          <acr-assist-duration-element [durationDataElement]='DataElement'></acr-assist-duration-element>
+        </ng-container>
       </div>
     </ng-container>
   </ng-container>

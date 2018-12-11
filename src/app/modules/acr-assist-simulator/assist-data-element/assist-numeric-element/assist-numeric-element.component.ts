@@ -6,6 +6,7 @@ import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { Subscription } from 'rxjs';
+import { ResetCommunicationService } from '../../shared/Reset-communication.service';
 
 
 @Component({
@@ -22,11 +23,17 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   selectedCondition: SelectedCondition;
   numberValue: number;
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
-    simulatorCommunicationService: SimulatorCommunicationService) {
+    simulatorCommunicationService: SimulatorCommunicationService,
+    resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.UpdateFormValidator();
       });
+
+      this.subscription = resetCommunicationService.resetSource$.subscribe(
+        mission => {
+
+        });
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
