@@ -14,7 +14,7 @@ export class AndCondition implements CompositeCondition {
 
   evaluate(dataElementValues: DataElementValues): boolean {
     let returnValue = true;
-    for (let conditionCounter = 0 ;  conditionCounter < this.conditions.length ;  conditionCounter++) {
+    for (let conditionCounter = 0 ;  conditionCounter < this.conditions.length;  conditionCounter++) {
       const condition = this.conditions[conditionCounter];
       const executedCondition = condition.evaluate(dataElementValues);
       returnValue = (!executedCondition) ? false :  (returnValue && executedCondition);
@@ -22,7 +22,7 @@ export class AndCondition implements CompositeCondition {
           break;
       }
     }
-    
+
     return returnValue;
   }
 }

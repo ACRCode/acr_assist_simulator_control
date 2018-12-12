@@ -95,6 +95,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
+        // this.generateReportText('ReporttextTR1');
+
+      // this.generateReportText(this.simulatorState.endPointId);
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateReportText(this.simulatorState.endPointId);
 
@@ -194,7 +197,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const repeatedElementSection = new RepeatedElementSections();
         for (const item of this.dataElements) {
           if (item.isRepeatable === true && item.repeatRefID === $event.receivedElement.elementId) {
-            this.IsRepeating = true;
+            // this.IsRepeating = true;
             repeatedElementSection.SectionName = item.repeatGroup + ' ' + + (i + 1);
             repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.id = item.id + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
@@ -207,8 +210,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
       }
 
-      this.$RepeatedElementModel.push($repeatedElementModel);
-      console.log(this.simulatorEngineService.getTemplate());
+       this.$RepeatedElementModel.push($repeatedElementModel);
+       this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
+      //  console.log(this.IsRepeating);
+       console.log(this.$RepeatedElementModel);
     }
   }
 
@@ -237,6 +242,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   generateReportText(endpointId: string) {
+    // endpointId = 'ReporttextTR1';
     const endpointContent = this.returnEndPointContents(this.xmlContent, '<EndPoint Id="' + endpointId + '">', '</EndPoint>');
     this.parseXml(endpointId, endpointContent);
   }
