@@ -47,7 +47,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     // console.log('asda');
   }
 
@@ -57,6 +57,8 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
         this.numericDataElement.currentValue);
       this.numberValue = this.numericDataElement.currentValue;
       this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
+    } else {
+      this.returnNumericElement.emit(undefined);
     }
   }
 

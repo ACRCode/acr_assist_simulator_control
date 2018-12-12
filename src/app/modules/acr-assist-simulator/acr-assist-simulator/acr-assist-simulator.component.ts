@@ -58,10 +58,11 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     }
 
     this.template = this.templateManagerService.getTemplate(this.templateContent);
-    this.simulatorEngineService.initialize(this.template);
+    // this.simulatorEngineService.initialize(this.template);
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }
+    this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
     this.keyDiagrams = new Array<Diagram>();
 
@@ -79,8 +80,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   resetElements() {
     this.template = this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
-
-    this.dataElements = this.template.dataElements;
+    this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
     this.returnDefaultElements.emit();
   }
@@ -93,7 +93,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.returnExecutionHistory.emit(finalExecutionHistory);
   }
   recivedOnDataElementChanged(data: InputData[]) {
-    // console.log(data);
     this.returnDataElementChanged.emit(data);
   }
 
@@ -152,8 +151,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   }
 
   populateTestCaseData() {
-    for (const dataeElement of this.template.dataElements) {
-
+    this.template.dataElements.forEach(dataeElement => {
       const inputValue = this.inputValues.filter(x => x.dataElementId.toUpperCase() === dataeElement.id.toUpperCase());
       if (inputValue !== undefined && inputValue.length > 0) {
         if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
@@ -182,7 +180,8 @@ export class AcrAssistSimulatorComponent implements OnChanges {
           }
         }
         dataeElement.currentValue = inputValue[0].dataElementValue;
+
       }
-    }
+    });
   }
 }

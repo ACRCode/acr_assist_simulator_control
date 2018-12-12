@@ -16,7 +16,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   @Input() multiChoiceElement: MultiChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnMultiChoice = new EventEmitter();
-  multiElements: MultiChoiceElement [] = [];
+  multiElements: MultiChoiceElement[] = [];
   multiChoiceValues: string[] = [];
   multiChoiceComaprisonValues: string[] = [];
   multiChoiceElementForm: FormGroup;
@@ -24,7 +24,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   choiceValue: string[] = [];
   checked: string;
   selctValue: string;
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) {}
+  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
   ngOnInit() {
     this.createMultiChoiceElementForm();
@@ -33,7 +33,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
     if (this.multiChoiceElement.currentValue !== undefined) {
       for (const choice in this.multiChoiceElement.choiceInfo) {
-        if (Array.isArray( this.multiChoiceElement.currentValue)) {
+        if (Array.isArray(this.multiChoiceElement.currentValue)) {
           for (const currValue of this.multiChoiceElement.currentValue) {
             // this.choiceValue = this.multiChoiceElement.currentValue;
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
@@ -48,12 +48,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
           }
         } else {
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-                // this.checked = true;
-                this.choiceValue = this.multiChoiceElement.currentValue;
-                const customEvent = document.createEvent('Event');
-              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
-              customEvent.initEvent('change', true, true);
-              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.choiceInfo[choice].label);
+            // this.checked = true;
+            this.choiceValue = this.multiChoiceElement.currentValue;
+            const customEvent = document.createEvent('Event');
+            $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
+            customEvent.initEvent('change', true, true);
+            this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.choiceInfo[choice].label);
           }
         }
         if (this.selctValue === this.multiChoiceElement.choiceInfo[choice].value) {
@@ -62,6 +62,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
           this.checked = undefined;
         }
       }
+    } else {
+      this.returnMultiChoice.emit(undefined);
     }
   }
   selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: string, choiceLabel) {
@@ -86,7 +88,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
         this.multiChoiceComaprisonValues.splice(comparisonIndex, 1);
       }
     }
-     multiElement.elementId = elementId;
+    multiElement.elementId = elementId;
     multiElement.selectedValues = this.multiChoiceValues;
     multiElement.selectedComparisonValues = this.multiChoiceComaprisonValues;
 
@@ -95,7 +97,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = this.multiChoiceValues;
-    this.returnMultiChoice.emit({receivedElement: multiElement, selectedCondition: this.selectedCondition});
+    this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
     const multiElement = new MultiChoiceElement();
@@ -119,7 +121,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
         this.multiChoiceComaprisonValues.splice(comparisonIndex, 1);
       }
     }
-     multiElement.elementId = elementId;
+    multiElement.elementId = elementId;
     multiElement.selectedValues = this.multiChoiceValues;
     multiElement.selectedComparisonValues = this.multiChoiceComaprisonValues;
 
@@ -128,24 +130,24 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = this.multiChoiceValues;
-    this.returnMultiChoice.emit({receivedElement: multiElement, selectedCondition: this.selectedCondition});
+    this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
     // this.returnMultiChoice.emit(multiElement);
   }
 
   private createMultiChoiceElementForm() {
     this.multiChoiceElementForm = this.formBuilder.group({
-      multiCheckBox: ['', Validators.required ],
+      multiCheckBox: ['', Validators.required],
     }, {
-      validator: this.specificValueInsideRange('multiCheckBox')
-    });
+        validator: this.specificValueInsideRange('multiCheckBox')
+      });
   }
 
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
-      if ( this.multiChoiceElement.isRequired ) {
+      if (this.multiChoiceElement.isRequired) {
         return choiceControl.setErrors({ notEquivalent: true });
-      }else {
+      } else {
         return choiceControl.setErrors(null);
       }
     };

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-hint-diagram',
@@ -11,6 +12,11 @@ export class HintDiagramComponent {
   @Input() imagePath: string;
   isDataURL = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
   activeSlideIndex = 0;
+  domSanitizer: DomSanitizer;
+
+  constructor(domSanitizer: DomSanitizer) {
+    this.domSanitizer = domSanitizer;
+  }
 
   resetCarouselIndex() {
     this.activeSlideIndex = 0;

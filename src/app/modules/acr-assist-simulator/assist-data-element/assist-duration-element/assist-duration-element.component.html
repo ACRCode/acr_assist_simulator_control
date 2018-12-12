@@ -61,8 +61,6 @@
         class="required-field" title=" Maximum value for hour is {{supportedUnits['hour'].max}}">
         *
       </span>
-
-
     </div>
 
     <div class="col-sm-7" style="display:inline-flex">
@@ -75,13 +73,13 @@
       <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
         <table>
           <tbody>
-            <tr class="text-center">
+            <!-- <tr class="text-center">
               <td>
                 <button type="button" (click)="increaseValue('days')" class="btn btn-link btn-decrementer">
                   +
                 </button>
               </td>
-            </tr>
+            </tr> -->
             <tr class="text-center">
               <td class="input-group input-group-sm">
                 <input  tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
@@ -91,26 +89,26 @@
                 <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['day'].label}}</span>
               </td>
             </tr>
-            <tr class="text-center">
+            <!-- <tr class="text-center">
               <td>
                 <button type="button" (click)="decreaseValue('days')" class="btn btn-link btn-decrementer">
                   -
                 </button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
 
       <table style="margin-left:10px;">
         <tbody>
-          <tr class="text-center">
+          <!-- <tr class="text-center">
             <td>
               <button type="button" (click)="increaseValue('hour')" class="btn btn-link btn-incrementer">
                 +
               </button>
             </td>
-          </tr>
+          </tr> -->
           <tr class="text-center">
             <td class="input-group input-group-sm">
               <input tabindex="2" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
@@ -120,25 +118,25 @@
               <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['hour'].label}}</span>
             </td>
           </tr>
-          <tr class="text-center">
+          <!-- <tr class="text-center">
             <td>
               <button type="button" (click)="decreaseValue('hour')" class="btn btn-link btn-decrementer">
                 -
               </button>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
 
       <table style="margin-left:10px;">
         <tbody>
-          <tr class="text-center">
+          <!-- <tr class="text-center">
             <td>
               <button type="button" (click)="increaseValue('minute')" class="btn btn-link btn-decrementer">
                 +
               </button>
             </td>
-          </tr>
+          </tr> -->
           <tr class="text-center">
             <td class="input-group input-group-sm">
               <input tabindex="3" [(ngModel)]="minutesvalue" formControlName="durationminuteselement" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
@@ -147,13 +145,13 @@
               <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['minute'].label}}</span>
             </td>
           </tr>
-          <tr class="text-center">
+          <!-- <tr class="text-center">
             <td>
               <button type="button" (click)="decreaseValue('minute')" class="btn btn-link btn-decrementer">
                 -
               </button>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
 
