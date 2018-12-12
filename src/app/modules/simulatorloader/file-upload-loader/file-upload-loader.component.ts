@@ -19,7 +19,9 @@ constructor (private configService: GlobalsService) {
   ngOnInit(): void {
     this.hideMessage();
     this.showTestModule();
-    this.showDefaultModule();
+    setTimeout(() => {
+      this.showDefaultModule();
+      }, 100);
   }
 
   changeListener($event): void {
