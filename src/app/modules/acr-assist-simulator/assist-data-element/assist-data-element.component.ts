@@ -58,7 +58,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     for (let i = 0; i < 10; i++) {
-     this.items.push(i);
+      this.items.push(i);
     }
 
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
@@ -316,6 +316,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     selectedChoiceTexts = this.simulatorEngineService.getAllDataElementTexts();
     executeSectionIfNot = false;
     hasInsertPartial = false;
+    endpointContent = endpointContent.replace(/\t/g, '&emsp;');
+    endpointContent = endpointContent.replace(/\s+/g, '&nbsp;');
+    // tslint:disable-next-line:forin
+    for (const i in templatePartialsText) {
+      templatePartialsText[i] = templatePartialsText[i].replace(/\t/g, '&emsp;');
+      templatePartialsText[i] = templatePartialsText[i].replace(/\s+/g, '&nbsp;');
+    }
 
     findingsText = '';
     impressionText = '';
@@ -331,9 +338,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       reportTextParser.resume();
     };
     reportTextParser.ontext = function (t) {
-      if (t.length > 1) {
-        t = t.trim();
-      }
+      // if (t.length > 1) {
+      //   t = t.trim();
+      // }
       let isTextInserted: boolean;
       isTextInserted = false;
       if (executeTemplate) {

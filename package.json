@@ -103,7 +103,5 @@
     "ngx-duration-picker": "^3.0.0",
     "angular2-time-duration-picker": "^1.1.0"
   },
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }
