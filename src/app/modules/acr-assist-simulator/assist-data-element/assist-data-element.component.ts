@@ -111,7 +111,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       //  console.log('asda');
       //  console.log(this.dataElements);
-<<<<<<< HEAD
 
       this.$dataElements = [];
       for (const dataelement of this.dataElements) {
@@ -120,8 +119,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         }
       }
 
-=======
->>>>>>> master
       this.simulatorCommunicationService.messageEmitter('');
     });
   }
@@ -171,14 +168,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           this.generateExecutionHistory();
         }
         this.afterDataElementChanged();
+        this.FindRepeatedElements($event);
       }
-<<<<<<< HEAD
-
-=======
     } else {
->>>>>>> master
       this.afterDataElementChanged();
-      this.FindRepeatedElements($event);
     }
   }
 
