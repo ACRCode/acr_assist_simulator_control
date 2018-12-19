@@ -1,7 +1,7 @@
 <form [formGroup]="durationElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label">
+      <label class="control-label break-word">
         <!-- {{dateTimeDataElement | json}} -->
         {{durationDataElement.label}}
         <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''">

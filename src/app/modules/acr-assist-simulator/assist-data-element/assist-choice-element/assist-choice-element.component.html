@@ -1,7 +1,7 @@
 <form [formGroup]="choiceElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label">
+      <label class="control-label break-word">
         {{choiceDataElement.label}} <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''"> ({{choiceDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">

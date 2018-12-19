@@ -419,3 +419,6 @@ h6,
     line-height: 20px
   }
 }
+.break-word{
+  word-break: break-word;
+}

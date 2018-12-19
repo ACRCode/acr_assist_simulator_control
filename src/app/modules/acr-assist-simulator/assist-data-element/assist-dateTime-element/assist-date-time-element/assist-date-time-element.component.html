@@ -1,7 +1,7 @@
 <form [formGroup]="dateTimeElementForm" novalidate *ngIf="dateTimeDataElement.isVisible">
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label">
+      <label class="control-label break-word">
         <!-- {{dateTimeDataElement | json}} -->
         {{dateTimeDataElement.label}}
         <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''"> ({{dateTimeDataElement.unit}})</span>
