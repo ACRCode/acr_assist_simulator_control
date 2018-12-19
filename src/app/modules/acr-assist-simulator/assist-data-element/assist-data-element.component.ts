@@ -23,21 +23,20 @@ const $ = require('jquery');
   styleUrls: ['./assist-data-element.component.css', '../styles.css']
 })
 
-
-
 export class AssistDataElementComponent implements OnInit, OnChanges {
 
   @Input() dataElements: BaseDataElement[];
   @Input() imagePath: string;
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
-
   @Input() endPointXMLString: string[];
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
+  @Input() inputValues: InputData[] = [];
+
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
@@ -45,22 +44,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   selectedChoiceValues: string[] = [];
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
-  @Input() inputValues: InputData[] = [];
 
-  items: any[] = [];
-
-  // @ViewChild(AssistNumericElementComponent) child: AssistNumericElementComponent;
-  constructor(private simulatorEngineService: SimulatorEngineService,
+  constructor(
+    private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService
   ) {
-
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 10; i++) {
-      this.items.push(i);
-    }
-
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
@@ -78,7 +69,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         if (this.dataElementValues[dataElement.id] !== undefined && dataElement.currentValue !== this.dataElementValues[dataElement.id]) {
           dataElement.currentValue = this.dataElementValues[dataElement.id];
         }
-
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
       }
 
@@ -90,13 +80,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       } else {
         this.returnReportText.emit(undefined);
       }
-
-      // if (this.child !== undefined) {
-      //   this.child.UpdateFormValidator();
-      // }
-
-      //  console.log('asda');
-      //  console.log(this.dataElements);
       this.simulatorCommunicationService.messageEmitter('');
     });
   }
@@ -171,7 +154,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   afterDataElementChanged() {
-
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
       if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
@@ -188,14 +170,24 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
-            choices.filter(ch => ch.value === de.currentValue).forEach(ch => {
-              inputData.dataElementDisplayValue += ch.label + ', ';
+            inputData.dataElementDisplayValue = [];
+            choices.forEach(choice => {
+              if (Array.isArray(de.currentValue)) {
+                de.currentValue.forEach(element => {
+                  if (choice.value === element) {
+                    inputData.dataElementDisplayValue.push(choice.label);
+                  }
+                });
+              } else {
+                if (choice.value === de.currentValue) {
+                  inputData.dataElementDisplayValue.push(choice.label);
+                }
+              }
             });
           } else {
             inputData.dataElementDisplayValue = de.currentValue;
           }
         }
-
         deValues.push(inputData);
       }
     }

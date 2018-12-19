@@ -23,7 +23,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() resetButton: boolean = true;
+  @Input() resetButton: Boolean = true;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
@@ -111,7 +111,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
       }
 
       reader.onload = (event1: any) => {
-        diagram.location = reader.result;
+        diagram.location = reader.result.toString();
       };
 
       reader.readAsDataURL(event.target.files[i]);
