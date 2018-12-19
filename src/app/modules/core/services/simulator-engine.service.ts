@@ -359,28 +359,11 @@ export class SimulatorEngineService {
     }
   }
 
-  // initialize(template: Template) {
-  //   this.template = template;
-  // }
-
-  //  private evaluateDecisionPoints() {
-  //   // new Array<string>()
-  //   this.evaluateComputedExpressions();
-  //   this.endOfRoadReached = false;
-  //   for (const decisionPoint of this.template.rules.decisionPoints) {
-  //     if (this.evaluateDecisionPoint(decisionPoint, 1)) {
-  //       break;
-  //     }
-  //   }
-  // }
-
   private evaluateDecisionPoints() {
     this.evaluateComputedExpressions();
     this.endOfRoadReached = false;
     for (const decisionPoint of this.template.rules.decisionPoints) {
-      if (this.evaluateDecisionPoint(decisionPoint, 1)) {
-        break;
-      }
+      this.evaluateDecisionPoint(decisionPoint, 1);
     }
   }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { MultiChoiceDataElement } from '../../../core/elements/models/multi-choice-data-element';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -22,8 +21,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   multiChoiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
   choiceValue: string[] = [];
-  checked: string;
-  selctValue: string;
+
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
   ngOnInit() {
@@ -32,54 +30,41 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   ngAfterViewInit(): void {
 
     if (this.multiChoiceElement.currentValue !== undefined) {
+      const values: any = [];
+      const labels: any = [];
       for (const choice in this.multiChoiceElement.choiceInfo) {
         if (Array.isArray(this.multiChoiceElement.currentValue)) {
           for (const currValue of this.multiChoiceElement.currentValue) {
-            // this.choiceValue = this.multiChoiceElement.currentValue;
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
               this.choiceValue = this.multiChoiceElement.currentValue;
-              const customEvent = document.createEvent('Event');
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
-              customEvent.initEvent('change', true, true);
-              this.selctValue = currValue;
-              this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, currValue, this.multiChoiceElement.choiceInfo[choice].label);
+              values.push(currValue);
+              labels.push(this.multiChoiceElement.choiceInfo[choice].label);
               break;
             }
           }
         } else {
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-            // this.checked = true;
             this.choiceValue = this.multiChoiceElement.currentValue;
-            const customEvent = document.createEvent('Event');
             $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
-            customEvent.initEvent('change', true, true);
-            this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, this.multiChoiceElement.currentValue, this.multiChoiceElement.choiceInfo[choice].label);
+            values.push(this.multiChoiceElement.currentValue);
+            labels.push(this.multiChoiceElement.choiceInfo[choice].label);
           }
         }
-        if (this.selctValue === this.multiChoiceElement.choiceInfo[choice].value) {
-          this.checked = this.multiChoiceElement.choiceInfo[choice].value;
-        } else {
-          this.checked = undefined;
-        }
       }
+      this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, values, labels);
     } else {
       this.returnMultiChoice.emit(undefined);
     }
   }
-  selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: string, choiceLabel) {
+
+  selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: any, choiceLabel: any) {
     const multiElement = new MultiChoiceElement();
     if ($('#' + elementId + '_' + choiceValue).is(':checked')) {
-      this.multiChoiceValues.push(choiceLabel);
-      this.multiChoiceComaprisonValues.push(choiceValue);
-      this.checked = choiceValue;
-      if (this.selctValue === choiceValue) {
-        this.checked = choiceValue;
-      } else {
-        this.checked = undefined;
-      }
+      this.multiChoiceValues = choiceLabel;
+      this.multiChoiceComaprisonValues = choiceValue;
     } else {
       const index = this.multiChoiceValues.indexOf(choiceLabel);
-      this.checked = undefined;
       const comparisonIndex = this.multiChoiceComaprisonValues.indexOf(choiceValue);
       if (index > -1) {
         this.multiChoiceValues.splice(index, 1);
@@ -99,20 +84,14 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.selectedCondition.selectedValue = this.multiChoiceValues;
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
+
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
     const multiElement = new MultiChoiceElement();
     if (event.currentTarget.checked) {
       this.multiChoiceValues.push(value);
       this.multiChoiceComaprisonValues.push(event.currentTarget.value);
-      this.checked = event.currentTarget.value;
-      if (this.selctValue === event.currentTarget.value) {
-        this.checked = event.currentTarget.value;
-      } else {
-        this.checked = undefined;
-      }
     } else {
       const index = this.multiChoiceValues.indexOf(value);
-      this.checked = undefined;
       const comparisonIndex = this.multiChoiceComaprisonValues.indexOf(event.currentTarget.value);
       if (index > -1) {
         this.multiChoiceValues.splice(index, 1);
@@ -131,7 +110,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = this.multiChoiceValues;
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
-    // this.returnMultiChoice.emit(multiElement);
   }
 
   private createMultiChoiceElementForm() {
