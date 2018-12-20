@@ -12,6 +12,9 @@ import { AndCondition } from '../../../core/rules/and-condition';
 import { OrCondition } from '../../../core/rules/or-condition';
 import { ArrayCheckerService } from './array-checker.service';
 import { NotCondition } from '../../../core/rules/not-condition';
+import { SectionIfCondition } from '../../../core/rules/section-if-condition';
+import { NotEqualCondition } from '../../../core/rules/not-equal-condition';
+import { notEqual } from 'assert';
 
 @Injectable()
 export class ConditionsCreationService {
@@ -46,6 +49,12 @@ export class ConditionsCreationService {
         }
         if (branchJSON.hasOwnProperty('ContainsCondition')) {
           condition = new ContainsCondition(this.returnConditionType(branchJSON.ContainsCondition));
+        }
+        if (branchJSON.hasOwnProperty('SectionIf')) {
+          condition = new SectionIfCondition(this.returnConditionType(branchJSON.SectionIf));
+        }
+        if (branchJSON.hasOwnProperty('NotEqualCondition')) {
+          condition = new NotEqualCondition(this.returnConditionType(branchJSON.NotEqualCondition));
         }
 
         // if (condition !== undefined) {
@@ -83,13 +92,20 @@ export class ConditionsCreationService {
       if (conditionIdentifier === 'ContainsCondition') {
         condition = new ContainsCondition(this.returnConditionType(conditionJSON));
       }
+      if (conditionIdentifier === 'SectionIf') {
+        condition = new SectionIfCondition(this.returnConditionType(conditionJSON));
+      }
+      if (conditionIdentifier === 'NotEqualCondition') {
+        condition = new NotEqualCondition(this.returnConditionType(conditionJSON));
+      }
+
       return condition;
   }
 
     private  returnConditions(conditionsJSON: JSON): Condition[] {
          let conditions: Condition[];
         const conditionIdentifiers = ['EqualCondition', 'GreaterThanCondition', 'LessThanCondition',
-            'GreaterThanOrEqualsCondition', 'LessThanOrEqualsCondition', 'ContainsCondition'];
+            'GreaterThanOrEqualsCondition', 'LessThanOrEqualsCondition', 'ContainsCondition', 'SectionIf', 'SectionIfNot', 'NotEqualCondition'];
         for (const conditionIdentifier of conditionIdentifiers) {
               const conditionJSON = conditionsJSON[conditionIdentifier];
               if (conditionJSON !== undefined) {
@@ -116,7 +132,9 @@ export class ConditionsCreationService {
       compositeElementJSON.hasOwnProperty('LessThanCondition') ||
       compositeElementJSON.hasOwnProperty('GreaterThanOrEqualsCondition') ||
       compositeElementJSON.hasOwnProperty('LessThanOrEqualsCondition') ||
-      compositeElementJSON.hasOwnProperty('ContainsCondition');
+      compositeElementJSON.hasOwnProperty('ContainsCondition') ||
+      compositeElementJSON.hasOwnProperty('NotEqualCondition')  ||
+      compositeElementJSON.hasOwnProperty('SectionIf');
       return  compositeExists && primitiveExists;
     }
 

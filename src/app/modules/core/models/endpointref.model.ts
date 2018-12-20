@@ -3,4 +3,6 @@ export class EndPointRef {
   description: string;
   endPointId: string;
   isRepeatable: boolean;
+  repeatCount: string;
+  repeatGroup: string;
 }

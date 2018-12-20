@@ -40,6 +40,7 @@ import { DurationPickerModule } from 'ngx-duration-picker';
 import { DurationDataElementCreationService } from './shared/services/duration-data-element-creation.service';
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
 import { ResetCommunicationService } from './shared/Reset-communication.service';
+import { EndpointCreationService } from './shared/services/enpoint-creation.service';
 
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
@@ -69,6 +70,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      SimulatorEngineService,
      SimulatorCommunicationService,
      ResetCommunicationService,
+     EndpointCreationService,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },

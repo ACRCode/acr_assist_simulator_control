@@ -13,6 +13,7 @@ import { fail } from 'assert';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
 import { SectionIfValueNotCondition } from '../../../core/endpoint/section-if-value-not-condition';
 import { SectionIfValueCondition } from '../../../core/endpoint/section-if-value-condition';
+import { EndpointCreationService } from './enpoint-creation.service';
 declare var require: any;
 
 
@@ -24,7 +25,9 @@ export class TemplateManagerService {
 
   constructor(private  diagramService: DiagramService ,
     @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[] ,
-    private arrayCheckerService: ArrayCheckerService , private decisionPointsCreationService: DecisionPointsCreationService) { }
+    private arrayCheckerService: ArrayCheckerService,
+    private decisionPointsCreationService: DecisionPointsCreationService,
+    private endpointCreationService: EndpointCreationService) { }
 
   getTemplate(templateContent: string): Template  {
    const template = new Template();
@@ -44,9 +47,11 @@ export class TemplateManagerService {
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
 
+    template.endpoints = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
+
   // console.log(template.templatePartial);
   //console.log(template.endPointsString);
-   console.log(templateContentAsJSON);
+     console.log(template);
     return template;
   }
 
