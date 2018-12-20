@@ -44,11 +44,10 @@ export class TemplateManagerService {
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
 
-// console.log(template.templatePartial);
-//console.log(template.endPointsString);
-
+  // console.log(template.templatePartial);
+  //console.log(template.endPointsString);
+   console.log(templateContentAsJSON);
     return template;
-
   }
 
   private getTemplatePartial(templatePartialJSON: any): TemplatePartial {
