@@ -308,12 +308,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     selectedChoiceTexts = this.simulatorEngineService.getAllDataElementTexts();
     executeSectionIfNot = false;
     hasInsertPartial = false;
-    endpointContent = endpointContent.replace(/\n/g, '&#13;&#10;');
+    endpointContent = endpointContent.replace(/\n/g, '&#10;');
     endpointContent = endpointContent.replace(/\t/g, '&emsp;');
   //  endpointContent = endpointContent.replace(/\s/g, ' &nbsp; ');
     // tslint:disable-next-line:forin
     for (const i in templatePartialsText) {
-      templatePartialsText[i] = templatePartialsText[i].replace(/\n/g, '&#13;&#10;');
+      templatePartialsText[i] = templatePartialsText[i].replace(/\n/g, '&#10;');
       templatePartialsText[i] = templatePartialsText[i].replace(/\t/g, '&emsp;');
     //  templatePartialsText[i] = templatePartialsText[i].replace(/\s+/g, ' &nbsp; ');
     }
