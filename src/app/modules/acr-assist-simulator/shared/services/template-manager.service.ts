@@ -11,8 +11,6 @@ import { DecisionPointsCreationService } from './decision-points-creation.servic
 import { Rules } from '../../../core/rules/models/rules.model';
 import { fail } from 'assert';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
-import { SectionIfValueNotCondition } from '../../../core/endpoint/section-if-value-not-condition';
-import { SectionIfValueCondition } from '../../../core/endpoint/section-if-value-condition';
 import { EndpointCreationService } from './enpoint-creation.service';
 declare var require: any;
 
@@ -47,7 +45,7 @@ export class TemplateManagerService {
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
 
-    template.endpoints = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
+    template.endpoint = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
 
   // console.log(template.templatePartial);
   //console.log(template.endPointsString);

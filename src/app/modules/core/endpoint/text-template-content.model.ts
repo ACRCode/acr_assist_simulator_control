@@ -4,5 +4,6 @@ import { InsertValue } from '../rules/models/insertvalue.model';
 export class TextTemplateContent {
     insertPartial: InsertPartial;
     insertValue: InsertValue;
-    text: string;
+    plainText: string;
+    newLine: boolean;
 }

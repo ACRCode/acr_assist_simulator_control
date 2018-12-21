@@ -15,6 +15,7 @@ import { NotCondition } from '../../../core/rules/not-condition';
 import { SectionIfCondition } from '../../../core/rules/section-if-condition';
 import { NotEqualCondition } from '../../../core/rules/not-equal-condition';
 import { notEqual } from 'assert';
+import { SectionIfNotCondition } from '../../../core/rules/section-if-not-condition';
 
 @Injectable()
 export class ConditionsCreationService {
@@ -52,6 +53,9 @@ export class ConditionsCreationService {
         }
         if (branchJSON.hasOwnProperty('SectionIf')) {
           condition = new SectionIfCondition(this.returnConditionType(branchJSON.SectionIf));
+        }
+        if (branchJSON.hasOwnProperty('SectionIfNot')) {
+          condition = new SectionIfNotCondition(this.returnConditionType(branchJSON.SectionIfNot));
         }
         if (branchJSON.hasOwnProperty('NotEqualCondition')) {
           condition = new NotEqualCondition(this.returnConditionType(branchJSON.NotEqualCondition));
@@ -95,6 +99,9 @@ export class ConditionsCreationService {
       if (conditionIdentifier === 'SectionIf') {
         condition = new SectionIfCondition(this.returnConditionType(conditionJSON));
       }
+      if (conditionIdentifier === 'SectionIfNot') {
+        condition = new SectionIfNotCondition(this.returnConditionType(conditionJSON));
+      }
       if (conditionIdentifier === 'NotEqualCondition') {
         condition = new NotEqualCondition(this.returnConditionType(conditionJSON));
       }
@@ -134,7 +141,8 @@ export class ConditionsCreationService {
       compositeElementJSON.hasOwnProperty('LessThanOrEqualsCondition') ||
       compositeElementJSON.hasOwnProperty('ContainsCondition') ||
       compositeElementJSON.hasOwnProperty('NotEqualCondition')  ||
-      compositeElementJSON.hasOwnProperty('SectionIf');
+      compositeElementJSON.hasOwnProperty('SectionIf') ||
+      compositeElementJSON.hasOwnProperty('SectionIfNot');
       return  compositeExists && primitiveExists;
     }
 

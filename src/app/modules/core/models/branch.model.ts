@@ -7,7 +7,6 @@ import { ComputedValue } from './computed-value.model';
 import { TextTemplateContent } from '../endpoint/text-template-content.model';
 
 export class Branch {
-
   label: string;
   notRelevantDataElements: NotRelevantDataElements;
   compositeCondition: CompositeCondition;
@@ -17,4 +16,8 @@ export class Branch {
   computedValue: ComputedValue;
   textTemplateContent: TextTemplateContent;
   branches: Branch[] = [];
+  texts: TextTemplateContent[] = [];
+  constructor() {
+    // this.textTemplateContent = new TextTemplateContent();
+  }
 }

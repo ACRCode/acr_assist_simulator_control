@@ -3,8 +3,7 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { Template } from '../../core/models/template.model';
 import { ImageElements } from '../../core/elements/models/image-elements.model';
 import { EndPointRef } from '../../core/models/endpointref.model';
-import { SectionIfValueNotCondition } from '../../core/endpoint/section-if-value-not-condition';
-import { SectionIfValueCondition } from '../../core/endpoint/section-if-value-condition';
+
 import { TemplatePartial } from '../../core/endpoint/template-partial';
 import { Console } from '@angular/core/src/console';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
