@@ -6,5 +6,5 @@ export class EndpointItem {
     id: string;
     label: string;
     diagnosis: Diagnosis;
-    reportTexts: ReportText;
+    reportTexts: ReportText[] = [];
 }

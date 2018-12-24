@@ -7,5 +7,5 @@ export class TemplatePartial {
     id: String;
     sectionIfNotValue: SectionIfValueNotCondition;
     sectionIfValues: SectionIfValueCondition[];
-    branch: Branch;
+    branches: Branch[] = [];
 }

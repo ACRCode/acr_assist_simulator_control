@@ -11,7 +11,7 @@ import { DecisionPointsCreationService } from './decision-points-creation.servic
 import { Rules } from '../../../core/rules/models/rules.model';
 import { fail } from 'assert';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
-import { EndpointCreationService } from './enpoint-creation.service';
+import { EndpointCreationService } from './endpoint-creation.service';
 declare var require: any;
 
 
