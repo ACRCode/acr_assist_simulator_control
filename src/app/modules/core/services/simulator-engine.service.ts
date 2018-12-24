@@ -12,6 +12,7 @@ import { NumericDataElement } from '../elements/models/numeric-data-element.mode
 import { IntegerDataElement } from '../elements/models/integer-data-element.model';
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
 import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
+import { RuleEngineService } from '../../acr-assist-simulator/shared/services/rule-engine-service';
 const expressionParser = require('expr-eval').Parser;
 
 @Injectable()
@@ -26,7 +27,7 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor() {
+  constructor(private ruleEngineService: RuleEngineService) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -37,7 +38,7 @@ export class SimulatorEngineService {
   }
 
   setTemplate() {
-  
+
   }
 
   getAllDataElementValues(): Map<string, any> {
@@ -62,8 +63,8 @@ export class SimulatorEngineService {
     this.evaluateDecisionPoints();
   }
 
-
   evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
+    let endpoints = Array<string>();
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
@@ -81,30 +82,66 @@ export class SimulatorEngineService {
 
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
-        // if (nonRelevantDataElementIds === undefined) {
-        //   nonRelevantDataElementIds = new Array<string>();
-        // }
-        // if (branch.notRelevantDataElements !== undefined) {
-        //   for (const nonRelevantDataElementReference of branch.notRelevantDataElements.dataElementReferences) {
-        //     nonRelevantDataElementIds.push(nonRelevantDataElementReference.dataElementId);
-        //   }
-        // }
-
         if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
             const newBranchingLevel = branchingLevel + 1;
-            // this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel, nonRelevantDataElementIds);
+            this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
+          }
+        } else if (branch.endPointRef !== undefined) {
+          endpoints.push(branch.endPointRef.endPointId);
+        }
+      }
+      // else {
+      //   if (currentBranchCount >= totalBranchesInDecisionPoint) {
+      //     // this.endOfRoadReached = true;
+      //     // const simulatorState = new SimulatorState();
+      //     // this.simulatorStateChanged.next(simulatorState);
+      //     // return;
+      //   } else {
+      //     continue;
+      //   }
+      // }
+    }
+
+    const $simulatorState = new SimulatorState();
+    if (endpoints !== undefined && endpoints.length > 0) {
+      $simulatorState.endPointIds = endpoints;
+      const reportTexts =  this.ruleEngineService.EvaluateRules(this.template, endpoints);
+      this.simulatorStateChanged.next($simulatorState);
+    } else {
+      this.simulatorStateChanged.next($simulatorState);
+    }
+  }
+
+  _evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
+    let currentBranchCount = 0;
+    const totalBranchesInDecisionPoint = decisionPoint.branches.length;
+    for (const branch of decisionPoint.branches) {
+      currentBranchCount++;
+      let conditionMet = false;
+      if (this.endOfRoadReached) {
+        break;
+      }
+
+      if (branch.compositeCondition !== undefined) {
+        conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+      } else if (branch.condition !== undefined) {
+        conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
+      }
+
+      if (conditionMet) {
+        this.lastConditionMetBranchLevel = branchingLevel;
+        if (branch.decisionPoints !== undefined) {
+          for (const branchDecisionPoint of branch.decisionPoints) {
+            const newBranchingLevel = branchingLevel + 1;
             this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.endPointRef !== undefined) {
           const simulatorState = new SimulatorState();
           simulatorState.endPointId = branch.endPointRef.endPointId;
-          // simulatorState.nonRelevantDataElementIds = nonRelevantDataElementIds;
           simulatorState.selectedBranchLabel = branch.label;
           simulatorState.selectedDecisionPointId = decisionPoint.id;
           simulatorState.selectedDecisionPointLabel = decisionPoint.label;
-          // this.resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds);
-
           this.simulatorStateChanged.next(simulatorState);
           this.endOfRoadReached = true;
           break;
@@ -113,8 +150,6 @@ export class SimulatorEngineService {
         if (currentBranchCount >= totalBranchesInDecisionPoint) {
           this.endOfRoadReached = true;
           const simulatorState = new SimulatorState();
-          // simulatorState.nonRelevantDataElementIds = nonRelevantDataElementIds;
-          // this.resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds);
           this.simulatorStateChanged.next(simulatorState);
           return;
         } else {
@@ -125,7 +160,7 @@ export class SimulatorEngineService {
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
-   // console.log(this.template.dataElements);
+    // console.log(this.template.dataElements);
     if (nonRelevantDataElementIds !== undefined) {
       for (const nonRelevantDataElementId of nonRelevantDataElementIds) {
         let defaultValue: any;
@@ -261,7 +296,7 @@ export class SimulatorEngineService {
               (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
               : true;
 
-            if (conditionalProperty.Minimum !== undefined && conditionalProperty.Minimum != null  ) {
+            if (conditionalProperty.Minimum !== undefined && conditionalProperty.Minimum != null) {
               dataelement.minimum = +conditionalProperty.Minimum;
             }
             if (conditionalProperty.Maximum !== undefined && conditionalProperty.Maximum != null) {

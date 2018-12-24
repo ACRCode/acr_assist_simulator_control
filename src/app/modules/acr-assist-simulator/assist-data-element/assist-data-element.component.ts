@@ -16,7 +16,7 @@ import { ChoiceDataElement } from '../../core/elements/models/choice-data-elemen
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
-import { ResetCommunicationService } from '../shared/Reset-communication.service';
+import { ResetCommunicationService } from '../shared/services/Reset-communication.service';
 import { Subscription } from 'rxjs';
 const $ = require('jquery');
 
@@ -97,6 +97,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         // this.generateReportText('ReporttextTR1');
 
       // this.generateReportText(this.simulatorState.endPointId);
+      console.log(this.simulatorState);
       if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
         this.generateReportText(this.simulatorState.endPointId);
 
@@ -204,9 +205,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         for (const item of this.dataElements) {
           if (item.isRepeatable === true && item.repeatRefID === $event.receivedElement.elementId) {
             // this.IsRepeating = true;
+            if (i !== 0) {
             repeatedElementSection.SectionName = item.repeatGroup + ' ' + + (i + 1);
             repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.id = item.id + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
+            }
             item.currentValue = undefined;
             const $item = Object.assign([], item);
             repeatedElementSection.ChildElements.push($item);

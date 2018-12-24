@@ -4,4 +4,5 @@ export class SimulatorState {
   selectedDecisionPointId = '';
   selectedDecisionPointLabel = '';
   selectedBranchLabel = '';
+  endPointIds: string[] = [];
 }

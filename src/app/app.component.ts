@@ -3,7 +3,7 @@ import { FileDetails } from './modules/simulatorloader/shared/models/file-detail
 import { InputData } from './modules/core/models/input-data.model';
 import { BaseDataElement } from './modules/core/elements/models/base-data-element.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
-import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/Reset-communication.service';
+import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/Reset-communication.service';
 
 @Component({
   selector: 'acr-app-root',

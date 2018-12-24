@@ -59,11 +59,12 @@ export class EndpointCreationService {
                     }
                 }
 
+                Endpoints.push($endpointItem);
                 console.log($endpointItem);
             }
         }
 
-        return new Array<EndpointItem>();
+        return Endpoints;
     }
 
     private GetTemplatePartialsFromJsonString(endpointJson):  Array<TemplatePartial> {
