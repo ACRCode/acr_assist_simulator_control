@@ -6,7 +6,7 @@ import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { Subscription } from 'rxjs';
-import { ResetCommunicationService } from '../../shared/services/Reset-communication.service';
+import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
 
 
 @Component({

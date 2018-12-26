@@ -39,7 +39,7 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { DurationPickerModule } from 'ngx-duration-picker';
 import { DurationDataElementCreationService } from './shared/services/duration-data-element-creation.service';
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
-import { ResetCommunicationService } from './shared/services/Reset-communication.service';
+import { ResetCommunicationService } from './shared/services/reset-communication.service';
 import { EndpointCreationService } from './shared/services/endpoint-creation.service';
 import { RuleEngineService } from './shared/services/rule-engine-service';
 

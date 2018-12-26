@@ -16,7 +16,7 @@ import { ChoiceDataElement } from '../../core/elements/models/choice-data-elemen
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
-import { ResetCommunicationService } from '../shared/services/Reset-communication.service';
+import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { Subscription } from 'rxjs';
 const $ = require('jquery');
 
@@ -99,9 +99,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const allReportText = new AllReportText();
         $mainReportText.reportTextMainContent = '';
         for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
-            allReportText.sectionId =  evaluationResult.sectionId;
-            allReportText.reportText =  evaluationResult.reportText;
-            $mainReportText.allReportText.push(Object.assign({}, allReportText));
+          allReportText.sectionId = evaluationResult.sectionId;
+          allReportText.reportText = evaluationResult.reportText;
+          $mainReportText.allReportText.push(Object.assign({}, allReportText));
         }
 
         this.returnReportText.emit($mainReportText);
@@ -202,11 +202,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         for (const item of this.dataElements) {
           if (item.isRepeatable === true && item.repeatRefID === $event.receivedElement.elementId) {
             // this.IsRepeating = true;
-            if (i !== 0) {
             repeatedElementSection.SectionName = item.repeatGroup + ' ' + + (i + 1);
             repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.id = item.id + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
-            }
             item.currentValue = undefined;
             const $item = Object.assign([], item);
             repeatedElementSection.ChildElements.push($item);
@@ -216,8 +214,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
       }
 
-       this.$RepeatedElementModel.push($repeatedElementModel);
-       this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
+      this.$RepeatedElementModel.push($repeatedElementModel);
+      this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
     }
   }
 

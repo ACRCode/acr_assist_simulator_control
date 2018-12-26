@@ -19,9 +19,6 @@ import { SectionIfNotCondition } from '../../../core/rules/section-if-not-condit
 
 @Injectable()
 export class ConditionsCreationService {
-
-
-
    constructor(private  arrayCheckerService: ArrayCheckerService) { }
 
     private returnConditionType(conditionJSON: any): ConditionType {
@@ -248,7 +245,7 @@ export class ConditionsCreationService {
         }
 
       } else  if (this.isComposite(value)) {
-        
+
       } else {
           condition.conditions = this.returnConditions(value);
       }
