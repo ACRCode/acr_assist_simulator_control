@@ -1,3 +1,5 @@
+import { RuleEvaluationResult } from "../endpoint/rule-evaluation-result.model";
+
 export class SimulatorState {
   nonRelevantDataElementIds: string[] = [];
   endPointId = '';
@@ -5,4 +7,5 @@ export class SimulatorState {
   selectedDecisionPointLabel = '';
   selectedBranchLabel = '';
   endPointIds: string[] = [];
+  ruleEvaluationResults: RuleEvaluationResult[];
 }

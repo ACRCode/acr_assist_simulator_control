@@ -94,13 +94,26 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-        // this.generateReportText('ReporttextTR1');
-
-      // this.generateReportText(this.simulatorState.endPointId);
       console.log(this.simulatorState);
-      if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
-        this.generateReportText(this.simulatorState.endPointId);
+      // if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+      //   this.generateReportText(this.simulatorState.endPointId);
 
+      // } else {
+      //   this.returnReportText.emit(undefined);
+      // }
+
+      if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
+        const $mainReportText = new MainReportText();
+        $mainReportText.allReportText = new Array<AllReportText>();
+        const allReportText = new AllReportText();
+        $mainReportText.reportTextMainContent = '';
+        for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
+            allReportText.sectionId =  evaluationResult.sectionId;
+            allReportText.reportText =  evaluationResult.reportText;
+            $mainReportText.allReportText.push(Object.assign({}, allReportText));
+        }
+
+        this.returnReportText.emit($mainReportText);
       } else {
         this.returnReportText.emit(undefined);
       }

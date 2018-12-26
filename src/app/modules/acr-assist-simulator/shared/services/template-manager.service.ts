@@ -49,7 +49,7 @@ export class TemplateManagerService {
 
   // console.log(template.templatePartial);
   //console.log(template.endPointsString);
-     console.log(template);
+    
     return template;
   }
 

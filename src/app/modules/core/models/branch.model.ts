@@ -5,6 +5,7 @@ import { DecisionPoint } from './decisionpoint.model';
 import { EndPointRef } from './endpointref.model';
 import { ComputedValue } from './computed-value.model';
 import { TextTemplateContent } from '../endpoint/text-template-content.model';
+import { ReportText } from '../endpoint/report-text.model';
 
 export class Branch {
   label: string;
@@ -17,6 +18,7 @@ export class Branch {
   textTemplateContent: TextTemplateContent;
   branches: Branch[] = [];
   texts: TextTemplateContent[] = [];
+  reportText: ReportText[] = [];
   constructor() {
     // this.textTemplateContent = new TextTemplateContent();
   }

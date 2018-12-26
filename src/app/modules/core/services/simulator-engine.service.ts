@@ -106,7 +106,7 @@ export class SimulatorEngineService {
     const $simulatorState = new SimulatorState();
     if (endpoints !== undefined && endpoints.length > 0) {
       $simulatorState.endPointIds = endpoints;
-      const reportTexts =  this.ruleEngineService.EvaluateRules(this.template, endpoints);
+      $simulatorState.ruleEvaluationResults =  this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
       this.simulatorStateChanged.next($simulatorState);
     } else {
       this.simulatorStateChanged.next($simulatorState);

@@ -43,7 +43,8 @@ ngOnChanges(changes: SimpleChanges): void {
       for (const section in this.reportText.allReportText) {
         if (this.reportText.allReportText[section].reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
-          textReport.heading =  section;
+          // textReport.heading =  section;
+          textReport.heading =  this.reportText.allReportText[section].sectionId;
           textReport.content = this.removeEmptyLine(this.reportText.allReportText[section].reportText);
           this.allTextReport.push (textReport);
         }
