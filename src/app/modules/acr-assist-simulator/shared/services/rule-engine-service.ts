@@ -45,7 +45,7 @@ export class RuleEngineService {
 
             ruleEvaluationResults.reportText = $reportTextString;
             ruleEvaluationResults.sectionId = _reportSection.sectionId;
-            this.ruleEvaluationResults.push(ruleEvaluationResults);
+            this.ruleEvaluationResults.push(Object.assign({}, ruleEvaluationResults));
         }
 
         return this.ruleEvaluationResults;

@@ -94,7 +94,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-      console.log(this.simulatorState);
+      // console.log(this.simulatorState);
       // if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
       //   this.generateReportText(this.simulatorState.endPointId);
 

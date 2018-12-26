@@ -113,52 +113,6 @@ export class SimulatorEngineService {
     }
   }
 
-  _evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
-    let currentBranchCount = 0;
-    const totalBranchesInDecisionPoint = decisionPoint.branches.length;
-    for (const branch of decisionPoint.branches) {
-      currentBranchCount++;
-      let conditionMet = false;
-      if (this.endOfRoadReached) {
-        break;
-      }
-
-      if (branch.compositeCondition !== undefined) {
-        conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-      } else if (branch.condition !== undefined) {
-        conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-      }
-
-      if (conditionMet) {
-        this.lastConditionMetBranchLevel = branchingLevel;
-        if (branch.decisionPoints !== undefined) {
-          for (const branchDecisionPoint of branch.decisionPoints) {
-            const newBranchingLevel = branchingLevel + 1;
-            this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
-          }
-        } else if (branch.endPointRef !== undefined) {
-          const simulatorState = new SimulatorState();
-          simulatorState.endPointId = branch.endPointRef.endPointId;
-          simulatorState.selectedBranchLabel = branch.label;
-          simulatorState.selectedDecisionPointId = decisionPoint.id;
-          simulatorState.selectedDecisionPointLabel = decisionPoint.label;
-          this.simulatorStateChanged.next(simulatorState);
-          this.endOfRoadReached = true;
-          break;
-        }
-      } else {
-        if (currentBranchCount >= totalBranchesInDecisionPoint) {
-          this.endOfRoadReached = true;
-          const simulatorState = new SimulatorState();
-          this.simulatorStateChanged.next(simulatorState);
-          return;
-        } else {
-          continue;
-        }
-      }
-    }
-  }
-
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
     // console.log(this.template.dataElements);
     if (nonRelevantDataElementIds !== undefined) {

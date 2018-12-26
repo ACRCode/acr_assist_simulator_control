@@ -8,10 +8,6 @@ export class Tab implements IReportText {
     isTab: boolean;
     processText(template: Template, dataElementValues: Map<string, any>): any {
     }
-
-    findText(branch: Branch, template: Template, dataElementValues: Map<string, any>) {
-
-    }
 }
 
 

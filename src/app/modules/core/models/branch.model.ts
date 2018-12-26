@@ -15,9 +15,9 @@ export class Branch {
   decisionPoints: DecisionPoint[];
   endPointRef: EndPointRef;
   computedValue: ComputedValue;
-  textTemplateContent: TextTemplateContent;
+  // textTemplateContent: TextTemplateContent;
   branches: Branch[] = [];
-  texts: TextTemplateContent[] = [];
+  // texts: TextTemplateContent[] = [];
   reportText: ReportText[] = [];
   constructor() {
     // this.textTemplateContent = new TextTemplateContent();
