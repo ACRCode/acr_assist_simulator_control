@@ -248,11 +248,10 @@ export class ConditionsCreationService {
         }
 
       } else  if (this.isComposite(value)) {
-        // console.log( 'isComposite');
+        
       } else {
           condition.conditions = this.returnConditions(value);
       }
-
     }
 
     private returnInnerConditions(innerConditionsJSON: any, compositeCondition: CompositeCondition) {

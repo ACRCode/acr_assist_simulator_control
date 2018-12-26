@@ -41,15 +41,12 @@ export class TemplateManagerService {
     template.rules.decisionPoints = this.decisionPointsCreationService.
                           createDecisionPoints(templateContentAsJSON.Rules.DecisionPoint);
   }
+  
     template.templatePartial = this.returnEndpoints(templateContent);
     template.endPointsString = this.endPointXMLString;
     template.xmlContent = templateContent;
 
     template.endpoint = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
-
-  // console.log(template.templatePartial);
-  //console.log(template.endPointsString);
-    
     return template;
   }
 

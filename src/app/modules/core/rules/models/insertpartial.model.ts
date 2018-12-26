@@ -24,7 +24,6 @@ export class InsertPartial implements IReportText {
 }
 
 InsertPartial.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
-    debugger;
     let $reportTextString = '';
     const _templatePartial = _.find(template.endpoint.templatePartials, (templatePartial) => templatePartial.id
         === this.partialId);
@@ -44,7 +43,6 @@ InsertPartial.prototype.processText = function (template: Template, dataElementV
             }
         }
     }
-
-    // console.log($reportTextString);
+    
     return $reportTextString;
 };

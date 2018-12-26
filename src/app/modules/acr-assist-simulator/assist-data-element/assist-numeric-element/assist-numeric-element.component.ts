@@ -46,11 +46,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.createNumericElementForm();
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
-  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    // console.log('asda');
-  }
-
   ngAfterViewInit(): void {
     if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
       this.simulatorEngineService.addOrUpdateDataElement(this.numericDataElement.id, this.numericDataElement.currentValue,

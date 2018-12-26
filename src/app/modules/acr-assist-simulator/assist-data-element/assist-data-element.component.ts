@@ -93,15 +93,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       }
 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
-
-      // console.log(this.simulatorState);
-      // if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
-      //   this.generateReportText(this.simulatorState.endPointId);
-
-      // } else {
-      //   this.returnReportText.emit(undefined);
-      // }
-
       if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
         const $mainReportText = new MainReportText();
         $mainReportText.allReportText = new Array<AllReportText>();
@@ -117,13 +108,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       } else {
         this.returnReportText.emit(undefined);
       }
-
-      // if (this.child !== undefined) {
-      //   this.child.UpdateFormValidator();
-      // }
-
-      //  console.log('asda');
-      //  console.log(this.dataElements);
 
       this.$dataElements = [];
       for (const dataelement of this.dataElements) {
@@ -234,8 +218,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
 
        this.$RepeatedElementModel.push($repeatedElementModel);
        this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
-      //  console.log(this.IsRepeating);
-       console.log(this.$RepeatedElementModel);
     }
   }
 
@@ -370,16 +352,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     }
     return contents;
   }
-
-  // private parseXml(endpointId: string, endpointContent: string): any {
-  //   console.log(endpointContent);
-  //   console.log('--------');
-  //   console.log(endpointId);
-
-  //   const reportTextJSON =  this.parseToJson(endpointContent);
-
-  //   console.log(reportTextJSON);
-  // }
 
   private parseToJson(xmlData: string): any {
     let jsonResult: JSON;

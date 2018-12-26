@@ -21,7 +21,6 @@ export class RuleEngineService {
            this.processEndpointAndGenerateReportText($endpoint);
         }
 
-        console.log(this.ruleEvaluationResults);
         return this.ruleEvaluationResults;
     }
 

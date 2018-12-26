@@ -27,7 +27,6 @@ ngOnChanges(changes: SimpleChanges): void {
    }
 
   onSelect(sectionId) {
-   // console.log(this.reportText.allReportText);
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
@@ -49,6 +48,7 @@ ngOnChanges(changes: SimpleChanges): void {
           this.allTextReport.push (textReport);
         }
       }
+      
       this.selectedSectionId = 'All';
     }
 

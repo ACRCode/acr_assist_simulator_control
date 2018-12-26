@@ -38,10 +38,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       this.choiceValue = this.choiceDataElement.currentValue;
       // tslint:disable-next-line:forin
       for (const choice in this.choiceDataElement.choiceInfo) {
-        // if (this.choiceDataElement.choiceInfo[choice].value === 'hypoEnhancing'){
-        //     console.log('asdasd');
-        // }
-
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
           if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
             this.selectedChoiceReportText = this.choiceDataElement.choiceInfo[choice].reportText;

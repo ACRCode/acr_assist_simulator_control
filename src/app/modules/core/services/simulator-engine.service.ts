@@ -114,7 +114,6 @@ export class SimulatorEngineService {
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
-    // console.log(this.template.dataElements);
     if (nonRelevantDataElementIds !== undefined) {
       for (const nonRelevantDataElementId of nonRelevantDataElementIds) {
         let defaultValue: any;
