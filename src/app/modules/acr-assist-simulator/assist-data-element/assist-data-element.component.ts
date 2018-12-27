@@ -332,10 +332,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       reportTextParser.resume();
     };
     reportTextParser.ontext = function (t) {
-      debugger;
-      // if (t.length > 1) {
-      //   t = t.trim();
-      // }
       let isTextInserted: boolean;
       isTextInserted = false;
       if (executeTemplate) {
