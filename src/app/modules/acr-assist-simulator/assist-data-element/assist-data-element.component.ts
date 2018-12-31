@@ -128,6 +128,25 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     }
   }
 
+  dateTimeSelected($event) {
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
+          $event.receivedElement.selectedValue);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+
+        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+          this.generateExecutionHistory();
+        }
+        this.afterDataElementChanged();
+      }
+    } else {
+      this.afterDataElementChanged();
+    }
+  }
+
   multiSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
@@ -799,6 +818,11 @@ export class ChoiceElement {
 export class NumericElement {
   elementId: string;
   selectedValue: number;
+}
+
+export class DateTimeElement {
+  elementId: string;
+  selectedValue: string;
 }
 
 export class MultiChoiceElement {

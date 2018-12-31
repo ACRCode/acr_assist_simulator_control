@@ -2,16 +2,12 @@
   <div class="form-group">
     <div class="col-sm-5 text-right">
       <label class="control-label break-word">
-        <!-- {{dateTimeDataElement | json}} -->
         {{dateTimeDataElement.label}}
         <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''"> ({{dateTimeDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
       </ng-container>
-      <!-- <ng-container *ngIf="dateTimeDataElement.diagrams != undefined ">
-        <acr-hint-diagram [dataElement]="dateTimeDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-      </ng-container> -->
       <ng-container *ngIf="this.dateTimeDataElement.isRequired">
           <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
             <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field" title="Required Field">
@@ -22,7 +18,7 @@
     </div>
     <div class="col-sm-7">      
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
-          <angular2-date-picker  formControlName="dateTimeElement" [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
+          <angular2-date-picker id="{{dateTimeDataElement.id}}" formControlName="dateTimeElement" (onDateSelect)="onDateTimeSelected()" [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
       </div>     
     </div>
   </div>
