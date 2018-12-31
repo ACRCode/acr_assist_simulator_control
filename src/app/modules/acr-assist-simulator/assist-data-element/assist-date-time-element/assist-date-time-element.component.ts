@@ -32,13 +32,17 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.dateTimeDataElement.currentValue !== undefined) {
-      this.onDateTimeSelected();
+      this.onDateTimeSelected(this.dateTimeDataElement.currentValue);
     } else {
       this.returnDateTimeElement.emit(undefined);
     }
   }
 
-  onDateTimeSelected() {
+  onDateTimeSelected(value?: string) {
+    if (value !== undefined) {
+      this.date = new Date(value.toString());
+    }
+
     const localDateTime = new Date(this.date.toString()).toLocaleString();
     const dateTimeElement = new DateTimeElement();
     dateTimeElement.elementId = this.dateTimeDataElement.id;
