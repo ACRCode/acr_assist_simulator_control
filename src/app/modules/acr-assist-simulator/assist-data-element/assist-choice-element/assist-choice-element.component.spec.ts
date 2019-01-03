@@ -10,7 +10,6 @@ import { SlideComponent } from 'ngx-bootstrap/carousel/slide.component';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 import { Choice } from '../../../core/elements/models/choice.model';
-import { ChoiceInfo } from '../../../core/elements/models/choiceInfo.model';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 
@@ -234,7 +233,7 @@ describe('AssistChoiceElementComponent', () => {
       receivedData = data;
      });
 
-    component.updateDropdownChoiceSelected(id, chocieLabel, value, label);
+    component.setChoiceValue(id, chocieLabel, value, label);
 
     // Checks the received data
     expect(receivedData).toBeDefined();
@@ -282,7 +281,7 @@ describe('AssistChoiceElementComponent', () => {
       receivedData = data;
     });
 
-    component.updateDropdownChoiceSelected(undefined, undefined, undefined, undefined);
+    component.setChoiceValue(undefined, undefined, undefined, undefined);
 
     // Checks the received data
     expect(receivedData).toBeDefined();
@@ -404,7 +403,7 @@ describe('AssistChoiceElementComponent', () => {
         receivedData = data;
       });
 
-      component.updateChoiceValue(id, label, chocieLabel, value);
+      component.setChoiceValue(id, label, chocieLabel, value);
 
       // Checks the received data
       expect(receivedData).toBeDefined();
@@ -452,7 +451,7 @@ describe('AssistChoiceElementComponent', () => {
         receivedData = data;
       });
 
-      component.updateChoiceValue(undefined, undefined, undefined, undefined);
+      component.setChoiceValue(undefined, undefined, undefined, undefined);
 
       // Checks the received data
       expect(receivedData).toBeDefined();

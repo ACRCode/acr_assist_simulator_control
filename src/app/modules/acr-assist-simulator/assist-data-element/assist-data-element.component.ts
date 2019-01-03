@@ -186,7 +186,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         } else {
           if (de.dataElementType === 'ChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
-            inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
+            const choice = choices.filter(ch => ch.value === de.currentValue);
+            if (choice !== undefined && choice.length) {
+              inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
+            } else {
+              inputData.dataElementDisplayValue = de.currentValue;
+            }
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
             inputData.dataElementDisplayValue = [];

@@ -2,7 +2,9 @@
   <div class="form-group">
     <div class="col-sm-5 text-right">
       <label class="control-label break-word">
-        {{choiceDataElement.label}} <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''"> ({{choiceDataElement.unit}})</span>
+        {{choiceDataElement.label}}
+        <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+          ({{choiceDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
         <i class="whitespace">
@@ -15,28 +17,29 @@
       <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired" class="required-field whitespace"
         title="Required Field">*</span>
     </div>
-    
+
     <div class="col-sm-7 text-left content-padding">
       <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 2">
         <ng-container *ngIf="imagePath != undefined">
           <ng-container *ngIf="choiceDataElement.imageMap == undefined">
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
               <div class="radio custom-radio-style">
-                <label>                
-                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}"
-                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
+                <label>
+                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}"
+                    type="radio" formControlName="checkBox" value="{{choice.value}}" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
                 </label>
               </div>
             </ng-container>
             <ng-container *ngIf="choiceDataElement.allowFreetext">
               <div class="radio custom-radio-style">
                 <label>
-                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="freetext" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
+                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="other_{{choiceDataElement.id}}" type="radio"
+                    formControlName="checkBox" [checked]="isFreeText" value="freetext" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')"> Other, please specify…</label>
               </div>
               <div id='div_{{choiceDataElement.id}}_other'>
-                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
-                  class="form-control" (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                  placeholder="Please specify '{{choiceDataElement.label}}'">
+                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="txt_other_{{choiceDataElement.id}}"
+                  class="form-control" type="text" class="form-control" [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
+                  (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)' placeholder="Please specify '{{choiceDataElement.label}}'">
               </div>
             </ng-container>
           </ng-container>
@@ -46,20 +49,21 @@
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                   <div class="radio custom-radio-style">
                     <label>
-                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="{{choice.value}}"
-                        (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
+                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}"
+                        type="radio" formControlName="checkBox" value="{{choice.value}}" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"> {{choice.label}}
                     </label>
                   </div>
                 </ng-container>
                 <ng-container *ngIf="choiceDataElement.allowFreetext">
                   <div class="radio custom-radio-style">
                     <label>
-                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" value="other" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other', 'freetext')"> Other, please specify…</label>
+                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="other_{{choiceDataElement.id}}" type="radio"
+                        formControlName="checkBox" [checked]="isFreeText" (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')"> Other, please specify…</label>
                   </div>
                   <div id='div_{{choiceDataElement.id}}_other'>
-                    <input  [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
-                      class="form-control" (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                      placeholder="Please specify '{{choiceDataElement.label}}'">
+                    <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" id="txt_other_{{choiceDataElement.id}}"
+                      class="form-control" type="text" class="form-control" [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
+                      (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)' placeholder="Please specify '{{choiceDataElement.label}}'">
                   </div>
                 </ng-container>
               </div>
@@ -71,40 +75,29 @@
           </ng-container>
         </ng-container>
       </ng-container>
-    
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">            
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-         [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
-          formControlName="checkBox" class="form-control">
-          <!-- <option 
-          [selected]="choiceDataElement.currentValue == choiceDataElement.ChoiceNotRelevant ? true : false">--Select--</option>
-         -->
-           <option [selected]="
+
+      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2">
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue" id="{{choiceDataElement.id}}"
+          (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox" class="form-control">
+          <option [selected]="
           choiceDataElement.ChoiceNotRelevant != undefined ?
           (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
           true :
           true)
           : true">--Select--</option>
-
-          <!-- [selected]="choice.value === choiceDataElement.currentValue" -->
-
-        
-          <option *ngFor="let choice of choiceDataElement.choiceInfo"
-          [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+          <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
               choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
-              : null"
-          [value]="choice.value"   
-          [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
+              : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
            choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
            || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
            choice.value === choiceDataElement.currentValue ? true : false
-           : choice.value === choiceDataElement.currentValue ? true : false"       
-          >{{choice.label}}</option>
-          <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="'freetext'">Other, please specify…</option>
+           : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+          <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please specify…
+          </option>
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
 
-          <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" formControlName="checkBox" value="other"
+          <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
             placeholder="Please specify '{{choiceDataElement.label}}'" (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>
         <ng-container *ngIf="choiceDataElement.imageMap != undefined  && imagePath != undefined">
@@ -119,4 +112,3 @@
     </div>
   </div>
 </form>
-
