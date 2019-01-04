@@ -31,7 +31,11 @@ export class DecisionPointsCreationService {
     if (branchJSON.EndPointRef) {
       branch.endPointRef = new EndPointRef();
       branch.endPointRef.endPointId = branchJSON.EndPointRef.Attr.EndPointId;
+      branch.endPointRef.isRepeatable = branchJSON.EndPointRef.Attr.IsRepeatable === 'true' ? true : false;
+      branch.endPointRef.repeatGroup = branchJSON.EndPointRef.Attr.RepeatGroup;
+      branch.endPointRef.repeatCount = branchJSON.EndPointRef.Attr.RepeatCount;
     }
+    
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {

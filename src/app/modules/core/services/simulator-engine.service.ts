@@ -13,7 +13,12 @@ import { IntegerDataElement } from '../elements/models/integer-data-element.mode
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
 import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
 import { RuleEngineService } from '../../acr-assist-simulator/shared/services/rule-engine-service';
+import { RepeatableElementRegisterService } from '../../acr-assist-simulator/shared/services/repeatable-element-register.service';
 const expressionParser = require('expr-eval').Parser;
+import * as _ from 'lodash';
+import { BaseDataElement } from '../elements/models/base-data-element.model';
+import { Branch } from '../models/branch.model';
+import { EndPointRef } from '../models/endpointref.model';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -27,7 +32,7 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor(private ruleEngineService: RuleEngineService) {
+  constructor(private ruleEngineService: RuleEngineService, private repeatableElementRegisterService: RepeatableElementRegisterService) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -64,6 +69,7 @@ export class SimulatorEngineService {
   }
 
   evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
+    // debugger;
     let endpoints = Array<string>();
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
@@ -80,7 +86,8 @@ export class SimulatorEngineService {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
 
-      if (conditionMet) {
+      if (conditionMet && !branch.endPointRef.isRepeatable) {
+        debugger;
         this.lastConditionMetBranchLevel = branchingLevel;
         if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
@@ -106,7 +113,7 @@ export class SimulatorEngineService {
     const $simulatorState = new SimulatorState();
     if (endpoints !== undefined && endpoints.length > 0) {
       $simulatorState.endPointIds = endpoints;
-      $simulatorState.ruleEvaluationResults =  this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
+      $simulatorState.ruleEvaluationResults = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
       this.simulatorStateChanged.next($simulatorState);
     } else {
       this.simulatorStateChanged.next($simulatorState);
@@ -351,22 +358,145 @@ export class SimulatorEngineService {
     }
   }
 
-  // initialize(template: Template) {
-  //   this.template = template;
-  // }
+  private GetRepeatableValue(repeatCount) {
+    const $dataElement = _.find(this.template.dataElements, { 'id': repeatCount }) as BaseDataElement;
+    return $dataElement !== undefined ? $dataElement.currentValue : 0;
+  }
 
-  //  private evaluateDecisionPoints() {
-  //   // new Array<string>()
-  //   this.evaluateComputedExpressions();
-  //   this.endOfRoadReached = false;
-  //   for (const decisionPoint of this.template.rules.decisionPoints) {
-  //     if (this.evaluateDecisionPoint(decisionPoint, 1)) {
-  //       break;
-  //     }
-  //   }
-  // }
+  private RemoveManuallyAddedBranches() {
+    for (const decisionPoint of this.template.rules.decisionPoints) {
+      _.remove(decisionPoint.branches, { isManuallyAdded: true });
+    }
+  }
+
+  private RemoveManuallyAddedComputedDataElements() {
+    _.remove(this.template.dataElements, { isManuallyAdded: true });
+  }
+
+  private ProcessRepetationDataElements() {
+    this.AddRepeatableBranchesInsideRule();
+    this.AddRepeatableComputedDataElement();
+    this.AddRepeatableTemplatePartials();
+  }
+
+  private AddRepeatableTemplatePartials() {
+      for (const templatePartial of this.template.endpoint.templatePartials) {
+
+      }
+  }
+
+  private AddRepeatableComputedDataElement() {
+    this.RemoveManuallyAddedComputedDataElements();
+    for (const decisionPoint of this.template.rules.decisionPoints) {
+      for (const branch of decisionPoint.branches) {
+        if (branch.isManuallyAdded) {
+          let dataElementId_org = '';
+          let dataElementId_dynamic = '';
+          if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
+            dataElementId_org = branch.condition.conditionType.dataElementId.split('_')[0];
+            dataElementId_dynamic = branch.condition.conditionType.dataElementId;
+          }
+
+          if (branch.condition === undefined && branch.compositeCondition !== undefined) {
+            for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
+              dataElementId_org = branch.compositeCondition.conditions[_index].conditionType.dataElementId.split('_')[0];
+              dataElementId_dynamic = branch.compositeCondition.conditions[_index].conditionType.dataElementId;
+            }
+          }
+
+          if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
+            if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
+              const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
+              if (computedDataElement.dataElementType === 'ComputedDataElement') {
+                const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
+                $computedDataElement_cloned.id = dataElementId_dynamic;
+                $computedDataElement_cloned.isManuallyAdded = true;
+                const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+                for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
+                  $computedDataElement_cloned.decisionPoints[index].branches = [];
+                  for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
+                    for (const _dataElement of dataElementIds) {
+                      $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                      $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                    }
+
+                    $branchModified.isManuallyAdded = true;
+                    $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+                  }
+                }
+
+                this.template.dataElements.push($computedDataElement_cloned);
+              }
+            }
+          }
+        }
+      }
+
+      console.log('test');
+      console.log(this.template);
+      // console.log(RepeatableElementRegisterService.GetRepeatableDataElementsGroupNames());
+    }
+  }
+
+  replaceTextExpression(prevVal, newVal, object) {
+    const newObject = _.clone(object);
+    _.each(object, (val, key) => {
+      if (val instanceof ArithmeticExpression) {
+        newObject[key].expressionText = newObject[key].expressionText.replace(prevVal, newVal);
+      }
+    });
+
+    return newObject;
+  }
+
+  replacePropertyValue(prevVal, newVal, object) {
+    const newObject = _.clone(object);
+    _.each(object, (val, key) => {
+      if (val === prevVal) {
+        newObject[key] = newVal;
+      } else if (typeof (val) === 'object' || val instanceof Array) {
+        newObject[key] = this.replacePropertyValue(prevVal, newVal, val);
+      }
+    });
+
+    return newObject;
+  }
+
+  private AddRepeatableBranchesInsideRule() {
+    this.RemoveManuallyAddedBranches();
+    for (const decisionPoint of this.template.rules.decisionPoints) {
+      for (const branch of decisionPoint.branches) {
+        if (branch.endPointRef.isRepeatable && (branch.isManuallyAdded === undefined || !branch.isManuallyAdded)) {
+          const $currentValue = +this.GetRepeatableValue(branch.endPointRef.repeatCount);
+          if ($currentValue !== undefined && $currentValue > 0) {
+            for (let index = 0; index < $currentValue; index++) {
+              const $repeatGroupName = branch.endPointRef.repeatGroup;
+              const $branch = _.cloneDeep(branch);
+              $branch.isManuallyAdded = true;
+              $branch.endPointRef.isRepeatable = false;
+
+              if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
+                $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]
+                  + '_' + $repeatGroupName + (index + 1);
+              }
+
+              if ($branch.condition === undefined && $branch.compositeCondition !== undefined) {
+                for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
+                  $branch.compositeCondition.conditions[_index].conditionType.dataElementId =
+                    branch.compositeCondition.conditions[_index].conditionType.dataElementId + + '_' + $repeatGroupName + (index + 1);
+                }
+              }
+
+              decisionPoint.branches.push($branch);
+            }
+          }
+        }
+      }
+    }
+  }
 
   private evaluateDecisionPoints() {
+    this.ProcessRepetationDataElements();
     this.evaluateComputedExpressions();
     this.endOfRoadReached = false;
     for (const decisionPoint of this.template.rules.decisionPoints) {

@@ -50,6 +50,7 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
     dataElement.isRepeatable = data.Attr.IsRepeatable === 'true' ? true : false;
     dataElement.repeatGroup  = data.Attr.RepeatGroup;
     dataElement.repeatRefID  = data.Attr.RepeatCount;
+    dataElement.isManuallyAdded = false;
 
     if (data.CodableConcept !== undefined) {
       dataElement.codableConcept = new CodableConcept();

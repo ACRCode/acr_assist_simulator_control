@@ -29,4 +29,5 @@ export  class BaseDataElement {
   isRepeatable: boolean;
   repeatGroup: string;
   repeatRefID: string;
+  isManuallyAdded: boolean;
 }

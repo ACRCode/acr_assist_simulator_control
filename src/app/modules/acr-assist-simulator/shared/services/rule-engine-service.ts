@@ -51,6 +51,7 @@ export class RuleEngineService {
     }
 
     ProcessBranch(branch: Branch): string {
+        debugger;
         let $reportTextString = '';
         for (const reportText of branch.reportText) {
             const $reportText = reportText.GetPropertyType() as IReportText;

@@ -19,6 +19,7 @@ export class Branch {
   branches: Branch[] = [];
   // texts: TextTemplateContent[] = [];
   reportText: ReportText[] = [];
+  isManuallyAdded: boolean;
   constructor() {
     // this.textTemplateContent = new TextTemplateContent();
   }

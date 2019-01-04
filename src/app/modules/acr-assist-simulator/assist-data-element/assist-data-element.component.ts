@@ -18,6 +18,7 @@ import { RepeatedElementModel } from '../../core/elements/models/repeatedElement
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { Subscription } from 'rxjs';
+import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
 const $ = require('jquery');
 
 @Component({
@@ -55,7 +56,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   $RepeatedElementModel: any[] = [];
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
-    resetCommunicationService: ResetCommunicationService) {
+    resetCommunicationService: ResetCommunicationService,
+    repeatableElementRegisterService: RepeatableElementRegisterService) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
@@ -155,6 +157,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   numericSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.FindRepeatedElements($event);
         this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
           $event.receivedElement.selectedValue);
         const executedResults: string[] = [];
@@ -165,7 +168,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           this.generateExecutionHistory();
         }
         this.afterDataElementChanged();
-        this.FindRepeatedElements($event);
       }
     } else {
       this.afterDataElementChanged();
@@ -185,6 +187,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   FindRepeatedElements($event) {
+    // debugger;
+    // RepeatableElementRegisterService.ClearRepeatableDataElementsGroupName();
     if (this.IsAnyRepeatElementsExist($event)) {
       this.IsRepeating = false;
       const $repeatedElementModel = new RepeatedElementModel();
@@ -204,16 +208,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             // this.IsRepeating = true;
             repeatedElementSection.SectionName = item.repeatGroup + ' ' + + (i + 1);
             repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
-            item.id = item.id + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
+            item.id = item.id.split('_')[0] + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.currentValue = undefined;
+            this.dataElementValues[item.id] = undefined;
             const $item = Object.assign([], item);
             repeatedElementSection.ChildElements.push($item);
           }
         }
-
+        
         $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
       }
 
+      RepeatableElementRegisterService.SetRepeatableDataElementsGroupName($repeatedElementModel);
       this.$RepeatedElementModel.push($repeatedElementModel);
       this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
     }

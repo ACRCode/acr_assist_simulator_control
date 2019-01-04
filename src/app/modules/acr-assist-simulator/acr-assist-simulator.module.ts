@@ -42,6 +42,7 @@ import { SimulatorCommunicationService } from './shared/services/simulator-commu
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
 import { EndpointCreationService } from './shared/services/endpoint-creation.service';
 import { RuleEngineService } from './shared/services/rule-engine-service';
+import { RepeatableElementRegisterService } from './shared/services/repeatable-element-register.service';
 
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
@@ -73,6 +74,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      ResetCommunicationService,
      EndpointCreationService,
      RuleEngineService,
+     RepeatableElementRegisterService,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
