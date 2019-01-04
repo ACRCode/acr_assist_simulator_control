@@ -7,9 +7,14 @@ import { DataElementValues } from '../../dataelementvalues';
 export class PlainText implements IReportText {
     text: string;
 
-    processText(template: Template, dataElementValues: Map<string, any>): any {
-    }
+    processText(template: Template, dataElementValues: Map<string, any>): any {    }
+
+    manupulateId(dynamicId: string): any {}
 }
+
+PlainText.prototype.manupulateId = function(dynamicId): string {
+    return this.text;
+ };
 
 PlainText.prototype.processText = function(template: Template, dataElementValues: Map<string, any>): string {
     return this.text;

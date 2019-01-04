@@ -9,8 +9,9 @@ import { Branch } from '../../models/branch.model';
 export class InsertPartial implements IReportText {
     partialId: String;
 
-    processText(template: Template, dataElementValues: Map<string, any>): any {
-    }
+    processText(template: Template, dataElementValues: Map<string, any>): any { }
+
+    manupulateId(dynamicId: string): any {}
 
     findText(branch: Branch, template: Template, dataElementValues: Map<string, any>) {
         let $reportTextString = '';
@@ -22,6 +23,10 @@ export class InsertPartial implements IReportText {
         return $reportTextString;
     }
 }
+
+InsertPartial.prototype.manupulateId = function(dynamicId): string {
+   return this.partialId + '_' + dynamicId;
+};
 
 InsertPartial.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
     let $reportTextString = '';

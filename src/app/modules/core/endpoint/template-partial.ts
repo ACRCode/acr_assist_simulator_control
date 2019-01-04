@@ -4,6 +4,7 @@ import { SectionIfValueNotCondition } from '../rules/section-if-value-not-condit
 import { SectionIfValueCondition } from '../rules/section-if-value-condition';
 
 export class TemplatePartial {
+    isManuallyAdded: boolean;
     id: String;
     sectionIfNotValue: SectionIfValueNotCondition;
     sectionIfValues: SectionIfValueCondition[];
