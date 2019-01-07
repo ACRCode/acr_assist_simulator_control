@@ -192,7 +192,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   FindRepeatedElements($event) {
-    debugger;
     // RepeatableElementRegisterService.ClearRepeatableDataElementsGroupName();
     if (this.IsAnyRepeatElementsExist($event)) {
       this.IsRepeating = false;

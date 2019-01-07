@@ -107,13 +107,13 @@ export class ConditionsCreationService {
   }
 
     private  returnConditions(conditionsJSON: JSON): Condition[] {
-         let conditions: Condition[];
+         const conditions = new  Array<Condition>();
         const conditionIdentifiers = ['EqualCondition', 'GreaterThanCondition', 'LessThanCondition',
             'GreaterThanOrEqualsCondition', 'LessThanOrEqualsCondition', 'ContainsCondition', 'SectionIf', 'SectionIfNot', 'NotEqualCondition'];
         for (const conditionIdentifier of conditionIdentifiers) {
               const conditionJSON = conditionsJSON[conditionIdentifier];
               if (conditionJSON !== undefined) {
-                conditions = new Array<Condition>();
+                // conditions = new Array<Condition>();
                 if (this.arrayCheckerService.isArray(conditionJSON)) {
                       for (const jsonValue of conditionJSON) {
                         conditions.push(this.returnConditionFromJSON(conditionIdentifier, jsonValue));

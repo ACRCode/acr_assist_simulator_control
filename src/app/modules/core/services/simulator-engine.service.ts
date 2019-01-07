@@ -119,7 +119,6 @@ export class SimulatorEngineService {
       // }
     }
 
-    debugger;
     endpoints = this.ValidateEndpoints(endpointBranches);
 
     const $simulatorState = new SimulatorState();

@@ -39,6 +39,7 @@ export class DecisionPointsCreationService {
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {
+      debugger;
          branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);
     }
     if (branchJSON.NotRelevantDataElements) {
