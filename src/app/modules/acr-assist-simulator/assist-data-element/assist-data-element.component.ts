@@ -101,11 +101,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const allReportText = new AllReportText();
         $mainReportText.reportTextMainContent = '';
         for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
-          allReportText.sectionId = evaluationResult.sectionId;
-          allReportText.reportText = evaluationResult.reportText;
+          allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
+          allReportText.allReportResult = Object.create(new AllReportResult());
+          allReportText.allReportResult.sectionId = evaluationResult.ruleEvaluationReportResult.sectionId;
+          allReportText.allReportResult.reportText = evaluationResult.ruleEvaluationReportResult.reportText;
+          allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
           $mainReportText.allReportText.push(Object.assign({}, allReportText));
         }
 
+        console.log($mainReportText);
         this.returnReportText.emit($mainReportText);
       } else {
         this.returnReportText.emit(undefined);
@@ -155,6 +159,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   numericSelected($event) {
+    debugger;
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
         this.FindRepeatedElements($event);
@@ -187,7 +192,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   FindRepeatedElements($event) {
-    // debugger;
+    debugger;
     // RepeatableElementRegisterService.ClearRepeatableDataElementsGroupName();
     if (this.IsAnyRepeatElementsExist($event)) {
       this.IsRepeating = false;
@@ -215,7 +220,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             repeatedElementSection.ChildElements.push($item);
           }
         }
-        
+
         $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
       }
 
@@ -256,7 +261,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   generateReportText(endpointId: string) {
     // endpointId = 'ReporttextTR1';
     const endpointContent = this.returnEndPointContents(this.xmlContent, '<EndPoint Id="' + endpointId + '">', '</EndPoint>');
-    this.parseXml(endpointId, endpointContent);
+    // this.parseXml(endpointId, endpointContent);
   }
 
   afterDataElementChanged() {
@@ -357,518 +362,518 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     return contents;
   }
 
-  private parseToJson(xmlData: string): any {
-    let jsonResult: JSON;
-    const parseString = require('xml2js').parseString;
-    parseString(xmlData, { explicitRoot: false, explicitArray: false, attrkey: 'Attr' }, function (err, result) {
-      jsonResult = result;
-    });
+  // private parseToJson(xmlData: string): any {
+  //   let jsonResult: JSON;
+  //   const parseString = require('xml2js').parseString;
+  //   parseString(xmlData, { explicitRoot: false, explicitArray: false, attrkey: 'Attr' }, function (err, result) {
+  //     jsonResult = result;
+  //   });
 
-    return jsonResult;
-  }
+  //   return jsonResult;
+  // }
 
-  private parseXml(endPointId: string, endpointContent: string): any {
-    const templateIds: string[] = [];
-    let canInsertText: boolean;
-    let isSectionIf: boolean;
-    let selectedElements: Map<string, any>;
-    let executeSectionIfNot: boolean;
-    let hasSectionNot: boolean;
-    let insertValue: boolean;
-    let executeTemplate: boolean;
-    let isImpression: boolean;
-    let isNewTemplate: boolean;
-    let hasInsertPartial: boolean;
-    let isMainText: boolean;
-    const allReportText: AllReportText[] = [];
-    const endpoints = this.Endpoints;
-    let templatePartialsText: string[];
-    let selectedComparisonValues: string[];
-    let findingsText: string;
-    let impressionText: string;
-    let selectedSection: string;
-    let selectedChoiceTexts: Map<string, any>;
-    let textExpressionValue: string;
-    selectedElements = this.simulatorEngineService.getAllDataElementValues();
-    templatePartialsText = this.templatePartial;
-    selectedComparisonValues = this.comparisonValues;
-    selectedChoiceTexts = this.simulatorEngineService.getAllDataElementTexts();
-    executeSectionIfNot = false;
-    hasInsertPartial = false;
+  // private parseXml(endPointId: string, endpointContent: string): any {
+  //   const templateIds: string[] = [];
+  //   let canInsertText: boolean;
+  //   let isSectionIf: boolean;
+  //   let selectedElements: Map<string, any>;
+  //   let executeSectionIfNot: boolean;
+  //   let hasSectionNot: boolean;
+  //   let insertValue: boolean;
+  //   let executeTemplate: boolean;
+  //   let isImpression: boolean;
+  //   let isNewTemplate: boolean;
+  //   let hasInsertPartial: boolean;
+  //   let isMainText: boolean;
+  //   const allReportText: AllReportText[] = [];
+  //   const endpoints = this.Endpoints;
+  //   let templatePartialsText: string[];
+  //   let selectedComparisonValues: string[];
+  //   let findingsText: string;
+  //   let impressionText: string;
+  //   let selectedSection: string;
+  //   let selectedChoiceTexts: Map<string, any>;
+  //   let textExpressionValue: string;
+  //   selectedElements = this.simulatorEngineService.getAllDataElementValues();
+  //   templatePartialsText = this.templatePartial;
+  //   selectedComparisonValues = this.comparisonValues;
+  //   selectedChoiceTexts = this.simulatorEngineService.getAllDataElementTexts();
+  //   executeSectionIfNot = false;
+  //   hasInsertPartial = false;
 
-    findingsText = '';
-    impressionText = '';
-    let isReportText: boolean;
-    let reportTextContent = '';
-    const endpointSax = require('sax'),
-      strict = true,
-      normalize = true, // set to false for html-mode
-      trim = true,
-      reportTextParser = endpointSax.parser(strict, trim);
-    reportTextParser.onerror = function (e) {
-      // an error happened.
-      reportTextParser.resume();
-    };
-    reportTextParser.ontext = function (t) {
-      if (t.length > 1) {
-        t = t.trim();
-      }
-      let isTextInserted: boolean;
-      isTextInserted = false;
-      if (executeTemplate) {
-        if (!isImpression) {
-          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-            findingsText = findingsText + t;
-          } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
-            findingsText = findingsText + t;
-          } else if (canInsertText && !isImpression) {
-            findingsText = findingsText + t;
-          }
-        } else {
-          if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-            impressionText = impressionText + t;
-          } else if (canInsertText && !hasSectionNot && isImpression) {
-            impressionText = impressionText + t;
-          } else if (canInsertText && isNewTemplate) {
-            impressionText = impressionText + t;
-          }
-        }
+  //   findingsText = '';
+  //   impressionText = '';
+  //   let isReportText: boolean;
+  //   let reportTextContent = '';
+  //   const endpointSax = require('sax'),
+  //     strict = true,
+  //     normalize = true, // set to false for html-mode
+  //     trim = true,
+  //     reportTextParser = endpointSax.parser(strict, trim);
+  //   reportTextParser.onerror = function (e) {
+  //     // an error happened.
+  //     reportTextParser.resume();
+  //   };
+  //   reportTextParser.ontext = function (t) {
+  //     if (t.length > 1) {
+  //       t = t.trim();
+  //     }
+  //     let isTextInserted: boolean;
+  //     isTextInserted = false;
+  //     if (executeTemplate) {
+  //       if (!isImpression) {
+  //         if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+  //           findingsText = findingsText + t;
+  //         } else if (canInsertText && isNewTemplate && hasInsertPartial && !isSectionIf) {
+  //           findingsText = findingsText + t;
+  //         } else if (canInsertText && !isImpression) {
+  //           findingsText = findingsText + t;
+  //         }
+  //       } else {
+  //         if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+  //           impressionText = impressionText + t;
+  //         } else if (canInsertText && !hasSectionNot && isImpression) {
+  //           impressionText = impressionText + t;
+  //         } else if (canInsertText && isNewTemplate) {
+  //           impressionText = impressionText + t;
+  //         }
+  //       }
 
-        if (isReportText && !isTextInserted && isMainText && canInsertText) {
-          reportTextContent = reportTextContent + t;
-        }
-      }
-    };
-    reportTextParser.onopentag = function (node) {
-      switch (node.name) {
-        case 'Label':
-          canInsertText = false;
-          isReportText = false;
-          isMainText = false;
-          break;
+  //       if (isReportText && !isTextInserted && isMainText && canInsertText) {
+  //         reportTextContent = reportTextContent + t;
+  //       }
+  //     }
+  //   };
+  //   reportTextParser.onopentag = function (node) {
+  //     switch (node.name) {
+  //       case 'Label':
+  //         canInsertText = false;
+  //         isReportText = false;
+  //         isMainText = false;
+  //         break;
 
-        case 'ReportText':
-          if (executeTemplate) {
-            isReportText = true;
-            canInsertText = true;
-            selectedSection = node.attributes.SectionId;
-            impressionText = '';
-            if (node.attributes.SectionId === 'findings' && executeTemplate) {
-              isImpression = false;
-            } else if (node.attributes.SectionId === 'impression' && executeTemplate) {
-              isImpression = true;
-            }
-          }
-          isSectionIf = false;
-          // isMainText = true;
-          break;
+  //       case 'ReportText':
+  //         if (executeTemplate) {
+  //           isReportText = true;
+  //           canInsertText = true;
+  //           selectedSection = node.attributes.SectionId;
+  //           impressionText = '';
+  //           if (node.attributes.SectionId === 'findings' && executeTemplate) {
+  //             isImpression = false;
+  //           } else if (node.attributes.SectionId === 'impression' && executeTemplate) {
+  //             isImpression = true;
+  //           }
+  //         }
+  //         isSectionIf = false;
+  //         // isMainText = true;
+  //         break;
 
-        case 'InsertPartial':
-          if (executeTemplate) {
-            generatePartialView(node.attributes.PartialId, isImpression);
-            executeTemplate = true;
-            canInsertText = true;
-            if (isReportText) {
-              hasInsertPartial = true;
-            } else {
-              hasInsertPartial = false;
-            }
-          } else {
-            canInsertText = false;
-          }
-          isReportText = false;
-          isMainText = false;
-          break;
+  //       case 'InsertPartial':
+  //         if (executeTemplate) {
+  //           generatePartialView(node.attributes.PartialId, isImpression);
+  //           executeTemplate = true;
+  //           canInsertText = true;
+  //           if (isReportText) {
+  //             hasInsertPartial = true;
+  //           } else {
+  //             hasInsertPartial = false;
+  //           }
+  //         } else {
+  //           canInsertText = false;
+  //         }
+  //         isReportText = false;
+  //         isMainText = false;
+  //         break;
 
-        case 'SectionIfValueNot':
-          if (executeTemplate) {
-            if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-              for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
-                if (comaprisonValue !== node.attributes.ComparisonValue &&
-                  comaprisonValue !== undefined && !isSectionIf) {
-                  canInsertText = true;
-                  executeSectionIfNot = true;
-                  break;
-                } else {
-                  canInsertText = false;
-                  executeSectionIfNot = false;
-                }
-              }
-            } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
-              selectedElements[node.attributes.DataElementId] !== '--Select--' &&
-              selectedElements[node.attributes.DataElementId] !== undefined &&
-              selectedElements[node.attributes.DataElementId] !== null) {
-              canInsertText = true;
-              executeSectionIfNot = true;
-            } else {
-              canInsertText = false;
-              executeSectionIfNot = false;
-            }
-          }
-          hasSectionNot = true;
-          isMainText = false;
-          break;
-        case 'SectionIf':
-          if (selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-            isSectionIf = true;
-            canInsertText = true;
-          } else {
-            isSectionIf = false;
-            canInsertText = false;
-          }
-          break;
-        case 'SectionIfValue':
-          if (executeTemplate) {
-            if (executeTemplate) {
-              if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-                for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
-                  if (comaprisonValue === node.attributes.ComparisonValue &&
-                    comaprisonValue !== undefined) {
-                    isSectionIf = true;
-                    if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                      findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
-                    }
-                    canInsertText = true;
-                    break;
-                  } else {
-                    isSectionIf = false;
-                    canInsertText = false;
-                  }
-                }
-              } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
-                selectedElements[node.attributes.DataElementId] !== undefined) {
-                isSectionIf = true;
-                if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                  findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
-                }
-                canInsertText = true;
-              } else {
-                canInsertText = false;
-              }
-            }
-            break;
-          }
-          isMainText = false;
-          break;
-        case 'InsertValue':
-          if (executeTemplate) {
-            isReportText = false;
-            insertValue = true;
-            const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
-            if (node.attributes.Id === 'findings' || canInsertText) {
-              if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
-                if (isImpression) {
-                  if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                  } else {
-                    getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
-                    impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
-                  }
-                } else {
-                  if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                  } else {
-                    getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
-                    findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
-                  }
-                }
-              } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
-                if (isImpression) {
-                  if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                  } else {
-                    getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
-                    impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
-                  }
-                } else {
-                  if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                  } else {
-                    getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
-                    findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
-                  }
-                }
-              }
-              if (isImpression) {
-                canInsertText = true;
-              }
-            }
-            isMainText = false;
-            break;
-          }
-      }
-      executeTemplate = true;
-      isNewTemplate = true;
-    };
-    reportTextParser.onclosetag = function (node) {
-      switch (node) {
-        case 'SectionIfValueNot':
-          executeSectionIfNot = false;
-          hasSectionNot = false;
-          if (isSectionIf) {
-            canInsertText = true;
-          }
-          break;
-        case 'TemplatePartial':
-          isNewTemplate = false;
-          canInsertText = false;
-          executeTemplate = false;
-          break;
-        case 'ReportText':
-          // isImpression = false;
-          if (!hasInsertPartial && !isImpression) {
-            const reportTextObj: AllReportText = new AllReportText();
-            reportTextObj.sectionId = 'findings';
-            reportTextObj.reportText = findingsText;
-            allReportText[reportTextObj.sectionId] = reportTextObj;
-          }
+  //       case 'SectionIfValueNot':
+  //         if (executeTemplate) {
+  //           if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+  //             for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
+  //               if (comaprisonValue !== node.attributes.ComparisonValue &&
+  //                 comaprisonValue !== undefined && !isSectionIf) {
+  //                 canInsertText = true;
+  //                 executeSectionIfNot = true;
+  //                 break;
+  //               } else {
+  //                 canInsertText = false;
+  //                 executeSectionIfNot = false;
+  //               }
+  //             }
+  //           } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+  //             selectedElements[node.attributes.DataElementId] !== '--Select--' &&
+  //             selectedElements[node.attributes.DataElementId] !== undefined &&
+  //             selectedElements[node.attributes.DataElementId] !== null) {
+  //             canInsertText = true;
+  //             executeSectionIfNot = true;
+  //           } else {
+  //             canInsertText = false;
+  //             executeSectionIfNot = false;
+  //           }
+  //         }
+  //         hasSectionNot = true;
+  //         isMainText = false;
+  //         break;
+  //       case 'SectionIf':
+  //         if (selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //           isSectionIf = true;
+  //           canInsertText = true;
+  //         } else {
+  //           isSectionIf = false;
+  //           canInsertText = false;
+  //         }
+  //         break;
+  //       case 'SectionIfValue':
+  //         if (executeTemplate) {
+  //           if (executeTemplate) {
+  //             if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+  //               for (const comaprisonValue of selectedElements[node.attributes.DataElementId]) {
+  //                 if (comaprisonValue === node.attributes.ComparisonValue &&
+  //                   comaprisonValue !== undefined) {
+  //                   isSectionIf = true;
+  //                   if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                     findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
+  //                   }
+  //                   canInsertText = true;
+  //                   break;
+  //                 } else {
+  //                   isSectionIf = false;
+  //                   canInsertText = false;
+  //                 }
+  //               }
+  //             } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
+  //               selectedElements[node.attributes.DataElementId] !== undefined) {
+  //               isSectionIf = true;
+  //               if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                 findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
+  //               }
+  //               canInsertText = true;
+  //             } else {
+  //               canInsertText = false;
+  //             }
+  //           }
+  //           break;
+  //         }
+  //         isMainText = false;
+  //         break;
+  //       case 'InsertValue':
+  //         if (executeTemplate) {
+  //           isReportText = false;
+  //           insertValue = true;
+  //           const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
+  //           if (node.attributes.Id === 'findings' || canInsertText) {
+  //             if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot) {
+  //               if (isImpression) {
+  //                 if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                 } else {
+  //                   getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+  //                   impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
+  //                 }
+  //               } else {
+  //                 if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                 } else {
+  //                   getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+  //                   findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
+  //                 }
+  //               }
+  //             } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot) {
+  //               if (isImpression) {
+  //                 if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                 } else {
+  //                   getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+  //                   impressionText = impressionText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
+  //                 }
+  //               } else {
+  //                 if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                 } else {
+  //                   getTextExpressionValue(selectedElements[node.attributes.DataElementId]);
+  //                   findingsText = findingsText + (Array.isArray(selectedElements[node.attributes.DataElementId]) ? selectedElements[node.attributes.DataElementId].join(', ') : textExpressionValue);
+  //                 }
+  //               }
+  //             }
+  //             if (isImpression) {
+  //               canInsertText = true;
+  //             }
+  //           }
+  //           isMainText = false;
+  //           break;
+  //         }
+  //     }
+  //     executeTemplate = true;
+  //     isNewTemplate = true;
+  //   };
+  //   reportTextParser.onclosetag = function (node) {
+  //     switch (node) {
+  //       case 'SectionIfValueNot':
+  //         executeSectionIfNot = false;
+  //         hasSectionNot = false;
+  //         if (isSectionIf) {
+  //           canInsertText = true;
+  //         }
+  //         break;
+  //       case 'TemplatePartial':
+  //         isNewTemplate = false;
+  //         canInsertText = false;
+  //         executeTemplate = false;
+  //         break;
+  //       case 'ReportText':
+  //         // isImpression = false;
+  //         if (!hasInsertPartial && !isImpression) {
+  //           const reportTextObj: AllReportText = new AllReportText();
+  //           reportTextObj.sectionId = 'findings';
+  //           reportTextObj.reportText = findingsText;
+  //           allReportText[reportTextObj.sectionId] = reportTextObj;
+  //         }
 
-          if (impressionText !== '' && impressionText !== undefined) {
-            const reportTextObj: AllReportText = new AllReportText();
-            reportTextObj.sectionId = selectedSection;
-            reportTextObj.reportText = impressionText;
-            allReportText[reportTextObj.sectionId] = reportTextObj;
-          }
-          hasInsertPartial = false;
-          break;
-        case 'SectionIf':
-          isSectionIf = false;
-          canInsertText = true;
-          break;
-        case 'InsertPartial':
-          canInsertText = true;
-          break;
-        case 'InsertValue':
-          if ((hasSectionNot && executeSectionIfNot || !hasSectionNot)) {
-            canInsertText = true;
-          }
-          break;
-        case 'SectionIfValue':
-          canInsertText = true;
-          break;
-      }
-    };
+  //         if (impressionText !== '' && impressionText !== undefined) {
+  //           const reportTextObj: AllReportText = new AllReportText();
+  //           reportTextObj.sectionId = selectedSection;
+  //           reportTextObj.reportText = impressionText;
+  //           allReportText[reportTextObj.sectionId] = reportTextObj;
+  //         }
+  //         hasInsertPartial = false;
+  //         break;
+  //       case 'SectionIf':
+  //         isSectionIf = false;
+  //         canInsertText = true;
+  //         break;
+  //       case 'InsertPartial':
+  //         canInsertText = true;
+  //         break;
+  //       case 'InsertValue':
+  //         if ((hasSectionNot && executeSectionIfNot || !hasSectionNot)) {
+  //           canInsertText = true;
+  //         }
+  //         break;
+  //       case 'SectionIfValue':
+  //         canInsertText = true;
+  //         break;
+  //     }
+  //   };
 
-    reportTextParser.onend = function () {
-      // parser stream is done, and ready to have more stuff written to it.
-      // if (impressionText !== '' && impressionText !== undefined) {
-      // const reportTextObj: AllReportText = new AllReportText();
-      // reportTextObj.sectionId = selectedSection;
-      // reportTextObj.reportText = impressionText;
-      // allReportText[reportTextObj.sectionId] = reportTextObj;
-      // }
-    };
+  //   reportTextParser.onend = function () {
+  //     // parser stream is done, and ready to have more stuff written to it.
+  //     // if (impressionText !== '' && impressionText !== undefined) {
+  //     // const reportTextObj: AllReportText = new AllReportText();
+  //     // reportTextObj.sectionId = selectedSection;
+  //     // reportTextObj.reportText = impressionText;
+  //     // allReportText[reportTextObj.sectionId] = reportTextObj;
+  //     // }
+  //   };
 
-    reportTextParser.write(endpointContent).onend();
+  //   reportTextParser.write(endpointContent).onend();
 
-    function getTextExpressionValue(textExpression: string) {
-      if (textExpression.indexOf('{') === 0 && (textExpression.indexOf('}') > 1)) {
-        const subString = textExpression.substr(textExpression.indexOf('{') + 1, textExpression.indexOf('}') - 1);
-        getTextExpressionValue(selectedElements[subString]);
-      } else {
-        textExpressionValue = textExpression;
-      }
-    }
-    function generatePartialView(partialViewId: string, isImpressionTemplate: boolean) {
-      // this.templateIds = [];
-      const sax = require('sax'),
-        parser = sax.parser(strict, trim);
-      parser.onerror = function (e) {
-        // an error happened.
-        // parser.resume();
-      };
-      parser.ontext = function (t) {
-        if (executeTemplate) {
-          if (!isImpressionTemplate) {
-            if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-              findingsText = findingsText + t;
-            } else if (canInsertText && !hasSectionNot && isImpression) {
-              findingsText = findingsText + t;
-            } else if (canInsertText && isNewTemplate) {
-              findingsText = findingsText + t;
-            }
-          } else {
-            if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
-              impressionText = impressionText + t;
-            } else if (canInsertText && !hasSectionNot && isImpression) {
-              impressionText = impressionText + t;
-            } else if (canInsertText && isNewTemplate) {
-              impressionText = impressionText + t;
-            }
-          }
-        }
-      };
-      parser.onopentag = function (node) {
-        switch (node.name) {
-          case 'Label': canInsertText = false;
-            break;
-          case 'EndPoint': if (node.attributes.Id !== '') {
-            canInsertText = true;
-            isImpression = true;
-          } else {
-            canInsertText = false;
-            isImpression = false;
-          }
-            break;
-          case 'InsertPartial': canInsertText = false;
-            break;
-          case 'ReportText': canInsertText = true;
-            break;
-          case 'TemplatePartial': hasSectionNot = false;
-            executeSectionIfNot = false;
-            if (node.attributes.Id === partialViewId) {
-              executeTemplate = true;
-              canInsertText = true;
-              isNewTemplate = true;
-              break;
-            } else {
-              isNewTemplate = false;
-              executeTemplate = false;
-            }
+  //   function getTextExpressionValue(textExpression: string) {
+  //     if (textExpression.indexOf('{') === 0 && (textExpression.indexOf('}') > 1)) {
+  //       const subString = textExpression.substr(textExpression.indexOf('{') + 1, textExpression.indexOf('}') - 1);
+  //       getTextExpressionValue(selectedElements[subString]);
+  //     } else {
+  //       textExpressionValue = textExpression;
+  //     }
+  //   }
+  //   function generatePartialView(partialViewId: string, isImpressionTemplate: boolean) {
+  //     // this.templateIds = [];
+  //     const sax = require('sax'),
+  //       parser = sax.parser(strict, trim);
+  //     parser.onerror = function (e) {
+  //       // an error happened.
+  //       // parser.resume();
+  //     };
+  //     parser.ontext = function (t) {
+  //       if (executeTemplate) {
+  //         if (!isImpressionTemplate) {
+  //           if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+  //             findingsText = findingsText + t;
+  //           } else if (canInsertText && !hasSectionNot && isImpression) {
+  //             findingsText = findingsText + t;
+  //           } else if (canInsertText && isNewTemplate) {
+  //             findingsText = findingsText + t;
+  //           }
+  //         } else {
+  //           if (canInsertText && hasSectionNot && hasSectionNot !== undefined && executeSectionIfNot) {
+  //             impressionText = impressionText + t;
+  //           } else if (canInsertText && !hasSectionNot && isImpression) {
+  //             impressionText = impressionText + t;
+  //           } else if (canInsertText && isNewTemplate) {
+  //             impressionText = impressionText + t;
+  //           }
+  //         }
+  //       }
+  //     };
+  //     parser.onopentag = function (node) {
+  //       switch (node.name) {
+  //         case 'Label': canInsertText = false;
+  //           break;
+  //         case 'EndPoint': if (node.attributes.Id !== '') {
+  //           canInsertText = true;
+  //           isImpression = true;
+  //         } else {
+  //           canInsertText = false;
+  //           isImpression = false;
+  //         }
+  //           break;
+  //         case 'InsertPartial': canInsertText = false;
+  //           break;
+  //         case 'ReportText': canInsertText = true;
+  //           break;
+  //         case 'TemplatePartial': hasSectionNot = false;
+  //           executeSectionIfNot = false;
+  //           if (node.attributes.Id === partialViewId) {
+  //             executeTemplate = true;
+  //             canInsertText = true;
+  //             isNewTemplate = true;
+  //             break;
+  //           } else {
+  //             isNewTemplate = false;
+  //             executeTemplate = false;
+  //           }
 
-            break;
-          case 'SectionIfValueNot': if (executeTemplate) {
-            if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-              for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
-                if (comaprisonValue !== node.attributes.ComparisonValue &&
-                  comaprisonValue !== undefined && !isSectionIf) {
-                  canInsertText = true;
-                  executeSectionIfNot = true;
-                  break;
-                } else {
-                  canInsertText = false;
-                  executeSectionIfNot = false;
-                }
-              }
-            } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
-              selectedElements[node.attributes.DataElementId] !== '--Select--' &&
-              selectedElements[node.attributes.DataElementId] !== undefined &&
-              selectedElements[node.attributes.DataElementId] !== null) {
-              canInsertText = true;
-              executeSectionIfNot = true;
-            } else {
-              canInsertText = false;
-              executeSectionIfNot = false;
-            }
-          }
-            hasSectionNot = true;
+  //           break;
+  //         case 'SectionIfValueNot': if (executeTemplate) {
+  //           if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+  //             for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+  //               if (comaprisonValue !== node.attributes.ComparisonValue &&
+  //                 comaprisonValue !== undefined && !isSectionIf) {
+  //                 canInsertText = true;
+  //                 executeSectionIfNot = true;
+  //                 break;
+  //               } else {
+  //                 canInsertText = false;
+  //                 executeSectionIfNot = false;
+  //               }
+  //             }
+  //           } else if (selectedElements[node.attributes.DataElementId] !== node.attributes.ComparisonValue &&
+  //             selectedElements[node.attributes.DataElementId] !== '--Select--' &&
+  //             selectedElements[node.attributes.DataElementId] !== undefined &&
+  //             selectedElements[node.attributes.DataElementId] !== null) {
+  //             canInsertText = true;
+  //             executeSectionIfNot = true;
+  //           } else {
+  //             canInsertText = false;
+  //             executeSectionIfNot = false;
+  //           }
+  //         }
+  //           hasSectionNot = true;
 
-            break;
-          case 'SectionIf':
-            if (selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && (!hasSectionNot || (hasSectionNot && executeSectionIfNot))
-              && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-              isSectionIf = true;
-              canInsertText = true;
-            } else {
-              isSectionIf = false;
-              canInsertText = false;
-            }
-            break;
-          case 'SectionIfValue':
-            if (executeTemplate) {
-              if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
-                for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
-                  if (comaprisonValue === node.attributes.ComparisonValue &&
-                    comaprisonValue !== undefined) {
-                    isSectionIf = true;
-                    if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                      findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
-                    }
-                    canInsertText = true;
-                    break;
-                  } else {
-                    isSectionIf = false;
-                    canInsertText = false;
-                  }
-                }
-              } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
-                selectedElements[node.attributes.DataElementId] !== undefined) {
-                isSectionIf = true;
-                if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                  findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
-                }
-                canInsertText = true;
-              } else {
-                canInsertText = false;
-              }
-            }
-            break;
-          case 'InsertValue':
-            if (executeTemplate) {
-              insertValue = true;
-              const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
-              if (node.attributes.Id === 'findings' || canInsertText) {
-                if (isImpression) {
-                  canInsertText = true;
-                  if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
-                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    }
-                  } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    } else {
-                      if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                        impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                      }
-                    }
-                  }
-                } else {
-                  if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    }
-                  } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
-                    if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
-                      findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
-                    }
-                  }
-                }
-              }
-              break;
-            }
-        }
-      };
-      parser.onclosetag = function (node) {
-        switch (node) {
-          case 'SectionIfValueNot':
-            executeSectionIfNot = false;
-            hasSectionNot = false;
-            if (isSectionIf) {
-              canInsertText = true;
-            }
-            break;
-          case 'TemplatePartial':
-            isNewTemplate = true;
-            canInsertText = false;
-            executeTemplate = true;
-            break;
-          case 'InsertPartial':
-            canInsertText = true;
-            break;
-          case 'SectionIf' || 'SectionIfValue':
-            isSectionIf = false;
-            break;
-        }
-      };
+  //           break;
+  //         case 'SectionIf':
+  //           if (selectedElements[node.attributes.DataElementId] !== undefined && selectedElements[node.attributes.DataElementId].length > 0 && (!hasSectionNot || (hasSectionNot && executeSectionIfNot))
+  //             && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //             isSectionIf = true;
+  //             canInsertText = true;
+  //           } else {
+  //             isSectionIf = false;
+  //             canInsertText = false;
+  //           }
+  //           break;
+  //         case 'SectionIfValue':
+  //           if (executeTemplate) {
+  //             if (Array.isArray(selectedElements[node.attributes.DataElementId])) {
+  //               for (const comaprisonValue of selectedComparisonValues[node.attributes.DataElementId + 'ComparisonValue']) {
+  //                 if (comaprisonValue === node.attributes.ComparisonValue &&
+  //                   comaprisonValue !== undefined) {
+  //                   isSectionIf = true;
+  //                   if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                     findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
+  //                   }
+  //                   canInsertText = true;
+  //                   break;
+  //                 } else {
+  //                   isSectionIf = false;
+  //                   canInsertText = false;
+  //                 }
+  //               }
+  //             } else if (selectedElements[node.attributes.DataElementId] === node.attributes.ComparisonValue &&
+  //               selectedElements[node.attributes.DataElementId] !== undefined) {
+  //               isSectionIf = true;
+  //               if (selectedElements[node.attributes.DataElementId] !== undefined && !isSectionIf && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                 findingsText = findingsText + selectedChoiceTexts[node.attributes.DataElementId];
+  //               }
+  //               canInsertText = true;
+  //             } else {
+  //               canInsertText = false;
+  //             }
+  //           }
+  //           break;
+  //         case 'InsertValue':
+  //           if (executeTemplate) {
+  //             insertValue = true;
+  //             const choiceText = selectedChoiceTexts[node.attributes.DataElementId];
+  //             if (node.attributes.Id === 'findings' || canInsertText) {
+  //               if (isImpression) {
+  //                 canInsertText = true;
+  //                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+  //                     impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                   } else {
+  //                     impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                   }
+  //                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+  //                     impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                   } else {
+  //                     if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                       impressionText = impressionText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                     }
+  //                   }
+  //                 }
+  //               } else {
+  //                 if (selectedElements[node.attributes.DataElementId] !== undefined && hasSectionNot && executeSectionIfNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+  //                     findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                   }
+  //                 } else if (selectedElements[node.attributes.DataElementId] !== undefined && !hasSectionNot && selectedChoiceTexts[node.attributes.DataElementId] !== 'Other, please specify…') {
+  //                   if (selectedChoiceTexts[node.attributes.DataElementId] !== undefined) {
+  //                     findingsText = findingsText + (Array.isArray(choiceText) ? choiceText.join(', ') : choiceText);
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //             break;
+  //           }
+  //       }
+  //     };
+  //     parser.onclosetag = function (node) {
+  //       switch (node) {
+  //         case 'SectionIfValueNot':
+  //           executeSectionIfNot = false;
+  //           hasSectionNot = false;
+  //           if (isSectionIf) {
+  //             canInsertText = true;
+  //           }
+  //           break;
+  //         case 'TemplatePartial':
+  //           isNewTemplate = true;
+  //           canInsertText = false;
+  //           executeTemplate = true;
+  //           break;
+  //         case 'InsertPartial':
+  //           canInsertText = true;
+  //           break;
+  //         case 'SectionIf' || 'SectionIfValue':
+  //           isSectionIf = false;
+  //           break;
+  //       }
+  //     };
 
-      parser.onend = function () {
-        // parser stream is done, and ready to have more stuff written to it.
-        const reportTextObj: AllReportText = new AllReportText();
-        reportTextObj.sectionId = 'findings';
-        reportTextObj.reportText = findingsText;
-        allReportText[reportTextObj.sectionId] = reportTextObj;
-      };
-      parser.write(templatePartialsText).onend();
+  //     parser.onend = function () {
+  //       // parser stream is done, and ready to have more stuff written to it.
+  //       const reportTextObj: AllReportText = new AllReportText();
+  //       reportTextObj.sectionId = 'findings';
+  //       reportTextObj.reportText = findingsText;
+  //       allReportText[reportTextObj.sectionId] = reportTextObj;
+  //     };
+  //     parser.write(templatePartialsText).onend();
 
-    }
-    this.mainReportTextObj = new MainReportText();
-    this.mainReportTextObj.reportTextMainContent = reportTextContent;
-    this.mainReportTextObj.allReportText = allReportText;
-    this.returnReportText.emit(this.mainReportTextObj);
-  }
+  //   }
+  //   this.mainReportTextObj = new MainReportText();
+  //   this.mainReportTextObj.reportTextMainContent = reportTextContent;
+  //   this.mainReportTextObj.allReportText = allReportText;
+  //   this.returnReportText.emit(this.mainReportTextObj);
+  // }
 }
 
 export class ChoiceElement {
@@ -899,6 +904,14 @@ export class MainReportText {
   allReportText: AllReportText[];
 }
 export class AllReportText {
+  repeatedSectionName: string;
+  allReportResult: AllReportResult;
+  constructor () {
+    this.allReportResult = new AllReportResult();
+  }
+}
+
+export class AllReportResult {
   sectionId: string;
   reportText: string;
 }

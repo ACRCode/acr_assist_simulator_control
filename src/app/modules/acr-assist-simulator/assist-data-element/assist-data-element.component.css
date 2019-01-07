@@ -9,8 +9,8 @@ header label {
 }
 
 .panel-default>.panel-heading{
-    color:white;
-    background-color: #3c8dbc;
+    color:black;
+    /* background-color: #3c8dbc; */
     border-color: #ddd;
 }
 
@@ -19,7 +19,7 @@ header label {
     font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
     content: "\e114";    /* adjust as needed, taken from bootstrap.css */
     float: right;        /* adjust as needed */
-    color: white;         /* adjust as needed */
+    color: black;         /* adjust as needed */
 }
 .panel-heading .accordion-toggle.collapsed:after {
     /* symbol for "collapsed" panels */
@@ -27,7 +27,7 @@ header label {
 }
 
 .accordion-toggle:focus{
-    color: white !important;
+    color: black !important;
 }
 
 .accordion-toggle:hover{

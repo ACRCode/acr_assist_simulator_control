@@ -76,6 +76,7 @@ export class SimulatorEngineService {
   evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
     // debugger;
     let endpoints = Array<string>();
+    let endpointBranches = Array<Branch>();
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
@@ -101,7 +102,9 @@ export class SimulatorEngineService {
             this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.endPointRef !== undefined) {
+          endpointBranches.push(branch);
           endpoints.push(branch.endPointRef.endPointId);
+          // reportCounts.push(branch.endPointRef.repeatCount);
         }
       }
       // else {
@@ -116,6 +119,9 @@ export class SimulatorEngineService {
       // }
     }
 
+    debugger;
+    endpoints = this.ValidateEndpoints(endpointBranches);
+
     const $simulatorState = new SimulatorState();
     if (endpoints !== undefined && endpoints.length > 0) {
       $simulatorState.endPointIds = endpoints;
@@ -124,6 +130,21 @@ export class SimulatorEngineService {
     } else {
       this.simulatorStateChanged.next($simulatorState);
     }
+  }
+
+  private ValidateEndpoints(endpointBranches: Branch[]) {
+    const $endpoints = new Array<string>();
+    for (const endpointBranch of endpointBranches) {
+      if (endpointBranch.isManuallyAdded) {
+        if (this.dataElementValues[endpointBranch.endPointRef.repeatCount] !== '') {
+          $endpoints.push(endpointBranch.endPointRef.endPointId);
+        }
+      } else {
+        $endpoints.push(endpointBranch.endPointRef.endPointId);
+      }
+    }
+
+    return  $endpoints;
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
@@ -166,7 +187,6 @@ export class SimulatorEngineService {
             this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.computedValue !== undefined) {
-
           this.dataElementValues[elementId] = branch.computedValue.expressionText;
           this.endOfRoadReached = true;
           if (branch.computedValue instanceof ArithmeticExpression) {
@@ -419,7 +439,7 @@ export class SimulatorEngineService {
 
           if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
             _branch.condition.conditionType.dataElementId = _branch.condition.conditionType.dataElementId.split('_')[0]
-              + '_' +  templatePartialId.split('_')[1];
+              + '_' + templatePartialId.split('_')[1];
           }
 
           for (const reportText of _branch.reportText) {
@@ -435,7 +455,6 @@ export class SimulatorEngineService {
         }
 
         this.template.endpoint.templatePartials.push(templatePartial_cloned);
-        console.log(templatePartial_cloned);
       }
     }
   }
@@ -603,7 +622,6 @@ export class SimulatorEngineService {
                   $branch.compositeCondition.conditions.push(_conditions);
                 }
               }
-
 
               if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
                 $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]

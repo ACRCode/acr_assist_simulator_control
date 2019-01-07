@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Branch } from '../../../core/models/branch.model';
 import { DataElementValues } from '../../../core/dataelementvalues';
-import { RuleEvaluationResult } from '../../../core/endpoint/rule-evaluation-result.model';
+import { RuleEvaluationResult, RuleEvaluationReportResult } from '../../../core/endpoint/rule-evaluation-result.model';
 import { EndpointItem } from '../../../core/endpoint/endpoint-item.model';
 import { IReportText } from '../../../core/endpoint/IReport-text.interface';
 
@@ -11,24 +11,26 @@ import { IReportText } from '../../../core/endpoint/IReport-text.interface';
 export class RuleEngineService {
     ruleEvaluationResults = Array<RuleEvaluationResult>();
     $template: Template;
-    $dataElementValues:  Map<string, any>;
+    $dataElementValues: Map<string, any>;
     EvaluateRules(template: Template, endpoints: string[], dataElementValues: Map<string, any>) {
         this.ruleEvaluationResults = [];
         this.$template = template;
         this.$dataElementValues = dataElementValues;
         for (const _endpoint of endpoints) {
             const $endpoint = _.find(template.endpoint.endpoints, (endpoint) => endpoint.id === _endpoint);
-           this.processEndpointAndGenerateReportText($endpoint);
+            this.processEndpointAndGenerateReportText($endpoint);
         }
 
         return this.ruleEvaluationResults;
     }
 
     processEndpointAndGenerateReportText($endpoint: EndpointItem): RuleEvaluationResult[] {
-       const ruleEvaluationResults = new RuleEvaluationResult();
-       let $reportTextString = '';
+        const ruleEvaluationResult = new RuleEvaluationResult();
+        let $reportTextString = '';
         for (const _reportSection of $endpoint.reportSections) {
+            $reportTextString = '';
             let conditionMet = false;
+            ruleEvaluationResult.repeatedSectionName = this.processSectionName($endpoint.id);
             for (const _branch of _reportSection.branch) {
                 if (_branch.compositeCondition !== undefined) {
                     conditionMet = _branch.compositeCondition.evaluate(new DataElementValues(this.$dataElementValues));
@@ -42,20 +44,38 @@ export class RuleEngineService {
                 }
             }
 
-            ruleEvaluationResults.reportText = $reportTextString;
-            ruleEvaluationResults.sectionId = _reportSection.sectionId;
-            this.ruleEvaluationResults.push(Object.assign({}, ruleEvaluationResults));
+            ruleEvaluationResult.ruleEvaluationReportResult = Object.create(new RuleEvaluationReportResult());
+            ruleEvaluationResult.ruleEvaluationReportResult.reportText = $reportTextString;
+            ruleEvaluationResult.ruleEvaluationReportResult.sectionId = _reportSection.sectionId;
+            this.ruleEvaluationResults.push(Object.assign({}, ruleEvaluationResult));
         }
 
+        console.log(this.ruleEvaluationResults);
         return this.ruleEvaluationResults;
     }
 
-    ProcessBranch(branch: Branch): string {
+    processSectionName(endPointId) {
+        const inputText = endPointId;
         debugger;
+        const endpointId_splitted = inputText.split('_');
+        if (endpointId_splitted.length > 1) {
+            const splittedText = inputText.split('_')[1].replace(/\'/g, '').split(/(\d+)/).filter(Boolean);
+            let processedString = '';
+            _.forEach(splittedText, function (value, key) {
+                processedString += value + ' ';
+            });
+
+            return processedString.trim();
+        }
+
+        return '';
+    }
+
+    ProcessBranch(branch: Branch): string {
         let $reportTextString = '';
         for (const reportText of branch.reportText) {
             const $reportText = reportText.GetPropertyType() as IReportText;
-            $reportTextString +=  $reportText.processText(this.$template, this.$dataElementValues);
+            $reportTextString += $reportText.processText(this.$template, this.$dataElementValues);
         }
 
         return $reportTextString;

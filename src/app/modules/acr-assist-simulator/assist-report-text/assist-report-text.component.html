@@ -1,7 +1,31 @@
-<ng-container *ngFor="let textReport of allTextReport; let lastitem = last">
-  <dt class="text-capitalize">{{textReport.heading}}</dt>
+<!-- <ng-container *ngFor="let textReport of allTextReport; let lastitem = last">
+  {{textReport | json}}
+  <dt class="text-capitalize" *ngIf="textReport.repeatedSectionName">{{textReport.repeatedSectionName}}</dt>
+  <dt class="text-capitalize">{{textReport.allTextResultReport.heading}}</dt>
   <dd>
-    <p class="white-space-line" [innerHTML]="textReport.content"></p>
+    <p class="white-space-line" [innerHTML]="textReport.allTextResultReport.content"></p>
   </dd>
+  <hr *ngIf="!lastitem">
+</ng-container> -->
+
+<ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last">
+  <dt class="text-capitalize" style="text-decoration:underline" *ngIf="textReport.repeatedSectionName != ''">{{textReport.repeatedSectionName}}</dt>
+  <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport">
+
+    <ng-container *ngIf="textReport.repeatedSectionName != ''">
+      <dt class="text-capitalize" style="margin-left:50px">{{allTextResultReport.heading}}</dt>
+      <dd>
+        <p class="white-space-line" style="margin-left:50px" [innerHTML]="allTextResultReport.content"></p>
+      </dd>
+    </ng-container>
+
+
+    <ng-container *ngIf="textReport.repeatedSectionName == ''">
+      <dt class="text-capitalize">{{allTextResultReport.heading}}</dt>
+      <dd>
+        <p class="white-space-line" [innerHTML]="allTextResultReport.content"></p>
+      </dd>
+    </ng-container>
+  </ng-container>
   <hr *ngIf="!lastitem">
 </ng-container>
