@@ -72,7 +72,7 @@
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
-          <acr-assist-date-time-element [dateTimeDataElement]='DataElement'></acr-assist-date-time-element>
+          <acr-assist-date-time-element [dateTimeDataElement]='DataElement' (returnDateTimeElement)='dateTimeSelected($event)'></acr-assist-date-time-element>
         </ng-container>
         <ng-container *ngIf="DataElement.dataElementType == 'DurationDataElement'">
           <acr-assist-duration-element [durationDataElement]='DataElement'></acr-assist-duration-element>

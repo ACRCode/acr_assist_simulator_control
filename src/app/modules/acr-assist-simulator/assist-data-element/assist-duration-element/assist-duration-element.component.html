@@ -1,7 +1,7 @@
 <form [formGroup]="durationElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label">
+      <label class="control-label break-word">
         <!-- {{dateTimeDataElement | json}} -->
         {{durationDataElement.label}}
         <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''">
@@ -82,10 +82,10 @@
             </tr> -->
             <tr class="text-center">
               <td class="input-group input-group-sm">
-                <input  tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                <input tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
                   formControlName="durationdayselement" [(ngModel)]="daysvalue" class="form-control text-center txt-duration"
                   (blur)="checkValue($event, 'days')" type="number" min="{{supportedUnits['day'].min}}" max="{{supportedUnits['day'].max}}"
-                  required />
+                  (keypress)="onlyInteger($event)" onpaste="return false;" required />
                 <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['day'].label}}</span>
               </td>
             </tr>
@@ -114,7 +114,7 @@
               <input tabindex="2" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
                 formControlName="durationhourselement" [(ngModel)]="hoursvalue" class="form-control text-center txt-duration"
                 (blur)="checkValue($event,'hour')" type="number" min="{{supportedUnits['hour'].min}}" max="{{supportedUnits['hour'].max}}"
-                required />
+                (keypress)="onlyInteger($event)" onpaste="return false;" required />
               <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['hour'].label}}</span>
             </td>
           </tr>
@@ -141,7 +141,7 @@
             <td class="input-group input-group-sm">
               <input tabindex="3" [(ngModel)]="minutesvalue" formControlName="durationminuteselement" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
                 class="form-control text-center txt-duration" (blur)="checkValue($event, 'minute')" type="number" min="{{supportedUnits['minute'].min}}"
-                max="{{supportedUnits['minute'].max}}" required />
+                max="{{supportedUnits['minute'].max}}" (keypress)="onlyInteger($event)" onpaste="return false;" required />
               <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['minute'].label}}</span>
             </td>
           </tr>

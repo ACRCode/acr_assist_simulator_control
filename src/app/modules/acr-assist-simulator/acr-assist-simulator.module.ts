@@ -32,7 +32,6 @@ import { DynamicHeightDirective } from './shared/directives/dynamicheight.direct
 import { NumericOnlyDirective } from './shared/directives/numeric-only.directive';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { DateTimeDataElementCreationService } from './shared/services/dateTime-data-element-creation.service';
-import { AssistDateTimeElementComponent } from './assist-data-element/assist-dateTime-element/assist-date-time-element/assist-date-time-element.component';
 import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
 
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
@@ -46,6 +45,8 @@ import { RepeatableElementRegisterService } from './shared/services/repeatable-e
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
+
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,

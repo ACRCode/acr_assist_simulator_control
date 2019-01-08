@@ -162,6 +162,10 @@ export class AssistDurationElementComponent implements OnInit {
     });
   }
 
+  onlyInteger(event) {
+    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+
   UpdateFormValidator() {
     this.durationElementForm.controls['durationdayselement'].setValidators([Validators.compose([Validators.required,
     Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])]);

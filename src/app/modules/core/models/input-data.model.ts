@@ -2,7 +2,7 @@ export class InputData {
     dataElementId: string;
     dataElementLabel: string;
     dataElementValue: any;
-    dataElementDisplayValue: string;
+    dataElementDisplayValue: any;
     constructor() {
         this.dataElementLabel = '';
         this.dataElementDisplayValue = '';

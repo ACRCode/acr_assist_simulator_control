@@ -27,8 +27,6 @@ const $ = require('jquery');
   styleUrls: ['./assist-data-element.component.css', '../styles.css']
 })
 
-
-
 export class AssistDataElementComponent implements OnInit, OnChanges {
   subscription: Subscription;
   @Input() dataElements: BaseDataElement[];
@@ -36,13 +34,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() imagePath: string;
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
-
   @Input() endPointXMLString: string[];
   @Input() xmlContent: string;
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
+  @Input() inputValues: InputData[] = [];
+
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
@@ -50,7 +49,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   selectedChoiceValues: string[] = [];
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
-  @Input() inputValues: InputData[] = [];
 
   IsRepeating: boolean;
   $RepeatedElementModel: any[] = [];
@@ -90,7 +88,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         if (this.dataElementValues[dataElement.id] !== undefined && dataElement.currentValue !== this.dataElementValues[dataElement.id]) {
           dataElement.currentValue = this.dataElementValues[dataElement.id];
         }
-
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
       }
 
@@ -236,6 +233,25 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       }
     }
   }
+  
+  dateTimeSelected($event) {
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
+          $event.receivedElement.selectedValue);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+
+        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+          this.generateExecutionHistory();
+        }
+        this.afterDataElementChanged();
+      }
+    } else {
+      this.afterDataElementChanged();
+    }
+  }
 
   multiSelected($event) {
     if ($event !== undefined) {
@@ -264,7 +280,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   afterDataElementChanged() {
-
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
       if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
@@ -278,17 +293,32 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         } else {
           if (de.dataElementType === 'ChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
-            inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
+            const choice = choices.filter(ch => ch.value === de.currentValue);
+            if (choice !== undefined && choice.length) {
+              inputData.dataElementDisplayValue = choices.filter(ch => ch.value === de.currentValue)[0].label;
+            } else {
+              inputData.dataElementDisplayValue = de.currentValue;
+            }
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
-            choices.filter(ch => ch.value === de.currentValue).forEach(ch => {
-              inputData.dataElementDisplayValue += ch.label + ', ';
+            inputData.dataElementDisplayValue = [];
+            choices.forEach(choice => {
+              if (Array.isArray(de.currentValue)) {
+                de.currentValue.forEach(element => {
+                  if (choice.value === element) {
+                    inputData.dataElementDisplayValue.push(choice.label);
+                  }
+                });
+              } else {
+                if (choice.value === de.currentValue) {
+                  inputData.dataElementDisplayValue.push(choice.label);
+                }
+              }
             });
           } else {
             inputData.dataElementDisplayValue = de.currentValue;
           }
         }
-
         deValues.push(inputData);
       }
     }
@@ -885,6 +915,11 @@ export class NumericElement {
   elementId: string;
   selectedValue: number;
 
+}
+
+export class DateTimeElement {
+  elementId: string;
+  selectedValue: string;
 }
 
 export class MultiChoiceElement {

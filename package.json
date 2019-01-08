@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "name": "acr-assist-simulator-module",
-  "version": "0.0.91.7",
+  "name": "@americancollegeofradiology/acr-assist-simulator",
+  "version": "1.0.12",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -44,7 +44,9 @@
     "web-animations-js": "^2.3.1",
     "angular2-datetimepicker": "^1.1.1",
     "ngx-duration-picker": "^3.0.0",
-    "angular2-time-duration-picker": "^1.1.0"
+    "angular2-time-duration-picker": "^1.1.0",
+    "lodash": "^4.17.11",
+    "ng-pick-datetime": "^5.2.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -102,9 +104,7 @@
     "xml-parser": "^1.2.1",
     "xml2js": "^0.4.19",
     "xmlreader": "^0.2.3",
-    "zone.js": "^0.8.26"
-  },
-  "dependencies": {
+    "zone.js": "^0.8.26",
     "lodash": "^4.17.11",
     "ng-pick-datetime": "^5.2.6"
   }

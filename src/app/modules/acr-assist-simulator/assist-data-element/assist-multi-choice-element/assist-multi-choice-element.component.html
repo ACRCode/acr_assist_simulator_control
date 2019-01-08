@@ -1,7 +1,7 @@
 <form [formGroup]="multiChoiceElementForm" novalidate>
   <div class="form-group">
     <div class="col-sm-5 text-right">
-      <label class="control-label">{{multiChoiceElement.label}} <span *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''"> ({{multiChoiceElement.unit}})</span>
+      <label class="control-label break-word">{{multiChoiceElement.label}} <span *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''"> ({{multiChoiceElement.unit}})</span>
       </label>
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
