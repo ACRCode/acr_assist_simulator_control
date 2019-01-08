@@ -43,7 +43,9 @@ import { ResetCommunicationService } from './shared/services/reset-communication
 import { EndpointCreationService } from './shared/services/endpoint-creation.service';
 import { RuleEngineService } from './shared/services/rule-engine-service';
 import { RepeatableElementRegisterService } from './shared/services/repeatable-element-register.service';
-
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
@@ -59,7 +61,11 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     DragScrollModule,
     AngularDateTimePickerModule,
     // TimeDurationPickerModule
-    DurationPickerModule
+    DurationPickerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   declarations: components,
   providers: [TemplateManagerService,

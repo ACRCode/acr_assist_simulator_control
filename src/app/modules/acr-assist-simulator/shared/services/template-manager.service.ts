@@ -36,7 +36,7 @@ export class TemplateManagerService {
     }
     template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
     template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
-    debugger;
+    
     if (templateContentAsJSON.Rules) {
       template.rules = new Rules();
       template.rules.decisionPoints = this.decisionPointsCreationService.
@@ -48,7 +48,6 @@ export class TemplateManagerService {
     template.xmlContent = templateContent;
 
     template.endpoint = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
-    console.log(template);
     return template;
   }
 

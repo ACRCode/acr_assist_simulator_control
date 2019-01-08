@@ -27,7 +27,11 @@ export class AssistDateTimeElementComponent implements OnInit {
     this.createDateTimeElementForm();
   }
 
-  onDateSelect(){
+  onDateSelect() {
+    // alert();
+  }
+
+  dateTimeValueChanged(event) {
     // alert();
   }
 
