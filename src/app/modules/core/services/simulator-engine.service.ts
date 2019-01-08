@@ -390,7 +390,7 @@ export class SimulatorEngineService {
   }
 
   private RemoveDynamicallyAddedComputedDataElementIds() {
-    this.ComputedDataElementIds =[];
+    this.ComputedDataElementIds = [];
   }
 
   private RemoveManuallyAddedBranches() {
@@ -426,9 +426,20 @@ export class SimulatorEngineService {
       if (templatePartial_org !== undefined) {
         const templatePartial_cloned = _.cloneDeep(templatePartial_org) as TemplatePartial;
         templatePartial_cloned.id = templatePartialId;
+        let $conditions = [];
         for (const _branch of templatePartial_cloned.branches) {
           if (_branch.compositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+            $conditions = [];
+
+            // for (let index = 0; index < _branch.compositeCondition.conditions.length; index++) {
+            //   if (_branch.compositeCondition.conditions[index].isManuallyAdded === undefined || _branch.compositeCondition.conditions[index].isManuallyAdded){
+            //     for (const _dataElement of dataElementIds) {
+            //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]); 
+            //     }
+            //   }
+            // }
+
             for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
@@ -437,8 +448,11 @@ export class SimulatorEngineService {
               }
 
               _conditions.isManuallyAdded = true;
-              _branch.compositeCondition.conditions.push(_conditions);
+              $conditions.push(_conditions);
             }
+            
+            _branch.compositeCondition.conditions = $conditions;
+            // _branch.compositeCondition.conditions.push($conditions);
           }
 
           if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
@@ -525,38 +539,37 @@ export class SimulatorEngineService {
 
   private AddRepeatableComputedDataElement() {
     this.RemoveManuallyAddedComputedDataElements();
-    debugger;
 
-for (const computedDataElementId of this.ComputedDataElementIds) {
-  const dataElementId_org = computedDataElementId.dataElementId_org;
-  const dataElementId_dynamic = computedDataElementId.dataElememntId_dynamic;
+    for (const computedDataElementId of this.ComputedDataElementIds) {
+      const dataElementId_org = computedDataElementId.dataElementId_org;
+      const dataElementId_dynamic = computedDataElementId.dataElememntId_dynamic;
 
-  if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
-    if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
-      const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
-      if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
-        const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
-        $computedDataElement_cloned.id = dataElementId_dynamic;
-        $computedDataElement_cloned.isManuallyAdded = true;
-        const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-        for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
-          $computedDataElement_cloned.decisionPoints[index].branches = [];
-          for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
-            for (const _dataElement of dataElementIds) {
-              $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-              $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+      if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
+        if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
+          const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
+          if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
+            const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
+            $computedDataElement_cloned.id = dataElementId_dynamic;
+            $computedDataElement_cloned.isManuallyAdded = true;
+            const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+            for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
+              $computedDataElement_cloned.decisionPoints[index].branches = [];
+              for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
+                for (const _dataElement of dataElementIds) {
+                  $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                  $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                }
+
+                $branchModified.isManuallyAdded = true;
+                $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+              }
             }
 
-            $branchModified.isManuallyAdded = true;
-            $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+            this.template.dataElements.push($computedDataElement_cloned);
           }
         }
-
-        this.template.dataElements.push($computedDataElement_cloned);
       }
     }
-  }
-}
 
     // for (const decisionPoint of this.template.rules.decisionPoints) {
     //   for (const branch of decisionPoint.branches) {
