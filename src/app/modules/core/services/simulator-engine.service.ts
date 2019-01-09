@@ -24,6 +24,7 @@ import { InsertPartial } from '../rules/models/insertpartial.model';
 import { InsertValue } from '../rules/models/insertvalue.model';
 import { TemplatePartial } from '../endpoint/template-partial';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
+import { RuleEvaluationResult } from '../endpoint/rule-evaluation-result.model';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -35,6 +36,9 @@ export class SimulatorEngineService {
   private lastConditionMetBranchLevel = 1;
   private nonRelevantDataElementIds = new Array<string>();
   private DynamicallyTemplatePartialIds = [];
+  private ruleEvaluationResult = new Array<RuleEvaluationResult>();
+  private endpoints = [];
+  private branchCounter = 0;
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
@@ -75,9 +79,8 @@ export class SimulatorEngineService {
   }
 
   evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
-    //  debugger;
     let endpoints = Array<string>();
-    let endpointBranches = Array<Branch>();
+    const endpointBranches = Array<Branch>();
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
@@ -95,7 +98,6 @@ export class SimulatorEngineService {
 
       // && !branch.endPointRef.isRepeatable
       if (conditionMet) {
-        debugger;
         this.lastConditionMetBranchLevel = branchingLevel;
         if (branch.decisionPoints !== undefined) {
           for (const branchDecisionPoint of branch.decisionPoints) {
@@ -121,14 +123,17 @@ export class SimulatorEngineService {
     }
 
     endpoints = this.ValidateEndpoints(endpointBranches);
-
-    const $simulatorState = new SimulatorState();
     if (endpoints !== undefined && endpoints.length > 0) {
-      $simulatorState.endPointIds = endpoints;
-      $simulatorState.ruleEvaluationResults = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
-      this.simulatorStateChanged.next($simulatorState);
+      this.endpoints = endpoints;
+      const results = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
+
+      for (const _result of results) {
+        this.ruleEvaluationResult.push(_result);
+      }
+
+      // this.simulatorStateChanged.next($simulatorState);
     } else {
-      this.simulatorStateChanged.next($simulatorState);
+      // this.simulatorStateChanged.next($simulatorState);
     }
   }
 
@@ -450,7 +455,7 @@ export class SimulatorEngineService {
               _conditions.isManuallyAdded = true;
               $conditions.push(_conditions);
             }
-            
+
             _branch.compositeCondition.conditions = $conditions;
             // _branch.compositeCondition.conditions.push($conditions);
           }
@@ -708,14 +713,29 @@ export class SimulatorEngineService {
 
   private evaluateDecisionPoints() {
     this.ProcessRepetationDataElements();
-
-    console.log(this.template);
-
     this.evaluateComputedExpressions();
     this.endOfRoadReached = false;
+    this.branchCounter++;
+    this.ruleEvaluationResult = [];
+    this.endpoints = [];
     for (const decisionPoint of this.template.rules.decisionPoints) {
       this.evaluateDecisionPoint(decisionPoint, 1);
     }
+
+    const $simulatorState = new SimulatorState();
+    debugger;
+    if (this.ruleEvaluationResult.length > 0) {
+      $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
+      for (const _ruleresult of this.ruleEvaluationResult) {
+        $simulatorState.ruleEvaluationResults.push(_ruleresult);
+      }
+
+      for (const _endpoint of this.endpoints) {
+        $simulatorState.endPointIds.push(_endpoint);
+      }
+    }
+
+    this.simulatorStateChanged.next($simulatorState);
   }
 
   initialize(template: Template) {

@@ -52,7 +52,7 @@ ngOnChanges(changes: SimpleChanges): void {
           this.allTextReport.push(Object.assign({}, textReport));
         }
       }
-
+      
       const result = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,

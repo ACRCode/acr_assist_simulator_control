@@ -4,6 +4,7 @@ import { PlainText } from '../rules/models/plain-text.model';
 import { NewLine } from '../rules/models/new-line.model';
 import { Tab } from '../rules/models/tab.model';
 import { IReportText } from './IReport-text.interface';
+import { Space } from '../rules/models/space.model';
 
 export class ReportText {
     insertPartial: InsertPartial;
@@ -11,6 +12,7 @@ export class ReportText {
     plainText: PlainText;
     newLine: NewLine;
     tab: Tab;
+    space: Space;
 
     GetPropertyType(): any {
     }
@@ -35,5 +37,9 @@ ReportText.prototype.GetPropertyType = function(): IReportText {
 
     if (this.tab !== undefined) {
         return this.tab;
+    }
+
+    if (this.space !== undefined) {
+        return this.space;
     }
 };

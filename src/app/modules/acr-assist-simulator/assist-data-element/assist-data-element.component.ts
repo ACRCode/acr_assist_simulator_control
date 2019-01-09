@@ -19,6 +19,7 @@ import { RepeatedElementSections } from '../../core/elements/models/RepeatedElem
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { Subscription } from 'rxjs';
 import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
+import * as _ from 'lodash';
 const $ = require('jquery');
 
 @Component({
@@ -75,6 +76,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
       const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
+
       for (const dataElement of this.dataElements) {
         if (nonRelevantIDs && nonRelevantIDs.length > 0) {
           if (nonRelevantIDs.indexOf(dataElement.id) >= 0) {
@@ -91,11 +93,12 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
       }
 
+      const $mainReportText = new MainReportText();
+      $mainReportText.allReportText = new Array<AllReportText>();
+      const allReportText = new AllReportText();
+
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
       if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-        const $mainReportText = new MainReportText();
-        $mainReportText.allReportText = new Array<AllReportText>();
-        const allReportText = new AllReportText();
         $mainReportText.reportTextMainContent = '';
         for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
           allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
@@ -105,12 +108,36 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
           $mainReportText.allReportText.push(Object.assign({}, allReportText));
         }
+      } else {
+        $mainReportText.allReportText = [];
+      }
 
-        console.log($mainReportText);
+      if ($mainReportText !== undefined && $mainReportText.allReportText.length > 0) {
         this.returnReportText.emit($mainReportText);
       } else {
         this.returnReportText.emit(undefined);
       }
+
+      // debugger;
+      // const $mainReportText = new MainReportText();
+      // $mainReportText.allReportText = new Array<AllReportText>();
+      // const allReportText = new AllReportText();
+      // $mainReportText.reportTextMainContent = '';
+      // for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
+      //   allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
+      //   allReportText.allReportResult = Object.create(new AllReportResult());
+      //   allReportText.allReportResult.sectionId = evaluationResult.ruleEvaluationReportResult.sectionId;
+      //   allReportText.allReportResult.reportText = evaluationResult.ruleEvaluationReportResult.reportText;
+      //   allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
+      //   $mainReportText.allReportText.push(Object.assign({}, allReportText));
+      // }
+
+      // if ($mainReportText.allReportText.length > 0) {
+      //   console.log($mainReportText);
+      //   this.returnReportText.emit($mainReportText);
+      // } else {
+      //   this.returnReportText.emit(undefined);
+      // }
 
       this.$dataElements = [];
       for (const dataelement of this.dataElements) {
@@ -156,7 +183,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   numericSelected($event) {
-    debugger;
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
         this.FindRepeatedElements($event);
@@ -233,7 +259,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       }
     }
   }
-  
+
   dateTimeSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
@@ -940,7 +966,7 @@ export class MainReportText {
 export class AllReportText {
   repeatedSectionName: string;
   allReportResult: AllReportResult;
-  constructor () {
+  constructor() {
     this.allReportResult = new AllReportResult();
   }
 }

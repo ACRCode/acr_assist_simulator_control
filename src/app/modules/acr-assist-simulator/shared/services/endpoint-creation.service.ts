@@ -15,6 +15,7 @@ import { InsertValue } from '../../../core/rules/models/insertvalue.model';
 import { PlainText } from '../../../core/rules/models/plain-text.model';
 import { NewLine } from '../../../core/rules/models/new-line.model';
 import { Tab } from '../../../core/rules/models/tab.model';
+import { Space } from '../../../core/rules/models/space.model';
 // import { EReportText } from '../../../core/endpoint/report-text-enum';
 
 
@@ -67,7 +68,6 @@ export class EndpointCreationService {
                                         $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex] = new ReportText();
                                         switch (_endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex].Attr.Type) {
                                             case EReportText.PlainText.toString():
-                                            debugger;
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText = new PlainText();
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText.text =
                                                 _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex]._;
@@ -94,6 +94,11 @@ export class EndpointCreationService {
                                             case EReportText.Tab.toString():
                                             $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].tab = new Tab();
                                             $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].tab.isTab = true;
+                                                break;
+
+                                            case EReportText.Space.toString():
+                                            $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].space = new Space();
+                                            $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].space.isSpace = true;
                                                 break;
                                         }
                                     }
@@ -145,7 +150,7 @@ export class EndpointCreationService {
                                     case EReportText.PlainText.toString():
                                         $templatePartial.branches[index].reportText[textIndex].plainText = new PlainText();
                                         $templatePartial.branches[index].reportText[textIndex].plainText.text =
-                                        _templatePartial.Branch[index].ReportText[textIndex]._;
+                                         _templatePartial.Branch[index].ReportText[textIndex]._;
                                         // _templatePartial.Branch[index].ReportText[textIndex].Attr.Value;
                                         break;
 
@@ -168,6 +173,11 @@ export class EndpointCreationService {
                                         $templatePartial.branches[index].reportText[textIndex].tab = new Tab();
                                         $templatePartial.branches[index].reportText[textIndex].tab.isTab = true;
                                         break;
+
+                                    case EReportText.Tab.toString():
+                                    $templatePartial.branches[index].reportText[textIndex].space = new Space();
+                                    $templatePartial.branches[index].reportText[textIndex].space.isSpace = true;
+                                    break;
                                 }
                             }
                         }

@@ -56,7 +56,6 @@ export class RuleEngineService {
 
     processSectionName(endPointId) {
         const inputText = endPointId;
-        debugger;
         const endpointId_splitted = inputText.split('_');
         if (endpointId_splitted.length > 1) {
             const splittedText = inputText.split('_')[1].replace(/\'/g, '').split(/(\d+)/).filter(Boolean);

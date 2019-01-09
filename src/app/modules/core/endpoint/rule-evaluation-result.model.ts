@@ -1,4 +1,5 @@
 export class RuleEvaluationResult {
+    endpoindId: string;
     repeatedSectionName: string;
     ruleEvaluationReportResult: RuleEvaluationReportResult;
     constructor() {

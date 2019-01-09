@@ -3,5 +3,6 @@ export enum EReportText {
     InsertPartialTemplate = 'InsertPartialTemplate',
     InsertDataElementValue = 'InsertDataElementValue',
     Newline = 'Newline',
-    Tab = 'Tab'
+    Tab = 'Tab',
+    Space = 'Space'
 }
