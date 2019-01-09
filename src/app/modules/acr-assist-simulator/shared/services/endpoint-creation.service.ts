@@ -67,9 +67,11 @@ export class EndpointCreationService {
                                         $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex] = new ReportText();
                                         switch (_endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex].Attr.Type) {
                                             case EReportText.PlainText.toString():
+                                            debugger;
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText = new PlainText();
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText.text =
-                                                 _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex].Attr.Value;
+                                                _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex]._;
+                                                //  _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex].Attr.Value;
                                                 break;
 
                                             case EReportText.InsertDataElementValue.toString():
@@ -142,7 +144,9 @@ export class EndpointCreationService {
                                 switch (_templatePartial.Branch[index].ReportText[textIndex].Attr.Type) {
                                     case EReportText.PlainText.toString():
                                         $templatePartial.branches[index].reportText[textIndex].plainText = new PlainText();
-                                        $templatePartial.branches[index].reportText[textIndex].plainText.text = _templatePartial.Branch[index].ReportText[textIndex].Attr.Value;
+                                        $templatePartial.branches[index].reportText[textIndex].plainText.text =
+                                        _templatePartial.Branch[index].ReportText[textIndex]._;
+                                        // _templatePartial.Branch[index].ReportText[textIndex].Attr.Value;
                                         break;
 
                                     case EReportText.InsertDataElementValue.toString():
@@ -169,7 +173,7 @@ export class EndpointCreationService {
                         }
                     }
                 }
-               
+
                 TemplatePartials.push($templatePartial);
             }
 

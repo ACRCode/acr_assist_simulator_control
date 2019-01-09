@@ -75,7 +75,7 @@ export class SimulatorEngineService {
   }
 
   evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
-    // debugger;
+    //  debugger;
     let endpoints = Array<string>();
     let endpointBranches = Array<Branch>();
     let currentBranchCount = 0;

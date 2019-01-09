@@ -130,17 +130,18 @@ export class ConditionsCreationService {
       const compositeExists =  compositeElementJSON.hasOwnProperty('AndCondition') ||
       compositeElementJSON.hasOwnProperty('OrCondition') ||
       compositeElementJSON.hasOwnProperty('NotCondition');
+        return compositeExists;
 
-      const primitiveExists = compositeElementJSON.hasOwnProperty('EqualCondition') ||
-      compositeElementJSON.hasOwnProperty('GreaterThanCondition') ||
-      compositeElementJSON.hasOwnProperty('LessThanCondition') ||
-      compositeElementJSON.hasOwnProperty('GreaterThanOrEqualsCondition') ||
-      compositeElementJSON.hasOwnProperty('LessThanOrEqualsCondition') ||
-      compositeElementJSON.hasOwnProperty('ContainsCondition') ||
-      compositeElementJSON.hasOwnProperty('NotEqualCondition')  ||
-      compositeElementJSON.hasOwnProperty('SectionIf') ||
-      compositeElementJSON.hasOwnProperty('SectionIfNot');
-      return  compositeExists && primitiveExists;
+      // const primitiveExists = compositeElementJSON.hasOwnProperty('EqualCondition') ||
+      // compositeElementJSON.hasOwnProperty('GreaterThanCondition') ||
+      // compositeElementJSON.hasOwnProperty('LessThanCondition') ||
+      // compositeElementJSON.hasOwnProperty('GreaterThanOrEqualsCondition') ||
+      // compositeElementJSON.hasOwnProperty('LessThanOrEqualsCondition') ||
+      // compositeElementJSON.hasOwnProperty('ContainsCondition') ||
+      // compositeElementJSON.hasOwnProperty('NotEqualCondition')  ||
+      // compositeElementJSON.hasOwnProperty('SectionIf') ||
+      // compositeElementJSON.hasOwnProperty('SectionIfNot');
+      // return  compositeExists && primitiveExists;
     }
 
 
@@ -219,7 +220,6 @@ export class ConditionsCreationService {
 
 
     private  addConditionsToInnerConditions(key: any , value: any, compositeCondition: CompositeCondition) {
-
       const condition = this.returnCompositeConditionFromName(key);
       compositeCondition.conditions.push(condition);
       if (this.isHybrid(value)) {
