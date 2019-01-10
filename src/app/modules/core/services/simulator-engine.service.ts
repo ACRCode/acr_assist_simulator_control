@@ -126,7 +126,6 @@ export class SimulatorEngineService {
     if (endpoints !== undefined && endpoints.length > 0) {
       this.endpoints = endpoints;
       const results = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
-
       for (const _result of results) {
         this.ruleEvaluationResult.push(_result);
       }
@@ -192,6 +191,7 @@ export class SimulatorEngineService {
             this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.computedValue !== undefined) {
+          debugger;
           this.dataElementValues[elementId] = branch.computedValue.expressionText;
           this.endOfRoadReached = true;
           if (branch.computedValue instanceof ArithmeticExpression) {
@@ -431,6 +431,7 @@ export class SimulatorEngineService {
       if (templatePartial_org !== undefined) {
         const templatePartial_cloned = _.cloneDeep(templatePartial_org) as TemplatePartial;
         templatePartial_cloned.id = templatePartialId;
+        templatePartial_cloned.isManuallyAdded = true;
         let $conditions = [];
         for (const _branch of templatePartial_cloned.branches) {
           if (_branch.compositeCondition !== undefined) {
@@ -683,14 +684,7 @@ export class SimulatorEngineService {
                 $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]
                   + '_' + $repeatGroupName + (index + 1);
               }
-
-              // if ($branch.condition === undefined && $branch.compositeCondition !== undefined) {
-              //   for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
-              //     $branch.compositeCondition.conditions[_index].conditionType.dataElementId =
-              //       branch.compositeCondition.conditions[_index].conditionType.dataElementId + + '_' + $repeatGroupName + (index + 1);
-              //   }
-              // }
-
+              
               decisionPoint.branches.push($branch);
             }
           }

@@ -21,6 +21,11 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
     return '';
   }
 
+  if (dataElementValues[this.dataElementId] !== undefined
+    &&  dataElementValues[this.dataElementId] instanceof Array) {
+    return dataElementValues[this.dataElementId].join(', ');
+  }
+  
   return dataElementValues[this.dataElementId];
 };
 

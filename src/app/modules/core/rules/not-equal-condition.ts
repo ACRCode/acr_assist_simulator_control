@@ -1,4 +1,4 @@
-import {ConditionType} from '../models/conditiontype.model';
+import { ConditionType } from '../models/conditiontype.model';
 import { Condition } from '../condition';
 import { DataElementValues } from '../dataelementvalues';
 export class NotEqualCondition implements Condition {
@@ -12,9 +12,24 @@ export class NotEqualCondition implements Condition {
 
   evaluate(dataElementValues: DataElementValues): boolean {
     const value = dataElementValues.get(this.conditionType.dataElementId);
+    let isExist = false;
     if (value !== undefined) {
-      return value.toUpperCase() !== this.conditionType.comparisonValue.toUpperCase();
+      if (value instanceof Array) {
+        for (const $value of value) {
+          if ($value.toUpperCase() === this.conditionType.comparisonValue.toUpperCase()) {
+            isExist = true;
+          }
+        }
+
+        return isExist ? false : true;
+      } else {
+        return value.toUpperCase() !== this.conditionType.comparisonValue.toUpperCase();
+      }
     }
+
+    // if (value !== undefined) {
+    //   return value.toUpperCase() !== this.conditionType.comparisonValue.toUpperCase();
+    // }
 
     return false;
   }
