@@ -55,19 +55,32 @@ export class RuleEngineService {
     }
 
     processSectionName(endPointId) {
-        const inputText = endPointId;
-        const endpointId_splitted = inputText.split('_');
-        if (endpointId_splitted.length > 1) {
-            const splittedText = inputText.split('_')[1].replace(/\'/g, '').split(/(\d+)/).filter(Boolean);
-            let processedString = '';
-            _.forEach(splittedText, function (value, key) {
-                processedString += value + ' ';
-            });
+        if (this.IsEndpointisRepeating(endPointId)) {
+            const inputText = endPointId;
+            const endpointId_splitted = inputText.split('_');
+            if (endpointId_splitted.length > 1) {
+                const splittedText = inputText.split('_')[endpointId_splitted.length - 1].replace(/\'/g, '').split(/(\d+)/).filter(Boolean);
+                let processedString = '';
+                _.forEach(splittedText, function (value, key) {
+                    processedString += value + ' ';
+                });
 
-            return processedString.trim();
+                return processedString.trim();
+            }
+
+            return '';
         }
 
         return '';
+    }
+
+    IsEndpointisRepeating(endpointId) {
+       const result =  _.map(this.$template.endpoint.endpoints, function(o) {
+            return (o.isManuallyAdded && o.id === endpointId);
+        });
+
+        const resultWithoutUndefinedValues = _.without(result, undefined);
+        return resultWithoutUndefinedValues !== undefined && resultWithoutUndefinedValues.length > 0 ? true : false;
     }
 
     ProcessBranch(branch: Branch): string {

@@ -494,6 +494,7 @@ export class SimulatorEngineService {
       const endpoint_org = _.filter(this.template.endpoint.endpoints, { id: dynamicEndpoint.endPointRef.endPointId.split('_')[0] })[0];
       const endpoint_cloned = _.cloneDeep(endpoint_org) as EndpointItem;
       endpoint_cloned.id = dynamicEndpoint.endPointRef.endPointId;
+      endpoint_cloned.isManuallyAdded = true;
 
       const dynamicId = dynamicEndpoint.endPointRef.endPointId.split('_')[1];
       for (const reportSection of endpoint_cloned.reportSections) {
@@ -723,7 +724,6 @@ export class SimulatorEngineService {
     }
 
     const $simulatorState = new SimulatorState();
-    debugger;
     if (this.ruleEvaluationResult.length > 0) {
       $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
       for (const _ruleresult of this.ruleEvaluationResult) {

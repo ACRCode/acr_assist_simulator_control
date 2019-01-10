@@ -53,16 +53,21 @@ ngOnChanges(changes: SimpleChanges): void {
         }
       }
       
-      const result = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
         };
       }).value();
-      
-      this.allReportTextGroup = result;
+
+     const sortedResult = _.orderBy(results, [result => result.repeatedSectionName], ['asc']);
+     
+    
+    //  console.log(test);
+
+      this.allReportTextGroup = sortedResult;
       this.selectedSectionId = 'All';
-      console.log(this.allReportTextGroup);
+      // console.log(this.allReportTextGroup);
     }
 
     for (const section in this.reportText.allReportText) {

@@ -15,6 +15,6 @@ Tab.prototype.manupulateId = function(dynamicId): string {
  };
 
 Tab.prototype.processText = function(template: Template, dataElementValues: Map<string, any>): string {
-    return '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    return '&nbsp;&nbsp;&nbsp;&nbsp;';
 };
 
