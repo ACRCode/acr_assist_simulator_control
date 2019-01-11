@@ -2,30 +2,69 @@ import { IReportText } from '../../endpoint/IReport-text.interface';
 import { Template } from '../../models/template.model';
 import { DataElementValues } from '../../dataelementvalues';
 import * as _ from 'lodash';
+import { ChoiceDataElement } from '../../elements/models/choice-data-element-model';
 
 export class InsertValue implements IReportText {
   dataElementId: String;
   significantDigits: number;
 
-  processText(template: Template, dataElementValues: Map<string, any>): any {  }
+  processText(template: Template, dataElementValues: Map<string, any>): any { }
 
-  manupulateId(dynamicId: string): any {}
+  manupulateId(dynamicId: string): any { }
+
+  IsDataElementChoiceDataElement(template: Template): ChoiceDataElement[] {
+    const $dataElementId = this.dataElementId;
+    const result = template.dataElements.filter(function (obj) {
+      return obj.id === $dataElementId && (obj.dataElementType === 'ChoiceDataElement' ||
+      obj.dataElementType === 'MultiChoiceDataElement');
+    });
+
+    return result !== undefined && result.length > 0 ? result as ChoiceDataElement[] : null;
+  }
 }
 
-InsertValue.prototype.manupulateId = function(dynamicId): string {
+InsertValue.prototype.manupulateId = function (dynamicId): string {
   return this.dataElementId + '_' + dynamicId;
 };
 
-InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string { 
+InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
   if (dataElementValues[this.dataElementId] === undefined) {
     return '';
   }
 
+  const choiceDataElementResults = this.IsDataElementChoiceDataElement(template);
+  if (choiceDataElementResults != null) {
+    const choiceDataElementResult = choiceDataElementResults[0] as ChoiceDataElement;
+    console.log(choiceDataElementResult);
+
+    if (dataElementValues[this.dataElementId] !== undefined
+      && dataElementValues[this.dataElementId] instanceof Array) {
+      const values = [];
+      for (const $dataElementValues of dataElementValues[this.dataElementId]) {
+        values.push(choiceDataElementResult.choiceInfo.filter(function (choice) {
+          return choice.value === $dataElementValues;
+        })[0].label);
+      }
+
+      return values !== undefined ? values.join(', ') : '';
+    } else {
+      const values = [];
+      const $dataElementValues = dataElementValues[this.dataElementId];
+      values.push(choiceDataElementResult.choiceInfo.filter(function (choice) {
+        return choice.value === $dataElementValues;
+      })[0].label);
+
+      return values !== undefined ? values.join(', ') : '';
+    }
+  }
+
   if (dataElementValues[this.dataElementId] !== undefined
-    &&  dataElementValues[this.dataElementId] instanceof Array) {
+    && dataElementValues[this.dataElementId] instanceof Array) {
     return dataElementValues[this.dataElementId].join(', ');
   }
-  
+
   return dataElementValues[this.dataElementId];
 };
+
+
 
