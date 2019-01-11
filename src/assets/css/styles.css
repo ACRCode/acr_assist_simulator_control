@@ -426,3 +426,7 @@ h6,
 .break-word{
   word-break: break-word;
 }
+.margin-l-10{
+  margin-left: 10px;
+
+}
