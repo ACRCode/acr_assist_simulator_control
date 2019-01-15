@@ -18,7 +18,7 @@ import { RepeatedElementModel } from '../../core/elements/models/repeatedElement
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { Subscription } from 'rxjs';
-import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
+// import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
 import * as _ from 'lodash';
 const $ = require('jquery');
 
@@ -56,7 +56,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService,
-    repeatableElementRegisterService: RepeatableElementRegisterService) {
+    // repeatableElementRegisterService: RepeatableElementRegisterService
+    ) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
@@ -246,7 +247,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         $repeatedElementModel.RepeatedElementSections.push(repeatedElementSection);
       }
 
-      RepeatableElementRegisterService.SetRepeatableDataElementsGroupName($repeatedElementModel);
+      // RepeatableElementRegisterService.SetRepeatableDataElementsGroupName($repeatedElementModel);
       this.$RepeatedElementModel.push($repeatedElementModel);
       this.IsRepeating = this.$RepeatedElementModel.length > 0 ? true : false;
     }

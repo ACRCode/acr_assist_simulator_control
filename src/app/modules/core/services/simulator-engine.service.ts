@@ -13,7 +13,7 @@ import { IntegerDataElement } from '../elements/models/integer-data-element.mode
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
 import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
 import { RuleEngineService } from '../../acr-assist-simulator/shared/services/rule-engine-service';
-import { RepeatableElementRegisterService } from '../../acr-assist-simulator/shared/services/repeatable-element-register.service';
+// import { RepeatableElementRegisterService } from '../../acr-assist-simulator/shared/services/repeatable-element-register.service';
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
 import { BaseDataElement } from '../elements/models/base-data-element.model';
@@ -42,7 +42,9 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor(private ruleEngineService: RuleEngineService, private repeatableElementRegisterService: RepeatableElementRegisterService) {
+  constructor(private ruleEngineService: RuleEngineService, 
+    // private repeatableElementRegisterService: RepeatableElementRegisterService
+    ) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();

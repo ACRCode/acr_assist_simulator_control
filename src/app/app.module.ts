@@ -6,6 +6,7 @@ import {SimulatorLoaderModule} from './modules/simulatorloader/simulatorloader.m
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { HttpModule } from '@angular/http';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AcrAssistSimulatorModule,
     CommonModule,
     FormsModule,
