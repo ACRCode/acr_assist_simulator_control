@@ -27,3 +27,11 @@ function zoomOut() {
     myImg.style.width = (currWidth - 100) + "px";
   }
 }
+
+function resizeKeyImages() {
+  let windowHeight = window.innerHeight;
+  let reportTextHeight = $('#div-right-reportText').height();
+  let height = windowHeight - reportTextHeight - 150;
+  $('#carousel-example-generic').height(height+'px');
+
+}
