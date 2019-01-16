@@ -42,9 +42,9 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor(private ruleEngineService: RuleEngineService, 
+  constructor(private ruleEngineService: RuleEngineService,
     // private repeatableElementRegisterService: RepeatableElementRegisterService
-    ) {
+  ) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -176,9 +176,9 @@ export class SimulatorEngineService {
 
       currentBranchCount++;
       let conditionMet = false;
-      if (this.endOfRoadReached) {
-        break;
-      }
+      // if (this.endOfRoadReached) {  
+      //   break;
+      // }
       if (branch.compositeCondition !== undefined) {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
@@ -193,22 +193,27 @@ export class SimulatorEngineService {
             this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint, newBranchingLevel);
           }
         } else if (branch.computedValue !== undefined) {
-          debugger;
           this.dataElementValues[elementId] = branch.computedValue.expressionText;
-          this.endOfRoadReached = true;
+          // this.endOfRoadReached = true;
           if (branch.computedValue instanceof ArithmeticExpression) {
             this.dataElementValues[elementId] = this.evaluateArithmeticExpression(branch.computedValue.expressionText);
-            this.endOfRoadReached = true;
+            // this.endOfRoadReached = true;
           } else {
-            this.dataElementValues[elementId] = branch.computedValue.expressionText;
-            this.endOfRoadReached = true;
+            if (this.IsExpressionReferedtoComputedDataElement(branch.computedValue.expressionText)) {
+              this.FindAndSetValueForComputedDataElement(branch.computedValue.expressionText, elementId);
+              // this.evaluateComputedElementDecisionPoint(elementId, decisionPoint, branchingLevel);
+              // this.endOfRoadReached = true;
+            } else {
+              this.dataElementValues[elementId] = branch.computedValue.expressionText;
+              // this.endOfRoadReached = true;
+            }
           }
 
           break;
         }
       } else {
         if (currentBranchCount >= totalBranchesInDecisionPoint) {
-          this.endOfRoadReached = true;
+          // this.endOfRoadReached = true;
           this.dataElementValues[elementId] = undefined;
           return;
         } else {
@@ -216,6 +221,36 @@ export class SimulatorEngineService {
         }
       }
     }
+  }
+
+  private FindAndSetValueForComputedDataElement(expressionText, parentelementId) {
+    const elementId = expressionText.match(/{([^}]+)}/);
+    const result = this.template.dataElements.filter(function (obj) {
+      return obj.id === elementId[1] && (obj.dataElementType === 'ComputedDataElement');
+    });
+
+    if (result !== undefined && result != null && result.length > 0) {
+      const computedElement: ComputedDataElement = result[0] as ComputedDataElement;
+      for (const decisionPoint of computedElement.decisionPoints) {
+        this.evaluateComputedElementDecisionPoint(computedElement.id, decisionPoint, 1);
+        this.dataElementValues[parentelementId] = this.dataElementValues[computedElement.id];
+      }
+  }
+}
+
+  private IsExpressionReferedtoComputedDataElement(expressionText): boolean {
+    const text = expressionText.match(/{([^}]+)}/);
+    if (text !== null && text !== undefined && text.length > 0) {
+      const result = this.template.dataElements.filter(function (obj) {
+        return obj.id === text[1] && (obj.dataElementType === 'ComputedDataElement');
+      });
+
+      if (result != null && result !== undefined && result.length > 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private evaluateArithmeticExpression(computedValue: string): any {
@@ -255,7 +290,12 @@ export class SimulatorEngineService {
           this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
           if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
             decisionPoint.defaultBranch.computedValue) {
-            this.dataElementValues[element.id] = decisionPoint.defaultBranch.computedValue.expressionText;
+              const expressionText = decisionPoint.defaultBranch.computedValue.expressionText;
+              if (this.IsExpressionReferedtoComputedDataElement(expressionText)) {
+                this.FindAndSetValueForComputedDataElement(expressionText, element.id);
+              } else {
+                this.dataElementValues[element.id] = expressionText;
+              }
           }
           this.endOfRoadReached = false;
         }
@@ -686,7 +726,7 @@ export class SimulatorEngineService {
                 $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]
                   + '_' + $repeatGroupName + (index + 1);
               }
-              
+
               decisionPoint.branches.push($branch);
             }
           }
