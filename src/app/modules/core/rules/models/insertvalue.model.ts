@@ -29,16 +29,13 @@ InsertValue.prototype.manupulateId = function (dynamicId): string {
 };
 
 InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
-  console.log(dataElementValues);
-  if (dataElementValues[this.dataElementId] === undefined) {
+   if (dataElementValues[this.dataElementId] === undefined) {
     return '';
   }
 
   const choiceDataElementResults = this.IsDataElementChoiceDataElement(template);
   if (choiceDataElementResults != null) {
     const choiceDataElementResult = choiceDataElementResults[0] as ChoiceDataElement;
-    console.log(choiceDataElementResult);
-
     if (dataElementValues[this.dataElementId] !== undefined
       && dataElementValues[this.dataElementId] instanceof Array) {
       const values = [];
@@ -52,11 +49,13 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
     } else {
       const values = [];
       const $dataElementValues = dataElementValues[this.dataElementId];
-      values.push(choiceDataElementResult.choiceInfo.filter(function (choice) {
+      const result = choiceDataElementResult.choiceInfo.filter(function (choice) {
         return choice.value === $dataElementValues;
-      })[0].label);
+      });
 
-      return values !== undefined ? values.join(', ') : '';
+      return result !== undefined && result.length > 0  ? result[0].label :
+      ($dataElementValues !== undefined && ($dataElementValues === 'freetext' || $dataElementValues === '')
+      ? ' Other' : ' Other (' + $dataElementValues + ')');
     }
   }
 
