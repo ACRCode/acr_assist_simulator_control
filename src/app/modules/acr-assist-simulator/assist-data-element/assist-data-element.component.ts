@@ -119,7 +119,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         this.returnReportText.emit(undefined);
       }
 
-      // debugger;
       // const $mainReportText = new MainReportText();
       // $mainReportText.allReportText = new Array<AllReportText>();
       // const allReportText = new AllReportText();

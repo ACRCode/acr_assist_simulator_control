@@ -142,7 +142,6 @@ export class EndpointCreationService {
                                 _templatePartial.Branch[index].ReportText = [_templatePartial.Branch[index].ReportText];
                             }
 
-                            // debugger;
                             for (let textIndex = 0; textIndex < _templatePartial.Branch[index].ReportText.length; textIndex++) {
                                 $templatePartial.branches[index].reportText[textIndex] = new ReportText();
 

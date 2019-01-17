@@ -13,6 +13,5 @@ export class MultipleChoiceDataElementCreationService  extends ChoiceDataElement
     ) {
     super(diagramService, arrayCheckerService, conditionsCreationService, computedValueCreationService);
     this.elementType = 'MultiChoiceDataElement';
-    debugger;
   }
 }
