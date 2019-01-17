@@ -3,7 +3,6 @@ import { AllReportText, MainReportText } from '../assist-data-element/assist-dat
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
 const $ = require('jquery');
 import * as _ from 'lodash';
-declare var resizeKeyImages: any;
 
 @Component({
   selector: 'acr-assist-report-text',
@@ -21,14 +20,12 @@ export class AssistReportTextComponent implements OnChanges {
   allTextReport: AllTextReport[];
   sections: string[] = [];
   prevSectionId: string;
+
   ngOnChanges(changes: SimpleChanges): void {
     this.mainReportTexts = new MainReportText();
     this.onSelect(this.selectedSectionId);
-    setInterval(() => {
-      resizeKeyImages();
-    }, 100);
-
   }
+
   constructor() {
     setInterval(() => {
     }, 1000);

@@ -8,6 +8,13 @@ var init_SimulatorUI = function () {
   });
 }
 
+var resizeKeyImages = function () {
+  let windowHeight = window.innerHeight;
+  let reportTextHeight = $('#div-right-reportText').height();
+  let height = windowHeight - reportTextHeight - 150;
+  $('#carousel-example-generic').height(height+'px');
+}
+
 function zoomIn() {
   var id = document.getElementsByClassName('item zoom active')[0].children[0].children[0].children[0].id;
   var myImg = document.getElementById(id);
@@ -26,12 +33,4 @@ function zoomOut() {
   else {
     myImg.style.width = (currWidth - 100) + "px";
   }
-}
-
-function resizeKeyImages() {
-  let windowHeight = window.innerHeight;
-  let reportTextHeight = $('#div-right-reportText').height();
-  let height = windowHeight - reportTextHeight - 150;
-  $('#carousel-example-generic').height(height+'px');
-
 }

@@ -10,6 +10,7 @@ import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 const $ = require('jquery');
+declare var resizeKeyImages: any;
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -120,6 +121,10 @@ export class AcrAssistSimulatorComponent implements OnChanges {
         this.keyDiagrams.push(diagram);
       };
     }
+  }
+
+  resizeKeyImages() {
+    resizeKeyImages();
   }
 
   collapseKeyDiagram() {
