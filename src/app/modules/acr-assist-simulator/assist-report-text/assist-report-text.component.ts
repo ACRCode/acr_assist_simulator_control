@@ -4,6 +4,7 @@ import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text
 const $ = require('jquery');
 import * as _ from 'lodash';
 declare var resizeKeyImages: any;
+
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',
