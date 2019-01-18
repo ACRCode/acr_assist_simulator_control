@@ -176,9 +176,7 @@ export class SimulatorEngineService {
 
       currentBranchCount++;
       let conditionMet = false;
-      // if (this.endOfRoadReached) {  
-      //   break;
-      // }
+
       if (branch.compositeCondition !== undefined) {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
@@ -232,11 +230,10 @@ export class SimulatorEngineService {
     if (result !== undefined && result != null && result.length > 0) {
       const computedElement: ComputedDataElement = result[0] as ComputedDataElement;
       for (const decisionPoint of computedElement.decisionPoints) {
-        this.evaluateComputedElementDecisionPoint(computedElement.id, decisionPoint, 1);
         this.dataElementValues[parentelementId] = this.dataElementValues[computedElement.id];
       }
+    }
   }
-}
 
   private IsExpressionReferedtoComputedDataElement(expressionText): boolean {
     const text = expressionText.match(/{([^}]+)}/);
@@ -277,7 +274,6 @@ export class SimulatorEngineService {
 
     return expressionParser.evaluate(computedValue).toString();
   }
-
 
   private evaluateComputedExpressions() {
     this.endOfRoadReached = false;
@@ -483,7 +479,7 @@ export class SimulatorEngineService {
             // for (let index = 0; index < _branch.compositeCondition.conditions.length; index++) {
             //   if (_branch.compositeCondition.conditions[index].isManuallyAdded === undefined || _branch.compositeCondition.conditions[index].isManuallyAdded){
             //     for (const _dataElement of dataElementIds) {
-            //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]); 
+            //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]);
             //     }
             //   }
             // }
