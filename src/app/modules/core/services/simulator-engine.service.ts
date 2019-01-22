@@ -92,6 +92,8 @@ export class SimulatorEngineService {
         break;
       }
 
+      console.log(this.nonRelevantDataElementIds);
+
       if (branch.compositeCondition !== undefined) {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {

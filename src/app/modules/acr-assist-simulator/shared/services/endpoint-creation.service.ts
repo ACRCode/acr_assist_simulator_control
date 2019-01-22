@@ -27,6 +27,7 @@ export class EndpointCreationService {
     }
 
     public CreateEndPoints(endpointJson): Endpoint {
+        debugger;
         const $endpoint = new Endpoint();
         $endpoint.templatePartials = this.GetTemplatePartialsFromJsonString(endpointJson);
         $endpoint.endpoints = this.GetEndpoints(endpointJson);
@@ -36,6 +37,10 @@ export class EndpointCreationService {
     private GetEndpoints(endpointJson): Array<EndpointItem> {
         const Endpoints = Array<EndpointItem>();
         if (endpointJson.EndPoint !== undefined) {
+            if (!(endpointJson.EndPoint instanceof Array)) {
+                endpointJson.EndPoint = [endpointJson.EndPoint];
+            }
+
             for (const _endPoint of endpointJson.EndPoint) {
                 const $endpointItem = new EndpointItem();
                 $endpointItem.id = _endPoint.Attr.Id;
