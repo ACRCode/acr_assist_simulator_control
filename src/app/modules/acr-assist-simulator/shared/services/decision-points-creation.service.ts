@@ -35,7 +35,7 @@ export class DecisionPointsCreationService {
       branch.endPointRef.repeatGroup = branchJSON.EndPointRef.Attr.RepeatGroup;
       branch.endPointRef.repeatCount = branchJSON.EndPointRef.Attr.RepeatCount;
     }
-    
+
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {
@@ -89,7 +89,7 @@ export class DecisionPointsCreationService {
 
   private addDecisionPoints(decsionPointsAsJSON: any , decisionPoints: DecisionPoint[]) {
     if (this.arrayCheckerService.isArray(decsionPointsAsJSON)) {
-        for (const decisionPoint of  decsionPointsAsJSON){
+        for (const decisionPoint of  decsionPointsAsJSON) {
           this.addDecisionPoint(decisionPoint, decisionPoints);
         }
     } else {
@@ -99,7 +99,9 @@ export class DecisionPointsCreationService {
 
   createDecisionPoints(data: any): DecisionPoint[] {
     const decisionPoints = new Array<DecisionPoint>();
-    this.addDecisionPoints(data, decisionPoints);
+    if (data !== undefined) {
+      this.addDecisionPoints(data, decisionPoints);
+    }
     return decisionPoints;
   }
 

@@ -36,7 +36,7 @@ export class TemplateManagerService {
     }
     template.metadata = this.getMetaData(templateContentAsJSON.Metadata);
     template.dataElements = this.getDataElements(templateContentAsJSON.DataElements);
-    
+
     if (templateContentAsJSON.Rules) {
       template.rules = new Rules();
       template.rules.decisionPoints = this.decisionPointsCreationService.
@@ -126,8 +126,13 @@ export class TemplateManagerService {
     metadata.id = metadataJSON.ID;
     metadata.schemaVersion = metadataJSON.SchemaVersion;
     metadata.ruleVersion = metadataJSON.RuleVersion;
-    const diagramsAsJSON = metadataJSON.Info.Diagrams.Diagram;
-    metadata.diagrams = this.diagramService.returnDiagrams(diagramsAsJSON);
+
+    if (metadataJSON.Info !== undefined && metadataJSON.Info.Diagrams !== undefined && metadataJSON.Info.Diagrams.Diagram !== undefined) {
+      const diagramsAsJSON = metadataJSON.Info.Diagrams.Diagram;
+      metadata.diagrams = this.diagramService.returnDiagrams(diagramsAsJSON);
+    } else {
+      metadata.diagrams = [];
+    }
 
     metadata.approvedBy = metadataJSON.ApprovedBy;
     metadata.createdDate = metadataJSON.CreatedDate;
