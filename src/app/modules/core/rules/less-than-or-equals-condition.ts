@@ -13,9 +13,9 @@ export class LessThanOrEqualsCondition implements Condition {
   evaluate(dataElementValues: DataElementValues): boolean {
     const nonRelevantDataElements = NonRelevantPushPopService.GetNonRelevantDataelements();
     let isDataElementNotRelevant = false;
-    if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
-      isDataElementNotRelevant = true;
-    }
+    // if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
+    //   isDataElementNotRelevant = true;
+    // }
     if (!isDataElementNotRelevant) {
       const value = +dataElementValues.get(this.conditionType.dataElementId) as number;
       let comparisonValue = -1;

@@ -15,9 +15,9 @@ export class ContainsCondition implements Condition {
     let returnValue = false;
     const nonRelevantDataElements = NonRelevantPushPopService.GetNonRelevantDataelements();
     let isDataElementNotRelevant = false;
-    if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
-      isDataElementNotRelevant = true;
-    }
+    // if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
+    //   isDataElementNotRelevant = true;
+    // }
     if (!isDataElementNotRelevant) {
       const value = dataElementValues.get(this.conditionType.dataElementId);
       if (value !== undefined) {
