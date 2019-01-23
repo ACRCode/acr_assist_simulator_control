@@ -76,8 +76,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
-      const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
-
+      // const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
+      const nonRelevantIDs = this.simulatorState.nonRelevantDataElementIds;
       for (const dataElement of this.dataElements) {
         if (nonRelevantIDs && nonRelevantIDs.length > 0) {
           if (nonRelevantIDs.indexOf(dataElement.id) >= 0) {
@@ -118,26 +118,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       } else {
         this.returnReportText.emit(undefined);
       }
-
-      // const $mainReportText = new MainReportText();
-      // $mainReportText.allReportText = new Array<AllReportText>();
-      // const allReportText = new AllReportText();
-      // $mainReportText.reportTextMainContent = '';
-      // for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
-      //   allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
-      //   allReportText.allReportResult = Object.create(new AllReportResult());
-      //   allReportText.allReportResult.sectionId = evaluationResult.ruleEvaluationReportResult.sectionId;
-      //   allReportText.allReportResult.reportText = evaluationResult.ruleEvaluationReportResult.reportText;
-      //   allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
-      //   $mainReportText.allReportText.push(Object.assign({}, allReportText));
-      // }
-
-      // if ($mainReportText.allReportText.length > 0) {
-      //   console.log($mainReportText);
-      //   this.returnReportText.emit($mainReportText);
-      // } else {
-      //   this.returnReportText.emit(undefined);
-      // }
 
       this.$dataElements = [];
       for (const dataelement of this.dataElements) {

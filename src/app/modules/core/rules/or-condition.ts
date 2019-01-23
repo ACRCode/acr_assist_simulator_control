@@ -13,7 +13,6 @@ export class OrCondition implements CompositeCondition {
   }
 
   evaluate(dataElementValues: DataElementValues): boolean {
-
     let returnValue = false;
     for (let conditionCounter = 0 ;  conditionCounter < this.conditions.length ;  conditionCounter++) {
          const condition = this.conditions[conditionCounter];

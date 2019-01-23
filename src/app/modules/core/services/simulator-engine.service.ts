@@ -25,6 +25,7 @@ import { InsertValue } from '../rules/models/insertvalue.model';
 import { TemplatePartial } from '../endpoint/template-partial';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 import { RuleEvaluationResult } from '../endpoint/rule-evaluation-result.model';
+import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -214,7 +215,7 @@ export class SimulatorEngineService {
       } else {
         if (currentBranchCount >= totalBranchesInDecisionPoint) {
           // this.endOfRoadReached = true;
-          this.dataElementValues[elementId] = undefined;
+           this.dataElementValues[elementId] = undefined;
           return;
         } else {
           continue;
@@ -402,6 +403,7 @@ export class SimulatorEngineService {
     }
 
     this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
+    NonRelevantPushPopService.SetNonRelevantDataElements(this.nonRelevantDataElementIds);
     return this.nonRelevantDataElementIds;
   }
 
@@ -747,6 +749,8 @@ export class SimulatorEngineService {
   }
 
   private evaluateDecisionPoints() {
+    this.evaluateDecisionAndConditionalProperty();
+
     this.ProcessRepetationDataElements();
     this.evaluateComputedExpressions();
     this.endOfRoadReached = false;
@@ -769,6 +773,7 @@ export class SimulatorEngineService {
       }
     }
 
+    $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
     this.simulatorStateChanged.next($simulatorState);
   }
 
