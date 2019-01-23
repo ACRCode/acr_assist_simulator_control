@@ -5,6 +5,7 @@ export class NonRelevantPushPopService {
     }
 
     public static GetNonRelevantDataelements(): string[] {
+        const result = new this();
         return this.NonRelevantIds;
      }
 }

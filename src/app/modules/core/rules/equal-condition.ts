@@ -19,6 +19,7 @@ export class EqualCondition implements Condition {
     if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
       isDataElementNotRelevant = true;
     }
+
     if (!isDataElementNotRelevant) {
       const value = dataElementValues.get(this.conditionType.dataElementId);
       if (value !== undefined) {
