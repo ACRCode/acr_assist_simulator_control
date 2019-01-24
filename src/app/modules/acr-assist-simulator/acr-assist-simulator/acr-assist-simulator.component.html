@@ -27,7 +27,7 @@
               </ng-container>
             </div>
             <!-- acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock" -->
-            <div class="padding-r-10 scroll">
+            <div class="padding-r-10 scroll" acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock">
               <form class="form-horizontal">
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
