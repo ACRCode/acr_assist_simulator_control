@@ -7,16 +7,20 @@ import { TabFormatingPushPopService } from '../../../acr-assist-simulator/shared
 
 export class Tab implements IReportText {
     isTab: boolean;
-    processText(template: Template, dataElementValues: Map<string, any>): any {}
-    manupulateId(dynamicId: string): any {}
+    processText(template: Template, dataElementValues: Map<string, any>): any { }
+    manupulateId(dynamicId: string): any { }
 }
 
-Tab.prototype.manupulateId = function(dynamicId): string {
+Tab.prototype.manupulateId = function (dynamicId): string {
     return this.isTab;
- };
+};
 
-Tab.prototype.processText = function(template: Template, dataElementValues: Map<string, any>): string {
+Tab.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
     TabFormatingPushPopService.SetIsTabbed(true);
-    return '&nbsp;&nbsp;&nbsp;&nbsp;';
+    const result = '<div class="spantest" style="margin-left:50px">'; // + '</span>';
+    return result;
+
+    // return '&nbsp;&nbsp;&nbsp;&nbsp;';
+    // return '';
 };
 
