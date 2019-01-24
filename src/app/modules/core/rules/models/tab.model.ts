@@ -3,6 +3,7 @@ import { Template } from '../../models/template.model';
 import { DataElementValues } from '../../dataelementvalues';
 import { Branch } from '../../models/branch.model';
 import * as _ from 'lodash';
+import { TabFormatingPushPopService } from '../../../acr-assist-simulator/shared/services/tab-formatting-push-pop.service';
 
 export class Tab implements IReportText {
     isTab: boolean;
@@ -15,6 +16,7 @@ Tab.prototype.manupulateId = function(dynamicId): string {
  };
 
 Tab.prototype.processText = function(template: Template, dataElementValues: Map<string, any>): string {
+    TabFormatingPushPopService.SetIsTabbed(true);
     return '&nbsp;&nbsp;&nbsp;&nbsp;';
 };
 

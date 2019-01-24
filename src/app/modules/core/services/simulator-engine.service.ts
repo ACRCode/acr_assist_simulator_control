@@ -321,6 +321,7 @@ export class SimulatorEngineService {
           }
 
           if (conditionalProperty.isRelevant === 'false') {
+            // this.dataElementValues[dataelement.id] = undefined;
             this.nonRelevantDataElementIds.push(dataelement.id);
           } else {
             dataelement.displaySequence = conditionalProperty.DisplaySequence;

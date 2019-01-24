@@ -28,7 +28,6 @@ export class RuleEngineService {
     processEndpointAndGenerateReportText($endpoint: EndpointItem): RuleEvaluationResult[] {
         const ruleEvaluationResult = new RuleEvaluationResult();
         let $reportTextString = '';
-        debugger;
         for (const _reportSection of $endpoint.reportSections) {
             $reportTextString = '';
             let conditionMet = false;
