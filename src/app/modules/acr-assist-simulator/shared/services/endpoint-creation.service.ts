@@ -27,7 +27,6 @@ export class EndpointCreationService {
     }
 
     public CreateEndPoints(endpointJson): Endpoint {
-        debugger;
         const $endpoint = new Endpoint();
         $endpoint.templatePartials = this.GetTemplatePartialsFromJsonString(endpointJson);
         $endpoint.endpoints = this.GetEndpoints(endpointJson);
