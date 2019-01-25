@@ -13,7 +13,6 @@ export class InsertValue implements IReportText {
   manupulateId(dynamicId: string): any { }
 
   IsDataElementChoiceDataElement(template: Template): ChoiceDataElement[] {
-    console.log(template);
     const $dataElementId = this.dataElementId;
     const result = template.dataElements.filter(function (obj) {
       return obj.id === $dataElementId && (obj.dataElementType === 'ChoiceDataElement' ||

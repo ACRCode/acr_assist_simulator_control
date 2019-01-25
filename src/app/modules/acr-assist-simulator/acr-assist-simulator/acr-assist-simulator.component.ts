@@ -70,7 +70,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
     this.keyDiagrams = new Array<Diagram>();
-    // debugger;
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
       const element = new Diagram();
       element.label = this.template.metadata.diagrams[index].label;

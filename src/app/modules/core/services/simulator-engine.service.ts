@@ -93,8 +93,6 @@ export class SimulatorEngineService {
         break;
       }
 
-      console.log(this.nonRelevantDataElementIds);
-
       if (branch.compositeCondition !== undefined) {
         conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
@@ -583,10 +581,7 @@ export class SimulatorEngineService {
       }
 
       this.template.endpoint.endpoints.push(endpoint_cloned);
-      console.log(endpoint_cloned);
     }
-
-    // console.log(dynamicEndPoints);
   }
 
 
@@ -738,9 +733,6 @@ export class SimulatorEngineService {
         }
       }
     }
-
-    // console.log('wqe');
-    // console.log(this.template);
   }
 
   private CheckIfDataElementisComputedDataElement(dataElementId_org, dataElementId_dynamic) {

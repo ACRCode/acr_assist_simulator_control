@@ -63,13 +63,8 @@ export class AssistReportTextComponent implements OnChanges {
       }).value();
 
       const sortedResult = _.orderBy(results, [result => result.repeatedSectionName], ['asc']);
-
-
-      //  console.log(test);
-
       this.allReportTextGroup = sortedResult;
       this.selectedSectionId = 'All';
-      // console.log(this.allReportTextGroup);
     }
 
     for (const section in this.reportText.allReportText) {

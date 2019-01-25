@@ -13,7 +13,6 @@ export class RuleEngineService {
     $template: Template;
     $dataElementValues: Map<string, any>;
     EvaluateRules(template: Template, endpoints: string[], dataElementValues: Map<string, any>) {
-        console.log(template);
         this.ruleEvaluationResults = [];
         this.$template = template;
         this.$dataElementValues = dataElementValues;
@@ -51,7 +50,6 @@ export class RuleEngineService {
             this.ruleEvaluationResults.push(Object.assign({}, ruleEvaluationResult));
         }
 
-        console.log(this.ruleEvaluationResults);
         return this.ruleEvaluationResults;
     }
 
