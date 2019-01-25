@@ -9,6 +9,7 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+import { element } from 'protractor';
 const $ = require('jquery');
 declare var resizeKeyImages: any;
 
@@ -32,6 +33,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[];
+  keyDiagramTemp: Diagram[];
   resultText: MainReportText;
   isReset: boolean;
   dataElements: BaseDataElement[];
@@ -40,6 +42,8 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
   constructor(private templateManagerService: TemplateManagerService, private simulatorEngineService: SimulatorEngineService) {
+    this.keyDiagrams = new Array<Diagram>();
+    this.keyDiagramTemp = new Array<Diagram>();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,7 +70,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
     this.keyDiagrams = new Array<Diagram>();
-
+    // debugger;
     for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
       const element = new Diagram();
       element.label = this.template.metadata.diagrams[index].label;
@@ -75,7 +79,21 @@ export class AcrAssistSimulatorComponent implements OnChanges {
       this.keyDiagrams.push(element);
     }
 
+    // if (this.keyDiagramTemp !== undefined && this.keyDiagramTemp.length > 0) {
+    //   this.keyDiagramTemp.forEach($diagram => {
+    //     if (!this.diagramExist($diagram)) {
+    //       this.keyDiagrams.push($diagram);
+    //     }
+    //   });
+    // }
+
     this.resultText = undefined;
+  }
+
+  diagramExist(diagram: Diagram) {
+    return this.keyDiagrams.some(function (el) {
+      return el.location === diagram.location;
+    });
   }
 
   resetElements() {
@@ -100,7 +118,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   changeListener(event): void {
     this.isInvalidFile = false;
     this.keyDiagrams = new Array<Diagram>();
-
     for (let i = 0; i < event.target.files.length; i++) {
       const reader = new FileReader();
       const diagram = new Diagram();
@@ -119,6 +136,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
       reader.onloadend = (event1: any) => {
         this.keyDiagrams.push(diagram);
+        this.keyDiagramTemp.push(diagram);
       };
     }
   }

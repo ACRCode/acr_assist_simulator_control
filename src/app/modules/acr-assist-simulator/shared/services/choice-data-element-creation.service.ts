@@ -126,6 +126,10 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;
     if (conditionalProperty.ChoiceNotRelevant !== undefined) {
       _conditionalProperty.ChoiceNotRelevant = new Array<string>();
+      if (!(conditionalProperty.ChoiceNotRelevant instanceof Array)) {
+        conditionalProperty.ChoiceNotRelevant = [conditionalProperty.ChoiceNotRelevant];
+      }
+      
       for (const choiceNotRelevant of conditionalProperty.ChoiceNotRelevant) {
         _conditionalProperty.ChoiceNotRelevant.push(choiceNotRelevant.Attr.ChoiceValue);
       }

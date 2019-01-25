@@ -48,8 +48,6 @@ export class TemplateManagerService {
     template.xmlContent = templateContent;
 
     template.endpoint = this.endpointCreationService.CreateEndPoints(templateContentAsJSON.EndPoints);
-    console.log('or');
-    console.log(template);
     return template;
   }
 

@@ -215,7 +215,7 @@ export class SimulatorEngineService {
       } else {
         if (currentBranchCount >= totalBranchesInDecisionPoint) {
           // this.endOfRoadReached = true;
-           this.dataElementValues[elementId] = undefined;
+          this.dataElementValues[elementId] = undefined;
           return;
         } else {
           continue;
@@ -289,12 +289,12 @@ export class SimulatorEngineService {
           this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
           if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
             decisionPoint.defaultBranch.computedValue) {
-              const expressionText = decisionPoint.defaultBranch.computedValue.expressionText;
-              if (this.IsExpressionReferedtoComputedDataElement(expressionText)) {
-                this.FindAndSetValueForComputedDataElement(expressionText, element.id);
-              } else {
-                this.dataElementValues[element.id] = expressionText;
-              }
+            const expressionText = decisionPoint.defaultBranch.computedValue.expressionText;
+            if (this.IsExpressionReferedtoComputedDataElement(expressionText)) {
+              this.FindAndSetValueForComputedDataElement(expressionText, element.id);
+            } else {
+              this.dataElementValues[element.id] = expressionText;
+            }
           }
           this.endOfRoadReached = false;
         }
@@ -324,7 +324,11 @@ export class SimulatorEngineService {
             // this.dataElementValues[dataelement.id] = undefined;
             this.nonRelevantDataElementIds.push(dataelement.id);
           } else {
-            dataelement.displaySequence = conditionalProperty.DisplaySequence;
+            
+            if (conditionalProperty.DisplaySequence !== undefined) {
+              dataelement.displaySequence = conditionalProperty.DisplaySequence;
+            }
+
             dataelement.isRequired = conditionalProperty.isRequired !== undefined ?
               (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
               : true;
