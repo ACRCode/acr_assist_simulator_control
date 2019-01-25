@@ -18,7 +18,7 @@
                       </button>
                     </div>
                   </div>
-                  <div id="body_reporttext" class="box-body report-text div-report-text-scroll">
+                  <div id="body_reporttext" class="box-body report-text">
                     <dl>
                       <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
                     </dl>
@@ -26,8 +26,7 @@
                 </div>
               </ng-container>
             </div>
-            <!-- acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock" -->
-            <div class="padding-r-10 scroll" acrDynamicHeightDirective [simulatorElement]="simulatorResultsBlock">
+            <div class="padding-r-10 scroll">
               <form class="form-horizontal">
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
@@ -88,7 +87,8 @@
           <div class="box-header with-border">
             <h3 class="box-title">Key Images</h3>
             <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
-            <label for="diagramUpload" class="btn btn-sm btn-success bg-olive margin-l-10" title="Choose Diagrams">Choose a
+            <label for="diagramUpload" class="btn btn-sm btn-success bg-olive margin-l-10" title="Choose Diagrams">Choose
+              a
               Diagram</label>
             <div class="pull-right padding-l-5">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
