@@ -141,7 +141,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       }
     }
 
-    // alert();
     this.simulatorEngineService.evaluateDecisionPoints();
   }
 
