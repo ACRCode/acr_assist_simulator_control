@@ -745,7 +745,7 @@ export class SimulatorEngineService {
     }
   }
 
-  private evaluateDecisionPoints() {
+  public evaluateDecisionPoints() {
     this.evaluateDecisionAndConditionalProperty();
 
     this.ProcessRepetationDataElements();
