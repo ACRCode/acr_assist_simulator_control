@@ -4,7 +4,6 @@ import {CoreModule} from '../core/core.module';
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator/acr-assist-simulator.component';
 import {TemplateManagerService } from './shared/services/template-manager.service';
 import {DiagramService} from './shared/services/diagram.service';
-import {InjectionToken} from '@angular/core';
 import { CreationServiceInjectorToken } from './constants';
 import {ChoiceDataElementCreationService} from './shared/services/choice-data-element-creation.service';
 import {MultipleChoiceDataElementCreationService} from './shared/services/multiple-choice-data-element-creation.service';
@@ -12,11 +11,9 @@ import {NumericDataElementCreationService} from './shared/services/numeric-data-
 import {IntegerDataElementCreationService} from './shared/services/integer-data-element-creation.service';
 import { AssistDataElementComponent } from './assist-data-element/assist-data-element.component';
 import { HintDiagramComponent } from './assist-data-element/hint-diagram/hint-diagram.component';
-import { SlideComponent } from 'ngx-bootstrap/carousel/slide.component';
 import { GlobalValueCreationService } from './shared/services/global-value-creation.service';
 import { ArrayCheckerService } from './shared/services/array-checker.service';
 import { ConditionsCreationService } from './shared/services/conditions-creation.service';
-import { CarouselComponent } from 'ngx-bootstrap/carousel/carousel.component';
 import { CarouselConfig } from 'ngx-bootstrap/carousel/carousel.config';
 import { AssistNumericElementComponent } from './assist-data-element/assist-numeric-element/assist-numeric-element.component';
 import { AssistChoiceElementComponent } from './assist-data-element/assist-choice-element/assist-choice-element.component';
@@ -43,8 +40,9 @@ import { EndpointCreationService } from './shared/services/endpoint-creation.ser
 import { RuleEngineService } from './shared/services/rule-engine-service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
-const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent, SlideComponent, CarouselComponent,
+const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
     ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
     AssistDateTimeElementComponent, AssistDurationElementComponent];
@@ -54,6 +52,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     CommonModule,
     CoreModule,
     FormsModule,
+    CarouselModule,
     ReactiveFormsModule,
     DragScrollModule,
     AngularDateTimePickerModule,
