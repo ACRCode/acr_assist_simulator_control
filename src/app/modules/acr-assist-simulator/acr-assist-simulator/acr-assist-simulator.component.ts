@@ -78,16 +78,13 @@ export class AcrAssistSimulatorComponent implements OnChanges {
       this.keyDiagrams.push(element);
     }
 
-    // if (this.keyDiagramTemp !== undefined && this.keyDiagramTemp.length > 0) {
-    //   this.keyDiagramTemp.forEach($diagram => {
-    //     if (!this.diagramExist($diagram)) {
-    //       this.keyDiagrams.push($diagram);
-    //     }
-    //   });
-    // }
-
     this.resultText = undefined;
   }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  // ngAfterViewInit(){
+  //   alert();
+  // }
 
   diagramExist(diagram: Diagram) {
     return this.keyDiagrams.some(function (el) {
