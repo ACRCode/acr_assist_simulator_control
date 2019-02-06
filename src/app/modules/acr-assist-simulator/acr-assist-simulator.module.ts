@@ -34,8 +34,6 @@ import { DragScrollModule } from 'ngx-drag-scroll';
 import { DateTimeDataElementCreationService } from './shared/services/dateTime-data-element-creation.service';
 import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
 
-import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
-import { DurationPickerModule } from 'ngx-duration-picker';
 import { DurationDataElementCreationService } from './shared/services/duration-data-element-creation.service';
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
@@ -56,8 +54,6 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     FormsModule,
     ReactiveFormsModule,
     DragScrollModule,
-    AngularDateTimePickerModule,
-    DurationPickerModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],
