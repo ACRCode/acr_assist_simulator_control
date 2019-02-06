@@ -746,32 +746,34 @@ export class SimulatorEngineService {
   }
 
   public evaluateDecisionPoints() {
-    this.evaluateDecisionAndConditionalProperty();
+    if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
+      this.evaluateDecisionAndConditionalProperty();
 
-    this.ProcessRepetationDataElements();
-    this.evaluateComputedExpressions();
-    this.endOfRoadReached = false;
-    this.branchCounter++;
-    this.ruleEvaluationResult = [];
-    this.endpoints = [];
-    for (const decisionPoint of this.template.rules.decisionPoints) {
-      this.evaluateDecisionPoint(decisionPoint, 1);
-    }
-
-    const $simulatorState = new SimulatorState();
-    if (this.ruleEvaluationResult.length > 0) {
-      $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
-      for (const _ruleresult of this.ruleEvaluationResult) {
-        $simulatorState.ruleEvaluationResults.push(_ruleresult);
+      this.ProcessRepetationDataElements();
+      this.evaluateComputedExpressions();
+      this.endOfRoadReached = false;
+      this.branchCounter++;
+      this.ruleEvaluationResult = [];
+      this.endpoints = [];
+      for (const decisionPoint of this.template.rules.decisionPoints) {
+        this.evaluateDecisionPoint(decisionPoint, 1);
       }
 
-      for (const _endpoint of this.endpoints) {
-        $simulatorState.endPointIds.push(_endpoint);
-      }
-    }
+      const $simulatorState = new SimulatorState();
+      if (this.ruleEvaluationResult.length > 0) {
+        $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
+        for (const _ruleresult of this.ruleEvaluationResult) {
+          $simulatorState.ruleEvaluationResults.push(_ruleresult);
+        }
 
-    $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
-    this.simulatorStateChanged.next($simulatorState);
+        for (const _endpoint of this.endpoints) {
+          $simulatorState.endPointIds.push(_endpoint);
+        }
+      }
+
+      $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
+      this.simulatorStateChanged.next($simulatorState);
+    }
   }
 
   initialize(template: Template) {
