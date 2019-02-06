@@ -9,7 +9,7 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
-import { element } from 'protractor';
+
 const $ = require('jquery');
 declare var resizeKeyImages: any;
 
@@ -63,7 +63,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     }
 
     this.template = this.templateManagerService.getTemplate(this.templateContent);
-    // this.simulatorEngineService.initialize(this.template);
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }
@@ -80,11 +79,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
     this.resultText = undefined;
   }
-
-  // tslint:disable-next-line:use-life-cycle-interface
-  // ngAfterViewInit(){
-  //   alert();
-  // }
 
   diagramExist(diagram: Diagram) {
     return this.keyDiagrams.some(function (el) {
