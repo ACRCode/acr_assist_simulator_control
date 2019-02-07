@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -20,6 +20,14 @@
     "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
     "build-package": "ng-packagr",
     "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
+  },
+  "dependencies": {
+    "expr-eval": "^1.2.2",
+    "jquery": "^3.3.1",
+    "ng-pick-datetime": "^5.2.6",
+    "ngx-drag-scroll": "~2.0.4",
+    "string": "^3.3.3",
+    "timers": "^0.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
