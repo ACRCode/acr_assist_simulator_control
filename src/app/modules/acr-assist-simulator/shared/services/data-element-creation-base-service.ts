@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { DiagramService } from './diagram.service';
 import { CodableConcept } from '../../../core/elements/models/codableConcept.model';
 import { Coding } from '../../../core/elements/models/coding.model';
-import { CodingSystem } from '../../../core/elements/models/codingSystem.model';
 
 @Injectable()
 export abstract class DataElementCreationBaseService implements DataElementCreationService {
@@ -58,14 +57,11 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
       if (data.CodableConcept.Coding !== undefined && data.CodableConcept.Coding.length > 0) {
         for (const coding of data.CodableConcept.Coding) {
           const _coding = new Coding();
-          _coding.codingSystem.value = coding.System.Attr.Value;
-          _coding.codingVersion.value = coding.Version.Attr.Value;
-          _coding.codingCode.value = coding.Code.Attr.Value;
-          _coding.codingDisplay.value = coding.Display.Attr.Value;
-          // if (coding.UserSelected !== undefined) {
-            _coding.codingUserSelected.value = coding.UserSelected !== undefined ? coding.UserSelected.Attr.Value : null;
-          // }
-
+          _coding.system = coding.System;
+          _coding.version = coding.Version;
+          _coding.code = coding.Code;
+          _coding.display = coding.Display;
+           _coding.userSelected = coding.UserSelected !== undefined ? coding.UserSelected : null;
           dataElement.codableConcept.coding.push(_coding);
         }
       }
