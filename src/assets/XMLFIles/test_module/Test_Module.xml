@@ -207,18 +207,18 @@
     	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true" SourceFilled="temp">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
-    				<System>RadElement</System>
-    				<Version>1.0</Version>
-    				<Code>RDE65</Code>
-    				<Display>RDE65</Display>
-    				<UserSelected>true</UserSelected>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE65"></Code>
+    				<Display Value="RDE65"></Display>
+    				<UserSelected Value="true"></UserSelected>
     			</Coding>
     			<Coding>
-    				<System>Loinc</System>
-    				<Version>1.0</Version>
-    				<Code>RDE65</Code>
-    				<Display>RDE65</Display> 
-					<UserSelected>true</UserSelected>					
+    				<System Value="Loinc"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE65"></Code>
+    				<Display Value="RDE65"></Display> 
+					<UserSelected Value="true"></UserSelected>					
     			</Coding>
     		</CodableConcept>		
     		

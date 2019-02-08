@@ -1,7 +1,5 @@
 import { DataElementCreationService } from './dataelement-creation-service';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
-import { Diagram } from '../../../core/models/diagram.model';
 import { Injectable } from '@angular/core';
 import { DiagramService } from './diagram.service';
 import { CodableConcept } from '../../../core/elements/models/codableConcept.model';
@@ -9,19 +7,12 @@ import { Coding } from '../../../core/elements/models/coding.model';
 
 @Injectable()
 export abstract class DataElementCreationBaseService implements DataElementCreationService {
+
   elementType: string;
   abstract createElement(data: any): BaseDataElement;
-  constructor(private diagramService: DiagramService) {
 
-  }
-
-  private returnDiagram(diagramJSON: any): Diagram {
-    const metadataDiagram = new Diagram();
-    metadataDiagram.displaySequence = diagramJSON.Attr.DisplaySequence;
-    metadataDiagram.keyDiagram = diagramJSON.Attr.IsKeyDiagram ? diagramJSON.Attr.IsKeyDiagram : false;
-    metadataDiagram.label = diagramJSON.Label;
-    metadataDiagram.location = diagramJSON.Location;
-    return metadataDiagram;
+  constructor(
+    private diagramService: DiagramService) {
   }
 
   populateBasicData(data: any, dataElement: BaseDataElement) {
@@ -57,11 +48,12 @@ export abstract class DataElementCreationBaseService implements DataElementCreat
       if (data.CodableConcept.Coding !== undefined && data.CodableConcept.Coding.length > 0) {
         for (const coding of data.CodableConcept.Coding) {
           const _coding = new Coding();
-          _coding.system = coding.System;
-          _coding.version = coding.Version;
-          _coding.code = coding.Code;
-          _coding.display = coding.Display;
-           _coding.userSelected = coding.UserSelected !== undefined ? coding.UserSelected : null;
+          _coding.codingSystem.value = coding.System.Attr.Value;
+          _coding.codingVersion.value = coding.Version.Attr.Value;
+          _coding.codingCode.value = coding.Code.Attr.Value;
+          _coding.codingDisplay.value = coding.Display.Attr.Value;
+          _coding.codingUserSelected.value = coding.UserSelected !== undefined ? coding.UserSelected.Attr.Value : null;
+
           dataElement.codableConcept.coding.push(_coding);
         }
       }
