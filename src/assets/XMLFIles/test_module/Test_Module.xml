@@ -3,7 +3,7 @@
 <ReportingModule>	
     <Metadata>   
         <Label>Test Module</Label>
-        <ID>Hello_Assist_1_0</ID>
+        <ID>Hello_Assist_Test_1_0</ID>
         <SchemaVersion>2.0</SchemaVersion>
         <ModuleVersion>1.5</ModuleVersion>
     	<CreatedDate>2018-12-31</CreatedDate>
