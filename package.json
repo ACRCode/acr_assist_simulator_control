@@ -21,8 +21,7 @@
     "build-package": "ng-packagr",
     "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
   },
-
-  "peerDependencies": {
+  "dependencies": {
     "expr-eval": "^1.2.2",
     "jquery": "^3.3.1",
     "ng-pick-datetime": "^5.2.6",
