@@ -1,4 +1,4 @@
-import { Component, Input, Output, SimpleChanges, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Template } from '../../core/models/template.model';
@@ -32,21 +32,21 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @ViewChild('imageUpload') imageUpload: any;
   template: Template;
   isEmptyContent: boolean;
-  keyDiagrams: Diagram[];
-  keyDiagramTemp: Diagram[];
+  keyDiagrams: Diagram[] = [];
   resultText: MainReportText;
   isReset: boolean;
   dataElements: BaseDataElement[];
   position = ReportTextPosition;
   isInvalidFile: boolean;
+  moduleName: string;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
-  constructor(private templateManagerService: TemplateManagerService, private simulatorEngineService: SimulatorEngineService) {
-    this.keyDiagrams = new Array<Diagram>();
-    this.keyDiagramTemp = new Array<Diagram>();
+  constructor(
+    private templateManagerService: TemplateManagerService,
+    private simulatorEngineService: SimulatorEngineService) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.isReset = true;
     this.isEmptyContent = this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
       this.inputData === undefined;
@@ -68,16 +68,21 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     }
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
-    this.keyDiagrams = new Array<Diagram>();
-    for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-      const element = new Diagram();
-      element.label = this.template.metadata.diagrams[index].label;
-      element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
-      element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-      this.keyDiagrams.push(element);
+    this.resultText = undefined;
+
+    if (this.moduleName !== this.template.metadata.id) {
+      this.keyDiagrams = new Array<Diagram>();
     }
 
-    this.resultText = undefined;
+    if (!this.keyDiagrams.length) {
+      for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
+        const element = new Diagram();
+        element.label = this.template.metadata.diagrams[index].label;
+        element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
+        element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
+        this.keyDiagrams.push(element);
+      }
+    }
   }
 
   diagramExist(diagram: Diagram) {
@@ -87,6 +92,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   }
 
   resetElements() {
+    this.moduleName = this.template.metadata.id;
     this.template = this.templateManagerService.getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
@@ -126,7 +132,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
       reader.onloadend = (event1: any) => {
         this.keyDiagrams.push(diagram);
-        this.keyDiagramTemp.push(diagram);
       };
     }
   }
