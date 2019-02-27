@@ -98,6 +98,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       $mainReportText.allReportText = new Array<AllReportText>();
       const allReportText = new AllReportText();
 
+      this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
       if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
         $mainReportText.reportTextMainContent = '';
@@ -131,6 +132,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -28,7 +28,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   selectedChoiceReportText: string;
   selectedChoiceReportLabel: string;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.createChoiceElementForm();
@@ -63,6 +63,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     } else {
       this.returnChoiceElement.emit(undefined);
     }
+
+    this.cdr.detectChanges();
   }
 
   setChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {

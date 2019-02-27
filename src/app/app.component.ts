@@ -15,6 +15,8 @@ export class AppComponent {
   imagePath: string;
   inputValues: InputData[] = [];
   position = ReportTextPosition;
+  resetButton: boolean;
+  showReportText: boolean;
   testInputValue: InputData[] = [
     {
       'dataElementId': 'othercharacteristics',
@@ -27,6 +29,8 @@ export class AppComponent {
   constructor(private resetCommunicationService: ResetCommunicationService) {
     this.fileContent = '';
     this.imagePath = '';
+    this.resetButton = true;
+    this.showReportText = true;    
   }
 
   onFileSelected(fileDetails: FileDetails) {
@@ -40,6 +44,7 @@ export class AppComponent {
 
   returnDefaultElements() {
     this.inputValues = [];
+    // this.resetValues = false;
     this.resetCommunicationService.messageEmitter('');
   }
 }

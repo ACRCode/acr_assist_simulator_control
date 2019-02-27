@@ -26,7 +26,7 @@
   <div class="content-wrapper">
     <section class="content">
       <div class="row">
-        <acr-assist-simulator templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="true"
+        <acr-assist-simulator [showResetButton]="resetButton" [showReportText]="showReportText" templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="true"
           [inputValues]="inputValues" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
       </div>
     </section>

@@ -9,6 +9,7 @@ import { BaseDataElement } from '../../core/elements/models/base-data-element.mo
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+import { Subject } from 'rxjs';
 
 const $ = require('jquery');
 declare var resizeKeyImages: any;
@@ -19,13 +20,15 @@ declare var resizeKeyImages: any;
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
 export class AcrAssistSimulatorComponent implements OnChanges {
+  @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
   @Input() imagePath: string;
   @Input() showKeyDiagram: boolean;
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() resetButton: Boolean = true;
+  @Input() showResetButton: Boolean = true;
+  @Input() showReportText: Boolean = true;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
@@ -44,6 +47,14 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   constructor(
     private templateManagerService: TemplateManagerService,
     private simulatorEngineService: SimulatorEngineService) {
+  }
+
+  ngOnInit() {
+    if (this.resetValuesNotifier != null) {
+      this.resetValuesNotifier.subscribe((event) => {
+        this.resetElements();
+      })
+    }
   }
 
   ngOnChanges(): void {
@@ -74,13 +85,19 @@ export class AcrAssistSimulatorComponent implements OnChanges {
       this.keyDiagrams = new Array<Diagram>();
     }
 
+    if (this.imagePath === undefined ||  this.imagePath === null || this.imagePath === '') { 
+      this.imagePath = 'XMLFiles/Samples/';
+    }
+
     if (!this.keyDiagrams.length) {
       for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-        const element = new Diagram();
-        element.label = this.template.metadata.diagrams[index].label;
-        element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
-        element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-        this.keyDiagrams.push(element);
+        if (this.imagePath != undefined && this.imagePath != null && this.imagePath != '') {
+          const element = new Diagram();
+          element.label = this.template.metadata.diagrams[index].label;
+          element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
+          element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
+          this.keyDiagrams.push(element);
+        }
       }
     }
   }
