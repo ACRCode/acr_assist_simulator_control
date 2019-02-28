@@ -121,6 +121,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
       _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
     }
 
+    _conditionalProperty.showKeyDiagram = conditionalProperty.ShowKeyDiagram;
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
     _conditionalProperty.isRequired = conditionalProperty.IsRequired;
     _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;

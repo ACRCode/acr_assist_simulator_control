@@ -30,7 +30,7 @@ export class AppComponent {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;
-    this.showReportText = true;    
+    this.showReportText = true;
   }
 
   onFileSelected(fileDetails: FileDetails) {
@@ -42,9 +42,12 @@ export class AppComponent {
     this.inputValues = this.testInputValue;
   }
 
+  showKeyDiagram(data: string) {
+    
+  }
+
   returnDefaultElements() {
     this.inputValues = [];
-    // this.resetValues = false;
     this.resetCommunicationService.messageEmitter('');
   }
 }

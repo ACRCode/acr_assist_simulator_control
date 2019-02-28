@@ -31,6 +31,7 @@
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
                   (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                  (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
@@ -52,6 +53,7 @@
                 <acr-assist-data-element [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
                   (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                  (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
@@ -107,7 +109,7 @@
             </div>
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
-          <!-- {{keyDiagrams | json}} -->
+          
           <div id="body_keydiagram" class="box-body">
             <div id="carousel-example-generic" class="carousel slide scroll" data-interval="false" data-ride="carousel">
               <div class="carousel-inner">

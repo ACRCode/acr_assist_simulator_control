@@ -22,6 +22,7 @@ private  returnDiagram(diagramJSON: any ): Diagram {
     }
     diagram.label = diagramJSON.Label;
     diagram.location = diagramJSON.Location;
+    diagram.id = diagramJSON.Id;
     return diagram;
   }
 

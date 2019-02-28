@@ -36,6 +36,7 @@ export class SimulatorEngineService {
   private endOfRoadReached = false;
   private lastConditionMetBranchLevel = 1;
   private nonRelevantDataElementIds = new Array<string>();
+  private showKeyDiagram: string;
   private DynamicallyTemplatePartialIds = [];
   private ruleEvaluationResult = new Array<RuleEvaluationResult>();
   private endpoints = [];
@@ -314,15 +315,17 @@ export class SimulatorEngineService {
         }
 
         if (conditionMet) {
+          if (conditionalProperty.showKeyDiagram != undefined) {
+            this.showKeyDiagram = conditionalProperty.showKeyDiagram;
+          }
+
           if (nonRelevantDataElementIds === undefined) {
             this.nonRelevantDataElementIds = new Array<string>();
           }
 
           if (conditionalProperty.isRelevant === 'false') {
-            // this.dataElementValues[dataelement.id] = undefined;
             this.nonRelevantDataElementIds.push(dataelement.id);
           } else {
-            
             if (conditionalProperty.DisplaySequence !== undefined) {
               dataelement.displaySequence = conditionalProperty.DisplaySequence;
             }
@@ -747,6 +750,7 @@ export class SimulatorEngineService {
 
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
+      this.showKeyDiagram = undefined;
       this.evaluateDecisionAndConditionalProperty();
 
       this.ProcessRepetationDataElements();
@@ -755,6 +759,7 @@ export class SimulatorEngineService {
       this.branchCounter++;
       this.ruleEvaluationResult = [];
       this.endpoints = [];
+      
       for (const decisionPoint of this.template.rules.decisionPoints) {
         this.evaluateDecisionPoint(decisionPoint, 1);
       }
@@ -771,6 +776,7 @@ export class SimulatorEngineService {
         }
       }
 
+      $simulatorState.showKeyDiagram = this.showKeyDiagram;
       $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
       this.simulatorStateChanged.next($simulatorState);
     }

@@ -42,7 +42,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
   @Input() inputValues: InputData[] = [];
-
+  @Output() callBackAfterGettingShowKeyDiagram : EventEmitter<string> = new EventEmitter<string>();
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
@@ -55,8 +55,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   $RepeatedElementModel: any[] = [];
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
-    resetCommunicationService: ResetCommunicationService,
-    // repeatableElementRegisterService: RepeatableElementRegisterService
+    resetCommunicationService: ResetCommunicationService
     ) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
@@ -77,6 +76,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
       // const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
+
+      const showKeyDiagram = this.simulatorState.showKeyDiagram;
       const nonRelevantIDs = this.simulatorState.nonRelevantDataElementIds;
       for (const dataElement of this.dataElements) {
         if (nonRelevantIDs && nonRelevantIDs.length > 0) {
@@ -127,6 +128,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         }
       }
 
+      this.callBackAfterGettingShowKeyDiagram.emit(showKeyDiagram);
       this.simulatorCommunicationService.messageEmitter('');
     });
   }

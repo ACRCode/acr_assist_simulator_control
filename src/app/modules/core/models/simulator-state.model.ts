@@ -8,4 +8,5 @@ export class SimulatorState {
   selectedBranchLabel = '';
   endPointIds: string[] = [];
   ruleEvaluationResults: RuleEvaluationResult[];
+  showKeyDiagram: string;
 }

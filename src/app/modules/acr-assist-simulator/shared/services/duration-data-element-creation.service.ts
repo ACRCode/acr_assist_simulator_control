@@ -69,6 +69,7 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
           _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
         }
 
+        _conditionalProperty.showKeyDiagram = conditionalProperty.ShowKeyDiagram;
         _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;
         _conditionalProperty.isRequired = conditionalProperty.IsRequired;
         _conditionalProperty.DisplaySequence = conditionalProperty.DisplaySequence;

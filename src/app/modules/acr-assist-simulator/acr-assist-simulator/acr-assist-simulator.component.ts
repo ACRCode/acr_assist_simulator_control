@@ -32,6 +32,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
+  @Output() callBackAfterGettingShowKeyDiagram : EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('imageUpload') imageUpload: any;
   template: Template;
   isEmptyContent: boolean;
@@ -126,6 +127,11 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   }
   recivedOnDataElementChanged(data: InputData[]) {
     this.returnDataElementChanged.emit(data);
+  }
+
+  GettingShowKeyDiagram(data: string) {
+    console.log(data);
+    this.callBackAfterGettingShowKeyDiagram.emit(data);
   }
 
   changeListener(event): void {
