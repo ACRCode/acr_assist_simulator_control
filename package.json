@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "1.0.53.28",
+  "version": "1.0.53.29",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -9,7 +9,7 @@
   },
   "ngPackage": {
     "whitelistedNonPeerDependencies": ["expr-eval", "jquery", "ng-pick-datetime", "ngx-drag-scroll", "string", 
-    "rxjs", "rxjs-compat", "ngx-bootstrap", "timers", "stream", "xml2js"],
+    "rxjs", "rxjs-compat", "ngx-bootstrap", "timers", "stream", "xml2js", "@angular/http"],
     "lib": {
       "entryFile": "./public_api.ts",
       "styleIncludePaths": ["./src/assets/css", "node_modules/bootstrap/dist/css"]
@@ -40,7 +40,8 @@
     "ngx-bootstrap": "^3.0.1",
     "stream": "0.0.2",
     "timers": "^0.1.1",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "@angular/http": "^6.0.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -50,8 +51,7 @@
     "@angular/compiler": "^6.0.6",
     "@angular/compiler-cli": "^6.0.6",
     "@angular/core": "^6.0.6",
-    "@angular/forms": "^6.0.6",
-    "@angular/http": "^6.0.6",
+    "@angular/forms": "^6.0.6",  
     "@angular/language-service": "^6.0.6",
     "@angular/platform-browser": "^6.0.6",
     "@angular/platform-browser-dynamic": "^6.0.6",
