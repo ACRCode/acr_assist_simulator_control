@@ -54,7 +54,7 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
 
       return result !== undefined && result.length > 0  ? result[0].label :
       ($dataElementValues !== undefined && ($dataElementValues === 'freetext' || $dataElementValues === '')
-      ? ' Other' : ' Other (' + $dataElementValues + ')');
+      ? '' : $dataElementValues);
     }
   }
 

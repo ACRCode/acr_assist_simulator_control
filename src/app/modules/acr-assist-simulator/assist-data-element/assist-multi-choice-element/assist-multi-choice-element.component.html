@@ -16,6 +16,7 @@
       </span>
     </ng-container>
     </div>
+    
     <div class="col-sm-7" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
       <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized" title="{{choice.hint}}">
         <label [hidden]="multiChoiceElement.ChoiceNotRelevant != undefined ? 
@@ -26,6 +27,17 @@
           {{choice.label}}
         </label>
       </div>
+
+      <!-- <div class="checkbox checkboxCustomized">       
+          <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false" formControlName="multiCheckBox"
+          [value]="'freetext'"  (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
+            Other, please specify…        
+      </div>  
+      
+      <div id='div_{{multiChoiceElement.id}}_other'>
+        <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
+          placeholder="Please specify '{{multiChoiceElement.label}}'" (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
+      </div> -->
     </div>
   </div>
 </form>

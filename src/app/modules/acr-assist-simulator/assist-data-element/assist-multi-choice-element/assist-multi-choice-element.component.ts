@@ -21,6 +21,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   multiChoiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
   choiceValue: string[] = [];
+  isFreeText = false;
+  freeTextValue: string;
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
@@ -28,7 +30,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.createMultiChoiceElementForm();
   }
   ngAfterViewInit(): void {
-
+    this.showOrHideFreeText(this.multiChoiceElement.id, '', false);
     if (this.multiChoiceElement.currentValue !== undefined) {
       const values: any = [];
       const labels: any = [];
@@ -52,6 +54,14 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
           }
         }
       }
+
+      if (this.multiChoiceElement.allowFreetext) {
+        this.isFreeText = true;
+        // this.freeTextValue = this.multiChoiceElement.currentValue;
+        this.showOrHideFreeText(this.multiChoiceElement.id, 'freetext', true);
+      }
+
+
       this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, values, labels);
     } else {
       this.returnMultiChoice.emit(undefined);
@@ -85,11 +95,44 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
 
-  updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
+  choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event) {
+    debugger;
+    if (event.target.checked) {
+      this.showOrHideFreeText(elementId, selectedValue, true);      
+    } else {
+      this.showOrHideFreeText(elementId, selectedValue, false);
+    }
+
+    this.updateMultiChoice(elementId, selectedElement, this.freeTextValue, event);
+  }
+
+  updateFreeText(element, elementId, selectedCondition) {
+    const selectedValue = (element.value === 'Other') ? 'freetext' : element.value;
+    const selectedText = element.value;
+    // this.updateMultiChoice(elementId, selectedCondition, selectedText, selectedValue);
+
     const multiElement = new MultiChoiceElement();
-    if (event.currentTarget.checked) {
-      this.multiChoiceValues.push(value);
-      this.multiChoiceComaprisonValues.push(event.currentTarget.value);
+    multiElement.elementId = elementId;
+    multiElement.selectedValues = selectedValue;
+    multiElement.selectedComparisonValues = selectedValue;
+
+    this.selectedCondition = new SelectedCondition();
+    this.selectedCondition.selectedConditionId = elementId;
+    this.selectedCondition.selectedCondition = selectedCondition;
+    this.selectedCondition.selectedValue = selectedValue;
+    this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
+  }
+
+  updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
+    debugger;
+    const multiElement = new MultiChoiceElement();
+    if (event.currentTarget != undefined && event.currentTarget.checked) {
+      if (this.multiChoiceValues.indexOf(value) === -1) {
+        this.multiChoiceValues.push(value);
+      }
+      if (this.multiChoiceComaprisonValues.indexOf(value) === -1) {
+        this.multiChoiceComaprisonValues.push(event.currentTarget.value);
+      }
     } else {
       const index = this.multiChoiceValues.indexOf(value);
       const comparisonIndex = this.multiChoiceComaprisonValues.indexOf(event.currentTarget.value);
@@ -118,6 +161,16 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     }, {
         validator: this.specificValueInsideRange('multiCheckBox')
       });
+  }
+
+  showOrHideFreeText(elementId: string, selectedValue: string, isChecked) {
+    if (selectedValue === 'freetext' && isChecked) {
+      $('#div_' + elementId + '_other').show();
+    } else if (!isChecked) {
+      $('#div_' + elementId + '_other').hide();
+      this.freeTextValue = '';
+      this.isFreeText = false;
+    }
   }
 
   private specificValueInsideRange(checkBoxKey: string) {

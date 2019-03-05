@@ -6,4 +6,5 @@ import { ImageMap } from './image-map.model';
   choiceInfo: ChoiceInfo;
   imageMap: ImageMap[];
   ChoiceNotRelevant: string[];
+  allowFreetext = false;
 }
