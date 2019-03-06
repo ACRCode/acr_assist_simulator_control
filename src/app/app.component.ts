@@ -47,6 +47,7 @@ export class AppComponent {
   }
 
   recievedExecutionHistory(data){
+    console.log(data);
   }
 
   returnDefaultElements() {
