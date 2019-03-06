@@ -27,7 +27,9 @@
     <section class="content">
       <div class="row">
         <acr-assist-simulator [showResetButton]="resetButton" [showReportText]="showReportText" templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right" [showKeyDiagram]="true"
-          [inputValues]="inputValues" (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)" (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
+          [inputValues]="inputValues" (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)" 
+          (returnExecutionHistory)='recievedExecutionHistory($event)'
+          (returnDefaultElements)="returnDefaultElements()"></acr-assist-simulator>
       </div>
     </section>
   </div>

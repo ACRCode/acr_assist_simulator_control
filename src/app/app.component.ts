@@ -46,6 +46,9 @@ export class AppComponent {
     
   }
 
+  recievedExecutionHistory(data){
+  }
+
   returnDefaultElements() {
     this.inputValues = [];
     this.resetCommunicationService.messageEmitter('');

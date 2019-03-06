@@ -157,8 +157,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointId && this.simulatorState.endPointId.length > 0) {
+        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
           this.generateExecutionHistory();
         }
         this.afterDataElementChanged();

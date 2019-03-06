@@ -122,7 +122,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.resultText = textReport;
   }
 
-  recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
+  recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {    
     this.returnExecutionHistory.emit(finalExecutionHistory);
   }
   recivedOnDataElementChanged(data: InputData[]) {
