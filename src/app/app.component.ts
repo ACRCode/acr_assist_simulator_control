@@ -43,11 +43,11 @@ export class AppComponent {
   }
 
   showKeyDiagram(data: string) {
-    
+    // console.log(data);
   }
 
   recievedExecutionHistory(data){
-    console.log(data);
+    // console.log(data);
   }
 
   returnDefaultElements() {

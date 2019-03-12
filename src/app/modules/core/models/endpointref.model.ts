@@ -5,4 +5,5 @@ export class EndPointRef {
   isRepeatable: boolean;
   repeatCount: string;
   repeatGroup: string;
+  diagramId: string;
 }

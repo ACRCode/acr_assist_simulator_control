@@ -34,6 +34,7 @@ export class DecisionPointsCreationService {
       branch.endPointRef.isRepeatable = branchJSON.EndPointRef.Attr.IsRepeatable === 'true' ? true : false;
       branch.endPointRef.repeatGroup = branchJSON.EndPointRef.Attr.RepeatGroup;
       branch.endPointRef.repeatCount = branchJSON.EndPointRef.Attr.RepeatCount;
+      branch.endPointRef.diagramId = branchJSON.EndPointRef.Attr.DiagramId;
     }
 
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);

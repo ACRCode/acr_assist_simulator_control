@@ -111,6 +111,7 @@ export class SimulatorEngineService {
         } else if (branch.endPointRef !== undefined) {
           endpointBranches.push(branch);
           endpoints.push(branch.endPointRef.endPointId);
+          this.showKeyDiagram = branch.endPointRef.diagramId;
           // reportCounts.push(branch.endPointRef.repeatCount);
         }
       }
@@ -315,10 +316,6 @@ export class SimulatorEngineService {
         }
 
         if (conditionMet) {
-          if (conditionalProperty.showKeyDiagram != undefined) {
-            this.showKeyDiagram = conditionalProperty.showKeyDiagram;
-          }
-
           if (nonRelevantDataElementIds === undefined) {
             this.nonRelevantDataElementIds = new Array<string>();
           }
@@ -752,7 +749,6 @@ export class SimulatorEngineService {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
       this.showKeyDiagram = undefined;
       this.evaluateDecisionAndConditionalProperty();
-
       this.ProcessRepetationDataElements();
       this.evaluateComputedExpressions();
       this.endOfRoadReached = false;

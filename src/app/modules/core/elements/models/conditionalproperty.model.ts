@@ -18,5 +18,4 @@ export class ConditionalProperty {
     MaximumHours: number;
     MinimumMinutes: number;
     MaxmimumMinutes: number;
-    showKeyDiagram: string;
 }
