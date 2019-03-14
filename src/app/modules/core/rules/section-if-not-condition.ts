@@ -23,7 +23,7 @@ export class SectionIfNotCondition implements Condition {
                 return value.length === 0 ? true : false;
             }
 
-            return value === undefined ? true : false;
+            return value === undefined || value === '' ? true : false;
         }
 
         return false;

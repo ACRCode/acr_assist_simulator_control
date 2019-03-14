@@ -130,7 +130,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   }
 
   GettingShowKeyDiagram(data: string) {
-    // console.log(data);
     this.callBackAfterGettingShowKeyDiagram.emit(data);
   }
 

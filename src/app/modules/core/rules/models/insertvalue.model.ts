@@ -16,7 +16,7 @@ export class InsertValue implements IReportText {
     const $dataElementId = this.dataElementId;
     const result = template.dataElements.filter(function (obj) {
       return obj.id === $dataElementId && (obj.dataElementType === 'ChoiceDataElement' ||
-      obj.dataElementType === 'MultiChoiceDataElement');
+        obj.dataElementType === 'MultiChoiceDataElement');
     });
 
     return result !== undefined && result.length > 0 ? result as ChoiceDataElement[] : null;
@@ -28,7 +28,7 @@ InsertValue.prototype.manupulateId = function (dynamicId): string {
 };
 
 InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
-   if (dataElementValues[this.dataElementId] === undefined) {
+  if (dataElementValues[this.dataElementId] === undefined) {
     return '';
   }
 
@@ -39,9 +39,16 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
       && dataElementValues[this.dataElementId] instanceof Array) {
       const values = [];
       for (const $dataElementValues of dataElementValues[this.dataElementId]) {
-        values.push(choiceDataElementResult.choiceInfo.filter(function (choice) {
+        debugger;
+
+        var items = choiceDataElementResult.choiceInfo.filter(function (choice) {
           return choice.value === $dataElementValues;
-        })[0].label);
+        });
+        if (items !== undefined && items.length > 0) {
+          values.push(items[0].label);
+        } else {
+          values.push($dataElementValues);
+        }
       }
 
       return values !== undefined ? values.join(', ') : '';
@@ -52,9 +59,9 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
         return choice.value === $dataElementValues;
       });
 
-      return result !== undefined && result.length > 0  ? result[0].label :
-      ($dataElementValues !== undefined && ($dataElementValues === 'freetext' || $dataElementValues === '')
-      ? '' : $dataElementValues);
+      return result !== undefined && result.length > 0 ? result[0].label :
+        ($dataElementValues !== undefined && ($dataElementValues === 'freetext' || $dataElementValues === '')
+          ? '' : $dataElementValues);
     }
   }
 

@@ -100,6 +100,7 @@ export class SimulatorEngineService {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
 
+      debugger;
       // && !branch.endPointRef.isRepeatable
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
