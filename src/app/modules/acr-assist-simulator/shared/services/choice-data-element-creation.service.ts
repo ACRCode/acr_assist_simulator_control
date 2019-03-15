@@ -50,7 +50,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
   createElement(data: any): BaseDataElement {
     const dataElement = new ChoiceDataElement();
     super.populateBasicData(data, dataElement);
-    dataElement.allowFreetext = data.Attr.AllowFreetext ? data.Attr.AllowFreetext : false;
+    dataElement.allowFreetext = data.Attr.AllowFreetext == "true" ? true : false;
     const choiceItems = data.ChoiceInfo.Choice;
     let defaultValue: any;
     if (choiceItems !== undefined) {
