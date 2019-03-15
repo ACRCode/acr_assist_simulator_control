@@ -100,7 +100,6 @@ export class SimulatorEngineService {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
 
-      debugger;
       // && !branch.endPointRef.isRepeatable
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
@@ -267,6 +266,9 @@ export class SimulatorEngineService {
         if (isArray(dataElementValue)) {
           let sum = 0;
           dataElementValue.forEach(val => {
+            if (!Number.isInteger(val)) {
+              val = 0;
+            }
             sum += +val;
           });
           dataElementValue = sum;
@@ -756,7 +758,7 @@ export class SimulatorEngineService {
       this.branchCounter++;
       this.ruleEvaluationResult = [];
       this.endpoints = [];
-      
+
       for (const decisionPoint of this.template.rules.decisionPoints) {
         this.evaluateDecisionPoint(decisionPoint, 1);
       }

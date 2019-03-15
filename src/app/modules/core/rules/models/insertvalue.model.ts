@@ -39,8 +39,6 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
       && dataElementValues[this.dataElementId] instanceof Array) {
       const values = [];
       for (const $dataElementValues of dataElementValues[this.dataElementId]) {
-        debugger;
-
         var items = choiceDataElementResult.choiceInfo.filter(function (choice) {
           return choice.value === $dataElementValues;
         });

@@ -5,4 +5,5 @@ export class Choice {
     default: boolean;
     hint: string;
     reportText: string;
+    allowFreetext: boolean;
 }

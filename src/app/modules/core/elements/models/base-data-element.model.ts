@@ -22,6 +22,7 @@ export  class BaseDataElement {
   unit: string;
   sourceFilled: string;
   codableConcept: CodableConcept;
+  allowFreetext: Boolean = false;
 
   isRequiredOverrider: Boolean = true;
   displaySequenceOverrider: number;

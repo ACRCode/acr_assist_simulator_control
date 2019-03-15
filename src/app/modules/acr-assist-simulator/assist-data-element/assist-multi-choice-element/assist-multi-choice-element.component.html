@@ -31,8 +31,8 @@
           {{choice.label}}
         </label>
       </div>
-
-      <div class="checkbox checkboxCustomized">
+      
+      <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext == 'true'">
         <label>
           <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
             formControlName="multiCheckBox" [value]="'freetext'"

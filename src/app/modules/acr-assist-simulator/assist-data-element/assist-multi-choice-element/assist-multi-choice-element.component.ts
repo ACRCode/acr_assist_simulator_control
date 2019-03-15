@@ -14,7 +14,7 @@ import { Choice } from '../../../core/elements/models/choice.model';
   styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
 export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
-  @Input() multiChoiceElement;
+  @Input() multiChoiceElement : MultiChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnMultiChoice = new EventEmitter();
   multiElements: MultiChoiceElement[] = [];
@@ -109,7 +109,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   // }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event) {
-    debugger;
     if (event.target.checked) {
       this.showOrHideFreeText(elementId, selectedValue, true);
     } else {
@@ -122,7 +121,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateFreeText(element, elementId, selectedCondition) {
-    debugger;
     const selectedValue = (element.value === 'Other') ? 'freetext' : element.value;
     const selectedText = element.value;
     // this.updateMultiChoice(elementId, selectedCondition, selectedText, selectedValue);
@@ -142,7 +140,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
-    debugger;
     const multiElement = new MultiChoiceElement();
     if (event.currentTarget != undefined && event.currentTarget.checked) {
       if (value != '') {
