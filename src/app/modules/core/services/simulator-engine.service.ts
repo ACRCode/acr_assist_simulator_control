@@ -266,7 +266,7 @@ export class SimulatorEngineService {
         if (isArray(dataElementValue)) {
           let sum = 0;
           dataElementValue.forEach(val => {
-            if (!Number.isInteger(val)) {
+            if (isNaN(val)) {
               val = 0;
             }
             sum += +val;
@@ -274,38 +274,118 @@ export class SimulatorEngineService {
           dataElementValue = sum;
         }
 
+        if (dataElementValue == undefined) {
+          dataElementValue = 0;
+        }
+
         computedValue = computedValue.replace(replacingValue, dataElementValue);
-      }
+      
     }
+  }
 
     return expressionParser.evaluate(computedValue).toString();
   }
 
   private evaluateComputedExpressions() {
-    this.endOfRoadReached = false;
-    let expressionValue: any;
-    for (const element of this.template.dataElements) {
-      if (element.dataElementType === 'ComputedDataElement') {
-        expressionValue = undefined;
-        const computedElement: ComputedDataElement = element as ComputedDataElement;
-        for (const decisionPoint of computedElement.decisionPoints) {
-          this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
-          if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
-            decisionPoint.defaultBranch.computedValue) {
-            const expressionText = decisionPoint.defaultBranch.computedValue.expressionText;
-            if (this.IsExpressionReferedtoComputedDataElement(expressionText)) {
-              this.FindAndSetValueForComputedDataElement(expressionText, element.id);
-            } else {
-              this.dataElementValues[element.id] = expressionText;
-            }
+  this.endOfRoadReached = false;
+  let expressionValue: any;
+  for (const element of this.template.dataElements) {
+    if (element.dataElementType === 'ComputedDataElement') {
+      expressionValue = undefined;
+      const computedElement: ComputedDataElement = element as ComputedDataElement;
+      for (const decisionPoint of computedElement.decisionPoints) {
+        this.evaluateComputedElementDecisionPoint(element.id, decisionPoint, 1);
+        if (this.dataElementValues[element.id] === undefined && decisionPoint.defaultBranch &&
+          decisionPoint.defaultBranch.computedValue) {
+          const expressionText = decisionPoint.defaultBranch.computedValue.expressionText;
+          if (this.IsExpressionReferedtoComputedDataElement(expressionText)) {
+            this.FindAndSetValueForComputedDataElement(expressionText, element.id);
+          } else {
+            this.dataElementValues[element.id] = expressionText;
           }
-          this.endOfRoadReached = false;
         }
+        this.endOfRoadReached = false;
       }
     }
   }
+}
 
-  private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
+  private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array < string > {
+  if(dataelement.conditionalProperties !== undefined) {
+  let conditionMet = false;
+  let isCompositeCondition = false;
+  for (const conditionalProperty of dataelement.conditionalProperties) {
+    if (conditionalProperty.condition !== undefined) {
+      conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
+      isCompositeCondition = false;
+    } else if (conditionalProperty.compositeCondition !== undefined) {
+      conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+      isCompositeCondition = true;
+    }
+
+    if (conditionMet) {
+      if (nonRelevantDataElementIds === undefined) {
+        this.nonRelevantDataElementIds = new Array<string>();
+      }
+
+      if (conditionalProperty.isRelevant === 'false') {
+        this.nonRelevantDataElementIds.push(dataelement.id);
+      } else {
+        if (conditionalProperty.DisplaySequence !== undefined) {
+          dataelement.displaySequence = conditionalProperty.DisplaySequence;
+        }
+
+        dataelement.isRequired = conditionalProperty.isRequired !== undefined ?
+          (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
+          : true;
+
+        if (conditionalProperty.Minimum !== undefined && conditionalProperty.Minimum != null) {
+          dataelement.minimum = +conditionalProperty.Minimum;
+        }
+        if (conditionalProperty.Maximum !== undefined && conditionalProperty.Maximum != null) {
+          dataelement.maximum = +conditionalProperty.Maximum;
+        }
+
+        if (dataelement.dataElementType === 'ChoiceDataElement') {
+          (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+        }
+
+        if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+          (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+        }
+
+        if (dataelement.dataElementType === 'DurationDataElement') {
+          (dataelement as DurationDataElement).MinimumDay = +conditionalProperty.MinimumDay;
+          (dataelement as DurationDataElement).MaximumDay = +conditionalProperty.MaximumDay;
+          (dataelement as DurationDataElement).MinimumHours = +conditionalProperty.MinimumHours;
+          (dataelement as DurationDataElement).MaximumHours = +conditionalProperty.MaximumHours;
+          (dataelement as DurationDataElement).MinimumMinutes = +conditionalProperty.MinimumMinutes;
+          (dataelement as DurationDataElement).MaxmimumMinutes = +conditionalProperty.MaxmimumMinutes;
+          (dataelement as DurationDataElement).MinimumSeconds = +conditionalProperty.MinimumSeconds;
+          (dataelement as DurationDataElement).MaxmimumSeconds = +conditionalProperty.MaxmimumSeconds;
+        }
+      }
+
+      return this.nonRelevantDataElementIds;
+    } else {
+      if (dataelement.dataElementType === 'ChoiceDataElement') {
+        (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+      }
+      if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+        (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+      }
+    }
+  }
+} else {
+  // temp code
+  // if (this.nonRelevantDataElementIds.length === 0) {
+  //   dataelement.isRequired = true;
+  // }
+}
+  }
+
+  private isCondtionMet(): boolean {
+  for (const dataelement of this.template.dataElements) {
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
       let isCompositeCondition = false;
@@ -319,478 +399,403 @@ export class SimulatorEngineService {
         }
 
         if (conditionMet) {
-          if (nonRelevantDataElementIds === undefined) {
-            this.nonRelevantDataElementIds = new Array<string>();
-          }
-
-          if (conditionalProperty.isRelevant === 'false') {
-            this.nonRelevantDataElementIds.push(dataelement.id);
-          } else {
-            if (conditionalProperty.DisplaySequence !== undefined) {
-              dataelement.displaySequence = conditionalProperty.DisplaySequence;
-            }
-
-            dataelement.isRequired = conditionalProperty.isRequired !== undefined ?
-              (conditionalProperty.isRequired.toLowerCase() === 'true' ? true : false)
-              : true;
-
-            if (conditionalProperty.Minimum !== undefined && conditionalProperty.Minimum != null) {
-              dataelement.minimum = +conditionalProperty.Minimum;
-            }
-            if (conditionalProperty.Maximum !== undefined && conditionalProperty.Maximum != null) {
-              dataelement.maximum = +conditionalProperty.Maximum;
-            }
-
-            if (dataelement.dataElementType === 'ChoiceDataElement') {
-              (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
-            }
-
-            if (dataelement.dataElementType === 'MultiChoiceDataElement') {
-              (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
-            }
-
-            if (dataelement.dataElementType === 'DurationDataElement') {
-              (dataelement as DurationDataElement).MinimumDay = +conditionalProperty.MinimumDay;
-              (dataelement as DurationDataElement).MaximumDay = +conditionalProperty.MaximumDay;
-              (dataelement as DurationDataElement).MinimumHours = +conditionalProperty.MinimumHours;
-              (dataelement as DurationDataElement).MaximumHours = +conditionalProperty.MaximumHours;
-              (dataelement as DurationDataElement).MinimumMinutes = +conditionalProperty.MinimumMinutes;
-              (dataelement as DurationDataElement).MaxmimumMinutes = +conditionalProperty.MaxmimumMinutes;
-              (dataelement as DurationDataElement).MinimumSeconds = +conditionalProperty.MinimumSeconds;
-              (dataelement as DurationDataElement).MaxmimumSeconds = +conditionalProperty.MaxmimumSeconds;
-            }
-          }
-
-          return this.nonRelevantDataElementIds;
-        } else {
-          if (dataelement.dataElementType === 'ChoiceDataElement') {
-            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
-          }
-          if (dataelement.dataElementType === 'MultiChoiceDataElement') {
-            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
-          }
+          return true;
         }
-      }
-    } else {
-      // temp code
-      // if (this.nonRelevantDataElementIds.length === 0) {
-      //   dataelement.isRequired = true;
-      // }
-    }
-  }
 
-  private isCondtionMet(): boolean {
-    for (const dataelement of this.template.dataElements) {
-      if (dataelement.conditionalProperties !== undefined) {
-        let conditionMet = false;
-        let isCompositeCondition = false;
-        for (const conditionalProperty of dataelement.conditionalProperties) {
-          if (conditionalProperty.condition !== undefined) {
-            conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = false;
-          } else if (conditionalProperty.compositeCondition !== undefined) {
-            conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = true;
-          }
-
-          if (conditionMet) {
-            return true;
-          }
-
-          return false;
-        }
+        return false;
       }
     }
   }
+}
 
-  evaluateDecisionAndConditionalProperty(): Array<string> {
-    this.nonRelevantDataElementIds = new Array<string>();
-    this.RevertConditionValues();
-    for (const dataelement of this.template.dataElements) {
-      this.evaluateConditionalProperty(dataelement, new Array<string>());
-    }
+evaluateDecisionAndConditionalProperty(): Array < string > {
+  this.nonRelevantDataElementIds = new Array<string>();
+  this.RevertConditionValues();
+  for(const dataelement of this.template.dataElements) {
+  this.evaluateConditionalProperty(dataelement, new Array<string>());
+}
 
-    this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
-    NonRelevantPushPopService.SetNonRelevantDataElements(this.nonRelevantDataElementIds);
-    return this.nonRelevantDataElementIds;
+this.resetValuesOfNonRelevantDataElements(this.nonRelevantDataElementIds);
+NonRelevantPushPopService.SetNonRelevantDataElements(this.nonRelevantDataElementIds);
+return this.nonRelevantDataElementIds;
   }
 
   private RevertConditionValues() {
-    for (const dataelement of this.template.dataElements) {
-      dataelement.isRequired = dataelement.isRequiredOverrider;
-      dataelement.displaySequence = dataelement.displaySequenceOverrider;
-      if (dataelement.dataElementType === 'NumericDataElement') {
-        (dataelement as NumericDataElement).minimum = +(dataelement as NumericDataElement).minimumOverrider;
-        (dataelement as NumericDataElement).maximum = +(dataelement as NumericDataElement).maximumOverrider;
-      }
-      if (dataelement.dataElementType === 'IntegerDataElement') {
-        (dataelement as IntegerDataElement).minimum = +(dataelement as IntegerDataElement).minimumOverrider;
-        (dataelement as IntegerDataElement).maximum = +(dataelement as IntegerDataElement).maximumOverrider;
-      }
+  for (const dataelement of this.template.dataElements) {
+    dataelement.isRequired = dataelement.isRequiredOverrider;
+    dataelement.displaySequence = dataelement.displaySequenceOverrider;
+    if (dataelement.dataElementType === 'NumericDataElement') {
+      (dataelement as NumericDataElement).minimum = +(dataelement as NumericDataElement).minimumOverrider;
+      (dataelement as NumericDataElement).maximum = +(dataelement as NumericDataElement).maximumOverrider;
+    }
+    if (dataelement.dataElementType === 'IntegerDataElement') {
+      (dataelement as IntegerDataElement).minimum = +(dataelement as IntegerDataElement).minimumOverrider;
+      (dataelement as IntegerDataElement).maximum = +(dataelement as IntegerDataElement).maximumOverrider;
+    }
 
-      if (dataelement.dataElementType === 'DurationDataElement') {
-        (dataelement as DurationDataElement).MinimumDay = +(dataelement as DurationDataElement).MinimumDayOverrider;
-        (dataelement as DurationDataElement).MaximumDay = +(dataelement as DurationDataElement).MaximumDayOverrider;
-        (dataelement as DurationDataElement).MinimumHours = +(dataelement as DurationDataElement).MinimumHoursOverrider;
-        (dataelement as DurationDataElement).MaximumHours = +(dataelement as DurationDataElement).MaximumHoursOverrider;
-        (dataelement as DurationDataElement).MinimumMinutes = +(dataelement as DurationDataElement).MinimumMinutesOverrider;
-        (dataelement as DurationDataElement).MaxmimumMinutes = +(dataelement as DurationDataElement).MaxmimumMinutesOverrider;   
+    if (dataelement.dataElementType === 'DurationDataElement') {
+      (dataelement as DurationDataElement).MinimumDay = +(dataelement as DurationDataElement).MinimumDayOverrider;
+      (dataelement as DurationDataElement).MaximumDay = +(dataelement as DurationDataElement).MaximumDayOverrider;
+      (dataelement as DurationDataElement).MinimumHours = +(dataelement as DurationDataElement).MinimumHoursOverrider;
+      (dataelement as DurationDataElement).MaximumHours = +(dataelement as DurationDataElement).MaximumHoursOverrider;
+      (dataelement as DurationDataElement).MinimumMinutes = +(dataelement as DurationDataElement).MinimumMinutesOverrider;
+      (dataelement as DurationDataElement).MaxmimumMinutes = +(dataelement as DurationDataElement).MaxmimumMinutesOverrider;
 
-        (dataelement as DurationDataElement).MaxmimumSeconds = +(dataelement as DurationDataElement).MaxmimumSecondsOverrider;
-        (dataelement as DurationDataElement).MinimumSeconds = +(dataelement as DurationDataElement).MinimumSecondsOverrider;
-     
-      }
+      (dataelement as DurationDataElement).MaxmimumSeconds = +(dataelement as DurationDataElement).MaxmimumSecondsOverrider;
+      (dataelement as DurationDataElement).MinimumSeconds = +(dataelement as DurationDataElement).MinimumSecondsOverrider;
+
     }
   }
+}
 
   private GetRepeatableValue(repeatCount) {
-    const $dataElement = _.find(this.template.dataElements, { 'id': repeatCount }) as BaseDataElement;
-    return $dataElement !== undefined ? $dataElement.currentValue : 0;
-  }
+  const $dataElement = _.find(this.template.dataElements, { 'id': repeatCount }) as BaseDataElement;
+  return $dataElement !== undefined ? $dataElement.currentValue : 0;
+}
 
   private RemoveDynamicallyAddedComputedDataElementIds() {
-    this.ComputedDataElementIds = [];
-  }
+  this.ComputedDataElementIds = [];
+}
 
   private RemoveManuallyAddedBranches() {
-    for (const decisionPoint of this.template.rules.decisionPoints) {
-      _.remove(decisionPoint.branches, { isManuallyAdded: true });
-    }
+  for (const decisionPoint of this.template.rules.decisionPoints) {
+    _.remove(decisionPoint.branches, { isManuallyAdded: true });
   }
+}
 
   private RemoveManuallyAddedComputedDataElements() {
-    _.remove(this.template.dataElements, { isManuallyAdded: true });
-  }
+  _.remove(this.template.dataElements, { isManuallyAdded: true });
+}
 
   private RemoveManuallyAddedEndPoints() {
-    _.remove(this.template.endpoint.endpoints, { isManuallyAdded: true });
-  }
+  _.remove(this.template.endpoint.endpoints, { isManuallyAdded: true });
+}
 
   private RemoveManuallyAddedTemplatePartials() {
-    _.remove(this.template.endpoint.templatePartials, { isManuallyAdded: true });
-  }
+  _.remove(this.template.endpoint.templatePartials, { isManuallyAdded: true });
+}
 
   private ProcessRepetationDataElements() {
-    this.AddRepeatableBranchesInsideRule();
-    this.AddRepeatableComputedDataElement();
-    this.AddRepeatableEndpoints();
-    this.AddRepeatableTemplatePartials();
-  }
+  this.AddRepeatableBranchesInsideRule();
+  this.AddRepeatableComputedDataElement();
+  this.AddRepeatableEndpoints();
+  this.AddRepeatableTemplatePartials();
+}
 
   private AddRepeatableTemplatePartials() {
-    this.RemoveManuallyAddedTemplatePartials();
-    for (const templatePartialId of this.DynamicallyTemplatePartialIds) {
-      const templatePartialId_org = templatePartialId.split('_')[0];
-      const templatePartial_org = _.filter(this.template.endpoint.templatePartials, { id: templatePartialId_org })[0];
-      if (templatePartial_org !== undefined) {
-        const templatePartial_cloned = _.cloneDeep(templatePartial_org) as TemplatePartial;
-        templatePartial_cloned.id = templatePartialId;
-        templatePartial_cloned.isManuallyAdded = true;
-        let $conditions = [];
-        for (const _branch of templatePartial_cloned.branches) {
-          if (_branch.compositeCondition !== undefined) {
-            const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-            $conditions = [];
+  this.RemoveManuallyAddedTemplatePartials();
+  for (const templatePartialId of this.DynamicallyTemplatePartialIds) {
+    const templatePartialId_org = templatePartialId.split('_')[0];
+    const templatePartial_org = _.filter(this.template.endpoint.templatePartials, { id: templatePartialId_org })[0];
+    if (templatePartial_org !== undefined) {
+      const templatePartial_cloned = _.cloneDeep(templatePartial_org) as TemplatePartial;
+      templatePartial_cloned.id = templatePartialId;
+      templatePartial_cloned.isManuallyAdded = true;
+      let $conditions = [];
+      for (const _branch of templatePartial_cloned.branches) {
+        if (_branch.compositeCondition !== undefined) {
+          const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+          $conditions = [];
 
-            // for (let index = 0; index < _branch.compositeCondition.conditions.length; index++) {
-            //   if (_branch.compositeCondition.conditions[index].isManuallyAdded === undefined || _branch.compositeCondition.conditions[index].isManuallyAdded){
-            //     for (const _dataElement of dataElementIds) {
-            //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]);
-            //     }
-            //   }
-            // }
+          // for (let index = 0; index < _branch.compositeCondition.conditions.length; index++) {
+          //   if (_branch.compositeCondition.conditions[index].isManuallyAdded === undefined || _branch.compositeCondition.conditions[index].isManuallyAdded){
+          //     for (const _dataElement of dataElementIds) {
+          //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]);
+          //     }
+          //   }
+          // }
 
-            for (let _conditions of _branch.compositeCondition.conditions) {
-              if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
-                for (const _dataElement of dataElementIds) {
-                  _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
-                }
+          for (let _conditions of _branch.compositeCondition.conditions) {
+            if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
+              for (const _dataElement of dataElementIds) {
+                _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
               }
-
-              _conditions.isManuallyAdded = true;
-              $conditions.push(_conditions);
             }
 
-            _branch.compositeCondition.conditions = $conditions;
-            // _branch.compositeCondition.conditions.push($conditions);
+            _conditions.isManuallyAdded = true;
+            $conditions.push(_conditions);
           }
 
-          if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
-            _branch.condition.conditionType.dataElementId = _branch.condition.conditionType.dataElementId.split('_')[0]
-              + '_' + templatePartialId.split('_')[1];
-          }
-
-          for (const reportText of _branch.reportText) {
-            const $reportText = reportText.GetPropertyType();
-            if ($reportText instanceof InsertPartial) {
-              reportText.insertPartial.partialId = reportText.insertPartial.manupulateId(templatePartialId.split('_')[1]);
-            }
-
-            if ($reportText instanceof InsertValue) {
-              reportText.insertValue.dataElementId = reportText.insertValue.manupulateId(templatePartialId.split('_')[1]);
-            }
-          }
+          _branch.compositeCondition.conditions = $conditions;
+          // _branch.compositeCondition.conditions.push($conditions);
         }
 
-        this.template.endpoint.templatePartials.push(templatePartial_cloned);
+        if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
+          _branch.condition.conditionType.dataElementId = _branch.condition.conditionType.dataElementId.split('_')[0]
+            + '_' + templatePartialId.split('_')[1];
+        }
+
+        for (const reportText of _branch.reportText) {
+          const $reportText = reportText.GetPropertyType();
+          if ($reportText instanceof InsertPartial) {
+            reportText.insertPartial.partialId = reportText.insertPartial.manupulateId(templatePartialId.split('_')[1]);
+          }
+
+          if ($reportText instanceof InsertValue) {
+            reportText.insertValue.dataElementId = reportText.insertValue.manupulateId(templatePartialId.split('_')[1]);
+          }
+        }
       }
+
+      this.template.endpoint.templatePartials.push(templatePartial_cloned);
     }
   }
+}
 
   private AddRepeatableEndpoints() {
-    this.DynamicallyTemplatePartialIds = [];
-    this.RemoveManuallyAddedEndPoints();
-    let dynamicEndPoints = [];
-    for (const decisionPoint of this.template.rules.decisionPoints) {
-      dynamicEndPoints = _.filter(decisionPoint.branches, { isManuallyAdded: true });
-    }
+  this.DynamicallyTemplatePartialIds = [];
+  this.RemoveManuallyAddedEndPoints();
+  let dynamicEndPoints = [];
+  for (const decisionPoint of this.template.rules.decisionPoints) {
+    dynamicEndPoints = _.filter(decisionPoint.branches, { isManuallyAdded: true });
+  }
 
-    for (const dynamicEndpoint of dynamicEndPoints) {
-      const endpoint_org = _.filter(this.template.endpoint.endpoints, { id: dynamicEndpoint.endPointRef.endPointId.split('_')[0] })[0];
-      const endpoint_cloned = _.cloneDeep(endpoint_org) as EndpointItem;
-      endpoint_cloned.id = dynamicEndpoint.endPointRef.endPointId;
-      endpoint_cloned.isManuallyAdded = true;
+  for (const dynamicEndpoint of dynamicEndPoints) {
+    const endpoint_org = _.filter(this.template.endpoint.endpoints, { id: dynamicEndpoint.endPointRef.endPointId.split('_')[0] })[0];
+    const endpoint_cloned = _.cloneDeep(endpoint_org) as EndpointItem;
+    endpoint_cloned.id = dynamicEndpoint.endPointRef.endPointId;
+    endpoint_cloned.isManuallyAdded = true;
 
-      const dynamicId = dynamicEndpoint.endPointRef.endPointId.split('_')[1];
-      for (const reportSection of endpoint_cloned.reportSections) {
-        for (const _branch of reportSection.branch) {
+    const dynamicId = dynamicEndpoint.endPointRef.endPointId.split('_')[1];
+    for (const reportSection of endpoint_cloned.reportSections) {
+      for (const _branch of reportSection.branch) {
 
-          if (_branch.compositeCondition !== undefined) {
-            const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-            // _branch.compositeCondition.conditions = [];
-            for (let _conditions of _branch.compositeCondition.conditions) {
-              if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
-                for (const _dataElement of dataElementIds) {
-                  _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
-                }
+        if (_branch.compositeCondition !== undefined) {
+          const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+          // _branch.compositeCondition.conditions = [];
+          for (let _conditions of _branch.compositeCondition.conditions) {
+            if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
+              for (const _dataElement of dataElementIds) {
+                _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
               }
-
-              _conditions.isManuallyAdded = true;
-              _branch.compositeCondition.conditions.push(_conditions);
             }
+
+            _conditions.isManuallyAdded = true;
+            _branch.compositeCondition.conditions.push(_conditions);
+          }
+        }
+
+        if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
+          _branch.condition.conditionType.dataElementId = _branch.condition.conditionType.dataElementId.split('_')[0]
+            + '_' + dynamicId;
+        }
+
+        for (const reportText of _branch.reportText) {
+          const $reportText = reportText.GetPropertyType();
+          if ($reportText instanceof InsertPartial) {
+            reportText.insertPartial.partialId = reportText.insertPartial.manupulateId(dynamicId);
+            this.DynamicallyTemplatePartialIds.push(reportText.insertPartial.partialId);
           }
 
-          if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
-            _branch.condition.conditionType.dataElementId = _branch.condition.conditionType.dataElementId.split('_')[0]
-              + '_' + dynamicId;
-          }
-
-          for (const reportText of _branch.reportText) {
-            const $reportText = reportText.GetPropertyType();
-            if ($reportText instanceof InsertPartial) {
-              reportText.insertPartial.partialId = reportText.insertPartial.manupulateId(dynamicId);
-              this.DynamicallyTemplatePartialIds.push(reportText.insertPartial.partialId);
-            }
-
-            if ($reportText instanceof InsertValue) {
-              reportText.insertValue.dataElementId = reportText.insertValue.manupulateId(dynamicId);
-            }
+          if ($reportText instanceof InsertValue) {
+            reportText.insertValue.dataElementId = reportText.insertValue.manupulateId(dynamicId);
           }
         }
       }
-
-      this.template.endpoint.endpoints.push(endpoint_cloned);
     }
+
+    this.template.endpoint.endpoints.push(endpoint_cloned);
   }
+}
 
 
 
   private AddRepeatableComputedDataElement() {
-    this.RemoveManuallyAddedComputedDataElements();
+  this.RemoveManuallyAddedComputedDataElements();
 
-    for (const computedDataElementId of this.ComputedDataElementIds) {
-      const dataElementId_org = computedDataElementId.dataElementId_org;
-      const dataElementId_dynamic = computedDataElementId.dataElememntId_dynamic;
+  for (const computedDataElementId of this.ComputedDataElementIds) {
+    const dataElementId_org = computedDataElementId.dataElementId_org;
+    const dataElementId_dynamic = computedDataElementId.dataElememntId_dynamic;
 
-      if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
-        if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
-          const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
-          if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
-            const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
-            $computedDataElement_cloned.id = dataElementId_dynamic;
-            $computedDataElement_cloned.isManuallyAdded = true;
-            const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-            for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
-              $computedDataElement_cloned.decisionPoints[index].branches = [];
-              for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
-                for (const _dataElement of dataElementIds) {
-                  $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-                  $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-                }
-
-                $branchModified.isManuallyAdded = true;
-                $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+    if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
+      if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
+        const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
+        if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
+          const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
+          $computedDataElement_cloned.id = dataElementId_dynamic;
+          $computedDataElement_cloned.isManuallyAdded = true;
+          const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+          for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
+            $computedDataElement_cloned.decisionPoints[index].branches = [];
+            for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
+              for (const _dataElement of dataElementIds) {
+                $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
               }
-            }
 
-            this.template.dataElements.push($computedDataElement_cloned);
+              $branchModified.isManuallyAdded = true;
+              $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+            }
           }
+
+          this.template.dataElements.push($computedDataElement_cloned);
         }
       }
     }
-
-    // for (const decisionPoint of this.template.rules.decisionPoints) {
-    //   for (const branch of decisionPoint.branches) {
-    //     if (branch.isManuallyAdded) {
-    //       let dataElementId_org = '';
-    //       let dataElementId_dynamic = '';
-    //       if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
-    //         dataElementId_org = branch.condition.conditionType.dataElementId.split('_')[0];
-    //         dataElementId_dynamic = branch.condition.conditionType.dataElementId;
-    //       }
-
-    //       if (branch.condition === undefined && branch.compositeCondition !== undefined) {
-    //         for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
-    //           dataElementId_org = branch.compositeCondition.conditions[_index].conditionType.dataElementId.split('_')[0];
-    //           dataElementId_dynamic = branch.compositeCondition.conditions[_index].conditionType.dataElementId;
-    //         }
-    //       }
-
-    //       if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
-    //         if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
-    //           const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
-    //           if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
-    //             const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
-    //             $computedDataElement_cloned.id = dataElementId_dynamic;
-    //             $computedDataElement_cloned.isManuallyAdded = true;
-    //             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-    //             for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
-    //               $computedDataElement_cloned.decisionPoints[index].branches = [];
-    //               for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
-    //                 for (const _dataElement of dataElementIds) {
-    //                   $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-    //                   $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-    //                 }
-
-    //                 $branchModified.isManuallyAdded = true;
-    //                 $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
-    //               }
-    //             }
-
-    //             this.template.dataElements.push($computedDataElement_cloned);
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
   }
 
-  replaceTextExpression(prevVal, newVal, object) {
-    const newObject = _.clone(object);
-    _.each(object, (val, key) => {
-      if (val instanceof ArithmeticExpression) {
-        newObject[key].expressionText = newObject[key].expressionText.replace(prevVal, newVal);
-      }
-    });
+  // for (const decisionPoint of this.template.rules.decisionPoints) {
+  //   for (const branch of decisionPoint.branches) {
+  //     if (branch.isManuallyAdded) {
+  //       let dataElementId_org = '';
+  //       let dataElementId_dynamic = '';
+  //       if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
+  //         dataElementId_org = branch.condition.conditionType.dataElementId.split('_')[0];
+  //         dataElementId_dynamic = branch.condition.conditionType.dataElementId;
+  //       }
 
-    return newObject;
-  }
+  //       if (branch.condition === undefined && branch.compositeCondition !== undefined) {
+  //         for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
+  //           dataElementId_org = branch.compositeCondition.conditions[_index].conditionType.dataElementId.split('_')[0];
+  //           dataElementId_dynamic = branch.compositeCondition.conditions[_index].conditionType.dataElementId;
+  //         }
+  //       }
 
-  replacePropertyValue(prevVal, newVal, object) {
-    const newObject = _.clone(object);
-    _.each(object, (val, key) => {
-      if (val === prevVal) {
-        newObject[key] = newVal;
-      } else if (typeof (val) === 'object' || val instanceof Array) {
-        newObject[key] = this.replacePropertyValue(prevVal, newVal, val);
-      }
-    });
+  //       if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
+  //         if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
+  //           const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
+  //           if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
+  //             const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
+  //             $computedDataElement_cloned.id = dataElementId_dynamic;
+  //             $computedDataElement_cloned.isManuallyAdded = true;
+  //             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+  //             for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
+  //               $computedDataElement_cloned.decisionPoints[index].branches = [];
+  //               for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
+  //                 for (const _dataElement of dataElementIds) {
+  //                   $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+  //                   $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+  //                 }
 
-    return newObject;
-  }
+  //                 $branchModified.isManuallyAdded = true;
+  //                 $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
+  //               }
+  //             }
+
+  //             this.template.dataElements.push($computedDataElement_cloned);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+replaceTextExpression(prevVal, newVal, object) {
+  const newObject = _.clone(object);
+  _.each(object, (val, key) => {
+    if (val instanceof ArithmeticExpression) {
+      newObject[key].expressionText = newObject[key].expressionText.replace(prevVal, newVal);
+    }
+  });
+
+  return newObject;
+}
+
+replacePropertyValue(prevVal, newVal, object) {
+  const newObject = _.clone(object);
+  _.each(object, (val, key) => {
+    if (val === prevVal) {
+      newObject[key] = newVal;
+    } else if (typeof (val) === 'object' || val instanceof Array) {
+      newObject[key] = this.replacePropertyValue(prevVal, newVal, val);
+    }
+  });
+
+  return newObject;
+}
 
   private AddRepeatableBranchesInsideRule() {
-    this.RemoveManuallyAddedBranches();
-    this.RemoveDynamicallyAddedComputedDataElementIds();
-    for (const decisionPoint of this.template.rules.decisionPoints) {
-      for (const branch of decisionPoint.branches) {
-        if (branch.endPointRef !== undefined && branch.endPointRef.isRepeatable && (branch.isManuallyAdded === undefined || !branch.isManuallyAdded)) {
-          const $currentValue = +this.GetRepeatableValue(branch.endPointRef.repeatCount);
-          if ($currentValue !== undefined && $currentValue > 0) {
-            for (let index = 0; index < $currentValue; index++) {
-              const $repeatGroupName = branch.endPointRef.repeatGroup;
-              const $branch = _.cloneDeep(branch);
-              $branch.isManuallyAdded = true;
-              if ($branch.endPointRef !== undefined) {
-                $branch.endPointRef.isRepeatable = false;
-                $branch.endPointRef.endPointId = branch.endPointRef.endPointId.split('_')[0]
-                  + '_' + $repeatGroupName + (index + 1);
-              }
-
-              if ($branch.compositeCondition !== undefined) {
-                const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-                $branch.compositeCondition.conditions = [];
-                for (let _conditions of branch.compositeCondition.conditions) {
-                  for (const _dataElement of dataElementIds) {
-                    _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1), _conditions);
-                    this.CheckIfDataElementisComputedDataElement(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1));
-                  }
-
-                  $branch.compositeCondition.conditions.push(_conditions);
-                }
-              }
-
-              if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
-                $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]
-                  + '_' + $repeatGroupName + (index + 1);
-              }
-
-              decisionPoint.branches.push($branch);
+  this.RemoveManuallyAddedBranches();
+  this.RemoveDynamicallyAddedComputedDataElementIds();
+  for (const decisionPoint of this.template.rules.decisionPoints) {
+    for (const branch of decisionPoint.branches) {
+      if (branch.endPointRef !== undefined && branch.endPointRef.isRepeatable && (branch.isManuallyAdded === undefined || !branch.isManuallyAdded)) {
+        const $currentValue = +this.GetRepeatableValue(branch.endPointRef.repeatCount);
+        if ($currentValue !== undefined && $currentValue > 0) {
+          for (let index = 0; index < $currentValue; index++) {
+            const $repeatGroupName = branch.endPointRef.repeatGroup;
+            const $branch = _.cloneDeep(branch);
+            $branch.isManuallyAdded = true;
+            if ($branch.endPointRef !== undefined) {
+              $branch.endPointRef.isRepeatable = false;
+              $branch.endPointRef.endPointId = branch.endPointRef.endPointId.split('_')[0]
+                + '_' + $repeatGroupName + (index + 1);
             }
+
+            if ($branch.compositeCondition !== undefined) {
+              const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
+              $branch.compositeCondition.conditions = [];
+              for (let _conditions of branch.compositeCondition.conditions) {
+                for (const _dataElement of dataElementIds) {
+                  _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1), _conditions);
+                  this.CheckIfDataElementisComputedDataElement(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1));
+                }
+
+                $branch.compositeCondition.conditions.push(_conditions);
+              }
+            }
+
+            if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
+              $branch.condition.conditionType.dataElementId = branch.condition.conditionType.dataElementId.split('_')[0]
+                + '_' + $repeatGroupName + (index + 1);
+            }
+
+            decisionPoint.branches.push($branch);
           }
         }
       }
     }
   }
+}
 
   private CheckIfDataElementisComputedDataElement(dataElementId_org, dataElementId_dynamic) {
-    const $computedDataElement = new ComputedDataElementId();
-    const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as BaseDataElement;
-    if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
-      $computedDataElement.dataElememntId_dynamic = dataElementId_dynamic;
-      $computedDataElement.dataElementId_org = dataElementId_org;
-      this.ComputedDataElementIds.push(Object.assign({}, $computedDataElement));
-    }
+  const $computedDataElement = new ComputedDataElementId();
+  const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as BaseDataElement;
+  if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
+    $computedDataElement.dataElememntId_dynamic = dataElementId_dynamic;
+    $computedDataElement.dataElementId_org = dataElementId_org;
+    this.ComputedDataElementIds.push(Object.assign({}, $computedDataElement));
   }
+}
 
   public evaluateDecisionPoints() {
-    if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
-      this.showKeyDiagram = undefined;
-      this.evaluateDecisionAndConditionalProperty();
-      this.ProcessRepetationDataElements();
-      this.evaluateComputedExpressions();
-      this.endOfRoadReached = false;
-      this.branchCounter++;
-      this.ruleEvaluationResult = [];
-      this.endpoints = [];
+  if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
+    this.showKeyDiagram = undefined;
+    this.evaluateDecisionAndConditionalProperty();
+    this.ProcessRepetationDataElements();
+    this.evaluateComputedExpressions();
+    this.endOfRoadReached = false;
+    this.branchCounter++;
+    this.ruleEvaluationResult = [];
+    this.endpoints = [];
 
-      for (const decisionPoint of this.template.rules.decisionPoints) {
-        this.evaluateDecisionPoint(decisionPoint, 1);
+    for (const decisionPoint of this.template.rules.decisionPoints) {
+      this.evaluateDecisionPoint(decisionPoint, 1);
+    }
+
+    const $simulatorState = new SimulatorState();
+    if (this.ruleEvaluationResult.length > 0) {
+      $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
+      for (const _ruleresult of this.ruleEvaluationResult) {
+        $simulatorState.ruleEvaluationResults.push(_ruleresult);
       }
 
-      const $simulatorState = new SimulatorState();
-      if (this.ruleEvaluationResult.length > 0) {
-        $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
-        for (const _ruleresult of this.ruleEvaluationResult) {
-          $simulatorState.ruleEvaluationResults.push(_ruleresult);
-        }
-
-        for (const _endpoint of this.endpoints) {
-          $simulatorState.endPointIds.push(_endpoint);
-        }
+      for (const _endpoint of this.endpoints) {
+        $simulatorState.endPointIds.push(_endpoint);
       }
-
-      $simulatorState.showKeyDiagram = this.showKeyDiagram;
-      $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
-      this.simulatorStateChanged.next($simulatorState);
     }
-  }
 
-  initialize(template: Template) {
-    this.template = template;
-    for (const dataElement of this.template.dataElements) {
-      this.dataElementValues[dataElement.id] = dataElement.currentValue;
-    }
+    $simulatorState.showKeyDiagram = this.showKeyDiagram;
+    $simulatorState.nonRelevantDataElementIds = this.nonRelevantDataElementIds;
+    this.simulatorStateChanged.next($simulatorState);
   }
+}
+
+initialize(template: Template) {
+  this.template = template;
+  for (const dataElement of this.template.dataElements) {
+    this.dataElementValues[dataElement.id] = dataElement.currentValue;
+  }
+}
 }
