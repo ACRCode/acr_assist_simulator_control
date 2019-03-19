@@ -129,7 +129,7 @@
     		</ConditionalProperties>
     	</DateTimeDataElement>
     			      
-	 	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" ShowDays="false" ShowHours="true" ShowMinutes="false" ShowSeconds="false">
+	 	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" ShowDays="true" ShowHours="true" ShowMinutes="true" ShowSeconds="true">
     		<Label>Admitted Duration</Label>
     		<Hint>Patient's admitted duration</Hint>
     		<Diagrams>
