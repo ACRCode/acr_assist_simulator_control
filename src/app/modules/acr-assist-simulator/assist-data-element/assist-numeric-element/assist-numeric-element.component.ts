@@ -15,6 +15,7 @@ import { ResetCommunicationService } from '../../shared/services/reset-communica
   styleUrls: ['./assist-numeric-element.component.css', '../../styles.css']
 })
 export class AssistNumericElementComponent implements OnInit, AfterViewInit {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   subscription: Subscription;
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;

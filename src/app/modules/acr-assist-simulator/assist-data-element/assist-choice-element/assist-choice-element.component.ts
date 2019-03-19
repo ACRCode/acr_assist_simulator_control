@@ -13,6 +13,7 @@ const $ = require('jquery');
   styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() imagePath: string;

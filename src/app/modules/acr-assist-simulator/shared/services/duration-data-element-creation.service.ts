@@ -23,6 +23,11 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         const dataElement = new DurationDataElement();
         super.populateBasicData(data, dataElement);
 
+        dataElement.ShowDays = data.Attr != undefined && data.Attr != null ? (data.Attr.ShowDays == undefined ? true : (data.Attr.ShowDays == 'true' ? true : false)) : false;
+        dataElement.ShowHours = data.Attr != undefined && data.Attr != null ? (data.Attr.ShowHours == undefined ? true : (data.Attr.ShowHours == 'true' ? true : false)) : false;
+        dataElement.ShowMinutes = data.Attr != undefined && data.Attr != null ? (data.Attr.ShowMinutes == undefined ? true : (data.Attr.ShowMinutes == 'true' ? true : false)) : false;
+        dataElement.ShowSeconds = data.Attr != undefined && data.Attr != null ? (data.Attr.ShowSeconds == undefined ? true : (data.Attr.ShowSeconds == 'true' ? true : false)) : false;
+
         dataElement.MinimumDay = data.MinimumDay;
         dataElement.MaximumDay = data.MaximumDay;
 
@@ -32,6 +37,8 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         dataElement.MinimumMinutes = data.MinimumMinutes;
         dataElement.MaxmimumMinutes = data.MaxmimumMinutes;
 
+        dataElement.MinimumSeconds = dataElement.MinimumSeconds;
+        dataElement.MaxmimumSeconds = dataElement.MaxmimumSeconds;
 
         dataElement.MinimumDayOverrider = data.MinimumDay;
         dataElement.MaximumDayOverrider = data.MaximumDay;
@@ -41,6 +48,9 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
 
         dataElement.MinimumMinutesOverrider = data.MinimumMinutes;
         dataElement.MaxmimumMinutesOverrider = data.MaxmimumMinutes;
+
+        dataElement.MinimumSecondsOverrider = data.MinimumMinutes;
+        dataElement.MaxmimumSecondsOverrider = data.MaxmimumMinutes;      
 
         const ConditionalProperties = data.ConditionalProperties;
         if (ConditionalProperties !== undefined) {
@@ -79,6 +89,10 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         _conditionalProperty.MaximumHours = conditionalProperty.MaximumHours;
         _conditionalProperty.MaxmimumMinutes = conditionalProperty.MaximumHours;
         _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumHours;
+        _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumHours;
+
+        _conditionalProperty.MinimumSeconds = conditionalProperty.MinimumSeconds;
+        _conditionalProperty.MaxmimumSeconds = conditionalProperty.MaxmimumSeconds;
         return _conditionalProperty;
       }
 }

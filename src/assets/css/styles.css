@@ -6,6 +6,20 @@ body {
   overflow-y: auto;
 }
 
+.form-horizontal .control-label {
+  padding-left: 0px !important;
+}
+
+.div_radiobutton{
+  padding-left: 15px !important;
+}
+
+.paddingLeftNone {
+  padding-left: 0px !important;
+}
+
+.labelparentdiv { padding-left: 0px !important; }
+
 .spantest{
   margin-left: 30px;
 }

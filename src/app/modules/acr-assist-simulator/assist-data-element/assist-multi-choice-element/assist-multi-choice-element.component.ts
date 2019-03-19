@@ -14,6 +14,7 @@ import { Choice } from '../../../core/elements/models/choice.model';
   styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
 export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() multiChoiceElement : MultiChoiceDataElement;
   @Input() imagePath: string;
   @Output() returnMultiChoice = new EventEmitter();

@@ -356,6 +356,8 @@ export class SimulatorEngineService {
               (dataelement as DurationDataElement).MaximumHours = +conditionalProperty.MaximumHours;
               (dataelement as DurationDataElement).MinimumMinutes = +conditionalProperty.MinimumMinutes;
               (dataelement as DurationDataElement).MaxmimumMinutes = +conditionalProperty.MaxmimumMinutes;
+              (dataelement as DurationDataElement).MinimumSeconds = +conditionalProperty.MinimumSeconds;
+              (dataelement as DurationDataElement).MaxmimumSeconds = +conditionalProperty.MaxmimumSeconds;
             }
           }
 
@@ -432,7 +434,11 @@ export class SimulatorEngineService {
         (dataelement as DurationDataElement).MinimumHours = +(dataelement as DurationDataElement).MinimumHoursOverrider;
         (dataelement as DurationDataElement).MaximumHours = +(dataelement as DurationDataElement).MaximumHoursOverrider;
         (dataelement as DurationDataElement).MinimumMinutes = +(dataelement as DurationDataElement).MinimumMinutesOverrider;
-        (dataelement as DurationDataElement).MaxmimumMinutes = +(dataelement as DurationDataElement).MaxmimumMinutesOverrider;
+        (dataelement as DurationDataElement).MaxmimumMinutes = +(dataelement as DurationDataElement).MaxmimumMinutesOverrider;   
+
+        (dataelement as DurationDataElement).MaxmimumSeconds = +(dataelement as DurationDataElement).MaxmimumSecondsOverrider;
+        (dataelement as DurationDataElement).MinimumSeconds = +(dataelement as DurationDataElement).MinimumSecondsOverrider;
+     
       }
     }
   }

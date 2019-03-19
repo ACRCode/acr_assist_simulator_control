@@ -7,6 +7,8 @@ export class DurationDataElement extends BaseDataElement {
     MaximumHours: number;
     MinimumMinutes: number;
     MaxmimumMinutes: number;
+    MinimumSeconds: number;
+    MaxmimumSeconds: number;
 
     MinimumDayOverrider: number;
     MaximumDayOverrider: number;
@@ -14,4 +16,12 @@ export class DurationDataElement extends BaseDataElement {
     MaximumHoursOverrider: number;
     MinimumMinutesOverrider: number;
     MaxmimumMinutesOverrider: number;
+
+    MinimumSecondsOverrider: number;
+    MaxmimumSecondsOverrider: number;
+
+    ShowDays: boolean;
+    ShowHours: boolean;
+    ShowMinutes: boolean;
+    ShowSeconds: boolean;
 }

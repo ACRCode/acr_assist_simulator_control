@@ -20,6 +20,7 @@ declare var resizeKeyImages: any;
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
 export class AcrAssistSimulatorComponent implements OnChanges {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
   @Input() imagePath: string;
@@ -50,7 +51,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     private simulatorEngineService: SimulatorEngineService) {
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     if (this.resetValuesNotifier != null) {
       this.resetValuesNotifier.subscribe((event) => {
         this.resetElements();

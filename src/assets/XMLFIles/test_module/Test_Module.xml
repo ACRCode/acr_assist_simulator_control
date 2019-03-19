@@ -11,7 +11,6 @@
     	<ApprovedBy>Sujth</ApprovedBy>
     	<ReviewedBy>Tony</ReviewedBy>
     	<DevelopedBy>Deepak</DevelopedBy>
-		<RadElementSetID>5689</RadElementSetID>
         <Info>
             <Description>This is a sample xml for ACR Assist based on LI-RADS (characterizing liver lesion for MRI)</Description>
             <References>          
@@ -105,18 +104,12 @@
     		</Diagrams>
     		
     		<VoiceCommand>Consultation Date</VoiceCommand>
-			<MinimumDate>2018-11-28</MinimumDate>
-			<MaximumDate>2018-12-20</MaximumDate>
     		<ConditionalProperties>
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
     				<IsRelevant>false</IsRelevant>    
     				<IsRequired>false</IsRequired>
-    				<DisplaySequence>2</DisplaySequence>				
-    				<ChoiceNotRelevant ChoiceValue="hypoEnhancing"></ChoiceNotRelevant>
-    				<ChoiceNotRelevant ChoiceValue="isoEnhancing"></ChoiceNotRelevant>  
-					<MinimumDate>2018-11-25</MinimumDate>
-					<MaximumDate>2018-12-21</MaximumDate>					
+    				<DisplaySequence>2</DisplaySequence>
     			</ConditionalProperty>    			
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
@@ -136,7 +129,7 @@
     		</ConditionalProperties>
     	</DateTimeDataElement>
     			      
-    	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" >
+	 	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false">
     		<Label>Admitted Duration</Label>
     		<Hint>Patient's admitted duration</Hint>
     		<Diagrams>
@@ -173,6 +166,8 @@
 			<MaximumHours>5</MaximumHours>			
 			<MinimumMinutes>1</MinimumMinutes>			
 			<MaxmimumMinutes>5</MaxmimumMinutes>	
+    		<MinimumSeconds>1</MinimumSeconds>	
+    		<MaximimumSeconds>1</MaximimumSeconds>	
     		<ConditionalProperties>
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
@@ -184,7 +179,9 @@
 					<MinimumHours>5</MinimumHours>			
 					<MaximumHours>10</MaximumHours>			
 					<MinimumMinutes>5</MinimumMinutes>			
-					<MaxmimumMinutes>10</MaxmimumMinutes>			
+					<MaxmimumMinutes>10</MaxmimumMinutes>
+    				<MinimumSeconds>5</MinimumSeconds>	
+    				<MaximimumSeconds>10</MaximimumSeconds>	
     			</ConditionalProperty>    			
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
@@ -204,7 +201,7 @@
     		</ConditionalProperties>    		
     	</TimeSpanDataElement>
 		      
-    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" CdeId="RDE65" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true" SourceFilled="temp">        	
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -284,7 +281,7 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" CdeId="RDE86" DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true"  DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
@@ -357,7 +354,7 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<NumericDataElement Id="diameter" IsRequired="true" CdeId="RDE81" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="true" Unit="mm">
+    	<NumericDataElement Id="diameter" IsRequired="true" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="true" Unit="mm">
     		<Label>Diameter </Label>    		
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
@@ -411,7 +408,7 @@
 			</ConditionalProperties>	
     	</NumericDataElement>
         
-    	<ChoiceDataElement Id="washout" IsRequired="true" CdeId="RDE85" DisplaySequence="4" Editable="false" Hasprefilled="true" Output="false">
+    	<ChoiceDataElement Id="washout" IsRequired="true" DisplaySequence="4" Editable="false" Hasprefilled="true" Output="false">
             <Label>Washout</Label>
     		<Hint>Visually assessed temporal reduction in enhancement relative to liver from an earlier to a later phase resulting in portal venous phase hypoenhancement or delayed phase hypoenhancement.</Hint>
             <ChoiceInfo>
@@ -452,7 +449,7 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
 		       
-    	<ChoiceDataElement Id="capsule" IsRequired="true" CdeId="RDE83" DisplaySequence="5" Unit="mm">
+    	<ChoiceDataElement Id="capsule" IsRequired="true" DisplaySequence="5" Unit="mm">
             <Label>Capsule</Label>
     		<Hint>Peripheral rim of smooth hyper-enhancement in the portal venous phase or delayed phase that unequivocally is thicker or more conspicuous than the rims surrounding background nodule.</Hint>
             <ChoiceInfo>
@@ -488,7 +485,7 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" CdeId="RDE84" DisplaySequence="6">
+    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" DisplaySequence="6">
             <Label>Threshold Growth</Label>
     		<Hint>Increase in diameter of a mass compared to its baseline by a minimum of 5 mm AND depending on the time interval between examinations, by the following amounts: less than or equal to 6 months: >50% diameter increase greater than 6 months: >100% diameter increase
     		</Hint>

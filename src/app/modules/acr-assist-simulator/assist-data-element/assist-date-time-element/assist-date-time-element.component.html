@@ -1,6 +1,7 @@
 <form [formGroup]="dateTimeElementForm" novalidate *ngIf="dateTimeDataElement.isVisible">
-  <div class="form-group">
-    <div class="col-sm-5 text-right">
+  <!---Right to left layout------>
+  <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom">
+    <div class="col-sm-4 text-right">
       <label class="control-label break-word">
         {{dateTimeDataElement.label}}
         <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
@@ -11,24 +12,47 @@
       </ng-container>
       <ng-container *ngIf="this.dateTimeDataElement.isRequired">
         <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
-          <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field" title="Required Field">
+          <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
+            title="Required Field">
             *
           </span>
         </span>
       </ng-container>
     </div>
-    <div class="col-sm-7">
+    <div class="col-sm-8">
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
-        <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1" (dateTimeChange)="onDateTimeSelected()"
-          [owlDateTimeTrigger]="dt1">
+        <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
+          (dateTimeChange)="onDateTimeSelected()" [owlDateTimeTrigger]="dt1">
         <owl-date-time #dt1></owl-date-time>
       </div>
-      <!--         
-      <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
-          <angular2-date-picker  formControlName="dateTimeElement" [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
-      </div>      -->
-      <!-- <angular2-date-picker id="{{dateTimeDataElement.id}}" formControlName="dateTimeElement" (onDateSelect)="onDateTimeSelected()" [(ngModel)]="date" [settings]="settings"></angular2-date-picker> -->
     </div>
   </div>
-  <!-- </div> -->
+
+
+  <!--------Top to bottom layout------>
+  <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom">
+    <div class="col-lg-12">
+      <label class="control-label break-word">
+        {{dateTimeDataElement.label}}
+        <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
+          ({{dateTimeDataElement.unit}})</span>
+      </label>
+      <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
+        <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
+      </ng-container>
+      <ng-container *ngIf="this.dateTimeDataElement.isRequired">
+        <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
+          <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
+            title="Required Field">
+            *
+          </span>
+        </span>
+      </ng-container>
+      <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
+        <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
+          (dateTimeChange)="onDateTimeSelected()" [owlDateTimeTrigger]="dt1">
+        <owl-date-time #dt1></owl-date-time>
+      </div>
+    </div>
+  </div>
 </form>

@@ -30,6 +30,7 @@ const $ = require('jquery');
 
 export class AssistDataElementComponent implements OnInit, OnChanges {
   subscription: Subscription;
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
   @Input() $dataElements: BaseDataElement[];
   @Input() imagePath: string;

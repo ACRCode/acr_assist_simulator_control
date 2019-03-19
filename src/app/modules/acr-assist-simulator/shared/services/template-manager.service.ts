@@ -166,7 +166,6 @@ export class TemplateManagerService {
   }
 
   private getDataElements(dataElementsJSON: any): BaseDataElement[] {
-    debugger;
     let dataElements = new Array<BaseDataElement>();
     dataElements = dataElements.concat(this.returnDataElement('ChoiceDataElement', dataElementsJSON.ChoiceDataElement));
     dataElements = dataElements.concat(this.returnDataElement('MultiChoiceDataElement', dataElementsJSON.MultiChoiceDataElement));

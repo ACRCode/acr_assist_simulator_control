@@ -11,6 +11,7 @@ import { DateTimeElement } from '../assist-data-element.component';
   styleUrls: ['./assist-date-time-element.component.css']
 })
 export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dateTimeDataElement: DateTimeDataElement;
   @Output() returnDateTimeElement = new EventEmitter();
   selectedCondition: SelectedCondition;
