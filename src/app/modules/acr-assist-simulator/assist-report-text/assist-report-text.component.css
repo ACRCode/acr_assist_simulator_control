@@ -5,3 +5,7 @@
   .spantest{
     margin-left: 10px;
   }
+
+  .text-capitalize {
+    font-weight: bold !important;
+  }
