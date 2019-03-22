@@ -35,10 +35,13 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         dataElement.MaximumHours = data.MaximumHours;
 
         dataElement.MinimumMinutes = data.MinimumMinutes;
-        dataElement.MaxmimumMinutes = data.MaxmimumMinutes;
+        dataElement.MaxmimumMinutes = data.MaximumMinutes;
 
-        dataElement.MinimumSeconds = dataElement.MinimumSeconds;
-        dataElement.MaxmimumSeconds = dataElement.MaxmimumSeconds;
+        dataElement.MinimumSeconds = data.MinimumSeconds;
+        dataElement.MaxmimumSeconds = data.MaximumSeconds;
+
+        // dataElement.MinimumSeconds = data.MinimumSeconds;
+        // dataElement.MaxmimumSeconds = data.MaximumSeconds;
 
         dataElement.MinimumDayOverrider = data.MinimumDay;
         dataElement.MaximumDayOverrider = data.MaximumDay;
@@ -47,10 +50,10 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         dataElement.MaximumHoursOverrider = data.MaximumHours;
 
         dataElement.MinimumMinutesOverrider = data.MinimumMinutes;
-        dataElement.MaxmimumMinutesOverrider = data.MaxmimumMinutes;
+        dataElement.MaxmimumMinutesOverrider = data.MaximumMinutes;
 
-        dataElement.MinimumSecondsOverrider = data.MinimumMinutes;
-        dataElement.MaxmimumSecondsOverrider = data.MaxmimumMinutes;      
+        dataElement.MinimumSecondsOverrider = data.MinimumSeconds;
+        dataElement.MaxmimumSecondsOverrider = data.MaximumSeconds;      
 
         const ConditionalProperties = data.ConditionalProperties;
         if (ConditionalProperties !== undefined) {
@@ -87,12 +90,12 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         _conditionalProperty.MaximumDay = conditionalProperty.MaximumDay;
         _conditionalProperty.MinimumHours = conditionalProperty.MinimumHours;
         _conditionalProperty.MaximumHours = conditionalProperty.MaximumHours;
-        _conditionalProperty.MaxmimumMinutes = conditionalProperty.MaximumHours;
-        _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumHours;
+        _conditionalProperty.MaxmimumMinutes = conditionalProperty.MaximumMinutes;
+        _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumMinutes;
         _conditionalProperty.MinimumMinutes = conditionalProperty.MinimumHours;
 
         _conditionalProperty.MinimumSeconds = conditionalProperty.MinimumSeconds;
-        _conditionalProperty.MaxmimumSeconds = conditionalProperty.MaxmimumSeconds;
+        _conditionalProperty.MaxmimumSeconds = conditionalProperty.MaximumSeconds;
         return _conditionalProperty;
       }
 }

@@ -69,6 +69,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     if(this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
       $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 1);
     }
+
+     if(this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
+      $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 2);
+    }
   }
 
   setChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {

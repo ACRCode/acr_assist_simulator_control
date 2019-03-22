@@ -198,7 +198,45 @@ export class AssistDurationElementComponent implements OnInit {
         durationsecondselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
       });
-    } else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+    } else if (!this.durationDataElement.ShowDays && !this.durationDataElement.ShowHours
+      && this.durationDataElement.ShowMinutes
+      && this.durationDataElement.ShowSeconds) {
+      this.durationElementForm = this.formBuilder.group({      
+        durationminuteselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],      
+        durationsecondselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
+      });
+    } else if (this.durationDataElement.ShowDays && !this.durationDataElement.ShowHours
+      && !this.durationDataElement.ShowMinutes
+      && this.durationDataElement.ShowSeconds) {
+      this.durationElementForm = this.formBuilder.group({
+        durationdayselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],       
+        durationsecondselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
+      });
+    } else if (this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+      && !this.durationDataElement.ShowMinutes
+      && !this.durationDataElement.ShowSeconds) {
+      this.durationElementForm = this.formBuilder.group({
+        durationdayselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],       
+        durationhourselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]     
+      });
+    }
+   else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+      && this.durationDataElement.ShowMinutes
+      && !this.durationDataElement.ShowSeconds) {
+      this.durationElementForm = this.formBuilder.group({       
+        durationminuteselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],
+        durationhourselement: ['', Validators.compose([Validators.required,
+        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]       
+      });
+    }
+    else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && this.durationDataElement.ShowSeconds) {
       this.durationElementForm = this.formBuilder.group({

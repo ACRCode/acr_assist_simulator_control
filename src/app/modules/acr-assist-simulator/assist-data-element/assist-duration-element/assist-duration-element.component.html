@@ -202,7 +202,7 @@
 
       <div style="display:inline-flex" class="col-lg-12 paddingLeftNone">
         <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
-          <table *ngIf="durationDataElement.ShowDays">
+          <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowDays">
             <tbody>
               <tr class="text-center">
                 <td class="input-group input-group-sm">
@@ -218,7 +218,7 @@
           </table>
         </div>
 
-        <table style="margin-left:10px;"  *ngIf="durationDataElement.ShowHours">
+        <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowHours">
           <tbody>
             <tr class="text-center">
               <td class="input-group input-group-sm">
@@ -233,7 +233,7 @@
           </tbody>
         </table>
 
-        <table style="margin-left:10px;" *ngIf="durationDataElement.ShowMinutes">
+        <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowMinutes">
           <tbody>
             <tr class="text-center">
               <td class="input-group input-group-sm">
@@ -248,7 +248,7 @@
           </tbody>
         </table>
 
-        <table style="margin-left:10px;" *ngIf="durationDataElement.ShowSeconds">
+        <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowSeconds">
           <tbody>
             <tr class="text-center">
               <td class="input-group input-group-sm">
