@@ -110,7 +110,7 @@
             choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
             || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
             choice.value === choiceDataElement.currentValue ? true : false
-            : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+            : choice.value === choiceDataElement.currentValue ? true : false" title="{{choice.label}}">{{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
           </option>
@@ -315,7 +315,7 @@
               choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
               || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
               choice.value === choiceDataElement.currentValue ? true : false
-              : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+              : choice.value === choiceDataElement.currentValue ? true : false"  title="{{choice.label}}">{{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
           </option>
