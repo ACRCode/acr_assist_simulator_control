@@ -111,7 +111,7 @@
           </div>
           
           <div id="body_keydiagram" class="box-body">
-            <div id="carousel-example-generic" style="min-height: 300px"  class="carousel slide scroll" data-interval="false" data-ride="carousel">
+            <div id="carousel-example-generic" [style.min-height]="keyDiagrams != undefined && keyDiagrams.length > 0 ? '300px' : '0px'" class="carousel slide scroll" data-interval="false" data-ride="carousel">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                   <div class="item zoom" [ngClass]="{'active': diagram.keyDiagram}">
