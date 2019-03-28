@@ -26,7 +26,7 @@
         <label [hidden]="multiChoiceElement.ChoiceNotRelevant != undefined ? 
         multiChoiceElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
         : null">
-          <input type="checkbox" class="multiselectItems" id="{{multiChoiceElement.id}}_{{choice.value}}"
+          <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}" id="{{multiChoiceElement.id}}_{{choice.value}}"
             [checked]="false" formControlName="multiCheckBox" value="{{choice.value}}"
             (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
           {{choice.label}}
@@ -74,7 +74,7 @@
         <label [hidden]="multiChoiceElement.ChoiceNotRelevant != undefined ? 
           multiChoiceElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
           : null">
-          <input type="checkbox" class="multiselectItems" id="{{multiChoiceElement.id}}_{{choice.value}}"
+          <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}" id="{{multiChoiceElement.id}}_{{choice.value}}"
             [checked]="false" formControlName="multiCheckBox" value="{{choice.value}}"
             (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
           {{choice.label}}

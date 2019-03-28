@@ -176,7 +176,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   private GetSelectedItems() {
-    var items = document.getElementsByClassName('multiselectItems') as any;
+    var items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
     var selectedItems = [];
     for (var i = 0; i < items.length; i++) {
       if (items[i].checked == true) {

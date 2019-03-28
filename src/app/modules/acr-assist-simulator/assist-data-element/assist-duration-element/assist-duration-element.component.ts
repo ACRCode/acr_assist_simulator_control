@@ -117,7 +117,7 @@ export class AssistDurationElementComponent implements OnInit {
       .subscribe(val => {
         this.ResetValidationVisibility();
         if (this.durationElementForm.controls['durationdayselement'] != undefined &&
-         this.durationElementForm.controls['durationdayselement'].invalid
+          this.durationElementForm.controls['durationdayselement'].invalid
           && this.durationElementForm.controls['durationdayselement'].errors.max) {
           this.showdaymaxValidation = true;
         } else if (this.durationElementForm.controls['durationdayselement'] != undefined &&
@@ -125,11 +125,11 @@ export class AssistDurationElementComponent implements OnInit {
           && this.durationElementForm.controls['durationdayselement'].errors.min) {
           this.showdayminValidation = true;
         } else if (this.durationElementForm.controls['durationdayselement'] != undefined &&
-        this.durationElementForm.controls['durationminuteselement'].invalid
+          this.durationElementForm.controls['durationminuteselement'].invalid
           && this.durationElementForm.controls['durationminuteselement'].errors.min) {
           this.showminuteminValidation = true;
         } else if (this.durationElementForm.controls['durationminuteselement'] != undefined &&
-        this.durationElementForm.controls['durationminuteselement'].invalid
+          this.durationElementForm.controls['durationminuteselement'].invalid
           && this.durationElementForm.controls['durationminuteselement'].errors.max) {
           this.showminutemaxValidation = true;
         } else if (this.durationElementForm.controls['durationhourselement'] != undefined &&
@@ -137,7 +137,7 @@ export class AssistDurationElementComponent implements OnInit {
           && this.durationElementForm.controls['durationhourselement'].errors.min) {
           this.showhourminValidation = true;
         } else if (this.durationElementForm.controls['durationhourselement'] != undefined &&
-        this.durationElementForm.controls['durationhourselement'].invalid
+          this.durationElementForm.controls['durationhourselement'].invalid
           && this.durationElementForm.controls['durationhourselement'].errors.max) {
           this.showhourmaxValidation = true;
 
@@ -146,7 +146,7 @@ export class AssistDurationElementComponent implements OnInit {
           && this.durationElementForm.controls['durationsecondselement'].errors.min) {
           this.showsecondsminValidation = true;
         } else if (this.durationElementForm.controls['durationsecondselement'] != undefined &&
-        this.durationElementForm.controls['durationsecondselement'].invalid
+          this.durationElementForm.controls['durationsecondselement'].invalid
           && this.durationElementForm.controls['durationsecondselement'].errors.max) {
           this.showsecondsmaxValidation = true;
         }
@@ -201,9 +201,9 @@ export class AssistDurationElementComponent implements OnInit {
     } else if (!this.durationDataElement.ShowDays && !this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && this.durationDataElement.ShowSeconds) {
-      this.durationElementForm = this.formBuilder.group({      
+      this.durationElementForm = this.formBuilder.group({
         durationminuteselement: ['', Validators.compose([Validators.required,
-        Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],      
+        Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],
         durationsecondselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
       });
@@ -212,7 +212,7 @@ export class AssistDurationElementComponent implements OnInit {
       && this.durationDataElement.ShowSeconds) {
       this.durationElementForm = this.formBuilder.group({
         durationdayselement: ['', Validators.compose([Validators.required,
-        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],       
+        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],
         durationsecondselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
       });
@@ -221,19 +221,19 @@ export class AssistDurationElementComponent implements OnInit {
       && !this.durationDataElement.ShowSeconds) {
       this.durationElementForm = this.formBuilder.group({
         durationdayselement: ['', Validators.compose([Validators.required,
-        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],       
+        Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],
         durationhourselement: ['', Validators.compose([Validators.required,
-        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]     
+        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]
       });
     }
-   else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+    else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && !this.durationDataElement.ShowSeconds) {
-      this.durationElementForm = this.formBuilder.group({       
+      this.durationElementForm = this.formBuilder.group({
         durationminuteselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],
         durationhourselement: ['', Validators.compose([Validators.required,
-        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]       
+        Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]
       });
     }
     else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
