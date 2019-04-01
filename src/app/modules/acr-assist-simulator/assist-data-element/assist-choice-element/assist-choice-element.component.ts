@@ -94,7 +94,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.showOrHideFreeText(element.id, selectedValue);
 
-    if (this.choiceValue === '--Select--' || this.choiceValue === undefined || this.choiceValue === '') {
+    if (this.choiceValue === 'Select one' || this.choiceValue === undefined || this.choiceValue === '') {
       selectedText = '';
       selectedValue = '';
     }
@@ -144,7 +144,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
-      if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === '--Select--' || this.choiceValue === '')) {
+      if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === 'Select one' || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {
         return choiceControl.setErrors(null);
