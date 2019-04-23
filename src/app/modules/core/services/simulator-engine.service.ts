@@ -100,6 +100,20 @@ export class SimulatorEngineService {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
 
+      if(branch.compositeCondition === undefined && branch.condition === undefined && !conditionMet) {
+        this.lastConditionMetBranchLevel = branchingLevel;
+        if (branch.decisionPoints !== undefined) {
+          for (const branchDecisionPoint of branch.decisionPoints) {
+            const newBranchingLevel = branchingLevel + 1;
+            this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
+          }
+        } else if (branch.endPointRef !== undefined) {
+          endpointBranches.push(branch);
+          endpoints.push(branch.endPointRef.endPointId);
+          this.showKeyDiagram = branch.endPointRef.diagramId;
+        }
+      }
+
       // && !branch.endPointRef.isRepeatable
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
