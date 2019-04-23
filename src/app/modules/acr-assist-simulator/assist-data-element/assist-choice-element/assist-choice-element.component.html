@@ -103,7 +103,7 @@
            (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
            true :
            true)
-           : true">--Select--</option>
+           : true">--Select one--</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -139,7 +139,7 @@
             (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
             true :
             true)
-            : true">--Select--</option>
+            : true">Select one</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                 choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                 : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -308,7 +308,7 @@
              (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
              true :
              true)
-             : true">--Select--</option>
+             : true">Select one</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                  choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                  : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -362,7 +362,7 @@
               (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
               true :
               true)
-              : true">--Select--</option>
+              : true">Select one</option>
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
