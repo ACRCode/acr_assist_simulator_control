@@ -32,27 +32,32 @@
   <!--------Top to bottom layout------>
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom">
     <div class="col-lg-12">
-      <label class="control-label break-word">
-        {{dateTimeDataElement.label}}
-        <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
-          ({{dateTimeDataElement.unit}})</span>
-      </label>
-      <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
-      </ng-container>
-      <ng-container *ngIf="this.dateTimeDataElement.isRequired">
-        <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
-          <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
-            title="Required Field">
-            *
-          </span>
-        </span>
-      </ng-container>
+      <div class="col-lg-10 labelparentdiv">
+        <label class="control-label break-word">
+          {{dateTimeDataElement.label}}
+          <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
+            ({{dateTimeDataElement.unit}})</span>
+          <ng-container *ngIf="this.dateTimeDataElement.isRequired">
+            <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
+              <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
+                title="Required Field">
+                *
+              </span>
+            </span>
+          </ng-container>
+        </label>
+      </div>
+      <div class="col-lg-2 div_hint">
+        <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
+          <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
+        </ng-container>
+      </div>
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
         <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
           (dateTimeChange)="onDateTimeSelected()" [owlDateTimeTrigger]="dt1">
         <owl-date-time #dt1></owl-date-time>
       </div>
+
     </div>
   </div>
 </form>

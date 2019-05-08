@@ -16,3 +16,10 @@
      left: 0;
      background-color: rgba(255, 255, 255, 0.8);
  }
+
+ .div_hint{
+    text-align: right !important;
+    position: relative;
+    top: 7px;
+    padding-right: 0px !important;
+}

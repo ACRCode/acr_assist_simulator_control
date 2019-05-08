@@ -6,6 +6,10 @@ body {
   overflow-y: auto;
 }
 
+/* .form-horizontal .control-label{
+  text-align: left !important;
+} */
+
 .form-horizontal .control-label {
   padding-left: 0px !important;
 }

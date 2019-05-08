@@ -53,22 +53,26 @@
   <!-----------Top to bottom layout-------------->
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom">
     <div class="col-lg-12" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
+    <div class="col-lg-10 labelparentdiv">
       <label class="control-label break-word">{{multiChoiceElement.label}} <span
           *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
           ({{multiChoiceElement.unit}})</span>
+          <ng-container *ngIf="multiChoiceElement.isRequired">
+              <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length"
+                class="required-field" title="Required Field">
+                *
+              </span>
+            </ng-container>
       </label>
+    </div>
+    <div class="col-lg-2 div_hint">
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <ng-container *ngIf="multiChoiceElement.isRequired">
-        <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length"
-          class="required-field" title="Required Field">
-          *
-        </span>
-      </ng-container>
+    </div>
       <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"
         title="{{choice.hint}}">
         <label [hidden]="multiChoiceElement.ChoiceNotRelevant != undefined ? 
