@@ -20,6 +20,7 @@ import { ResetCommunicationService } from '../shared/services/reset-communicatio
 import { Subscription } from 'rxjs';
 // import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
 import * as _ from 'lodash';
+import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 const $ = require('jquery');
 
 @Component({
@@ -30,6 +31,7 @@ const $ = require('jquery');
 
 export class AssistDataElementComponent implements OnInit, OnChanges {
   subscription: Subscription;
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
   @Input() $dataElements: BaseDataElement[];

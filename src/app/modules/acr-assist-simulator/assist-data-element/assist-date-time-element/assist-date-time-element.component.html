@@ -8,7 +8,7 @@
           ({{dateTimeDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
+        <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{dateTimeDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="this.dateTimeDataElement.isRequired">
         <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
@@ -21,7 +21,7 @@
     </div>
     <div class="col-sm-8">
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
-        <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
+        <input class="form-control color-inherit" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
           (dateTimeChange)="onDateTimeSelected()" [owlDateTimeTrigger]="dt1">
         <owl-date-time #dt1></owl-date-time>
       </div>
@@ -53,7 +53,7 @@
         </ng-container>
       </div>
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
-        <input class="form-control" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
+        <input class="form-control color-inherit" formControlName="dateTimeElement" [(ngModel)]="date" [owlDateTime]="dt1"
           (dateTimeChange)="onDateTimeSelected()" [owlDateTimeTrigger]="dt1">
         <owl-date-time #dt1></owl-date-time>
       </div>

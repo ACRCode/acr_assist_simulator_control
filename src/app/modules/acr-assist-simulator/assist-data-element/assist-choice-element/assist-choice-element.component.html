@@ -9,7 +9,7 @@
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
         <i class="whitespace">
-          <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+          <span class="fa fa-info-circle text-primary font-size-inherit" data-toggle="tooltip" data-placement="right"
             title="{{choiceDataElement.hint}}"></span>
         </i>
       </ng-container>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-sm-8 text-left content-padding">
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 2">
+      <ng-container *ngIf="isRadioButton()">
         <ng-container *ngIf="imagePath != undefined">
           <ng-container *ngIf="choiceDataElement.imageMap == undefined">
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
@@ -94,10 +94,10 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2 && choiceDataElement.choiceInfo.length <= 5">
+      <ng-container *ngIf="isListBox()">
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
-          formControlName="checkBox" class="form-control listboxSelect" size="6">
+          formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
            choiceDataElement.ChoiceNotRelevant != undefined ?
            (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
@@ -131,10 +131,10 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2 && choiceDataElement.choiceInfo.length > 5">
+      <ng-container *ngIf="isSelectBox()">
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
-          formControlName="checkBox" class="form-control">
+          formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="
             choiceDataElement.ChoiceNotRelevant != undefined ?
             (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
@@ -172,7 +172,7 @@
   <!------Top to bottom alignment------->
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom">
     <div class="col-lg-12 text-left content-padding">
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length <= 2">
+      <ng-container *ngIf="isRadioButton()">
         <ng-container *ngIf="imagePath != undefined">
           <ng-container *ngIf="choiceDataElement.imageMap == undefined">
              <div class="col-lg-10 labelparentdiv">
@@ -285,7 +285,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2 && choiceDataElement.choiceInfo.length <= 5">
+      <ng-container *ngIf="isListBox()">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word">
             {{choiceDataElement.label}}
@@ -310,7 +310,7 @@
 
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
-          formControlName="checkBox" class="form-control listboxSelect" size="6">
+          formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
              choiceDataElement.ChoiceNotRelevant != undefined ?
              (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
@@ -344,7 +344,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="choiceDataElement.choiceInfo.length > 2 && choiceDataElement.choiceInfo.length > 5">
+      <ng-container *ngIf="isSelectBox()">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word" style="text-align: left">
             {{choiceDataElement.label}}
@@ -367,7 +367,7 @@
         </div>
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
-          formControlName="checkBox" class="form-control">
+          formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="
               choiceDataElement.ChoiceNotRelevant != undefined ?
               (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 

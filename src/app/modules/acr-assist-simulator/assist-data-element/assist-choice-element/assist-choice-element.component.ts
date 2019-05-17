@@ -5,6 +5,8 @@ import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
+import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
+import { UtilityService } from '../../../core/services/utility.service';
 const $ = require('jquery');
 
 @Component({
@@ -13,6 +15,7 @@ const $ = require('jquery');
   styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
@@ -28,11 +31,24 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   selectedIndex: number;
   selectedChoiceReportText: string;
   selectedChoiceReportLabel: string;
+  elementDisplay: ChoiceElementDisplayEnum;
 
-  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private utilityService: UtilityService) { }
 
   ngOnInit(): void {
+
     this.createChoiceElementForm();
+    if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
+      if (this.choiceDataElement.choiceInfo.length <= 2) {
+        this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
+        this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5) {
+        this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
+      }
+    } else {
+      this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
+    }
   }
 
   ngAfterViewInit(): void {
@@ -65,14 +81,24 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       this.returnChoiceElement.emit(undefined);
     }
 
-    this.cdr.detectChanges();  
-    if(this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
+    this.cdr.detectChanges();
+    if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
       $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 1);
     }
 
-     if(this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
+    if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
       $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 2);
     }
+  }
+  isRadioButton(): boolean {
+    return this.elementDisplay == ChoiceElementDisplayEnum.RadioButton;
+  }
+  isListBox(): boolean {
+
+    return this.elementDisplay == ChoiceElementDisplayEnum.ListBox;
+  }
+  isSelectBox(): boolean {
+    return this.elementDisplay == ChoiceElementDisplayEnum.SelectBox;
   }
 
   setChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {

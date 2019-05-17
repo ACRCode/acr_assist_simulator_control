@@ -63,7 +63,7 @@
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
-          <acr-assist-choice-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+          <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay" [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement' [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">

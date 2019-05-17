@@ -7,7 +7,7 @@
           ({{multiChoiceElement.unit}})</span>
       </label>
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
+        <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>

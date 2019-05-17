@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Template } from '../../core/models/template.model';
@@ -10,6 +10,8 @@ import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 import { Subject } from 'rxjs';
+import { UtilityService } from '../../core/services/utility.service';
+import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 
 const $ = require('jquery');
 declare var resizeKeyImages: any;
@@ -30,11 +32,21 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Input() inputData: string;
   @Input() showResetButton: Boolean = true;
   @Input() showReportText: Boolean = true;
+  @Input() fontSize: string;
+  @Input() fontFamily: string;
+  @Input() fontColor: string;
+  @Input() backgroundColor: string;
+  @Input() cssClass: string;
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
-  @Output() callBackAfterGettingShowKeyDiagram : EventEmitter<string> = new EventEmitter<string>();
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('imageUpload') imageUpload: any;
+  @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
+
+
+
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[] = [];
@@ -48,15 +60,17 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
   constructor(
     private templateManagerService: TemplateManagerService,
-    private simulatorEngineService: SimulatorEngineService) {
+    private simulatorEngineService: SimulatorEngineService,
+    private utilityService: UtilityService) {
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     if (this.resetValuesNotifier != null) {
       this.resetValuesNotifier.subscribe((event) => {
         this.resetElements();
       })
     }
+    //  this.applyInputStyles();
   }
 
   ngOnChanges(): void {
@@ -87,7 +101,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
       this.keyDiagrams = new Array<Diagram>();
     }
 
-    if (this.imagePath === undefined ||  this.imagePath === null || this.imagePath === '') { 
+    if (this.imagePath === undefined || this.imagePath === null || this.imagePath === '') {
       this.imagePath = 'XMLFiles/Samples/';
     }
 
@@ -102,6 +116,41 @@ export class AcrAssistSimulatorComponent implements OnChanges {
         }
       }
     }
+    this.applyInputStyles();
+  }
+
+  applyInputStyles() {
+      //this.fontSize = '14px';
+      if (this.utilityService.isNotEmptyString(this.fontSize)) {
+        this.simulatorBlock.nativeElement.style.fontSize = this.fontSize;
+
+      }
+
+      //this.fontColor = 'red';
+      if (this.utilityService.isNotEmptyString(this.fontColor)) {
+        this.simulatorBlock.nativeElement.style.color = this.fontColor;
+
+      }
+
+      //this.fontFamily = 'cursive';
+      if (this.utilityService.isNotEmptyString(this.fontFamily)) {
+        this.simulatorBlock.nativeElement.style.fontFamily = this.fontFamily;
+
+      }
+      // this.choiceElementDisplay = ChoiceElementDisplayEnum.ListBox;
+
+      //this.backgroundColor = "grey";
+      if (this.utilityService.isNotEmptyString(this.backgroundColor)) {
+        this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
+
+      }
+
+      // this.cssClass = "custom-class";
+      if (this.utilityService.isNotEmptyString(this.cssClass)) {
+        this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
+
+      }
+
   }
 
   diagramExist(diagram: Diagram) {
@@ -123,7 +172,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     this.resultText = textReport;
   }
 
-  recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {    
+  recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
     this.returnExecutionHistory.emit(finalExecutionHistory);
   }
   recivedOnDataElementChanged(data: InputData[]) {
