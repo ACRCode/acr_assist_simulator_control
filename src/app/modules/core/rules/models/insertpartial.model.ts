@@ -48,6 +48,5 @@ InsertPartial.prototype.processText = function (template: Template, dataElementV
             }
         }
     }
-    
     return $reportTextString;
 };

@@ -83,22 +83,22 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
     this.cdr.detectChanges();
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
-      $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 1);
+      $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
     }
 
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
-      $('#' + this.choiceDataElement.id).attr("size", this.choiceDataElement.choiceInfo.length + 2);
+      $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
     }
   }
   isRadioButton(): boolean {
-    return this.elementDisplay == ChoiceElementDisplayEnum.RadioButton;
+    return this.elementDisplay === ChoiceElementDisplayEnum.RadioButton;
   }
   isListBox(): boolean {
 
-    return this.elementDisplay == ChoiceElementDisplayEnum.ListBox;
+    return this.elementDisplay === ChoiceElementDisplayEnum.ListBox;
   }
   isSelectBox(): boolean {
-    return this.elementDisplay == ChoiceElementDisplayEnum.SelectBox;
+    return this.elementDisplay === ChoiceElementDisplayEnum.SelectBox;
   }
 
   setChoiceValue(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {

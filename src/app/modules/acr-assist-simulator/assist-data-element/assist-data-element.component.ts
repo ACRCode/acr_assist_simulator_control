@@ -45,7 +45,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Input() isReset: boolean;
   @Input() inputValues: InputData[] = [];
-  @Output() callBackAfterGettingShowKeyDiagram : EventEmitter<string> = new EventEmitter<string>();
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
@@ -92,10 +92,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         } else {
           dataElement.isVisible = true;
         }
-        if (this.dataElementValues[dataElement.id] !== undefined && dataElement.currentValue !== this.dataElementValues[dataElement.id]) {
-          dataElement.currentValue = this.dataElementValues[dataElement.id];
+        if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
+          dataElement.currentValue = this.dataElementValues.get(dataElement.id);
         }
-        dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues[dataElement.id];
+        dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
       }
 
       const $mainReportText = new MainReportText();
@@ -226,7 +226,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
             repeatedElementSection.SectionId = item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.id = item.id.split('_')[0] + '_' + item.repeatGroup.replace(/[\s]/g, '') + +(i + 1);
             item.currentValue = undefined;
-            this.dataElementValues[item.id] = undefined;
+            this.dataElementValues.set(item.id, undefined);
             const $item = Object.assign([], item);
             repeatedElementSection.ChildElements.push($item);
           }
