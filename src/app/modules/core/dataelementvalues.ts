@@ -7,11 +7,11 @@ export class DataElementValues {
   }
 
   addOrUpdate(key: string , value: any) {
-    this.values[key] = value;
+    this.values.set(key, value);
   }
 
   get(key: string): any {
-    return this.values[key];
+    return this.values.get(key);
    }
 
    delete(key: string): any {
