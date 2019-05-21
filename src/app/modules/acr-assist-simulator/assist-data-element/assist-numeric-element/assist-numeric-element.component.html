@@ -89,8 +89,9 @@
           <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
         </ng-container>
        </div>
+       <!-- (keypress)="_keyUp($event, numberValue)" -->
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-          [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
+          [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"          
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>

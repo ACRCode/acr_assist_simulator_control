@@ -31,10 +31,10 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
         this.UpdateFormValidator();
       });
 
-      this.subscription = resetCommunicationService.resetSource$.subscribe(
-        mission => {
+    this.subscription = resetCommunicationService.resetSource$.subscribe(
+      mission => {
 
-        });
+      });
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -83,6 +83,16 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedValue = element.value;
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
+
+  // _keyUp(event: any, value) {
+  //   debugger;
+  //   // const pattern = /[0-9\+\-\ ]/;
+  //   // let inputChar = String.fromCharCode(event.charCode);
+  //   console.log(parseFloat(value));
+  //   if(parseFloat(value) > this.numericDataElement.maximum) {
+  //     event.preventDefault();
+  //   }        
+  // }
 
   onlyIntegerKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;

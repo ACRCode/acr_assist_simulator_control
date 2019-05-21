@@ -116,40 +116,43 @@ export class AcrAssistSimulatorComponent implements OnChanges {
         }
       }
     }
-    this.applyInputStyles();
+
+    const _this = this;
+    setTimeout(function (e) {
+      _this.applyInputStyles();
+    });
   }
 
   applyInputStyles() {
-      //this.fontSize = '14px';
-      if (this.utilityService.isNotEmptyString(this.fontSize)) {
-        this.simulatorBlock.nativeElement.style.fontSize = this.fontSize;
+    //this.fontSize = '14px';
+    if (this.utilityService.isNotEmptyString(this.fontSize)) {
+      this.simulatorBlock.nativeElement.style.fontSize = this.fontSize;
+    }
 
-      }
+    //this.fontColor = 'red';
+    if (this.utilityService.isNotEmptyString(this.fontColor)) {
+      this.simulatorBlock.nativeElement.style.color = this.fontColor;
 
-      //this.fontColor = 'red';
-      if (this.utilityService.isNotEmptyString(this.fontColor)) {
-        this.simulatorBlock.nativeElement.style.color = this.fontColor;
+    }
 
-      }
+    //this.fontFamily = 'cursive';
+    if (this.utilityService.isNotEmptyString(this.fontFamily)) {
+      this.simulatorBlock.nativeElement.style.fontFamily = this.fontFamily;
 
-      //this.fontFamily = 'cursive';
-      if (this.utilityService.isNotEmptyString(this.fontFamily)) {
-        this.simulatorBlock.nativeElement.style.fontFamily = this.fontFamily;
+    }
+    // this.choiceElementDisplay = ChoiceElementDisplayEnum.ListBox;
 
-      }
-      // this.choiceElementDisplay = ChoiceElementDisplayEnum.ListBox;
+    //this.backgroundColor = "grey";
+    if (this.utilityService.isNotEmptyString(this.backgroundColor)) {
+      this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
 
-      //this.backgroundColor = "grey";
-      if (this.utilityService.isNotEmptyString(this.backgroundColor)) {
-        this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
+    }
 
-      }
+    // this.cssClass = "custom-class";
+    if (this.utilityService.isNotEmptyString(this.cssClass)) {
+      this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
 
-      // this.cssClass = "custom-class";
-      if (this.utilityService.isNotEmptyString(this.cssClass)) {
-        this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
-
-      }
+    }
 
   }
 

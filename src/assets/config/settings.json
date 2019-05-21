@@ -1,4 +1,9 @@
 {
     "alignLabelAndControlToTopAndBottom": true,
-    "showKeyDiagram": true
+    "showKeyDiagram": true,
+    "fontSize": "",
+    "fontColor":"",
+    "fontFamily":"",
+    "backgroundColor":"",
+    "cssClass":""
 }
