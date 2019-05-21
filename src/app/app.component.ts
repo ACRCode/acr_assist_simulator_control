@@ -11,7 +11,6 @@ import { SettingsConfig } from '../assets/config/settings';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
   settingsConfig: SettingsConfig;
   fileContent: string;
   imagePath: string;
@@ -29,12 +28,12 @@ export class AppComponent {
   ];
 
   constructor(private resetCommunicationService: ResetCommunicationService,
-    private _settingsConfig: SettingsConfig) {
+    private settingsConfiguration: SettingsConfig) {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;
     this.showReportText = true;
-    this.settingsConfig = _settingsConfig;
+    this.settingsConfig = settingsConfiguration;
   }
 
   onFileSelected(fileDetails: FileDetails) {

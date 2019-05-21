@@ -23,14 +23,16 @@
         <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
     </aside>
 
+    <!-- [fontSize]="250" -->
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
                 <acr-assist-simulator 
-                        [alignLabelAndControlToTopAndBottom]="_settingsConfig.get('alignLabelAndControlToTopAndBottom')" 
+                        [alignLabelAndControlToTopAndBottom]="settingsConfig.get('alignLabelAndControlToTopAndBottom')" 
+                        
                         [showResetButton]="resetButton" [showReportText]="showReportText" 
                         templateContent={{fileContent}} imagePath={{imagePath}} 
-                        [reportTextPosition]="position.Right" [showKeyDiagram]="_settingsConfig.get('showKeyDiagram')" 
+                        [reportTextPosition]="position.Right" [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" 
                         [inputValues]="inputValues"
                         (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
                         (returnExecutionHistory)='recievedExecutionHistory($event)' 
