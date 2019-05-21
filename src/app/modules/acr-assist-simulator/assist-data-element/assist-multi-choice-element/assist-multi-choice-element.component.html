@@ -42,9 +42,10 @@
         </label>
       </div>
 
+      <!-- other '{{multiChoiceElement.label}}' -->
       <div id='div_{{multiChoiceElement.id}}_other'>
         <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-          [ngModelOptions]="{standalone: true}" placeholder="Please specify other '{{multiChoiceElement.label}}'"
+          [ngModelOptions]="{standalone: true}" placeholder="Please specify"
           (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
       </div>
     </div>
@@ -94,9 +95,10 @@
         </label>
       </div>
 
+      <!-- other '{{multiChoiceElement.label}}' -->
       <div id='div_{{multiChoiceElement.id}}_other'>
         <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-          [ngModelOptions]="{standalone: true}" placeholder="Please specify other '{{multiChoiceElement.label}}'"
+          [ngModelOptions]="{standalone: true}" placeholder="Please specify"
           (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
       </div>
     </div>

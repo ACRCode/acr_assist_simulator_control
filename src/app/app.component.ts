@@ -3,6 +3,7 @@ import { FileDetails } from './modules/simulatorloader/shared/models/file-detail
 import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
+import { SettingsConfig } from '../assets/config/settings';
 
 @Component({
   selector: 'acr-app-root',
@@ -11,6 +12,7 @@ import { ResetCommunicationService } from './modules/acr-assist-simulator/shared
 })
 export class AppComponent {
 
+  settingsConfig: SettingsConfig;
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
@@ -26,11 +28,13 @@ export class AppComponent {
     }
   ];
 
-  constructor(private resetCommunicationService: ResetCommunicationService) {
+  constructor(private resetCommunicationService: ResetCommunicationService,
+    private _settingsConfig: SettingsConfig) {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;
     this.showReportText = true;
+    this.settingsConfig = _settingsConfig;
   }
 
   onFileSelected(fileDetails: FileDetails) {

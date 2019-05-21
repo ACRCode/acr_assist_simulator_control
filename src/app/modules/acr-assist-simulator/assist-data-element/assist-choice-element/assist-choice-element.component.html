@@ -49,7 +49,7 @@
                   id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                   [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
                   (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                  placeholder="Please specify '{{choiceDataElement.label}}'">
+                  placeholder="Please specify">
               </div>
             </ng-container>
           </ng-container>
@@ -81,7 +81,7 @@
                       id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                       [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
                       (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                      placeholder="Please specify '{{choiceDataElement.label}}'">
+                      placeholder="Please specify">
                   </div>
                 </ng-container>
               </div>
@@ -118,7 +118,7 @@
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-            [ngModelOptions]="{standalone: true}" placeholder="Please specify '{{choiceDataElement.label}}'"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>
         <ng-container *ngIf="choiceDataElement.imageMap != undefined  && imagePath != undefined">
@@ -154,7 +154,7 @@
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-            [ngModelOptions]="{standalone: true}" placeholder="Please specify '{{choiceDataElement.label}}'"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>
         <ng-container *ngIf="choiceDataElement.imageMap != undefined  && imagePath != undefined">
@@ -221,7 +221,7 @@
                   id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                   [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
                   (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                  placeholder="Please specify '{{choiceDataElement.label}}'">
+                  placeholder="Please specify">
               </div>
             </ng-container>
           </ng-container>
@@ -272,7 +272,7 @@
                       id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                       [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
                       (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                      placeholder="Please specify '{{choiceDataElement.label}}'">
+                      placeholder="Please specify">
                   </div>
                 </ng-container>
               </div>
@@ -331,7 +331,7 @@
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-            [ngModelOptions]="{standalone: true}" placeholder="Please specify '{{choiceDataElement.label}}'"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>
         <ng-container *ngIf="choiceDataElement.imageMap != undefined  && imagePath != undefined">
@@ -387,7 +387,7 @@
         </select>
         <div id='div_{{choiceDataElement.id}}_other'>
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-            [ngModelOptions]="{standalone: true}" placeholder="Please specify '{{choiceDataElement.label}}'"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
         </div>
         <ng-container *ngIf="choiceDataElement.imageMap != undefined  && imagePath != undefined">
