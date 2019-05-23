@@ -28,18 +28,18 @@ InsertValue.prototype.manupulateId = function (dynamicId): string {
 };
 
 InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
-  if (dataElementValues[this.dataElementId] === undefined) {
+  if (dataElementValues.get(this.dataElementId) === undefined) {
     return '';
   }
 
   const choiceDataElementResults = this.IsDataElementChoiceDataElement(template);
   if (choiceDataElementResults != null) {
     const choiceDataElementResult = choiceDataElementResults[0] as ChoiceDataElement;
-    if (dataElementValues[this.dataElementId] !== undefined
-      && dataElementValues[this.dataElementId] instanceof Array) {
+    if (dataElementValues.get(this.dataElementId) !== undefined
+      && dataElementValues.get(this.dataElementId) instanceof Array) {
       const values = [];
-      for (const $dataElementValues of dataElementValues[this.dataElementId]) {
-        var items = choiceDataElementResult.choiceInfo.filter(function (choice) {
+      for (const $dataElementValues of dataElementValues.get(this.dataElementId)) {
+        const items = choiceDataElementResult.choiceInfo.filter(function (choice) {
           return choice.value === $dataElementValues;
         });
         if (items !== undefined && items.length > 0) {
@@ -52,7 +52,7 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
       return values !== undefined ? values.join(', ') : '';
     } else {
       const values = [];
-      const $dataElementValues = dataElementValues[this.dataElementId];
+      const $dataElementValues = dataElementValues.get(this.dataElementId);
       const result = choiceDataElementResult.choiceInfo.filter(function (choice) {
         return choice.value === $dataElementValues;
       });
@@ -63,12 +63,12 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
     }
   }
 
-  if (dataElementValues[this.dataElementId] !== undefined
-    && dataElementValues[this.dataElementId] instanceof Array) {
-    return dataElementValues[this.dataElementId].join(', ');
+  if (dataElementValues.get(this.dataElementId) !== undefined
+    && dataElementValues.get(this.dataElementId) instanceof Array) {
+    return dataElementValues.get(this.dataElementId).join(', ');
   }
 
-  return dataElementValues[this.dataElementId];
+  return dataElementValues.get(this.dataElementId);
 };
 
 
