@@ -23,6 +23,9 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
   numberValue: number;
+
+  oldVal = null;
+
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
     simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService) {
@@ -84,15 +87,21 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
-  // _keyUp(event: any, value) {
-  //   debugger;
-  //   // const pattern = /[0-9\+\-\ ]/;
-  //   // let inputChar = String.fromCharCode(event.charCode);
-  //   console.log(parseFloat(value));
-  //   if(parseFloat(value) > this.numericDataElement.maximum) {
-  //     event.preventDefault();
-  //   }        
-  // }
+  _keyUp(event: any, value) {
+    const $this = this;
+    if (parseFloat(value) > $this.numericDataElement.maximum) {
+      event.preventDefault();
+      $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
+    } 
+  }
+
+  _keyUpInteger(event: any, value) {
+    const $this = this;
+    if (parseInt(value) > $this.numericDataElement.maximum) {
+      event.preventDefault();
+      $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
+    } 
+  }
 
   onlyIntegerKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;

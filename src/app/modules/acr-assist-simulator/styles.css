@@ -102,6 +102,8 @@ p {
   border-radius: 0;
   box-shadow: none;
   border-color: #d2d6de;
+  position: relative;
+  top: 3px;
 }
 
 h4.modal-title.float-left {
@@ -144,9 +146,14 @@ h4.modal-title.float-left {
   background-color: #e7e7e7;
 }
 
+label.control-label {
+  text-align: left !important;
+}
+
 @media (min-width: 768px) {
   label.control-label {
     padding-left: 20px;
+    text-align: left !important;
   }
 }
 .padding-5{

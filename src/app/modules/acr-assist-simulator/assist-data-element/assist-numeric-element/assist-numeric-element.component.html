@@ -35,7 +35,8 @@
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-          [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
+        (keyup)="_keyUp($event, numberValue)" 
+        [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
@@ -46,6 +47,7 @@
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="numberValue"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
           (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+          (keyup)="_keyUpInteger($event, numberValue)"         
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
       </div>
@@ -89,9 +91,9 @@
           <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
         </ng-container>
        </div>
-       <!-- (keypress)="_keyUp($event, numberValue)" -->
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-          [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"          
+          [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
+          (keyup)="_keyUp($event, numberValue)"
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
@@ -136,6 +138,7 @@
       <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="numberValue"
       id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
       (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+      (keyup)="_keyUpInteger($event, numberValue)"
       (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
       max="{{numericDataElement.maximum}}" required>
     </div>

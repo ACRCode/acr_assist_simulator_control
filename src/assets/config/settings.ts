@@ -5,8 +5,7 @@ import { Http } from '@angular/http';
 
 @Injectable()
 export class SettingsConfig {
-    private _config: Object
-    private _env: Object
+    private _config: Object;
     private configUrl = 'assets/config/settings.json';
 
     constructor(private httpService: Http) {

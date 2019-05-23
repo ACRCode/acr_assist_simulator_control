@@ -38,10 +38,12 @@ import { RuleEngineService } from './shared/services/rule-engine-service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { IntegerMaxRestrict } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
     ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
+    IntegerMaxRestrict,
     AssistDateTimeElementComponent, AssistDurationElementComponent];
 
 @NgModule({
