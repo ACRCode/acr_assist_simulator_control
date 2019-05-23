@@ -89,18 +89,27 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   _keyUp(event: any, value) {
     const $this = this;
-    if (parseFloat(value) > $this.numericDataElement.maximum) {
+    if ($this.numericDataElement.maximum != undefined && parseFloat(value) > $this.numericDataElement.maximum) {
       event.preventDefault();
-      $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
-    } 
+      if (value.toString().substring(0, value.toString().length - 1) == '') {
+        $this.numberValue = undefined;
+      } else {
+        $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
+      }
+    }
   }
 
   _keyUpInteger(event: any, value) {
+    debugger;
     const $this = this;
-    if (parseInt(value) > $this.numericDataElement.maximum) {
+    if ($this.numericDataElement.maximum != undefined && parseInt(value) > $this.numericDataElement.maximum) {
       event.preventDefault();
-      $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
-    } 
+      if (value.toString().substring(0, value.toString().length - 1) == '') {
+        $this.numberValue = undefined;
+      } else {
+        $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
+      }
+    }
   }
 
   onlyIntegerKey(event) {
