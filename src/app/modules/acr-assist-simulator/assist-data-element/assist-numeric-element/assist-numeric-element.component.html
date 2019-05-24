@@ -40,6 +40,16 @@
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
+          <span
+          *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
+          class="validatorMessageSpan">
+             Value should be greater than {{numericDataElement.minimum}}
+        </span>
+          <span
+          *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
+          class="validatorMessageSpan">
+          Value should be less than {{numericDataElement.maximum}}
+        </span>
       </div>
     </ng-container>
     <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
@@ -50,6 +60,16 @@
           (keyup)="_keyUpInteger($event, numberValue)"         
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
+          <span
+          *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
+          class="validatorMessageSpan">
+             Value should be greater than {{numericDataElement.minimum}}
+        </span>
+          <span
+          *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
+          class="validatorMessageSpan">
+          Value should be less than {{numericDataElement.maximum}}
+        </span>
       </div>
     </ng-container>
   </div>
@@ -91,12 +111,23 @@
           <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
         </ng-container>
        </div>
-        <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
+        <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" 
           [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
           (keyup)="_keyUp($event, numberValue)"
+          acrNumericOnly
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
+            <span
+            *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
+            class="validatorMessageSpan">
+               Value should be greater than {{numericDataElement.minimum}}
+          </span>
+            <span
+            *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
+            class="validatorMessageSpan">
+            Value should be less than {{numericDataElement.maximum}}
+          </span>
       </div>
     </ng-container>
     <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
@@ -141,6 +172,16 @@
       (keyup)="_keyUpInteger($event, numberValue)"
       (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
       max="{{numericDataElement.maximum}}" required>
+      <span
+      *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
+      class="validatorMessageSpan">
+         Value should be greater than {{numericDataElement.minimum}}
+    </span>
+      <span
+      *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
+      class="validatorMessageSpan">
+      Value should be less than {{numericDataElement.maximum}}
+    </span>
     </div>
     </ng-container>
   </div>

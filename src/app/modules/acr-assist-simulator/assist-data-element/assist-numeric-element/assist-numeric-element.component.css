@@ -5,3 +5,10 @@
     top: 7px;
     padding-right: 0px !important;
 }
+
+.validatorMessageSpan {
+    color: red;
+    font-size: small !important;
+    position: relative;
+    top: 6px;
+}

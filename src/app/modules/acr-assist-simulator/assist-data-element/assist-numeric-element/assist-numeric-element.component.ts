@@ -88,28 +88,27 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   }
 
   _keyUp(event: any, value) {
-    const $this = this;
-    if ($this.numericDataElement.maximum != undefined && parseFloat(value) > $this.numericDataElement.maximum) {
-      event.preventDefault();
-      if (value.toString().substring(0, value.toString().length - 1) == '') {
-        $this.numberValue = undefined;
-      } else {
-        $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
-      }
-    }
+    // const $this = this;
+    // if ($this.numericDataElement.maximum != undefined && parseFloat(value) > $this.numericDataElement.maximum) {
+    //   event.preventDefault();
+    //   if (value.toString().substring(0, value.toString().length - 1) == '') {
+    //     $this.numberValue = undefined;
+    //   } else {
+    //     $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
+    //   }
+    // }
   }
 
   _keyUpInteger(event: any, value) {
-    debugger;
-    const $this = this;
-    if ($this.numericDataElement.maximum != undefined && parseInt(value) > $this.numericDataElement.maximum) {
-      event.preventDefault();
-      if (value.toString().substring(0, value.toString().length - 1) == '') {
-        $this.numberValue = undefined;
-      } else {
-        $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
-      }
-    }
+    // const $this = this;
+    // if ($this.numericDataElement.maximum != undefined && parseInt(value) > $this.numericDataElement.maximum) {
+    //   event.preventDefault();
+    //   if (value.toString().substring(0, value.toString().length - 1) == '') {
+    //     $this.numberValue = undefined;
+    //   } else {
+    //     $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
+    //   }
+    // }
   }
 
   onlyIntegerKey(event) {
