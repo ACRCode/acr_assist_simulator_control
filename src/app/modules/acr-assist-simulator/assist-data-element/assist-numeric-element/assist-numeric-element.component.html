@@ -43,12 +43,12 @@
           <span
           *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
           class="validatorMessageSpan">
-             Value should be greater than {{numericDataElement.minimum}}
+             Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
           <span
           *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
           class="validatorMessageSpan">
-          Value should be less than {{numericDataElement.maximum}}
+          Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>
     </ng-container>
@@ -63,12 +63,12 @@
           <span
           *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
           class="validatorMessageSpan">
-             Value should be greater than {{numericDataElement.minimum}}
+             Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
           <span
           *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
           class="validatorMessageSpan">
-          Value should be less than {{numericDataElement.maximum}}
+          Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>
     </ng-container>
@@ -121,12 +121,12 @@
             <span
             *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
             class="validatorMessageSpan">
-               Value should be greater than {{numericDataElement.minimum}}
+               Value should be greater than or equal to {{numericDataElement.minimum}}
           </span>
             <span
             *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
             class="validatorMessageSpan">
-            Value should be less than {{numericDataElement.maximum}}
+            Value should be less than or equal to {{numericDataElement.maximum}}
           </span>
       </div>
     </ng-container>
@@ -175,12 +175,12 @@
       <span
       *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.min"
       class="validatorMessageSpan">
-         Value should be greater than {{numericDataElement.minimum}}
+         Value should be greater than or equal to {{numericDataElement.minimum}}
     </span>
       <span
       *ngIf="numericElementForm.controls['numericElement'].invalid && numericElementForm.controls['numericElement'].errors.max"
       class="validatorMessageSpan">
-      Value should be less than {{numericDataElement.maximum}}
+      Value should be less than or equal to {{numericDataElement.maximum}}
     </span>
     </div>
     </ng-container>

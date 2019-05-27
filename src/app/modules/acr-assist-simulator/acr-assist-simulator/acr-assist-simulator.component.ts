@@ -209,6 +209,10 @@ export class AcrAssistSimulatorComponent implements OnChanges {
         this.keyDiagrams.push(diagram);
       };
     }
+
+    if ($('#icon_keydiagram').hasClass('fa fa-plus')) {
+      this.collapseKeyDiagram()
+    }
   }
 
   resizeKeyImages() {
