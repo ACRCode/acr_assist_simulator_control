@@ -6,6 +6,19 @@ body {
   overflow-y: auto;
 }
 
+/* 
+body{
+  overflow-y: hidden !important;
+} */
+
+.main-sidebar {
+  background-color: #222d32 !important;
+}
+
+.wrapper{
+  background-color: #ecf0f5 !important;
+}
+
 /* .form-horizontal .control-label{
   text-align: left !important;
 } */
