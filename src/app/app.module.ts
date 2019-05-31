@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SettingsConfig } from '../assets/config/settings';
+import { SettingsConfig } from './modules/core/services/settings.service';
 
 export function initializeApp(appConfig: SettingsConfig) {
   return () => appConfig.load();
