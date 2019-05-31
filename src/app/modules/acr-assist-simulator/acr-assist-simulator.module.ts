@@ -82,11 +82,11 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     { provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: DateTimeDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: DurationDataElementCreationService, multi: true },
-    SettingsConfig,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [SettingsConfig], multi: true
+      deps: [SettingsConfig],
+      multi: true
     }],
   exports: components
 })
