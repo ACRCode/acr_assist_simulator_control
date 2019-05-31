@@ -9,9 +9,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SettingsConfig } from './modules/core/services/settings.service';
 
-export function initializeApp(appConfig: SettingsConfig) {
-  return () => appConfig.load();
-}
+
 
 @NgModule({
   declarations: [
@@ -25,14 +23,6 @@ export function initializeApp(appConfig: SettingsConfig) {
     FormsModule,
     HttpModule,
     SimulatorLoaderModule
-  ],
-  providers: [
-    SettingsConfig,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [SettingsConfig], multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })

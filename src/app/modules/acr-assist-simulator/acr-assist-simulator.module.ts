@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '../core/core.module';
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator/acr-assist-simulator.component';
@@ -39,13 +39,18 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { IntegerMaxRestrict } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
+import { SettingsConfig } from '../core/services/settings.service';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
     ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
     IntegerMaxRestrict,
     AssistDateTimeElementComponent, AssistDurationElementComponent];
-
+    
+    export function initializeApp(appConfig: SettingsConfig) {
+      return () => appConfig.load();
+    }
+    
 @NgModule({
   imports: [
     CommonModule,
@@ -76,8 +81,13 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     { provide: CreationServiceInjectorToken, useClass: GlobalValueCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: ComputedDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: DateTimeDataElementCreationService, multi: true },
-    { provide: CreationServiceInjectorToken, useClass: DurationDataElementCreationService, multi: true }
-    ],
+    { provide: CreationServiceInjectorToken, useClass: DurationDataElementCreationService, multi: true },
+    SettingsConfig,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [SettingsConfig], multi: true
+    }],
   exports: components
 })
 export class AcrAssistSimulatorModule { }
