@@ -27,8 +27,9 @@ export class AppComponent {
     }
   ];
 
-  constructor(private resetCommunicationService: ResetCommunicationService,
-    private settingsConfiguration: SettingsConfig) {
+  constructor(
+    private resetCommunicationService: ResetCommunicationService,
+    settingsConfiguration: SettingsConfig) {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;
@@ -46,11 +47,9 @@ export class AppComponent {
   }
 
   showKeyDiagram(data: string) {
-    // console.log(data);
   }
 
   recievedExecutionHistory(data) {
-    // console.log(data);
   }
 
   returnDefaultElements() {

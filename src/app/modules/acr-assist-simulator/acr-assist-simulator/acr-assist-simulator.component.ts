@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnChanges, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Template } from '../../core/models/template.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
@@ -21,7 +21,7 @@ declare var resizeKeyImages: any;
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements OnChanges {
+export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
@@ -45,8 +45,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @ViewChild('imageUpload') imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
 
-
-
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[] = [];
@@ -68,9 +66,8 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     if (this.resetValuesNotifier != null) {
       this.resetValuesNotifier.subscribe((event) => {
         this.resetElements();
-      })
+      });
     }
-    //  this.applyInputStyles();
   }
 
   ngOnChanges(): void {
@@ -107,7 +104,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
 
     if (!this.keyDiagrams.length) {
       for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-        if (this.imagePath != undefined && this.imagePath != null && this.imagePath != '') {
+        if (this.imagePath !== undefined && this.imagePath != null && this.imagePath !== '') {
           const element = new Diagram();
           element.label = this.template.metadata.diagrams[index].label;
           element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
@@ -124,36 +121,25 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   }
 
   applyInputStyles() {
-    //this.fontSize = '14px';
     if (this.utilityService.isNotEmptyString(this.fontSize)) {
       this.simulatorBlock.nativeElement.style.fontSize = this.fontSize;
     }
 
-    //this.fontColor = 'red';
     if (this.utilityService.isNotEmptyString(this.fontColor)) {
       this.simulatorBlock.nativeElement.style.color = this.fontColor;
-
     }
 
-    //this.fontFamily = 'cursive';
     if (this.utilityService.isNotEmptyString(this.fontFamily)) {
       this.simulatorBlock.nativeElement.style.fontFamily = this.fontFamily;
-
     }
-    // this.choiceElementDisplay = ChoiceElementDisplayEnum.ListBox;
 
-    //this.backgroundColor = "grey";
     if (this.utilityService.isNotEmptyString(this.backgroundColor)) {
       this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
-
     }
 
-    // this.cssClass = "custom-class";
     if (this.utilityService.isNotEmptyString(this.cssClass)) {
       this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
-
     }
-
   }
 
   diagramExist(diagram: Diagram) {
@@ -211,7 +197,7 @@ export class AcrAssistSimulatorComponent implements OnChanges {
     }
 
     if ($('#icon_keydiagram').hasClass('fa fa-plus')) {
-      this.collapseKeyDiagram()
+      this.collapseKeyDiagram();
     }
   }
 
