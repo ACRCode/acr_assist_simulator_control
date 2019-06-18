@@ -82,7 +82,7 @@ export class SimulatorEngineService {
     this.evaluateDecisionPoints();
   }
 
-  evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {    
+  evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
     let endpoints = Array<string>();
     const endpointBranches = Array<Branch>();
     let currentBranchCount = 0;
@@ -187,7 +187,6 @@ export class SimulatorEngineService {
   }
 
   evaluateComputedElementDecisionPoint(elementId: string, decisionPoint: DecisionPoint, branchingLevel) {
-    debugger;
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
@@ -326,11 +325,6 @@ export class SimulatorEngineService {
   }
 
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
- 
-    if (dataelement.id === 'lrmnontargetoidmass') {
-      debugger;
-    }
- 
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
       let isCompositeCondition = false;
@@ -343,7 +337,6 @@ export class SimulatorEngineService {
           isCompositeCondition = true;
         }
 
-        
         if (conditionMet) {
           if (nonRelevantDataElementIds === undefined) {
             this.nonRelevantDataElementIds = new Array<string>();
@@ -782,7 +775,7 @@ export class SimulatorEngineService {
 
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
-      this.showKeyDiagram = undefined;      
+      this.showKeyDiagram = undefined;
       this.evaluateComputedExpressions();
       this.evaluateDecisionAndConditionalProperty();
       this.ProcessRepetationDataElements();

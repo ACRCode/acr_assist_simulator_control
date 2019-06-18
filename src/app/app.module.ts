@@ -7,9 +7,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SettingsConfig } from './modules/core/services/settings.service';
-
-
 
 @NgModule({
   declarations: [

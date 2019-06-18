@@ -97,25 +97,25 @@ describe('AppComponent', () => {
     expect(component.inputValues.length).toEqual(0);
   });
 
-  it('Called onFileSelected(fileDetails: FileDetails) to invalid data set file content', () => {
+  it('Called fileSelected(fileDetails: FileDetails) to invalid data set file content', () => {
     const fileLabel = undefined;
     const fileName = undefined;
     const fileContents = undefined;
     const fileDetails = new FileDetails(fileLabel, fileName, fileContents);
 
-    component.onFileSelected(fileDetails);
+    component.fileSelected(fileDetails);
 
     expect(component.fileContent).toBeUndefined();
     expect(component.imagePath).toBeDefined();
   });
 
-  it('Called onFileSelected(fileDetails: FileDetails) to valid data set file content', () => {
+  it('Called fileSelected(fileDetails: FileDetails) to valid data set file content', () => {
     const fileLabel = 'sample';
     const fileName = 'sample.xml';
     const fileContents = 'sample data';
     const fileDetails = new FileDetails(fileLabel, fileName, fileContents);
 
-    component.onFileSelected(fileDetails);
+    component.fileSelected(fileDetails);
 
     expect(component.fileContent).toBeDefined();
     expect(component.fileContent).toBeTruthy();

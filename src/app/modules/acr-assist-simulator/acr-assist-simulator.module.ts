@@ -46,11 +46,11 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
     IntegerMaxRestrict,
     AssistDateTimeElementComponent, AssistDurationElementComponent];
-    
+
     export function initializeApp(appConfig: SettingsConfig) {
       return () => appConfig.load();
     }
-    
+
 @NgModule({
   imports: [
     CommonModule,
@@ -74,6 +74,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      ResetCommunicationService,
      EndpointCreationService,
      RuleEngineService,
+     SettingsConfig,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },

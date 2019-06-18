@@ -28,48 +28,54 @@ InsertValue.prototype.manupulateId = function (dynamicId): string {
 };
 
 InsertValue.prototype.processText = function (template: Template, dataElementValues: Map<string, any>): string {
-  if (dataElementValues.get(this.dataElementId) === undefined) {
-    return '';
+  const $dataElementValues = dataElementValues.get(this.dataElementId);
+  const choiceDataElementResults = this.IsDataElementChoiceDataElement(template);
+  let possibleValues = [];
+
+  if ($dataElementValues === undefined) {
+    if (choiceDataElementResults != null) {
+      const choiceElem = choiceDataElementResults[0] as ChoiceDataElement;
+      choiceElem.choiceInfo.filter(function (choice) {
+        return possibleValues.push(choice.label);
+      });
+    }
+
+    return '[ ' + possibleValues.join(' / ') + ' ]';
   }
 
-  const choiceDataElementResults = this.IsDataElementChoiceDataElement(template);
   if (choiceDataElementResults != null) {
     const choiceDataElementResult = choiceDataElementResults[0] as ChoiceDataElement;
-    if (dataElementValues.get(this.dataElementId) !== undefined
-      && dataElementValues.get(this.dataElementId) instanceof Array) {
-      const values = [];
-      for (const $dataElementValues of dataElementValues.get(this.dataElementId)) {
-        const items = choiceDataElementResult.choiceInfo.filter(function (choice) {
-          return choice.value === $dataElementValues;
+    if ($dataElementValues !== undefined && $dataElementValues instanceof Array) {
+      let items = [];
+      for (const value of $dataElementValues) {
+        items = choiceDataElementResult.choiceInfo.filter(function (choice) {
+          return choice.value === value;
         });
         if (items !== undefined && items.length > 0) {
-          values.push(items[0].label);
+          possibleValues.push(items[0].label);
         } else {
-          values.push($dataElementValues);
+          possibleValues = [];
+          $dataElementValues.filter(function (val) {
+            return possibleValues.push(val);
+          });
         }
       }
-
-      return values !== undefined ? values.join(', ') : '';
+      return '[ ' + possibleValues.join(' / ') + ' ]';
     } else {
-      const values = [];
-      const $dataElementValues = dataElementValues.get(this.dataElementId);
       const result = choiceDataElementResult.choiceInfo.filter(function (choice) {
         return choice.value === $dataElementValues;
       });
 
-      return result !== undefined && result.length > 0 ? result[0].label :
-        ($dataElementValues !== undefined && ($dataElementValues === 'freetext' || $dataElementValues === '')
-          ? '' : $dataElementValues);
+      if (result.length > 0) {
+        return '[ ' + result[0].label + ' ]';
+      } else if ($dataElementValues === 'freetext' || $dataElementValues === '') {
+        choiceDataElementResult.choiceInfo.filter(function (val) {
+          return possibleValues.push(val.label);
+        });
+        return '[ ' + possibleValues.join(' / ') + ' ]';
+      }
     }
   }
 
-  if (dataElementValues.get(this.dataElementId) !== undefined
-    && dataElementValues.get(this.dataElementId) instanceof Array) {
-    return dataElementValues.get(this.dataElementId).join(', ');
-  }
-
-  return dataElementValues.get(this.dataElementId);
+  return '[ ' + $dataElementValues + ' ]';
 };
-
-
-
