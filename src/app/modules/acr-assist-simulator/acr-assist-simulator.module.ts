@@ -48,7 +48,8 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     AssistDateTimeElementComponent, AssistDurationElementComponent];
     
     export function initializeApp(appConfig: SettingsConfig) {
-      return () => appConfig.load();
+      const result = () => appConfig.load();
+      return result;
     }
     
 @NgModule({
