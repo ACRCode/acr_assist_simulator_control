@@ -1,6 +1,5 @@
 import { IReportText } from '../../endpoint/IReport-text.interface';
 import { Template } from '../../models/template.model';
-import { DataElementValues } from '../../dataelementvalues';
 import * as _ from 'lodash';
 import { ChoiceDataElement } from '../../elements/models/choice-data-element-model';
 
