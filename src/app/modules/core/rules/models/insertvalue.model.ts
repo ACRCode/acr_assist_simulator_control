@@ -45,20 +45,14 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
   if (choiceDataElementResults != null) {
     const choiceDataElementResult = choiceDataElementResults[0] as ChoiceDataElement;
     if ($dataElementValues !== undefined && $dataElementValues instanceof Array) {
-      let items = [];
-      for (const value of $dataElementValues) {
-        items = choiceDataElementResult.choiceInfo.filter(function (choice) {
-          return choice.value === value;
+      if ($dataElementValues.length > 0) {
+        possibleValues = $dataElementValues;
+      } else {
+        choiceDataElementResult.choiceInfo.filter(function (choice) {
+          return possibleValues.push(choice.label);
         });
-        if (items !== undefined && items.length > 0) {
-          possibleValues.push(items[0].label);
-        } else {
-          possibleValues = [];
-          $dataElementValues.filter(function (val) {
-            return possibleValues.push(val);
-          });
-        }
       }
+
       return '[ ' + possibleValues.join(' / ') + ' ]';
     } else {
       const result = choiceDataElementResult.choiceInfo.filter(function (choice) {
