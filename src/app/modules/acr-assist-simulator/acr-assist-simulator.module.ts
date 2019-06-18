@@ -74,6 +74,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      ResetCommunicationService,
      EndpointCreationService,
      RuleEngineService,
+     SettingsConfig,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },

@@ -9,8 +9,6 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SettingsConfig } from './modules/core/services/settings.service';
 
-
-
 @NgModule({
   declarations: [
     AppComponent
