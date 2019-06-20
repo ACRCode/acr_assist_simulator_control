@@ -47,20 +47,20 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
     if ($dataElementValues !== undefined && $dataElementValues instanceof Array) {
       if ($dataElementValues.length > 0) {
         possibleValues = $dataElementValues;
+        return '[<mark> ' + possibleValues.join(' / ') + ' </mark>]';
       } else {
         choiceDataElementResult.choiceInfo.filter(function (choice) {
           return possibleValues.push(choice.label);
         });
+        return '[ ' + possibleValues.join(' / ') + ' ]';
       }
-
-      return '[ ' + possibleValues.join(' / ') + ' ]';
     } else {
       const result = choiceDataElementResult.choiceInfo.filter(function (choice) {
         return choice.value === $dataElementValues;
       });
 
       if (result.length > 0) {
-        return '[ ' + result[0].label + ' ]';
+        return '[<mark> ' + result[0].label + ' </mark>]';
       } else if ($dataElementValues === 'freetext' || $dataElementValues === '') {
         choiceDataElementResult.choiceInfo.filter(function (val) {
           return possibleValues.push(val.label);
@@ -70,5 +70,5 @@ InsertValue.prototype.processText = function (template: Template, dataElementVal
     }
   }
 
-  return '[ ' + $dataElementValues + ' ]';
+  return $dataElementValues === '' ? '[ ' + $dataElementValues + ' ]' : '[<mark> ' + $dataElementValues + ' </mark>]';
 };
