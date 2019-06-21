@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 export class GlobalsService {
   defaultModule =  'assets/XMLFIles/hello_assist/Hello_Assist.xml';
   defaultTestModule = 'assets/XMLFIles/test_module/Test_Module.xml';
-  defaultLiradsModule = 'assets/XMLFIles/LI-RADS/ACR LI-RADS.xml';
+  defaultBrainMsModule = 'assets/XMLFIles/Brain MS/Brain_MS.xml';
 
   public XMLList: Dictionary<FileDetails> = new Dictionary<FileDetails>();
 
@@ -24,8 +24,8 @@ export class GlobalsService {
     return this.http.get(this.defaultTestModule).map(res => res.text());
   }
 
-  getDefaultLiradsModulePath(): Observable<string> {
-    return this.http.get(this.defaultLiradsModule).map(res => res.text());
+  getDefaultBrainMsModulePath(): Observable<string> {
+    return this.http.get(this.defaultBrainMsModule).map(res => res.text());
   }
 }
 

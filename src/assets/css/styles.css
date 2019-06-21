@@ -445,5 +445,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 mark {
-  background-color: #e4c5c5 !important;
+  background-color: transparent !important;
+  color: #f60808 !important;
 }

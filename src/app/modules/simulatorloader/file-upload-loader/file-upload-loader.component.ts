@@ -71,10 +71,10 @@ export class FileUploadLoaderComponent implements OnInit  {
   }
 
   showTestLiradsModule() {
-    this.configService.getDefaultLiradsModulePath()
+    this.configService.getDefaultBrainMsModulePath()
     .subscribe(data => {
       const self = this;
-      self.fileContentRead.emit( new FileDetails('LI-RADS', 'ACR LI-RADS.xml', data));
+      self.fileContentRead.emit( new FileDetails('Brain MS', 'Brain_MS.xml', data));
     });
   }
 }
