@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Template } from '../models/template.model';
 import { SimulatorState } from '../models/simulator-state.model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { DecisionPoint } from '../models/decisionpoint.model';
 import { DataElementValues } from '../dataelementvalues';
 import { ComputedDataElement } from '../elements/models/computed-data-element-model';

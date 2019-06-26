@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { AcrAssistSimulatorModule } from './modules/acr-assist-simulator/acr-assist-simulator.module';
 import { SimulatorLoaderModule } from './modules/simulatorloader/simulatorloader.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SettingsConfig } from './modules/core/services/settings.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 @NgModule({
   declarations: [
@@ -19,7 +18,7 @@ import { SettingsConfig } from './modules/core/services/settings.service';
     AcrAssistSimulatorModule,
     CommonModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     SimulatorLoaderModule
   ],
   bootstrap: [AppComponent]

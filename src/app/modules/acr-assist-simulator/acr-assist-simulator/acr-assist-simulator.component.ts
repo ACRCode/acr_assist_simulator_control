@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Template } from '../../core/models/template.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
@@ -42,10 +41,8 @@ export class AcrAssistSimulatorComponent implements OnChanges {
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('imageUpload') imageUpload: any;
-  @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
-
-
+  @ViewChild('imageUpload', { static: false }) imageUpload: any;
+  @ViewChild('simulatorBlock', { static: false, read: ElementRef }) private simulatorBlock: ElementRef;
 
   template: Template;
   isEmptyContent: boolean;
@@ -70,7 +67,6 @@ export class AcrAssistSimulatorComponent implements OnChanges {
         this.resetElements();
       })
     }
-    //  this.applyInputStyles();
   }
 
   ngOnChanges(): void {

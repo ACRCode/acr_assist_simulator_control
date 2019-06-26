@@ -47,7 +47,7 @@ constructor (private configService: GlobalsService) {
     const self = this;
     const extensionStartPosition = self.readFile.name.lastIndexOf('.');
     this.fileReader.onloadend = (e) => {
-      self.onFileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition),    self.readFile.name, this.fileReader.result));
+      self.onFileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition),    self.readFile.name, this.fileReader.result.toString()));
     };
     this.fileReader.readAsText(this.readFile);
   }
