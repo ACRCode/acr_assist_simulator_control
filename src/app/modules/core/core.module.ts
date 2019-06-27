@@ -13,7 +13,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [ SimulatorEngineService, UtilityService]
+      providers: [ SimulatorEngineService, UtilityService ]
     };
   }
  }

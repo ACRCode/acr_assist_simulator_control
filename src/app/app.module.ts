@@ -7,6 +7,7 @@ import { SimulatorLoaderModule } from './modules/simulatorloader/simulatorloader
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { SettingsService } from './modules/core/services/settings.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     SimulatorLoaderModule
   ],
+  providers: [ SettingsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

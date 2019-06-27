@@ -21,6 +21,7 @@ declare var resizeKeyImages: any;
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
 export class AcrAssistSimulatorComponent implements OnChanges {
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
