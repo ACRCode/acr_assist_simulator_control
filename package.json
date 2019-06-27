@@ -44,20 +44,22 @@
     "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
   },
   "dependencies": {
+    "@angular/cdk": "^8.0.1",
     "expr-eval": "^1.2.2",
     "jquery": "^3.4.1",
     "ng-pick-datetime": "^7.0.0",
-    "ngx-drag-scroll": "~7.4.3",
-    "string": "^3.3.3",
-    "rxjs": "^6.5.2",
     "ngx-bootstrap": "^5.0.0",
+    "ngx-drag-scroll": "~7.4.3",
+    "rxjs": "^6.5.2",
     "stream": "0.0.2",
+    "string": "^3.3.3",
     "timers": "^0.1.1",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.800.4",
     "@angular/animations": "^8.0.2",
+    "@angular/cdk": "^8.0.1",
     "@angular/cli": "^8.0.4",
     "@angular/common": "^8.0.2",
     "@angular/compiler": "^8.0.2",

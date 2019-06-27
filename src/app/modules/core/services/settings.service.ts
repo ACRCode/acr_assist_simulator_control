@@ -8,7 +8,8 @@ export class SettingsConfig {
     private _config: Object;
     private configUrl = 'assets/config/settings.json';
 
-    constructor(private httpService: HttpClient) {
+    constructor(
+        private httpService: HttpClient) {
     }
 
     load() {
