@@ -132,6 +132,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         }
       }
 
+      console.log($mainReportText.allReportText);
       this.callBackAfterGettingShowKeyDiagram.emit(showKeyDiagram);
       this.simulatorCommunicationService.messageEmitter('');
     });

@@ -40,6 +40,7 @@ import { AssistDateTimeElementComponent } from './assist-data-element/assist-dat
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { IntegerMaxRestrict } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
 import { SettingsConfig } from '../core/services/settings.service';
+import { VendorValidationService } from './shared/services/vendor-validation.service';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
     AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
@@ -76,6 +77,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      EndpointCreationService,
      RuleEngineService,
      SettingsConfig,
+     VendorValidationService,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: NumericDataElementCreationService, multi: true },
