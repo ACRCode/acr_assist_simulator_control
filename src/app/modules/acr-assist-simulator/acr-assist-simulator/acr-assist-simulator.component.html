@@ -2,7 +2,7 @@
   <div id="topReportTextPosition" *ngIf="reportTextPosition === position.Top || reportTextPosition === undefined || reportTextPosition === null">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div id="div-simulator-block">
-        <div simulatorBlock  class="box box-primary box-solid margin-b-0">
+        <div #simulatorBlock  class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border  text-right padding-5 padding-r-10">
             <button (click)="resetElements()" class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
           </div>
@@ -88,7 +88,7 @@
         <div class="box box-primary margin-b-0">
           <div class="box-header with-border">
             <h3 class="box-title">Key Images</h3>
-            <input imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
+            <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
             <label for="diagramUpload" class="btn btn-sm btn-success bg-olive margin-l-10" title="Choose Diagrams">Choose a Diagram</label>
             <div class="pull-right padding-l-5">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
