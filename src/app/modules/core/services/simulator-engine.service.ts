@@ -27,6 +27,8 @@ import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 import { RuleEvaluationResult } from '../endpoint/rule-evaluation-result.model';
 import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
 
+declare function evaluate_rules(template: Template, endpoints: string[], dataElementValues: Map<string, any>);
+
 @Injectable()
 export class SimulatorEngineService {
   private ComputedDataElementIds = new Array<ComputedDataElementId>();
@@ -144,14 +146,11 @@ export class SimulatorEngineService {
     endpoints = this.ValidateEndpoints(endpointBranches);
     if (endpoints !== undefined && endpoints.length > 0) {
       this.endpoints = endpoints;
-      const results = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
+      const results = evaluate_rules(this.template, this.endpoints, this.dataElementValues);
+      // const results = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
       for (const _result of results) {
         this.ruleEvaluationResult.push(_result);
       }
-
-      // this.simulatorStateChanged.next($simulatorState);
-    } else {
-      // this.simulatorStateChanged.next($simulatorState);
     }
   }
 

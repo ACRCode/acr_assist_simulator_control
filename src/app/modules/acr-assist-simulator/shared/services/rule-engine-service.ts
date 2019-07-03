@@ -12,6 +12,7 @@ export class RuleEngineService {
     ruleEvaluationResults = Array<RuleEvaluationResult>();
     $template: Template;
     $dataElementValues: Map<string, any>;
+
     EvaluateRules(template: Template, endpoints: string[], dataElementValues: Map<string, any>) {
         this.ruleEvaluationResults = [];
         this.$template = template;
