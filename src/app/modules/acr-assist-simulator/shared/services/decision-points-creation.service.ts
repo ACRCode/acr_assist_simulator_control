@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Rules } from '../../../core/rules/models/rules.model';
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPoint } from '../../../core/models/decisionpoint.model';
 import { Branch } from '../../../core//models/branch.model';

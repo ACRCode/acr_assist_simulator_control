@@ -1,19 +1,17 @@
 import { Injectable, Inject } from '@angular/core';
 import { Template } from '../../../core/models/template.model';
 import { Metadata } from '../../../core/metadata/models/metadata-model';
-import { Diagram } from '../../../core/models/diagram.model';
 import { DiagramService } from './diagram.service';
 import { CreationServiceInjectorToken } from '../../constants';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
-import { Rules } from '../../../core/rules/models/rules.model';
-import { fail } from 'assert';
+import { Rules } from 'testruleengine';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
 import { EndpointCreationService } from './endpoint-creation.service';
-declare var require: any;
 
+declare var require: any;
 
 @Injectable()
 export class TemplateManagerService {

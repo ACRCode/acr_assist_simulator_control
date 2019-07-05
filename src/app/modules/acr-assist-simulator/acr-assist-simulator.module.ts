@@ -34,7 +34,6 @@ import { DurationDataElementCreationService } from './shared/services/duration-d
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
 import { EndpointCreationService } from './shared/services/endpoint-creation.service';
-import { RuleEngineService } from './shared/services/rule-engine-service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
@@ -73,7 +72,6 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
      SimulatorCommunicationService,
      ResetCommunicationService,
      EndpointCreationService,
-     RuleEngineService,
      SettingsConfig,
     { provide: CreationServiceInjectorToken, useClass: ChoiceDataElementCreationService, multi: true },
     { provide: CreationServiceInjectorToken, useClass: MultipleChoiceDataElementCreationService, multi: true },

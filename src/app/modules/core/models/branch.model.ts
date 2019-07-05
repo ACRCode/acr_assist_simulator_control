@@ -4,8 +4,7 @@ import { Condition } from '../condition';
 import { DecisionPoint } from './decisionpoint.model';
 import { EndPointRef } from './endpointref.model';
 import { ComputedValue } from './computed-value.model';
-import { TextTemplateContent } from '../endpoint/text-template-content.model';
-import { ReportText } from '../endpoint/report-text.model';
+import * as ReportText  from 'testruleengine';
 
 export class Branch {
   label: string;
@@ -15,12 +14,10 @@ export class Branch {
   decisionPoints: DecisionPoint[];
   endPointRef: EndPointRef;
   computedValue: ComputedValue;
-  // textTemplateContent: TextTemplateContent;
   branches: Branch[] = [];
-  // texts: TextTemplateContent[] = [];
   reportText: ReportText[] = [];
   isManuallyAdded: boolean;
+
   constructor() {
-    // this.textTemplateContent = new TextTemplateContent();
   }
 }

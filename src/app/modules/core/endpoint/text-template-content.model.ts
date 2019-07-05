@@ -1,5 +1,5 @@
-import { InsertPartial } from '../rules/models/insertpartial.model';
-import { InsertValue } from '../rules/models/insertvalue.model';
+import * as InsertPartial from 'testruleengine';
+import * as InsertValue  from 'testruleengine';
 
 export class TextTemplateContent {
     insertPartial: InsertPartial;

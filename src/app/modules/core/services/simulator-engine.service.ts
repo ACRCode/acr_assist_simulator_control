@@ -12,22 +12,19 @@ import { NumericDataElement } from '../elements/models/numeric-data-element.mode
 import { IntegerDataElement } from '../elements/models/integer-data-element.model';
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
 import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
-import { RuleEngineService } from '../../acr-assist-simulator/shared/services/rule-engine-service';
 // import { RepeatableElementRegisterService } from '../../acr-assist-simulator/shared/services/repeatable-element-register.service';
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
 import { BaseDataElement } from '../elements/models/base-data-element.model';
 import { Branch } from '../models/branch.model';
-import { EndPointRef } from '../models/endpointref.model';
 import { EndpointItem } from '../endpoint/endpoint-item.model';
-import { InsertPartial } from '../rules/models/insertpartial.model';
-import { InsertValue } from '../rules/models/insertvalue.model';
+import * as InsertPartial from 'testruleengine';
+import * as InsertValue from 'testruleengine';
 import { TemplatePartial } from '../endpoint/template-partial';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 import { RuleEvaluationResult } from '../endpoint/rule-evaluation-result.model';
 import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
-
-declare function evaluate_rules(template: Template, endpoints: string[], dataElementValues: Map<string, any>);
+import { EvaluateRules } from 'testruleengine';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -46,9 +43,7 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor(private ruleEngineService: RuleEngineService,
-    // private repeatableElementRegisterService: RepeatableElementRegisterService
-  ) {
+  constructor() {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -146,8 +141,7 @@ export class SimulatorEngineService {
     endpoints = this.ValidateEndpoints(endpointBranches);
     if (endpoints !== undefined && endpoints.length > 0) {
       this.endpoints = endpoints;
-      const results = evaluate_rules(this.template, this.endpoints, this.dataElementValues);
-      // const results = this.ruleEngineService.EvaluateRules(this.template, endpoints, this.dataElementValues);
+      const results = EvaluateRules(this.template, this.endpoints, this.dataElementValues);
       for (const _result of results) {
         this.ruleEvaluationResult.push(_result);
       }

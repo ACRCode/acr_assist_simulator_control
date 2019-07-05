@@ -3,27 +3,21 @@ import { Injectable } from '@angular/core';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
 import { Branch } from '../../../core/models/branch.model';
 import { ConditionsCreationService } from './conditions-creation.service';
-import { ComputedValueCreationService } from './computed-value-creation.service';
-import { TextTemplateContent } from '../../../core/endpoint/text-template-content.model';
 import { EndpointItem } from '../../../core/endpoint/endpoint-item.model';
-import { EndPoint } from '../../../core/models/endpoint.model';
 import { ReportSection } from '../../../core/endpoint/report-section.model';
-import { ReportText } from '../../../core/endpoint/report-text.model';
 import { EReportText } from '../../../core/endpoint/report-text-enum';
-import { InsertPartial } from '../../../core/rules/models/insertpartial.model';
-import { InsertValue } from '../../../core/rules/models/insertvalue.model';
-import { PlainText } from '../../../core/rules/models/plain-text.model';
-import { NewLine } from '../../../core/rules/models/new-line.model';
-import { Tab } from '../../../core/rules/models/tab.model';
-import { Space } from '../../../core/rules/models/space.model';
-// import { EReportText } from '../../../core/endpoint/report-text-enum';
-
+import { ReportText } from 'testruleengine';
+import { PlainText } from 'testruleengine';
+import { InsertValue } from 'testruleengine';
+import { InsertPartial } from 'testruleengine';
+import { NewLine } from 'testruleengine';
+import { Tab } from 'testruleengine';
+import { Space } from 'testruleengine';
 
 @Injectable()
 export class EndpointCreationService {
-    constructor(private conditionsCreationService: ConditionsCreationService,
-        private computedValueCreationService: ComputedValueCreationService) {
-
+    constructor(
+        private conditionsCreationService: ConditionsCreationService) {
     }
 
     public CreateEndPoints(endpointJson): Endpoint {
