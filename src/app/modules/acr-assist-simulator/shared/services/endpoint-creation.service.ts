@@ -6,13 +6,7 @@ import { ConditionsCreationService } from './conditions-creation.service';
 import { EndpointItem } from '../../../core/endpoint/endpoint-item.model';
 import { ReportSection } from '../../../core/endpoint/report-section.model';
 import { EReportText } from '../../../core/endpoint/report-text-enum';
-import { ReportText } from 'testruleengine';
-import { PlainText } from 'testruleengine';
-import { InsertValue } from 'testruleengine';
-import { InsertPartial } from 'testruleengine';
-import { NewLine } from 'testruleengine';
-import { Tab } from 'testruleengine';
-import { Space } from 'testruleengine';
+import { ReportText, PlainText, InsertValue, InsertPartial, NewLine, Tab, Space } from 'testruleengine/Library/RuleEvaluator';
 
 @Injectable()
 export class EndpointCreationService {

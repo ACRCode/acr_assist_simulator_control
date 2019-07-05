@@ -12,19 +12,18 @@ import { NumericDataElement } from '../elements/models/numeric-data-element.mode
 import { IntegerDataElement } from '../elements/models/integer-data-element.model';
 import { DurationDataElement } from '../elements/models/duration-data-element.model';
 import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
-// import { RepeatableElementRegisterService } from '../../acr-assist-simulator/shared/services/repeatable-element-register.service';
-const expressionParser = require('expr-eval').Parser;
-import * as _ from 'lodash';
+
 import { BaseDataElement } from '../elements/models/base-data-element.model';
 import { Branch } from '../models/branch.model';
 import { EndpointItem } from '../endpoint/endpoint-item.model';
-import * as InsertPartial from 'testruleengine';
+import { InsertPartial, EvaluateRules, RuleEvaluationResult}  from 'testruleengine/Library/RuleEvaluator';
 import * as InsertValue from 'testruleengine';
 import { TemplatePartial } from '../endpoint/template-partial';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
-import { RuleEvaluationResult } from '../endpoint/rule-evaluation-result.model';
 import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
-import { EvaluateRules } from 'testruleengine';
+
+const expressionParser = require('expr-eval').Parser;
+import * as _ from 'lodash';
 
 @Injectable()
 export class SimulatorEngineService {

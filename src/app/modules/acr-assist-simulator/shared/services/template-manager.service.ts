@@ -7,7 +7,7 @@ import { DataElementCreationBaseService } from './data-element-creation-base-ser
 import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
-import { Rules } from 'testruleengine';
+import { Rules } from 'testruleengine/Library/RuleEvaluator';
 import { TemplatePartial } from '../../../core/endpoint/template-partial';
 import { EndpointCreationService } from './endpoint-creation.service';
 
@@ -15,9 +15,8 @@ declare var require: any;
 
 @Injectable()
 export class TemplateManagerService {
-  private endPointXMLString: string[] = [];
 
-  private stringParser: any = require('string');
+  private endPointXMLString: string[] = [];
 
   constructor(private diagramService: DiagramService,
     @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[],

@@ -1,5 +1,5 @@
-import * as InsertPartial from 'testruleengine';
-import * as InsertValue  from 'testruleengine';
+import { InsertPartial } from 'testruleengine/Library/RuleEvaluator';
+import { InsertValue }  from 'testruleengine/Library/RuleEvaluator';
 
 export class TextTemplateContent {
     insertPartial: InsertPartial;

@@ -4,7 +4,7 @@ import { Condition } from '../condition';
 import { DecisionPoint } from './decisionpoint.model';
 import { EndPointRef } from './endpointref.model';
 import { ComputedValue } from './computed-value.model';
-import * as ReportText  from 'testruleengine';
+import { ReportText }  from 'testruleengine/Library/RuleEvaluator';
 
 export class Branch {
   label: string;
