@@ -5,7 +5,8 @@ import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, NonRelevantPushPopService,
          IntegerDataElement, DurationDataElement, ComputedDataElement, EvaluateRules, DataElementValues, TemplatePartial,
-         InsertPartial, FindDecisionPoints, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/RuleEvaluator';
+         InsertPartial, FindDecisionPoints, RuleEvaluationResult, InsertValue, BaseDataElement, Template,
+         ResetLogicData } from 'testruleengine/Library/RuleEvaluator';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
 const expressionParser = require('expr-eval').Parser;
@@ -103,26 +104,19 @@ export class SimulatorEngineService {
           }
         } else if (branch.computedValue !== undefined) {
           this.dataElementValues.set(elementId, branch.computedValue.expressionText);
-          // this.endOfRoadReached = true;
           if (branch.computedValue instanceof ArithmeticExpression) {
             this.dataElementValues.set(elementId, this.evaluateArithmeticExpression(branch.computedValue.expressionText));
-            // this.endOfRoadReached = true;
           } else {
             if (this.IsExpressionReferedtoComputedDataElement(branch.computedValue.expressionText)) {
               this.FindAndSetValueForComputedDataElement(branch.computedValue.expressionText, elementId);
-              // this.evaluateComputedElementDecisionPoint(elementId, decisionPoint, branchingLevel);
-              // this.endOfRoadReached = true;
             } else {
               this.dataElementValues.set(elementId, branch.computedValue.expressionText);
-              // this.endOfRoadReached = true;
             }
           }
-
           break;
         }
       } else {
         if (currentBranchCount >= totalBranchesInDecisionPoint) {
-          // this.endOfRoadReached = true;
           this.dataElementValues.set(elementId, undefined);
           return;
         } else {
@@ -284,11 +278,6 @@ export class SimulatorEngineService {
           }
         }
       }
-    } else {
-      // temp code
-      // if (this.nonRelevantDataElementIds.length === 0) {
-      //   dataelement.isRequired = true;
-      // }
     }
   }
 
@@ -621,6 +610,7 @@ export class SimulatorEngineService {
 
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
+      ResetLogicData();
       this.showKeyDiagram = undefined;
       this.evaluateComputedExpressions();
       this.evaluateDecisionAndConditionalProperty();
