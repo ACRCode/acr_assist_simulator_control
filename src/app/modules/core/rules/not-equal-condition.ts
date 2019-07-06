@@ -1,7 +1,5 @@
-import { ConditionType } from '../models/conditiontype.model';
-import { Condition } from '../condition';
-import { DataElementValues } from '../dataelementvalues';
-import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
+import { Condition, DataElementValues, ConditionType, NonRelevantPushPopService } from 'testruleengine/Library/RuleEvaluator';
+
 export class NotEqualCondition implements Condition {
 
   conditionType: ConditionType;
@@ -14,9 +12,7 @@ export class NotEqualCondition implements Condition {
   evaluate(dataElementValues: DataElementValues): boolean {
     const nonRelevantDataElements = NonRelevantPushPopService.GetNonRelevantDataelements();
     let isDataElementNotRelevant = false;
-    // if (nonRelevantDataElements.indexOf(this.conditionType.dataElementId) !== -1) {
-    //   isDataElementNotRelevant = true;
-    // }
+
     if (!isDataElementNotRelevant) {
       const value = dataElementValues.get(this.conditionType.dataElementId);
       let isExist = false;

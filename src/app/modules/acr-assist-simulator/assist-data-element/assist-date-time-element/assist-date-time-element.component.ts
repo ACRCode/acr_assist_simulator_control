@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
-import { DateTimeDataElement } from '../../../core/elements/models/datetime.model';
+import { DateTimeDataElement } from 'testruleengine/Library/RuleEvaluator';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { DateTimeElement } from '../assist-data-element.component';
 
@@ -11,6 +11,7 @@ import { DateTimeElement } from '../assist-data-element.component';
   styleUrls: ['./assist-date-time-element.component.css']
 })
 export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dateTimeDataElement: DateTimeDataElement;
   @Output() returnDateTimeElement = new EventEmitter();

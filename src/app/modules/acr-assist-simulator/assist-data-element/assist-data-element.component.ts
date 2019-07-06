@@ -1,26 +1,16 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, ViewChild } from '@angular/core';
-import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
-import { Template } from '../../core/models/template.model';
-import { ImageElements } from '../../core/elements/models/image-elements.model';
-import { EndPointRef } from '../../core/models/endpointref.model';
-
-import { TemplatePartial } from '../../core/endpoint/template-partial';
-import { Console } from '@angular/core/src/console';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
-import { SelectedCondition } from '../../core/models/executed-result.model';
 import { InputData } from '../../core/models/input-data.model';
-import { AssistChoiceElementComponent } from './assist-choice-element/assist-choice-element.component';
-import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
-// import { AssistNumericElementComponent } from './assist-numeric-element/assist-numeric-element.component';
+import { BaseDataElement, ChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
-import { Subscription } from 'rxjs';
-// import { RepeatableElementRegisterService } from '../shared/services/repeatable-element-register.service';
-import * as _ from 'lodash';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
+import { Subscription } from 'rxjs';
+
+import * as _ from 'lodash';
 const $ = require('jquery');
 
 @Component({

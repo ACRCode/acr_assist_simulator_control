@@ -1,5 +1,4 @@
-import { CompositeCondition } from '../composite-condition';
-import { DataElementValues } from '../dataelementvalues';
+import { CompositeCondition, DataElementValues } from 'testruleengine/Library/RuleEvaluator';
 
 export class NotCondition implements CompositeCondition {
   conditions: any = [];

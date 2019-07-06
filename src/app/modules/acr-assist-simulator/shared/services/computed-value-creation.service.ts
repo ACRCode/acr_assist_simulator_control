@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TextExpression } from '../../../core/models/text-expression.model';
-import { ComputedValue } from '../../../core/models/computed-value.model';
+import { ComputedValue } from 'testruleengine/Library/RuleEvaluator';
 import { ArithmeticExpression } from '../../../core/models/arithmetic-expression.model';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { EndPoint } from './endpoint.model';
+import { EndPoint } from 'testruleengine/Library/RuleEvaluator';
 
 export class ExpressionBlock {
     public Condition = '';

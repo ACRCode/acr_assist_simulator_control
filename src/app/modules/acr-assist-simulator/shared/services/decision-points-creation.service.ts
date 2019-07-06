@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ArrayCheckerService } from './array-checker.service';
-import { DecisionPoint } from '../../../core/models/decisionpoint.model';
-import { Branch } from '../../../core//models/branch.model';
-import { EndPointRef } from '../../../core/models/endpointref.model';
-import { DataElementRef } from '../../../core/models/dataelementref.model';
-import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
+import { DataElementRef, NotRelevantDataElements, Branch, DecisionPoint, EndPointRef } from 'testruleengine/Library/RuleEvaluator';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
 

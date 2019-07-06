@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { DiagramService } from './diagram.service';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { IntegerDataElement } from '../../../core/elements/models/integer-data-element.model';
+import { BaseDataElement, IntegerDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
-import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
-import { ConditionalProperty } from '../../../core/elements/models/conditionalproperty.model';
 
 
 @Injectable()

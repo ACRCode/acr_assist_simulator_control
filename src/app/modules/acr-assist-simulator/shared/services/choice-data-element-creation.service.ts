@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { DiagramService } from './diagram.service';
-import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { Choice } from '../../../core/elements/models/choice.model';
-import { ImageMap } from '../../../core/elements/models/image-map.model';
-import { Area } from '../../../core/elements/models/area-model';
-import { AreaMap } from '../../../core/elements/models/area-map.model';
+import { ChoiceDataElement, BaseDataElement, Choice, ImageMap, Area, 
+        AreaMap, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
 import { ArrayCheckerService } from './array-checker.service';
-import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
-import { ConditionalProperty } from '../../../core/elements/models/conditionalproperty.model';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
-import { Branch } from '../../../core/models/branch.model';
 
 @Injectable()
 export class ChoiceDataElementCreationService extends DataElementCreationBaseService {

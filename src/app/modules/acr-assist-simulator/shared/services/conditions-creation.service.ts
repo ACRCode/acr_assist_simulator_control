@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Condition } from '../../../core/condition';
+import { Condition, CompositeCondition, ConditionType, SectionIfCondition, SectionIfNotCondition } from 'testruleengine/Library/RuleEvaluator';
 import { EqualCondition } from '../../../core/rules/equal-condition';
-import { ConditionType } from '../../../core/models/conditiontype.model';
 import { GreaterThanCondition } from '../../../core/rules/greater-than-condition';
 import { LessThanCondition } from '../../../core/rules/less-than-condition';
 import { GreaterThanOrEqualsCondition } from '../../../core/rules/greater-than-or-equals-condition';
 import { LessThanOrEqualsCondition } from '../../../core/rules/less-than-or-equals-condition';
 import { ContainsCondition } from '../../../core/rules/contains-condition';
-import { CompositeCondition } from '../../../core/composite-condition';
 import { AndCondition } from '../../../core/rules/and-condition';
 import { OrCondition } from '../../../core/rules/or-condition';
 import { ArrayCheckerService } from './array-checker.service';
 import { NotCondition } from '../../../core/rules/not-condition';
-import { SectionIfCondition } from '../../../core/rules/section-if-condition';
 import { NotEqualCondition } from '../../../core/rules/not-equal-condition';
-import { notEqual } from 'assert';
-import { SectionIfNotCondition } from '../../../core/rules/section-if-not-condition';
 
 @Injectable()
 export class ConditionsCreationService {

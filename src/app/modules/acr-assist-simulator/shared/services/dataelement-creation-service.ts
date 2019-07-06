@@ -1,4 +1,4 @@
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
+import { BaseDataElement } from 'testruleengine/Library/RuleEvaluator';
 
 export interface DataElementCreationService {
     elementType: string;

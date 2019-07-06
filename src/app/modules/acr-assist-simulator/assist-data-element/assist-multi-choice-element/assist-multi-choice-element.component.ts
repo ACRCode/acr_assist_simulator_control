@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { MultiChoiceDataElement } from '../../../core/elements/models/multi-choice-data-element';
+import { MultiChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+
 const $ = require('jquery');
 import * as _ from 'lodash';
-import { Choice } from '../../../core/elements/models/choice.model';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',

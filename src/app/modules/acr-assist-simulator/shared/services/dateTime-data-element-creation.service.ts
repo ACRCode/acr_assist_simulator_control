@@ -3,10 +3,7 @@ import { DataElementCreationBaseService } from './data-element-creation-base-ser
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
 import { DiagramService } from './diagram.service';
-import { DateTimeDataElement } from '../../../core/elements/models/datetime.model';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
-import { ConditionalProperty } from '../../../core/elements/models/conditionalproperty.model';
+import { DateTimeDataElement, BaseDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
 
 @Injectable()
 export class DateTimeDataElementCreationService extends DataElementCreationBaseService {

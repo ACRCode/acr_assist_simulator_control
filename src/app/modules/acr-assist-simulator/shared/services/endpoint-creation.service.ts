@@ -1,12 +1,8 @@
-import { Endpoint } from '../../../core/endpoint/endpoint.model';
 import { Injectable } from '@angular/core';
-import { TemplatePartial } from '../../../core/endpoint/template-partial';
-import { Branch } from '../../../core/models/branch.model';
 import { ConditionsCreationService } from './conditions-creation.service';
-import { EndpointItem } from '../../../core/endpoint/endpoint-item.model';
-import { ReportSection } from '../../../core/endpoint/report-section.model';
 import { EReportText } from '../../../core/endpoint/report-text-enum';
-import { ReportText, PlainText, InsertValue, InsertPartial, NewLine, Tab, Space } from 'testruleengine/Library/RuleEvaluator';
+import { ReportText, PlainText, InsertValue, InsertPartial, NewLine, Tab, Space, Branch, 
+         EndpointItem, ReportSection, Endpoint, TemplatePartial } from 'testruleengine/Library/RuleEvaluator';
 
 @Injectable()
 export class EndpointCreationService {

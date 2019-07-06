@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DurationDataElement } from '../../../core/elements/models/duration-data-element.model';
+import { DurationDataElement } from 'testruleengine/Library/RuleEvaluator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { Subscription } from 'rxjs';
@@ -173,17 +173,6 @@ export class AssistDurationElementComponent implements OnInit {
   }
 
   private createDurationElementForm() {
-    // this.durationElementForm = this.formBuilder.group({
-    //   durationdayselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],
-    //   durationminuteselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],
-    //   durationhourselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])],
-    //   durationsecondselement: ['', Validators.compose([Validators.required,
-    //     Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]
-    // });
-
     if (this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && this.durationDataElement.ShowSeconds) {

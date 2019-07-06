@@ -1,4 +1,4 @@
-import { RuleEvaluationResult } from "../endpoint/rule-evaluation-result.model";
+import { RuleEvaluationResult } from "testruleengine/Library/RuleEvaluator";
 
 export class SimulatorState {
   nonRelevantDataElementIds: string[] = [];

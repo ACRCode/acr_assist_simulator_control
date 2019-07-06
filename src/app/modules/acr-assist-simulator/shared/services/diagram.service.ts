@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Diagram } from '../../../core/models/diagram.model';
+import { Diagram } from 'testruleengine/Library/RuleEvaluator';
 import { ArrayCheckerService } from './array-checker.service';
 
 @Injectable()

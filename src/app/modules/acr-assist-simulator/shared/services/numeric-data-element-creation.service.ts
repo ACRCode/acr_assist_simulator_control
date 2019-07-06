@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { DiagramService } from './diagram.service';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
-import { NumericDataElement } from '../../../core/elements/models/numeric-data-element.model';
-import { ConditionalProperty } from '../../../core/elements/models/conditionalproperty.model';
+import { BaseDataElement, NumericDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
 import { ConditionsCreationService } from './conditions-creation.service';
-import { NotRelevantDataElements } from '../../../core/models/notrelevantdataelements.model';
-import { ComputedValueCreationService } from './computed-value-creation.service';
 import { Subscription } from 'rxjs'
 
 @Injectable()
 export class NumericDataElementCreationService extends DataElementCreationBaseService {
   subscription: Subscription;
   constructor(diagramService: DiagramService,
-    private conditionsCreationService: ConditionsCreationService,
-    private computedValueCreationService: ComputedValueCreationService
+    private conditionsCreationService: ConditionsCreationService
     ) {
     super(diagramService);
     this.elementType = 'NumericDataElement';

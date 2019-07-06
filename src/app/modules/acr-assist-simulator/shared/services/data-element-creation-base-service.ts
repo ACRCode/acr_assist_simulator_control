@@ -1,9 +1,7 @@
 import { DataElementCreationService } from './dataelement-creation-service';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
+import { BaseDataElement, CodableConcept, Coding } from 'testruleengine/Library/RuleEvaluator';
 import { Injectable } from '@angular/core';
 import { DiagramService } from './diagram.service';
-import { CodableConcept } from '../../../core/elements/models/codableConcept.model';
-import { Coding } from '../../../core/elements/models/coding.model';
 
 @Injectable()
 export abstract class DataElementCreationBaseService implements DataElementCreationService {

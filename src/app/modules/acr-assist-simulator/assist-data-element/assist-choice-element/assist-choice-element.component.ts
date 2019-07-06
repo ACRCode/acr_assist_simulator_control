@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { ChoiceDataElement } from '../../../core/elements/models/choice-data-element-model';
+import { ChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

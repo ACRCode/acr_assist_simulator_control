@@ -1,7 +1,4 @@
-import { ConditionType } from '../models/conditiontype.model';
-import { CompositeCondition } from '../composite-condition';
-import { Condition } from '../condition';
-import { DataElementValues } from '../dataelementvalues';
+import { CompositeCondition, DataElementValues } from 'testruleengine/Library/RuleEvaluator';
 
 export class AndCondition implements CompositeCondition {
   conditions: any = [];

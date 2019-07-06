@@ -1,26 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Template } from '../models/template.model';
 import { SimulatorState } from '../models/simulator-state.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DecisionPoint } from '../models/decisionpoint.model';
-import { DataElementValues } from '../dataelementvalues';
-import { ComputedDataElement } from '../elements/models/computed-data-element-model';
 import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
-import { ChoiceDataElement } from '../elements/models/choice-data-element-model';
-import { NumericDataElement } from '../elements/models/numeric-data-element.model';
-import { IntegerDataElement } from '../elements/models/integer-data-element.model';
-import { DurationDataElement } from '../elements/models/duration-data-element.model';
-import { MultiChoiceDataElement } from '../elements/models/multi-choice-data-element';
-
-import { BaseDataElement } from '../elements/models/base-data-element.model';
-import { Branch } from '../models/branch.model';
-import { EndpointItem } from '../endpoint/endpoint-item.model';
-import { InsertPartial, EvaluateRules, RuleEvaluationResult}  from 'testruleengine/Library/RuleEvaluator';
-import * as InsertValue from 'testruleengine';
-import { TemplatePartial } from '../endpoint/template-partial';
+import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, NonRelevantPushPopService,
+         IntegerDataElement, DurationDataElement, ComputedDataElement, Branch, DataElementValues, TemplatePartial,
+         InsertPartial, EvaluateRules, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/RuleEvaluator';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
-import { NonRelevantPushPopService } from '../../acr-assist-simulator/shared/services/non-relevant-dataelement-register.service';
 
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
@@ -110,10 +96,9 @@ export class SimulatorEngineService {
         }
       }
 
-      // && !branch.endPointRef.isRepeatable
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
-        if (branch.decisionPoints !== undefined) {
+        if (branch.decisionPoints !== undefined && branch.decisionPoints.length > 0) {
           for (const branchDecisionPoint of branch.decisionPoints) {
             const newBranchingLevel = branchingLevel + 1;
             this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);

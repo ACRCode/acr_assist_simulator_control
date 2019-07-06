@@ -1,6 +1,6 @@
-import {NgModule , ModuleWithProviders } from '@angular/core';
-import {CommonModule } from '@angular/common';
-import {SimulatorEngineService} from './services/simulator-engine.service';
+import { NgModule , ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SimulatorEngineService } from './services/simulator-engine.service';
 import { UtilityService } from './services/utility.service';
 
 @NgModule({
@@ -16,6 +16,4 @@ export class CoreModule {
       providers: [ SimulatorEngineService, UtilityService]
     };
   }
-
-
  }

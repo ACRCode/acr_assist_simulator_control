@@ -1,14 +1,11 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Template } from '../../core/models/template.model';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
-import { Diagram } from '../../core/models/diagram.model';
-import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+import { ChoiceDataElement, BaseDataElement, Template, Diagram } from 'testruleengine/Library/RuleEvaluator';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';

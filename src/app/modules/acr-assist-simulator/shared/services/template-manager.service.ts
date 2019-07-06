@@ -1,14 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
-import { Template } from '../../../core/models/template.model';
-import { Metadata } from '../../../core/metadata/models/metadata-model';
 import { DiagramService } from './diagram.service';
 import { CreationServiceInjectorToken } from '../../constants';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
-import { BaseDataElement } from '../../../core/elements/models/base-data-element.model';
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
-import { Rules } from 'testruleengine/Library/RuleEvaluator';
-import { TemplatePartial } from '../../../core/endpoint/template-partial';
+import { Rules, BaseDataElement, Template, TemplatePartial, Metadata  } from 'testruleengine/Library/RuleEvaluator';
 import { EndpointCreationService } from './endpoint-creation.service';
 
 declare var require: any;
