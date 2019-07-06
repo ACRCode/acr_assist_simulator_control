@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, NonRelevantPushPopService,
-         IntegerDataElement, DurationDataElement, ComputedDataElement, Branch, DataElementValues, TemplatePartial,
-         InsertPartial, EvaluateRules, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/RuleEvaluator';
+         IntegerDataElement, DurationDataElement, ComputedDataElement, EvaluateRules, DataElementValues, TemplatePartial,
+         InsertPartial, FindDecisionPoints, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/RuleEvaluator';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
 const expressionParser = require('expr-eval').Parser;
@@ -62,89 +62,6 @@ export class SimulatorEngineService {
     this.dataElementValues.set(dataElementId, value);
     this.dataElementTexts.set(dataElementId, text);
     this.evaluateDecisionPoints();
-  }
-
-  evaluateDecisionPoint(decisionPoint: DecisionPoint, branchingLevel) {
-    let endpoints = Array<string>();
-    const endpointBranches = Array<Branch>();
-    let currentBranchCount = 0;
-    const totalBranchesInDecisionPoint = decisionPoint.branches.length;
-    for (const branch of decisionPoint.branches) {
-      currentBranchCount++;
-      let conditionMet = false;
-      if (this.endOfRoadReached) {
-        break;
-      }
-
-      if (branch.compositeCondition !== undefined) {
-        conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-      } else if (branch.condition !== undefined) {
-        conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
-      }
-
-      if (branch.compositeCondition === undefined && branch.condition === undefined && !conditionMet) {
-        this.lastConditionMetBranchLevel = branchingLevel;
-        if (branch.decisionPoints !== undefined) {
-          for (const branchDecisionPoint of branch.decisionPoints) {
-            const newBranchingLevel = branchingLevel + 1;
-            this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
-          }
-        } else if (branch.endPointRef !== undefined) {
-          endpointBranches.push(branch);
-          endpoints.push(branch.endPointRef.endPointId);
-          this.showKeyDiagram = branch.endPointRef.diagramId;
-        }
-      }
-
-      if (conditionMet) {
-        this.lastConditionMetBranchLevel = branchingLevel;
-        if (branch.decisionPoints !== undefined && branch.decisionPoints.length > 0) {
-          for (const branchDecisionPoint of branch.decisionPoints) {
-            const newBranchingLevel = branchingLevel + 1;
-            this.evaluateDecisionPoint(branchDecisionPoint, newBranchingLevel);
-          }
-        } else if (branch.endPointRef !== undefined) {
-          endpointBranches.push(branch);
-          endpoints.push(branch.endPointRef.endPointId);
-          this.showKeyDiagram = branch.endPointRef.diagramId;
-          // reportCounts.push(branch.endPointRef.repeatCount);
-        }
-      }
-      // else {
-      //   if (currentBranchCount >= totalBranchesInDecisionPoint) {
-      //     // this.endOfRoadReached = true;
-      //     // const simulatorState = new SimulatorState();
-      //     // this.simulatorStateChanged.next(simulatorState);
-      //     // return;
-      //   } else {
-      //     continue;
-      //   }
-      // }
-    }
-
-    endpoints = this.ValidateEndpoints(endpointBranches);
-    if (endpoints !== undefined && endpoints.length > 0) {
-      this.endpoints = endpoints;
-      const results = EvaluateRules(this.template, this.endpoints, this.dataElementValues);
-      for (const _result of results) {
-        this.ruleEvaluationResult.push(_result);
-      }
-    }
-  }
-
-  private ValidateEndpoints(endpointBranches: Branch[]) {
-    const $endpoints = new Array<string>();
-    for (const endpointBranch of endpointBranches) {
-      if (endpointBranch.isManuallyAdded) {
-        if (this.dataElementValues.get(endpointBranch.endPointRef.repeatCount) !== '') {
-          $endpoints.push(endpointBranch.endPointRef.endPointId);
-        }
-      } else {
-        $endpoints.push(endpointBranch.endPointRef.endPointId);
-      }
-    }
-
-    return $endpoints;
   }
 
   private resetValuesOfNonRelevantDataElements(nonRelevantDataElementIds: string[]) {
@@ -589,8 +506,6 @@ export class SimulatorEngineService {
     }
   }
 
-
-
   private AddRepeatableComputedDataElement() {
     this.RemoveManuallyAddedComputedDataElements();
 
@@ -624,52 +539,6 @@ export class SimulatorEngineService {
         }
       }
     }
-
-    // for (const decisionPoint of this.template.rules.decisionPoints) {
-    //   for (const branch of decisionPoint.branches) {
-    //     if (branch.isManuallyAdded) {
-    //       let dataElementId_org = '';
-    //       let dataElementId_dynamic = '';
-    //       if (branch.condition !== undefined && typeof (branch.condition) === 'object') {
-    //         dataElementId_org = branch.condition.conditionType.dataElementId.split('_')[0];
-    //         dataElementId_dynamic = branch.condition.conditionType.dataElementId;
-    //       }
-
-    //       if (branch.condition === undefined && branch.compositeCondition !== undefined) {
-    //         for (let _index = 0; _index < branch.compositeCondition.conditions.length; _index++) {
-    //           dataElementId_org = branch.compositeCondition.conditions[_index].conditionType.dataElementId.split('_')[0];
-    //           dataElementId_dynamic = branch.compositeCondition.conditions[_index].conditionType.dataElementId;
-    //         }
-    //       }
-
-    //       if (dataElementId_org !== '' || dataElementId_dynamic !== '') {
-    //         if (_.find(this.template.dataElements, { id: dataElementId_dynamic }) === undefined) {
-    //           const computedDataElement = _.find(this.template.dataElements, { id: dataElementId_org }) as ComputedDataElement;
-    //           if (computedDataElement !== undefined && computedDataElement.dataElementType === 'ComputedDataElement') {
-    //             const $computedDataElement_cloned = _.cloneDeep(computedDataElement) as ComputedDataElement;
-    //             $computedDataElement_cloned.id = dataElementId_dynamic;
-    //             $computedDataElement_cloned.isManuallyAdded = true;
-    //             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-    //             for (let index = 0; index < computedDataElement.decisionPoints.length; index++) {
-    //               $computedDataElement_cloned.decisionPoints[index].branches = [];
-    //               for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
-    //                 for (const _dataElement of dataElementIds) {
-    //                   $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-    //                   $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-    //                 }
-
-    //                 $branchModified.isManuallyAdded = true;
-    //                 $computedDataElement_cloned.decisionPoints[index].branches.push($branchModified);
-    //               }
-    //             }
-
-    //             this.template.dataElements.push($computedDataElement_cloned);
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
   }
 
   replaceTextExpression(prevVal, newVal, object) {
@@ -759,11 +628,8 @@ export class SimulatorEngineService {
       this.endOfRoadReached = false;
       this.branchCounter++;
       this.ruleEvaluationResult = [];
-      this.endpoints = [];
-
-      for (const decisionPoint of this.template.rules.decisionPoints) {
-        this.evaluateDecisionPoint(decisionPoint, 1);
-      }
+      this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
+      this.ruleEvaluationResult = EvaluateRules(this.template);
 
       const $simulatorState = new SimulatorState();
       if (this.ruleEvaluationResult.length > 0) {
