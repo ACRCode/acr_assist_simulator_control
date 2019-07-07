@@ -90,8 +90,8 @@ export class SimulatorEngineService {
       currentBranchCount++;
       let conditionMet = false;
 
-      if (branch.ICompositeCondition !== undefined) {
-        conditionMet = branch.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+      if (branch.compositeCondition !== undefined) {
+        conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
@@ -216,14 +216,14 @@ export class SimulatorEngineService {
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
-      let isICompositeCondition = false;
+      let isCompositeCondition = false;
       for (const conditionalProperty of dataelement.conditionalProperties) {
         if (conditionalProperty.condition !== undefined) {
           conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-          isICompositeCondition = false;
-        } else if (conditionalProperty.ICompositeCondition !== undefined) {
-          conditionMet = conditionalProperty.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-          isICompositeCondition = true;
+          isCompositeCondition = false;
+        } else if (conditionalProperty.compositeCondition !== undefined) {
+          conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+          isCompositeCondition = true;
         }
 
         if (conditionMet) {
@@ -286,14 +286,14 @@ export class SimulatorEngineService {
     for (const dataelement of this.template.dataElements) {
       if (dataelement.conditionalProperties !== undefined) {
         let conditionMet = false;
-        let isICompositeCondition = false;
+        let isCompositeCondition = false;
         for (const conditionalProperty of dataelement.conditionalProperties) {
           if (conditionalProperty.condition !== undefined) {
             conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-            isICompositeCondition = false;
-          } else if (conditionalProperty.ICompositeCondition !== undefined) {
-            conditionMet = conditionalProperty.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-            isICompositeCondition = true;
+            isCompositeCondition = false;
+          } else if (conditionalProperty.compositeCondition !== undefined) {
+            conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+            isCompositeCondition = true;
           }
 
           if (conditionMet) {
@@ -391,19 +391,11 @@ export class SimulatorEngineService {
         templatePartial_cloned.isManuallyAdded = true;
         let $conditions = [];
         for (const _branch of templatePartial_cloned.branches) {
-          if (_branch.ICompositeCondition !== undefined) {
+          if (_branch.compositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
             $conditions = [];
-
-            // for (let index = 0; index < _branch.ICompositeCondition.conditions.length; index++) {
-            //   if (_branch.ICompositeCondition.conditions[index].isManuallyAdded === undefined || _branch.ICompositeCondition.conditions[index].isManuallyAdded){
-            //     for (const _dataElement of dataElementIds) {
-            //       _branch.ICompositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.ICompositeCondition.conditions[index]);
-            //     }
-            //   }
-            // }
-
-            for (let _conditions of _branch.ICompositeCondition.conditions) {
+            
+            for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
@@ -414,8 +406,7 @@ export class SimulatorEngineService {
               $conditions.push(_conditions);
             }
 
-            _branch.ICompositeCondition.conditions = $conditions;
-            // _branch.ICompositeCondition.conditions.push($conditions);
+            _branch.compositeCondition.conditions = $conditions;
           }
 
           if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
@@ -458,10 +449,9 @@ export class SimulatorEngineService {
       for (const reportSection of endpoint_cloned.reportSections) {
         for (const _branch of reportSection.branch) {
 
-          if (_branch.ICompositeCondition !== undefined) {
+          if (_branch.compositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-            // _branch.ICompositeCondition.conditions = [];
-            for (let _conditions of _branch.ICompositeCondition.conditions) {
+            for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
@@ -469,7 +459,7 @@ export class SimulatorEngineService {
               }
 
               _conditions.isManuallyAdded = true;
-              _branch.ICompositeCondition.conditions.push(_conditions);
+              _branch.compositeCondition.conditions.push(_conditions);
             }
           }
 

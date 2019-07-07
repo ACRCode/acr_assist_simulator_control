@@ -36,9 +36,6 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
         dataElement.MinimumSeconds = data.MinimumSeconds;
         dataElement.MaxmimumSeconds = data.MaximumSeconds;
 
-        // dataElement.MinimumSeconds = data.MinimumSeconds;
-        // dataElement.MaxmimumSeconds = data.MaximumSeconds;
-
         dataElement.MinimumDayOverrider = data.MinimumDay;
         dataElement.MaximumDayOverrider = data.MaximumDay;
 
@@ -73,9 +70,8 @@ export class DurationDataElementCreationService extends DataElementCreationBaseS
     private GetConditionalProperties(conditionalProperty): ConditionalProperty {
         const _conditionalProperty = new ConditionalProperty();
         _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
-        // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
         if (this.conditionsCreationService.isComposite(conditionalProperty)) {
-          _conditionalProperty.ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(conditionalProperty);
+          _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
         }
 
         _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;

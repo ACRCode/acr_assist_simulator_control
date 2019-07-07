@@ -45,7 +45,7 @@ export class EndpointCreationService {
                             for (let branchIndex = 0; branchIndex < _endPoint.ReportSections.ReportSection[index].Branch.length; branchIndex++) {
                                 $endpointItem.reportSections[index].branch[branchIndex] = new Branch();
                                 $endpointItem.reportSections[index].branch[branchIndex].condition = this.conditionsCreationService.returnCondition(_endPoint.ReportSections.ReportSection[index].Branch[branchIndex]);
-                                $endpointItem.reportSections[index].branch[branchIndex].ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(_endPoint.ReportSections.ReportSection[index].Branch[branchIndex]);
+                                $endpointItem.reportSections[index].branch[branchIndex].compositeCondition = this.conditionsCreationService.returnCompositeCondition(_endPoint.ReportSections.ReportSection[index].Branch[branchIndex]);
 
                                 if (_endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText !== undefined) {
                                     if (!(_endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText instanceof Array)) {
@@ -59,7 +59,6 @@ export class EndpointCreationService {
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText = new PlainText();
                                                 $endpointItem.reportSections[index].branch[branchIndex].reportText[textIndex].plainText.text =
                                                 _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex]._;
-                                                //  _endPoint.ReportSections.ReportSection[index].Branch[branchIndex].ReportText[textIndex].Attr.Value;
                                                 break;
 
                                             case EReportText.InsertDataElementValue.toString():
@@ -123,7 +122,7 @@ export class EndpointCreationService {
                     for (let index = 0; index < _templatePartial.Branch.length; index++) {
                         $templatePartial.branches[index] = new Branch();
                         $templatePartial.branches[index].condition = this.conditionsCreationService.returnCondition(_templatePartial.Branch[index]);
-                        $templatePartial.branches[index].ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(_templatePartial.Branch[index]);
+                        $templatePartial.branches[index].compositeCondition = this.conditionsCreationService.returnCompositeCondition(_templatePartial.Branch[index]);
 
                         if (_templatePartial.Branch[index].ReportText !== undefined) {
                             if (!(_templatePartial.Branch[index].ReportText instanceof Array)) {
