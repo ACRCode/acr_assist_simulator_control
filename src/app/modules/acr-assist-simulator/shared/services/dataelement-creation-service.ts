@@ -1,4 +1,4 @@
-import { BaseDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 
 export interface DataElementCreationService {
     elementType: string;

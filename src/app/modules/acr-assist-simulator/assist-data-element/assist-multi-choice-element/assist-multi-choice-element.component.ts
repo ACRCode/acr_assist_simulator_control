@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { MultiChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';

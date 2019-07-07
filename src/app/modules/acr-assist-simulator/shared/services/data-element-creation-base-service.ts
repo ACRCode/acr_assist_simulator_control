@@ -1,5 +1,5 @@
 import { DataElementCreationService } from './dataelement-creation-service';
-import { BaseDataElement, CodableConcept, Coding } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement, CodableConcept, Coding } from 'testruleengine/Library/Models/Class';
 import { Injectable } from '@angular/core';
 import { DiagramService } from './diagram.service';
 

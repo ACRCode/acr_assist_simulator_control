@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DurationDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { DurationDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { Subscription } from 'rxjs';

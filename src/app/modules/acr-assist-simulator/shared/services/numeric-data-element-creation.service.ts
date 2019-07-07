@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { DiagramService } from './diagram.service';
-import { BaseDataElement, NumericDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement, NumericDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/Models/Class';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { Subscription } from 'rxjs'
 
@@ -50,7 +50,7 @@ export class NumericDataElementCreationService extends DataElementCreationBaseSe
     _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
     // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
     if (this.conditionsCreationService.isComposite(conditionalProperty)) {
-      _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
+      _conditionalProperty.ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(conditionalProperty);
     }
 
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;

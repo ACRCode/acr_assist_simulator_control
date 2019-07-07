@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Condition, CompositeCondition, ConditionType, SectionIfCondition, SectionIfNotCondition } from 'testruleengine/Library/RuleEvaluator';
+import { ConditionType, SectionIfCondition, SectionIfNotCondition } from 'testruleengine/Library/Models/Class';
+import { ICondition, ICompositeCondition } from 'testruleengine/Library/Models/Interface';
 import { EqualCondition } from '../../../core/rules/equal-condition';
 import { GreaterThanCondition } from '../../../core/rules/greater-than-condition';
 import { LessThanCondition } from '../../../core/rules/less-than-condition';
@@ -23,8 +24,8 @@ export class ConditionsCreationService {
       return conditionType;
     }
 
-    returnCondition(branchJSON: any): Condition {
-        let condition: Condition;
+    returnCondition(branchJSON: any): ICondition {
+        let condition: ICondition;
         if (branchJSON.hasOwnProperty('EqualCondition')) {
             condition = new EqualCondition(this.returnConditionType(branchJSON.EqualCondition));
         }
@@ -68,8 +69,8 @@ export class ConditionsCreationService {
         compositeElementJSON.hasOwnProperty('NotCondition');
     }
 
-    private returnConditionFromJSON(conditionIdentifier: string , conditionJSON: any): Condition {
-      let condition: Condition;
+    private returnConditionFromJSON(conditionIdentifier: string , conditionJSON: any): ICondition {
+      let condition: ICondition;
       if (conditionIdentifier === 'EqualCondition') {
           condition = new EqualCondition(this.returnConditionType(conditionJSON));
       }
@@ -101,14 +102,13 @@ export class ConditionsCreationService {
       return condition;
   }
 
-    private  returnConditions(conditionsJSON: JSON): Condition[] {
-         const conditions = new  Array<Condition>();
+    private  returnConditions(conditionsJSON: JSON): ICondition[] {
+         const conditions = new  Array<ICondition>();
         const conditionIdentifiers = ['EqualCondition', 'GreaterThanCondition', 'LessThanCondition',
             'GreaterThanOrEqualsCondition', 'LessThanOrEqualsCondition', 'ContainsCondition', 'SectionIf', 'SectionIfNot', 'NotEqualCondition'];
         for (const conditionIdentifier of conditionIdentifiers) {
               const conditionJSON = conditionsJSON[conditionIdentifier];
               if (conditionJSON !== undefined) {
-                // conditions = new Array<Condition>();
                 if (this.arrayCheckerService.isArray(conditionJSON)) {
                       for (const jsonValue of conditionJSON) {
                         conditions.push(this.returnConditionFromJSON(conditionIdentifier, jsonValue));
@@ -125,98 +125,84 @@ export class ConditionsCreationService {
       const compositeExists =  compositeElementJSON.hasOwnProperty('AndCondition') ||
       compositeElementJSON.hasOwnProperty('OrCondition') ||
       compositeElementJSON.hasOwnProperty('NotCondition');
-        return compositeExists;
-
-      // const primitiveExists = compositeElementJSON.hasOwnProperty('EqualCondition') ||
-      // compositeElementJSON.hasOwnProperty('GreaterThanCondition') ||
-      // compositeElementJSON.hasOwnProperty('LessThanCondition') ||
-      // compositeElementJSON.hasOwnProperty('GreaterThanOrEqualsCondition') ||
-      // compositeElementJSON.hasOwnProperty('LessThanOrEqualsCondition') ||
-      // compositeElementJSON.hasOwnProperty('ContainsCondition') ||
-      // compositeElementJSON.hasOwnProperty('NotEqualCondition')  ||
-      // compositeElementJSON.hasOwnProperty('SectionIf') ||
-      // compositeElementJSON.hasOwnProperty('SectionIfNot');
-      // return  compositeExists && primitiveExists;
+      return compositeExists;
     }
 
 
-    returnCompositeCondition(data: any): CompositeCondition {
+    returnICompositeCondition(data: any): ICompositeCondition {
       if (!this.isComposite(data))  {
          return;
       }
-      let compositeConditionJSON: any;
-      let compositeCondition: CompositeCondition;
+      let ICompositeConditionJSON: any;
+      let ICompositeCondition: ICompositeCondition;
 
       if (data.hasOwnProperty('AndCondition') ) {
-          compositeConditionJSON = data.AndCondition;
-          compositeCondition = new AndCondition();
+          ICompositeConditionJSON = data.AndCondition;
+          ICompositeCondition = new AndCondition();
       } else if (data.hasOwnProperty('OrCondition')) {
-         compositeConditionJSON = data.OrCondition;
-         compositeCondition = new OrCondition();
+         ICompositeConditionJSON = data.OrCondition;
+         ICompositeCondition = new OrCondition();
        } else if (data.hasOwnProperty('NotCondition')) {
-        compositeConditionJSON = data.NotCondition;
-        compositeCondition = new NotCondition();
+        ICompositeConditionJSON = data.NotCondition;
+        ICompositeCondition = new NotCondition();
      }
-// if (data.hasOwnProperty('IsRelevant')){
-//   compositeConditionJSON += data.IsRelevant;
-// }
 
-      if (!this.isComposite(compositeConditionJSON)) {
-               compositeCondition.conditions = this.returnConditions(compositeConditionJSON);
-      } else if (this.isHybrid(compositeConditionJSON)) {
-           const jsonKeys = Object.keys(compositeConditionJSON);
+      if (!this.isComposite(ICompositeConditionJSON)) {
+               ICompositeCondition.conditions = this.returnConditions(ICompositeConditionJSON);
+      } else if (this.isHybrid(ICompositeConditionJSON)) {
+           const jsonKeys = Object.keys(ICompositeConditionJSON);
          for (const jsonKey of jsonKeys) {
-              const jsonValue =  compositeConditionJSON[jsonKey];
+              const jsonValue =  ICompositeConditionJSON[jsonKey];
               const jsonString =  '{"' + jsonKey  + '":' + JSON.stringify(jsonValue) + '}' ;
               const jsonObject = JSON.parse(jsonString);
               if (this.isComposite(jsonObject)) {
-                 this.returnInnerConditions(jsonObject, compositeCondition);
+                 this.returnInnerConditions(jsonObject, ICompositeCondition);
               } else {
                   if (this.arrayCheckerService.isArray(jsonValue)) {
                       for (const arrayValue of  jsonValue) {
-                        compositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, arrayValue));
+                        ICompositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, arrayValue));
                       }
 
                   } else {
-                    compositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, jsonValue));
+                    ICompositeCondition.conditions.push(this.returnConditionFromJSON(jsonKey, jsonValue));
                   }
 
 
               }
          }
       } else {
-           this.returnInnerConditions(compositeConditionJSON, compositeCondition);
+           this.returnInnerConditions(ICompositeConditionJSON, ICompositeCondition);
       }
-     return compositeCondition;
+     return ICompositeCondition;
     }
 
 
-    returnCompositeConditionFromName(elementName: string): CompositeCondition {
-      let compositeCondition: CompositeCondition;
+    returnICompositeConditionFromName(elementName: string): ICompositeCondition {
+      let ICompositeCondition: ICompositeCondition;
       switch (elementName) {
           case  'AndCondition':
             {
-            compositeCondition = new AndCondition();
+            ICompositeCondition = new AndCondition();
             break;
             }
             case  'OrCondition':
             {
-            compositeCondition = new OrCondition();
+            ICompositeCondition = new OrCondition();
             break;
             }
             case 'NotCondition' :
             {
-            compositeCondition = new NotCondition();
+            ICompositeCondition = new NotCondition();
             }
       }
-        return compositeCondition;
+        return ICompositeCondition;
 
     }
 
 
-    private  addConditionsToInnerConditions(key: any , value: any, compositeCondition: CompositeCondition) {
-      const condition = this.returnCompositeConditionFromName(key);
-      compositeCondition.conditions.push(condition);
+    private  addConditionsToInnerConditions(key: any , value: any, ICompositeCondition: ICompositeCondition) {
+      const condition = this.returnICompositeConditionFromName(key);
+      ICompositeCondition.conditions.push(condition);
       if (this.isHybrid(value)) {
          const jsonKeys = Object.keys(value);
         for (const jsonKey of jsonKeys) {
@@ -246,16 +232,16 @@ export class ConditionsCreationService {
       }
     }
 
-    private returnInnerConditions(innerConditionsJSON: any, compositeCondition: CompositeCondition) {
+    private returnInnerConditions(innerConditionsJSON: any, ICompositeCondition: ICompositeCondition) {
         const jsonKeys = Object.keys(innerConditionsJSON);
         for (const key of jsonKeys ) {
             const values = innerConditionsJSON[key];
             if (this.arrayCheckerService.isArray(values)) {
                for (const value of values) {
-                   this.addConditionsToInnerConditions(key, value, compositeCondition);
+                   this.addConditionsToInnerConditions(key, value, ICompositeCondition);
                }
             } else {
-                this.addConditionsToInnerConditions(key, innerConditionsJSON[key], compositeCondition);
+                this.addConditionsToInnerConditions(key, innerConditionsJSON[key], ICompositeCondition);
               }
             }
 

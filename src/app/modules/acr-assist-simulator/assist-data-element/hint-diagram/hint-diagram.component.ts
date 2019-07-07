@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

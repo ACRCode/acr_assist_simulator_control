@@ -1,6 +1,6 @@
-import { CompositeCondition, DataElementValues } from 'testruleengine/Library/RuleEvaluator';
+import { ICompositeCondition, DataElementValues } from 'testruleengine/Library/Models/Class';
 
-export class AndCondition implements CompositeCondition {
+export class AndCondition implements ICompositeCondition {
   conditions: any = [];
   IsRelevant: boolean;
 

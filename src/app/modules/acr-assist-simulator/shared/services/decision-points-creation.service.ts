@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ArrayCheckerService } from './array-checker.service';
-import { DataElementRef, NotRelevantDataElements, Branch, DecisionPoint, EndPointRef } from 'testruleengine/Library/RuleEvaluator';
+import { DataElementRef, NotRelevantDataElements, Branch, DecisionPoint, EndPointRef } from 'testruleengine/Library/Models/Class';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
 
@@ -35,7 +35,7 @@ export class DecisionPointsCreationService {
     branch.condition = this.conditionsCreationService.returnCondition(branchJSON);
     branch.computedValue = this.computedValueCreationService.createComputedValue(branchJSON);
     if (this.conditionsCreationService.isComposite(branchJSON)) {
-         branch.compositeCondition = this.conditionsCreationService.returnCompositeCondition(branchJSON);
+         branch.ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(branchJSON);
     }
     if (branchJSON.NotRelevantDataElements) {
            const notRelevantDataElements = new NotRelevantDataElements();

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { NumericDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { NumericDataElement } from 'testruleengine/Library/Models/Class';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';

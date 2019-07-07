@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { DiagramService } from './diagram.service';
 import { ChoiceDataElement, BaseDataElement, Choice, ImageMap, Area, 
-        AreaMap, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
+         AreaMap, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/Models/Class';
 import { ArrayCheckerService } from './array-checker.service';
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
@@ -111,7 +111,7 @@ export class ChoiceDataElementCreationService extends DataElementCreationBaseSer
     _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
     // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
     if (this.conditionsCreationService.isComposite(conditionalProperty)) {
-      _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
+      _conditionalProperty.ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(conditionalProperty);
     }
     
     _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;

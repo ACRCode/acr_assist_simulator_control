@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnIni
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
 import { InputData } from '../../core/models/input-data.model';
-import { BaseDataElement, ChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement, ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';

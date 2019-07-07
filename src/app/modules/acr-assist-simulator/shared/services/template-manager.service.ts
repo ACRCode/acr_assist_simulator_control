@@ -4,8 +4,10 @@ import { CreationServiceInjectorToken } from '../../constants';
 import { DataElementCreationBaseService } from './data-element-creation-base-service';
 import { ArrayCheckerService } from './array-checker.service';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
-import { Rules, BaseDataElement, Template, TemplatePartial, Metadata  } from 'testruleengine/Library/RuleEvaluator';
+import { Rules, BaseDataElement, Template, TemplatePartial, Metadata  } from 'testruleengine/Library/Models/Class';
+import { GetTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { EndpointCreationService } from './endpoint-creation.service';
+import { from } from 'rxjs';
 
 declare var require: any;
 
@@ -21,6 +23,7 @@ export class TemplateManagerService {
     private endpointCreationService: EndpointCreationService) { }
 
   getTemplate(templateContent: string): Template {
+    GetTemplate(templateContent);
     const template = new Template();
     let templateContentAsJSON: any;
     templateContentAsJSON = this.parseToJson(templateContent);

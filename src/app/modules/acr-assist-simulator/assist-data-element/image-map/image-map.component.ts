@@ -1,5 +1,5 @@
 import { Component, OnInit , Input} from '@angular/core';
-import { ChoiceDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var require: any;

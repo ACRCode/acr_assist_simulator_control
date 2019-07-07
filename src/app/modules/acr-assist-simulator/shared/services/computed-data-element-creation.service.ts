@@ -3,7 +3,7 @@ import { DataElementCreationBaseService } from './data-element-creation-base-ser
 import { ArrayCheckerService } from './array-checker.service';
 import { DiagramService } from './diagram.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
-import { BaseDataElement, ComputedDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { BaseDataElement, ComputedDataElement } from 'testruleengine/Library/Models/Class';
 import { DecisionPointsCreationService } from './decision-points-creation.service';
 
 @Injectable()

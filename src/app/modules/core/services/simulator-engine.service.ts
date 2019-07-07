@@ -4,9 +4,10 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, NonRelevantPushPopService,
-         IntegerDataElement, DurationDataElement, ComputedDataElement, EvaluateRules, DataElementValues, TemplatePartial,
-         InsertPartial, FindDecisionPoints, RuleEvaluationResult, InsertValue, BaseDataElement, Template,
-         ResetLogicData } from 'testruleengine/Library/RuleEvaluator';
+         IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
+         InsertPartial, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
+import { EvaluateRules } from 'testruleengine/Library/Utilities/RuleEvaluator'; 
+import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint'; 
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
 const expressionParser = require('expr-eval').Parser;
@@ -89,8 +90,8 @@ export class SimulatorEngineService {
       currentBranchCount++;
       let conditionMet = false;
 
-      if (branch.compositeCondition !== undefined) {
-        conditionMet = branch.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+      if (branch.ICompositeCondition !== undefined) {
+        conditionMet = branch.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
       } else if (branch.condition !== undefined) {
         conditionMet = branch.condition.evaluate(new DataElementValues(this.dataElementValues));
       }
@@ -215,14 +216,14 @@ export class SimulatorEngineService {
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
-      let isCompositeCondition = false;
+      let isICompositeCondition = false;
       for (const conditionalProperty of dataelement.conditionalProperties) {
         if (conditionalProperty.condition !== undefined) {
           conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-          isCompositeCondition = false;
-        } else if (conditionalProperty.compositeCondition !== undefined) {
-          conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-          isCompositeCondition = true;
+          isICompositeCondition = false;
+        } else if (conditionalProperty.ICompositeCondition !== undefined) {
+          conditionMet = conditionalProperty.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+          isICompositeCondition = true;
         }
 
         if (conditionMet) {
@@ -285,14 +286,14 @@ export class SimulatorEngineService {
     for (const dataelement of this.template.dataElements) {
       if (dataelement.conditionalProperties !== undefined) {
         let conditionMet = false;
-        let isCompositeCondition = false;
+        let isICompositeCondition = false;
         for (const conditionalProperty of dataelement.conditionalProperties) {
           if (conditionalProperty.condition !== undefined) {
             conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = false;
-          } else if (conditionalProperty.compositeCondition !== undefined) {
-            conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = true;
+            isICompositeCondition = false;
+          } else if (conditionalProperty.ICompositeCondition !== undefined) {
+            conditionMet = conditionalProperty.ICompositeCondition.evaluate(new DataElementValues(this.dataElementValues));
+            isICompositeCondition = true;
           }
 
           if (conditionMet) {
@@ -390,19 +391,19 @@ export class SimulatorEngineService {
         templatePartial_cloned.isManuallyAdded = true;
         let $conditions = [];
         for (const _branch of templatePartial_cloned.branches) {
-          if (_branch.compositeCondition !== undefined) {
+          if (_branch.ICompositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
             $conditions = [];
 
-            // for (let index = 0; index < _branch.compositeCondition.conditions.length; index++) {
-            //   if (_branch.compositeCondition.conditions[index].isManuallyAdded === undefined || _branch.compositeCondition.conditions[index].isManuallyAdded){
+            // for (let index = 0; index < _branch.ICompositeCondition.conditions.length; index++) {
+            //   if (_branch.ICompositeCondition.conditions[index].isManuallyAdded === undefined || _branch.ICompositeCondition.conditions[index].isManuallyAdded){
             //     for (const _dataElement of dataElementIds) {
-            //       _branch.compositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.compositeCondition.conditions[index]);
+            //       _branch.ICompositeCondition.conditions[index] = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _branch.ICompositeCondition.conditions[index]);
             //     }
             //   }
             // }
 
-            for (let _conditions of _branch.compositeCondition.conditions) {
+            for (let _conditions of _branch.ICompositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
@@ -413,8 +414,8 @@ export class SimulatorEngineService {
               $conditions.push(_conditions);
             }
 
-            _branch.compositeCondition.conditions = $conditions;
-            // _branch.compositeCondition.conditions.push($conditions);
+            _branch.ICompositeCondition.conditions = $conditions;
+            // _branch.ICompositeCondition.conditions.push($conditions);
           }
 
           if (_branch.condition !== undefined && typeof (_branch.condition) === 'object') {
@@ -457,10 +458,10 @@ export class SimulatorEngineService {
       for (const reportSection of endpoint_cloned.reportSections) {
         for (const _branch of reportSection.branch) {
 
-          if (_branch.compositeCondition !== undefined) {
+          if (_branch.ICompositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-            // _branch.compositeCondition.conditions = [];
-            for (let _conditions of _branch.compositeCondition.conditions) {
+            // _branch.ICompositeCondition.conditions = [];
+            for (let _conditions of _branch.ICompositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
@@ -468,7 +469,7 @@ export class SimulatorEngineService {
               }
 
               _conditions.isManuallyAdded = true;
-              _branch.compositeCondition.conditions.push(_conditions);
+              _branch.ICompositeCondition.conditions.push(_conditions);
             }
           }
 
@@ -572,16 +573,16 @@ export class SimulatorEngineService {
                   + '_' + $repeatGroupName + (index + 1);
               }
 
-              if ($branch.compositeCondition !== undefined) {
+              if ($branch.ICompositeCondition !== undefined) {
                 const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
-                $branch.compositeCondition.conditions = [];
-                for (let _conditions of branch.compositeCondition.conditions) {
+                $branch.ICompositeCondition.conditions = [];
+                for (let _conditions of branch.ICompositeCondition.conditions) {
                   for (const _dataElement of dataElementIds) {
                     _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1), _conditions);
                     this.CheckIfDataElementisComputedDataElement(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1));
                   }
 
-                  $branch.compositeCondition.conditions.push(_conditions);
+                  $branch.ICompositeCondition.conditions.push(_conditions);
                 }
               }
 
@@ -610,7 +611,6 @@ export class SimulatorEngineService {
 
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
-      ResetLogicData();
       this.showKeyDiagram = undefined;
       this.evaluateComputedExpressions();
       this.evaluateDecisionAndConditionalProperty();
@@ -619,7 +619,7 @@ export class SimulatorEngineService {
       this.branchCounter++;
       this.ruleEvaluationResult = [];
       this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
-      this.ruleEvaluationResult = EvaluateRules(this.template);
+      this.ruleEvaluationResult = EvaluateRules(this.template, this.endpoints, this.dataElementValues);
 
       const $simulatorState = new SimulatorState();
       if (this.ruleEvaluationResult.length > 0) {

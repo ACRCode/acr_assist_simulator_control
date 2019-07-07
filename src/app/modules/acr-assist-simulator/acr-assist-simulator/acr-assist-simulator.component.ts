@@ -5,7 +5,7 @@ import { MainReportText, FinalExecutedHistory } from '../assist-data-element/ass
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, BaseDataElement, Template, Diagram } from 'testruleengine/Library/RuleEvaluator';
+import { ChoiceDataElement, BaseDataElement, Template, Diagram } from 'testruleengine/Library/Models/Class';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';

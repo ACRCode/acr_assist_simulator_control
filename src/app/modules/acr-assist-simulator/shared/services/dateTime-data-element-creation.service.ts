@@ -3,7 +3,8 @@ import { DataElementCreationBaseService } from './data-element-creation-base-ser
 import { ConditionsCreationService } from './conditions-creation.service';
 import { ComputedValueCreationService } from './computed-value-creation.service';
 import { DiagramService } from './diagram.service';
-import { DateTimeDataElement, BaseDataElement, ConditionalProperty, NotRelevantDataElements } from 'testruleengine/Library/RuleEvaluator';
+import { DateTimeDataElement, BaseDataElement, ConditionalProperty, 
+         NotRelevantDataElements } from 'testruleengine/Library/Models/Class';
 
 @Injectable()
 export class DateTimeDataElementCreationService extends DataElementCreationBaseService {
@@ -42,7 +43,7 @@ export class DateTimeDataElementCreationService extends DataElementCreationBaseS
         _conditionalProperty.condition = this.conditionsCreationService.returnCondition(conditionalProperty);
         // var test = this.computedValueCreationService.createComputedValue(conditionalProperty);
         if (this.conditionsCreationService.isComposite(conditionalProperty)) {
-          _conditionalProperty.compositeCondition = this.conditionsCreationService.returnCompositeCondition(conditionalProperty);
+          _conditionalProperty.ICompositeCondition = this.conditionsCreationService.returnICompositeCondition(conditionalProperty);
         }
 
         _conditionalProperty.isRelevant = conditionalProperty.IsRelevant;

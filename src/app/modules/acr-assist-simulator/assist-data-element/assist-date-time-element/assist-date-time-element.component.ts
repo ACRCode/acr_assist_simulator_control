@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
-import { DateTimeDataElement } from 'testruleengine/Library/RuleEvaluator';
+import { DateTimeDataElement } from 'testruleengine/Library/Models/Class';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { DateTimeElement } from '../assist-data-element.component';
 

@@ -1,4 +1,4 @@
-import { InsertPartial, InsertValue } from 'testruleengine/Library/RuleEvaluator';
+import { InsertPartial, InsertValue } from 'testruleengine/Library/Models/Class';
 
 export class TextTemplateContent {
     insertPartial: InsertPartial;
