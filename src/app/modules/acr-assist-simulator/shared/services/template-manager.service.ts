@@ -7,7 +7,6 @@ import { DecisionPointsCreationService } from './decision-points-creation.servic
 import { Rules, BaseDataElement, Template, TemplatePartial, Metadata  } from 'testruleengine/Library/Models/Class';
 import { GetTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { EndpointCreationService } from './endpoint-creation.service';
-import { from } from 'rxjs';
 
 declare var require: any;
 
@@ -16,7 +15,8 @@ export class TemplateManagerService {
 
   private endPointXMLString: string[] = [];
 
-  constructor(private diagramService: DiagramService,
+  constructor(
+    private diagramService: DiagramService,
     @Inject(CreationServiceInjectorToken) private elememtcreationService: DataElementCreationBaseService[],
     private arrayCheckerService: ArrayCheckerService,
     private decisionPointsCreationService: DecisionPointsCreationService,
@@ -47,14 +47,6 @@ export class TemplateManagerService {
     return template;
   }
 
-  private getTemplatePartial(templatePartialJSON: any): TemplatePartial {
-    const templatePartial = new TemplatePartial;
-    templatePartial.id = templatePartialJSON.Attr.Id;
-    templatePartial.sectionIfNotValue = templatePartialJSON.SectionIfValueNot;
-    templatePartial.sectionIfValues = templatePartialJSON.SectionIfValue;
-    return templatePartial;
-  }
-
   private returnEndPointContents(content: string, startToken: string, endToken: string): string[] {
     const contents = new Array<string>();
     let templateSearchIndexPosition = 0;
@@ -73,18 +65,6 @@ export class TemplateManagerService {
     }
 
     return contents;
-  }
-
-  private returnTemplatePartials(templatePartialArray: string[]): TemplatePartial[] {
-    const templatePartials = new Array<TemplatePartial>();
-    for (const arrayItem of templatePartialArray) {
-      const templatePartial = new TemplatePartial();
-      const templatePartialAsJSON = this.parseToJson(arrayItem);
-      templatePartial.id = templatePartialAsJSON.Attr.Id;
-
-    }
-
-    return templatePartials;
   }
 
   private returnEndpoints(xmlData: string): string[] {
