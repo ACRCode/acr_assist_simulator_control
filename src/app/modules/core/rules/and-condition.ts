@@ -1,10 +1,10 @@
-import { ICompositeCondition, DataElementValues } from 'testruleengine/Library/Models/Class';
+import { DataElementValues } from 'testruleengine/Library/Models/Class';
 
-export class AndCondition implements ICompositeCondition {
+export class AndCondition {
+
   conditions: any = [];
-  IsRelevant: boolean;
-
    conditionType: string;
+
    constructor() {
      this.conditionType =  'AndCondition';
    }

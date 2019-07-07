@@ -1,10 +1,7 @@
 import { DataElementValues, ConditionType, NonRelevantPushPopService } from 'testruleengine/Library/Models/Class';
-import { ICondition } from 'testruleengine/Library/Models/Interface';
-
 import * as _ from 'lodash';
 
-export class EqualCondition implements ICondition {
-  IsRelevant: boolean;
+export class EqualCondition {
 
   conditionType: ConditionType;
 

@@ -282,30 +282,6 @@ export class SimulatorEngineService {
     }
   }
 
-  private isCondtionMet(): boolean {
-    for (const dataelement of this.template.dataElements) {
-      if (dataelement.conditionalProperties !== undefined) {
-        let conditionMet = false;
-        let isCompositeCondition = false;
-        for (const conditionalProperty of dataelement.conditionalProperties) {
-          if (conditionalProperty.condition !== undefined) {
-            conditionMet = conditionalProperty.condition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = false;
-          } else if (conditionalProperty.compositeCondition !== undefined) {
-            conditionMet = conditionalProperty.compositeCondition.evaluate(new DataElementValues(this.dataElementValues));
-            isCompositeCondition = true;
-          }
-
-          if (conditionMet) {
-            return true;
-          }
-
-          return false;
-        }
-      }
-    }
-  }
-
   evaluateDecisionAndConditionalProperty(): Array<string> {
     this.nonRelevantDataElementIds = new Array<string>();
     this.RevertConditionValues();

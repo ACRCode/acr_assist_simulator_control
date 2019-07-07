@@ -1,10 +1,8 @@
 import { DataElementValues, ConditionType, NonRelevantPushPopService } from 'testruleengine/Library/Models/Class';
-import { ICondition } from 'testruleengine/Library/Models/Interface';
 
+export class LessThanOrEqualsCondition {
 
-export class LessThanOrEqualsCondition implements ICondition {
   conditionType: ConditionType;
-  IsRelevant: boolean;
 
   constructor(conditionType: ConditionType) {
     this.conditionType = conditionType;

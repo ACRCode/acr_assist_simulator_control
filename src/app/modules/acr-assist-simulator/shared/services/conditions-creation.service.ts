@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConditionType, SectionIfCondition, SectionIfNotCondition } from 'testruleengine/Library/Models/Class';
-import { ICondition, ICompositeCondition } from 'testruleengine/Library/Models/Interface';
+import { Condition, CompositeCondition } from 'testruleengine/Library/Models/Class';
 import { EqualCondition } from '../../../core/rules/equal-condition';
 import { GreaterThanCondition } from '../../../core/rules/greater-than-condition';
 import { LessThanCondition } from '../../../core/rules/less-than-condition';
@@ -24,8 +24,8 @@ export class ConditionsCreationService {
     return conditionType;
   }
 
-  returnCondition(branchJSON: any): ICondition {
-    let condition: ICondition;
+  returnCondition(branchJSON: any): Condition {
+    let condition: Condition;
     if (branchJSON.hasOwnProperty('EqualCondition')) {
       condition = new EqualCondition(this.returnConditionType(branchJSON.EqualCondition));
     }
@@ -63,8 +63,8 @@ export class ConditionsCreationService {
       compositeElementJSON.hasOwnProperty('NotCondition');
   }
 
-  private returnConditionFromJSON(conditionIdentifier: string, conditionJSON: any): ICondition {
-    let condition: ICondition;
+  private returnConditionFromJSON(conditionIdentifier: string, conditionJSON: any): Condition {
+    let condition: Condition;
     if (conditionIdentifier === 'EqualCondition') {
       condition = new EqualCondition(this.returnConditionType(conditionJSON));
     }
@@ -96,8 +96,8 @@ export class ConditionsCreationService {
     return condition;
   }
 
-  private returnConditions(conditionsJSON: JSON): ICondition[] {
-    const conditions = new Array<ICondition>();
+  private returnConditions(conditionsJSON: JSON): Condition[] {
+    const conditions = new Array<Condition>();
     const conditionIdentifiers = ['EqualCondition', 'GreaterThanCondition', 'LessThanCondition',
       'GreaterThanOrEqualsCondition', 'LessThanOrEqualsCondition', 'ContainsCondition', 'SectionIf', 'SectionIfNot', 'NotEqualCondition'];
     for (const conditionIdentifier of conditionIdentifiers) {
@@ -123,12 +123,12 @@ export class ConditionsCreationService {
   }
 
 
-  returnCompositeCondition(data: any): ICompositeCondition {
+  returnCompositeCondition(data: any): CompositeCondition {
     if (!this.isComposite(data)) {
       return;
     }
     let compositeConditionJSON: any;
-    let compositeCondition: ICompositeCondition;
+    let compositeCondition: CompositeCondition;
 
     if (data.hasOwnProperty('AndCondition')) {
       compositeConditionJSON = data.AndCondition;
@@ -171,8 +171,8 @@ export class ConditionsCreationService {
   }
 
 
-  returnCompositeConditionFromName(elementName: string): ICompositeCondition {
-    let compositeCondition: ICompositeCondition;
+  returnCompositeConditionFromName(elementName: string): CompositeCondition {
+    let compositeCondition: CompositeCondition;
     switch (elementName) {
       case 'AndCondition':
         {
@@ -194,7 +194,7 @@ export class ConditionsCreationService {
   }
 
 
-  private addConditionsToInnerConditions(key: any, value: any, compositeCondition: ICompositeCondition) {
+  private addConditionsToInnerConditions(key: any, value: any, compositeCondition: CompositeCondition) {
     const condition = this.returnCompositeConditionFromName(key);
     compositeCondition.conditions.push(condition);
     if (this.isHybrid(value)) {
@@ -226,7 +226,7 @@ export class ConditionsCreationService {
     }
   }
 
-  private returnInnerConditions(innerConditionsJSON: any, compositeCondition: ICompositeCondition) {
+  private returnInnerConditions(innerConditionsJSON: any, compositeCondition: CompositeCondition) {
     const jsonKeys = Object.keys(innerConditionsJSON);
     for (const key of jsonKeys) {
       const values = innerConditionsJSON[key];

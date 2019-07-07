@@ -1,8 +1,6 @@
 import { DataElementValues, ConditionType, NonRelevantPushPopService } from 'testruleengine/Library/Models/Class';
-import { ICondition } from 'testruleengine/Library/Models/Interface';
 
-
-export class NotEqualCondition implements ICondition {
+export class NotEqualCondition {
 
   conditionType: ConditionType;
   IsRelevant: boolean;

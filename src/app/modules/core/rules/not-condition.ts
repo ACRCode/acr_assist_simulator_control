@@ -1,10 +1,8 @@
 import { DataElementValues } from 'testruleengine/Library/Models/Class';
-import { ICompositeCondition } from 'testruleengine/Library/Models/Interface';
 
+export class NotCondition {
 
-export class NotCondition implements ICompositeCondition {
   conditions: any = [];
-  IsRelevant: boolean;
   
   conditionType: string;
   constructor() {
