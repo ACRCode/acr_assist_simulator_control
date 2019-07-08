@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { SimulatorState } from '../models/simulator-state.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ArithmeticExpression } from '../models/arithmetic-expression.model';
 import { isArray } from 'util';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, NonRelevantPushPopService,
+import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
          IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
          InsertPartial, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
 import { EvaluateRules } from 'testruleengine/Library/Utilities/RuleEvaluator'; 
+import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint'; 
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
@@ -38,10 +38,6 @@ export class SimulatorEngineService {
 
   getTemplate(): Template {
     return this.template;
-  }
-
-  setTemplate() {
-
   }
 
   getAllDataElementValues(): Map<string, any> {

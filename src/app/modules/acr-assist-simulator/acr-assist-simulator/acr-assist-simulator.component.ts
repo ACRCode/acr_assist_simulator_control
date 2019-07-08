@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { TemplateManagerService } from '../shared/services/template-manager.service';
 import { OnChanges, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
@@ -9,6 +8,7 @@ import { ChoiceDataElement, BaseDataElement, Template, Diagram } from 'testrulee
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
+import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 
 const $ = require('jquery');
 declare var resizeKeyImages: any;
@@ -54,7 +54,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
   constructor(
-    private templateManagerService: TemplateManagerService,
     private simulatorEngineService: SimulatorEngineService,
     private utilityService: UtilityService) {
   }
@@ -83,7 +82,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       this.imageUpload.nativeElement.value = '';
     }
 
-    this.template = this.templateManagerService.getTemplate(this.templateContent);
+    this.template = getTemplate(this.templateContent);
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }
@@ -147,7 +146,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   resetElements() {
     this.moduleName = this.template.metadata.id;
-    this.template = this.templateManagerService.getTemplate(this.templateContent);
+    this.template = getTemplate(this.templateContent);
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
