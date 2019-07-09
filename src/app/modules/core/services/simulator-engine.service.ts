@@ -186,8 +186,7 @@ export class SimulatorEngineService {
     }
   }
 
-  evaluateComputedElementDecisionPoint(elementId: string, decisionPoint: DecisionPoint, branchingLevel) {
-    debugger;
+  evaluateComputedElementDecisionPoint(elementId: string, decisionPoint: DecisionPoint, branchingLevel) {    
     let currentBranchCount = 0;
     const totalBranchesInDecisionPoint = decisionPoint.branches.length;
     for (const branch of decisionPoint.branches) {
@@ -326,11 +325,6 @@ export class SimulatorEngineService {
   }
 
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
- 
-    if (dataelement.id === 'lrmnontargetoidmass') {
-      debugger;
-    }
- 
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
       let isCompositeCondition = false;

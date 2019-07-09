@@ -50,12 +50,17 @@ export class AppComponent {
     // console.log(data);
   }
 
-  recievedExecutionHistory(data){
+  recievedExecutionHistory(data) {
     // console.log(data);
   }
 
   returnDefaultElements() {
     this.inputValues = [];
     this.resetCommunicationService.messageEmitter('');
+  }
+
+  recievedDataElementChanged(data) {
+    // alert();
+    console.log(data);
   }
 }

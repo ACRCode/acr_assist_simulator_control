@@ -59,7 +59,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
-    ) {
+  ) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
@@ -102,7 +102,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       $mainReportText.allReportText = new Array<AllReportText>();
       const allReportText = new AllReportText();
 
-      this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
+      this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
       if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
         $mainReportText.reportTextMainContent = '';
@@ -138,7 +138,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
+    this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
@@ -317,6 +317,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
             inputData.dataElementDisplayValue = [];
+            inputData.dataElementValue = [de.currentValue];
             choices.forEach(choice => {
               if (Array.isArray(de.currentValue)) {
                 de.currentValue.forEach(element => {
@@ -330,6 +331,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                 }
               }
             });
+
+            if (inputData.dataElementDisplayValue != undefined && inputData.dataElementDisplayValue != null) {
+              inputData.dataElementDisplayValue = this.removeDuplicates(inputData.dataElementDisplayValue);
+            }
+
+            if (inputData.dataElementValue != undefined && inputData.dataElementValue != null) {
+              inputData.dataElementValue = this.removeDuplicates(inputData.dataElementValue);
+            }
           } else {
             inputData.dataElementDisplayValue = de.currentValue;
           }
@@ -339,6 +348,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     }
 
     this.returnDataElementChanged.emit(deValues);
+  }
+
+  removeDuplicates(arr) {
+    let unique_array = []
+    for (let i = 0; i < arr.length; i++) {
+      if (unique_array.indexOf(arr[i]) == -1) {
+        unique_array.push(arr[i])
+      }
+    }
+    return unique_array
   }
 
   private generateExecutionHistory() {

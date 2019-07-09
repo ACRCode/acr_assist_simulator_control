@@ -40,6 +40,7 @@
                         [inputValues]="inputValues"
                         (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
                         (returnExecutionHistory)='recievedExecutionHistory($event)' 
+                        (returnDataElementChanged)='recievedDataElementChanged($event)'
                         (returnDefaultElements)="returnDefaultElements()">
                 </acr-assist-simulator>
             </div>
