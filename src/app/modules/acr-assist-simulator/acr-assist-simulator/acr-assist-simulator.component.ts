@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { OnChanges, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { MainReportText, FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
+import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, BaseDataElement, Template, Diagram } from 'testruleengine/Library/Models/Class';
+import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
@@ -82,7 +82,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       this.imageUpload.nativeElement.value = '';
     }
 
-    this.template = getTemplate(this.templateContent);
+    this.template = getTemplate(btoa(this.templateContent));
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }

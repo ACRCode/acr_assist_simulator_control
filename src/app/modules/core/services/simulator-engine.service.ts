@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
          IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
-         InsertPartial, RuleEvaluationResult, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
-import { EvaluateRules } from 'testruleengine/Library/Utilities/RuleEvaluator'; 
+         InsertPartial, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
+import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator'; 
 import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint'; 
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
@@ -24,7 +24,6 @@ export class SimulatorEngineService {
   private nonRelevantDataElementIds = new Array<string>();
   private showKeyDiagram: string;
   private DynamicallyTemplatePartialIds = [];
-  private ruleEvaluationResult = new Array<RuleEvaluationResult>();
   private endpoints = [];
   private branchCounter = 0;
 
@@ -579,17 +578,12 @@ export class SimulatorEngineService {
       this.ProcessRepetationDataElements();
       this.endOfRoadReached = false;
       this.branchCounter++;
-      this.ruleEvaluationResult = [];
       this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
-      this.ruleEvaluationResult = EvaluateRules(this.template, this.endpoints, this.dataElementValues);
+      var reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
 
       const $simulatorState = new SimulatorState();
-      if (this.ruleEvaluationResult.length > 0) {
-        $simulatorState.ruleEvaluationResults = new Array<RuleEvaluationResult>();
-        for (const _ruleresult of this.ruleEvaluationResult) {
-          $simulatorState.ruleEvaluationResults.push(_ruleresult);
-        }
-
+      if (reportText.allReportText.length > 0) {
+        $simulatorState.mainReportText = reportText;
         for (const _endpoint of this.endpoints) {
           $simulatorState.endPointIds.push(_endpoint);
         }
