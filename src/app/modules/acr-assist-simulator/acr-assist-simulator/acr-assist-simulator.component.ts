@@ -82,7 +82,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       this.imageUpload.nativeElement.value = '';
     }
 
-    this.template = getTemplate(btoa(this.templateContent));
+    this.template = getTemplate(this.templateContent);
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }
