@@ -61,6 +61,6 @@ export class AppComponent {
 
   recievedDataElementChanged(data) {
     // alert();
-    console.log(data);
+    // console.log(data);
   }
 }
