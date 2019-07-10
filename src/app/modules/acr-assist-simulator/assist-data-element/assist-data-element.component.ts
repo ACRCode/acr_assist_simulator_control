@@ -301,7 +301,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const inputData = new InputData();
         inputData.dataElementId = de.id;
         inputData.dataElementLabel = de.label;
-        inputData.dataElementValue = de.currentValue;
+        if (de.dataElementType !== 'MultiChoiceDataElement') {
+          inputData.dataElementValue = de.currentValue;
+        }
 
         if (de.currentValue === undefined || de.currentValue === '') {
           inputData.dataElementDisplayValue = undefined;
@@ -317,7 +319,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
             inputData.dataElementDisplayValue = [];
-            inputData.dataElementValue = [de.currentValue];
+
+            if (!(de.currentValue instanceof Array)) {
+              inputData.dataElementValue = [de.currentValue];
+            } else {
+              inputData.dataElementValue = de.currentValue;
+            }
+
             choices.forEach(choice => {
               if (Array.isArray(de.currentValue)) {
                 de.currentValue.forEach(element => {
@@ -357,6 +365,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         unique_array.push(arr[i])
       }
     }
+
     return unique_array
   }
 
