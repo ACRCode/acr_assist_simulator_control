@@ -259,7 +259,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
           }
         }
         dataeElement.currentValue = inputValue[0].dataElementValue;
-
       }
     });
   }

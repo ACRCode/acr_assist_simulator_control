@@ -21,6 +21,16 @@ const $ = require('jquery');
 })
 
 export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy {
+
+  mainReportTextObj: MainReportText;
+  simulatorState: SimulatorState;
+  dataElementValues: Map<string, any>;
+  comparisonValues: string[] = [];
+  selectedChoiceValues: string[] = [];
+  executedResultIds: any[] = [];
+  executedResultHistories: ExecutedResultHistory[] = [];
+  IsRepeating: boolean;
+  $RepeatedElementModel: any[] = [];
   subscription: Subscription;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -37,16 +47,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() isReset: boolean;
   @Input() inputValues: InputData[] = [];
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-  mainReportTextObj: MainReportText;
-  simulatorState: SimulatorState;
-  dataElementValues: Map<string, any>;
-  comparisonValues: string[] = [];
-  selectedChoiceValues: string[] = [];
-  executedResultIds: any[] = [];
-  executedResultHistories: ExecutedResultHistory[] = [];
 
-  IsRepeating: boolean;
-  $RepeatedElementModel: any[] = [];
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
@@ -260,12 +261,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  generateReportText(endpointId: string) {
-    // endpointId = 'ReporttextTR1';
-    const endpointContent = this.returnEndPointContents(this.xmlContent, '<EndPoint Id="' + endpointId + '">', '</EndPoint>');
-    // this.parseXml(endpointId, endpointContent);
-  }
-
   afterDataElementChanged() {
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
@@ -273,7 +268,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const inputData = new InputData();
         inputData.dataElementId = de.id;
         inputData.dataElementLabel = de.label;
-        inputData.dataElementValue = de.currentValue;
+        if (de.dataElementType !== 'MultiChoiceDataElement') {
+          inputData.dataElementValue = de.currentValue;
+        }
 
         if (de.currentValue === undefined || de.currentValue === '') {
           inputData.dataElementDisplayValue = undefined;
@@ -289,6 +286,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
             inputData.dataElementDisplayValue = [];
+
+            if (!(de.currentValue instanceof Array)) {
+              inputData.dataElementValue = [de.currentValue];
+            } else {
+              inputData.dataElementValue = de.currentValue;
+            }
+
             choices.forEach(choice => {
               if (Array.isArray(de.currentValue)) {
                 de.currentValue.forEach(element => {
@@ -302,6 +306,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
                 }
               }
             });
+
+            if (inputData.dataElementDisplayValue != undefined && inputData.dataElementDisplayValue != null) {
+              inputData.dataElementDisplayValue = this.removeDuplicates(inputData.dataElementDisplayValue);
+            }
+
+            if (inputData.dataElementValue != undefined && inputData.dataElementValue != null) {
+              inputData.dataElementValue = this.removeDuplicates(inputData.dataElementValue);
+            }
           } else {
             inputData.dataElementDisplayValue = de.currentValue;
           }
@@ -313,6 +325,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.returnDataElementChanged.emit(deValues);
   }
 
+  removeDuplicates(arr) {
+    let unique_array = []
+    for (let i = 0; i < arr.length; i++) {
+      if (unique_array.indexOf(arr[i]) == -1) {
+        unique_array.push(arr[i])
+      }
+    }
+
+    return unique_array
+  }
+  
   private generateExecutionHistory() {
     this.executedResultHistories = [];
     let isNonRelevant: boolean;
@@ -387,7 +410,6 @@ export class ChoiceElement {
 export class NumericElement {
   elementId: string;
   selectedValue: number;
-
 }
 
 export class DateTimeElement {
@@ -410,6 +432,7 @@ export class ExecutedResultHistory {
   resultCondition: string;
   resultValue: any;
 }
+
 export class FinalExecutedHistory {
   executionHistories: ExecutedResultHistory[];
   resultText: MainReportText;

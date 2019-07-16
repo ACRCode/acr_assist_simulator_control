@@ -39,7 +39,8 @@
                         [reportTextPosition]="position.Right" [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" 
                         [inputValues]="inputValues"
                         (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
-                        (returnExecutionHistory)='recievedExecutionHistory($event)' 
+                        (returnExecutionHistory)='recievedExecutionHistory($event)'                        
+                        (returnDataElementChanged)='recievedDataElementChanged($event)'
                         (returnDefaultElements)="returnDefaultElements()">
                 </acr-assist-simulator>
             </div>

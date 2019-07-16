@@ -56,4 +56,7 @@ export class AppComponent {
     this.inputValues = [];
     this.resetCommunicationService.messageEmitter('');
   }
+
+  recievedDataElementChanged(data) {
+  }
 }
