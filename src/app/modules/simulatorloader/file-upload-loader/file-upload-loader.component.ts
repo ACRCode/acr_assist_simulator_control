@@ -22,7 +22,6 @@ export class FileUploadLoaderComponent implements OnInit  {
     this.hideMessage();
     this.showTestModule();
     this.showDefaultModule();
-    this.showTestLiradsModule();
   }
 
   changeListener($event): void {
@@ -67,14 +66,6 @@ export class FileUploadLoaderComponent implements OnInit  {
     .subscribe(data => {
       const self = this;
       self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
-    });
-  }
-
-  showTestLiradsModule() {
-    this.configService.getDefaultBrainMsModulePath()
-    .subscribe(data => {
-      const self = this;
-      self.fileContentRead.emit( new FileDetails('Brain MS', 'Brain_MS.xml', data));
     });
   }
 }

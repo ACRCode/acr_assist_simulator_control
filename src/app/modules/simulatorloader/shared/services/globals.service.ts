@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 export class GlobalsService {
   defaultModule =  'assets/XMLFIles/hello_assist/Hello_Assist.xml';
   defaultTestModule = 'assets/XMLFIles/test_module/Test_Module.xml';
-  defaultBrainMsModule = 'assets/XMLFIles/Brain MS/Brain_MS.xml';
 
   public XMLList: Dictionary<FileDetails> = new Dictionary<FileDetails>();
 
@@ -22,10 +21,6 @@ export class GlobalsService {
 
   getDefaultTestModulePath(): Observable<string> {
     return this.http.get(this.defaultTestModule).map(res => res.text());
-  }
-
-  getDefaultBrainMsModulePath(): Observable<string> {
-    return this.http.get(this.defaultBrainMsModule).map(res => res.text());
   }
 }
 
