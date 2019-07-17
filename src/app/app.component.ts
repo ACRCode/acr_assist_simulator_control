@@ -28,13 +28,14 @@ export class AppComponent {
     }
   ];
 
-  constructor(private resetCommunicationService: ResetCommunicationService,
+  constructor(
+    private resetCommunicationService: ResetCommunicationService,
     private settingsConfiguration: SettingsConfig) {
-    this.fileContent = '';
-    this.imagePath = '';
-    this.resetButton = true;
-    this.showReportText = true;
-    this.settingsConfig = settingsConfiguration;
+      this.fileContent = '';
+      this.imagePath = '';
+      this.resetButton = true;
+      this.showReportText = true;
+      this.settingsConfig = settingsConfiguration;
   }
 
   onFileSelected(fileDetails: FileDetails) {
