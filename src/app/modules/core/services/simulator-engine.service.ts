@@ -93,7 +93,7 @@ export class SimulatorEngineService {
 
       if (conditionMet) {
         this.lastConditionMetBranchLevel = branchingLevel;
-        if (branch.decisionPoints !== undefined) {
+        if (branch.decisionPoints !== undefined && branch.decisionPoints.length) {
           for (const branchDecisionPoint of branch.decisionPoints) {
             const newBranchingLevel = branchingLevel + 1;
             this.evaluateComputedElementDecisionPoint(elementId, branchDecisionPoint, newBranchingLevel);
