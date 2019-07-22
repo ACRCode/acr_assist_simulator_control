@@ -10,18 +10,18 @@ const $ = require('jquery');
 })
 
 export class FileUploadLoaderComponent implements OnInit  {
-  @Output() onFileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
+
+  @Output() fileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
   fileReader: FileReader = new FileReader();
   readFile: File;
-constructor (private configService: GlobalsService) {
 
-}
+  constructor (private configService: GlobalsService) {
+  }
+
   ngOnInit(): void {
     this.hideMessage();
     this.showTestModule();
-    setTimeout(() => {
-      this.showDefaultModule();
-      }, 100);
+    this.showDefaultModule();
   }
 
   changeListener($event): void {
@@ -47,8 +47,9 @@ constructor (private configService: GlobalsService) {
     const self = this;
     const extensionStartPosition = self.readFile.name.lastIndexOf('.');
     this.fileReader.onloadend = (e) => {
-      self.onFileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition),    self.readFile.name, this.fileReader.result));
+      self.fileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition), self.readFile.name, this.fileReader.result.toString()));
     };
+
     this.fileReader.readAsText(this.readFile);
   }
 
@@ -56,7 +57,7 @@ constructor (private configService: GlobalsService) {
     this.configService.getDefaultModulePath()
       .subscribe(data => {
         const self = this;
-        self.onFileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
+        self.fileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
       });
   }
 
@@ -64,7 +65,7 @@ constructor (private configService: GlobalsService) {
     this.configService.getDefaultTestModulePath()
     .subscribe(data => {
       const self = this;
-      self.onFileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
+      self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
     });
   }
 }

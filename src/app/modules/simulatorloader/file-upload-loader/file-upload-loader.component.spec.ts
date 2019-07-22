@@ -82,7 +82,7 @@ describe('FileUploadLoaderComponent', () => {
   });
 
   it('Called showDefaultModule() method to load the default module', (done: DoneFn) => {
-    component.onFileContentRead.subscribe(data => {
+    component.fileContentRead.subscribe(data => {
       fileDetails = data;
       invalidMessageElement  = fixture.debugElement.query(By.css('#xmlOnlyMsg')).nativeElement;
 
@@ -121,7 +121,7 @@ describe('FileUploadLoaderComponent', () => {
     const file = new File([new ArrayBuffer(2e+5)], 'sample-file.xml', { lastModified: null, type: 'text/xml' });
     const event = { target : { value: 'C:\fakepath\sample-file.xml', files: [file] } };
 
-    component.onFileContentRead.subscribe(data => {
+    component.fileContentRead.subscribe(data => {
       fileDetails = data;
       invalidMessageElement  = fixture.debugElement.query(By.css('#xmlOnlyMsg')).nativeElement;
 
@@ -148,7 +148,7 @@ describe('FileUploadLoaderComponent', () => {
     const file = new File([new ArrayBuffer(2e+5)], 'sample-file.xml', { lastModified: null, type: 'text/xml' });
     const event = { target : { value: 'C:\fakepath\sample-file.xml', files: [file] } };
 
-    component.onFileContentRead.subscribe(data => {
+    component.fileContentRead.subscribe(data => {
       fileDetails = data;
 
       expect(fileDetails).toBeDefined();

@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { MultiChoiceDataElement } from '../../../core/elements/models/multi-choice-data-element';
+import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+
 const $ = require('jquery');
 import * as _ from 'lodash';
-import { Choice } from '../../../core/elements/models/choice.model';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
@@ -14,10 +14,7 @@ import { Choice } from '../../../core/elements/models/choice.model';
   styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
 export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() multiChoiceElement : MultiChoiceDataElement;
-  @Input() imagePath: string;
-  @Output() returnMultiChoice = new EventEmitter();
+
   multiElements: MultiChoiceElement[] = [];
   multiChoiceValues: string[] = [];
   multiChoiceComaprisonValues: string[] = [];
@@ -26,6 +23,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   choiceValue: string[] = [];
   isFreeText = false;
   freeTextValue: string;
+
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() multiChoiceElement: MultiChoiceDataElement;
+  @Input() imagePath: string;
+  @Output() returnMultiChoice = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 
@@ -88,26 +90,15 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
     const selectedValues = this.GetSelectedItems();
     multiElement.elementId = elementId;
-    multiElement.selectedValues = selectedValues; //this.multiChoiceValues;
-    multiElement.selectedComparisonValues = selectedValues; // this.multiChoiceComaprisonValues;
+    multiElement.selectedValues = selectedValues;
+    multiElement.selectedComparisonValues = selectedValues;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
-    this.selectedCondition.selectedValue = selectedValues; //this.multiChoiceValues;
+    this.selectedCondition.selectedValue = selectedValues;
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
-
-  // ifExist(item) {
-  //   const items = this.multiChoiceElement.choiceInfo as any[];
-  //   for (let i = 0; i < items.length; i++) {
-  //     if (this.multiChoiceElement.choiceInfo.choices[i].value === item) {
-  //       return true;
-  //     }
-  //   }
-
-  //   return false;
-  // }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event) {
     if (event.target.checked) {
@@ -130,7 +121,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
     const multiElement = new MultiChoiceElement();
     multiElement.elementId = elementId;
-    multiElement.selectedValues = selectedValues; //selectedValue;
+    multiElement.selectedValues = selectedValues;
     multiElement.selectedComparisonValues = selectedValues;
 
     this.selectedCondition = new SelectedCondition();
@@ -142,8 +133,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
   updateMultiChoice(elementId: string, selectedCondition: string, value: string, event) {
     const multiElement = new MultiChoiceElement();
-    if (event.currentTarget != undefined && event.currentTarget.checked) {
-      if (value != '') {
+    if (event.currentTarget !== undefined && event.currentTarget.checked) {
+      if (value !== '') {
         if (this.multiChoiceValues.indexOf(value) === -1) {
           this.multiChoiceValues.push(value);
         }
@@ -165,27 +156,27 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     const selectedValues = this.GetSelectedItems();
 
     multiElement.elementId = elementId;
-    multiElement.selectedValues = selectedValues; //this.multiChoiceValues;
-    multiElement.selectedComparisonValues = selectedValues; // this.multiChoiceComaprisonValues;
+    multiElement.selectedValues = selectedValues;
+    multiElement.selectedComparisonValues = selectedValues;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
     this.selectedCondition.selectedCondition = selectedCondition;
-    this.selectedCondition.selectedValue = selectedValues; //this.multiChoiceValues;
+    this.selectedCondition.selectedValue = selectedValues;
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
 
   private GetSelectedItems() {
-    var items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
-    var selectedItems = [];
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].checked == true) {
+    const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
+    const selectedItems = [];
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].checked === true) {
         selectedItems.push(items[i].value);
       }
     }
 
-    var selectedValues = selectedItems;
-    if ($('#txt_other_' + this.multiChoiceElement.id).val() != '') {
+    const selectedValues = selectedItems;
+    if ($('#txt_other_' + this.multiChoiceElement.id).val() !== '') {
       selectedValues.push($('#txt_other_' + this.multiChoiceElement.id).val());
     }
 
@@ -203,7 +194,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   showOrHideFreeText(elementId: string, selectedValue: string, isChecked) {
     if (selectedValue === 'freetext' && isChecked) {
       $('#div_' + elementId + '_other').show();
-      if (selectedValue == 'freetext') {
+      if (selectedValue === 'freetext') {
         this.freeTextValue = $('#txt_other_' + this.multiChoiceElement.id).val();
       }
     } else if (!isChecked) {
