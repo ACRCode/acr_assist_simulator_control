@@ -597,6 +597,7 @@ export class SimulatorEngineService {
 
   initialize(template: Template) {
     this.template = template;
+    this.dataElementValues = new Map<string, any>();
     for (const dataElement of this.template.dataElements) {
       this.dataElementValues.set(dataElement.id, dataElement.currentValue);
     }
