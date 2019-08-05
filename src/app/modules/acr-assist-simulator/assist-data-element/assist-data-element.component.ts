@@ -1,16 +1,17 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
 import { InputData } from '../../core/models/input-data.model';
-import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
+import { BaseDataElement, ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { SimulatorCommunicationService } from '../shared/services/simulator-communication.service';
 import { RepeatedElementModel } from '../../core/elements/models/repeatedElement.model';
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
-import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
+import { MainReportText } from 'testruleengine/Library/Models/Class';
+import { Subscription } from 'rxjs';
+
+import * as _ from 'lodash';
 const $ = require('jquery');
 
 @Component({
@@ -19,7 +20,17 @@ const $ = require('jquery');
   styleUrls: ['./assist-data-element.component.css', '../styles.css']
 })
 
-export class AssistDataElementComponent implements OnInit, OnChanges {
+export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy {
+
+  mainReportTextObj: MainReportText;
+  simulatorState: SimulatorState;
+  dataElementValues: Map<string, any>;
+  comparisonValues: string[] = [];
+  selectedChoiceValues: string[] = [];
+  executedResultIds: any[] = [];
+  executedResultHistories: ExecutedResultHistory[] = [];
+  IsRepeating: boolean;
+  $RepeatedElementModel: any[] = [];
   subscription: Subscription;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -36,16 +47,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
   @Input() isReset: boolean;
   @Input() inputValues: InputData[] = [];
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-  mainReportTextObj: MainReportText;
-  simulatorState: SimulatorState;
-  dataElementValues: Map<string, any>;
-  comparisonValues: string[] = [];
-  selectedChoiceValues: string[] = [];
-  executedResultIds: any[] = [];
-  executedResultHistories: ExecutedResultHistory[] = [];
 
-  IsRepeating: boolean;
-  $RepeatedElementModel: any[] = [];
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
@@ -57,9 +59,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
       });
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
-    // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
 
@@ -68,7 +68,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
-      // const nonRelevantIDs = this.simulatorEngineService.evaluateDecisionAndConditionalProperty();
 
       const showKeyDiagram = this.simulatorState.showKeyDiagram;
       const nonRelevantIDs = this.simulatorState.nonRelevantDataElementIds;
@@ -88,29 +87,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
       }
 
-      const $mainReportText = new MainReportText();
-      $mainReportText.allReportText = new Array<AllReportText>();
-      const allReportText = new AllReportText();
 
       this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
-      if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-        $mainReportText.reportTextMainContent = '';
-        for (const evaluationResult of this.simulatorState.ruleEvaluationResults) {
-          allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
-          allReportText.allReportResult = Object.create(new AllReportResult());
-          allReportText.allReportResult.sectionId = evaluationResult.ruleEvaluationReportResult.sectionId;
-          allReportText.allReportResult.reportText = evaluationResult.ruleEvaluationReportResult.reportText;
-          allReportText.repeatedSectionName = evaluationResult.repeatedSectionName;
-          $mainReportText.allReportText.push(Object.assign({}, allReportText));
-        }
-      } else {
-        $mainReportText.allReportText = [];
-      }
 
-      this.mainReportTextObj = $mainReportText;
-      if ($mainReportText !== undefined && $mainReportText.allReportText.length > 0) {
-        this.returnReportText.emit($mainReportText);
+      this.mainReportTextObj = this.simulatorState.mainReportText;
+      if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
+        this.returnReportText.emit(this.mainReportTextObj);
       } else {
         this.returnReportText.emit(undefined);
       }
@@ -278,12 +261,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     }
   }
 
-  generateReportText(endpointId: string) {
-    // endpointId = 'ReporttextTR1';
-    const endpointContent = this.returnEndPointContents(this.xmlContent, '<EndPoint Id="' + endpointId + '">', '</EndPoint>');
-    // this.parseXml(endpointId, endpointContent);
-  }
-
   afterDataElementChanged() {
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
@@ -291,7 +268,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
         const inputData = new InputData();
         inputData.dataElementId = de.id;
         inputData.dataElementLabel = de.label;
-        inputData.dataElementValue = de.currentValue;
+        if (de.dataElementType !== 'MultiChoiceDataElement') {
+          inputData.dataElementValue = de.currentValue;
+        }
 
         if (de.currentValue === undefined || de.currentValue === '') {
           inputData.dataElementDisplayValue = undefined;
@@ -307,6 +286,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
           } else if (de.dataElementType === 'MultiChoiceDataElement') {
             const choices = (de as ChoiceDataElement).choiceInfo;
             inputData.dataElementDisplayValue = [];
+
+            if (!(de.currentValue instanceof Array)) {
+              inputData.dataElementValue = [de.currentValue];
+            } else {
+              inputData.dataElementValue = de.currentValue;
+            }
+
             choices.forEach(choice => {
               if (Array.isArray(de.currentValue)) {
                 de.currentValue.forEach(element => {
@@ -320,6 +306,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
                 }
               }
             });
+
+            if (inputData.dataElementDisplayValue != undefined && inputData.dataElementDisplayValue != null) {
+              inputData.dataElementDisplayValue = this.removeDuplicates(inputData.dataElementDisplayValue);
+            }
+
+            if (inputData.dataElementValue != undefined && inputData.dataElementValue != null) {
+              inputData.dataElementValue = this.removeDuplicates(inputData.dataElementValue);
+            }
           } else {
             inputData.dataElementDisplayValue = de.currentValue;
           }
@@ -331,6 +325,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges {
     this.returnDataElementChanged.emit(deValues);
   }
 
+  removeDuplicates(arr) {
+    let unique_array = []
+    for (let i = 0; i < arr.length; i++) {
+      if (unique_array.indexOf(arr[i]) == -1) {
+        unique_array.push(arr[i])
+      }
+    }
+
+    return unique_array
+  }
+  
   private generateExecutionHistory() {
     this.executedResultHistories = [];
     let isNonRelevant: boolean;
@@ -405,7 +410,6 @@ export class ChoiceElement {
 export class NumericElement {
   elementId: string;
   selectedValue: number;
-
 }
 
 export class DateTimeElement {
@@ -424,28 +428,11 @@ export class AllElements {
   selectedValues: any[];
 }
 
-export class MainReportText {
-  reportTextMainContent: string;
-  allReportText: AllReportText[];
-}
-export class AllReportText {
-  repeatedSectionName: string;
-  allReportResult: AllReportResult;
-
-  constructor() {
-    this.allReportResult = new AllReportResult();
-  }
-}
-
-export class AllReportResult {
-  sectionId: string;
-  reportText: string;
-}
-
 export class ExecutedResultHistory {
   resultCondition: string;
   resultValue: any;
 }
+
 export class FinalExecutedHistory {
   executionHistories: ExecutedResultHistory[];
   resultText: MainReportText;

@@ -11,26 +11,29 @@ const $ = require('jquery');
 })
 export class ViewUploadLoaderComponent {
 
-  @Output() onFileSelected: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
+  @Output() fileSelected: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
 
   selectedXML: FileDetails;
   globalsService: GlobalsService;
 
-  constructor(globalsService: GlobalsService, private resetCommunicationService: ResetCommunicationService) {
+  constructor(
+    globalsService: GlobalsService,
+    private resetCommunicationService: ResetCommunicationService) {
     this.globalsService = globalsService;
   }
 
-  onFileContentRead(fileDetails: FileDetails) {
+  fileContentRead(fileDetails: FileDetails) {
     this.selectedXML = fileDetails;
     if (this.globalsService.XMLList.ContainsKey(fileDetails.fileLabel)) {
       this.globalsService.XMLList.Remove(fileDetails.fileLabel);
     }
     this.globalsService.XMLList.Add(fileDetails.fileLabel, fileDetails);
-    this.onFileSelected.emit(fileDetails);
+    this.fileSelected.emit(fileDetails);
   }
+
   onFileClick(fileDetails: FileDetails) {
     this.selectedXML = fileDetails;
-    this.onFileSelected.emit(fileDetails);
+    this.fileSelected.emit(fileDetails);
 
     $('#xmlOnlyMsg').hide();
 

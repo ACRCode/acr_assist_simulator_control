@@ -25,7 +25,7 @@ export class SettingsService {
         });
     }
 
-    getConfigurationObject() {
-        return this._config;        
+    get(key: any) {
+        return this._config['config'][key];
     }
 }

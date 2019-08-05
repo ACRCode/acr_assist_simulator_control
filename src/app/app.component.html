@@ -1,8 +1,7 @@
 <div class="wrapper">
     <header class="main-header">
         <a href="#" class="logo">
-            <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width"
-                    alt="Simulator Logo"> </span>
+            <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width" alt="Simulator Logo"> </span>
         </a>
         <nav class="navbar navbar-static-top">
             <a id="toggleWrapper" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -21,33 +20,29 @@
     </header>
 
     <aside class="main-sidebar">
-        <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+        <acr-view-upload-loader (fileSelected)="fileSelected($event)"></acr-view-upload-loader>
     </aside>
 
     <!-- [fontSize]="250" -->
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
-                <ng-container *ngIf="settingsConfig !== undefined">
-                    <acr-assist-simulator
-                        [alignLabelAndControlToTopAndBottom]="settingsConfig['alignLabelAndControlToTopAndBottom']"
-                        [fontSize]="settingsConfig['fontSize']" 
-                        [fontColor]="settingsConfig['fontColor']"
-                        [fontFamily]="settingsConfig['fontFamily']"
-                        [backgroundColor]="settingsConfig['backgroundColor']" 
-                        [cssClass]="settingsConfig['cssClass']"
-                        [showKeyDiagram]="settingsConfig['showKeyDiagram']" 
-                        [showResetButton]="resetButton"
-                        [showReportText]="showReportText" 
-                        [reportTextPosition]="position.Right"
-                        [inputValues]="inputValues" 
-                        templateContent={{fileContent}} 
-                        imagePath={{imagePath}}
+                <acr-assist-simulator 
+                        [alignLabelAndControlToTopAndBottom]="settingsConfig.get('alignLabelAndControlToTopAndBottom')" 
+                        [fontSize]="settingsConfig.get('fontSize')"
+                        [fontColor]="settingsConfig.get('fontColor')"
+                        [fontFamily]="settingsConfig.get('fontFamily')"
+                        [backgroundColor]="settingsConfig.get('backgroundColor')"
+                        [cssClass]="settingsConfig.get('cssClass')"
+                        [showResetButton]="resetButton" [showReportText]="showReportText" 
+                        templateContent={{fileContent}} imagePath={{imagePath}} 
+                        [reportTextPosition]="position.Right" [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" 
+                        [inputValues]="inputValues"
                         (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
-                        (returnExecutionHistory)='recievedExecutionHistory($event)'
+                        (returnExecutionHistory)='recievedExecutionHistory($event)'                        
+                        (returnDataElementChanged)='recievedDataElementChanged($event)'
                         (returnDefaultElements)="returnDefaultElements()">
-                    </acr-assist-simulator>
-                </ng-container>
+                </acr-assist-simulator>
             </div>
         </section>
     </div>

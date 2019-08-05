@@ -1,4 +1,3 @@
-import { BaseDataElement } from './base-data-element.model';
 import { RepeatedElementSections } from './RepeatedElementSections';
 
 export class RepeatedElementModel {

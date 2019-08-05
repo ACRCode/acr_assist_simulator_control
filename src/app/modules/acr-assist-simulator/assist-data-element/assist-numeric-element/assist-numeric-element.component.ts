@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, SimpleChanges, SimpleChange } from '@angular/core';
-import { NumericDataElement } from '../../../core/elements/models/numeric-data-element.model';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { NumericDataElement } from 'testruleengine/Library/Models/Class';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -15,8 +15,9 @@ import { ResetCommunicationService } from '../../shared/services/reset-communica
   styleUrls: ['./assist-numeric-element.component.css', '../../styles.css']
 })
 export class AssistNumericElementComponent implements OnInit, AfterViewInit {
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
+
   subscription: Subscription;
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();

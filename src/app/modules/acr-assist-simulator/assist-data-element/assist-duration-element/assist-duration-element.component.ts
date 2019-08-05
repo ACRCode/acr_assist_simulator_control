@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DurationDataElement } from '../../../core/elements/models/duration-data-element.model';
+import { DurationDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { Subscription } from 'rxjs';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
-
 
 @Component({
   selector: 'acr-assist-duration-element',
@@ -116,36 +115,36 @@ export class AssistDurationElementComponent implements OnInit {
     this.durationElementForm.statusChanges
       .subscribe(val => {
         this.ResetValidationVisibility();
-        if (this.durationElementForm.controls['durationdayselement'] != undefined &&
+        if (this.durationElementForm.controls['durationdayselement'] !== undefined &&
           this.durationElementForm.controls['durationdayselement'].invalid
           && this.durationElementForm.controls['durationdayselement'].errors.max) {
           this.showdaymaxValidation = true;
-        } else if (this.durationElementForm.controls['durationdayselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationdayselement'] !== undefined &&
           this.durationElementForm.controls['durationdayselement'].invalid
           && this.durationElementForm.controls['durationdayselement'].errors.min) {
           this.showdayminValidation = true;
-        } else if (this.durationElementForm.controls['durationdayselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationdayselement'] !== undefined &&
           this.durationElementForm.controls['durationminuteselement'].invalid
           && this.durationElementForm.controls['durationminuteselement'].errors.min) {
           this.showminuteminValidation = true;
-        } else if (this.durationElementForm.controls['durationminuteselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationminuteselement'] !== undefined &&
           this.durationElementForm.controls['durationminuteselement'].invalid
           && this.durationElementForm.controls['durationminuteselement'].errors.max) {
           this.showminutemaxValidation = true;
-        } else if (this.durationElementForm.controls['durationhourselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationhourselement'] !== undefined &&
           this.durationElementForm.controls['durationhourselement'].invalid
           && this.durationElementForm.controls['durationhourselement'].errors.min) {
           this.showhourminValidation = true;
-        } else if (this.durationElementForm.controls['durationhourselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationhourselement'] !== undefined &&
           this.durationElementForm.controls['durationhourselement'].invalid
           && this.durationElementForm.controls['durationhourselement'].errors.max) {
           this.showhourmaxValidation = true;
 
-        } else if (this.durationElementForm.controls['durationsecondselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationsecondselement'] !== undefined &&
           this.durationElementForm.controls['durationsecondselement'].invalid
           && this.durationElementForm.controls['durationsecondselement'].errors.min) {
           this.showsecondsminValidation = true;
-        } else if (this.durationElementForm.controls['durationsecondselement'] != undefined &&
+        } else if (this.durationElementForm.controls['durationsecondselement'] !== undefined &&
           this.durationElementForm.controls['durationsecondselement'].invalid
           && this.durationElementForm.controls['durationsecondselement'].errors.max) {
           this.showsecondsmaxValidation = true;
@@ -174,17 +173,6 @@ export class AssistDurationElementComponent implements OnInit {
   }
 
   private createDurationElementForm() {
-    // this.durationElementForm = this.formBuilder.group({
-    //   durationdayselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['day'].min), Validators.max(+this.supportedUnits['day'].max)])],
-    //   durationminuteselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['minute'].min), Validators.max(+this.supportedUnits['minute'].max)])],
-    //   durationhourselement: ['', Validators.compose([Validators.required,
-    //   Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])],
-    //   durationsecondselement: ['', Validators.compose([Validators.required,
-    //     Validators.min(+this.supportedUnits['second'].min), Validators.max(+this.supportedUnits['second'].max)])]      
-    // });
-
     if (this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && this.durationDataElement.ShowSeconds) {
@@ -225,8 +213,7 @@ export class AssistDurationElementComponent implements OnInit {
         durationhourselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]
       });
-    }
-    else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+    } else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && !this.durationDataElement.ShowSeconds) {
       this.durationElementForm = this.formBuilder.group({
@@ -235,8 +222,7 @@ export class AssistDurationElementComponent implements OnInit {
         durationhourselement: ['', Validators.compose([Validators.required,
         Validators.min(+this.supportedUnits['hour'].min), Validators.max(+this.supportedUnits['hour'].max)])]
       });
-    }
-    else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
+    } else if (!this.durationDataElement.ShowDays && this.durationDataElement.ShowHours
       && this.durationDataElement.ShowMinutes
       && this.durationDataElement.ShowSeconds) {
       this.durationElementForm = this.formBuilder.group({

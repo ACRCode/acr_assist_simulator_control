@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
 import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
@@ -10,8 +10,8 @@ import { SettingsService } from './modules/core/services/settings.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  settingsConfig: Object;
+export class AppComponent {
+  settingsConfig: SettingsService;
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
@@ -29,22 +29,15 @@ export class AppComponent implements OnInit {
 
   constructor(
     private resetCommunicationService: ResetCommunicationService,
-    private settingsService: SettingsService) {
+    settingsConfiguration: SettingsService) {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;
     this.showReportText = true;
+    this.settingsConfig = settingsConfiguration;
   }
 
-  ngOnInit() {
-    this.settingsService.loadConfiguration().then((data: any) => {
-      if (data) {
-        this.settingsConfig = this.settingsService.getConfigurationObject();
-      }
-    });
-  }
-
-  onFileSelected(fileDetails: FileDetails) {
+  fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
     this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
@@ -54,15 +47,16 @@ export class AppComponent implements OnInit {
   }
 
   showKeyDiagram(data: string) {
-    // console.log(data);
   }
 
-  recievedExecutionHistory(data){
-    // console.log(data);
+  recievedExecutionHistory(data) {
   }
 
   returnDefaultElements() {
     this.inputValues = [];
     this.resetCommunicationService.messageEmitter('');
+  }
+
+  recievedDataElementChanged(data) {
   }
 }

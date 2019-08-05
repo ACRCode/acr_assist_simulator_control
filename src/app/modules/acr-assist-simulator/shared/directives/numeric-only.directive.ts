@@ -28,19 +28,19 @@ export class NumericOnlyDirective {
     // }
 
     if (this.specialKeys.indexOf(event.key) !== -1 ||
-      // to allow backspace, enter, escape, arrows  
-      (event.which == 65 && event.ctrlKey == true) ||
-      // Allow: Ctrl+C        
-      (event.which == 67 && event.ctrlKey == true) ||
+      // to allow backspace, enter, escape, arrows
+      (event.which === 65 && event.ctrlKey === true) ||
+      // Allow: Ctrl+C
+      (event.which === 67 && event.ctrlKey === true) ||
       // Allow: Ctrl+X
-      (event.which == 88 && event.ctrlKey == true)
+      (event.which === 88 && event.ctrlKey === true)
     ) {
       return;
     }
     // Do not use event.keycode this is deprecated.
     // See: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
-    let current: string = this.el.nativeElement.value;
-    let next: string = current.concat(event.key);
+    const current: string = this.el.nativeElement.value;
+    const next: string = current.concat(event.key);
     if (next && !String(next).match(this.regex)) {
       event.preventDefault();
     }

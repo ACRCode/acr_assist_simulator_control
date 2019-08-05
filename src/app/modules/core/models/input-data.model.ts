@@ -3,9 +3,9 @@ export class InputData {
     dataElementLabel: string;
     dataElementValue: any;
     dataElementDisplayValue: any;
-    
     constructor() {
         this.dataElementLabel = '';
         this.dataElementDisplayValue = '';
+
     }
 }

@@ -20,9 +20,9 @@ export class IntegerMaxRestrict {
     if (this.specialKeys.indexOf(event.key) !== -1) {
       return;
     }
-    let current: string = this.el.nativeElement.value;
-    let next: string = current.concat(event.key);
-    let value: number = +next;
+    const current: string = this.el.nativeElement.value;
+    const next: string = current.concat(event.key);
+    const value: number = +next;
     // if (next && (next === '.' || value > 100.00 || !String(next).match(this.regex))) {
     //   event.preventDefault();
     // }
