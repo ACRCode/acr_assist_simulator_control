@@ -448,3 +448,7 @@ mark {
   background-color: transparent !important;
   color: #f60808 !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
