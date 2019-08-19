@@ -17,7 +17,6 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
   @Output() returnDateTimeElement = new EventEmitter();
   selectedCondition: SelectedCondition;
   dateTimeElementForm: FormGroup;
-  date = null;
   settings = {
     bigBanner: true,
     format: 'dd-MMM-yyyy hh:mm a',
@@ -41,8 +40,9 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
   }
 
   onDateTimeSelected(value?: string) {
-    if (this.date != null) {
-      const localDateTime = new Date(this.date.toString()).toLocaleString();
+    const date = this.dateTimeElementForm.controls.dateTimeElement.value;
+    if (date != null) {
+      const localDateTime = new Date(date.toString()).toLocaleString();
       const dateTimeElement = new DateTimeElement();
       dateTimeElement.elementId = this.dateTimeDataElement.id;
       dateTimeElement.selectedValue = localDateTime;

@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
+
 const $ = require('jquery');
 
 @Component({
@@ -15,15 +16,6 @@ const $ = require('jquery');
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
-  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() repeatedElementSections: RepeatedElementSections;
-  @Input() choiceDataElement: ChoiceDataElement;
-  @Input() imagePath: string;
-  @Input() disabled: boolean;
-  @Output() returnChoiceElement = new EventEmitter();
-  @Output() choiceChange = new EventEmitter();
-  choiceValue: string;
   isFreeText = false;
   freeTextValue: string;
   choiceElementForm: FormGroup;
@@ -33,10 +25,22 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   selectedChoiceReportLabel: string;
   elementDisplay: ChoiceElementDisplayEnum;
 
-  constructor(private formBuilder: FormBuilder, private cdr: ChangeDetectorRef, private utilityService: UtilityService) { }
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() repeatedElementSections: RepeatedElementSections;
+  @Input() choiceDataElement: ChoiceDataElement;
+  @Input() imagePath: string;
+  @Input() disabled: boolean;
+
+  @Output() returnChoiceElement = new EventEmitter();
+  @Output() choiceChange = new EventEmitter();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private utilityService: UtilityService) { }
 
   ngOnInit(): void {
-
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
       if (this.choiceDataElement.choiceInfo.length <= 2) {
@@ -55,7 +59,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.showOrHideFreeText(this.choiceDataElement.id, '');
     if (this.choiceDataElement.currentValue !== undefined) {
       $('#' + this.choiceDataElement.currentValue + '_' + this.choiceDataElement.id).prop('checked', true);
-      this.choiceValue = this.choiceDataElement.currentValue;
+      this.choiceElementForm.controls.checkBox.setValue(this.choiceDataElement.currentValue);
       for (const choice in this.choiceDataElement.choiceInfo) {
         if (this.choiceDataElement.choiceInfo[choice].value === this.choiceDataElement.currentValue) {
           if (this.choiceDataElement.choiceInfo[choice].reportText !== undefined) {
@@ -92,13 +96,16 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
     }
   }
+
   isRadioButton(): boolean {
     return this.elementDisplay === ChoiceElementDisplayEnum.RadioButton;
   }
+
   isListBox(): boolean {
 
     return this.elementDisplay === ChoiceElementDisplayEnum.ListBox;
   }
+
   isSelectBox(): boolean {
     return this.elementDisplay === ChoiceElementDisplayEnum.SelectBox;
   }
@@ -121,8 +128,9 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     let selectedValue = element.value;
 
     this.showOrHideFreeText(element.id, selectedValue);
+    const choiceValue = this.choiceElementForm.controls.checkBox.value;
 
-    if (this.choiceValue === 'Select one' || this.choiceValue === undefined || this.choiceValue === '') {
+    if (choiceValue === 'Select one' || choiceValue === undefined || choiceValue === '') {
       selectedText = '';
       selectedValue = '';
     }
@@ -172,8 +180,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   private specificValueInsideRange(checkBox: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls.checkBox;
-      // tslint:disable-next-line:max-line-length
-      if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === 'Select one' || this.choiceValue === '')) {
+      if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === 'Select one')) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {
         return choiceControl.setErrors(null);

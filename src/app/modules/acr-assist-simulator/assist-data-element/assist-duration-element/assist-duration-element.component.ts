@@ -63,11 +63,6 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
     }
   };
 
-  daysvalue = 0;
-  hoursvalue = 0;
-  minutesvalue = 0;
-  secondsValue = 0;
-
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
               simulatorCommunicationService: SimulatorCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
@@ -336,82 +331,92 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
 
   public increaseValue(property): void {
     let currentValue = 0;
+    const daysValue = this.durationElementForm.controls.durationdayselement.value;
+    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
+    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
+    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
+
     switch (property) {
       case 'days':
-        currentValue = this.daysvalue === undefined || this.daysvalue == null ? 0 : this.daysvalue;
+        currentValue = daysValue === undefined || daysValue == null ? 0 : daysValue;
         if (currentValue < this.supportedUnits.day.max) {
           currentValue = currentValue + this.supportedUnits.day.step;
         }
 
-        this.daysvalue = currentValue;
+        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
         break;
 
       case 'hour':
-        currentValue = this.hoursvalue === undefined || this.hoursvalue == null ? 0 : this.hoursvalue;
+        currentValue = hoursValue === undefined || hoursValue == null ? 0 : hoursValue;
         if (currentValue < this.supportedUnits.hour.max) {
           currentValue = currentValue + this.supportedUnits.hour.step;
         }
 
-        this.hoursvalue = currentValue;
+        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
         break;
 
       case 'minute':
-        currentValue = this.minutesvalue === undefined || this.minutesvalue == null ? 0 : this.minutesvalue;
+        currentValue = minsValue === undefined || minsValue == null ? 0 : minsValue;
         if (currentValue < this.supportedUnits.minute.max) {
           currentValue = currentValue + this.supportedUnits.minute.step;
         }
 
-        this.minutesvalue = currentValue;
+        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
         break;
 
       case 'second':
-        currentValue = this.secondsValue === undefined || this.secondsValue == null ? 0 : this.secondsValue;
+        currentValue = secondsValue === undefined || secondsValue == null ? 0 : secondsValue;
         if (currentValue < this.supportedUnits.second.max) {
           currentValue = currentValue + this.supportedUnits.second.step;
         }
 
-        this.secondsValue = currentValue;
+        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
         break;
     }
   }
 
   public decreaseValue(property): void {
     let currentValue = 0;
+    const daysValue = this.durationElementForm.controls.durationdayselement.value;
+    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
+    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
+    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
+
     switch (property) {
       case 'days':
-        currentValue = this.daysvalue;
+        currentValue = daysValue;
         if (currentValue > this.supportedUnits.day.min) {
           currentValue = currentValue - this.supportedUnits.day.step;
         }
 
-        this.daysvalue = currentValue;
+        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
         break;
 
       case 'hour':
-        currentValue = this.hoursvalue;
+        currentValue = hoursValue;
         if (currentValue > this.supportedUnits.hour.min) {
           currentValue = currentValue - this.supportedUnits.hour.step;
         }
 
-        this.hoursvalue = currentValue;
+        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
         break;
 
       case 'minute':
-        currentValue = this.minutesvalue;
+        currentValue = minsValue;
         if (currentValue > this.supportedUnits.minute.min) {
           currentValue = currentValue - this.supportedUnits.minute.step;
         }
 
-        this.minutesvalue = currentValue;
+        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
         break;
 
       case 'second':
-        currentValue = this.secondsValue;
+        currentValue = secondsValue;
         if (currentValue > this.supportedUnits.second.min) {
           currentValue = currentValue - this.supportedUnits.second.step;
         }
 
-        this.minutesvalue = currentValue;
+        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
         break;
     }
   }

@@ -28,7 +28,7 @@
               <div class="radio custom-radio-style">
                 <label>
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                    id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
                     formControlName="checkBox" value="{{choice.value}}"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                   {{choice.label}}
@@ -60,7 +60,7 @@
                   <div class="radio custom-radio-style">
                     <label>
                       <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                        [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                        id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
                         formControlName="checkBox" value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       {{choice.label}}
@@ -95,7 +95,7 @@
       </ng-container>
 
       <ng-container *ngIf="isListBox()">
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" 
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
@@ -132,7 +132,7 @@
       </ng-container>
 
       <ng-container *ngIf="isSelectBox()">
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="
@@ -200,7 +200,7 @@
               <div [ngStyle]="i === 0 && {'clear': 'both'}"  class="radio custom-radio-style">
                 <label>
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                    id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
                     formControlName="checkBox" value="{{choice.value}}"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                   {{choice.label}}
@@ -251,7 +251,7 @@
                   <div class="radio custom-radio-style">
                     <label>
                       <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                        [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                        id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
                         formControlName="checkBox" value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       {{choice.label}}
@@ -308,7 +308,7 @@
           </ng-container>         
         </div>
 
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
@@ -365,7 +365,7 @@
             <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
           </ng-container>        
         </div>
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="

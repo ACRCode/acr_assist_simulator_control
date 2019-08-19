@@ -20,7 +20,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   multiChoiceComaprisonValues: string[] = [];
   multiChoiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  choiceValue: string[] = [];
   isFreeText = false;
   freeTextValue: string;
 
@@ -44,7 +43,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
           for (const currValue of this.multiChoiceElement.currentValue) {
             // tslint:disable-next-line:max-line-length
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-              this.choiceValue = this.multiChoiceElement.currentValue;
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
               values.push(currValue);
               labels.push(this.multiChoiceElement.choiceInfo[choice].label);
@@ -54,7 +52,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
         } else {
           // tslint:disable-next-line:max-line-length
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-            this.choiceValue = this.multiChoiceElement.currentValue;
             $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
             values.push(this.multiChoiceElement.currentValue);
             labels.push(this.multiChoiceElement.choiceInfo[choice].label);

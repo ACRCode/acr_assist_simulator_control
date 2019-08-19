@@ -20,8 +20,20 @@ export class AppComponent {
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      dataElementId: 'othercharacteristics',
-      dataElementValue: 'test',
+      dataElementId: 'supratentoriallesionnumber',
+      dataElementValue: '1',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'supratentoriallesionlocations',
+      dataElementValue: ['frontal', 'parietal'],
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'capsule',
+      dataElementValue: 'yes',
       dataElementLabel: '',
       dataElementDisplayValue: ''
     }

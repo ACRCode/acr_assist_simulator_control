@@ -22,7 +22,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
   @Output() returnNumericElement = new EventEmitter();
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  numberValue: number;
 
   oldVal = null;
 
@@ -52,7 +51,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     if (this.numericDataElement.currentValue !== undefined && this.numericDataElement.currentValue !== 0) {
       this.simulatorEngineService.addOrUpdateDataElement(this.numericDataElement.id, this.numericDataElement.currentValue,
         this.numericDataElement.currentValue);
-      this.numberValue = this.numericDataElement.currentValue;
+      this.numericElementForm.controls.numericElement.setValue(this.numericDataElement.currentValue);
       this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     } else {
       this.returnNumericElement.emit(undefined);
