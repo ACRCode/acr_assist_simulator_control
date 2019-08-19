@@ -11,8 +11,8 @@
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{dateTimeDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="this.dateTimeDataElement.isRequired">
-        <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
-          <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
+        <span *ngIf="dateTimeElementForm.controls.dateTimeElement.invalid">
+          <span *ngIf="dateTimeElementForm.controls.dateTimeElement.errors.required" class="required-field"
             title="Required Field">
             *
           </span>
@@ -38,8 +38,8 @@
           <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
             ({{dateTimeDataElement.unit}})</span>
           <ng-container *ngIf="this.dateTimeDataElement.isRequired">
-            <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].invalid">
-              <span *ngIf="dateTimeElementForm.controls['dateTimeElement'].errors.required" class="required-field"
+            <span *ngIf="dateTimeElementForm.controls.dateTimeElement.invalid">
+              <span *ngIf="dateTimeElementForm.controls.dateTimeElement.errors.required" class="required-field"
                 title="Required Field">
                 *
               </span>

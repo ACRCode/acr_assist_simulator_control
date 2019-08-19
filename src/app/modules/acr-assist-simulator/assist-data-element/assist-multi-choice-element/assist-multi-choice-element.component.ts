@@ -209,9 +209,9 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     }
   }
 
-  private specificValueInsideRange(checkBoxKey: string) {
+  private specificValueInsideRange(multiCheckBox: string) {
     return (group: FormGroup) => {
-      const choiceControl = group.controls[checkBoxKey];
+      const choiceControl = group.controls.multiCheckBox;
       if (this.multiChoiceElement.isRequired) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {

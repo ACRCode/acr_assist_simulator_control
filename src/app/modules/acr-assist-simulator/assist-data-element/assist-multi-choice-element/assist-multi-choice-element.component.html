@@ -13,7 +13,7 @@
         <acr-hint-diagram [dataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.isRequired">
-        <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length"
+        <span *ngIf="multiChoiceElementForm.controls.multiCheckBox.invalid && !multiChoiceValues.length"
           class="required-field" title="Required Field">
           *
         </span>
@@ -59,7 +59,7 @@
           *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
           ({{multiChoiceElement.unit}})</span>
           <ng-container *ngIf="multiChoiceElement.isRequired">
-              <span *ngIf="multiChoiceElementForm.controls['multiCheckBox'].invalid && !multiChoiceValues.length"
+              <span *ngIf="multiChoiceElementForm.controls.multiCheckBox.invalid && !multiChoiceValues.length"
                 class="required-field" title="Required Field">
                 *
               </span>

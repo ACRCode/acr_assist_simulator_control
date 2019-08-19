@@ -169,9 +169,9 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private specificValueInsideRange(checkBoxKey: string) {
+  private specificValueInsideRange(checkBox: string) {
     return (group: FormGroup) => {
-      const choiceControl = group.controls[checkBoxKey];
+      const choiceControl = group.controls.checkBox;
       // tslint:disable-next-line:max-line-length
       if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === 'Select one' || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
