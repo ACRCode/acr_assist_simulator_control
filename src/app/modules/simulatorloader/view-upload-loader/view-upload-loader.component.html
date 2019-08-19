@@ -1,7 +1,7 @@
 <ul class="sidebar-menu" data-widget="tree">
   <li class="header">Want to try your assist module?</li>
   <li class="text-center">
-    <acr-file-upload-loader (onFileContentRead)="onFileContentRead($event)"></acr-file-upload-loader>
+    <acr-file-upload-loader (fileContentRead)="fileContentRead($event)"></acr-file-upload-loader>
   </li>
   <li [ngClass]="{'active':(selectedXML.fileLabel === file.fileLabel)}" *ngFor="let file of globalsService.XMLList.Values().reverse()"
      class="treeview">

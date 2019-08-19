@@ -22,6 +22,19 @@ import { SettingsConfig } from './modules/core/services/settings.service';
     HttpModule,
     SimulatorLoaderModule
   ],
+  providers: [
+    SettingsConfig,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [SettingsConfig],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function initializeApp(appConfig: SettingsConfig) {
+  return () => appConfig.load();
+}

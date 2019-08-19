@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
-import { AllReportText, MainReportText } from '../assist-data-element/assist-data-element.component';
+import { Component, Input, OnChanges } from '@angular/core';
+import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Class';
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
 const $ = require('jquery');
 import * as _ from 'lodash';
@@ -21,14 +21,14 @@ export class AssistReportTextComponent implements OnChanges {
   sections: string[] = [];
   prevSectionId: string;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.mainReportTexts = new MainReportText();
-    this.onSelect(this.selectedSectionId);
-  }
-
   constructor() {
     setInterval(() => {
     }, 1000);
+  }
+
+  ngOnChanges(): void {
+    this.mainReportTexts = new MainReportText();
+    this.onSelect(this.selectedSectionId);
   }
 
   onSelect(sectionId) {
@@ -47,7 +47,6 @@ export class AssistReportTextComponent implements OnChanges {
       for (const section in this.reportText.allReportText) {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
-          // textReport.heading =  section;
           textReport.allTextResultReport.heading = this.reportText.allReportText[section].allReportResult.sectionId;
           textReport.allTextResultReport.content = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
@@ -76,7 +75,6 @@ export class AssistReportTextComponent implements OnChanges {
     }
     this.mainReportTexts = new MainReportText();
     this.allReportTexts = [];
-    // tslint:disable-next-line:forin
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
       allreportText.allReportResult.reportText = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
@@ -87,6 +85,7 @@ export class AssistReportTextComponent implements OnChanges {
     this.mainReportTexts.allReportText = this.allReportTexts;
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
   }
+
   removeEmptyLine(inputText: string): string {
     if (inputText.trim().length !== 0) {
       const lines = inputText.split('\n');

@@ -25,18 +25,13 @@ import { GlobalValueCreationService } from '../shared/services/global-value-crea
 import { IntegerDataElementCreationService } from '../shared/services/integer-data-element-creation.service';
 import { NumericDataElementCreationService } from '../shared/services/numeric-data-element-creation.service';
 import { ComputedDataElementCreationService } from '../shared/services/computed-data-element-creation.service';
-import { BaseDataElement } from '../../core/elements/models/base-data-element.model';
 import { NumericDataElement } from '../../core/elements/models/numeric-data-element.model';
-import { MultiChoiceDataElement } from '../../core/elements/models/multi-choice-data-element';
 import { ChoiceDataElement } from '../../core/elements/models/choice-data-element-model';
 import { Choice } from '../../core/elements/models/choice.model';
-import { ChoiceInfo } from '../../core/elements/models/choiceInfo.model';
 import { GlobalValue } from '../../core/elements/models/globalvalue.model';
-import { By } from '@angular/platform-browser';
 import { Template } from '../../core/models/template.model';
 import { Metadata } from '../../core/metadata/models/metadata-model';
 import { Diagram } from '../../core/models/diagram.model';
-import { Rules } from '../../core/rules/models/rules.model';
 import { DecisionPoint } from '../../core/models/decisionpoint.model';
 import { Branch } from '../../core/models/branch.model';
 import { EndPointRef } from '../../core/models/endpointref.model';
@@ -47,7 +42,6 @@ import { SelectedCondition } from '../../core/models/executed-result.model';
 import { DateTimeDataElementCreationService } from '../shared/services/dateTime-data-element-creation.service';
 
 class MockSimulatorEngineService extends SimulatorEngineService {
-
 }
 
 describe('AssistDataElementComponent', () => {

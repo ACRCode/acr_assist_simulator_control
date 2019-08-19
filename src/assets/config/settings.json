@@ -1,11 +1,11 @@
 {
-  "config": {
-    "alignLabelAndControlToTopAndBottom": true,
-    "showKeyDiagram": true,
-    "fontSize": "",
-    "fontColor": "",
-    "fontFamily": "",
-    "backgroundColor": "",
-    "cssClass": ""
+    "config": {
+      "alignLabelAndControlToTopAndBottom": true,
+      "showKeyDiagram": true,
+      "fontSize": "",
+      "fontColor": "",
+      "fontFamily": "",
+      "backgroundColor": "",
+      "cssClass": ""
+    }
   }
-}

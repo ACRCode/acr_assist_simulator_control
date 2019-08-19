@@ -5,7 +5,6 @@ import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsConfig } from './modules/core/services/settings.service';
 
-
 @Component({
   selector: 'acr-app-root',
   templateUrl: './app.component.html',
@@ -30,15 +29,15 @@ export class AppComponent {
 
   constructor(
     private resetCommunicationService: ResetCommunicationService,
-    private settingsConfiguration: SettingsConfig) {
-      this.fileContent = '';
-      this.imagePath = '';
-      this.resetButton = true;
-      this.showReportText = true;
-      this.settingsConfig = settingsConfiguration;
+    settingsConfiguration: SettingsConfig) {
+    this.fileContent = '';
+    this.imagePath = '';
+    this.resetButton = true;
+    this.showReportText = true;
+    this.settingsConfig = settingsConfiguration;
   }
 
-  onFileSelected(fileDetails: FileDetails) {
+  fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
     this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
@@ -48,11 +47,9 @@ export class AppComponent {
   }
 
   showKeyDiagram(data: string) {
-    // console.log(data);
   }
 
   recievedExecutionHistory(data) {
-    // console.log(data);
   }
 
   returnDefaultElements() {
@@ -61,7 +58,5 @@ export class AppComponent {
   }
 
   recievedDataElementChanged(data) {
-    // alert();
-    // console.log(data);
   }
 }

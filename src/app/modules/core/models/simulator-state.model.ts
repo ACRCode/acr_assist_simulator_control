@@ -1,4 +1,4 @@
-import { RuleEvaluationResult } from "../endpoint/rule-evaluation-result.model";
+import { MainReportText } from "testruleengine/Library/Models/Class";
 
 export class SimulatorState {
   nonRelevantDataElementIds: string[] = [];
@@ -7,6 +7,6 @@ export class SimulatorState {
   selectedDecisionPointLabel = '';
   selectedBranchLabel = '';
   endPointIds: string[] = [];
-  ruleEvaluationResults: RuleEvaluationResult[];
+  mainReportText: MainReportText[];
   showKeyDiagram: string;
 }

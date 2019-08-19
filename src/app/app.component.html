@@ -4,9 +4,9 @@
             <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width" alt="Simulator Logo"> </span>
         </a>
         <nav class="navbar navbar-static-top">
-            <a id="toggleWrapper" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <a class="sidebar-toggle cursor-pointer" onclick="toggleSidebar()">
                 <span class="sr-only">Toggle navigation</span>
-            </a>
+              </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="acr-logo">
@@ -20,7 +20,7 @@
     </header>
 
     <aside class="main-sidebar">
-        <acr-view-upload-loader (onFileSelected)="onFileSelected($event)"></acr-view-upload-loader>
+        <acr-view-upload-loader (fileSelected)="fileSelected($event)"></acr-view-upload-loader>
     </aside>
 
     <!-- [fontSize]="250" -->
@@ -39,7 +39,7 @@
                         [reportTextPosition]="position.Right" [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" 
                         [inputValues]="inputValues"
                         (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
-                        (returnExecutionHistory)='recievedExecutionHistory($event)' 
+                        (returnExecutionHistory)='recievedExecutionHistory($event)'                        
                         (returnDataElementChanged)='recievedDataElementChanged($event)'
                         (returnDefaultElements)="returnDefaultElements()">
                 </acr-assist-simulator>
