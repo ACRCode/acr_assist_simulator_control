@@ -198,7 +198,12 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   resizeKeyImages() {
-    resizeKeyImages();
+    // resizeKeyImages();
+
+    let windowHeight = window.innerHeight;
+    let reportTextHeight = $('#div-right-reportText').height();
+    let height = windowHeight - reportTextHeight - 150;
+    $('#carousel-example-generic').height(height+'px');
   }
 
   collapseKeyDiagram() {
