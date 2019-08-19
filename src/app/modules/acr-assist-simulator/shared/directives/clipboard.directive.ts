@@ -1,44 +1,37 @@
-import { Directive } from '@angular/core';
+import { Directive, Output, Input, HostListener } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { ClipboardService } from '../services/clipboard.service';
 
 @Directive({
-  selector: '[clipboard]',
-  inputs: ['value: clipboard'],
-  outputs: [
-    'copyEvent: clipboardCopy',
-    'errorEvent: clipboardError'
-  ],
-  host: {
-    '(click)': 'copyToClipboard()'
-  }
+  selector: '[acrClipboard]'
 })
 export class ClipboardDirective {
 
-  public copyEvent: EventEmitter<string>;
-  public errorEvent: EventEmitter<Error>;
-  public value: string;
+  @Input() clipboard: any;
+  @Output() clipboardCopy: EventEmitter<string>;
+  @Output() clipboardError: EventEmitter<Error>;
 
   private clipboardService: ClipboardService;
 
   constructor(clipboardService: ClipboardService) {
     this.clipboardService = clipboardService;
-    this.copyEvent = new EventEmitter();
-    this.errorEvent = new EventEmitter();
-    this.value = '';
+    this.clipboardCopy = new EventEmitter();
+    this.clipboardError = new EventEmitter();
+    this.clipboard = '';
   }
 
-  public copyToClipboard(): void {
+  @HostListener('keydown', ['$event'])
+  copyToClipboard(event: MouseEvent) {
     this.clipboardService
-      .copy(this.value)
+      .copy(this.clipboard)
       .then(
         (value: string): void => {
-          this.copyEvent.emit(value);
+          this.clipboardCopy.emit(value);
         }
       )
       .catch(
         (error: Error): void => {
-          this.errorEvent.emit(error);
+          this.clipboardError.emit(error);
         }
       );
   }

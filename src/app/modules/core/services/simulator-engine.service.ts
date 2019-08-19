@@ -4,9 +4,9 @@ import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
          IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
          InsertPartial, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
-import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator'; 
+import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator';
 import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
-import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint'; 
+import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
 const expressionParser = require('expr-eval').Parser;
@@ -124,7 +124,7 @@ export class SimulatorEngineService {
 
   private FindAndSetValueForComputedDataElement(expressionText, parentelementId) {
     const elementId = expressionText.match(/{([^}]+)}/);
-    const result = this.template.dataElements.filter(function (obj) {
+    const result = this.template.dataElements.filter(function(obj) {
       return obj.id === elementId[1] && (obj.dataElementType === 'ComputedDataElement');
     });
 
@@ -139,7 +139,7 @@ export class SimulatorEngineService {
   private IsExpressionReferedtoComputedDataElement(expressionText): boolean {
     const text = expressionText.match(/{([^}]+)}/);
     if (text !== null && text !== undefined && text.length > 0) {
-      const result = this.template.dataElements.filter(function (obj) {
+      const result = this.template.dataElements.filter(function(obj) {
         return obj.id === text[1] && (obj.dataElementType === 'ComputedDataElement');
       });
 
@@ -318,7 +318,7 @@ export class SimulatorEngineService {
   }
 
   private GetRepeatableValue(repeatCount) {
-    const $dataElement = _.find(this.template.dataElements, { 'id': repeatCount }) as BaseDataElement;
+    const $dataElement = _.find(this.template.dataElements, { id: repeatCount }) as BaseDataElement;
     return $dataElement !== undefined ? $dataElement.currentValue : 0;
   }
 
@@ -365,10 +365,11 @@ export class SimulatorEngineService {
           if (_branch.compositeCondition !== undefined) {
             const dataElementIds = this.template.dataElements.map(dataElement => dataElement.id);
             $conditions = [];
-            
+
             for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
+                  // tslint:disable-next-line:max-line-length
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
                 }
               }
@@ -425,6 +426,7 @@ export class SimulatorEngineService {
             for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
+                  // tslint:disable-next-line:max-line-length
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
                 }
               }
@@ -476,7 +478,9 @@ export class SimulatorEngineService {
               $computedDataElement_cloned.decisionPoints[index].branches = [];
               for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
                 for (const _dataElement of dataElementIds) {
+                  // tslint:disable-next-line:max-line-length
                   $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
+                  // tslint:disable-next-line:max-line-length
                   $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
                 }
 
@@ -521,6 +525,7 @@ export class SimulatorEngineService {
     this.RemoveDynamicallyAddedComputedDataElementIds();
     for (const decisionPoint of this.template.rules.decisionPoints) {
       for (const branch of decisionPoint.branches) {
+        // tslint:disable-next-line:max-line-length
         if (branch.endPointRef !== undefined && branch.endPointRef.isRepeatable && (branch.isManuallyAdded === undefined || !branch.isManuallyAdded)) {
           const $currentValue = +this.GetRepeatableValue(branch.endPointRef.repeatCount);
           if ($currentValue !== undefined && $currentValue > 0) {
@@ -539,7 +544,9 @@ export class SimulatorEngineService {
                 $branch.ICompositeCondition.conditions = [];
                 for (let _conditions of branch.ICompositeCondition.conditions) {
                   for (const _dataElement of dataElementIds) {
+                    // tslint:disable-next-line:max-line-length
                     _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1), _conditions);
+                    // tslint:disable-next-line:max-line-length
                     this.CheckIfDataElementisComputedDataElement(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1));
                   }
 
@@ -579,7 +586,7 @@ export class SimulatorEngineService {
       this.endOfRoadReached = false;
       this.branchCounter++;
       this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
-      var reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
+      const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
 
       const $simulatorState = new SimulatorState();
       if (reportText.allReportText.length > 0) {

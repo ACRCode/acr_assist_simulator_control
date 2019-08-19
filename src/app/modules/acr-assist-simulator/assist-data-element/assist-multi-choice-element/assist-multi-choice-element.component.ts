@@ -42,6 +42,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       for (const choice in this.multiChoiceElement.choiceInfo) {
         if (Array.isArray(this.multiChoiceElement.currentValue)) {
           for (const currValue of this.multiChoiceElement.currentValue) {
+            // tslint:disable-next-line:max-line-length
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
               this.choiceValue = this.multiChoiceElement.currentValue;
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
@@ -51,6 +52,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
             }
           }
         } else {
+          // tslint:disable-next-line:max-line-length
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
             this.choiceValue = this.multiChoiceElement.currentValue;
             $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
@@ -171,6 +173,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   private GetSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
     const selectedItems = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < items.length; i++) {
       if (items[i].checked === true) {
         selectedItems.push(items[i].value);

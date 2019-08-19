@@ -6,5 +6,4 @@ export class ImageProperties {
       this.height = height;
       this.width = width;
   }
-
 }

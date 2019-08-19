@@ -17,7 +17,7 @@
                     <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                         [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
-                        (clipboardError)="clipboardError($event)">
+                        (clipboardError)="clipboardError($event)" acrClipboard>
                         <i class="fa fa-clipboard"></i>
                       </button>
                       <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
@@ -86,7 +86,7 @@
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                   [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
-                  (clipboardError)="clipboardError($event)">
+                  (clipboardError)="clipboardError($event)" acrClipboard>
                   <i class="fa fa-clipboard"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">

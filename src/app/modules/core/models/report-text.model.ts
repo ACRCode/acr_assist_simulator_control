@@ -1,7 +1,7 @@
 export class AllTextReport {
     repeatedSectionName: string;
     allTextResultReport: AllTextResultReport;
-    constructor () {
+    constructor() {
         this.allTextResultReport = new AllTextResultReport();
     }
 }

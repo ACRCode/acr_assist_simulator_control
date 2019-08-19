@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class SettingsService {
-    private _config: Object;
+    private config: object;
     private configUrl = 'assets/config/settings.json';
 
     constructor(
@@ -19,13 +19,13 @@ export class SettingsService {
                 return observableThrowError(error.json().error || 'Server error');
             }))
                 .subscribe((envResponse: any) => {
-                    this._config = envResponse;
+                    this.config = envResponse;
                     resolve(true);
                 });
         });
     }
 
     get(key: any) {
-        return this._config['config'][key];
+        return this.config[`config`][key];
     }
 }

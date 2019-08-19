@@ -74,18 +74,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cr-assist-simulator:build"
+            "browserTarget": "acr-assist-simulator:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "cr-assist-simulator:build:production"
+              "browserTarget": "acr-assist-simulator:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cr-assist-simulator:build"
+            "browserTarget": "acr-assist-simulator:build"
           }
         },
         "test": {

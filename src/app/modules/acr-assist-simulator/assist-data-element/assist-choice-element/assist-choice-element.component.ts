@@ -3,7 +3,6 @@ import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
@@ -66,6 +65,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
         }
       }
 
+      // tslint:disable-next-line:max-line-length
       if (this.choiceDataElement.allowFreetext && this.selectedChoiceReportText === undefined && this.selectedChoiceReportLabel === undefined) {
         this.isFreeText = true;
         this.freeTextValue = this.choiceDataElement.currentValue;
@@ -86,6 +86,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
     }
 
+    // tslint:disable-next-line:max-line-length
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
       $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
     }
@@ -170,6 +171,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   private specificValueInsideRange(checkBoxKey: string) {
     return (group: FormGroup) => {
       const choiceControl = group.controls[checkBoxKey];
+      // tslint:disable-next-line:max-line-length
       if ((choiceControl.value === undefined || choiceControl.value === '' || choiceControl.value === 'Select one' || this.choiceValue === '')) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {

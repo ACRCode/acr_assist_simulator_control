@@ -13,8 +13,8 @@ declare var require: any;
 export class ImageMapComponent  implements OnInit {
     $ = require('jquery');
     @Input() DataElement: ChoiceDataElement;
-    @Input() DataElements: Object = {};
-    @Input() FormValues: Object = {};
+    @Input() DataElements: object = {};
+    @Input() FormValues: object = {};
     @Input() imagePath: string;
     isDataURL = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
     domSanitizer: DomSanitizer;
@@ -65,8 +65,10 @@ export class ImageMapComponent  implements OnInit {
         }
         let inside = false;
         for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-            const xi = vs[i][0], yi = vs[i][1];
-            const xj = vs[j][0], yj = vs[j][1];
+            const xi = vs[i][0];
+            const yi = vs[i][1];
+            const xj = vs[j][0];
+            const yj = vs[j][1];
             const intersect = ((yi > y) !== (yj > y))
                 && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
             if (intersect) {
@@ -151,7 +153,7 @@ export class ImageMapComponent  implements OnInit {
         const isDataURL = !!location.match(this.isDataURL);
         if (isDataURL) {
         location = location.replace('unsafe:', '');
-          return location;
+        return location;
         } else {
           return this.imagePath + '/' + location;
         }

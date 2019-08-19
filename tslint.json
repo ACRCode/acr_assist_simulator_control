@@ -3,8 +3,18 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "only-arrow-functions": false,
     "deprecation": {
       "severity": "warning"
+    },
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore",
+        "allow-pascal-case",
+        "allow-snake-case"
+      ]
     },
     "component-class-suffix": true,
     "contextual-lifecycle": true,
@@ -13,12 +23,14 @@
       true,
       "attribute",
       "app",
+      "acr",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
       "app",
+      "acr",
       "kebab-case"
     ],
     "import-blacklist": [

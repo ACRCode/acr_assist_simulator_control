@@ -3,7 +3,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 @Directive({
   selector: '[acrIntegerMaxRestrict]'
 })
-export class IntegerMaxRestrict {
+export class IntegerMaxRestrictDirective {
 
 //   private regex: RegExp = new RegExp(/^(?:[0-9]{0,3}(?:\.[0-9]{0,2})?)?$/);
 

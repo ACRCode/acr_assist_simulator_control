@@ -28,8 +28,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() showResetButton: Boolean = true;
-  @Input() showReportText: Boolean = true;
+  @Input() showResetButton = true;
+  @Input() showReportText = true;
   @Input() fontSize: string;
   @Input() fontFamily: string;
   @Input() fontColor: string;
@@ -101,6 +101,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     if (!this.keyDiagrams.length) {
+      // tslint:disable-next-line:prefer-for-of
       for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
         if (this.imagePath !== undefined && this.imagePath != null && this.imagePath !== '') {
           const element = new Diagram();
@@ -113,7 +114,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     const _this = this;
-    setTimeout(function (e) {
+    setTimeout(function(e) {
       _this.applyInputStyles();
     });
   }
@@ -141,7 +142,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function (el) {
+    return this.keyDiagrams.some(function(el) {
       return el.location === diagram.location;
     });
   }
@@ -208,7 +209,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       $('#icon_keydiagram').removeClass('fa fa-minus');
       $('#icon_keydiagram').addClass('fa fa-plus');
       $('#body_keydiagram').css({
-        'display': 'none'
+        display: 'none'
       });
     } else {
       $('#icon_keydiagram').removeClass('fa fa-plus');
@@ -222,7 +223,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       $('#icon_reporttext').removeClass('fa fa-minus');
       $('#icon_reporttext').addClass('fa fa-plus');
       $('#body_reporttext').css({
-        'display': 'none'
+        display: 'none'
       });
     } else {
       $('#icon_reporttext').removeClass('fa fa-plus');
@@ -236,7 +237,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       const inputValue = this.inputValues.filter(x => x.dataElementId.toUpperCase() === dataeElement.id.toUpperCase());
       if (inputValue !== undefined && inputValue.length > 0) {
         if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
-          const choiceElement = <ChoiceDataElement>dataeElement;
+          const choiceElement = dataeElement as ChoiceDataElement;
           if (Array.isArray(inputValue[0].dataElementValue)) {
             const values = [];
             choiceElement.choiceInfo.forEach(choice => {
@@ -264,12 +265,12 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       }
     });
   }
-  
+
   clipboardError(error: Error): void {
     this.toastr.errorToastr('Failed to copy to clipboard');
   }
 
-  clipboardSuccess(value: string): void {    
+  clipboardSuccess(value: string): void {
     this.toastr.successToastr('Successfully copied to clipboard');
   }
 }

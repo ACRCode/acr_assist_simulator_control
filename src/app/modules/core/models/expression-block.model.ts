@@ -17,7 +17,7 @@ export class ExpressionBlock {
 
     public ArithmeticExpression = '';
 
-    public TextExpression: Object[];
+    public TextExpression: object[];
 
     public Level: number;
 

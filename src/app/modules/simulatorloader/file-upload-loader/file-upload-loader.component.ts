@@ -15,7 +15,7 @@ export class FileUploadLoaderComponent implements OnInit  {
   fileReader: FileReader = new FileReader();
   readFile: File;
 
-  constructor (private configService: GlobalsService) {
+  constructor(private configService: GlobalsService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class FileUploadLoaderComponent implements OnInit  {
     if (fileName.includes('.xml') || fileName.includes('.Xml') || fileName.includes('.XML') ||
     fileName.includes('.zip') || fileName.includes('.Zip') || fileName.includes('.ZIP')) {
       this.hideMessage();
-    this.readThis($event.target);
+      this.readThis($event.target);
     } else {
       if (fileName !== '' && fileName !== undefined) {
         $('#xmlOnlyMsg').show();
@@ -47,7 +47,8 @@ export class FileUploadLoaderComponent implements OnInit  {
     const self = this;
     const extensionStartPosition = self.readFile.name.lastIndexOf('.');
     this.fileReader.onloadend = (e) => {
-      self.fileContentRead.emit( new FileDetails(self.readFile.name.substring(0, extensionStartPosition), self.readFile.name, this.fileReader.result.toString()));
+      self.fileContentRead.emit(
+        new FileDetails(self.readFile.name.substring(0, extensionStartPosition), self.readFile.name, this.fileReader.result.toString()));
     };
 
     this.fileReader.readAsText(this.readFile);

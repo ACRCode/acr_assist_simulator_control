@@ -11,8 +11,8 @@ import * as _ from 'lodash';
 })
 export class AssistReportTextComponent implements OnChanges {
 
-  allReportTextGroup: AllReportTextGroup[] = [];
   @Input() reportText: MainReportText;
+  allReportTextGroup: AllReportTextGroup[] = [];
   allReportTexts: AllReportText[] = [];
   selectedSection: string;
   mainReportTexts: MainReportText;
@@ -54,7 +54,7 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
@@ -69,12 +69,14 @@ export class AssistReportTextComponent implements OnChanges {
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].allReportResult.reportText;
+        // tslint:disable-next-line:max-line-length
         this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.removeEmptyLine(this.selectedSection) : '');
         break;
       }
     }
     this.mainReportTexts = new MainReportText();
     this.allReportTexts = [];
+    // tslint:disable-next-line:forin
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
       allreportText.allReportResult.reportText = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
@@ -90,7 +92,7 @@ export class AssistReportTextComponent implements OnChanges {
     if (inputText.trim().length !== 0) {
       const lines = inputText.split('\n');
       const uniquelines = [];
-      lines.forEach(function (line, i) {
+      lines.forEach(function(line, i) {
         if (line.trim().length !== 0) {
           uniquelines.push(line);
         }

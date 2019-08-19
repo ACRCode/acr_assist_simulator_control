@@ -49,9 +49,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private simulatorEngineService: SimulatorEngineService,
-    private simulatorCommunicationService: SimulatorCommunicationService,
-    resetCommunicationService: ResetCommunicationService
-    ) {
+              private simulatorCommunicationService: SimulatorCommunicationService,
+              resetCommunicationService: ResetCommunicationService
+  ) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
@@ -81,15 +81,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         } else {
           dataElement.isVisible = true;
         }
+        // tslint:disable-next-line:max-line-length
         if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
           dataElement.currentValue = this.dataElementValues.get(dataElement.id);
         }
+        // tslint:disable-next-line:max-line-length
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
       }
 
 
-      this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
-      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+      this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
+      // tslint:disable-next-line:max-line-length
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
       this.mainReportTextObj = this.simulatorState.mainReportText;
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
@@ -111,8 +114,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
-    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
+    // tslint:disable-next-line:max-line-length
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
     this.$dataElements = [];
@@ -245,6 +249,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
         this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
+        // tslint:disable-next-line:max-line-length
         this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues,
           $event.receivedElement.selectedValues);
         const executedResults: string[] = [];
@@ -307,11 +312,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
               }
             });
 
-            if (inputData.dataElementDisplayValue != undefined && inputData.dataElementDisplayValue != null) {
+            if (inputData.dataElementDisplayValue !== undefined && inputData.dataElementDisplayValue != null) {
               inputData.dataElementDisplayValue = this.removeDuplicates(inputData.dataElementDisplayValue);
             }
 
-            if (inputData.dataElementValue != undefined && inputData.dataElementValue != null) {
+            if (inputData.dataElementValue !== undefined && inputData.dataElementValue != null) {
               inputData.dataElementValue = this.removeDuplicates(inputData.dataElementValue);
             }
           } else {
@@ -326,16 +331,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   removeDuplicates(arr) {
-    let unique_array = []
+    const unique_array = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < arr.length; i++) {
-      if (unique_array.indexOf(arr[i]) == -1) {
-        unique_array.push(arr[i])
+      if (unique_array.indexOf(arr[i]) === -1) {
+        unique_array.push(arr[i]);
       }
     }
 
-    return unique_array
+    return unique_array;
   }
-  
+
   private generateExecutionHistory() {
     this.executedResultHistories = [];
     let isNonRelevant: boolean;

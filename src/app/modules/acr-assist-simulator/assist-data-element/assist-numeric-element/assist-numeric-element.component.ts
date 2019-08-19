@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
 import { NumericDataElement } from 'testruleengine/Library/Models/Class';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -8,13 +8,12 @@ import { SimulatorCommunicationService } from '../../shared/services/simulator-c
 import { Subscription } from 'rxjs';
 import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
 
-
 @Component({
   selector: 'acr-assist-numeric-element',
   templateUrl: './assist-numeric-element.component.html',
   styleUrls: ['./assist-numeric-element.component.css', '../../styles.css']
 })
-export class AssistNumericElementComponent implements OnInit, AfterViewInit {
+export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscription: Subscription;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -28,8 +27,8 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   oldVal = null;
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
-    simulatorCommunicationService: SimulatorCommunicationService,
-    resetCommunicationService: ResetCommunicationService) {
+              simulatorCommunicationService: SimulatorCommunicationService,
+              resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.UpdateFormValidator();
@@ -41,9 +40,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
-    // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
 
@@ -118,13 +115,14 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
+      // tslint:disable-next-line:max-line-length
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])],
     });
   }
 
   UpdateFormValidator() {
-    this.numericElementForm.controls['numericElement'].setValidators([Validators.compose([Validators.required,
+    this.numericElementForm.controls.numericElement.setValidators([Validators.compose([Validators.required,
     Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
-    this.numericElementForm.controls['numericElement'].updateValueAndValidity();
+    this.numericElementForm.controls.numericElement.updateValueAndValidity();
   }
 }
