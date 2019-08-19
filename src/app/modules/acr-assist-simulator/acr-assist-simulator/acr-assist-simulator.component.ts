@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 const $ = require('jquery');
 declare var resizeKeyImages: any;
@@ -18,6 +19,7 @@ declare var resizeKeyImages: any;
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
 export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
@@ -54,6 +56,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
+    private toastr: ToastrManager,
     private utilityService: UtilityService) {
   }
 
@@ -260,5 +263,13 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
         dataeElement.currentValue = inputValue[0].dataElementValue;
       }
     });
+  }
+  
+  clipboardError(error: Error): void {
+    this.toastr.errorToastr('Failed to copy to clipboard');
+  }
+
+  clipboardSuccess(value: string): void {    
+    this.toastr.successToastr('Successfully copied to clipboard');
   }
 }

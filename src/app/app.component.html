@@ -4,9 +4,9 @@
             <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width" alt="Simulator Logo"> </span>
         </a>
         <nav class="navbar navbar-static-top">
-            <a id="toggleWrapper" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <a class="sidebar-toggle cursor-pointer" onclick="toggleSidebar()">
                 <span class="sr-only">Toggle navigation</span>
-            </a>
+              </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <li class="acr-logo">
@@ -43,6 +43,14 @@
                         (returnDataElementChanged)='recievedDataElementChanged($event)'
                         (returnDefaultElements)="returnDefaultElements()">
                 </acr-assist-simulator>
+
+                <!-- <acr-assist-simulator templateContent={{fileContent}} 
+                imagePath={{imagePath}} [showKeyDiagram]="false"
+                [alignLabelAndControlToTopAndBottom]="true"
+                [inputValues]="inputValues" (returnDataElementChanged)="recievedDataElementChanged($event)"
+                [showResetButton]="true" (returnDefaultElements)="resetTestcaseinput()" [reportTextPosition]="position.Right"
+                (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
+                (returnExecutionHistory)="recievedExecutionHistory($event)"></acr-assist-simulator> -->
             </div>
         </section>
     </div>

@@ -1,10 +1,12 @@
 <ng-container *ngIf="!isEmptyContent">
-  <div id="topReportTextPosition" *ngIf="reportTextPosition === position.Top || reportTextPosition === undefined || reportTextPosition === null">
+  <div id="topReportTextPosition"
+    *ngIf="reportTextPosition === position.Top || reportTextPosition === undefined || reportTextPosition === null">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <div id="div-simulator-block">
-        <div #simulatorBlock  class="box box-primary box-solid margin-b-0">
+        <div #simulatorBlock class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border  text-right padding-5 padding-r-10">
-            <button (click)="resetElements()" class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
+            <button (click)="resetElements()"
+              class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
           </div>
           <div class="box-body">
             <div #simulatorResultsBlock>
@@ -13,13 +15,18 @@
                   <div class="box-header with-border">
                     <h3 class="box-title">Report Text</h3>
                     <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                        [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+                        (clipboardError)="clipboardError($event)">
+                        <i class="fa fa-clipboard"></i>
+                      </button>
                       <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                         <i id="icon_reporttext" class="fa fa-minus"></i>
                       </button>
                     </div>
                   </div>
                   <div id="body_reporttext" class="box-body report-text">
-                    <dl>
+                    <dl #reportTextContent>
                       <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
                     </dl>
                   </div>
@@ -28,11 +35,15 @@
             </div>
             <div class="padding-r-10 scroll">
               <form class="form-horizontal">
-                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay" [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom" [dataElements]="dataElements" [templatePartial]="template.templatePartial"
-                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
-                  (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay"
+                  [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom"
+                  [dataElements]="dataElements" [templatePartial]="template.templatePartial"
+                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath"
+                  [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+                  [inputValues]="inputValues" [isReset]="isReset"
                   (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
-                  (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                  (returnDataElementChanged)='recivedOnDataElementChanged($event)'
+                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -43,18 +54,23 @@
   <div id="rightReportTextPosition" *ngIf="reportTextPosition === position.Right">
     <div class="col-sm-6 col-md-6 col-lg-6">
       <div id="div-simulator-block">
-        <div #simulatorBlock  class="box box-primary box-solid margin-b-0">
+        <div #simulatorBlock class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border text-right padding-5 padding-r-10">
-            <button (click)="resetElements()" class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
+            <button (click)="resetElements()"
+              class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
           </div>
           <div class="box-body">
             <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
               <form class="form-horizontal">
-                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay" [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom" [dataElements]="dataElements" [templatePartial]="template.templatePartial"
-                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath" [xmlContent]="template.xmlContent"
-                  (returnReportText)='recieveReportText($event)' [inputValues]="inputValues" [isReset]="isReset"
+                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay"
+                  [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom"
+                  [dataElements]="dataElements" [templatePartial]="template.templatePartial"
+                  [endPointXMLString]="template.endPointsString" [imagePath]="imagePath"
+                  [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
+                  [inputValues]="inputValues" [isReset]="isReset"
                   (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
-                  (returnDataElementChanged)='recivedOnDataElementChanged($event)' (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                  (returnDataElementChanged)='recivedOnDataElementChanged($event)'
+                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -68,13 +84,18 @@
             <div class="box-header with-border">
               <h3 class="box-title">Report Text</h3>
               <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                  [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+                  (clipboardError)="clipboardError($event)">
+                  <i class="fa fa-clipboard"></i>
+                </button>
                 <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                   <i id="icon_reporttext" class="fa fa-minus"></i>
                 </button>
               </div>
             </div>
             <div id="body_reporttext" class="box-body report-text">
-              <dl>
+              <dl #reportTextContent>
                 <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
               </dl>
             </div>
@@ -88,8 +109,10 @@
         <div class="box box-primary margin-b-0">
           <div class="box-header with-border">
             <h3 class="box-title">Key Images</h3>
-            <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple (change)="changeListener($event)">
-            <label for="diagramUpload" class="btn btn-sm btn-success bg-olive margin-l-10" title="Choose Diagrams">Choose a Diagram</label>
+            <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple
+              (change)="changeListener($event)">
+            <label for="diagramUpload" class="btn btn-sm btn-success bg-olive margin-l-10"
+              title="Choose Diagrams">Choose a Diagram</label>
             <div class="pull-right padding-l-5">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" (click)="collapseKeyDiagram()">
                 <i id="icon_keydiagram" class="fa fa-minus"></i>
@@ -107,14 +130,17 @@
             </div>
             <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
           </div>
-          
+
           <div id="body_keydiagram" class="box-body">
-            <div id="carousel-example-generic" [style.min-height]="keyDiagrams != undefined && keyDiagrams.length > 0 ? '300px' : '0px'" class="carousel slide scroll" data-interval="false" data-ride="carousel">
+            <div id="carousel-example-generic"
+              [style.min-height]="keyDiagrams != undefined && keyDiagrams.length > 0 ? '300px' : '0px'"
+              class="carousel slide scroll" data-interval="false" data-ride="carousel">
               <div class="carousel-inner">
                 <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
                   <div class="item zoom" [ngClass]="{'active': diagram.keyDiagram}">
                     <drag-scroll>
-                      <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree" src="{{ diagram.location }}">
+                      <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
+                        src="{{ diagram.location }}">
                     </drag-scroll>
                   </div>
                 </ng-container>

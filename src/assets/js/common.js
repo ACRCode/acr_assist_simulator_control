@@ -8,11 +8,28 @@ var init_SimulatorUI = function () {
   });
 }
 
-var resizeKeyImages = function () {
+ function resizeKeyImages() {
   let windowHeight = window.innerHeight;
   let reportTextHeight = $('#div-right-reportText').height();
   let height = windowHeight - reportTextHeight - 150;
   $('#carousel-example-generic').height(height+'px');
+}
+
+function toggleSidebar() {
+  var width = window.innerWidth;
+  if (width <= 766) {
+    if ($('body').hasClass('sidebar-open')) {
+      $('body').removeClass('sidebar-open');
+    } else {
+      $('body').addClass('sidebar-open ');
+    }
+  } else {
+    if ($('body').hasClass('sidebar-collapse')) {
+      $('body').removeClass('sidebar-collapse');
+    } else {
+      $('body').addClass('sidebar-collapse ');
+    }
+  }
 }
 
 function zoomIn() {

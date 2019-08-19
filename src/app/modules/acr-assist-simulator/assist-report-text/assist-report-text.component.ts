@@ -21,7 +21,7 @@ export class AssistReportTextComponent implements OnChanges {
   sections: string[] = [];
   prevSectionId: string;
 
-  constructor() {
+  constructor( ) {
     setInterval(() => {
     }, 1000);
   }

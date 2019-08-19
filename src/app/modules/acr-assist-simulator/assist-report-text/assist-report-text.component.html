@@ -1,32 +1,22 @@
-<!-- <ng-container *ngFor="let textReport of allTextReport; let lastitem = last">
-  {{textReport | json}}
-  <dt class="text-capitalize" *ngIf="textReport.repeatedSectionName">{{textReport.repeatedSectionName}}</dt>
-  <dt class="text-capitalize">{{textReport.allTextResultReport.heading}}</dt>
-  <dd>
-    <p class="white-space-line" [innerHTML]="textReport.allTextResultReport.content"></p>
-  </dd>
-  <hr *ngIf="!lastitem">
-</ng-container> -->
-
-<ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last">
-  <dt class="text-capitalize" style="text-decoration:underline" *ngIf="textReport.repeatedSectionName != ''">{{textReport.repeatedSectionName}}</dt>
-  <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport">
-
-    <ng-container *ngIf="textReport.repeatedSectionName != ''">
-      <dt class="text-capitalize" style="margin-left:30px;font-weight: bold">{{allTextResultReport.heading}}</dt>
-      <dd>
-        <p class="white-space-line" style="margin-left:30px;" [innerHTML]="allTextResultReport.content"></p>
-      </dd>
+  <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
+    <dt class="text-capitalize" style="text-decoration:underline" *ngIf="textReport.repeatedSectionName != ''">
+      {{textReport.repeatedSectionName}}</dt>
+    <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport; let i = index;">
+      <ng-container *ngIf="textReport.repeatedSectionName != ''">
+        <dt class="text-capitalize" style="margin-left:30px;font-weight: bold">
+          {{allTextResultReport.heading}}</dt>
+        <dd>
+          <p class="white-space-line" style="margin-left:30px;" [innerHTML]="allTextResultReport.content"></p>
+        </dd>
+      </ng-container>
+      <ng-container *ngIf="textReport.repeatedSectionName == ''">
+        <dt class="text-capitalize" style="font-weight: bold">
+          {{allTextResultReport.heading}}</dt>
+        <dd>
+          <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
+        </dd>
+        <br>
+      </ng-container>
     </ng-container>
-  
-
-    <ng-container *ngIf="textReport.repeatedSectionName == ''">
-      <dt class="text-capitalize" style="font-weight: bold">{{allTextResultReport.heading}}</dt>
-      <dd>
-        <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
-      </dd>
-      <br>
-    </ng-container>
+    <hr *ngIf="!lastitem">
   </ng-container>
-  <hr *ngIf="!lastitem">
-</ng-container>

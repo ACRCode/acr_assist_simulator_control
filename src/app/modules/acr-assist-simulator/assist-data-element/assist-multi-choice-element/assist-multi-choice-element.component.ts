@@ -88,16 +88,18 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
 
-    const selectedValues = this.GetSelectedItems();
-    multiElement.elementId = elementId;
-    multiElement.selectedValues = selectedValues;
-    multiElement.selectedComparisonValues = selectedValues;
+    setTimeout(() => {
+      const selectedValues = this.GetSelectedItems();
+      multiElement.elementId = elementId;
+      multiElement.selectedValues = selectedValues;
+      multiElement.selectedComparisonValues = selectedValues;
 
-    this.selectedCondition = new SelectedCondition();
-    this.selectedCondition.selectedConditionId = elementId;
-    this.selectedCondition.selectedCondition = selectedCondition;
-    this.selectedCondition.selectedValue = selectedValues;
-    this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
+      this.selectedCondition = new SelectedCondition();
+      this.selectedCondition.selectedConditionId = elementId;
+      this.selectedCondition.selectedCondition = selectedCondition;
+      this.selectedCondition.selectedValue = selectedValues;
+      this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
+    });
   }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event) {
