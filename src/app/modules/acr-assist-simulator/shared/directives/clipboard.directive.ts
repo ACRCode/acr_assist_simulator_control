@@ -8,20 +8,17 @@ import { ClipboardService } from '../services/clipboard.service';
 export class ClipboardDirective {
 
   @Input() clipboard: any;
-  @Output() clipboardCopy: EventEmitter<string>;
-  @Output() clipboardError: EventEmitter<Error>;
+  @Output() clipboardCopy: EventEmitter<string> = new EventEmitter<string>();
+  @Output() clipboardError: EventEmitter<Error> = new EventEmitter<Error>();
 
-  private clipboardService: ClipboardService;
-
-  constructor(clipboardService: ClipboardService) {
+  constructor(
+    private clipboardService: ClipboardService) {
     this.clipboardService = clipboardService;
-    this.clipboardCopy = new EventEmitter();
-    this.clipboardError = new EventEmitter();
     this.clipboard = '';
   }
 
   @HostListener('keydown', ['$event'])
-  copyToClipboard(event: MouseEvent) {
+  copyToClipboard() {
     this.clipboardService
       .copy(this.clipboard)
       .then(

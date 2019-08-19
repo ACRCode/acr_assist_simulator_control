@@ -14,6 +14,7 @@ const $ = require('jquery');
   styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
 export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
+
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() repeatedElementSections: RepeatedElementSections;
