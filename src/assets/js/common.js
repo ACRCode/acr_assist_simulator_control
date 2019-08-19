@@ -8,7 +8,7 @@ var init_SimulatorUI = function () {
   });
 }
 
-var resizeKeyImages = function () {
+ function resizeKeyImages() {
   let windowHeight = window.innerHeight;
   let reportTextHeight = $('#div-right-reportText').height();
   let height = windowHeight - reportTextHeight - 150;
