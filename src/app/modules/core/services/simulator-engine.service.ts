@@ -245,7 +245,6 @@ export class SimulatorEngineService {
             }
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
-              debugger;
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
             }
 
