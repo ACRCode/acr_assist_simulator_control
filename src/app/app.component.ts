@@ -20,10 +20,10 @@ export class AppComponent {
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      'dataElementId': 'othercharacteristics',
-      'dataElementValue': 'test',
-      'dataElementLabel': '',
-      'dataElementDisplayValue': ''
+      dataElementId: 'othercharacteristics',
+      dataElementValue: 'test',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
     }
   ];
 
