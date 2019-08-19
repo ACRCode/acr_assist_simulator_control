@@ -63,8 +63,9 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
-              simulatorCommunicationService: SimulatorCommunicationService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    simulatorCommunicationService: SimulatorCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.SetRangeValuesForDurationPicker();
@@ -471,6 +472,3 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 }
-
-
-

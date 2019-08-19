@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Class';
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
+
 const $ = require('jquery');
 import * as _ from 'lodash';
 
@@ -11,7 +12,6 @@ import * as _ from 'lodash';
 })
 export class AssistReportTextComponent implements OnChanges {
 
-  @Input() reportText: MainReportText;
   allReportTextGroup: AllReportTextGroup[] = [];
   allReportTexts: AllReportText[] = [];
   selectedSection: string;
@@ -21,7 +21,9 @@ export class AssistReportTextComponent implements OnChanges {
   sections: string[] = [];
   prevSectionId: string;
 
-  constructor( ) {
+  @Input() reportText: MainReportText;
+
+  constructor() {
     setInterval(() => {
     }, 1000);
   }

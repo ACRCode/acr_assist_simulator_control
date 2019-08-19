@@ -20,6 +20,18 @@ declare var resizeKeyImages: any;
 })
 export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
+  template: Template;
+  isEmptyContent: boolean;
+  keyDiagrams: Diagram[] = [];
+  resultText: MainReportText;
+  isReset: boolean;
+  dataElements: BaseDataElement[];
+  position = ReportTextPosition;
+  isInvalidFile: boolean;
+  moduleName: string;
+  acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
+
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
@@ -36,23 +48,14 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() backgroundColor: string;
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+
   @ViewChild('imageUpload', { static: false }) imageUpload: any;
   @ViewChild('simulatorBlock', { static: false, read: ElementRef }) private simulatorBlock: ElementRef;
-
-  template: Template;
-  isEmptyContent: boolean;
-  keyDiagrams: Diagram[] = [];
-  resultText: MainReportText;
-  isReset: boolean;
-  dataElements: BaseDataElement[];
-  position = ReportTextPosition;
-  isInvalidFile: boolean;
-  moduleName: string;
-  acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,

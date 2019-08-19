@@ -1,16 +1,16 @@
-import { Component, OnInit , Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var require: any;
 
 @Component({
-  selector: 'acr-image-map',
-  templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.css', '../../styles.css']
+    selector: 'acr-image-map',
+    templateUrl: './image-map.component.html',
+    styleUrls: ['./image-map.component.css', '../../styles.css']
 })
 
-export class ImageMapComponent  implements OnInit {
+export class ImageMapComponent implements OnInit {
     $ = require('jquery');
     @Input() DataElement: ChoiceDataElement;
     @Input() DataElements: object = {};
@@ -138,7 +138,6 @@ export class ImageMapComponent  implements OnInit {
             }
         }
         this.DataElement.currentValue = val;
-        // this.FormValues[this.DataElement.id] = val;
     }
 
     displayValue(val) {
@@ -152,10 +151,10 @@ export class ImageMapComponent  implements OnInit {
     getImageDataUrl(location: string): string {
         const isDataURL = !!location.match(this.isDataURL);
         if (isDataURL) {
-        location = location.replace('unsafe:', '');
-        return location;
+            location = location.replace('unsafe:', '');
+            return location;
         } else {
-          return this.imagePath + '/' + location;
+            return this.imagePath + '/' + location;
         }
-      }
     }
+}

@@ -1,7 +1,8 @@
 <ng-container *ngIf="dataElement !== undefined">
-  <button type="button" class="btn btn-default font-size-inherit btn-xs" data-toggle="modal" attr.data-target="#{{'diag_'+dataElement.id}}"
-    (click)="resetCarouselIndex()">
-    <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Hint Diagrams"></span>
+  <button type="button" class="btn btn-default font-size-inherit btn-xs" data-toggle="modal"
+    attr.data-target="#{{'diag_'+dataElement.id}}" (click)="resetCarouselIndex()">
+    <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right"
+      title="Hint Diagrams"></span>
   </button>
   <div class="modal inmodal fade" id="{{'diag_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -18,7 +19,8 @@
             <carousel [(activeSlide)]="activeSlideIndex" interval="false">
               <ng-container *ngFor="let diag of dataElement.diagrams ">
                 <slide>
-                    <img class="img-responsive max-w-h-100" [src]="domSanitizer.bypassSecurityTrustUrl(getImageDataUrl(diag.location))" alt="{{ diag.label }}">
+                  <img class="img-responsive max-w-h-100"
+                    [src]="domSanitizer.bypassSecurityTrustUrl(getImageDataUrl(diag.location))" alt="{{ diag.label }}">
                 </slide>
               </ng-container>
             </carousel>

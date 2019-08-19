@@ -25,9 +25,11 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
 
   oldVal = null;
 
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
-              simulatorCommunicationService: SimulatorCommunicationService,
-              resetCommunicationService: ResetCommunicationService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private simulatorEngineService: SimulatorEngineService,
+    simulatorCommunicationService: SimulatorCommunicationService,
+    resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.UpdateFormValidator();

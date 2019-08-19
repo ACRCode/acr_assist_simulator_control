@@ -114,10 +114,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateFreeText(element, elementId, selectedCondition) {
-    const selectedValue = (element.value === 'Other') ? 'freetext' : element.value;
-    const selectedText = element.value;
-    // this.updateMultiChoice(elementId, selectedCondition, selectedText, selectedValue);
-
     const selectedValues = this.GetSelectedItems();
 
     const multiElement = new MultiChoiceElement();
