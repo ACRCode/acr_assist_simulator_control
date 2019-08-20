@@ -18,7 +18,7 @@ export class ClipboardDirective {
   }
 
   @HostListener('click', ['$event.target'])
-  copyToClipboard() {
+  copyToClipboard(event: any) {
     this.clipboardService
       .copy(this.clipboard)
       .then(
