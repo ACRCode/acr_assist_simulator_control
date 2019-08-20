@@ -69,7 +69,7 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.SetRangeValuesForDurationPicker();
-        this.UpdateFormValidator();
+        this.updateFormValidator();
       });
   }
 
@@ -148,6 +148,193 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
           this.showsecondsmaxValidation = true;
         }
       });
+  }
+
+  onlyInteger(event) {
+    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+
+  updateFormValidator() {
+    this.durationElementForm.controls.durationdayselement.setValidators([Validators.compose([Validators.required,
+    Validators.min(+this.supportedUnits.day.min), Validators.max(+this.supportedUnits.day.max)])]);
+    this.durationElementForm.controls.durationdayselement.updateValueAndValidity();
+
+    this.durationElementForm.controls.durationminuteselement.setValidators([Validators.compose([Validators.required,
+    Validators.min(+this.supportedUnits.minute.min), Validators.max(+this.supportedUnits.minute.max)])]);
+    this.durationElementForm.controls.durationminuteselement.updateValueAndValidity();
+
+    this.durationElementForm.controls.durationhourselement.setValidators([Validators.compose([Validators.required,
+    Validators.min(+this.supportedUnits.hour.min), Validators.max(+this.supportedUnits.hour.max)])]);
+    this.durationElementForm.controls.durationhourselement.updateValueAndValidity();
+
+    this.durationElementForm.controls.durationsecondselement.setValidators([Validators.compose([Validators.required,
+    Validators.min(+this.supportedUnits.second.min), Validators.max(+this.supportedUnits.second.max)])]);
+    this.durationElementForm.controls.durationsecondselement.updateValueAndValidity();
+  }
+
+  increaseValue(property): void {
+    let currentValue = 0;
+    const daysValue = this.durationElementForm.controls.durationdayselement.value;
+    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
+    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
+    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
+
+    switch (property) {
+      case 'days':
+        currentValue = daysValue === undefined || daysValue == null ? 0 : daysValue;
+        if (currentValue < this.supportedUnits.day.max) {
+          currentValue = currentValue + this.supportedUnits.day.step;
+        }
+
+        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
+        break;
+
+      case 'hour':
+        currentValue = hoursValue === undefined || hoursValue == null ? 0 : hoursValue;
+        if (currentValue < this.supportedUnits.hour.max) {
+          currentValue = currentValue + this.supportedUnits.hour.step;
+        }
+
+        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
+        break;
+
+      case 'minute':
+        currentValue = minsValue === undefined || minsValue == null ? 0 : minsValue;
+        if (currentValue < this.supportedUnits.minute.max) {
+          currentValue = currentValue + this.supportedUnits.minute.step;
+        }
+
+        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
+        break;
+
+      case 'second':
+        currentValue = secondsValue === undefined || secondsValue == null ? 0 : secondsValue;
+        if (currentValue < this.supportedUnits.second.max) {
+          currentValue = currentValue + this.supportedUnits.second.step;
+        }
+
+        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
+        break;
+    }
+  }
+
+  decreaseValue(property): void {
+    let currentValue = 0;
+    const daysValue = this.durationElementForm.controls.durationdayselement.value;
+    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
+    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
+    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
+
+    switch (property) {
+      case 'days':
+        currentValue = daysValue;
+        if (currentValue > this.supportedUnits.day.min) {
+          currentValue = currentValue - this.supportedUnits.day.step;
+        }
+
+        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
+        break;
+
+      case 'hour':
+        currentValue = hoursValue;
+        if (currentValue > this.supportedUnits.hour.min) {
+          currentValue = currentValue - this.supportedUnits.hour.step;
+        }
+
+        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
+        break;
+
+      case 'minute':
+        currentValue = minsValue;
+        if (currentValue > this.supportedUnits.minute.min) {
+          currentValue = currentValue - this.supportedUnits.minute.step;
+        }
+
+        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
+        break;
+
+      case 'second':
+        currentValue = secondsValue;
+        if (currentValue > this.supportedUnits.second.min) {
+          currentValue = currentValue - this.supportedUnits.second.step;
+        }
+
+        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
+        break;
+    }
+  }
+
+  checkValue(event: any, property) {
+    let currentValue = 0;
+    const daysValue = this.durationElementForm.controls.durationdayselement.value;
+    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
+    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
+    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
+
+    switch (property) {
+      case 'days':
+        currentValue = daysValue;
+        if (currentValue === undefined || currentValue == null) {
+          currentValue = 0;
+        }
+
+        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
+        break;
+
+      case 'hour':
+        currentValue = hoursValue;
+        if (currentValue === undefined || currentValue == null) {
+          currentValue = 0;
+        }
+
+        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
+        break;
+
+      case 'minute':
+        currentValue = minsValue;
+        if (currentValue === undefined || currentValue == null) {
+          currentValue = 0;
+        }
+
+        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
+        break;
+
+      case 'second':
+        currentValue = secondsValue;
+        if (currentValue === undefined || currentValue == null) {
+          currentValue = 0;
+        }
+
+        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
+        break;
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  isDurationElementRequired(): boolean {
+    return (this.durationDataElement.isRequired &&
+      (!this.showdayminValidation && !this.showdaymaxValidation && !this.showminuteminValidation &&
+        !this.showminutemaxValidation && !this.showhourminValidation && !this.showhourmaxValidation &&
+        !this.showsecondsmaxValidation && !this.showsecondsminValidation)) &&
+      (this.durationElementForm.controls.durationdayselement !== undefined &&
+        this.durationElementForm.controls.durationdayselement.invalid &&
+        this.durationElementForm.controls.durationdayselement.errors != null &&
+        this.durationElementForm.controls.durationdayselement.errors.required) ||
+      (this.durationElementForm.controls.durationhourselement !== undefined &&
+        this.durationElementForm.controls.durationhourselement.invalid &&
+        this.durationElementForm.controls.durationhourselement.errors != null &&
+        this.durationElementForm.controls.durationhourselement.errors.required) ||
+      (this.durationElementForm.controls.durationminuteselement !== undefined &&
+        this.durationElementForm.controls.durationminuteselement.invalid &&
+        this.durationElementForm.controls.durationminuteselement.errors != null &&
+        this.durationElementForm.controls.durationminuteselement.errors.required) ||
+      (this.durationElementForm.controls.durationsecondselement !== undefined &&
+        this.durationElementForm.controls.durationsecondselement.invalid &&
+        this.durationElementForm.controls.durationsecondselement.errors != null &&
+        this.durationElementForm.controls.durationsecondselement.errors.required);
   }
 
   private SetRangeValuesForDurationPicker() {
@@ -306,169 +493,5 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
         Validators.min(+this.supportedUnits.second.min), Validators.max(+this.supportedUnits.second.max)])]
       });
     }
-  }
-
-  onlyInteger(event) {
-    return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
-  }
-
-  UpdateFormValidator() {
-    this.durationElementForm.controls.durationdayselement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.supportedUnits.day.min), Validators.max(+this.supportedUnits.day.max)])]);
-    this.durationElementForm.controls.durationdayselement.updateValueAndValidity();
-
-    this.durationElementForm.controls.durationminuteselement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.supportedUnits.minute.min), Validators.max(+this.supportedUnits.minute.max)])]);
-    this.durationElementForm.controls.durationminuteselement.updateValueAndValidity();
-
-    this.durationElementForm.controls.durationhourselement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.supportedUnits.hour.min), Validators.max(+this.supportedUnits.hour.max)])]);
-    this.durationElementForm.controls.durationhourselement.updateValueAndValidity();
-
-    this.durationElementForm.controls.durationsecondselement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.supportedUnits.second.min), Validators.max(+this.supportedUnits.second.max)])]);
-    this.durationElementForm.controls.durationsecondselement.updateValueAndValidity();
-  }
-
-  public increaseValue(property): void {
-    let currentValue = 0;
-    const daysValue = this.durationElementForm.controls.durationdayselement.value;
-    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
-    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
-    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
-
-    switch (property) {
-      case 'days':
-        currentValue = daysValue === undefined || daysValue == null ? 0 : daysValue;
-        if (currentValue < this.supportedUnits.day.max) {
-          currentValue = currentValue + this.supportedUnits.day.step;
-        }
-
-        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
-        break;
-
-      case 'hour':
-        currentValue = hoursValue === undefined || hoursValue == null ? 0 : hoursValue;
-        if (currentValue < this.supportedUnits.hour.max) {
-          currentValue = currentValue + this.supportedUnits.hour.step;
-        }
-
-        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
-        break;
-
-      case 'minute':
-        currentValue = minsValue === undefined || minsValue == null ? 0 : minsValue;
-        if (currentValue < this.supportedUnits.minute.max) {
-          currentValue = currentValue + this.supportedUnits.minute.step;
-        }
-
-        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
-        break;
-
-      case 'second':
-        currentValue = secondsValue === undefined || secondsValue == null ? 0 : secondsValue;
-        if (currentValue < this.supportedUnits.second.max) {
-          currentValue = currentValue + this.supportedUnits.second.step;
-        }
-
-        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
-        break;
-    }
-  }
-
-  public decreaseValue(property): void {
-    let currentValue = 0;
-    const daysValue = this.durationElementForm.controls.durationdayselement.value;
-    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
-    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
-    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
-
-    switch (property) {
-      case 'days':
-        currentValue = daysValue;
-        if (currentValue > this.supportedUnits.day.min) {
-          currentValue = currentValue - this.supportedUnits.day.step;
-        }
-
-        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
-        break;
-
-      case 'hour':
-        currentValue = hoursValue;
-        if (currentValue > this.supportedUnits.hour.min) {
-          currentValue = currentValue - this.supportedUnits.hour.step;
-        }
-
-        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
-        break;
-
-      case 'minute':
-        currentValue = minsValue;
-        if (currentValue > this.supportedUnits.minute.min) {
-          currentValue = currentValue - this.supportedUnits.minute.step;
-        }
-
-        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
-        break;
-
-      case 'second':
-        currentValue = secondsValue;
-        if (currentValue > this.supportedUnits.second.min) {
-          currentValue = currentValue - this.supportedUnits.second.step;
-        }
-
-        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
-        break;
-    }
-  }
-
-  checkValue(event: any, property) {
-    let currentValue = 0;
-    const daysValue = this.durationElementForm.controls.durationdayselement.value;
-    const hoursValue = this.durationElementForm.controls.durationhourselement.value;
-    const minsValue = this.durationElementForm.controls.durationminuteselement.value;
-    const secondsValue = this.durationElementForm.controls.durationsecondselement.value;
-
-    switch (property) {
-      case 'days':
-        currentValue = daysValue;
-        if (currentValue === undefined || currentValue == null) {
-          currentValue = 0;
-        }
-
-        this.durationElementForm.controls.durationdayselement.setValue(currentValue);
-        break;
-
-      case 'hour':
-        currentValue = hoursValue;
-        if (currentValue === undefined || currentValue == null) {
-          currentValue = 0;
-        }
-
-        this.durationElementForm.controls.durationhourselement.setValue(currentValue);
-        break;
-
-      case 'minute':
-        currentValue = minsValue;
-        if (currentValue === undefined || currentValue == null) {
-          currentValue = 0;
-        }
-
-        this.durationElementForm.controls.durationminuteselement.setValue(currentValue);
-        break;
-
-      case 'second':
-        currentValue = secondsValue;
-        if (currentValue === undefined || currentValue == null) {
-          currentValue = 0;
-        }
-
-        this.durationElementForm.controls.durationsecondselement.setValue(currentValue);
-        break;
-    }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

@@ -12,12 +12,9 @@
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="multiChoiceElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <ng-container *ngIf="multiChoiceElement.isRequired">
-        <span *ngIf="multiChoiceElementForm.controls.multiCheckBox.invalid && !multiChoiceValues.length"
-          class="required-field" title="Required Field">
-          *
-        </span>
-      </ng-container>
+      <span *ngIf="isMultiChoiceElementRequired()" class="required-field" title="Required Field">
+        *
+      </span>
     </div>
 
     <div class="col-sm-8" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
@@ -59,12 +56,9 @@
         <label class="control-label break-word">{{multiChoiceElement.label}} <span
             *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
             ({{multiChoiceElement.unit}})</span>
-          <ng-container *ngIf="multiChoiceElement.isRequired">
-            <span *ngIf="multiChoiceElementForm.controls.multiCheckBox.invalid && !multiChoiceValues.length"
-              class="required-field" title="Required Field">
-              *
-            </span>
-          </ng-container>
+          <span *ngIf="isMultiChoiceElementRequired()" class="required-field" title="Required Field">
+            *
+          </span>
         </label>
       </div>
       <div class="col-lg-2 div_hint">

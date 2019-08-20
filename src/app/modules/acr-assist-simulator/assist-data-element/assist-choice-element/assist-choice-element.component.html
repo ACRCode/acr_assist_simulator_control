@@ -16,8 +16,7 @@
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired"
-        class="required-field whitespace" title="Required Field">*</span>
+      <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
     </div>
 
     <div class="col-sm-8 text-left content-padding">
@@ -180,8 +179,8 @@
                 {{choiceDataElement.label}}
                 <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
                   ({{choiceDataElement.unit}})</span>
-                <span *ngIf="choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired"
-                  class="required-field whitespace" title="Required Field">*</span>
+                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                  title="Required Field">*</span>
               </label>
             </div>
             <div class="col-lg-2 div_hint">
@@ -243,8 +242,8 @@
                 <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
                   <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
                 </ng-container>
-                <span *ngIf="choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired"
-                  class="required-field whitespace" title="Required Field">*</span>
+                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                  title="Required Field">*</span>
               </div>
               <div class="div_radiobutton">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
@@ -291,8 +290,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-            <span *ngIf="choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired"
-              class="required-field whitespace" title="Required Field">*</span>
+            <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
         </div>
 
@@ -350,8 +348,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-            <span *ngIf="choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired"
-              class="required-field whitespace" title="Required Field">*</span>
+            <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
         </div>
         <div class="col-lg-2 div_hint">

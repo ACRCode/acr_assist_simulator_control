@@ -57,6 +57,12 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
     }
   }
 
+  isDateTimeElementRequired(): boolean {
+    return this.dateTimeElementForm.controls.dateTimeElement.invalid &&
+          this.dateTimeElementForm.controls.dateTimeElement.errors.required &&
+          this.dateTimeDataElement.isRequired;
+  }
+
   private createDateTimeElementForm() {
     this.dateTimeElementForm = this.formBuilder.group({
       dateTimeElement: ['', Validators.compose([Validators.required, Validators.min(+0), Validators.max(+1)])],

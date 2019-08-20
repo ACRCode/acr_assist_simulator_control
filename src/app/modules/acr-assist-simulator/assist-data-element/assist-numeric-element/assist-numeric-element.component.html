@@ -1,4 +1,5 @@
 <form [formGroup]="numericElementForm" novalidate>
+
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom">
     <div class="col-sm-4 text-right">
@@ -13,40 +14,29 @@
       <ng-container *ngIf="numericDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <ng-container *ngIf="this.numericDataElement.isRequired">
-        <span *ngIf="numericElementForm.controls.numericElement.invalid">
-          <span *ngIf="numericElementForm.controls.numericElement.errors.required" class="required-field"
-            title="Required Field">
-            *
-          </span>
-        </span>
-      </ng-container>
-      <span
-        *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-        class="required-field" title=" Minimum value is {{numericDataElement.minimum}}">
+      <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
         *
       </span>
-      <span
-        *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-        class="required-field" title=" Maximum value is {{numericDataElement.maximum}}">
+      <span *ngIf="isNumericElementMin()" class="required-field"
+        title=" Minimum value is {{numericDataElement.minimum}}">
+        *
+      </span>
+      <span *ngIf="isNumericElementMax()" class="required-field"
+        title=" Maximum value is {{numericDataElement.maximum}}">
         *
       </span>
     </div>
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-          (keyup)="_keyUp($event, numberValue)" id="{{numericDataElement.id}}" type="text"
-          class="form-control color-inherit" formControlName="numericElement" onpaste="return false;"
+          (keyup)="_keyUp($event)" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
+          formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMax()" class="validatorMessageSpan">
           Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>
@@ -55,17 +45,13 @@
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event, numberValue)"
+          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMax()" class="validatorMessageSpan">
           Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>
@@ -81,22 +67,15 @@
             {{numericDataElement.label}}
             <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
               ({{numericDataElement.unit}})</span>
-            <ng-container *ngIf="this.numericDataElement.isRequired">
-              <span *ngIf="numericElementForm.controls.numericElement.invalid">
-                <span *ngIf="numericElementForm.controls.numericElement.errors.required" class="required-field"
-                  title="Required Field">
-                  *
-                </span>
-              </span>
-            </ng-container>
-            <span
-              *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-              class="required-field" title=" Minimum value is {{numericDataElement.minimum}}">
+            <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
               *
             </span>
-            <span
-              *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-              class="required-field" title=" Maximum value is {{numericDataElement.maximum}}">
+            <span *ngIf="isNumericElementMin()" class="required-field"
+              title=" Minimum value is {{numericDataElement.minimum}}">
+              *
+            </span>
+            <span *ngIf="isNumericElementMax()" class="required-field"
+              title=" Maximum value is {{numericDataElement.maximum}}">
               *
             </span>
           </label>
@@ -110,18 +89,14 @@
           </ng-container>
         </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
-          id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
-          (keyup)="_keyUp($event, numberValue)" acrNumericOnly formControlName="numericElement" onpaste="return false;"
+          id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" (keyup)="_keyUp($event)"
+          acrNumericOnly formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMax()" class="validatorMessageSpan">
           Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>
@@ -133,23 +108,15 @@
             {{numericDataElement.label}}
             <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
               ({{numericDataElement.unit}})</span>
-
-            <ng-container *ngIf="this.numericDataElement.isRequired">
-              <span *ngIf="numericElementForm.controls.numericElement.invalid">
-                <span *ngIf="numericElementForm.controls.numericElement.errors.required" class="required-field"
-                  title="Required Field">
-                  *
-                </span>
-              </span>
-            </ng-container>
-            <span
-              *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-              class="required-field" title=" Minimum value is {{numericDataElement.minimum}}">
+            <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
               *
             </span>
-            <span
-              *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-              class="required-field" title=" Maximum value is {{numericDataElement.maximum}}">
+            <span *ngIf="isNumericElementMin()" class="required-field"
+              title=" Minimum value is {{numericDataElement.minimum}}">
+              *
+            </span>
+            <span *ngIf="isNumericElementMax()" class="required-field"
+              title=" Maximum value is {{numericDataElement.maximum}}">
               *
             </span>
           </label>
@@ -164,17 +131,13 @@
         </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event, numberValue)"
+          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.min"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
-        <span
-          *ngIf="numericElementForm.controls.numericElement.invalid && numericElementForm.controls.numericElement.errors.max"
-          class="validatorMessageSpan">
+        <span *ngIf="isNumericElementMax()" class="validatorMessageSpan">
           Value should be less than or equal to {{numericDataElement.maximum}}
         </span>
       </div>

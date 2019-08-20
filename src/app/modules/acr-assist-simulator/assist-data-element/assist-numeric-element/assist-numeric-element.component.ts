@@ -32,7 +32,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
-        this.UpdateFormValidator();
+        this.updateFormValidator();
       });
 
     this.subscription = resetCommunicationService.resetSource$.subscribe(
@@ -86,7 +86,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
-  _keyUp(event: any, value) {
+  _keyUp(event: any) {
     // const $this = this;
     // if ($this.numericDataElement.maximum != undefined && parseFloat(value) > $this.numericDataElement.maximum) {
     //   event.preventDefault();
@@ -98,7 +98,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     // }
   }
 
-  _keyUpInteger(event: any, value) {
+  _keyUpInteger(event: any) {
     // const $this = this;
     // if ($this.numericDataElement.maximum != undefined && parseInt(value) > $this.numericDataElement.maximum) {
     //   event.preventDefault();
@@ -114,16 +114,32 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
 
+  isNumericElementRequired(): boolean {
+    return this.numericElementForm.controls.numericElement.invalid &&
+           this.numericElementForm.controls.numericElement.errors.required &&
+           this.numericDataElement.isRequired;
+  }
+
+  isNumericElementMin(): boolean {
+    return this.numericElementForm.controls.numericElement.invalid &&
+           this.numericElementForm.controls.numericElement.errors.min;
+  }
+
+  isNumericElementMax(): boolean {
+    return this.numericElementForm.controls.numericElement.invalid &&
+           this.numericElementForm.controls.numericElement.errors.max;
+  }
+
+  updateFormValidator() {
+    this.numericElementForm.controls.numericElement.setValidators([Validators.compose([Validators.required,
+    Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
+    this.numericElementForm.controls.numericElement.updateValueAndValidity();
+  }
+
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
       // tslint:disable-next-line:max-line-length
       numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])],
     });
-  }
-
-  UpdateFormValidator() {
-    this.numericElementForm.controls.numericElement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
-    this.numericElementForm.controls.numericElement.updateValueAndValidity();
   }
 }

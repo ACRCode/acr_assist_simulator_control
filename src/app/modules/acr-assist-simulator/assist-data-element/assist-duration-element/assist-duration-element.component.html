@@ -12,25 +12,9 @@
       <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{durationDataElement.hint}}"></i>
       </ng-container>
-      <ng-container
-        *ngIf="durationDataElement.isRequired
-      && (!showdayminValidation && !showdaymaxValidation && !showminuteminValidation
-           && !showminutemaxValidation && !showhourminValidation && !showhourmaxValidation && !showsecondsmaxValidation && !showsecondsminValidation)">
-        <span
-          *ngIf="(durationElementForm.controls.durationdayselement != undefined && durationElementForm.controls.durationdayselement.invalid)
-         || (durationElementForm.controls.durationminuteselement && durationElementForm.controls.durationminuteselement.invalid)
-         || (durationElementForm.controls.durationhourselement != undefined && durationElementForm.controls.durationhourselement.invalid)
-         || (durationElementForm.controls.durationsecondselement != undefined && durationElementForm.controls.durationsecondselement.invalid)">
-          <span
-            *ngIf="(durationElementForm.controls.durationdayselement != undefined && durationElementForm.controls.durationdayselement.errors != null && durationElementForm.controls.durationdayselement.errors.required)
-          || (durationElementForm.controls.durationminuteselement != undefined && durationElementForm.controls.durationminuteselement.errors != null && durationElementForm.controls.durationminuteselement.errors.required) 
-          || (durationElementForm.controls.durationhourselement != undefined &&  durationElementForm.controls.durationhourselement.errors != null && durationElementForm.controls.durationhourselement.errors.required)
-          || (durationElementForm.controls.durationsecondselement != undefined && durationElementForm.controls.durationsecondselement.errors != null && durationElementForm.controls.durationsecondselement.errors.required)"
-            class="required-field" title="Required Field">
-            *
-          </span>
-        </span>
-      </ng-container>
+      <span *ngIf="isDurationElementRequired()" class="required-field" title="Required Field">
+        *
+      </span>
 
       <span *ngIf="showdayminValidation" class="required-field"
         title=" Minimum value for day is {{supportedUnits['day'].min}}">
@@ -144,25 +128,9 @@
           {{durationDataElement.label}}
           <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''">
             ({{durationDataElement.unit}})</span>
-          <ng-container
-            *ngIf="durationDataElement.isRequired
-        && (!showdayminValidation && !showdaymaxValidation && !showminuteminValidation
-             && !showminutemaxValidation && !showhourminValidation && !showhourmaxValidation && !showsecondsmaxValidation && !showsecondsminValidation)">
-            <span
-              *ngIf="(durationElementForm.controls.durationdayselement != undefined && durationElementForm.controls.durationdayselement.invalid)
-           || (durationElementForm.durationminuteselement && durationElementForm.controls.durationminuteselement.invalid)
-           || (durationElementForm.durationhourselement != undefined && durationElementForm.controls.durationhourselement.invalid)
-           || (durationElementForm.durationsecondselement != undefined && durationElementForm.controls.durationsecondselement.invalid)">
-              <span
-                *ngIf="(durationElementForm.controls.durationdayselement != undefined && durationElementForm.controls.durationdayselement.errors != null && durationElementForm.controls.durationdayselement.errors.required)
-            || (durationElementForm.controls.durationminuteselement != undefined && durationElementForm.controls.durationminuteselement.errors != null && durationElementForm.controls.durationminuteselement.errors.required) 
-            || (durationElementForm.controls.durationhourselement != undefined &&  durationElementForm.controls.durationhourselement.errors != null && durationElementForm.controls.durationhourselement.errors.required)
-            || (durationElementForm.controls.durationsecondselement != undefined && durationElementForm.controls.durationsecondselement.errors != null && durationElementForm.controls.durationsecondselement.errors.required)"
-                class="required-field" title="Required Field">
-                *
-              </span>
-            </span>
-          </ng-container>
+          <span *ngIf="isDurationElementRequired()" class="required-field" title="Required Field">
+            *
+          </span>
 
           <span *ngIf="showdayminValidation" class="required-field"
             title=" Minimum value for day is {{supportedUnits['day'].min}}">

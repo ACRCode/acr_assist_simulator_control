@@ -155,6 +155,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     }
   }
 
+  isChoiceElementRequired(): boolean {
+    return this.choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired;
+  }
+
   private emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement();
     choiceElement.elementId = elementId;

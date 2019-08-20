@@ -10,14 +10,9 @@
       <ng-container *ngIf="dateTimeDataElement.hint !== '' && dateTimeDataElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{dateTimeDataElement.hint}}"></i>
       </ng-container>
-      <ng-container *ngIf="this.dateTimeDataElement.isRequired">
-        <span *ngIf="dateTimeElementForm.controls.dateTimeElement.invalid">
-          <span *ngIf="dateTimeElementForm.controls.dateTimeElement.errors.required" class="required-field"
-            title="Required Field">
-            *
-          </span>
-        </span>
-      </ng-container>
+      <span *ngIf="isDateTimeElementRequired()" class="required-field" title="Required Field">
+        *
+      </span>
     </div>
     <div class="col-sm-8">
       <div [ngClass]="dateTimeDataElement.isEditable == false ? 'disabled-picker' : ''">
@@ -37,14 +32,9 @@
           {{dateTimeDataElement.label}}
           <span *ngIf="dateTimeDataElement.unit != undefined && dateTimeDataElement.unit != ''">
             ({{dateTimeDataElement.unit}})</span>
-          <ng-container *ngIf="this.dateTimeDataElement.isRequired">
-            <span *ngIf="dateTimeElementForm.controls.dateTimeElement.invalid">
-              <span *ngIf="dateTimeElementForm.controls.dateTimeElement.errors.required" class="required-field"
-                title="Required Field">
-                *
-              </span>
-            </span>
-          </ng-container>
+          <span *ngIf="isDateTimeElementRequired()" class="required-field" title="Required Field">
+            *
+          </span>
         </label>
       </div>
       <div class="col-lg-2 div_hint">

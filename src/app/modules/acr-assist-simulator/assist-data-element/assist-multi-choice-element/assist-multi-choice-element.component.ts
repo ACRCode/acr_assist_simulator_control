@@ -181,12 +181,9 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     return selectedValues;
   }
 
-  private createMultiChoiceElementForm() {
-    this.multiChoiceElementForm = this.formBuilder.group({
-      multiCheckBox: ['', Validators.required],
-    }, {
-        validator: this.specificValueInsideRange('multiCheckBox')
-      });
+  isMultiChoiceElementRequired(): boolean {
+    return this.multiChoiceElementForm.controls.multiCheckBox.invalid &&
+           this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
   }
 
   showOrHideFreeText(elementId: string, selectedValue: string, isChecked) {
@@ -200,6 +197,14 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       this.freeTextValue = '';
       this.isFreeText = false;
     }
+  }
+
+  private createMultiChoiceElementForm() {
+    this.multiChoiceElementForm = this.formBuilder.group({
+      multiCheckBox: ['', Validators.required],
+    }, {
+        validator: this.specificValueInsideRange('multiCheckBox')
+      });
   }
 
   private specificValueInsideRange(multiCheckBox: string) {
