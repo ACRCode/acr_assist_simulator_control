@@ -186,6 +186,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
            this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
   }
 
+  isMultiChoiceLabelHidden(value: string): boolean {
+    return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
+      this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
+      : null;
+  }
+
   showOrHideFreeText(elementId: string, selectedValue: string, isChecked) {
     if (selectedValue === 'freetext' && isChecked) {
       $('#div_' + elementId + '_other').show();
