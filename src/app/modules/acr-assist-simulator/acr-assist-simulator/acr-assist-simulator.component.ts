@@ -11,7 +11,7 @@ import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
 
 const $ = require('jquery');
-declare var resizeKeyImages: any;
+
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -199,8 +199,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   resizeKeyImages() {
-    // resizeKeyImages();
-
     let windowHeight = window.innerHeight;
     let reportTextHeight = $('#div-right-reportText').height();
     let height = windowHeight - reportTextHeight - 150;
