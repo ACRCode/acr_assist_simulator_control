@@ -13,12 +13,10 @@ export class ClipboardDirective {
 
   constructor(
     private clipboardService: ClipboardService) {
-    this.clipboardService = clipboardService;
-    this.clipboard = '';
   }
 
-  @HostListener('keydown', ['$event'])
-  copyToClipboard() {
+  @HostListener('click', ['$event.target'])
+  copyToClipboard(event: any) {
     this.clipboardService
       .copy(this.clipboard)
       .then(

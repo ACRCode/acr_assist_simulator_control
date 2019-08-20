@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
@@ -11,14 +11,35 @@ import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
 
 const $ = require('jquery');
-declare var resizeKeyImages: any;
 
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
+export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterViewChecked {
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() resetValuesNotifier: Subject<any>;
+  @Input() templateContent: string;
+  @Input() imagePath: string;
+  @Input() showKeyDiagram: boolean;
+  @Input() reportTextPosition: ReportTextPosition;
+  @Input() inputValues: InputData[] = [];
+  @Input() inputData: string;
+  @Input() showResetButton: Boolean = true;
+  @Input() showReportText: Boolean = true;
+  @Input() fontSize: string;
+  @Input() fontFamily: string;
+  @Input() fontColor: string;
+  @Input() backgroundColor: string;
+  @Input() cssClass: string;
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+  @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
+  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
+  @Output() returnDefaultElements = new EventEmitter();
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('imageUpload', { static: false }) imageUpload: any;
+  @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
 
   template: Template;
   isEmptyContent: boolean;
@@ -31,34 +52,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   moduleName: string;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
-
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() resetValuesNotifier: Subject<any>;
-  @Input() templateContent: string;
-  @Input() imagePath: string;
-  @Input() showKeyDiagram: boolean;
-  @Input() reportTextPosition: ReportTextPosition;
-  @Input() inputValues: InputData[] = [];
-  @Input() inputData: string;
-  @Input() showResetButton = true;
-  @Input() showReportText = true;
-  @Input() fontSize: string;
-  @Input() fontFamily: string;
-  @Input() fontColor: string;
-  @Input() backgroundColor: string;
-  @Input() cssClass: string;
-  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
-
-  @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
-  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
-  @Output() returnDefaultElements = new EventEmitter();
-  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-
-  @ViewChild('imageUpload', { static: false }) imageUpload: any;
-  @ViewChild('simulatorBlock', { static: false, read: ElementRef }) private simulatorBlock: ElementRef;
-
   constructor(
     private simulatorEngineService: SimulatorEngineService,
+    private cdr: ChangeDetectorRef,
     private toastr: ToastrManager,
     private utilityService: UtilityService) {
   }
@@ -117,9 +113,13 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     const _this = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       _this.applyInputStyles();
     });
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
   }
 
   applyInputStyles() {
@@ -145,7 +145,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function(el) {
+    return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
     });
   }
@@ -204,7 +204,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   resizeKeyImages() {
-    resizeKeyImages();
+    let windowHeight = window.innerHeight;
+    let reportTextHeight = $('#div-right-reportText').height();
+    let height = windowHeight - reportTextHeight - 150;
+    $('#carousel-example-generic').height(height + 'px');
   }
 
   collapseKeyDiagram() {

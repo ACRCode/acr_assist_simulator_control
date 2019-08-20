@@ -8,13 +8,6 @@ var init_SimulatorUI = function () {
   });
 }
 
- function resizeKeyImages() {
-  let windowHeight = window.innerHeight;
-  let reportTextHeight = $('#div-right-reportText').height();
-  let height = windowHeight - reportTextHeight - 150;
-  $('#carousel-example-generic').height(height+'px');
-}
-
 function toggleSidebar() {
   var width = window.innerWidth;
   if (width <= 766) {
