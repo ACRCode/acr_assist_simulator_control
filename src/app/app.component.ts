@@ -20,20 +20,44 @@ export class AppComponent {
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      dataElementId: 'supratentoriallesionnumber',
-      dataElementValue: '1',
+      dataElementId: 'ObservationCharacter',
+      dataElementValue: 'notDefProbBenign',
       dataElementLabel: '',
       dataElementDisplayValue: ''
     },
     {
-      dataElementId: 'supratentoriallesionlocations',
-      dataElementValue: ['frontal', 'parietal'],
+      dataElementId: 'ArterialEnhancement',
+      dataElementValue: 'hyperEnhancing',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'diameter',
+      dataElementValue: '10',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'washout',
+      dataElementValue: 'yes',
       dataElementLabel: '',
       dataElementDisplayValue: ''
     },
     {
       dataElementId: 'capsule',
       dataElementValue: 'yes',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'thresholdgrowth',
+      dataElementValue: 'no',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
+    },
+    {
+      dataElementId: 'consultationDate',
+      dataElementValue: '8/28/2019, 2:50 PM',
       dataElementLabel: '',
       dataElementDisplayValue: ''
     }
