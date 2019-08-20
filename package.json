@@ -21,7 +21,8 @@
       "stream",
       "xml2js",
       "@angular/http",
-      "testruleengine"
+      "testruleengine",
+      "ng6-toastr-notifications"
     ],
     "lib": {
       "entryFile": "./public_api.ts",
@@ -50,7 +51,8 @@
     "expr-eval": "^1.2.2",
     "jquery": "^3.3.1",
     "ng-pick-datetime": "^5.2.6",
-    "ngx-bootstrap": "^3.0.1",
+    "ngx-bootstrap": "^3.0.1",    
+    "ng6-toastr-notifications": "^1.0.4",
     "ngx-drag-scroll": "~2.0.4",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",

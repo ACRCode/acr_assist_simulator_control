@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { OnChanges, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
@@ -9,6 +8,7 @@ import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 const $ = require('jquery');
 declare var resizeKeyImages: any;
@@ -55,6 +55,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
+    private toastr: ToastrManager,
     private utilityService: UtilityService) {
   }
 
@@ -266,5 +267,13 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
         dataeElement.currentValue = inputValue[0].dataElementValue;
       }
     });
+  }
+  
+  clipboardError(error: Error): void {
+    this.toastr.errorToastr('Failed to copy to clipboard');
+  }
+
+  clipboardSuccess(value: string): void {    
+    this.toastr.successToastr('Successfully copied to clipboard');
   }
 }
