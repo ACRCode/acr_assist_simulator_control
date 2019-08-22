@@ -12,7 +12,6 @@ import * as _ from 'lodash';
 export class AssistReportTextComponent implements OnChanges {
 
   allReportTextGroup: AllReportTextGroup[] = [];
-  @Input() reportText: MainReportText;
   allReportTexts: AllReportText[] = [];
   selectedSection: string;
   mainReportTexts: MainReportText;
@@ -20,6 +19,8 @@ export class AssistReportTextComponent implements OnChanges {
   allTextReport: AllTextReport[];
   sections: string[] = [];
   prevSectionId: string;
+
+  @Input() reportText: MainReportText;
 
   constructor( ) {
     setInterval(() => {
@@ -48,7 +49,7 @@ export class AssistReportTextComponent implements OnChanges {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
           textReport.allTextResultReport.heading = this.reportText.allReportText[section].allReportResult.sectionId;
-          textReport.allTextResultReport.content = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
+          textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
           this.allTextReport.push(Object.assign({}, textReport));
         }
@@ -69,7 +70,7 @@ export class AssistReportTextComponent implements OnChanges {
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].allReportResult.reportText;
-        this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.removeEmptyLine(this.selectedSection) : '');
+        this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.addEmptyBreakLines(this.selectedSection) : '');
         break;
       }
     }
@@ -77,7 +78,7 @@ export class AssistReportTextComponent implements OnChanges {
     this.allReportTexts = [];
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
-      allreportText.allReportResult.reportText = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
+      allreportText.allReportResult.reportText = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
       allreportText.allReportResult.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
       allreportText.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
       this.allReportTexts.push(Object.assign({}, allreportText));
@@ -86,16 +87,12 @@ export class AssistReportTextComponent implements OnChanges {
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
   }
 
-  removeEmptyLine(inputText: string): string {
-    if (inputText.trim().length !== 0) {
-      const lines = inputText.split('\n');
-      const uniquelines = [];
-      lines.forEach(function (line, i) {
-        if (line.trim().length !== 0) {
-          uniquelines.push(line);
-        }
-      });
-      return uniquelines.join('\n');
+  addEmptyBreakLines(inputText: string): string {
+    const hasEmptyLineBreak = inputText.trimRight().endsWith('<br>');
+    if (!hasEmptyLineBreak) {
+      return inputText + '<br>';
     }
+
+    return inputText;
   }
 }
