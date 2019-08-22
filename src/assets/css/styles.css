@@ -492,6 +492,14 @@ h6,
   padding-top: 20px;
 }
 
+.margin-top-15 {
+  margin-top: 15px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
 mark {
   background-color: transparent !important;
   color: #f60808 !important;

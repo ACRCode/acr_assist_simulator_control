@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Class';
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
-
 const $ = require('jquery');
 import * as _ from 'lodash';
 
@@ -23,7 +22,7 @@ export class AssistReportTextComponent implements OnChanges {
 
   @Input() reportText: MainReportText;
 
-  constructor() {
+  constructor( ) {
     setInterval(() => {
     }, 1000);
   }
@@ -50,7 +49,8 @@ export class AssistReportTextComponent implements OnChanges {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
           textReport.allTextResultReport.heading = this.reportText.allReportText[section].allReportResult.sectionId;
-          textReport.allTextResultReport.content = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
+          // tslint:disable-next-line:max-line-length
+          textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
           this.allTextReport.push(Object.assign({}, textReport));
         }
@@ -72,7 +72,7 @@ export class AssistReportTextComponent implements OnChanges {
       if (this.reportText.allReportText[section].allReportResult.sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].allReportResult.reportText;
         // tslint:disable-next-line:max-line-length
-        this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.removeEmptyLine(this.selectedSection) : '');
+        this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.addEmptyBreakLines(this.selectedSection) : '');
         break;
       }
     }
@@ -81,7 +81,7 @@ export class AssistReportTextComponent implements OnChanges {
     // tslint:disable-next-line:forin
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
-      allreportText.allReportResult.reportText = this.removeEmptyLine(this.reportText.allReportText[section].allReportResult.reportText);
+      allreportText.allReportResult.reportText = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
       allreportText.allReportResult.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
       allreportText.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
       this.allReportTexts.push(Object.assign({}, allreportText));
@@ -90,16 +90,12 @@ export class AssistReportTextComponent implements OnChanges {
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
   }
 
-  removeEmptyLine(inputText: string): string {
-    if (inputText.trim().length !== 0) {
-      const lines = inputText.split('\n');
-      const uniquelines = [];
-      lines.forEach(function(line, i) {
-        if (line.trim().length !== 0) {
-          uniquelines.push(line);
-        }
-      });
-      return uniquelines.join('\n');
+  addEmptyBreakLines(inputText: string): string {
+    const hasEmptyLineBreak = inputText.trimRight().endsWith('<br>');
+    if (!hasEmptyLineBreak) {
+      return inputText + '<br>';
     }
+
+    return inputText;
   }
 }
