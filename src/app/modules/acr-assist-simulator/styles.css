@@ -3,7 +3,7 @@
   font-size: large;
 }
 
-.owl-dt-container{
+.owl-dt-container {
   font-size: 1.5rem !important;
 }
 
@@ -115,12 +115,12 @@ h4.modal-title.float-left {
 }
 
 .font-weight-400 {
-  font-weight:400;
+  font-weight: 400;
 }
 
 .custom-radio-style {
-  float:left; 
-  margin-right:15px;
+  float: left;
+  margin-right: 15px;
 }
 
 .zoom {
@@ -140,6 +140,7 @@ h4.modal-title.float-left {
   color: #444;
   border-color: #ddd;
 }
+
 .btn-zoom:hover,
 .btn-zoom:active,
 .btn-zoom.hover {
@@ -156,6 +157,21 @@ label.control-label {
     text-align: left !important;
   }
 }
-.padding-5{
+
+.padding-5 {
   padding: 5px;
+}
+
+
+.margin-top-15 {
+  margin-top: 15px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+mark {
+  background-color: transparent !important;
+  color: #f60808 !important;
 }
