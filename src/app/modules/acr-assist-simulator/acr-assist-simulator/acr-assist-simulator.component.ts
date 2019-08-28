@@ -326,7 +326,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       fhirData.result.push(fhirReport);
     });
   
-    console.log(JSON.stringify(fhirData));
     return fhirData;
   }
 }
