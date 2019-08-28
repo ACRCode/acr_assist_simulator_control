@@ -1,14 +1,20 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit,
+         ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
+import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement,
+         BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
+
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { FHIRSchema } from '../../core/models/fhir/fhir-schema.model';
+import { FHIRElement } from '../../core/models/fhir/fhir-element.model';
+import { FHIRReport } from '../../core/models/fhir/fhir-report.model';
 
 const $ = require('jquery');
 
@@ -26,15 +32,15 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() showResetButton: Boolean = true;
-  @Input() showReportText: Boolean = true;
+  @Input() showResetButton = true;
+  @Input() showReportText = true;
   @Input() fontSize: string;
   @Input() fontFamily: string;
   @Input() fontColor: string;
   @Input() backgroundColor: string;
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
-  @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
+  @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
@@ -113,7 +119,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
     }
 
     const _this = this;
-    setTimeout(function (e) {
+    setTimeout(function(e) {
       _this.applyInputStyles();
     });
   }
@@ -145,7 +151,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function (el) {
+    return this.keyDiagrams.some(function(el) {
       return el.location === diagram.location;
     });
   }
@@ -164,8 +170,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
-    this.returnExecutionHistory.emit(finalExecutionHistory);
+    const fhirData = this.getFHIRData(finalExecutionHistory);
+    this.returnExecutionHistory.emit({finalExecutionHistory, fhirData});
   }
+
   recivedOnDataElementChanged(data: InputData[]) {
     this.returnDataElementChanged.emit(data);
   }
@@ -204,9 +212,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
   }
 
   resizeKeyImages() {
-    let windowHeight = window.innerHeight;
-    let reportTextHeight = $('#div-right-reportText').height();
-    let height = windowHeight - reportTextHeight - 150;
+    const windowHeight = window.innerHeight;
+    const reportTextHeight = $('#div-right-reportText').height();
+    const height = windowHeight - reportTextHeight - 150;
     $('#carousel-example-generic').height(height + 'px');
   }
 
@@ -278,5 +286,53 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, AfterView
 
   clipboardSuccess(value: string): void {
     this.toastr.successToastr('Successfully copied to clipboard');
+  }
+
+  private getFHIRData(finalExecutionHistory: FinalExecutedHistory) {
+    const fhirData = new FHIRSchema();
+    fhirData.module.name = this.template.metadata.label;
+
+    const codableConcept = this.template.metadata.codableConcept;
+    if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
+      fhirData.module.code = codableConcept.coding;
+    }
+
+    finalExecutionHistory.inputData.filter(x => x.dataElementValue !== undefined).forEach(input => {
+      const fhirElem = new FHIRElement();
+      fhirElem.id = input.dataElementId;
+      fhirElem.value = input.dataElementValue;
+      const element = this.template.dataElements.find(x => x.id === input.dataElementId);
+
+      if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
+        fhirElem.type = 'string';
+      } else if (element instanceof NumericDataElement) {
+        fhirElem.type = 'decimal';
+      } else if (element instanceof IntegerDataElement) {
+        fhirElem.type = 'integer';
+      } else if (element instanceof DateTimeDataElement) {
+        fhirElem.type = 'datetime';
+      }
+
+      if (this.utilityService.isNotEmptyString(element.unit)) {
+        fhirElem.unit = element.unit;
+      }
+
+      const codingConcept = element.codableConcept;
+      if (this.utilityService.isValidInstance(codingConcept) && this.utilityService.isValidInstance(codingConcept.coding)) {
+        fhirElem.code = codingConcept.coding;
+      }
+
+      fhirData.elements.push(fhirElem);
+    });
+
+    finalExecutionHistory.resultText.allReportText.forEach(report => {
+      const fhirReport = new FHIRReport();
+      fhirReport.id = report.allReportResult.sectionId;
+      fhirReport.report = report.allReportResult.reportText;
+
+      fhirData.result.push(fhirReport);
+    });
+
+    return fhirData;
   }
 }
