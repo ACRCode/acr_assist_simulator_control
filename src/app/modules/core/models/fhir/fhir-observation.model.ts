@@ -5,11 +5,11 @@ export class FHIRObservation {
     id: string;
     code: Array<Coding>;
     values: Array<FHIRValue>;
-    references: Array<string>;
+    references: string;
 
     constructor() {
         this.code = new Array<Coding>();
         this.values = new Array<FHIRValue>();
-        this.references = new Array<string>();
+        this.references = '';
     }
 }
