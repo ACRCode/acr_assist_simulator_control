@@ -1,9 +1,13 @@
 import { Coding } from 'testruleengine/Library/Models/Class';
 
-export class FHIRElement {
+export class FHIRValue {
     id: string;
-    type: string;
     value: string;
+    type: string;
     unit: string;
     code: Array<Coding>;
+
+    constructor() {        
+        this.code = new Array<Coding>();
+    }
 }

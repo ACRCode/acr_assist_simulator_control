@@ -11,8 +11,9 @@ import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-displ
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { FHIRSchema } from '../../core/models/fhir/fhir-schema.model';
-import { FHIRElement } from '../../core/models/fhir/fhir-element.model';
 import { FHIRReport } from '../../core/models/fhir/fhir-report.model';
+import { FHIRObservation } from '../../core/models/fhir/fhir-observation.model';
+import { FHIRValue } from '../../core/models/fhir/fhir-value.model';
 
 const $ = require('jquery');
 
@@ -283,49 +284,58 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   private getFHIRData(finalExecutionHistory: FinalExecutedHistory) {
     const fhirData = new FHIRSchema();
-    fhirData.module.name = this.template.metadata.label;
+    fhirData.report.name = this.template.metadata.label;
 
     const codableConcept = this.template.metadata.codableConcept;
     if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
-      fhirData.module.code = codableConcept.coding;
+      fhirData.report.code = codableConcept.coding;
     }
 
+    const fhirObservation = new FHIRObservation();
+    fhirObservation.id = 'Simulator_Observation_' + fhirData.report.observations.length + 1;  
+    fhirData.report.result = fhirObservation.id;   
+
     finalExecutionHistory.inputData.filter(x => x.dataElementValue !== undefined).forEach(input => {
-      const fhirElem = new FHIRElement();
-      fhirElem.id = input.dataElementId;
-      fhirElem.value = input.dataElementValue; 
-      const element = this.template.dataElements.find(x => x.id === input.dataElementId); 
+      
+      const fhirValue = new FHIRValue();
+      fhirValue.id = input.dataElementId;
+      fhirValue.value = input.dataElementValue; 
+
+      const element = this.template.dataElements.find(x => x.id === input.dataElementId);
 
       if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
-        fhirElem.type = "string";
+        fhirValue.type = "string";
       } else if (element instanceof NumericDataElement) {
-        fhirElem.type = "decimal";
+        fhirValue.type = "decimal";
       } else if (element instanceof IntegerDataElement) {
-        fhirElem.type = "integer";
+        fhirValue.type = "integer";
       } else if (element instanceof DateTimeDataElement) {
-        fhirElem.type = "datetime";
+        fhirValue.type = "datetime";
       }
 
       if (this.utilityService.isNotEmptyString(element.unit)) {
-        fhirElem.unit = element.unit
-      }
-      
+        fhirValue.unit = element.unit
+      } 
+       
       const codableConcept = element.codableConcept; 
       if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
-        fhirElem.code = codableConcept.coding;
-      }   
+        fhirObservation.code = codableConcept.coding;
+      }  
 
-      fhirData.elements.push(fhirElem);
+      fhirObservation.values.push(fhirValue);
     });
 
     finalExecutionHistory.resultText.allReportText.forEach(report => {
-      const fhirReport = new FHIRReport();
-      fhirReport.id = report.allReportResult.sectionId; 
-      fhirReport.report = report.allReportResult.reportText; 
+      const fhirValue = new FHIRValue();
+      fhirValue.id = report.allReportResult.sectionId;
+      fhirValue.value = report.allReportResult.reportText; 
+      fhirValue.type = 'string';
 
-      fhirData.result.push(fhirReport);
+      fhirObservation.values.push(fhirValue);
     });
   
+    fhirData.report.observations.push(fhirObservation);
+    
     return fhirData;
   }
 }
