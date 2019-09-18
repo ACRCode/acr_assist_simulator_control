@@ -11,12 +11,19 @@ import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-displ
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { FHIRSchema } from '../../core/models/fhir/fhir-schema.model';
-import { FHIRReport } from '../../core/models/fhir/fhir-report.model';
 import { FHIRObservation } from '../../core/models/fhir/fhir-observation.model';
 import { FHIRValue } from '../../core/models/fhir/fhir-value.model';
+import { FHIRPatient } from '../../core/models/fhir/fhir-patient.model';
+import { FHIRIdentifierType } from '../../core/enums/fhir-identifer-type.enum';
+import { FHIRIdentifier } from '../../core/models/fhir/fhir-identifier.model';
+import { FHIROrganisation } from '../../core/models/fhir/fhir-organisation.model';
+import { FHIRDevice } from '../../core/models/fhir/fhir-device.model';
+import { FHIRPractitioner } from '../../core/models/fhir/fhir-practitioner.model';
+import { FHIRProcedure } from '../../core/models/fhir/fhir-procedure.model';
+import { FHIRExtension } from '../../core/models/fhir/fhir-extension.model';
+import { FHIRExtensions } from '../../core/models/fhir/fhir-extensions.model';
 
 const $ = require('jquery');
-
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -40,10 +47,12 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() backgroundColor: string;
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+  @Input() performAIInput: Boolean = false;
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
-  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();  
+  @Output() callBackAfterAIInputReset: EventEmitter<boolean> = new EventEmitter<boolean>();  
   @ViewChild('imageUpload') imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
 
@@ -116,6 +125,21 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       }
     }
 
+    if (this.performAIInput) {
+      const moduleName = this.template.metadata.label;
+      if (moduleName === 'TI RADS') {
+        const element = this.dataElements.find(x => x.id === 'diameter_1');
+        if (this.utilityService.isValidInstance(element)) {
+          var sources = [];
+          const id = 'diameter_1';
+          const value = 5;
+          sources.push({ 'input': id, 'value': value });
+          element.sources = sources;
+          this.simulatorEngineService.addOrUpdateDataElement(id, value, value);
+        }
+      }
+    }
+
     const _this = this;
     setTimeout(function (e) {
       _this.applyInputStyles();
@@ -156,11 +180,16 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
+    this.performAIInput = false;
     this.returnDefaultElements.emit();
   }
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
+  }
+
+  onAIInputReset(event) {
+    this.callBackAfterAIInputReset.emit(event);
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
@@ -289,11 +318,171 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     const codableConcept = this.template.metadata.codableConcept;
     if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
       fhirData.report.code = codableConcept.coding;
+    } else {
+      fhirData.report.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
     }
 
+    fhirData.report.patient = this.getPatientInformation();
+    fhirData.report.procedure = this.getProcedureInformation();
+    fhirData.report.performer = this.getPerformerOrganisation();
+
+    const fhirAIObservation = this.getAIObservations();
+    const fhirObservation = this.getObservations(finalExecutionHistory);
+    fhirObservation.id = 'SimulatorObservation' + fhirData.report.observations.length + 1; 
+    fhirObservation.references = fhirAIObservation.id; 
+    fhirData.report.result = fhirObservation.id;
+
+    fhirData.report.observations.push(fhirAIObservation);
+    fhirData.report.observations.push(fhirObservation);
+
+    console.log(JSON.stringify(fhirData));
+    
+    return fhirData;
+  }
+
+  private getPatientInformation(): FHIRPatient {
+    const fhirPatient = new FHIRPatient();
+    fhirPatient.id = 'patient1';
+    fhirPatient.identifier.push(this.getIdentifier(FHIRIdentifierType.Patient));
+    fhirPatient.gender = 'male';
+    fhirPatient.birthDate = '1980-07-21';
+
+    return fhirPatient;
+  }
+
+  private getProcedureInformation(): FHIRProcedure {
+    const procedure = new FHIRProcedure();
+    procedure.id = 'request-7878';
+    procedure.extensions.push(this.getExtensions());
+    procedure.status = 'active';
+    procedure.intent = 'original-order';
+    procedure.code.push(this.getCodableConcept('http://loinc.org', '24726-2', 'http://loinc.org'));
+    procedure.text = 'CT Head';
+    procedure.occurrenceDateTime = '2019-01-02T09:33:27+07:00';
+
+    return procedure;
+  }
+
+  private getPerformerOrganisation(): FHIROrganisation {
+    const organisation = new FHIROrganisation();
+    organisation.id = 'org-05923';
+    organisation.name = 'University of Rochester Medicine';
+    organisation.address = 'University of Rochester Medicine';
+
+    return organisation;
+  }
+
+  private getIdentifier(type: FHIRIdentifierType): FHIRIdentifier  {
+    const identifier = new FHIRIdentifier();    
+    let coding = new Coding();
+
+    if (type === FHIRIdentifierType.Patient) {      
+      identifier.value = 'anonymous';
+      coding = this.getCodableConcept('http://hl7.org/fhir/v2/0203', 'MR', 'http://loinc.org');
+    }
+
+    if (type === FHIRIdentifierType.Practitioner) {
+      identifier.value = '123456789';
+      coding = this.getCodableConcept('http://hl7.org/fhir/v2/0203', 'NPI', 'http://loinc.org');
+      identifier.organisation = this.getOrganisation();
+    }
+
+    identifier.code.push(coding);
+
+    return identifier;
+  }
+
+  private getExtensions(): FHIRExtensions {
+    const extensions = new FHIRExtensions();
+    extensions.extension = this.getExtension();
+    extensions.url = 'http://acr.org/fhir/StructureDefinition/ACR-CommonCode';
+
+    return extensions;
+  }
+
+  private getExtension(): FHIRExtension[] {
+    const extensions = new Array<FHIRExtension>();
+    extensions.push(new FHIRExtension('ACRCommonID', '7773'));
+    extensions.push(new FHIRExtension('protocolID', '888'));
+    extensions.push(new FHIRExtension('modalityID', '99999'));
+
+    return extensions;
+  }
+
+  private getDeviceInformation(): FHIRDevice {
+    const device = new FHIRDevice();
+    device.id = 'ai-algorithm-details';
+    device.manufacturer = 'aidochead';
+    device.model = 'Intracranial Hemorrhage';
+    device.version = '1.2.8';
+
+    return device;
+  }
+
+  private getOrganisation(): FHIROrganisation {
+    const organisation = new FHIROrganisation();
+    organisation.id = 'CMS';
+    organisation.name = 'CMS';
+    organisation.address = 'CMS';
+
+    return organisation;
+  }
+
+  private getCodableConcept(system: string, code: string, url: string): Coding {
+    const coding = new Coding();
+    coding.system = system;
+    coding.version = '1.0';
+    coding.code = code;
+    coding.display = code;
+    coding.userSelected = 'false';
+    coding.url = url;
+
+    return coding;
+  }
+
+  private getAIObservations(): FHIRObservation {
+    const fhirAIObservation = new FHIRObservation();
+    fhirAIObservation.id = 'AIObservation';
+    fhirAIObservation.device = this.getDeviceInformation();
+    fhirAIObservation.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
+
+    const aiElements = this.dataElements.filter(x => this.utilityService.isNotEmptyArray(x.sources));
+    if (this.utilityService.isNotEmptyArray(aiElements)) {
+      aiElements.forEach(element => {
+        element.sources.forEach(source => {
+          const fhirValue = new FHIRValue();
+          fhirValue.id = source.input;
+          fhirValue.value = source.value;
+          fhirValue.type = this.getElementType(element);
+
+          if (this.utilityService.isNotEmptyString(element.unit)) {
+            fhirValue.unit = element.unit
+          }
+
+          const codableConcept = element.codableConcept;
+          if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
+            fhirValue.code = codableConcept.coding;
+          } else {
+            fhirValue.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
+          }
+
+          fhirAIObservation.values.push(fhirValue);
+        });
+      });
+    }
+
+    return fhirAIObservation;
+  }
+
+  private getObservations(finalExecutionHistory: FinalExecutedHistory): FHIRObservation {
     const fhirObservation = new FHIRObservation();
-    fhirObservation.id = 'Simulator_Observation_' + fhirData.report.observations.length + 1;  
-    fhirData.report.result = fhirObservation.id;   
+    fhirObservation.practitioner = this.getPractitionerInformation();
+    const codableConcept = this.template.metadata.codableConcept;
+    if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
+      fhirObservation.code = codableConcept.coding;
+    } else {
+      fhirObservation.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
+    }
 
     finalExecutionHistory.inputData.filter(x => x.dataElementValue !== undefined).forEach(input => {
       
@@ -302,16 +491,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       fhirValue.value = input.dataElementValue; 
 
       const element = this.template.dataElements.find(x => x.id === input.dataElementId);
-
-      if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
-        fhirValue.type = "string";
-      } else if (element instanceof NumericDataElement) {
-        fhirValue.type = "decimal";
-      } else if (element instanceof IntegerDataElement) {
-        fhirValue.type = "integer";
-      } else if (element instanceof DateTimeDataElement) {
-        fhirValue.type = "datetime";
-      }
+      fhirValue.type = this.getElementType(element);
 
       if (this.utilityService.isNotEmptyString(element.unit)) {
         fhirValue.unit = element.unit
@@ -319,8 +499,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
        
       const codableConcept = element.codableConcept; 
       if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
-        fhirObservation.code = codableConcept.coding;
-      }  
+        fhirValue.code = codableConcept.coding;
+      } else {
+        fhirValue.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
+      }
 
       fhirObservation.values.push(fhirValue);
     });
@@ -330,12 +512,33 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       fhirValue.id = report.allReportResult.sectionId;
       fhirValue.value = report.allReportResult.reportText; 
       fhirValue.type = 'string';
+      fhirValue.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
 
       fhirObservation.values.push(fhirValue);
     });
-  
-    fhirData.report.observations.push(fhirObservation);
-    
-    return fhirData;
+
+    return fhirObservation;
+  }
+
+  private getPractitionerInformation(): FHIRPractitioner {
+    const practitioner = new FHIRPractitioner();
+    practitioner.id = 'practitioner-Attending';
+    practitioner.identifier.push(this.getIdentifier(FHIRIdentifierType.Practitioner));
+    practitioner.gender = 'male';
+    practitioner.birthDate = '1980-07-21';
+
+    return practitioner;
+  }
+
+  private getElementType(element: any): string {
+    if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
+      return 'string';
+    } else if (element instanceof NumericDataElement) {
+      return 'decimal';
+    } else if (element instanceof IntegerDataElement) {
+      return 'integer';
+    } else if (element instanceof DateTimeDataElement) {
+      return 'datetime';
+    }
   }
 }

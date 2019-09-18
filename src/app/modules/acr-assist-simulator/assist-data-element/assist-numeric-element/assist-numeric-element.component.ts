@@ -7,7 +7,7 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { Subscription } from 'rxjs';
 import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
-
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -17,17 +17,21 @@ import { ResetCommunicationService } from '../../shared/services/reset-communica
 export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   subscription: Subscription;
+  numericElementForm: FormGroup;
+  selectedCondition: SelectedCondition;
+  numberValue: number;
+  oldVal = null;
+  
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
-  numericElementForm: FormGroup;
-  selectedCondition: SelectedCondition;
-  numberValue: number;
+  @Output() callBackAfterAIInputReset: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  oldVal = null;
-
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService,
+  constructor(
+    private formBuilder: FormBuilder,
+    private simulatorEngineService: SimulatorEngineService,
+    private utilityService: UtilityService,
     simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
@@ -76,6 +80,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   }
 
   choiceSelected(element, selectedCondition) {
+  
     const choiceElement = new NumericElement();
     choiceElement.elementId = element.id;
     choiceElement.selectedValue = element.value;
@@ -85,7 +90,23 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedConditionId = element.id;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.value;
+
+    if (this.hasAIInputStyle()) {
+      const index = this.numericDataElement.sources.findIndex(x => x.input === this.numericDataElement.id);
+      if (index !== -1) {
+        this.numericDataElement.sources.splice(index, 1);
+        this.callBackAfterAIInputReset.emit(true);
+      }
+    }
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
+  }
+
+  hasAIInputStyle() {
+    if (this.utilityService.isNotEmptyArray(this.numericDataElement.sources)) {
+      return this.numericDataElement.sources.findIndex(x => x.input === this.numericDataElement.id) !== -1;
+    }
+
+    return false;
   }
 
   _keyUp(event: any, value) {

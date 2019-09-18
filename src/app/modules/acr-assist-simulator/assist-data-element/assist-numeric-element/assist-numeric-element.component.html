@@ -35,7 +35,7 @@
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-        (keyup)="_keyUp($event, numberValue)" 
+        (keyup)="_keyUp($event, numberValue)" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }"
         [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
@@ -56,7 +56,7 @@
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="numberValue"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-          (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+          (keypress)="onlyIntegerKey($event)" onpaste="return false;" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }"
           (keyup)="_keyUpInteger($event, numberValue)"         
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
           max="{{numericDataElement.maximum}}" required>
@@ -113,7 +113,7 @@
        </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" 
           [(ngModel)]="numberValue" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
-          (keyup)="_keyUp($event, numberValue)"
+          (keyup)="_keyUp($event, numberValue)" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }"
           acrNumericOnly
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
@@ -168,7 +168,7 @@
       </div>
       <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="numberValue"
       id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-      (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+      (keypress)="onlyIntegerKey($event)" onpaste="return false;" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }"
       (keyup)="_keyUpInteger($event, numberValue)"
       (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
       max="{{numericDataElement.maximum}}" required>

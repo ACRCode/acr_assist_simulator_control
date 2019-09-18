@@ -34,11 +34,11 @@
           [fontFamily]="settingsConfig.get('fontFamily')" [backgroundColor]="settingsConfig.get('backgroundColor')"
           [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
           templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right"
-          [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues"
+          [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [performAIInput]="performAIInput"
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'
-          (returnDefaultElements)="returnDefaultElements()">
+          (returnDefaultElements)="returnDefaultElements()" (callBackAfterAIInputReset)="onAIInputReset($event)">
         </acr-assist-simulator>
       </div>
     </section>

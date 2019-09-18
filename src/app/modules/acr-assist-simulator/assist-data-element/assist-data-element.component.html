@@ -10,7 +10,8 @@
         <ng-container
           *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
           <acr-assist-numeric-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'>
+            [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'
+            (callBackAfterAIInputReset)="onAIInputReset($event)">
           </acr-assist-numeric-element>
         </ng-container>
 
@@ -36,7 +37,8 @@
                             <acr-assist-numeric-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
                               [numericDataElement]='childElement' [imagePath]='imagePath'
-                              (returnNumericElement)='numericSelected($event)'></acr-assist-numeric-element>
+                              (returnNumericElement)='numericSelected($event)'
+                              (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-numeric-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
                             <acr-assist-choice-element

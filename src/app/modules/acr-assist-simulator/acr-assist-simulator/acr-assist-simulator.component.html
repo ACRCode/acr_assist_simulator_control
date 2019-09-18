@@ -43,7 +43,7 @@
                   [inputValues]="inputValues" [isReset]="isReset"
                   (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)'
-                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                  (returnExecutionHistory)='recievedExecutionHistory($event)' (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -70,7 +70,7 @@
                   [inputValues]="inputValues" [isReset]="isReset"
                   (callBackAfterGettingShowKeyDiagram)='GettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)'
-                  (returnExecutionHistory)='recievedExecutionHistory($event)'></acr-assist-data-element>
+                  (returnExecutionHistory)='recievedExecutionHistory($event)' (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-data-element>
               </form>
             </div>
           </div>

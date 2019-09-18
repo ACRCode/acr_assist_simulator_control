@@ -11,12 +11,14 @@ import { SettingsConfig } from './modules/core/services/settings.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   settingsConfig: SettingsConfig;
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
   position = ReportTextPosition;
-  resetButton: boolean;
+  resetButton: boolean;  
+  performAIInput: Boolean = false;
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
@@ -42,6 +44,10 @@ export class AppComponent {
     this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
 
+  performAIInputs() {
+    this.performAIInput = true;
+  }
+
   loadElements() {
     this.inputValues = this.testInputValue;
   }
@@ -54,7 +60,12 @@ export class AppComponent {
 
   returnDefaultElements() {
     this.inputValues = [];
+    this.performAIInput = false;
     this.resetCommunicationService.messageEmitter('');
+  }
+
+  onAIInputReset(event) {
+    this.performAIInput = false;
   }
 
   recievedDataElementChanged(data) {
