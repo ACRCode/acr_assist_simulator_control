@@ -26,7 +26,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
-  @Output() callBackAfterAIInputReset: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -92,10 +91,9 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedValue = element.value;
 
     if (this.hasAIInputStyle()) {
-      const index = this.numericDataElement.sources.findIndex(x => x.input === this.numericDataElement.id);
+      const index = this.numericDataElement.sources.findIndex(x => x.id === this.numericDataElement.id);
       if (index !== -1) {
         this.numericDataElement.sources.splice(index, 1);
-        this.callBackAfterAIInputReset.emit(true);
       }
     }
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
@@ -103,7 +101,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   hasAIInputStyle() {
     if (this.utilityService.isNotEmptyArray(this.numericDataElement.sources)) {
-      return this.numericDataElement.sources.findIndex(x => x.input === this.numericDataElement.id) !== -1;
+      return this.numericDataElement.sources.findIndex(x => x.id === this.numericDataElement.id) !== -1;
     }
 
     return false;

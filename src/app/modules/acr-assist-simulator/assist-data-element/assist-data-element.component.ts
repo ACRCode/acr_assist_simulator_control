@@ -47,7 +47,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
-  @Output() callBackAfterAIInputReset: EventEmitter<boolean> = new EventEmitter<boolean>();  
 
   constructor(private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
@@ -163,10 +162,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     } else {
       this.afterDataElementChanged();
     }
-  }
-
-  onAIInputReset(event) {
-    this.callBackAfterAIInputReset.emit(event);
   }
 
   IsAnyRepeatElementsExist(event): boolean {

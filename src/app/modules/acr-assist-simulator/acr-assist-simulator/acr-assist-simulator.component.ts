@@ -22,6 +22,7 @@ import { FHIRPractitioner } from '../../core/models/fhir/fhir-practitioner.model
 import { FHIRProcedure } from '../../core/models/fhir/fhir-procedure.model';
 import { FHIRExtension } from '../../core/models/fhir/fhir-extension.model';
 import { FHIRExtensions } from '../../core/models/fhir/fhir-extensions.model';
+import { AIInputData } from '../../core/models/ai-input-data.model';
 
 const $ = require('jquery');
 
@@ -47,12 +48,11 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() backgroundColor: string;
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
-  @Input() performAIInput: Boolean = false;
+  @Input() aiInputs: AIInputData[] = [];
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
-  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();  
-  @Output() callBackAfterAIInputReset: EventEmitter<boolean> = new EventEmitter<boolean>();  
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>(); 
   @ViewChild('imageUpload') imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
 
@@ -125,24 +125,20 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       }
     }
 
-    if (this.performAIInput) {
+    if (this.utilityService.isNotEmptyArray(this.aiInputs)) {
       const moduleName = this.template.metadata.label;
       if (moduleName === 'TI RADS') {
-        const element = this.dataElements.find(x => x.id === 'diameter_1');
+        const element = this.dataElements.find(x => x.id === this.aiInputs[0].id);
         if (this.utilityService.isValidInstance(element)) {
-          var sources = [];
-          const id = 'diameter_1';
-          const value = 5;
-          sources.push({ 'input': id, 'value': value });
-          element.sources = sources;
-          this.simulatorEngineService.addOrUpdateDataElement(id, value, value);
+          element.sources = this.aiInputs;
+          this.simulatorEngineService.addOrUpdateDataElement(this.aiInputs[0].id, this.aiInputs[0].value, this.aiInputs[0].value);
         }
       }
     }
 
-    const _this = this;
+    const context = this;
     setTimeout(function (e) {
-      _this.applyInputStyles();
+      context.applyInputStyles();
     });
   }
 
@@ -180,16 +176,11 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
-    this.performAIInput = false;
     this.returnDefaultElements.emit();
   }
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
-  }
-
-  onAIInputReset(event) {
-    this.callBackAfterAIInputReset.emit(event);
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {

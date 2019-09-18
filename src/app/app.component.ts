@@ -4,6 +4,7 @@ import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsConfig } from './modules/core/services/settings.service';
+import { AIInputData } from './modules/core/models/ai-input-data.model';
 
 @Component({
   selector: 'acr-app-root',
@@ -16,9 +17,9 @@ export class AppComponent {
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
+  aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
   resetButton: boolean;  
-  performAIInput: Boolean = false;
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
@@ -26,6 +27,12 @@ export class AppComponent {
       'dataElementValue': 'test',
       'dataElementLabel': '',
       'dataElementDisplayValue': ''
+    }
+  ];
+  testAIInputs: AIInputData[] = [
+    {
+      'id': 'diameter_1',
+      'value': '5'
     }
   ];
 
@@ -44,8 +51,8 @@ export class AppComponent {
     this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
 
-  performAIInputs() {
-    this.performAIInput = true;
+  setAIInputs() {
+    this.aiInputs = this.testAIInputs.map(input => Object.assign({}, input));;
   }
 
   loadElements() {
@@ -60,12 +67,8 @@ export class AppComponent {
 
   returnDefaultElements() {
     this.inputValues = [];
-    this.performAIInput = false;
+    this.aiInputs = [];
     this.resetCommunicationService.messageEmitter('');
-  }
-
-  onAIInputReset(event) {
-    this.performAIInput = false;
   }
 
   recievedDataElementChanged(data) {
