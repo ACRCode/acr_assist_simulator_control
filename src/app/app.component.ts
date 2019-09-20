@@ -23,8 +23,8 @@ export class AppComponent {
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      'dataElementId': 'othercharacteristics',
-      'dataElementValue': 'test',
+      'dataElementId': 'diameter_1',
+      'dataElementValue': '6',
       'dataElementLabel': '',
       'dataElementDisplayValue': ''
     }
@@ -52,7 +52,8 @@ export class AppComponent {
   }
 
   setAIInputs() {
-    this.aiInputs = this.testAIInputs.map(input => Object.assign({}, input));;
+    this.aiInputs = this.testAIInputs.map(input => Object.assign({}, input));
+    this.inputValues = this.testInputValue;
   }
 
   loadElements() {

@@ -131,7 +131,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
         const element = this.dataElements.find(x => x.id === this.aiInputs[0].id);
         if (this.utilityService.isValidInstance(element)) {
           element.sources = this.aiInputs;
-          this.simulatorEngineService.addOrUpdateDataElement(this.aiInputs[0].id, this.aiInputs[0].value, this.aiInputs[0].value);
         }
       }
     }

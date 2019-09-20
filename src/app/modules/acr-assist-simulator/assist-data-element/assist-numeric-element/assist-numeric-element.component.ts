@@ -90,18 +90,15 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.value;
 
-    if (this.hasAIInputStyle()) {
-      const index = this.numericDataElement.sources.findIndex(x => x.id === this.numericDataElement.id);
-      if (index !== -1) {
-        this.numericDataElement.sources.splice(index, 1);
-      }
-    }
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
   hasAIInputStyle() {
     if (this.utilityService.isNotEmptyArray(this.numericDataElement.sources)) {
-      return this.numericDataElement.sources.findIndex(x => x.id === this.numericDataElement.id) !== -1;
+      const elem = this.numericDataElement.sources.find(x => x.id === this.numericDataElement.id);
+      if (this.utilityService.isValidInstance(elem)) {
+        return elem.value === this.numericElementForm.controls['numericElement'].value;
+      }
     }
 
     return false;
