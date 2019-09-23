@@ -2,7 +2,7 @@ import { Coding } from 'testruleengine/Library/Models/Class';
 
 export class FHIRValue {
     id: string;
-    value: string;
+    value: any;
     type: string;
     unit: string;
     code: Array<Coding>;

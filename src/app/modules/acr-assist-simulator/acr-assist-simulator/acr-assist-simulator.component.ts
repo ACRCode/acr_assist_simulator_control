@@ -430,6 +430,18 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     return coding;
   }
 
+  private getCodableConceptForMultiChoiceValue(value: string): Coding {
+    const coding = new Coding();
+    coding.system = value;
+    coding.code = value;
+    coding.display = value;
+    coding.version = undefined;
+    coding.url = undefined;
+    coding.userSelected = undefined;
+
+    return coding;
+  }
+
   private getAIObservations(): FHIRObservation {
     const fhirAIObservation = new FHIRObservation();
     fhirAIObservation.id = 'AIObservation';
@@ -478,10 +490,17 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       
       const fhirValue = new FHIRValue();
       fhirValue.id = input.dataElementId;
-      fhirValue.value = input.dataElementValue; 
 
       const element = this.template.dataElements.find(x => x.id === input.dataElementId);
       fhirValue.type = this.getElementType(element);
+      if (fhirValue.type !== 'multichoice') {
+        fhirValue.value = input.dataElementValue; 
+      } else {
+        fhirValue.value = new Array<Coding>();
+        input.dataElementValue.forEach(value => {
+          fhirValue.value.push(this.getCodableConceptForMultiChoiceValue(value));
+        });
+      }
 
       if (this.utilityService.isNotEmptyString(element.unit)) {
         fhirValue.unit = element.unit
@@ -521,13 +540,15 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   private getElementType(element: any): string {
-    if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
-      return 'string';
-    } else if (element instanceof NumericDataElement) {
+    if (element.dataElementType === 'ChoiceDataElement') {
+      return 'choice';
+    } else if (element.dataElementType === 'MultiChoiceDataElement') {
+      return 'multichoice';
+    }  else if (element.dataElementType === 'NumericDataElement') {
       return 'decimal';
-    } else if (element instanceof IntegerDataElement) {
+    } else if (element.dataElementType === 'IntegerDataElement') {
       return 'integer';
-    } else if (element instanceof DateTimeDataElement) {
+    } else if (element.dataElementType === 'DateTimeDataElement') {
       return 'datetime';
     }
   }
