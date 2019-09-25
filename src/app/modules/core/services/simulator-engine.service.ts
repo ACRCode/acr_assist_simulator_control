@@ -578,7 +578,9 @@ export class SimulatorEngineService {
       this.ProcessRepetationDataElements();
       this.endOfRoadReached = false;
       this.branchCounter++;
-      this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
+      var decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
+      this.endpoints = decisionPoints.finalEndPoints;
+      this.showKeyDiagram = decisionPoints.keyDiagramId;
       var reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
 
       const $simulatorState = new SimulatorState();
