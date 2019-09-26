@@ -58,7 +58,7 @@
     "rxjs-compat": "^6.2.1",
     "stream": "0.0.2",
     "string": "^3.3.3",
-    "testruleengine": "^1.0.56",
+    "testruleengine": "^1.0.57",
     "timers": "^0.1.1",
     "xml2js": "^0.4.19"
   },
