@@ -4,6 +4,7 @@ import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsService } from './modules/core/services/settings.service';
+import { AIInputData } from './modules/core/models/ai-input-data.model';
 
 @Component({
   selector: 'acr-app-root',
@@ -11,55 +12,27 @@ import { SettingsService } from './modules/core/services/settings.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   settingsConfig: SettingsService;
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
+  aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
   resetButton: boolean;
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      dataElementId: 'ObservationCharacter',
-      dataElementValue: 'notDefProbBenign',
+      dataElementId: 'diameter_1',
+      dataElementValue: '5',
       dataElementLabel: '',
       dataElementDisplayValue: ''
-    },
+    }
+  ];
+  testAIInputs: AIInputData[] = [
     {
-      dataElementId: 'ArterialEnhancement',
-      dataElementValue: 'hyperEnhancing',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
-    },
-    {
-      dataElementId: 'diameter',
-      dataElementValue: '10',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
-    },
-    {
-      dataElementId: 'washout',
-      dataElementValue: 'yes',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
-    },
-    {
-      dataElementId: 'capsule',
-      dataElementValue: 'yes',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
-    },
-    {
-      dataElementId: 'thresholdgrowth',
-      dataElementValue: 'no',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
-    },
-    {
-      dataElementId: 'consultationDate',
-      dataElementValue: '8/28/2019, 2:50 PM',
-      dataElementLabel: '',
-      dataElementDisplayValue: ''
+      id: 'diameter_1',
+      value: '5'
     }
   ];
 
@@ -78,6 +51,11 @@ export class AppComponent {
     this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
 
+  setAIInputs() {
+    this.aiInputs = this.testAIInputs.map(input => Object.assign({}, input));
+    this.inputValues = this.testInputValue;
+  }
+
   loadElements() {
     this.inputValues = this.testInputValue;
   }
@@ -90,6 +68,7 @@ export class AppComponent {
 
   returnDefaultElements() {
     this.inputValues = [];
+    this.aiInputs = [];
     this.resetCommunicationService.messageEmitter('');
   }
 

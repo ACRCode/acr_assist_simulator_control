@@ -32,7 +32,7 @@
           (keyup)="_keyUp($event)" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
           formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -47,7 +47,7 @@
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
           (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -92,7 +92,7 @@
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" (keyup)="_keyUp($event)"
           acrNumericOnly formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -133,7 +133,7 @@
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
           (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>

@@ -174,3 +174,7 @@ mark {
   background-color: transparent !important;
   color: #f60808 !important;
 }
+
+.ai-input-background {
+  background-color: #f6bdb4;
+}

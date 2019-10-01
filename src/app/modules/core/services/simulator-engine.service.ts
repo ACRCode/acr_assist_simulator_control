@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SimulatorState } from '../models/simulator-state.model';
+import { BehaviorSubject } from 'rxjs';
 import { isArray } from 'util';
 import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
          IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
@@ -11,7 +12,6 @@ import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SimulatorEngineService {
@@ -369,7 +369,7 @@ export class SimulatorEngineService {
             for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
-                  // tslint:disable-next-line:max-line-length
+                  // tslint:disable-next-line: max-line-length
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + templatePartialId.split('_')[1], _conditions);
                 }
               }
@@ -426,7 +426,7 @@ export class SimulatorEngineService {
             for (let _conditions of _branch.compositeCondition.conditions) {
               if (_conditions.isManuallyAdded === undefined || !_conditions.isManuallyAdded) {
                 for (const _dataElement of dataElementIds) {
-                  // tslint:disable-next-line:max-line-length
+                  // tslint:disable-next-line: max-line-length
                   _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dynamicId, _conditions);
                 }
               }
@@ -478,9 +478,9 @@ export class SimulatorEngineService {
               $computedDataElement_cloned.decisionPoints[index].branches = [];
               for (let $branchModified of computedDataElement.decisionPoints[index].branches) {
                 for (const _dataElement of dataElementIds) {
-                  // tslint:disable-next-line:max-line-length
+                  // tslint:disable-next-line: max-line-length
                   $branchModified = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
-                  // tslint:disable-next-line:max-line-length
+                  // tslint:disable-next-line: max-line-length
                   $branchModified = this.replaceTextExpression(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + dataElementId_dynamic.split('_')[1], $branchModified);
                 }
 
@@ -525,7 +525,7 @@ export class SimulatorEngineService {
     this.RemoveDynamicallyAddedComputedDataElementIds();
     for (const decisionPoint of this.template.rules.decisionPoints) {
       for (const branch of decisionPoint.branches) {
-        // tslint:disable-next-line:max-line-length
+        // tslint:disable-next-line: max-line-length
         if (branch.endPointRef !== undefined && branch.endPointRef.isRepeatable && (branch.isManuallyAdded === undefined || !branch.isManuallyAdded)) {
           const $currentValue = +this.GetRepeatableValue(branch.endPointRef.repeatCount);
           if ($currentValue !== undefined && $currentValue > 0) {
@@ -544,9 +544,9 @@ export class SimulatorEngineService {
                 $branch.ICompositeCondition.conditions = [];
                 for (let _conditions of branch.ICompositeCondition.conditions) {
                   for (const _dataElement of dataElementIds) {
-                    // tslint:disable-next-line:max-line-length
+                    // tslint:disable-next-line: max-line-length
                     _conditions = this.replacePropertyValue(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1), _conditions);
-                    // tslint:disable-next-line:max-line-length
+                    // tslint:disable-next-line: max-line-length
                     this.CheckIfDataElementisComputedDataElement(_dataElement.split('_')[0], _dataElement.split('_')[0] + '_' + $repeatGroupName + (index + 1));
                   }
 
@@ -585,7 +585,9 @@ export class SimulatorEngineService {
       this.ProcessRepetationDataElements();
       this.endOfRoadReached = false;
       this.branchCounter++;
-      this.endpoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
+      const decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
+      this.endpoints = decisionPoints.finalEndPoints;
+      this.showKeyDiagram = decisionPoints.keyDiagramId;
       const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
 
       const $simulatorState = new SimulatorState();

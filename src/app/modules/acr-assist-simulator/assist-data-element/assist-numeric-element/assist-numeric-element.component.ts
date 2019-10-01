@@ -7,6 +7,7 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { Subscription } from 'rxjs';
 import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
+import { UtilityService } from 'src/app/modules/core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -15,19 +16,18 @@ import { ResetCommunicationService } from '../../shared/services/reset-communica
 })
 export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  numericElementForm: FormGroup;
+  selectedCondition: SelectedCondition;
   subscription: Subscription;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() numericDataElement: NumericDataElement;
   @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
-  numericElementForm: FormGroup;
-  selectedCondition: SelectedCondition;
-
-  oldVal = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private simulatorEngineService: SimulatorEngineService,
+    private utilityService: UtilityService,
     simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService) {
     this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
@@ -83,6 +83,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     this.selectedCondition.selectedConditionId = element.id;
     this.selectedCondition.selectedCondition = selectedCondition;
     this.selectedCondition.selectedValue = element.value;
+
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
@@ -112,6 +113,17 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
 
   onlyIntegerKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
+  }
+
+  hasAIInputStyle() {
+    if (this.utilityService.isNotEmptyArray(this.numericDataElement.sources)) {
+      const elem = this.numericDataElement.sources.find(x => x.id === this.numericDataElement.id);
+      if (this.utilityService.isValidInstance(elem)) {
+        return elem.value === this.numericElementForm.controls.numericElement.value;
+      }
+    }
+
+    return false;
   }
 
   isNumericElementRequired(): boolean {

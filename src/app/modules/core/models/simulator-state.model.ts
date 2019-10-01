@@ -1,4 +1,4 @@
-import { MainReportText } from 'testruleengine/Library/Models/Class';
+import { MainReportText } from "testruleengine/Library/Models/Class";
 
 export class SimulatorState {
   nonRelevantDataElementIds: string[] = [];
