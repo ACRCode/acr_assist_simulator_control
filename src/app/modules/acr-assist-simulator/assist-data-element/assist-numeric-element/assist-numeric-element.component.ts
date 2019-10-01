@@ -7,7 +7,7 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { Subscription } from 'rxjs';
 import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
-import { UtilityService } from 'src/app/modules/core/services/utility.service';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-numeric-element',
