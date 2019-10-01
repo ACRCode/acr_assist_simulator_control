@@ -127,12 +127,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     if (this.utilityService.isNotEmptyArray(this.aiInputs)) {
-      const moduleName = this.template.metadata.label;
-      if (moduleName === 'TI RADS') {
-        const element = this.dataElements.find(x => x.id === this.aiInputs[0].id);
-        if (this.utilityService.isValidInstance(element)) {
-          element.sources = this.aiInputs;
-        }
+      const element = this.dataElements.find(x => x.id === this.aiInputs[0].id);
+      if (this.utilityService.isValidInstance(element)) {
+        element.sources = this.aiInputs;
       }
     }
 
