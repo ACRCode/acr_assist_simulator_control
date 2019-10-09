@@ -16,8 +16,7 @@
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired"
-        class="required-field whitespace" title="Required Field">*</span>
+      <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
     </div>
 
     <div class="col-sm-8 text-left content-padding">
@@ -28,8 +27,8 @@
               <div class="radio custom-radio-style">
                 <label>
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                    formControlName="checkBox" value="{{choice.value}}"
+                    id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                    value="{{choice.value}}"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                   {{choice.label}}
                 </label>
@@ -60,8 +59,8 @@
                   <div class="radio custom-radio-style">
                     <label>
                       <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                        [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                        formControlName="checkBox" value="{{choice.value}}"
+                        id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                        value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       {{choice.label}}
                     </label>
@@ -95,7 +94,7 @@
       </ng-container>
 
       <ng-container *ngIf="isListBox()">
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
@@ -132,7 +131,7 @@
       </ng-container>
 
       <ng-container *ngIf="isSelectBox()">
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="
@@ -175,13 +174,13 @@
       <ng-container *ngIf="isRadioButton()">
         <ng-container *ngIf="imagePath != undefined">
           <ng-container *ngIf="choiceDataElement.imageMap == undefined">
-             <div class="col-lg-10 labelparentdiv">
+            <div class="col-lg-10 labelparentdiv">
               <label class="control-label break-word">
                 {{choiceDataElement.label}}
                 <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
                   ({{choiceDataElement.unit}})</span>
-                  <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired"
-                  class="required-field whitespace" title="Required Field">*</span>
+                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                  title="Required Field">*</span>
               </label>
             </div>
             <div class="col-lg-2 div_hint">
@@ -194,14 +193,14 @@
               <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
                 <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
               </ng-container>
-            
+
             </div>
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
-              <div [ngStyle]="i === 0 && {'clear': 'both'}"  class="radio custom-radio-style">
+              <div [ngStyle]="i === 0 && {'clear': 'both'}" class="radio custom-radio-style">
                 <label>
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                    formControlName="checkBox" value="{{choice.value}}"
+                    id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                    value="{{choice.value}}"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                   {{choice.label}}
                 </label>
@@ -243,16 +242,16 @@
                 <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
                   <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
                 </ng-container>
-                <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired"
-                  class="required-field whitespace" title="Required Field">*</span>
+                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                  title="Required Field">*</span>
               </div>
               <div class="div_radiobutton">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                   <div class="radio custom-radio-style">
                     <label>
                       <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                        [(ngModel)]="choiceValue" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                        formControlName="checkBox" value="{{choice.value}}"
+                        id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                        value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)">
                       {{choice.label}}
                     </label>
@@ -291,9 +290,8 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-              <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired"
-              class="required-field whitespace" title="Required Field">*</span>
-          </label>         
+            <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
+          </label>
         </div>
 
         <div class="col-lg-2 div_hint">
@@ -305,10 +303,10 @@
           </ng-container>
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
             <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-          </ng-container>         
+          </ng-container>
         </div>
 
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6">
           <option [selected]="
@@ -350,8 +348,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-              <span *ngIf="choiceElementForm.controls['checkBox'].invalid  && this.choiceDataElement.isRequired"
-              class="required-field whitespace" title="Required Field">*</span>
+            <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
         </div>
         <div class="col-lg-2 div_hint">
@@ -363,9 +360,9 @@
           </ng-container>
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
             <acr-hint-diagram [dataElement]="choiceDataElement" [imagePath]="imagePath"></acr-hint-diagram>
-          </ng-container>        
+          </ng-container>
         </div>
-        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" [(ngModel)]="choiceValue"
+        <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit">
           <option [selected]="

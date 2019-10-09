@@ -3,7 +3,7 @@ import { FileDetails } from './modules/simulatorloader/shared/models/file-detail
 import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
-import { SettingsConfig } from './modules/core/services/settings.service';
+import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
 
 @Component({
@@ -13,32 +13,32 @@ import { AIInputData } from './modules/core/models/ai-input-data.model';
 })
 export class AppComponent {
 
-  settingsConfig: SettingsConfig;
+  settingsConfig: SettingsService;
   fileContent: string;
   imagePath: string;
   inputValues: InputData[] = [];
   aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
-  resetButton: boolean;  
+  resetButton: boolean;
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      'dataElementId': 'diameter_1',
-      'dataElementValue': '6',
-      'dataElementLabel': '',
-      'dataElementDisplayValue': ''
+      dataElementId: 'diameter_1',
+      dataElementValue: '5',
+      dataElementLabel: '',
+      dataElementDisplayValue: ''
     }
   ];
   testAIInputs: AIInputData[] = [
     {
-      'id': 'diameter_1',
-      'value': '5'
+      id: 'diameter_1',
+      value: '5'
     }
   ];
 
   constructor(
     private resetCommunicationService: ResetCommunicationService,
-    settingsConfiguration: SettingsConfig) {
+    settingsConfiguration: SettingsService) {
     this.fileContent = '';
     this.imagePath = '';
     this.resetButton = true;

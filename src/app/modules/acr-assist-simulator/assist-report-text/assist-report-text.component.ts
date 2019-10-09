@@ -49,13 +49,14 @@ export class AssistReportTextComponent implements OnChanges {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
           textReport.allTextResultReport.heading = this.reportText.allReportText[section].allReportResult.sectionId;
+          // tslint:disable-next-line:max-line-length
           textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
           this.allTextReport.push(Object.assign({}, textReport));
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
@@ -70,12 +71,14 @@ export class AssistReportTextComponent implements OnChanges {
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.sectionId === sectionId) {
         this.selectedSection = this.reportText.allReportText[section].allReportResult.reportText;
+        // tslint:disable-next-line:max-line-length
         this.selectedSection = this.reportText.reportTextMainContent + ((this.selectedSection !== undefined && this.selectedSection !== '') ? this.addEmptyBreakLines(this.selectedSection) : '');
         break;
       }
     }
     this.mainReportTexts = new MainReportText();
     this.allReportTexts = [];
+    // tslint:disable-next-line:forin
     for (const section in this.reportText.allReportText) {
       const allreportText = new AllReportText();
       allreportText.allReportResult.reportText = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);

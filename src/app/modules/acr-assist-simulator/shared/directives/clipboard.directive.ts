@@ -13,8 +13,6 @@ export class ClipboardDirective {
 
   constructor(
     private clipboardService: ClipboardService) {
-    this.clipboardService = clipboardService;
-    this.clipboard = '';
   }
 
   @HostListener('click', ['$event.target'])

@@ -3,7 +3,7 @@ import { FinalExecutedHistory } from '../assist-data-element/assist-data-element
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement, 
+import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement,
          BaseDataElement, Template, Diagram, MainReportText, Coding } from 'testruleengine/Library/Models/Class';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
@@ -40,8 +40,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
-  @Input() showResetButton: Boolean = true;
-  @Input() showReportText: Boolean = true;
+  @Input() showResetButton = true;
+  @Input() showReportText = true;
   @Input() fontSize: string;
   @Input() fontFamily: string;
   @Input() fontColor: string;
@@ -52,9 +52,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
-  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>(); 
-  @ViewChild('imageUpload') imageUpload: any;
-  @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('imageUpload', { static: false }) imageUpload: any;
+  @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
 
   template: Template;
   isEmptyContent: boolean;
@@ -114,6 +114,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     if (!this.keyDiagrams.length) {
+      // tslint:disable-next-line: prefer-for-of
       for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
         if (this.imagePath !== undefined && this.imagePath != null && this.imagePath !== '') {
           const element = new Diagram();
@@ -133,7 +134,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     const context = this;
-    setTimeout(function (e) {
+    setTimeout(function(e) {
       context.applyInputStyles();
     });
   }
@@ -161,7 +162,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function (el) {
+    return this.keyDiagrams.some(function(el) {
       return el.location === diagram.location;
     });
   }
@@ -181,7 +182,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
     const fhirData = this.getFHIRData(finalExecutionHistory);
-    this.returnExecutionHistory.emit({'finalExecutionHistory': finalExecutionHistory, 'fhirData': fhirData});
+    this.returnExecutionHistory.emit({finalExecutionHistory, fhirData});
   }
 
   recivedOnDataElementChanged(data: InputData[]) {
@@ -222,10 +223,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   resizeKeyImages() {
-    let windowHeight = window.innerHeight;
-    let reportTextHeight = $('#div-right-reportText').height();
-    let height = windowHeight - reportTextHeight - 150;
-    $('#carousel-example-generic').height(height+'px');
+    const windowHeight = window.innerHeight;
+    const reportTextHeight = $('#div-right-reportText').height();
+    const height = windowHeight - reportTextHeight - 150;
+    $('#carousel-example-generic').height(height + 'px');
   }
 
   collapseKeyDiagram() {
@@ -233,7 +234,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       $('#icon_keydiagram').removeClass('fa fa-minus');
       $('#icon_keydiagram').addClass('fa fa-plus');
       $('#body_keydiagram').css({
-        'display': 'none'
+        display: 'none'
       });
     } else {
       $('#icon_keydiagram').removeClass('fa fa-plus');
@@ -247,7 +248,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       $('#icon_reporttext').removeClass('fa fa-minus');
       $('#icon_reporttext').addClass('fa fa-plus');
       $('#body_reporttext').css({
-        'display': 'none'
+        display: 'none'
       });
     } else {
       $('#icon_reporttext').removeClass('fa fa-plus');
@@ -261,7 +262,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       const inputValue = this.inputValues.filter(x => x.dataElementId.toUpperCase() === dataeElement.id.toUpperCase());
       if (inputValue !== undefined && inputValue.length > 0) {
         if (dataeElement.dataElementType === 'ChoiceDataElement' || dataeElement.dataElementType === 'MultiChoiceDataElement') {
-          const choiceElement = <ChoiceDataElement>dataeElement;
+          const choiceElement = dataeElement as ChoiceDataElement;
           if (Array.isArray(inputValue[0].dataElementValue)) {
             const values = [];
             choiceElement.choiceInfo.forEach(choice => {
@@ -289,12 +290,12 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       }
     });
   }
-  
+
   clipboardError(error: Error): void {
     this.toastr.errorToastr('Failed to copy to clipboard');
   }
 
-  clipboardSuccess(value: string): void {    
+  clipboardSuccess(value: string): void {
     this.toastr.successToastr('Successfully copied to clipboard');
   }
 
@@ -315,15 +316,15 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
     const fhirAIObservation = this.getAIObservations();
     const fhirObservation = this.getObservations(finalExecutionHistory);
-    fhirObservation.id = 'SimulatorObservation' + fhirData.report.observations.length + 1; 
-    fhirObservation.references = fhirAIObservation.id; 
+    fhirObservation.id = 'SimulatorObservation' + fhirData.report.observations.length + 1;
+    fhirObservation.references = fhirAIObservation.id;
     fhirData.report.result = fhirObservation.id;
 
     fhirData.report.observations.push(fhirAIObservation);
     fhirData.report.observations.push(fhirObservation);
 
     console.log(JSON.stringify(fhirData));
-    
+
     return fhirData;
   }
 
@@ -360,10 +361,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   private getIdentifier(type: FHIRIdentifierType): FHIRIdentifier  {
-    const identifier = new FHIRIdentifier();    
+    const identifier = new FHIRIdentifier();
     let coding = new Coding();
 
-    if (type === FHIRIdentifierType.Patient) {      
+    if (type === FHIRIdentifierType.Patient) {
       identifier.value = 'anonymous';
       coding = this.getCodableConcept('http://hl7.org/fhir/v2/0203', 'MR', 'http://loinc.org');
     }
@@ -427,18 +428,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     return coding;
   }
 
-  private getCodableConceptForMultiChoiceValue(value: string): Coding {
-    const coding = new Coding();
-    coding.system = value;
-    coding.code = value;
-    coding.display = value;
-    coding.version = undefined;
-    coding.url = undefined;
-    coding.userSelected = undefined;
-
-    return coding;
-  }
-
   private getAIObservations(): FHIRObservation {
     const fhirAIObservation = new FHIRObservation();
     fhirAIObservation.id = 'AIObservation';
@@ -455,7 +444,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
           fhirValue.type = this.getElementType(element);
 
           if (this.utilityService.isNotEmptyString(element.unit)) {
-            fhirValue.unit = element.unit
+            fhirValue.unit = element.unit;
           }
 
           const codableConcept = element.codableConcept;
@@ -484,28 +473,20 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     finalExecutionHistory.inputData.filter(x => x.dataElementValue !== undefined).forEach(input => {
-      
       const fhirValue = new FHIRValue();
       fhirValue.id = input.dataElementId;
+      fhirValue.value = input.dataElementValue;
 
       const element = this.template.dataElements.find(x => x.id === input.dataElementId);
       fhirValue.type = this.getElementType(element);
-      if (fhirValue.type !== 'multichoice') {
-        fhirValue.value = input.dataElementValue; 
-      } else {
-        fhirValue.value = new Array<Coding>();
-        input.dataElementValue.forEach(value => {
-          fhirValue.value.push(this.getCodableConceptForMultiChoiceValue(value));
-        });
-      }
 
       if (this.utilityService.isNotEmptyString(element.unit)) {
-        fhirValue.unit = element.unit
-      } 
-       
-      const codableConcept = element.codableConcept; 
-      if (this.utilityService.isValidInstance(codableConcept) && this.utilityService.isValidInstance(codableConcept.coding)) {
-        fhirValue.code = codableConcept.coding;
+        fhirValue.unit = element.unit;
+      }
+
+      const _codableConcept = element.codableConcept;
+      if (this.utilityService.isValidInstance(_codableConcept) && this.utilityService.isValidInstance(_codableConcept.coding)) {
+        fhirValue.code = _codableConcept.coding;
       } else {
         fhirValue.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
       }
@@ -516,7 +497,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     finalExecutionHistory.resultText.allReportText.forEach(report => {
       const fhirValue = new FHIRValue();
       fhirValue.id = report.allReportResult.sectionId;
-      fhirValue.value = report.allReportResult.reportText; 
+      fhirValue.value = report.allReportResult.reportText;
       fhirValue.type = 'string';
       fhirValue.code.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
 
@@ -537,15 +518,13 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   private getElementType(element: any): string {
-    if (element.dataElementType === 'ChoiceDataElement') {
-      return 'choice';
-    } else if (element.dataElementType === 'MultiChoiceDataElement') {
-      return 'multichoice';
-    }  else if (element.dataElementType === 'NumericDataElement') {
+    if (element instanceof ChoiceDataElement || element instanceof MultiChoiceDataElement) {
+      return 'string';
+    } else if (element instanceof NumericDataElement) {
       return 'decimal';
-    } else if (element.dataElementType === 'IntegerDataElement') {
+    } else if (element instanceof IntegerDataElement) {
       return 'integer';
-    } else if (element.dataElementType === 'DateTimeDataElement') {
+    } else if (element instanceof DateTimeDataElement) {
       return 'datetime';
     }
   }

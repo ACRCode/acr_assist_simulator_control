@@ -1,6 +1,5 @@
-import { ViewChild, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SimulatorCommunicationService {

@@ -5,9 +5,9 @@ import { AcrAssistSimulatorModule } from './modules/acr-assist-simulator/acr-ass
 import { SimulatorLoaderModule } from './modules/simulatorloader/simulatorloader.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SettingsConfig } from './modules/core/services/settings.service';
+import { SettingsService } from './modules/core/services/settings.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,15 +19,15 @@ import { SettingsConfig } from './modules/core/services/settings.service';
     AcrAssistSimulatorModule,
     CommonModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     SimulatorLoaderModule
   ],
   providers: [
-    SettingsConfig,
+    SettingsService,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [SettingsConfig],
+      deps: [SettingsService],
       multi: true
     }
   ],
@@ -35,6 +35,6 @@ import { SettingsConfig } from './modules/core/services/settings.service';
 })
 export class AppModule { }
 
-export function initializeApp(appConfig: SettingsConfig) {
-  return () => appConfig.load();
+export function initializeApp(appConfig: SettingsService) {
+  return () => appConfig.loadConfiguration();
 }

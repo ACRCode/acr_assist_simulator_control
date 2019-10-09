@@ -1,20 +1,20 @@
-import { Component, OnInit , Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var require: any;
 
 @Component({
-  selector: 'acr-image-map',
-  templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.css', '../../styles.css']
+    selector: 'acr-image-map',
+    templateUrl: './image-map.component.html',
+    styleUrls: ['./image-map.component.css', '../../styles.css']
 })
 
-export class ImageMapComponent  implements OnInit {
+export class ImageMapComponent implements OnInit {
     $ = require('jquery');
     @Input() DataElement: ChoiceDataElement;
-    @Input() DataElements: Object = {};
-    @Input() FormValues: Object = {};
+    @Input() DataElements: object = {};
+    @Input() FormValues: object = {};
     @Input() imagePath: string;
     isDataURL = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
     domSanitizer: DomSanitizer;
@@ -65,8 +65,10 @@ export class ImageMapComponent  implements OnInit {
         }
         let inside = false;
         for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-            const xi = vs[i][0], yi = vs[i][1];
-            const xj = vs[j][0], yj = vs[j][1];
+            const xi = vs[i][0];
+            const yi = vs[i][1];
+            const xj = vs[j][0];
+            const yj = vs[j][1];
             const intersect = ((yi > y) !== (yj > y))
                 && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
             if (intersect) {
@@ -136,7 +138,6 @@ export class ImageMapComponent  implements OnInit {
             }
         }
         this.DataElement.currentValue = val;
-        // this.FormValues[this.DataElement.id] = val;
     }
 
     displayValue(val) {
@@ -150,10 +151,10 @@ export class ImageMapComponent  implements OnInit {
     getImageDataUrl(location: string): string {
         const isDataURL = !!location.match(this.isDataURL);
         if (isDataURL) {
-        location = location.replace('unsafe:', '');
-          return location;
+            location = location.replace('unsafe:', '');
+            return location;
         } else {
-          return this.imagePath + '/' + location;
+            return this.imagePath + '/' + location;
         }
-      }
     }
+}

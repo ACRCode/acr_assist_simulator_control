@@ -1,26 +1,31 @@
+import { throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class SettingsConfig {
-    private settings: Object;
+export class SettingsService {
+    private config: object;
     private configUrl = 'assets/config/settings.json';
 
-    constructor(private httpService: Http) {
+    constructor(
+        private httpService: HttpClient) {
     }
 
-    load() {
+    loadConfiguration() {
         return new Promise((resolve, reject) => {
-            this.httpService.get(this.configUrl)
-                .map(res => res.json())
-                .subscribe((env_data) => {
-                    this.settings = env_data;
+            this.httpService.get(this.configUrl).pipe(catchError((error: any) => {
+                resolve(true);
+                return observableThrowError(error.json().error || 'Server error');
+            }))
+                .subscribe((envResponse: any) => {
+                    this.config = envResponse;
                     resolve(true);
                 });
         });
     }
 
     get(key: any) {
-        return this.settings['config'][key];
+        return this.config[`config`][key];
     }
 }

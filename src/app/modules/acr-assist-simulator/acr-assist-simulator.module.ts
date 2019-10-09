@@ -20,14 +20,14 @@ import { ResetCommunicationService } from './shared/services/reset-communication
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { IntegerMaxRestrict } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
+import { IntegerMaxRestrictDirective } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
 import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
-  IntegerMaxRestrict, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
+  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
 
 @NgModule({
   imports: [

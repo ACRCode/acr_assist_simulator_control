@@ -1,9 +1,10 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
 import { ResetCommunicationService } from '../../acr-assist-simulator/shared/services/reset-communication.service';
+
 const $ = require('jquery');
+
 @Component({
   selector: 'acr-view-upload-loader',
   templateUrl: './view-upload-loader.component.html',

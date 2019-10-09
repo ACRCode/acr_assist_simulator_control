@@ -20,7 +20,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   multiChoiceComaprisonValues: string[] = [];
   multiChoiceElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  choiceValue: string[] = [];
   isFreeText = false;
   freeTextValue: string;
 
@@ -42,8 +41,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       for (const choice in this.multiChoiceElement.choiceInfo) {
         if (Array.isArray(this.multiChoiceElement.currentValue)) {
           for (const currValue of this.multiChoiceElement.currentValue) {
+            // tslint:disable-next-line:max-line-length
             if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-              this.choiceValue = this.multiChoiceElement.currentValue;
               $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
               values.push(currValue);
               labels.push(this.multiChoiceElement.choiceInfo[choice].label);
@@ -51,8 +50,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
             }
           }
         } else {
+          // tslint:disable-next-line:max-line-length
           if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-            this.choiceValue = this.multiChoiceElement.currentValue;
             $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
             values.push(this.multiChoiceElement.currentValue);
             labels.push(this.multiChoiceElement.choiceInfo[choice].label);
@@ -115,10 +114,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateFreeText(element, elementId, selectedCondition) {
-    const selectedValue = (element.value === 'Other') ? 'freetext' : element.value;
-    const selectedText = element.value;
-    // this.updateMultiChoice(elementId, selectedCondition, selectedText, selectedValue);
-
     const selectedValues = this.GetSelectedItems();
 
     const multiElement = new MultiChoiceElement();
@@ -171,6 +166,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   private GetSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
     const selectedItems = [];
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < items.length; i++) {
       if (items[i].checked === true) {
         selectedItems.push(items[i].value);
@@ -185,12 +181,15 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     return selectedValues;
   }
 
-  private createMultiChoiceElementForm() {
-    this.multiChoiceElementForm = this.formBuilder.group({
-      multiCheckBox: ['', Validators.required],
-    }, {
-        validator: this.specificValueInsideRange('multiCheckBox')
-      });
+  isMultiChoiceElementRequired(): boolean {
+    return this.multiChoiceElementForm.controls.multiCheckBox.invalid &&
+           this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
+  }
+
+  isMultiChoiceLabelHidden(value: string): boolean {
+    return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
+      this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
+      : null;
   }
 
   showOrHideFreeText(elementId: string, selectedValue: string, isChecked) {
@@ -206,9 +205,17 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     }
   }
 
-  private specificValueInsideRange(checkBoxKey: string) {
+  private createMultiChoiceElementForm() {
+    this.multiChoiceElementForm = this.formBuilder.group({
+      multiCheckBox: ['', Validators.required],
+    }, {
+        validator: this.specificValueInsideRange('multiCheckBox')
+      });
+  }
+
+  private specificValueInsideRange(multiCheckBox: string) {
     return (group: FormGroup) => {
-      const choiceControl = group.controls[checkBoxKey];
+      const choiceControl = group.controls.multiCheckBox;
       if (this.multiChoiceElement.isRequired) {
         return choiceControl.setErrors({ notEquivalent: true });
       } else {
