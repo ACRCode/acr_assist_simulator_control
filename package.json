@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "1.0.81",
+  "version": "1.0.82",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -50,7 +50,7 @@
     "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
   },
   "dependencies": {
-    "@angular/cdk": "^8.0.2",
+    "@angular/cdk": "^8.1.3",
     "expr-eval": "^1.2.2",
     "jquery": "^3.4.1",
     "ng-pick-datetime": "^7.0.0",
@@ -65,18 +65,18 @@
     "ng6-toastr-notifications": "^1.0.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.6",
-    "@angular/animations": "^8.2.8",
-    "@angular/cli": "~8.3.6",
-    "@angular/common": "^8.2.8",
-    "@angular/compiler": "^8.2.8",
-    "@angular/compiler-cli": "^8.2.8",
-    "@angular/core": "^8.2.8",
-    "@angular/forms": "^8.2.8",
-    "@angular/language-service": "^8.2.8",
-    "@angular/platform-browser": "^8.2.8",
-    "@angular/platform-browser-dynamic": "^8.2.8",
-    "@angular/router": "^8.2.8",
+    "@angular-devkit/build-angular": "~0.803.8",
+    "@angular/animations": "^8.2.9",
+    "@angular/cli": "~8.3.8",
+    "@angular/common": "^8.2.9",
+    "@angular/compiler": "^8.2.9",
+    "@angular/compiler-cli": "^8.2.9",
+    "@angular/core": "^8.2.9",
+    "@angular/forms": "^8.2.9",
+    "@angular/language-service": "^8.2.9",
+    "@angular/platform-browser": "^8.2.9",
+    "@angular/platform-browser-dynamic": "^8.2.9",
+    "@angular/router": "^8.2.9",
     "@types/core-js": "^2.5.0",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
