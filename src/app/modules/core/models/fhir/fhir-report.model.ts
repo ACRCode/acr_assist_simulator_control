@@ -10,6 +10,7 @@ export class FHIRReport {
     patient: FHIRPatient;
     procedure: FHIRProcedure;
     observations: Array<FHIRObservation>;
+    category: string;
     result: string;
     performer: FHIROrganisation;
 

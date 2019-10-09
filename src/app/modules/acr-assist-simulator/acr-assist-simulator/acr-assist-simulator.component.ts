@@ -319,11 +319,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     fhirObservation.id = 'SimulatorObservation' + fhirData.report.observations.length + 1;
     fhirObservation.references = fhirAIObservation.id;
     fhirData.report.result = fhirObservation.id;
+    fhirData.report.category = 'SampleCategory';
 
     fhirData.report.observations.push(fhirAIObservation);
     fhirData.report.observations.push(fhirObservation);
-
-    console.log(JSON.stringify(fhirData));
 
     return fhirData;
   }
