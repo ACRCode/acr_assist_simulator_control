@@ -319,7 +319,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     fhirObservation.id = 'SimulatorObservation' + fhirData.report.observations.length + 1;
     fhirObservation.references = fhirAIObservation.id;
     fhirData.report.result = fhirObservation.id;
-    fhirData.report.category = 'SampleCategory';
+    fhirData.report.category.push(this.getCodableConcept('RadElement', 'RDE125', 'http://radelement.org/element/RDE125'));
 
     fhirData.report.observations.push(fhirAIObservation);
     fhirData.report.observations.push(fhirObservation);
