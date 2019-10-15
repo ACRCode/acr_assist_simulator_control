@@ -1,4 +1,4 @@
-import { FHIRReport } from "./fhir-report.model";
+import { FHIRReport } from './fhir-report.model';
 
 export class FHIRSchema {
     report: FHIRReport;

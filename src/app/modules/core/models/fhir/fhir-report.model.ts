@@ -10,11 +10,13 @@ export class FHIRReport {
     patient: FHIRPatient;
     procedure: FHIRProcedure;
     observations: Array<FHIRObservation>;
+    category: Array<Coding>;
     result: string;
     performer: FHIROrganisation;
 
     constructor() {
         this.code = new Array<Coding>();
+        this.category = new Array<Coding>();
         this.observations = new Array<FHIRObservation>();
     }
 }
