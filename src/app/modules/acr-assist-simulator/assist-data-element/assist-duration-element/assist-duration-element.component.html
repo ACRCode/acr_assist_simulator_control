@@ -1,7 +1,9 @@
 <form [formGroup]="durationElementForm" novalidate>
 
   <!------Right to left layout---->
-  <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && (durationDataElement.ShowDays || durationDataElement.ShowHours
+  <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && 
+  durationDataElement.isRelevant &&
+  (durationDataElement.ShowDays || durationDataElement.ShowHours
   || durationDataElement.ShowMinutes || durationDataElement.ShowSeconds)">
     <div class="col-sm-4 text-right">
       <label class="control-label break-word">
@@ -119,7 +121,9 @@
   </div>
 
   <!------Top to bottom layout---->
-  <div *ngIf="alignLabelAndControlToTopAndBottom && (durationDataElement.ShowDays || durationDataElement.ShowHours
+  <div *ngIf="alignLabelAndControlToTopAndBottom && 
+  durationDataElement.isRelevant &&
+  (durationDataElement.ShowDays || durationDataElement.ShowHours
   || durationDataElement.ShowMinutes || durationDataElement.ShowSeconds)">
     <div>
       <div class="col-lg-10 labelparentdiv">

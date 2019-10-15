@@ -53,7 +53,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     private simulatorEngineService: SimulatorEngineService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
-    ) {
+  ) {
     this.subscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
@@ -69,6 +69,26 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.IsRepeating = false;
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
+
+      this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
+        _dataElement.currentValue = undefined;
+        this.dataElementValues.set(_dataElement.id, undefined);
+      });
+
+      this.mainReportTextObj = this.simulatorState.mainReportText;
+      if (this.mainReportTextObj !== undefined && this.mainReportTextObj.setValues !== undefined
+        && this.mainReportTextObj.setValues.setDataElementValue !== undefined &&
+        this.mainReportTextObj.setValues.setDataElementValue.length > 0) {
+        this.mainReportTextObj.setValues.setDataElementValue.forEach(_setValues => {
+          const _dataElementWithFilter = this.dataElements.filter(x => x.id === _setValues.dataElementId
+            && x.canPrefillFromSource === true);
+          if (_dataElementWithFilter !== undefined && _dataElementWithFilter[0] !== undefined) {
+            _dataElementWithFilter[0].currentValue = _setValues.value;
+            this.dataElementValues.set(_setValues.dataElementId, _setValues.value);
+          }
+        });
+      }
+
       this.dataElementValues = this.simulatorEngineService.getAllDataElementValues();
 
       const showKeyDiagram = this.simulatorState.showKeyDiagram;
@@ -92,11 +112,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       }
 
 
-      this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
+      this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       // tslint:disable-next-line: max-line-length
-      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-      this.mainReportTextObj = this.simulatorState.mainReportText;
+
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
         this.returnReportText.emit(this.mainReportTextObj);
       } else {
@@ -116,9 +136,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataElements =  Object.keys(this.dataElements).map(i => this.dataElements[i]);
+    console.log('chnage');
+    this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
-    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
     this.$dataElements = [];

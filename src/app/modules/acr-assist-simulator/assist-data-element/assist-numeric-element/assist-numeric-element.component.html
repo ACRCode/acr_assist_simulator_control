@@ -1,7 +1,7 @@
 <form [formGroup]="numericElementForm" novalidate>
 
   <!-----Right to left alignment-->
-  <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom">
+  <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && numericDataElement.isRelevant">
     <div class="col-sm-4 text-right">
       <label class="control-label break-word">
         {{numericDataElement.label}}
@@ -59,7 +59,7 @@
   </div>
 
   <!------Top to bottom alignment------->
-  <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom">
+  <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && numericDataElement.isRelevant">
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-lg-12">
         <div class="col-lg-10 labelparentdiv">
