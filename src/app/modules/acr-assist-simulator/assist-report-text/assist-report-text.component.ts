@@ -22,7 +22,7 @@ export class AssistReportTextComponent implements OnChanges {
 
   @Input() reportText: MainReportText;
 
-  constructor( ) {
+  constructor() {
     setInterval(() => {
     }, 1000);
   }
@@ -48,7 +48,11 @@ export class AssistReportTextComponent implements OnChanges {
       for (const section in this.reportText.allReportText) {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
-          textReport.allTextResultReport.heading = this.reportText.allReportText[section].allReportResult.sectionId;
+          textReport.allTextResultReport.heading =
+            this.reportText.allReportText[section].allReportResult.subSectionName !== undefined
+              && this.reportText.allReportText[section].allReportResult.subSectionName !== '' ?
+              this.reportText.allReportText[section].allReportResult.subSectionName
+              : this.reportText.allReportText[section].allReportResult.sectionId;
           // tslint:disable-next-line:max-line-length
           textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
@@ -56,7 +60,7 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')

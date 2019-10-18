@@ -589,7 +589,6 @@ export class SimulatorEngineService {
       this.endpoints = decisionPoints.finalEndPoints;
       this.showKeyDiagram = decisionPoints.keyDiagramId;
       const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
-
       const $simulatorState = new SimulatorState();
       if (reportText.allReportText.length > 0) {
         $simulatorState.mainReportText = reportText;

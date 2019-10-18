@@ -41,6 +41,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     private utilityService: UtilityService) { }
 
   ngOnInit(): void {
+    if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
+      this.choiceDataElement.choiceInfo.diagrams !== null) {
+      this.choiceDataElement.choiceInfo.choice.forEach(choice => {
+        if (choice.diagrams.diagram !== undefined
+          && choice.diagrams.diagram !== null && choice.diagrams.diagram.length > 0) {
+          choice.diagrams.diagram.forEach(_diagram => {
+            this.choiceDataElement.diagrams.push(_diagram);
+          });
+        }
+      });
+    }
+
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
       if (this.choiceDataElement.choiceInfo.length <= 2) {
@@ -156,7 +168,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   }
 
   isChoiceElementRequired(): boolean {
-    return this.choiceElementForm.controls.checkBox.invalid  && this.choiceDataElement.isRequired;
+    return this.choiceElementForm.controls.checkBox.invalid && this.choiceDataElement.isRequired;
   }
 
   private emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
@@ -177,8 +189,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     this.choiceElementForm = this.formBuilder.group({
       checkBox: ['', Validators.required],
     }, {
-        validator: this.specificValueInsideRange('checkBox')
-      });
+      validator: this.specificValueInsideRange('checkBox')
+    });
   }
 
   private specificValueInsideRange(checkBox: string) {

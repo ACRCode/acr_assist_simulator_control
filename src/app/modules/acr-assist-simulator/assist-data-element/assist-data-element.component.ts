@@ -69,7 +69,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.IsRepeating = false;
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
-
+      
       this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
         _dataElement.currentValue = undefined;
         this.dataElementValues.set(_dataElement.id, undefined);
