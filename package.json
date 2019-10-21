@@ -59,7 +59,7 @@
     "rxjs": "^6.5.2",
     "stream": "0.0.2",
     "string": "^3.3.3",
-    "testruleengine": "^1.0.57",
+    "testruleengine": "^1.0.59",
     "timers": "^0.1.1",
     "xml2js": "^0.4.19",
     "ng6-toastr-notifications": "^1.0.4"
