@@ -128,6 +128,17 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
     }
   }
 
+  hasAIInputStyle() {
+    if (this.utilityService.isNotEmptyArray(this.choiceDataElement.sources)) {
+      const elem = this.choiceDataElement.sources.find(x => x.id === this.choiceDataElement.id);
+      if (this.utilityService.isValidInstance(elem)) {
+        return elem.value === this.choiceElementForm.controls.checkBox.value;
+      }
+    }
+
+    return false;
+  }
+
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     this.showOrHideFreeText(elementId, selectedValue);
     this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
