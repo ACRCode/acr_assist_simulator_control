@@ -8,10 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SettingsService } from './modules/core/services/settings.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ImageMapComponent } from './image-map/image-map.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ImageMapComponent
   ],
   imports: [
     BrowserModule,
