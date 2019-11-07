@@ -15,6 +15,7 @@ export class AppComponent {
 
   settingsConfig: SettingsService;
   fileContent: string;
+  assetsBaseUrl = '';
   inputValues: InputData[] = [];
   aiInputs: AIInputData[] = [];
   position = ReportTextPosition;

@@ -23,7 +23,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
-  @Input() imageContent: Map<string, any>;
+  @Input() assetsBaseUrl: string;
   @Input() showKeyDiagram: boolean;
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
@@ -92,22 +92,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
-
-    if (this.utilityService.isValidInstance(this.imageContent)) {
-      this.imageContent.forEach((value: string, key: any) => {
-        this.dataElements.forEach(elem => {
-          if (this.utilityService.isNotEmptyArray(elem.diagrams)) {
-            const index = elem.diagrams.findIndex(x => x.label === key);
-            if (index !== -1) {
-              elem.diagrams[index].location = value;
-            }
-          }
-          if (this.utilityService.isValidInstance(elem.imageMap)) {
-            elem.imageMap.location = value;
-          }
-        });
-    });
-    }
     this.resultText = undefined;
 
     if (this.moduleName !== this.template.metadata.id) {

@@ -20,6 +20,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
   selectedCondition: SelectedCondition;
   subscription: Subscription;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
   @Input() numericDataElement: NumericDataElement;
   @Output() returnNumericElement = new EventEmitter();
 

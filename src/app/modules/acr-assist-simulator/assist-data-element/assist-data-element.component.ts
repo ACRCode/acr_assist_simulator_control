@@ -35,6 +35,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
+  @Input() assetsBaseUrl: string;
   @Input() $dataElements: BaseDataElement[];
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
@@ -135,7 +136,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('chnage');
     this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });

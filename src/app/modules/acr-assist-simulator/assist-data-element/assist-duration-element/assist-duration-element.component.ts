@@ -13,6 +13,7 @@ import { SimulatorCommunicationService } from '../../shared/services/simulator-c
 export class AssistDurationElementComponent implements OnInit, OnDestroy {
 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
   @Input() durationDataElement: DurationDataElement;
 
   durationElementForm: FormGroup;

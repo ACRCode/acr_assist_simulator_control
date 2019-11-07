@@ -24,6 +24,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   freeTextValue: string;
 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
   @Input() multiChoiceElement: MultiChoiceDataElement;
   @Output() returnMultiChoice = new EventEmitter();
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { DomSanitizer } from '@angular/platform-browser';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-image-map',
@@ -11,14 +11,15 @@ export class ImageMapComponent implements OnInit {
 
   $ = require('jquery');
   @Input() DataElement: ChoiceDataElement;
+  @Input() assetsBaseUrl: string;
   @Input() DataElements: object = {};
   @Input() FormValues: object = {};
-  domSanitizer: DomSanitizer;
   imageExist = true;
   SelectionValue = '';
 
-  constructor(domSanitizer: DomSanitizer) {
-    this.domSanitizer = domSanitizer;
+  constructor(
+    private utilityService: UtilityService
+  ) {
   }
 
   ngOnInit() {
@@ -138,6 +139,16 @@ export class ImageMapComponent implements OnInit {
       this.SelectionValue = 'Image Map Diagram';
     } else {
       this.SelectionValue = 'Selected Value : ' + val;
+    }
+  }
+
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
     }
   }
 }

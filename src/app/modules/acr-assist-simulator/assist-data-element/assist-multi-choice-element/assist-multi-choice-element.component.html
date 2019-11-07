@@ -11,7 +11,7 @@
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
-        <acr-hint-diagram [dataElement]="multiChoiceElement"></acr-hint-diagram>
+        <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
       <span *ngIf="isMultiChoiceElementRequired()" class="required-field" title="Required Field">
         *
@@ -65,7 +65,7 @@
           <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
         </ng-container>
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
-          <acr-hint-diagram [dataElement]="multiChoiceElement"></acr-hint-diagram>
+          <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
       </div>
       <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"

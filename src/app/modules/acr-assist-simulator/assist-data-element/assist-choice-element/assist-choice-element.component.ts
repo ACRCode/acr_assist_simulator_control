@@ -26,6 +26,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   elementDisplay: ChoiceElementDisplayEnum;
 
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+  @Input() assetsBaseUrl: string;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;

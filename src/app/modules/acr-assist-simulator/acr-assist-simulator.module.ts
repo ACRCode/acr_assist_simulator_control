@@ -23,10 +23,13 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { IntegerMaxRestrictDirective } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
 import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
+import { SecurePipe } from './shared/pipes/secure.pipe';
+import { UrlHelperService } from './shared/services/url-helper.service';
 
-const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
+const components = [
+  AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
-  ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective,
+  ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
   IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
 
 @NgModule({
@@ -45,7 +48,8 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
     SimulatorEngineService,
     SimulatorCommunicationService,
     ResetCommunicationService,
-    ClipboardService
+    ClipboardService,
+    UrlHelperService
   ],
   exports: components
 })
