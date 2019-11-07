@@ -10,7 +10,7 @@
         <ng-container
           *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
           <acr-assist-numeric-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [numericDataElement]='DataElement' [imagePath]='imagePath' (returnNumericElement)='numericSelected($event)'
+            [numericDataElement]='DataElement' (returnNumericElement)='numericSelected($event)'
             (callBackAfterAIInputReset)="onAIInputReset($event)">
           </acr-assist-numeric-element>
         </ng-container>
@@ -36,21 +36,21 @@
                             *ngIf="childElement.dataElementType == 'NumericDataElement' || childElement.dataElementType == 'IntegerDataElement'">
                             <acr-assist-numeric-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [numericDataElement]='childElement' [imagePath]='imagePath'
+                              [numericDataElement]='childElement'
                               (returnNumericElement)='numericSelected($event)'
                               (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-numeric-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
                             <acr-assist-choice-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [choiceDataElement]='childElement' [imagePath]='imagePath'
+                              [choiceDataElement]='childElement'
                               [repeatedElementSections]='repeatedElementSections'
                               (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'MultiChoiceDataElement'">
                             <acr-assist-multi-choice-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [multiChoiceElement]='childElement' [imagePath]='imagePath'
+                              [multiChoiceElement]='childElement'
                               (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'DateTimeDataElement'">
@@ -76,12 +76,12 @@
         <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
           <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay"
             [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement'
-            [imagePath]='imagePath' (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+            (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
           <acr-assist-multi-choice-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [multiChoiceElement]='DataElement' [imagePath]='imagePath' (returnMultiChoice)='multiSelected($event)'>
+            [multiChoiceElement]='DataElement' (returnMultiChoice)='multiSelected($event)'>
           </acr-assist-multi-choice-element>
         </ng-container>
 

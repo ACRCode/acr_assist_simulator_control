@@ -15,7 +15,6 @@ export class AppComponent {
 
   settingsConfig: SettingsService;
   fileContent: string;
-  imagePath: string;
   inputValues: InputData[] = [];
   aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
@@ -40,7 +39,6 @@ export class AppComponent {
     private resetCommunicationService: ResetCommunicationService,
     settingsConfiguration: SettingsService) {
     this.fileContent = '';
-    this.imagePath = '';
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
@@ -48,7 +46,6 @@ export class AppComponent {
 
   fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
-    this.imagePath = 'XMLFiles/Samples/' + fileDetails.fileLabel;
   }
 
   setAIInputs() {

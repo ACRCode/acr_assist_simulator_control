@@ -36,7 +36,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
   @Input() $dataElements: BaseDataElement[];
-  @Input() imagePath: string;
   @Input() Endpoints = [];
   @Input() templatePartial: string[];
   @Input() endPointXMLString: string[];

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { DomSanitizer } from '@angular/platform-browser';
 
 declare var require: any;
 
@@ -15,14 +14,10 @@ export class ImageMapComponent implements OnInit {
     @Input() DataElement: ChoiceDataElement;
     @Input() DataElements: object = {};
     @Input() FormValues: object = {};
-    @Input() imagePath: string;
-    isDataURL = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-    domSanitizer: DomSanitizer;
     imageExist = true;
     SelectionValue = '';
 
-    constructor(domSanitizer: DomSanitizer) {
-        this.domSanitizer = domSanitizer;
+    constructor() {
     }
 
     ngOnInit() {
@@ -145,16 +140,6 @@ export class ImageMapComponent implements OnInit {
             this.SelectionValue = 'Image Map Diagram';
         } else {
             this.SelectionValue = 'Selected Value : ' + val;
-        }
-    }
-
-    getImageDataUrl(location: string): string {
-        const isDataURL = !!location.match(this.isDataURL);
-        if (isDataURL) {
-            location = location.replace('unsafe:', '');
-            return location;
-        } else {
-            return this.imagePath + '/' + location;
         }
     }
 }

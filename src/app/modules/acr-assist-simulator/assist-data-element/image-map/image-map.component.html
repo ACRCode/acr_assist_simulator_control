@@ -6,48 +6,44 @@
       title="Image Map"></span>
   </button>
 </div>
-<ng-container *ngIf="imagePath != undefined">
-  <div class="modal inmodal fade" id="{{'imgMap_Modal_'+DataElement.id}}" tabindex="-1" role="dialog"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <h4 class="modal-title"> {{SelectionValue}}</h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <ng-container *ngIf="imageExist == true">
-                <img class="ImgOption danger img-responsive max-w-h-100" alt="{{ DataElement.imageMap.label }}"
-                  data-dismiss="modal" attr.id="{{'imgMap_Img_'+DataElement.id}}"
-                  (click)="imageClick($event,DataElement);" attr.data-elementID="{{DataElement.id}}"
-                  attr.usemap="#{{'imgMap_'+DataElement.id}}"
-                  [src]="domSanitizer.bypassSecurityTrustUrl(getImageDataUrl(DataElement.imageMap.location))">
-                <map name="{{'imgMap_'+DataElement.id}}">
-                  <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
-                    <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}"
-                      attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                      (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
-                      (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
-                  </ng-container>
-                </map>
-              </ng-container>
-              <ng-container *ngIf="imageExist == false">
-                <div class="">
-                  No Image Map Available...
-                </div>
-              </ng-container>
-            </div>
+<div class="modal inmodal fade" id="{{'imgMap_Modal_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title"> {{SelectionValue}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <ng-container *ngIf="imageExist == true">
+              <img class="ImgOption danger img-responsive max-w-h-100" alt="{{ DataElement.imageMap.label }}"
+                data-dismiss="modal" attr.id="{{'imgMap_Img_'+DataElement.id}}"
+                (click)="imageClick($event,DataElement);" attr.data-elementID="{{DataElement.id}}"
+                attr.usemap="#{{'imgMap_'+DataElement.id}}" src="{{ DataElement.imageMap.location }} ">
+              <map name="{{'imgMap_'+DataElement.id}}">
+                <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
+                  <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}"
+                    attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
+                    (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
+                    (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
+                </ng-container>
+              </map>
+            </ng-container>
+            <ng-container *ngIf="imageExist == false">
+              <div class="">
+                No Image Map Available...
+              </div>
+            </ng-container>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-</ng-container>
+</div>

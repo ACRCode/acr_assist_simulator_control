@@ -12,7 +12,7 @@
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{numericDataElement.hint}}"></i>
       </ng-container>
       <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-        <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+        <acr-hint-diagram [dataElement]="numericDataElement"></acr-hint-diagram>
       </ng-container>
       <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
         *
@@ -85,7 +85,7 @@
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
           <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-            <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+            <acr-hint-diagram [dataElement]="numericDataElement"></acr-hint-diagram>
           </ng-container>
         </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
@@ -126,7 +126,7 @@
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
           <ng-container *ngIf="numericDataElement.diagrams != undefined ">
-            <acr-hint-diagram [dataElement]="numericDataElement" [imagePath]="imagePath"></acr-hint-diagram>
+            <acr-hint-diagram [dataElement]="numericDataElement"></acr-hint-diagram>
           </ng-container>
         </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"

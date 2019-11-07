@@ -25,7 +25,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() multiChoiceElement: MultiChoiceDataElement;
-  @Input() imagePath: string;
   @Output() returnMultiChoice = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }

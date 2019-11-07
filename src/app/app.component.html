@@ -36,7 +36,7 @@
             [fontSize]="settingsConfig.get('fontSize')" [fontColor]="settingsConfig.get('fontColor')"
             [fontFamily]="settingsConfig.get('fontFamily')" [backgroundColor]="settingsConfig.get('backgroundColor')"
             [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
-            templateContent={{fileContent}} imagePath={{imagePath}} [reportTextPosition]="position.Right"
+            templateContent={{fileContent}} [reportTextPosition]="position.Right"
             [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
             (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
             (returnExecutionHistory)='recievedExecutionHistory($event)'

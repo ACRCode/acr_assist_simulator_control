@@ -23,7 +23,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
-  @Input() imagePath: string;
+  @Input() imageContent: Map<string, any>;
   @Input() showKeyDiagram: boolean;
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
@@ -89,29 +89,39 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     if (this.inputValues.length !== 0) {
       this.populateTestCaseData();
     }
+
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
+
+    if (this.utilityService.isValidInstance(this.imageContent)) {
+      this.imageContent.forEach((value: string, key: any) => {
+        this.dataElements.forEach(elem => {
+          if (this.utilityService.isNotEmptyArray(elem.diagrams)) {
+            const index = elem.diagrams.findIndex(x => x.label === key);
+            if (index !== -1) {
+              elem.diagrams[index].location = value;
+            }
+          }
+          if (this.utilityService.isValidInstance(elem.imageMap)) {
+            elem.imageMap.location = value;
+          }
+        });
+    });
+    }
     this.resultText = undefined;
 
     if (this.moduleName !== this.template.metadata.id) {
       this.keyDiagrams = new Array<Diagram>();
     }
 
-    if (this.imagePath === undefined || this.imagePath === null || this.imagePath === '') {
-      this.imagePath = 'XMLFiles/Samples/';
-    }
-
     if (!this.keyDiagrams.length) {
-      // tslint:disable-next-line: prefer-for-of
-      for (let index = 0; index < this.template.metadata.diagrams.length; index++) {
-        if (this.imagePath !== undefined && this.imagePath != null && this.imagePath !== '') {
-          const element = new Diagram();
-          element.label = this.template.metadata.diagrams[index].label;
-          element.location = this.imagePath + '/' + this.template.metadata.diagrams[index].location;
-          element.keyDiagram = this.template.metadata.diagrams[index].keyDiagram;
-          this.keyDiagrams.push(element);
-        }
-      }
+      this.template.metadata.diagrams.forEach(diag => {
+        const element = new Diagram();
+        element.label = diag.label;
+        element.location = diag.location;
+        element.keyDiagram = diag.keyDiagram;
+        this.keyDiagrams.push(element);
+      });
     }
 
     if (this.utilityService.isNotEmptyArray(this.aiInputs)) {
@@ -176,7 +186,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     this.returnDataElementChanged.emit(data);
   }
 
-  GettingShowKeyDiagram(data: string) {
+  gettingShowKeyDiagram(data: string) {
     this.callBackAfterGettingShowKeyDiagram.emit(data);
   }
 

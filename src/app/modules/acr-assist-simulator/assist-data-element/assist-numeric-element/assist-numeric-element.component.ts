@@ -21,7 +21,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
   subscription: Subscription;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() numericDataElement: NumericDataElement;
-  @Input() imagePath: string;
   @Output() returnNumericElement = new EventEmitter();
 
   constructor(

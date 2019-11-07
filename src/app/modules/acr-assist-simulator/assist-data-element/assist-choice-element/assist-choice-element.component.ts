@@ -29,7 +29,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
-  @Input() imagePath: string;
   @Input() disabled: boolean;
 
   @Output() returnChoiceElement = new EventEmitter();
