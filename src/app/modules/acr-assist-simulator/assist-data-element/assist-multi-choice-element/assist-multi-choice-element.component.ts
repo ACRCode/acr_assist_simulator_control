@@ -33,6 +33,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   ngOnInit() {
     this.createMultiChoiceElementForm();
   }
+
   ngAfterViewInit(): void {
     this.showOrHideFreeText(this.multiChoiceElement.id, '', false);
     if (this.multiChoiceElement.currentValue !== undefined) {
@@ -58,13 +59,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
           }
         }
       }
-
-      if (this.multiChoiceElement.allowFreetext) {
-        this.isFreeText = true;
-        // this.freeTextValue = this.multiChoiceElement.currentValue;
-        this.showOrHideFreeText(this.multiChoiceElement.id, 'freetext', true);
-      }
-
       this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, values, labels);
     } else {
       this.returnMultiChoice.emit(undefined);

@@ -23,8 +23,8 @@ export class AppComponent {
   showReportText: boolean;
   testInputValue: InputData[] = [
     {
-      dataElementId: 'diameter_1',
-      dataElementValue: '5',
+      dataElementId: 'ObservationCharacter',
+      dataElementValue: 'treatedObservation',
       dataElementLabel: '',
       dataElementDisplayValue: ''
     }
