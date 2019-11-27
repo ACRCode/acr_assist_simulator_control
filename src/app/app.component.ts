@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
+import { MainReportText } from 'testruleengine/Library/Models/Class';
 import { InputData } from './modules/core/models/input-data.model';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
@@ -68,6 +69,9 @@ export class AppComponent {
     this.inputValues = [];
     this.aiInputs = [];
     this.resetCommunicationService.messageEmitter('');
+  }
+
+  recieveReportText(textReport: MainReportText) {
   }
 
   recievedDataElementChanged(data) {

@@ -69,7 +69,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.IsRepeating = false;
     this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
-      
+
       this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
         _dataElement.currentValue = undefined;
         this.dataElementValues.set(_dataElement.id, undefined);
@@ -114,7 +114,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
       this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       // tslint:disable-next-line: max-line-length
-      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
 
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
@@ -138,7 +138,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   ngOnChanges(changes: SimpleChanges): void {
     this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
-    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
     this.$dataElements = [];
