@@ -1,0 +1,126 @@
+<form [formGroup]="durationElementForm" novalidate>
+
+    <!------Top to bottom layout---->
+    <div *ngIf="alignLabelAndControlToTopAndBottom && 
+    durationDataElement.isRelevant &&
+    (durationDataElement.ShowDays || durationDataElement.ShowHours
+    || durationDataElement.ShowMinutes || durationDataElement.ShowSeconds)">
+      <div>
+        <div class="col-lg-10 labelparentdiv">
+          <label class="control-label break-word">
+            {{durationDataElement.label}}
+            <span *ngIf="durationDataElement.unit != undefined && durationDataElement.unit != ''">
+              ({{durationDataElement.unit}})</span>
+            <span *ngIf="isDurationElementRequired()" class="required-field" title="Required Field">
+              *
+            </span>
+  
+            <span *ngIf="showdayminValidation" class="required-field"
+              title=" Minimum value for day is {{supportedUnits['day'].min}}">
+              *
+            </span>
+  
+            <span *ngIf="showdaymaxValidation" class="required-field"
+              title=" Maximum value for day is {{supportedUnits['day'].max}}">
+              *
+            </span>
+  
+            <span *ngIf="showminuteminValidation" class="required-field"
+              title=" Minimum value for minute is {{supportedUnits['minute'].min}}">
+              *
+            </span>
+            <span *ngIf="showminutemaxValidation" class="required-field"
+              title=" Maximum value for minute is {{supportedUnits['minute'].max}}">
+              *
+            </span>
+  
+            <span *ngIf="showhourminValidation" class="required-field"
+              title=" Minimum value for hour is {{supportedUnits['hour'].min}}">
+              *
+            </span>
+            <span *ngIf="showhourmaxValidation" class="required-field"
+              title=" Maximum value for hour is {{supportedUnits['hour'].max}}">
+              *
+            </span>
+            <span *ngIf="showsecondsminValidation" class="required-field"
+              title=" Minimum value for second is {{supportedUnits['second'].min}}">
+              *
+            </span>
+            <span *ngIf="showsecondsmaxValidation" class="required-field"
+              title=" Maximum value for second is {{supportedUnits['second'].max}}">
+              *
+            </span>
+          </label>
+        </div>
+        <div class="col-lg-2 div_hint">
+          <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
+            <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i>
+          </ng-container>
+        </div>
+  
+        <div style="display:inline-flex" class="col-lg-12 paddingLeftNone">
+          <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
+            <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowDays">
+              <tbody>
+                <tr class="text-center">
+                  <td class="input-group input-group-sm">
+                    <input tabindex="1" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                      formControlName="durationdayselement" class="form-control text-center txt-duration color-inherit"
+                      (blur)="checkValue($event, 'days')" type="number" min="{{supportedUnits['day'].min}}"
+                      max="{{supportedUnits['day'].max}}" (keypress)="onlyInteger($event)" onpaste="return false;"
+                      required />
+                    <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['day'].label}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+  
+          <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowHours">
+            <tbody>
+              <tr class="text-center">
+                <td class="input-group input-group-sm">
+                  <input tabindex="2" [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                    formControlName="durationhourselement" class="form-control text-center txt-duration color-inherit"
+                    (blur)="checkValue($event,'hour')" type="number" min="{{supportedUnits['hour'].min}}"
+                    max="{{supportedUnits['hour'].max}}" (keypress)="onlyInteger($event)" onpaste="return false;"
+                    required />
+                  <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['hour'].label}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowMinutes">
+            <tbody>
+              <tr class="text-center">
+                <td class="input-group input-group-sm">
+                  <input tabindex="3" formControlName="durationminuteselement"
+                    [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                    class="form-control text-center txt-duration color-inherit" (blur)="checkValue($event, 'minute')"
+                    type="number" min="{{supportedUnits['minute'].min}}" max="{{supportedUnits['minute'].max}}"
+                    (keypress)="onlyInteger($event)" onpaste="return false;" required />
+                  <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['minute'].label}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowSeconds">
+            <tbody>
+              <tr class="text-center">
+                <td class="input-group input-group-sm">
+                  <input tabindex="3" formControlName="durationsecondselement"
+                    [attr.disabled]="durationDataElement.isEditable == false ? 'disabled' : null"
+                    class="form-control text-center txt-duration color-inherit" (blur)="checkValue($event, 'second')"
+                    type="number" min="{{supportedUnits['second'].min}}" max="{{supportedUnits['second'].max}}"
+                    (keypress)="onlyInteger($event)" onpaste="return false;" required />
+                  <span class="input-group-addon" style="padding: 5px;">{{supportedUnits['second'].label}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>

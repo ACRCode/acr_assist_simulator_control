@@ -37,6 +37,7 @@
             (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
             (returnExecutionHistory)='recievedExecutionHistory($event)'
             (returnDataElementChanged)='recievedDataElementChanged($event)'
+            [theme]="SimulatorTheme.Material"
             (returnDefaultElements)="returnDefaultElements()">
           </acr-assist-simulator>
         </div>

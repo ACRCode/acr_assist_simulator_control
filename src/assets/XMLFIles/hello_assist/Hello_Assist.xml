@@ -74,7 +74,7 @@
     	
         <GlobalValue Id="DiameterLarge">20</GlobalValue>    	
     	      
-    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
+    	<MultiChoiceDataElement Id="ObservationCharacter" IsRequired="false" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -99,6 +99,11 @@
             	<Choice>
             		<Value>treatedObservation</Value>
             		<Label>Treated observation</Label>
+            		<Hint>An observation that has undergone loco-regional treatment</Hint>
+            	</Choice>
+				<Choice>
+            		<Value>treatedObservation1</Value>
+            		<Label>Treated observation1</Label>
             		<Hint>An observation that has undergone loco-regional treatment</Hint>
             	</Choice>
             	<Choice>
@@ -145,7 +150,13 @@
             		<Hint>Presence of tumor in vein lumen.</Hint>
             	</Choice>
             </ChoiceInfo>
-        </ChoiceDataElement> 
+			<ConditionalProperties>
+				<ConditionalProperty>
+						<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
+						<ChoiceNotRelevant ChoiceValue="treatedObservation"></ChoiceNotRelevant>
+					</ConditionalProperty>
+			</ConditionalProperties>
+        </MultiChoiceDataElement> 
         
     	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
 			<CodableConcept Name="ArterialEnhancement">
@@ -215,8 +226,8 @@
     			</ConditionalProperty>		
     		</ConditionalProperties>	
         </ChoiceDataElement>
-        
-    	<NumericDataElement Id="diameter" IsRequired="true" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
+		
+		<IntegerDataElement Id="diameter Integer" IsRequired="false" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="test">
     		<CodableConcept Name="diameter">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -250,8 +261,64 @@
     				<Label></Label>
     			</Diagram>
     		</Diagrams>
-    	<!--	<Minimum>10</Minimum>
-    		<Maximum>12</Maximum>-->
+    	<Minimum>10</Minimum>
+    		<Maximum>12</Maximum>
+			<ConditionalProperties>				
+				<ConditionalProperty>
+					<OrCondition>
+					    <EqualCondition DataElementId="ObservationCharacter" 
+							ComparisonValue="definitelyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="treatedObservation"/>						
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="probablyBenign"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="notspecificforLR"/>
+						<EqualCondition DataElementId="ObservationCharacter"
+							ComparisonValue="tumorInVein"/>
+					</OrCondition>
+					<IsRelevant>false</IsRelevant>
+				</ConditionalProperty>
+			</ConditionalProperties>	
+    	</IntegerDataElement>
+        
+    	<NumericDataElement Id="diameter" IsRequired="false" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
+    		<CodableConcept Name="diameter">
+    			<Coding>
+    				<System Value="RadElement"></System>
+    				<Version Value="1.0"></Version>
+    				<Code Value="RDE81"></Code>
+    				<Display Value="RDE81"></Display>
+    				<UserSelected Value="true"></UserSelected>
+    			</Coding>    			
+    		</CodableConcept>
+			<Label>Diameter </Label>    		
+			
+    		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
+    		<Diagrams>
+    			<Diagram>
+    				<Location>diameter1.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>diameter2.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>diameter3.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>diameter4.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>diameter5.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    		</Diagrams>
+    	<Minimum>10</Minimum>
+    		<Maximum>12</Maximum>
 			<ConditionalProperties>				
 				<ConditionalProperty>
 					<OrCondition>
@@ -271,7 +338,7 @@
 			</ConditionalProperties>	
     	</NumericDataElement>
         
-    	<ChoiceDataElement Id="washout" IsRequired="true" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false">
+    	<ChoiceDataElement Id="washout" IsRequired="true" DisplaySequence="5" Editable="true" Hasprefilled="false" Output="false">
             <CodableConcept Name="washout">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -319,7 +386,7 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
 		       
-    	<ChoiceDataElement Id="capsule" IsRequired="true" DisplaySequence="5">
+    	<ChoiceDataElement Id="capsule" IsRequired="true" DisplaySequence="6">
 		 <CodableConcept Name="capsule">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -362,7 +429,7 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" DisplaySequence="6" Unit="mm">
+    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" DisplaySequence="7" Unit="mm">
 		 <CodableConcept Name="thresholdgrowth">
     			<Coding>
     				<System Value="RadElement"></System>

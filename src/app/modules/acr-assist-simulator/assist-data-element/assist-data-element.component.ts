@@ -12,6 +12,7 @@ import { MainReportText } from 'testruleengine/Library/Models/Class';
 import { Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
+import { SimulatorTheme } from '../../core/models/simulator-theme.enum';
 const $ = require('jquery');
 
 @Component({
@@ -32,6 +33,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   IsRepeating: boolean;
   $RepeatedElementModel: any[] = [];
   subscription: Subscription;
+  Theme = SimulatorTheme;
+  @Input() theme: SimulatorTheme;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];

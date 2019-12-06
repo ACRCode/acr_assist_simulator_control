@@ -25,18 +25,21 @@
               "src/web.config"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
               "src/assets/css/skin-blue.min.css",
-              "src/assets/css/styles.css"
+              "src/assets/css/styles.css",
+              "src/assets/css/bootstrap-select.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/common.js",
               "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
+              "src/assets/js/typeahead.min.js",
+              "src/assets/js/bootstrap-select.js"
             ]
           },
           "configurations": {
@@ -141,6 +144,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "acr-assist-simulator"
 }

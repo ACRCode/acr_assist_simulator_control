@@ -1,0 +1,312 @@
+<form [formGroup]="choiceElementForm" novalidate>
+    <!------Top to bottom alignment------->
+    <div class="form-group" *ngIf="choiceDataElement.isRelevant">
+        <div class="col-lg-12 text-left content-padding margin-bottom-20">
+            <ng-container *ngIf="isRadioButton()">
+                <ng-container *ngIf="choiceDataElement.imageMap == undefined">
+                    <div class="floating-label float-initial padding-0">
+                        <label class="control-label break-word label_floating">
+                            {{choiceDataElement.label}}
+                            <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+                                ({{choiceDataElement.unit}})</span>
+                            <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                                title="Required Field">*</span>
+                        </label>
+
+                        <div class="div_hint">
+                            <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                                <i class="whitespace">
+                                    <span class="fa fa-info-circle text-primary" data-toggle="tooltip"
+                                        data-placement="right" title="{{choiceDataElement.hint}}"></span>
+                                </i>
+                            </ng-container>
+                            <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+                                <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                                </acr-hint-diagram>
+                            </ng-container>
+                        </div>
+                    </div>
+
+
+
+                    <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
+                        <div [ngStyle]="i === 0 && {'clear': 'both'}" class="radio custom-radio-style">
+                            <label class="radio_container">
+                                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                    id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                                    formControlName="checkBox" value="{{choice.value}}"
+                                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
+                                    [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
+                                {{choice.label}}
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="choiceDataElement.allowFreetext">
+                        <div class="radio custom-radio-style">
+                            <label class="radio_container">
+                                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                    id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                                    [checked]="isFreeText" value="freetext"
+                                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
+                                Other, please specify…
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div id='div_{{choiceDataElement.id}}_other'>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Please specify</mat-label>
+                                <input matInput
+                                    [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                    id="txt_other_{{choiceDataElement.id}}" type="text" [(ngModel)]="freeTextValue"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="choiceDataElement.imageMap != undefined">
+                    <div>
+                        <div class="floating-label float-initial padding-0">
+                            <label class="label_floating">
+                                {{choiceDataElement.label}}
+                                <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+                                    ({{choiceDataElement.unit}})</span>
+                                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                                    title="Required Field">*</span>
+                            </label>
+
+                            <div class="div_hint">
+                                <ng-container
+                                    *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                                    <i class="whitespace">
+                                        <span class="fa fa-info-circle text-primary" data-toggle="tooltip"
+                                            data-placement="right" title="{{choiceDataElement.hint}}"></span>
+                                    </i>
+                                </ng-container>
+                                <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+                                    <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                                    </acr-hint-diagram>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <!-- class="div_radiobutton" -->
+                        <div>
+                            <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
+                                <div class="radio custom-radio-style">
+                                    <label class="radio_container">
+                                        <input
+                                            [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                            id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                                            formControlName="checkBox" value="{{choice.value}}"
+                                            (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
+                                            [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
+                                        {{choice.label}}
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="choiceDataElement.allowFreetext">
+                                <div class="radio custom-radio-style">
+                                    <label class="radio_container">
+                                        <input
+                                            [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                            id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
+                                            [checked]="isFreeText"
+                                            (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
+                                        Other, please specify…
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div id='div_{{choiceDataElement.id}}_other'>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Please specify</mat-label>
+                                        <input matInput
+                                            [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                                            id="txt_other_{{choiceDataElement.id}}" type="text"
+                                            [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
+                                            (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="col-lg-1">
+                            <label class="control-label">OR</label>
+                        </div>
+                        <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-image-map>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="isListBox()">
+                <div class="col-lg-12 labelparentdiv padding-0">
+                    <label class="control-label break-word label_floating">
+                        {{choiceDataElement.label}}
+                        <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+                            ({{choiceDataElement.unit}})</span>
+                        <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                            title="Required Field">*</span>
+                    </label>
+
+                    <div class="div_hint">
+                        <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                            <i class="whitespace">
+                                <span class="fa fa-info-circle text-primary" data-toggle="tooltip"
+                                    data-placement="right" title="{{choiceDataElement.hint}}"></span>
+                            </i>
+                        </ng-container>
+                        <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+                            <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                            </acr-hint-diagram>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <!-- <div class="col-lg-2 div_hint">
+                    <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                        <i class="whitespace">
+                            <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                                title="{{choiceDataElement.hint}}"></span>
+                        </i>
+                    </ng-container>
+                    <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+                        <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-hint-diagram>
+                    </ng-container>
+                </div> -->
+
+                <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                    id="{{choiceDataElement.id}}"
+                    (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox"
+                    class="form-control listboxSelect color-inherit" size="6"
+                    [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
+                    <option [selected]="
+               choiceDataElement.ChoiceNotRelevant != undefined ?
+               (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
+               true :
+               true)
+               : true">Select one</option>
+                    <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
+                   : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
+                choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
+                || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
+                choice.value === choiceDataElement.currentValue ? true : false
+                : choice.value === choiceDataElement.currentValue ? true : false" title="{{choice.label}}">
+                        {{choice.label}}</option>
+                    <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other,
+                        please
+                        specify…
+                    </option>
+                </select>
+                <div id='div_{{choiceDataElement.id}}_other'>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Please specify</mat-label>
+                        <input matInput id="txt_other_{{choiceDataElement.id}}" type="text" [(ngModel)]="freeTextValue"
+                            [ngModelOptions]="{standalone: true}"
+                            (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
+                    </mat-form-field>
+                </div>
+                <ng-container *ngIf="choiceDataElement.imageMap != undefined">
+                    <div class="row padding-top-10">
+                        <div class="col-xs-6 col-sm-2">
+                            <label class="control-label">OR</label>
+                        </div>
+                        <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-image-map>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="isSelectBox()">
+                <div class="col-lg-10 labelparentdiv float-initial">
+                    <!-- <label class="control-label break-word" style="text-align: left">
+              {{choiceDataElement.label}}
+              <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+                ({{choiceDataElement.unit}})</span>
+              <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
+            </label> -->
+                </div>
+
+                <div class="floating-label float-initial padding-0">
+                    <label class="label_floating"
+                        [ngClass]="{'error-text-color': choiceDataElement.isRequired === true && choiceElementForm.valid === false &&  choiceElementForm.touched === true}">{{choiceDataElement.label}}
+                        <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
+                            ({{choiceDataElement.unit}})</span>
+                        <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                            title="Required Field">*</span>
+                    </label>
+
+                    <div class="div_hint">
+                        <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                            <i class="whitespace">
+                                <span class="fa fa-info-circle text-primary" data-toggle="tooltip"
+                                    data-placement="right" title="{{choiceDataElement.hint}}"></span>
+                            </i>
+                        </ng-container>
+                        <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
+                            <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                            </acr-hint-diagram>
+                        </ng-container>
+                    </div>
+
+                    <!-- <mat-form-field>
+                        <mat-label>Select an option</mat-label>
+                        <mat-select (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"> 
+                            <mat-option>None</mat-option>
+                            <mat-option value="option1">Option 1</mat-option>
+                            <mat-option value="option2">Option 2</mat-option>
+                            <mat-option value="option3">Option 3</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                        id="{{choiceDataElement.id}}"
+                        (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
+                        formControlName="checkBox" class="color-inherit floating-select padding-0 selectpicker"
+                        [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'form-control-dropdown-error': choiceDataElement.isRequired === true && choiceElementForm.valid === false &&  choiceElementForm.touched === true}"
+                        required>
+                        <option [selected]="
+                choiceDataElement.ChoiceNotRelevant != undefined ?
+                (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
+                true :
+                true)
+                : true">Select one</option>
+                        <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+                    choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
+                    : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
+                 choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
+                 || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
+                 choice.value === choiceDataElement.currentValue ? true : false
+                 : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+                        <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">
+                            Other,
+                            please
+                            specify…
+                        </option>
+                    </select>
+                </div>
+
+                <div id='div_{{choiceDataElement.id}}_other'>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Please specify</mat-label>
+                        <input matInput id="txt_other_{{choiceDataElement.id}}" type="text" [(ngModel)]="freeTextValue"
+                            [ngModelOptions]="{standalone: true}"
+                            (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
+                    </mat-form-field>
+                </div>
+                <ng-container *ngIf="choiceDataElement.imageMap != undefined">
+                    <div class="row padding-top-10">
+                        <div class="col-xs-6 col-sm-2">
+                            <label class="control-label">OR</label>
+                        </div>
+                        <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-image-map>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</form>

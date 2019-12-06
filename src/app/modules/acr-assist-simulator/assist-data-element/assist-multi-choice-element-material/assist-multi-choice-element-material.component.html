@@ -1,0 +1,58 @@
+<form [formGroup]="multiChoiceElementForm" novalidate>
+    <!-----------Top to bottom layout-------------->
+    <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && multiChoiceElement.isRelevant">
+        <div class="col-lg-12" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
+            <div class="floating-label float-initial margin-0 padding-0">
+                <label class="label_floating">{{multiChoiceElement.label}} <span
+                        *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
+                        ({{multiChoiceElement.unit}})</span>
+                    <span *ngIf="isMultiChoiceElementRequired()" class="required-field" title="Required Field">
+                        *
+                    </span>
+                </label>
+
+                <div class="div_hint float-right">
+                    <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
+                        <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
+                    </ng-container>
+                    <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
+                        <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-hint-diagram>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"
+                title="{{choice.hint}}">
+                <label class="chk_container" [hidden]="isMultiChoiceLabelHidden(choice.value)">
+                    <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
+                        id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false"
+                        formControlName="multiCheckBox" value="{{choice.value}}"
+                        (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
+                    {{choice.label}}
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
+                <label class="chk_container">
+                    <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
+                        formControlName="multiCheckBox" [value]="'freetext'"
+                        (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
+                    Other, please specify…
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- other '{{multiChoiceElement.label}}' -->
+            <div id='div_{{multiChoiceElement.id}}_other'>
+                <mat-form-field appearance="outline">
+                    <mat-label>Please specify</mat-label>
+                    <input matInput id="txt_other_{{multiChoiceElement.id}}" type="text"
+                        [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}" placeholder="Please specify"
+                        (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</form>

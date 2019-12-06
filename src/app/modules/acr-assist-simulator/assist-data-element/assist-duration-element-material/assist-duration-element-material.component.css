@@ -1,20 +1,21 @@
-.required-field{
+.required-field {
     color: red;
 }
 
 .disabled-picker {
     cursor: not-allowed;
- }
- .disabled-picker:before {
+}
+
+.disabled-picker:before {
     content: "";
-     z-index: 1;
-     position: absolute;
-     top: 0;
-     right: 0;
-     bottom: 0;
-     left: 0;
-     background-color: rgba(255, 255, 255, 0.8);
- }
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
 
 /*  input[_ngcontent-c15]{
     width: 47px !important;
@@ -56,37 +57,42 @@
       left: 4px;
     } */
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0; 
-    }
-    input[type=number] {
-      text-align: center;
-    }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-    .btn-incrementer{
-        text-decoration: none;
-        outline: none;
-    }
+input[type=number] {
+    text-align: center;
+}
 
-    .btn-decrementer{
-        text-decoration: none;
-        outline: none;
-    }      
-    
-    .txt-duration{
-        width:42px;
-    }
+.btn-incrementer {
+    text-decoration: none;
+    outline: none;
+}
+
+.btn-decrementer {
+    text-decoration: none;
+    outline: none;
+}
+
+.txt-duration {
+    width: 42px;
+    height: 40px !important;
+}
+
+.txt-duration:hover {
+    border: 2px solid black !important;
+}
 
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
     outline: none !important;
     outline-offset: -2px;
 }
 
-.div_hint{
-  text-align: right !important;
-  position: relative;
-  /* top: 7px; */
-  padding-right: 0px !important;
+.div_hint {
+    text-align: right !important;
+    position: relative;
+    /* top: 7px; */
+    padding-right: 0px !important;
 }

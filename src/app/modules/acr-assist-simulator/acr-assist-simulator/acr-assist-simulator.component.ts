@@ -11,6 +11,7 @@ import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-displ
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { AIInputData } from '../../core/models/ai-input-data.model';
+import { SimulatorTheme } from '../../core/models/simulator-theme.enum';
 
 const $ = require('jquery');
 
@@ -20,6 +21,7 @@ const $ = require('jquery');
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
 export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
+  @Input() theme: SimulatorTheme;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;

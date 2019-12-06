@@ -25,12 +25,20 @@ import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
 import { SecurePipe } from './shared/pipes/secure.pipe';
 import { UrlHelperService } from './shared/services/url-helper.service';
+import { AssistNumericElementMaterialComponent } from './assist-data-element/assist-numeric-element-material/assist-numeric-element-material.component';
+import { MaterialModule } from 'src/app/material.module';
+import { AssistChoiceElementMaterialComponent } from './assist-data-element/assist-choice-element-material/assist-choice-element-material.component';
+import { AssistMultiChoiceElementMaterialComponent } from './assist-data-element/assist-multi-choice-element-material/assist-multi-choice-element-material.component';
+import { AssistDurationElementMaterialComponent } from './assist-data-element/assist-duration-element-material/assist-duration-element-material.component';
+import { AssistDateTimeElementMaterialComponent } from './assist-data-element/assist-date-time-element-material/assist-date-time-element-material.component';
 
 const components = [
   AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
-  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
+  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent,
+  AssistNumericElementMaterialComponent, AssistChoiceElementMaterialComponent, AssistMultiChoiceElementMaterialComponent,
+  AssistDateTimeElementMaterialComponent, AssistDurationElementMaterialComponent];
 
 @NgModule({
   imports: [
@@ -41,7 +49,8 @@ const components = [
     ReactiveFormsModule,
     DragScrollModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,    
+    MaterialModule
   ],
   declarations: components,
   providers: [

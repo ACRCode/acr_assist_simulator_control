@@ -1,0 +1,106 @@
+<form [formGroup]="numericElementForm" novalidate>
+    <div class="form-group" *ngIf="numericDataElement.isRelevant">
+        <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
+            <div class="col-lg-12">
+                <div class="col-lg-10 labelparentdiv">
+
+                </div>
+                <div class="col-lg-2 div_hint">
+                    <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+                        <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
+                    </ng-container>
+                    <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+                        <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-hint-diagram>
+                    </ng-container>
+                </div>
+
+                <mat-form-field appearance="outline"  *ngIf="isNumericElementRequired()">
+                    <mat-label>{{numericDataElement.label}}</mat-label>
+                    <mat-label *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
+                        ({{numericDataElement.unit}})</mat-label>
+                    <input matInput [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
+                        id="{{numericDataElement.id}}" type="text" class="color-inherit" (keyup)="_keyUp($event)"
+                        acrNumericOnly formControlName="numericElement" onpaste="return false;"
+                        (input)="choiceSelected($event.target, numericDataElement.label)"
+                        min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}"
+                        [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+                    <mat-error *ngIf="isNumericElementMin()"> Value should be greater than or equal to
+                        {{numericDataElement.minimum}}</mat-error>
+                    <mat-error *ngIf="isNumericElementMax()"> Value should be less than or equal to
+                        {{numericDataElement.maximum}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"  *ngIf="!isNumericElementRequired()">
+                        <mat-label>{{numericDataElement.label}}</mat-label>
+                        <mat-label *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
+                            ({{numericDataElement.unit}})</mat-label>
+                        <input matInput [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
+                            id="{{numericDataElement.id}}" type="text" class="color-inherit" (keyup)="_keyUp($event)"
+                            acrNumericOnly formControlName="numericElement" onpaste="return false;"
+                            (input)="choiceSelected($event.target, numericDataElement.label)"
+                            min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}"
+                            [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
+                        <mat-error *ngIf="isNumericElementMin()"> Value should be greater than or equal to
+                            {{numericDataElement.minimum}}</mat-error>
+                        <mat-error *ngIf="isNumericElementMax()"> Value should be less than or equal to
+                            {{numericDataElement.maximum}}</mat-error>
+                    </mat-form-field>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="numericDataElement.dataElementType === 'IntegerDataElement'">
+            <div class="col-lg-12">
+                <div class="col-lg-10 labelparentdiv">
+
+                </div>
+                <div class="col-lg-2 div_hint">
+                    <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+                        <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
+                    </ng-container>
+                    <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+                        <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl">
+                        </acr-hint-diagram>
+                    </ng-container>
+                </div>
+
+                <mat-form-field appearance="outline" *ngIf="isNumericElementRequired()">
+                    <mat-label>{{numericDataElement.label}}</mat-label>
+                    <mat-label *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
+                        ({{numericDataElement.unit}})</mat-label>
+                    <input matInput [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
+                        id="{{numericDataElement.id}}" type="text" class="color-inherit"
+                        formControlName="numericElement" (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+                        (keyup)="_keyUpInteger($event)"
+                        (input)="choiceSelected($event.target, numericDataElement.label)"
+                        min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}"
+                        [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+                    <mat-error *ngIf="isNumericElementMin()">
+                        Value should be greater than or equal to {{numericDataElement.minimum}}
+                    </mat-error>
+                    <mat-error *ngIf="isNumericElementMax()">
+                        Value should be less than or equal to {{numericDataElement.maximum}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="!isNumericElementRequired()">
+                    <mat-label>{{numericDataElement.label}}</mat-label>
+                    <mat-label *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
+                        ({{numericDataElement.unit}})</mat-label>
+                    <input matInput [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
+                        id="{{numericDataElement.id}}" type="text" class="color-inherit"
+                        formControlName="numericElement" (keypress)="onlyIntegerKey($event)" onpaste="return false;"
+                        (keyup)="_keyUpInteger($event)"
+                        (input)="choiceSelected($event.target, numericDataElement.label)"
+                        min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}"
+                        [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
+                    <mat-error *ngIf="isNumericElementMin()">
+                        Value should be greater than or equal to {{numericDataElement.minimum}}
+                    </mat-error>
+                    <mat-error *ngIf="isNumericElementMax()">
+                        Value should be less than or equal to {{numericDataElement.maximum}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </ng-container>
+    </div>
+</form>

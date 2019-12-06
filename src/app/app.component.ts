@@ -5,6 +5,7 @@ import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
+import { SimulatorTheme } from './modules/core/models/simulator-theme.enum';
 
 @Component({
   selector: 'acr-app-root',
@@ -13,6 +14,7 @@ import { AIInputData } from './modules/core/models/ai-input-data.model';
 })
 export class AppComponent {
 
+  SimulatorTheme = SimulatorTheme;
   settingsConfig: SettingsService;
   fileContent: string;
   assetsBaseUrl = '';
@@ -43,6 +45,7 @@ export class AppComponent {
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
+    // this.SimulatorTheme = SimulatorTheme;
   }
 
   fileSelected(fileDetails: FileDetails) {
