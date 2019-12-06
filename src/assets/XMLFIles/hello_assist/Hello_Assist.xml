@@ -2,7 +2,7 @@
 <?xml-model href="../../../XML Schema/ACRAssist_xml_schema.rnc" type="application/relax-ng-compact-syntax"?>
 <ReportingModule>	
     <Metadata>   
-        <Label>Hello Assist</Label>
+        <Label>Hello RADS</Label>
         <ID>Hello_Assist_1_0</ID>
         <SchemaVersion>2.0</SchemaVersion>
         <ModuleVersion>1.5</ModuleVersion>
@@ -34,10 +34,10 @@
         <ReportCitationText/>
         <Ontology>
             <AnatomicRegions CodingSystem="http://radelement.org/">
-                <Region Code="RID58"></Region>
+                <Region Code="RID58" Url=""></Region>
             </AnatomicRegions>
             <PossibleDiagnoses>
-                <Diagnosis Code="RID4271">Hepatocellular carcinoma</Diagnosis>
+                <Diagnosis Code="RID4271" Url="">Hepatocellular carcinoma</Diagnosis>
             </PossibleDiagnoses>
         </Ontology>
         <ApplicableExams>
@@ -69,18 +69,15 @@
     </Metadata>
 	
     <DataElements>
-    	
-		<GlobalValue Id="DiameterSmall">10</GlobalValue>
-    	
-        <GlobalValue Id="DiameterLarge">20</GlobalValue>    	
-    	      
-    	<MultiChoiceDataElement Id="ObservationCharacter" IsRequired="false" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
+    	    	      
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="false">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
     				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE65"></Code>
     				<Display Value="RDE65"></Display>
+					<Url Value="http://radelement.org/element/RDE65"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>		
@@ -99,11 +96,6 @@
             	<Choice>
             		<Value>treatedObservation</Value>
             		<Label>Treated observation</Label>
-            		<Hint>An observation that has undergone loco-regional treatment</Hint>
-            	</Choice>
-				<Choice>
-            		<Value>treatedObservation1</Value>
-            		<Label>Treated observation1</Label>
             		<Hint>An observation that has undergone loco-regional treatment</Hint>
             	</Choice>
             	<Choice>
@@ -150,13 +142,7 @@
             		<Hint>Presence of tumor in vein lumen.</Hint>
             	</Choice>
             </ChoiceInfo>
-			<ConditionalProperties>
-				<ConditionalProperty>
-						<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
-						<ChoiceNotRelevant ChoiceValue="treatedObservation"></ChoiceNotRelevant>
-					</ConditionalProperty>
-			</ConditionalProperties>
-        </MultiChoiceDataElement> 
+        </ChoiceDataElement> 
         
     	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="false" Output="false">
 			<CodableConcept Name="ArterialEnhancement">
@@ -165,6 +151,7 @@
     				<Version Value="1.0"></Version>
     				<Code Value="RDE86"></Code>
     				<Display Value="RDE86"></Display>
+					<Url Value="http://radelement.org/element/RDE86"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>	
@@ -226,74 +213,19 @@
     			</ConditionalProperty>		
     		</ConditionalProperties>	
         </ChoiceDataElement>
-		
-		<IntegerDataElement Id="diameter Integer" IsRequired="false" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="test">
-    		<CodableConcept Name="diameter">
-    			<Coding>
-    				<System Value="RadElement"></System>
-    				<Version Value="1.0"></Version>
-    				<Code Value="RDE81"></Code>
-    				<Display Value="RDE81"></Display>
-    				<UserSelected Value="true"></UserSelected>
-    			</Coding>    			
-    		</CodableConcept>
-			<Label>Diameter </Label>    		
-    		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
-    		<Diagrams>
-    			<Diagram>
-    				<Location>diameter1.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>diameter2.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>diameter3.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>diameter4.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>diameter5.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    		</Diagrams>
-    	<Minimum>10</Minimum>
-    		<Maximum>12</Maximum>
-			<ConditionalProperties>				
-				<ConditionalProperty>
-					<OrCondition>
-					    <EqualCondition DataElementId="ObservationCharacter" 
-							ComparisonValue="definitelyBenign"/>
-						<EqualCondition DataElementId="ObservationCharacter"
-							ComparisonValue="treatedObservation"/>						
-						<EqualCondition DataElementId="ObservationCharacter"
-							ComparisonValue="probablyBenign"/>
-						<EqualCondition DataElementId="ObservationCharacter"
-							ComparisonValue="notspecificforLR"/>
-						<EqualCondition DataElementId="ObservationCharacter"
-							ComparisonValue="tumorInVein"/>
-					</OrCondition>
-					<IsRelevant>false</IsRelevant>
-				</ConditionalProperty>
-			</ConditionalProperties>	
-    	</IntegerDataElement>
         
-    	<NumericDataElement Id="diameter" IsRequired="false" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
+    	<NumericDataElement Id="diameter" IsRequired="true" DisplaySequence="3" Editable="true" Hasprefilled="false" Output="false" Unit="mm">
     		<CodableConcept Name="diameter">
     			<Coding>
     				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE81"></Code>
     				<Display Value="RDE81"></Display>
+					<Url Value="http://radelement.org/element/RDE81"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>
 			<Label>Diameter </Label>    		
-			
     		<Hint>Size of the lesion (outer edge to outer edge) in mm</Hint>
     		<Diagrams>
     			<Diagram>
@@ -317,8 +249,8 @@
     				<Label></Label>
     			</Diagram>
     		</Diagrams>
-    	<Minimum>10</Minimum>
-    		<Maximum>12</Maximum>
+    	<!--	<Minimum>10</Minimum>
+    		<Maximum>12</Maximum>-->
 			<ConditionalProperties>				
 				<ConditionalProperty>
 					<OrCondition>
@@ -338,13 +270,14 @@
 			</ConditionalProperties>	
     	</NumericDataElement>
         
-    	<ChoiceDataElement Id="washout" IsRequired="true" DisplaySequence="5" Editable="true" Hasprefilled="false" Output="false">
+    	<ChoiceDataElement Id="washout" IsRequired="true" DisplaySequence="4" Editable="true" Hasprefilled="false" Output="false">
             <CodableConcept Name="washout">
     			<Coding>
     				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE85"></Code>
     				<Display Value="RDE85"></Display>
+					<Url Value="http://radelement.org/element/RDE85"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>
@@ -386,13 +319,14 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
 		       
-    	<ChoiceDataElement Id="capsule" IsRequired="true" DisplaySequence="6">
+    	<ChoiceDataElement Id="capsule" IsRequired="true" DisplaySequence="5">
 		 <CodableConcept Name="capsule">
     			<Coding>
     				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE83"></Code>
     				<Display Value="RDE83"></Display>
+					<Url Value="http://radelement.org/element/RDE65"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>
@@ -429,13 +363,14 @@
     		</ConditionalProperties>	
         </ChoiceDataElement>
         
-    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" DisplaySequence="7" Unit="mm">
+    	<ChoiceDataElement Id="thresholdgrowth" IsRequired="true" DisplaySequence="6" Unit="mm">
 		 <CodableConcept Name="thresholdgrowth">
     			<Coding>
     				<System Value="RadElement"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE84"></Code>
     				<Display Value="RDE84"></Display>
+					<Url Value="http://radelement.org/element/RDE84"></Url>
     				<UserSelected Value="true"></UserSelected>
     			</Coding>    			
     		</CodableConcept>
@@ -514,7 +449,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="2"/>
         			<AndCondition>
         				<EqualCondition DataElementId="washout" ComparisonValue="no"/>
         				<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
@@ -529,7 +464,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="2"/>
         			<OrCondition>
         				<AndCondition>
         					<EqualCondition DataElementId="washout" ComparisonValue="yes"/>  <!-- Washout = Yes -->
@@ -556,7 +491,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="2"/>
         			<OrCondition>
         				<AndCondition>
         					<EqualCondition DataElementId="washout" ComparisonValue="yes"/>  <!-- Washout = Yes, Capsule = Yes -->
@@ -589,7 +524,7 @@
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
         			<AndCondition>
-        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="2"/>
         				<LessThanOrEqualsCondition DataElementId="diameter" ComparisonValue="19"/>
         			</AndCondition>
         			<AndCondition>
@@ -607,7 +542,7 @@
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
         			<AndCondition>
-        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="2"/>
         				<LessThanOrEqualsCondition DataElementId="diameter" ComparisonValue="19"/>
         			</AndCondition>
         			<OrCondition>
@@ -637,7 +572,7 @@
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
         			<AndCondition>
-        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterSmall"/>
+        				<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="2"/>
         				<LessThanOrEqualsCondition DataElementId="diameter" ComparisonValue="19"/>
         			</AndCondition>
         			<OrCondition>
@@ -672,7 +607,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<AndCondition>
         				<EqualCondition DataElementId="washout" ComparisonValue="no"/>
         				<EqualCondition DataElementId="capsule" ComparisonValue="no"/>
@@ -687,7 +622,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<AndCondition>
         					<EqualCondition DataElementId="washout" ComparisonValue="yes"/>  <!-- Washout = Yes -->
@@ -715,7 +650,7 @@
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
         			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hyperEnhancing"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<AndCondition>
         					<EqualCondition DataElementId="washout" ComparisonValue="yes"/>  <!-- Washout = Yes, Capsule = Yes -->
@@ -746,7 +681,7 @@
         		<Label>Hypo/Iso-enhancing - Diameter</Label> 
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="4"/>
 	        		<OrCondition>
 	        			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
 	        			<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
@@ -764,7 +699,7 @@
         		<Label>Hypo/Iso-enhancing - One</Label> 
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
@@ -794,7 +729,7 @@
         		<Label>Hypo/Iso-enhancing - Two or More</Label>
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<LessThanCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<LessThanCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
@@ -829,7 +764,7 @@
         		<Label>Hypo/Iso-enhancing - &gt;= 20</Label>
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
@@ -847,7 +782,7 @@
         		<Label>Hypo/Iso-enhancing - One</Label>
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
@@ -877,7 +812,7 @@
         		<Label>Hypo/Iso-enhancing - Two or More</Label>
         		<AndCondition>
         			<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notDefProbBenign"/>
-        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="DiameterLarge"/>
+        			<GreaterThanOrEqualsCondition DataElementId="diameter" ComparisonValue="4"/>
         			<OrCondition>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="hypoEnhancing"/>
         				<EqualCondition DataElementId="ArterialEnhancement" ComparisonValue="isoEnhancing"/>
