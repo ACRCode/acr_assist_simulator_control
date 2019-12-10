@@ -58,6 +58,7 @@
     "ngx-bootstrap": "^5.0.0",
     "ngx-drag-scroll": "~7.4.3",
     "rxjs": "^6.5.2",
+    "serialize-javascript": "^2.1.2",
     "stream": "0.0.2",
     "string": "^3.3.3",
     "testruleengine": "^1.0.64",
