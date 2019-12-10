@@ -26,6 +26,15 @@
     border-bottom: 2px solid black !important ;
 }
 
+select[size] option {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  select[size] option:last-child {
+    border-bottom: none !important;
+  }
+
 .div_hint{
     text-align: right !important;
     position: relative;

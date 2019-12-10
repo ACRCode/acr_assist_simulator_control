@@ -3,8 +3,10 @@ import { FinalExecutedHistory } from '../assist-data-element/assist-data-element
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement,
-         BaseDataElement, Template, Diagram, MainReportText, Coding } from 'testruleengine/Library/Models/Class';
+import {
+  ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement,
+  BaseDataElement, Template, Diagram, MainReportText, Coding
+} from 'testruleengine/Library/Models/Class';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
@@ -69,6 +71,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
         this.resetElements();
       });
     }
+
+    if (!this.utilityService.isValidInstance(this.theme)) {
+      this.theme = SimulatorTheme.Basic;
+    }
   }
 
   ngOnChanges(): void {
@@ -118,7 +124,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     const context = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       context.applyInputStyles();
     });
   }
@@ -146,7 +152,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function(el) {
+    return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
     });
   }

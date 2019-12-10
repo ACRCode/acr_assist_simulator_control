@@ -501,15 +501,6 @@ select[multiple], select[size] {
   overflow-y: auto;
 }
 
-select[size] option {
-  padding: 12px;
-  border-bottom: 1px solid #ccc;
-}
-
-select[size] option:last-child {
-  border-bottom: none !important;
-}
-
 .error-text-color {
   color: #f44336 !important;
 }
