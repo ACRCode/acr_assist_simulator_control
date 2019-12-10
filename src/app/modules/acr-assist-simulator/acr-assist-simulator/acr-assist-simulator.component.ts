@@ -3,8 +3,7 @@ import { FinalExecutedHistory } from '../assist-data-element/assist-data-element
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, IntegerDataElement, DateTimeDataElement,
-         BaseDataElement, Template, Diagram, MainReportText, Coding } from 'testruleengine/Library/Models/Class';
+import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
 import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
@@ -40,6 +39,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
+  @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('imageUpload', { static: false }) imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
@@ -160,6 +160,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
+    this.returnReportText.emit(textReport);
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {

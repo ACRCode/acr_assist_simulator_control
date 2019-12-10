@@ -1,45 +1,45 @@
 <div class="wrapper">
-    <header class="main-header">
-      <a href="#" class="logo">
-        <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width"
-            alt="Simulator Logo"> </span>
+  <header class="main-header">
+    <a href="#" class="logo">
+      <span class="logo-lg"><img src="assets/images/simulator-logo.png" class="image-logo-custom-width"
+          alt="Simulator Logo"> </span>
+    </a>
+    <nav class="navbar navbar-static-top">
+      <a class="sidebar-toggle cursor-pointer" onclick="toggleSidebar()">
+        <span class="sr-only">Toggle navigation</span>
       </a>
-      <nav class="navbar navbar-static-top">
-        <a class="sidebar-toggle cursor-pointer" onclick="toggleSidebar()">
-          <span class="sr-only">Toggle navigation</span>
-        </a>
-        <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
-            <li class="acr-logo">
-              <a href="https://www.acr.org/" target="_blank">
-                <img src="assets/images/acr-logo.png" alt="ACR Logo">
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-  
-    <aside class="main-sidebar">
-      <acr-view-upload-loader (fileSelected)="fileSelected($event)"></acr-view-upload-loader>
-    </aside>
-  
-    <div class="content-wrapper">
-      <section class="content">
-        <div class="row">
-          <acr-assist-simulator
-            [alignLabelAndControlToTopAndBottom]="settingsConfig.get('alignLabelAndControlToTopAndBottom')"
-            [fontSize]="settingsConfig.get('fontSize')" [fontColor]="settingsConfig.get('fontColor')"
-            [fontFamily]="settingsConfig.get('fontFamily')" [backgroundColor]="settingsConfig.get('backgroundColor')"
-            [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
-            templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
-            [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
-            (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
-            (returnExecutionHistory)='recievedExecutionHistory($event)'
-            (returnDataElementChanged)='recievedDataElementChanged($event)'
-            (returnDefaultElements)="returnDefaultElements()">
-          </acr-assist-simulator>
-        </div>
-      </section>
-    </div>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="acr-logo">
+            <a href="https://www.acr.org/" target="_blank">
+              <img src="assets/images/acr-logo.png" alt="ACR Logo">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <aside class="main-sidebar">
+    <acr-view-upload-loader (fileSelected)="fileSelected($event)"></acr-view-upload-loader>
+  </aside>
+
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="row">
+        <acr-assist-simulator
+          [alignLabelAndControlToTopAndBottom]="settingsConfig.get('alignLabelAndControlToTopAndBottom')"
+          [fontSize]="settingsConfig.get('fontSize')" [fontColor]="settingsConfig.get('fontColor')"
+          [fontFamily]="settingsConfig.get('fontFamily')" [backgroundColor]="settingsConfig.get('backgroundColor')"
+          [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
+          templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
+          [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
+          (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
+          (returnExecutionHistory)='recievedExecutionHistory($event)'
+          (returnDataElementChanged)='recievedDataElementChanged($event)'
+          (returnDefaultElements)="returnDefaultElements()" (returnReportText)="recieveReportText($event)">
+        </acr-assist-simulator>
+      </div>
+    </section>
   </div>
+</div>
