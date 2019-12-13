@@ -57,11 +57,13 @@ export class AssistChoiceElementMaterialComponent implements OnInit, AfterViewIn
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
       if (this.choiceDataElement.choiceInfo.length <= 2) {
-        this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
+        // this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
+        this.elementDisplay = ChoiceElementDisplayEnum.ListBox_WithTwoOptions;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5) {
-        this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
+        // this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
+        this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
       }
     } else {
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
@@ -115,8 +117,11 @@ export class AssistChoiceElementMaterialComponent implements OnInit, AfterViewIn
   }
 
   isListBox(): boolean {
+    return this.elementDisplay === ChoiceElementDisplayEnum.ListBox || this.elementDisplay === ChoiceElementDisplayEnum.ListBox_WithTwoOptions;
+  }
 
-    return this.elementDisplay === ChoiceElementDisplayEnum.ListBox;
+  isListBoxWithTwoOptions(): boolean {
+    return this.elementDisplay === ChoiceElementDisplayEnum.ListBox_WithTwoOptions;
   }
 
   isSelectBox(): boolean {

@@ -96,3 +96,24 @@ input[type=number] {
     /* top: 7px; */
     padding-right: 0px !important;
 }
+
+.label_floating {
+  color: #999;
+  /* font-size: 14px; */
+  font-weight: normal;
+  font-size: larger !important;
+  /* position: absolute; */
+  /* pointer-events: none; */
+  /* left: 5px; */
+  /* top: 5px; */
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.floating-label {
+  position: relative;
+  /* margin-bottom: 20px; */
+  width: 100%;
+  /* font-size: larger !important; */
+}

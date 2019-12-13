@@ -69,6 +69,8 @@ export class AssistMultiChoiceElementMaterialComponent implements OnInit, AfterV
     } else {
       this.returnMultiChoice.emit(undefined);
     }
+
+    // $('.mdb-select').formSelect();
   }
 
   selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: any, choiceLabel: any) {

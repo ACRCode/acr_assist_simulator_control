@@ -131,9 +131,9 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="col-lg-1">
+                        <!-- <div class="col-lg-1">
                             <label class="control-label">OR</label>
-                        </div>
+                        </div> -->
                         <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
                         </acr-image-map>
                     </div>
@@ -180,7 +180,7 @@
                 <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="{{choiceDataElement.id}}"
                     (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)" formControlName="checkBox"
-                    class="form-control listboxSelect color-inherit" size="6"
+                    class="form-control listboxSelect color-inherit slim-scroll-box scrollbar-deep-purple thin" size="{{isListBoxWithTwoOptions() ? 3 : 6}}"
                     [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
                     <option [selected]="
                choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -211,9 +211,9 @@
                 </div>
                 <ng-container *ngIf="choiceDataElement.imageMap != undefined">
                     <div class="row padding-top-10">
-                        <div class="col-xs-6 col-sm-2">
+                        <!-- <div class="col-xs-6 col-sm-2">
                             <label class="control-label">OR</label>
-                        </div>
+                        </div> -->
                         <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
                         </acr-image-map>
                     </div>
@@ -299,9 +299,9 @@
                 </div>
                 <ng-container *ngIf="choiceDataElement.imageMap != undefined">
                     <div class="row padding-top-10">
-                        <div class="col-xs-6 col-sm-2">
+                        <!-- <div class="col-xs-6 col-sm-2">
                             <label class="control-label">OR</label>
-                        </div>
+                        </div> -->
                         <acr-image-map [DataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl">
                         </acr-image-map>
                     </div>

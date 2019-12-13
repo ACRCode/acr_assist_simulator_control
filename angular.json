@@ -39,7 +39,8 @@
               "src/assets/js/common.js",
               "src/assets/js/ImgMapHover.js",
               "src/assets/js/typeahead.min.js",
-              "src/assets/js/bootstrap-select.js"
+              "src/assets/js/bootstrap-select.js",
+              "src/assets/js/materialize.min.js"
             ]
           },
           "configurations": {

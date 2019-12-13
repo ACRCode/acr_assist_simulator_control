@@ -1,5 +1,6 @@
 export enum ChoiceElementDisplayEnum {
     SelectBox,
     ListBox,
-    RadioButton
+    RadioButton,
+    ListBox_WithTwoOptions
 }
