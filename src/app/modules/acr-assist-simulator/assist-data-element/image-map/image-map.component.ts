@@ -146,7 +146,7 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
         return label;
-      } else {
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
