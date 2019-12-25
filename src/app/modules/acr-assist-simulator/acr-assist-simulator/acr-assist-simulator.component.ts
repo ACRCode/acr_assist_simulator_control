@@ -8,8 +8,8 @@ import { Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
-import { ToastrManager } from 'ng6-toastr-notifications';
 import { AIInputData } from '../../core/models/ai-input-data.model';
+import { ToastrService } from 'ngx-toastr';
 
 const $ = require('jquery');
 
@@ -58,7 +58,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
-    private toastr: ToastrManager,
+    private toastr: ToastrService,
     private utilityService: UtilityService) {
   }
 
@@ -275,10 +275,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   clipboardError(error: Error): void {
-    this.toastr.errorToastr('Failed to copy to clipboard');
+    this.toastr.error('Failed to copy to clipboard');
   }
 
   clipboardSuccess(value: string): void {
-    this.toastr.successToastr('Successfully copied to clipboard');
+    this.toastr.success('Successfully copied to clipboard');
   }
 }

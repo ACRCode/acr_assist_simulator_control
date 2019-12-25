@@ -2,8 +2,7 @@ import { NgModule , ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimulatorEngineService } from './services/simulator-engine.service';
 import { UtilityService } from './services/utility.service';
-import { ToastrModule } from 'ng6-toastr-notifications';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
