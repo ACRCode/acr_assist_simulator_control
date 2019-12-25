@@ -22,7 +22,7 @@ export class AppComponent {
   position = ReportTextPosition;
   resetButton: boolean;
   showReportText: boolean;
-  showTabularReportText = true;
+  showTabularReportText = false;
   testInputValue: InputData[] = [
     {
       dataElementId: 'ObservationCharacter',
