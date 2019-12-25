@@ -34,6 +34,7 @@
           [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
           templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
           [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
+          [showTabularReportText]="showTabularReportText"
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'
