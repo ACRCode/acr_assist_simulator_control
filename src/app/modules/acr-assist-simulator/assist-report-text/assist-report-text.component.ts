@@ -1,9 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Class';
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
-const $ = require('jquery');
 import * as _ from 'lodash';
-
+import { TabularReport } from '../../core/models/tabular-report.model';
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',
@@ -11,14 +10,15 @@ import * as _ from 'lodash';
 })
 export class AssistReportTextComponent implements OnChanges {
 
+  prevSectionId: string;
+  selectedSectionId: string;
+  selectedSection: string;
   allReportTextGroup: AllReportTextGroup[] = [];
   allReportTexts: AllReportText[] = [];
-  selectedSection: string;
   mainReportTexts: MainReportText;
-  selectedSectionId: string;
   allTextReport: AllTextReport[];
+  tabularReports: TabularReport[];
   sections: string[] = [];
-  prevSectionId: string;
 
   @Input() reportText: MainReportText;
 
@@ -36,6 +36,7 @@ export class AssistReportTextComponent implements OnChanges {
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
+    this.tabularReports = this.reportText.tabularReport;
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
         this.sections.push(section);
@@ -60,7 +61,7 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
@@ -80,6 +81,7 @@ export class AssistReportTextComponent implements OnChanges {
         break;
       }
     }
+
     this.mainReportTexts = new MainReportText();
     this.allReportTexts = [];
     // tslint:disable-next-line:forin

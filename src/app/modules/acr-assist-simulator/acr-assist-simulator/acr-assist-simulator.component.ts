@@ -36,6 +36,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() aiInputs: AIInputData[] = [];
+  @Input() showTabularReportText: boolean;
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();

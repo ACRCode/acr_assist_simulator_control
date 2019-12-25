@@ -1,6 +1,24 @@
 <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
   <dt class="text-capitalize underline" *ngIf="textReport.repeatedSectionName !== ''">
     {{textReport.repeatedSectionName}}</dt>
+    <table class="table table-bordered" *ngIf="tabularReports.length">
+      <thead>
+        <tr>
+          <th scope="col">DataElement</th>
+          <th scope="col">RadElement</th>
+          <th scope="col">Values</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let report of tabularReports">
+          <tr>
+            <td class="break-word">{{ report.dataElement }}</td>
+            <td>{{ report.radElement }}</td>
+            <td class="break-word">{{ report.values }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
   <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first">
     <div [ngClass]="{ 'margin-top-15' : !firstItem }">
       <ng-container *ngIf="textReport.repeatedSectionName !== ''">

@@ -12,6 +12,8 @@ import { MainReportText } from 'testruleengine/Library/Models/Class';
 import { Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
+import { TabularReport } from '../../core/models/tabular-report.model';
+import { UtilityService } from '../../core/services/utility.service';
 const $ = require('jquery');
 
 @Component({
@@ -32,6 +34,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   IsRepeating: boolean;
   $RepeatedElementModel: any[] = [];
   subscription: Subscription;
+
+  @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
@@ -51,6 +55,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
+    private utilityService: UtilityService,
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
   ) {
@@ -118,6 +123,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
 
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
+        if (this.showTabularReportText) {
+          this.mainReportTextObj.tabularReport = this.createTabularReport();
+        }
         this.returnReportText.emit(this.mainReportTextObj);
       } else {
         this.returnReportText.emit(undefined);
@@ -413,6 +421,32 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     this.returnExecutionHistory.emit(finalExecution);
+  }
+
+  private createTabularReport(): TabularReport[] {
+    const tabularReports = new Array<TabularReport>();
+    const dataElementValues = this.simulatorEngineService.getAllDataElementValues()[Symbol.iterator]();
+    const template = this.simulatorEngineService.getTemplate();
+    for (const value of dataElementValues) {
+      if (this.utilityService.isValidInstance(value[1])) {
+        const dataElement = template.dataElements.find(x => x.id === value[0] &&
+          x.dataElementType !== 'ComputedDataElement'  && x.dataElementType !== 'GlobalValue');
+        if (this.utilityService.isValidInstance(dataElement)) {
+          let radElementId: string;
+          if (this.utilityService.isValidInstance(dataElement.codableConcept) &&
+            this.utilityService.isNotEmptyArray(dataElement.codableConcept.coding)) {
+            radElementId = dataElement.codableConcept.coding[0].code;
+          }
+          const report = new TabularReport();
+          report.dataElement = dataElement.label;
+          report.radElement = radElementId;
+          report.values = value[1];
+          tabularReports.push(report);
+        }
+      }
+    }
+
+    return tabularReports;
   }
 
   private returnEndPointContents(content: string, startToken: string, endToken: string): string {

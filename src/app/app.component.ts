@@ -22,6 +22,7 @@ export class AppComponent {
   position = ReportTextPosition;
   resetButton: boolean;
   showReportText: boolean;
+  showTabularReportText = true;
   testInputValue: InputData[] = [
     {
       dataElementId: 'ObservationCharacter',
