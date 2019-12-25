@@ -25,7 +25,8 @@
       "stream",
       "xml2js",
       "testruleengine",
-      "ng6-toastr-notifications"
+      "ng6-toastr-notifications",
+      "serialize-javascript"
     ],
     "lib": {
       "entryFile": "./public_api.ts",
