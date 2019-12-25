@@ -1,7 +1,7 @@
 <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
   <dt class="text-capitalize underline" *ngIf="textReport.repeatedSectionName !== ''">
     {{textReport.repeatedSectionName}}</dt>
-    <table class="table table-bordered" *ngIf="tabularReports.length">
+    <table class="table table-bordered" *ngIf="tabularReports && tabularReports.length">
       <thead>
         <tr>
           <th scope="col">DataElement</th>
