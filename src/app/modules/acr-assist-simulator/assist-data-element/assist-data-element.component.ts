@@ -116,17 +116,21 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
       }
 
-
       this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       // tslint:disable-next-line: max-line-length
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
         if (this.showTabularReportText) {
           this.mainReportTextObj.tabularReport = this.createTabularReport();
+          if (this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport)) {
+            this.returnReportText.emit(this.mainReportTextObj);
+          } else {
+            this.returnReportText.emit(undefined);
+          }
+        } else {
+          this.returnReportText.emit(this.mainReportTextObj);
         }
-        this.returnReportText.emit(this.mainReportTextObj);
       } else {
         this.returnReportText.emit(undefined);
       }
@@ -428,9 +432,11 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     const dataElementValues = this.simulatorEngineService.getAllDataElementValues()[Symbol.iterator]();
     const template = this.simulatorEngineService.getTemplate();
     for (const value of dataElementValues) {
-      if (this.utilityService.isValidInstance(value[1])) {
+      const hasValidValue = Array.isArray(value[1]) ?
+        this.utilityService.isNotEmptyArray(value[1]) : this.utilityService.isNotEmptyString(value[1]);
+      if (hasValidValue) {
         const dataElement = template.dataElements.find(x => x.id === value[0] &&
-          x.dataElementType !== 'ComputedDataElement'  && x.dataElementType !== 'GlobalValue');
+          x.dataElementType !== 'ComputedDataElement' && x.dataElementType !== 'GlobalValue');
         if (this.utilityService.isValidInstance(dataElement)) {
           let radElementId: string;
           if (this.utilityService.isValidInstance(dataElement.codableConcept) &&

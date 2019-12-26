@@ -1,5 +1,5 @@
-<ng-container *ngIf="tabularReports && tabularReports.length; else reportText">
-  <table class="table table-bordered">
+<ng-container *ngIf="tabularReports; else reportText">
+  <table class="table table-bordered" *ngIf="tabularReports.length">
     <thead>
       <tr>
         <th scope="col">CDE Identifier</th>
