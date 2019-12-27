@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
 
+const $ = require('jquery');
+
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
@@ -9,13 +11,13 @@ import { UtilityService } from '../../../core/services/utility.service';
 })
 export class ImageMapComponent implements OnInit {
 
-  $ = require('jquery');
+  imageExist = true;
+  SelectionValue = '';
+
   @Input() DataElement: ChoiceDataElement;
   @Input() assetsBaseUrl: string;
   @Input() DataElements: object = {};
   @Input() FormValues: object = {};
-  imageExist = true;
-  SelectionValue = '';
 
   constructor(
     private utilityService: UtilityService
@@ -75,7 +77,7 @@ export class ImageMapComponent implements OnInit {
   imageClick(e, dataElement) {
     const O_height = dataElement.ImageProp.height;
     const O_width = dataElement.ImageProp.width;
-    const $elem = this.$(e.target);
+    const $elem = $(e.target);
 
     const N_height = $elem.height();
     const N_width = $elem.width();
@@ -83,8 +85,8 @@ export class ImageMapComponent implements OnInit {
 
     const offset = $elem.offset();
 
-    const offset_t = offset.top - this.$(window).scrollTop();
-    const offset_l = offset.left - this.$(window).scrollLeft();
+    const offset_t = offset.top - $(window).scrollTop();
+    const offset_l = offset.left - $(window).scrollLeft();
 
     const x = e.clientX - offset_l;
     const y = e.clientY - offset_t;
@@ -105,28 +107,26 @@ export class ImageMapComponent implements OnInit {
           break;
         }
       }
-
     }
-
   }
 
   setValue(val) {
     for (const optValue of this.DataElement.choiceInfo) {
       if (this.DataElement.choiceInfo.length <= 5 && this.DataElement.choiceInfo.length > 0) {
         if (optValue.value === val) {
-          this.$('#' + val + '_' + this.DataElement.id).prop('checked', true);
+          $('#' + val + '_' + this.DataElement.id).prop('checked', true);
           const customEvent = document.createEvent('Event');
           customEvent.initEvent('change', true, true);
-          this.$('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
+          $('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
         } else {
-          this.$('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
+          $('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
         }
       } else {
         if (optValue.value === val) {
-          this.$('#' + this.DataElement.id).val(optValue.value);
+          $('#' + this.DataElement.id).val(optValue.value);
           const customEvent = document.createEvent('Event');
           customEvent.initEvent('change', true, true);
-          this.$('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
+          $('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
           break;
         }
       }

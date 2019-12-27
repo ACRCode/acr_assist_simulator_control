@@ -9,9 +9,9 @@ import { UtilityService } from '../../../core/services/utility.service';
 })
 export class HintDiagramComponent {
 
+  activeSlideIndex = 0;
   @Input() dataElement: BaseDataElement;
   @Input() assetsBaseUrl: string;
-  activeSlideIndex = 0;
 
   constructor(
     private utilityService: UtilityService

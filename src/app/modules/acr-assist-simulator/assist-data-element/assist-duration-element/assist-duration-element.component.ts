@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DurationDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
-import { Subscription } from 'rxjs';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-duration-element',
@@ -11,13 +11,6 @@ import { SimulatorCommunicationService } from '../../shared/services/simulator-c
   styleUrls: ['./assist-duration-element.component.css']
 })
 export class AssistDurationElementComponent implements OnInit, OnDestroy {
-
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() assetsBaseUrl: string;
-  @Input() durationDataElement: DurationDataElement;
-
-  durationElementForm: FormGroup;
-  subscription: Subscription;
 
   supportedUnits: any = {
     millisecond: {
@@ -64,17 +57,8 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    simulatorCommunicationService: SimulatorCommunicationService) {
-    this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
-      mission => {
-        this.SetRangeValuesForDurationPicker();
-        this.updateFormValidator();
-      });
-  }
 
-  DurationVal = 'PT0S';
+  durationVal = 'PT0S';
   durationOptions = {
     showNegative: false,
     showPreview: false,
@@ -92,6 +76,24 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
   showhourmaxValidation = false;
   showsecondsminValidation = false;
   showsecondsmaxValidation = false;
+
+  durationElementForm: FormGroup;
+  simulatorSourceSubscription: ISubscription;
+
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
+  @Input() durationDataElement: DurationDataElement;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private utilityService: UtilityService,
+    simulatorCommunicationService: SimulatorCommunicationService) {
+    this.simulatorSourceSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
+      mission => {
+        this.SetRangeValuesForDurationPicker();
+        this.updateFormValidator();
+      });
+  }
 
   ngOnInit() {
     this.SetRangeValuesForDurationPicker();
@@ -312,7 +314,9 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.utilityService.isValidInstance(this.simulatorSourceSubscription)) {
+      this.simulatorSourceSubscription.unsubscribe();
+    }
   }
 
   isDurationElementRequired(): boolean {

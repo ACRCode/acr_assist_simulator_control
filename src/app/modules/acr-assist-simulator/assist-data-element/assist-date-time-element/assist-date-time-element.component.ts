@@ -12,10 +12,6 @@ import { DateTimeElement } from '../assist-data-element.component';
 })
 export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
 
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() assetsBaseUrl: string;
-  @Input() dateTimeDataElement: DateTimeDataElement;
-  @Output() returnDateTimeElement = new EventEmitter();
   selectedCondition: SelectedCondition;
   dateTimeElementForm: FormGroup;
   settings = {
@@ -25,6 +21,11 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
     timePicker: true,
     closeOnSelect: true
   };
+
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
+  @Input() dateTimeDataElement: DateTimeDataElement;
+  @Output() returnDateTimeElement = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
 

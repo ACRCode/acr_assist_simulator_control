@@ -3,6 +3,7 @@ import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Cla
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
 import * as _ from 'lodash';
 import { TabularReport } from '../../core/models/tabular-report.model';
+
 @Component({
   selector: 'acr-assist-report-text',
   templateUrl: './assist-report-text.component.html',

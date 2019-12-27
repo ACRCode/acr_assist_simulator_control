@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { NumericDataElement } from 'testruleengine/Library/Models/Class';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
-import { Subscription } from 'rxjs';
 import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
 import { UtilityService } from '../../../core/services/utility.service';
 
@@ -18,7 +18,9 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
 
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  subscription: Subscription;
+  simulatorStateSubscription: ISubscription;
+  resetSubscription: ISubscription;
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() assetsBaseUrl: string;
   @Input() numericDataElement: NumericDataElement;
@@ -30,19 +32,13 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     private utilityService: UtilityService,
     simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService) {
-    this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
+    this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
       mission => {
         this.updateFormValidator();
       });
 
-    this.subscription = resetCommunicationService.resetSource$.subscribe(
-      mission => {
-
-      });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.resetSubscription = resetCommunicationService.resetSource$.subscribe(
+      mission => { });
   }
 
   ngOnInit() {
@@ -57,6 +53,15 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
       this.loadedNumericValue(this.numericDataElement.id, this.numericDataElement.currentValue, this.numericDataElement.label);
     } else {
       this.returnNumericElement.emit(undefined);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
+    if (this.utilityService.isValidInstance(this.resetSubscription)) {
+      this.resetSubscription.unsubscribe();
     }
   }
 

@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
 import { InputData } from '../../core/models/input-data.model';
@@ -9,7 +10,6 @@ import { RepeatedElementSections } from '../../core/elements/models/RepeatedElem
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
-import { Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
 import { TabularReport } from '../../core/models/tabular-report.model';
@@ -33,7 +33,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   executedResultHistories: ExecutedResultHistory[] = [];
   IsRepeating: boolean;
   $RepeatedElementModel: any[] = [];
-  subscription: Subscription;
+  resetSourceSubscription: ISubscription;
+  simulatorStateSubscription: ISubscription;
 
   @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
@@ -59,20 +60,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
   ) {
-    this.subscription = resetCommunicationService.resetSource$.subscribe(
+    this.resetSourceSubscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
         this.$RepeatedElementModel = [];
       });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   ngOnInit(): void {
     this.IsRepeating = false;
-    this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
+    this.simulatorStateSubscription = this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
 
       this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
@@ -147,7 +144,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
     this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
@@ -161,6 +158,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     this.simulatorEngineService.evaluateDecisionPoints();
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.resetSourceSubscription)) {
+      this.resetSourceSubscription.unsubscribe();
+    }
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
   }
 
   choiceSelected($event) {
@@ -224,7 +230,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       this.IsRepeating = false;
       const $repeatedElementModel = new RepeatedElementModel();
 
-      this.ResetRepeatedElements($event);
+      this.resetRepeatedElements($event);
       for (const item of this.dataElements) {
         if (item.id === $event.receivedElement.elementId) {
           $repeatedElementModel.ParentElement = item;
@@ -256,7 +262,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  ResetRepeatedElements($event) {
+  resetRepeatedElements($event) {
     for (let index = 0; index < this.$RepeatedElementModel.length; index++) {
       if (this.$RepeatedElementModel[index].ParentElementId === $event.receivedElement.elementId) {
         this.$RepeatedElementModel.splice(index, 1);
@@ -453,25 +459,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     return tabularReports;
-  }
-
-  private returnEndPointContents(content: string, startToken: string, endToken: string): string {
-    let contents: string;
-    let templateSearchIndexPosition = 0;
-    while (true) {
-      const contentStartPosition = content.indexOf(startToken, templateSearchIndexPosition);
-      const contentEndPosition = content.indexOf(endToken, templateSearchIndexPosition);
-
-      if (contentStartPosition >= 0 && contentEndPosition >= 0) {
-        const endPosition = contentEndPosition + endToken.length;
-        const contentData = content.substring(contentStartPosition, endPosition);
-        contents = contentData;
-        templateSearchIndexPosition = endPosition + 1;
-      } else {
-        break;
-      }
-    }
-    return contents;
   }
 }
 

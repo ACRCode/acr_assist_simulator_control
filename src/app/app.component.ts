@@ -72,9 +72,7 @@ export class AppComponent {
     this.resetCommunicationService.messageEmitter('');
   }
 
-  recieveReportText(textReport: MainReportText) {
-  }
+  recieveReportText(textReport: MainReportText) { }
 
-  recievedDataElementChanged(data) {
-  }
+  recievedDataElementChanged(data) { }
 }

@@ -68,7 +68,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: any, choiceLabel: any) {
     const multiElement = new MultiChoiceElement();
     if ($('#' + elementId + '_' + choiceValue).is(':checked')) {
-      // this.multiChoiceValues = choiceLabel;
       this.multiChoiceComaprisonValues = choiceValue;
     } else {
       const index = this.multiChoiceValues.indexOf(choiceLabel);

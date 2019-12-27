@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
-import { Subject } from 'rxjs';
+import { SubscriptionLike as ISubscription, Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
@@ -18,7 +18,20 @@ const $ = require('jquery');
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
+export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy {
+
+  template: Template;
+  isEmptyContent: boolean;
+  keyDiagrams: Diagram[] = [];
+  resultText: MainReportText;
+  isReset: boolean;
+  dataElements: BaseDataElement[];
+  position = ReportTextPosition;
+  isInvalidFile: boolean;
+  moduleName: string;
+  acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
+  resetValuesSubscription: ISubscription;
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
@@ -36,25 +49,15 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   @Input() cssClass: string;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() aiInputs: AIInputData[] = [];
-  @Input() showTabularReportText: boolean;
+  @Input() showTabularReportText = false;
   @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
   @Output() returnDefaultElements = new EventEmitter();
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+
   @ViewChild('imageUpload', { static: false }) imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
-
-  template: Template;
-  isEmptyContent: boolean;
-  keyDiagrams: Diagram[] = [];
-  resultText: MainReportText;
-  isReset: boolean;
-  dataElements: BaseDataElement[];
-  position = ReportTextPosition;
-  isInvalidFile: boolean;
-  moduleName: string;
-  acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -64,7 +67,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     if (this.resetValuesNotifier != null) {
-      this.resetValuesNotifier.subscribe((event) => {
+      this.resetValuesSubscription = this.resetValuesNotifier.subscribe((event) => {
         this.resetElements();
       });
     }
@@ -72,28 +75,28 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   ngOnChanges(): void {
     this.isReset = true;
+    this.resultText = undefined;
+
     this.isEmptyContent = this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
       this.inputData === undefined;
+
     if (this.isEmptyContent) {
       return;
     }
-    if (this.inputData !== undefined) {
-      if (this.inputData.length > 0) {
-        this.inputValues = JSON.parse(this.inputData);
-      }
+    if (this.utilityService.isNotEmptyString(this.inputData)) {
+      this.inputValues = JSON.parse(this.inputData);
     }
-    if (this.imageUpload !== undefined) {
+    if (this.utilityService.isValidInstance(this.imageUpload)) {
       this.imageUpload.nativeElement.value = '';
     }
 
     this.template = getTemplate(this.templateContent);
-    if (this.inputValues.length !== 0) {
+    if (this.utilityService.isNotEmptyArray(this.inputValues)) {
       this.populateTestCaseData();
     }
 
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
-    this.resultText = undefined;
 
     if (this.moduleName !== this.template.metadata.id) {
       this.keyDiagrams = new Array<Diagram>();
@@ -120,6 +123,12 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     setTimeout(function(e) {
       context.applyInputStyles();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.resetValuesSubscription)) {
+      this.resetValuesSubscription.unsubscribe();
+    }
   }
 
   applyInputStyles() {
