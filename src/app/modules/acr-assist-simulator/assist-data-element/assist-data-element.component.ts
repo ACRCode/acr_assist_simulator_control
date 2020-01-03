@@ -118,15 +118,14 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
       if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
-        if (this.showTabularReportText) {
-          this.mainReportTextObj.tabularReport = this.createTabularReport();
-          if (this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport)) {
-            this.returnReportText.emit(this.mainReportTextObj);
-          } else {
-            this.returnReportText.emit(undefined);
-          }
-        } else {
+        this.returnReportText.emit(this.mainReportTextObj);
+      } else if (this.showTabularReportText) {
+        this.mainReportTextObj = new MainReportText();
+        this.mainReportTextObj.tabularReport = this.createTabularReport();
+        if (this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport)) {
           this.returnReportText.emit(this.mainReportTextObj);
+        } else {
+          this.returnReportText.emit(undefined);
         }
       } else {
         this.returnReportText.emit(undefined);
