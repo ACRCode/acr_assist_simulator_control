@@ -117,9 +117,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       // tslint:disable-next-line: max-line-length
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
-      if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
-        this.returnReportText.emit(this.mainReportTextObj);
-      } else if (this.showTabularReportText) {
+      if (this.showTabularReportText) {
         this.mainReportTextObj = new MainReportText();
         this.mainReportTextObj.tabularReport = this.createTabularReport();
         if (this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport)) {
@@ -127,6 +125,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         } else {
           this.returnReportText.emit(undefined);
         }
+      } else if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
+        this.returnReportText.emit(this.mainReportTextObj);
       } else {
         this.returnReportText.emit(undefined);
       }
