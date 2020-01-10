@@ -434,9 +434,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
   private createTabularReport(): TabularReport[] {
     const tabularReports = new Array<TabularReport>();
-    const dataElementValues = this.simulatorEngineService.getAllDataElementValues()[Symbol.iterator]();
+    const dataElementTexts = this.simulatorEngineService.getAllDataElementTexts()[Symbol.iterator]();
     const template = this.simulatorEngineService.getTemplate();
-    for (const value of dataElementValues) {
+    for (const value of dataElementTexts) {
       const hasValidValue = Array.isArray(value[1]) ?
         this.utilityService.isNotEmptyArray(value[1]) : this.utilityService.isNotEmptyString(value[1]);
       if (hasValidValue) {
