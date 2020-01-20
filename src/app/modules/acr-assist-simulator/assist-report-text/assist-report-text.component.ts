@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { AllReportText, MainReportText } from 'testruleengine/Library/Models/Class';
 import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text.model';
-import * as _ from 'lodash';
 import { TabularReport } from '../../core/models/tabular-report.model';
+import { UtilityService } from '../../core/services/utility.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'acr-assist-report-text',
@@ -18,14 +19,14 @@ export class AssistReportTextComponent implements OnChanges {
   allReportTexts: AllReportText[] = [];
   mainReportTexts: MainReportText;
   allTextReport: AllTextReport[];
-  tabularReports: TabularReport[];
+  tabularReport: TabularReport;
   sections: string[] = [];
 
   @Input() reportText: MainReportText;
 
-  constructor() {
-    setInterval(() => {
-    }, 1000);
+  constructor(
+    private utilityService: UtilityService
+  ) {
   }
 
   ngOnChanges(): void {
@@ -37,7 +38,7 @@ export class AssistReportTextComponent implements OnChanges {
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
-    this.tabularReports = this.reportText.tabularReport;
+    this.tabularReport = this.reportText.tabularReport;
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
         this.sections.push(section);
@@ -95,6 +96,10 @@ export class AssistReportTextComponent implements OnChanges {
     }
     this.mainReportTexts.allReportText = this.allReportTexts;
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
+  }
+
+  getReportIdentifier(identifer: string) {
+    return this.utilityService.isNotEmptyString(identifer) ? `( ${identifer} )` : '';
   }
 
   addEmptyBreakLines(inputText: string): string {

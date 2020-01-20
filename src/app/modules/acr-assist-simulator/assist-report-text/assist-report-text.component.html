@@ -1,22 +1,25 @@
-<ng-container *ngIf="tabularReports; else reportText">
-  <table class="table table-bordered" *ngIf="tabularReports.length">
-    <thead>
-      <tr>
-        <th scope="col">CDE Identifier</th>
-        <th scope="col">CDE Name</th>
-        <th scope="col">CDE Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let report of tabularReports">
+<ng-container *ngIf="tabularReport; else reportText">
+  <ng-container *ngIf="tabularReport.elements.length">
+    <h5>
+      {{ tabularReport.label }} {{ getReportIdentifier(tabularReport.identifier) }}
+    </h5>
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <td class="break-word">{{ report.radElement }}</td>
-          <td>{{ report.dataElement }}</td>
-          <td class="break-word">{{ report.values }}</td>
+          <th scope="col">CDE Name</th>
+          <th scope="col">CDE Value</th>
         </tr>
-      </ng-container>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let report of tabularReport.elements">
+          <tr>
+            <td class="break-word">{{ report.dataElement }} {{ getReportIdentifier(report.radElement) }}</td>
+            <td class="break-word">{{ report.values }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
 </ng-container>
 <ng-template #reportText>
   <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">

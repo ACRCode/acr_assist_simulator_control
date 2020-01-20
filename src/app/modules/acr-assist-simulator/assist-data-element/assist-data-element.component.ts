@@ -9,11 +9,12 @@ import { RepeatedElementModel } from '../../core/elements/models/repeatedElement
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
+import { TabularReport } from '../../core/models/tabular-report.model';
+import { UtilityService } from '../../core/services/utility.service';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
 
 import * as _ from 'lodash';
-import { TabularReport } from '../../core/models/tabular-report.model';
-import { UtilityService } from '../../core/services/utility.service';
+import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
 const $ = require('jquery');
 
 @Component({
@@ -120,7 +121,8 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       if (this.showTabularReportText) {
         this.mainReportTextObj = new MainReportText();
         this.mainReportTextObj.tabularReport = this.createTabularReport();
-        if (this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport)) {
+        if (this.utilityService.isValidInstance(this.mainReportTextObj.tabularReport) &&
+            this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
           this.returnReportText.emit(this.mainReportTextObj);
         } else {
           this.returnReportText.emit(undefined);
@@ -432,10 +434,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.returnExecutionHistory.emit(finalExecution);
   }
 
-  private createTabularReport(): TabularReport[] {
-    const tabularReports = new Array<TabularReport>();
+  private createTabularReport(): TabularReport {
     const dataElementTexts = this.simulatorEngineService.getAllDataElementTexts()[Symbol.iterator]();
     const template = this.simulatorEngineService.getTemplate();
+    const tabularReport = new TabularReport();
+    tabularReport.elements = new Array<TabularReportElements>();
+    tabularReport.label = template.metadata.label;
+
+    if (this.utilityService.isValidInstance(template.metadata.codableConcept) &&
+      this.utilityService.isNotEmptyArray(template.metadata.codableConcept.coding)) {
+        tabularReport.identifier = template.metadata.codableConcept.coding[0].code;
+    }
+
     for (const value of dataElementTexts) {
       const hasValidValue = Array.isArray(value[1]) ?
         this.utilityService.isNotEmptyArray(value[1]) : this.utilityService.isNotEmptyString(value[1]);
@@ -448,16 +458,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
             this.utilityService.isNotEmptyArray(dataElement.codableConcept.coding)) {
             radElementId = dataElement.codableConcept.coding[0].code;
           }
-          const report = new TabularReport();
-          report.dataElement = dataElement.label;
-          report.radElement = radElementId;
-          report.values = value[1];
-          tabularReports.push(report);
+
+          const element = new TabularReportElements();
+          element.dataElement = dataElement.label;
+          element.radElement = radElementId;
+          element.values = value[1];
+          tabularReport.elements.push(element);
         }
       }
     }
 
-    return tabularReports;
+    return tabularReport;
   }
 }
 
