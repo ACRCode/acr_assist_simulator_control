@@ -28,7 +28,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
-  comparisonValues: string[] = [];
   selectedChoiceValues: string[] = [];
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
@@ -122,7 +121,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         this.mainReportTextObj = new MainReportText();
         this.mainReportTextObj.tabularReport = this.createTabularReport();
         if (this.utilityService.isValidInstance(this.mainReportTextObj.tabularReport) &&
-            this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
+          this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
           this.returnReportText.emit(this.mainReportTextObj);
         } else {
           this.returnReportText.emit(undefined);
@@ -293,10 +292,9 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   multiSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
-        this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
         // tslint:disable-next-line: max-line-length
-        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues,
-          $event.receivedElement.selectedValues);
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValues,
+          $event.receivedElement.selectedTexts);
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
@@ -443,7 +441,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
     if (this.utilityService.isValidInstance(template.metadata.codableConcept) &&
       this.utilityService.isNotEmptyArray(template.metadata.codableConcept.coding)) {
-        tabularReport.identifier = template.metadata.codableConcept.coding[0].code;
+      tabularReport.identifier = template.metadata.codableConcept.coding[0].code;
     }
 
     for (const value of dataElementTexts) {
@@ -491,7 +489,7 @@ export class DateTimeElement {
 export class MultiChoiceElement {
   elementId: string;
   selectedValues: string[];
-  selectedComparisonValues: string[];
+  selectedTexts: string[];
 }
 
 export class AllElements {

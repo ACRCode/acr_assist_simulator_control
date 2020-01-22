@@ -81,10 +81,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     }
 
     setTimeout(() => {
-      const selectedValues = this.GetSelectedItems();
+      const selectedValues = this.getSelectedItems();
+      const selectedTexts = this.getSelectedItemTexts(selectedValues);
+
       multiElement.elementId = elementId;
       multiElement.selectedValues = selectedValues;
-      multiElement.selectedComparisonValues = selectedValues;
+      multiElement.selectedTexts = selectedTexts;
 
       this.selectedCondition = new SelectedCondition();
       this.selectedCondition.selectedConditionId = elementId;
@@ -107,12 +109,13 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateFreeText(element, elementId, selectedCondition) {
-    const selectedValues = this.GetSelectedItems();
+    const selectedValues = this.getSelectedItems();
+    const selectedTexts = this.getSelectedItemTexts(selectedValues);
 
     const multiElement = new MultiChoiceElement();
     multiElement.elementId = elementId;
     multiElement.selectedValues = selectedValues;
-    multiElement.selectedComparisonValues = selectedValues;
+    multiElement.selectedTexts = selectedTexts;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
@@ -143,11 +146,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
 
-    const selectedValues = this.GetSelectedItems();
+    const selectedValues = this.getSelectedItems();
+    const selectedTexts = this.getSelectedItemTexts(selectedValues);
 
     multiElement.elementId = elementId;
     multiElement.selectedValues = selectedValues;
-    multiElement.selectedComparisonValues = selectedValues;
+    multiElement.selectedTexts = selectedTexts;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
@@ -156,7 +160,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
 
-  private GetSelectedItems() {
+  private getSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
     const selectedItems = [];
     // tslint:disable-next-line:prefer-for-of
@@ -174,9 +178,19 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     return selectedValues;
   }
 
+  private getSelectedItemTexts(selectedValues: any) {
+    const selectedItems = [];
+    for (const value of selectedValues) {
+      const choice = this.multiChoiceElement.choiceInfo.find(x => x.value === value);
+      selectedItems.push(choice.label);
+    }
+
+    return selectedItems;
+  }
+
   isMultiChoiceElementRequired(): boolean {
     return this.multiChoiceElementForm.controls.multiCheckBox.invalid &&
-           this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
+      this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
   }
 
   isMultiChoiceLabelHidden(value: string): boolean {
@@ -202,8 +216,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.multiChoiceElementForm = this.formBuilder.group({
       multiCheckBox: ['', Validators.required],
     }, {
-        validator: this.specificValueInsideRange('multiCheckBox')
-      });
+      validator: this.specificValueInsideRange('multiCheckBox')
+    });
   }
 
   private specificValueInsideRange(multiCheckBox: string) {
