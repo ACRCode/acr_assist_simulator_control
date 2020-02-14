@@ -178,9 +178,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -197,10 +195,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -278,10 +273,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -298,10 +290,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
