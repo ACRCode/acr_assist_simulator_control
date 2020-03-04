@@ -3,7 +3,7 @@ import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+import { UtilityService } from '../../../core/services/utility.service';
 
 const $ = require('jquery');
 import * as _ from 'lodash';
@@ -28,7 +28,9 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   @Input() multiChoiceElement: MultiChoiceDataElement;
   @Output() returnMultiChoice = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private utilityService: UtilityService) { }
 
   ngOnInit() {
     this.createMultiChoiceElementForm();
@@ -182,7 +184,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     const selectedItems = [];
     for (const value of selectedValues) {
       const choice = this.multiChoiceElement.choiceInfo.find(x => x.value === value);
-      selectedItems.push(choice.label);
+      if (this.utilityService.isValidInstance(choice)) {
+        selectedItems.push(choice.label);
+      } else {
+        selectedItems.push(value);
+      }
     }
 
     return selectedItems;
