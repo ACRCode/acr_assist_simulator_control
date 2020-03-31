@@ -141,7 +141,11 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     this.showOrHideFreeText(elementId, selectedValue);
-    this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
+    if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
+      this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
+    } else {
+      this.emitChoiceElementData(elementId, selectedElement, '', '');
+    }
   }
 
   dropdownChoiceSelected(element, selectedCondition) {
@@ -158,7 +162,11 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
       selectedValue = '';
     }
 
-    this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
+    if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
+      this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
+    } else {
+      this.emitChoiceElementData(elementId, selectedElement, '', '');
+    }
   }
 
   updateFreeText(element, elementId, selectedCondition) {
