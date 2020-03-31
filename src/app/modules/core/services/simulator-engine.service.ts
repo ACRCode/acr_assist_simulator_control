@@ -6,6 +6,8 @@ import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, Endpoint
          IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
          InsertPartial, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
 import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator';
+
+import {generateReportText} from 'testruleengine/Library/Utilities/GenerateReportText';
 import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
@@ -577,6 +579,12 @@ export class SimulatorEngineService {
     }
   }
 
+  
+  // remove
+  getDataElementValues(){
+    debugger;
+  }
+
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
       this.showKeyDiagram = undefined;
@@ -585,9 +593,13 @@ export class SimulatorEngineService {
       this.ProcessRepetationDataElements();
       this.endOfRoadReached = false;
       this.branchCounter++;
+      debugger;
       const decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
       this.endpoints = decisionPoints.finalEndPoints;
       this.showKeyDiagram = decisionPoints.keyDiagramId;
+
+      //  const test = generateReportText(this.template, this.dataElementValues);
+
       const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
       const $simulatorState = new SimulatorState();
       if (reportText.allReportText.length > 0) {

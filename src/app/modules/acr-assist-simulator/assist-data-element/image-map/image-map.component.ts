@@ -111,8 +111,9 @@ export class ImageMapComponent implements OnInit {
   }
 
   setValue(val) {
+    debugger;
     for (const optValue of this.DataElement.choiceInfo) {
-      if (this.DataElement.choiceInfo.length <= 5 && this.DataElement.choiceInfo.length > 0) {
+      if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
         if (optValue.value === val) {
           $('#' + val + '_' + this.DataElement.id).prop('checked', true);
           const customEvent = document.createEvent('Event');
@@ -150,5 +151,7 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
+
+    // return 'assets/images/COVID19.jpg';
   }
 }
