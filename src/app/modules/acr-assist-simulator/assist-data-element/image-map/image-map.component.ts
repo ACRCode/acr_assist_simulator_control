@@ -111,7 +111,6 @@ export class ImageMapComponent implements OnInit {
   }
 
   setValue(val) {
-    debugger;
     for (const optValue of this.DataElement.choiceInfo) {
       if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
         if (optValue.value === val) {
