@@ -579,10 +579,7 @@ export class SimulatorEngineService {
     }
   }
 
-  
-  // remove
-  getDataElementValues(){
-  }
+  getDataElementValues() { }
 
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
@@ -595,8 +592,6 @@ export class SimulatorEngineService {
       const decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
       this.endpoints = decisionPoints.finalEndPoints;
       this.showKeyDiagram = decisionPoints.keyDiagramId;
-
-      //  const test = generateReportText(this.template, this.dataElementValues);
 
       const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
       const $simulatorState = new SimulatorState();
