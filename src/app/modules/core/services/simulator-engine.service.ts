@@ -582,7 +582,6 @@ export class SimulatorEngineService {
   
   // remove
   getDataElementValues(){
-    debugger;
   }
 
   public evaluateDecisionPoints() {
@@ -593,7 +592,6 @@ export class SimulatorEngineService {
       this.ProcessRepetationDataElements();
       this.endOfRoadReached = false;
       this.branchCounter++;
-      debugger;
       const decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
       this.endpoints = decisionPoints.finalEndPoints;
       this.showKeyDiagram = decisionPoints.keyDiagramId;

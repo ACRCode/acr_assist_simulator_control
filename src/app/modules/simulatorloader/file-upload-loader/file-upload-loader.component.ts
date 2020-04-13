@@ -52,6 +52,9 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
         $('#xmlOnlyMsg').show();
       }
     }
+
+    let target = $event.target || $event.srcElement;
+    target.value = '';
   }
 
   hideMessage() {
