@@ -120,7 +120,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
 
     const context = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       context.applyInputStyles();
     });
   }
@@ -154,7 +154,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function(el) {
+    return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
     });
   }
@@ -165,6 +165,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
+    const $this = this;
+    setTimeout(function (e) {
+      $this.resizeKeyImages();
+    }, 100);
     this.returnDefaultElements.emit();
   }
 
@@ -218,7 +222,11 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     const windowHeight = window.innerHeight;
     const reportTextHeight = $('#div-right-reportText').height();
     const height = windowHeight - reportTextHeight - 150;
-    $('#carousel-example-generic').height(height + 'px');
+    if (reportTextHeight === 1) {
+      $('#carousel-example-generic').height('auto');
+    } else {
+      $('#carousel-example-generic').height(height + 'px');
+    }
   }
 
   collapseKeyDiagram() {
