@@ -5,3 +5,7 @@
   .spantest {
     margin-left: 10px;
   }
+
+  .float-right {
+    float: right;
+  }

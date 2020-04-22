@@ -4,6 +4,7 @@ import { AllTextReport, AllReportTextGroup } from '../../core/models/report-text
 import { TabularReport } from '../../core/models/tabular-report.model';
 import { UtilityService } from '../../core/services/utility.service';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'acr-assist-report-text',
@@ -25,6 +26,7 @@ export class AssistReportTextComponent implements OnChanges {
   @Input() reportText: MainReportText;
 
   constructor(
+    private toastr: ToastrService,
     private utilityService: UtilityService
   ) {
   }
@@ -63,7 +65,7 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
@@ -109,5 +111,35 @@ export class AssistReportTextComponent implements OnChanges {
     }
 
     return inputText;
+  }
+
+  clipboardError(error: Error): void {
+    this.toastr.error('Failed to copy to clipboard');
+  }
+
+  clipboardSuccess(value: string): void {
+    this.toastr.success('Successfully copied to clipboard');
+  }
+
+  getReportTextInnerContent(allTextResultReport) {
+    if (this.utilityService.isValidInstance(allTextResultReport)) {
+      document.execCommand('copy');
+      var msgb = allTextResultReport.content.trim();
+
+
+      let selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = msgb;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+    }
+
+    // return '';
   }
 }

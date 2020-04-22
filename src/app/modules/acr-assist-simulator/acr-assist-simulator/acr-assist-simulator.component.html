@@ -15,11 +15,11 @@
                   <div class="box-header with-border">
                     <h3 class="box-title">Report Text</h3>
                     <div class="box-tools pull-right">
-                      <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                      <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                         [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
                         (clipboardError)="clipboardError($event)" acrClipboard>
                         <i class="fa fa-clipboard"></i>
-                      </button>
+                      </span>
                       <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                         <i id="icon_reporttext" class="fa fa-minus"></i>
                       </button>
@@ -84,11 +84,11 @@
             <div class="box-header with-border">
               <h3 class="box-title">Report Text</h3>
               <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                   [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
                   (clipboardError)="clipboardError($event)" acrClipboard>
                   <i class="fa fa-clipboard"></i>
-                </button>
+                </span>
                 <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                   <i id="icon_reporttext" class="fa fa-minus"></i>
                 </button>

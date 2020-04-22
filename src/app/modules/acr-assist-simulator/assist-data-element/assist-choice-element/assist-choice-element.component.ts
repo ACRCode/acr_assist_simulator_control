@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -6,6 +6,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
+import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
 
@@ -14,7 +16,7 @@ const $ = require('jquery');
   templateUrl: './assist-choice-element.component.html',
   styleUrls: ['./assist-choice-element.component.css', '../../styles.css']
 })
-export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
+export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isFreeText = false;
   freeTextValue: string;
@@ -24,6 +26,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   selectedChoiceReportText: string;
   selectedChoiceReportLabel: string;
   elementDisplay: ChoiceElementDisplayEnum;
+  simulatorStateSubscription: ISubscription;
 
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() assetsBaseUrl: string;
@@ -38,7 +41,21 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService,
+    private simulatorCommunicationService: SimulatorCommunicationService) {
+    // this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
+    //   mission => {
+    //     // if ($('#' + this.choiceDataElement.id) !== undefined && $('#' + this.choiceDataElement.id) !== null) {
+    //     //   this.dropdownChoiceSelected($('#' + this.choiceDataElement.id).get(0), this.choiceDataElement.label);
+    //     // }
+    //   });
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
@@ -191,6 +208,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit {
   }
 
   private emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
+    debugger;
     const choiceElement = new ChoiceElement();
     choiceElement.elementId = elementId;
     choiceElement.selectedValue = selectedValue;

@@ -1,19 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
 import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { UtilityService } from '../../../core/services/utility.service';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
 import * as _ from 'lodash';
+import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
   templateUrl: './assist-multi-choice-element.component.html',
   styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
-export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
+export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiElements: MultiChoiceElement[] = [];
   multiChoiceValues: string[] = [];
@@ -22,6 +24,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   selectedCondition: SelectedCondition;
   isFreeText = false;
   freeTextValue: string;
+  simulatorStateSubscription: ISubscription;
 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() assetsBaseUrl: string;
@@ -30,10 +33,21 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilityService: UtilityService) { }
+    private utilityService: UtilityService, simulatorCommunicationService: SimulatorCommunicationService) {
+    this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
+      mission => {
+        this.ngAfterViewInit();
+      });
+  }
 
   ngOnInit() {
     this.createMultiChoiceElementForm();
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -164,7 +178,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
 
   private getSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
-    const selectedItems = [];
+    let selectedItems = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < items.length; i++) {
       if (items[i].checked === true) {
@@ -172,9 +186,14 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
 
-    const selectedValues = selectedItems;
+    let selectedValues = selectedItems;
     if ($('#txt_other_' + this.multiChoiceElement.id).val() !== '') {
       selectedValues.push($('#txt_other_' + this.multiChoiceElement.id).val());
+    }
+
+    if (selectedValues !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined) {
+      const filteredItems = selectedValues.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
+      selectedValues = filteredItems;
     }
 
     return selectedValues;
@@ -200,6 +219,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   isMultiChoiceLabelHidden(value: string): boolean {
+    if (this.multiChoiceElement.currentValue !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined) {
+      const filteredItems = this.multiChoiceElement.currentValue.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
+      this.multiChoiceElement.currentValue = filteredItems;
+    }
+
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
       : null;

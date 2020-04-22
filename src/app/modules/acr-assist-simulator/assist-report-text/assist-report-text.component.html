@@ -25,21 +25,39 @@
   <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
     <dt class="text-capitalize underline" *ngIf="textReport.repeatedSectionName !== ''">
       {{textReport.repeatedSectionName}}</dt>
-    <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first">
+
+    <ng-container
+      *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first; let i = index">
       <div [ngClass]="{ 'margin-top-15' : !firstItem }">
         <ng-container *ngIf="textReport.repeatedSectionName !== ''">
-          <dt class="text-capitalize spantest">
-            {{allTextResultReport.heading}}</dt>
-          <dd>
-            <p class="white-space-line spantest" [innerHTML]="allTextResultReport.content"></p>
-          </dd>
+          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForNonEmptySectionName.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+            (clipboardError)="clipboardError($event)" acrClipboard>
+            <i class="fa fa-clipboard"></i>
+          </span>
+          <dl #reportTextContentForNonEmptySectionName>
+            <dt class="text-capitalize spantest">
+              {{allTextResultReport.heading}}</dt>
+            <dd>
+              <p class="white-space-line spantest" [innerHTML]="allTextResultReport.content"></p>
+            </dd>
+          </dl>
         </ng-container>
+
+        <!-- reportTextContent.innerText.trim() -->
         <ng-container *ngIf="textReport.repeatedSectionName === ''">
-          <dt class="text-capitalize">
-            {{allTextResultReport.heading}}</dt>
-          <dd>
-            <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
-          </dd>
+          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForEmptySectionName.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+            (clipboardError)="clipboardError($event)" acrClipboard>
+            <i class="fa fa-clipboard"></i>
+          </span>
+          <dl #reportTextContentForEmptySectionName>
+            <dt class="text-capitalize">
+              {{allTextResultReport.heading}}</dt>
+            <dd>
+              <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
+            </dd>
+          </dl>
         </ng-container>
       </div>
     </ng-container>
