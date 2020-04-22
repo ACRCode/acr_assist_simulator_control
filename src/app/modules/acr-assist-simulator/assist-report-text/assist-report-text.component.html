@@ -30,10 +30,17 @@
       *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first; let i = index">
       <div [ngClass]="{ 'margin-top-15' : !firstItem }">
         <ng-container *ngIf="textReport.repeatedSectionName !== ''">
-          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
-            [clipboard]="reportTextContentForNonEmptySectionName.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
-            (clipboardError)="clipboardError($event)" acrClipboard>
+          <!-- <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForNonEmptySectionName.innerText.trim()"
+            (clipboardCopy)="clipboardSuccess($event)" (clipboardError)="clipboardError($event)" acrClipboard>
             <i class="fa fa-clipboard"></i>
+          </span> -->
+          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            (click)="getReportTextInnerContent(reportTextContentForNonEmptySectionName)">
+            <span>
+              <i class="fa fa-clipboard"></i>
+              <!-- Copy to clipboard -->
+            </span>
           </span>
           <dl #reportTextContentForNonEmptySectionName>
             <dt class="text-capitalize spantest">
@@ -46,10 +53,20 @@
 
         <!-- reportTextContent.innerText.trim() -->
         <ng-container *ngIf="textReport.repeatedSectionName === ''">
+          <!-- <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForEmptySectionName.innerText.trim()"
+            (clipboardCopy)="clipboardSuccess($event)" (clipboardError)="clipboardError($event)" acrClipboard>
+            <span>
+              <i class="fa fa-clipboard"></i>
+              Copy to clipboard
+            </span>
+          </span> -->
           <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
-            [clipboard]="reportTextContentForEmptySectionName.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
-            (clipboardError)="clipboardError($event)" acrClipboard>
-            <i class="fa fa-clipboard"></i>
+            (click)="getReportTextInnerContent(reportTextContentForEmptySectionName)">
+            <span>
+              <i class="fa fa-clipboard"></i>
+              <!-- Copy to clipboard -->
+            </span>
           </span>
           <dl #reportTextContentForEmptySectionName>
             <dt class="text-capitalize">

@@ -208,7 +208,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   private emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
-    debugger;
     const choiceElement = new ChoiceElement();
     choiceElement.elementId = elementId;
     choiceElement.selectedValue = selectedValue;

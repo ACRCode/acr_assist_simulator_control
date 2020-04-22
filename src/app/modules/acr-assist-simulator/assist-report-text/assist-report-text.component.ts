@@ -121,12 +121,11 @@ export class AssistReportTextComponent implements OnChanges {
     this.toastr.success('Successfully copied to clipboard');
   }
 
-  getReportTextInnerContent(allTextResultReport) {
-    if (this.utilityService.isValidInstance(allTextResultReport)) {
-      document.execCommand('copy');
-      var msgb = allTextResultReport.content.trim();
-
-
+  getReportTextInnerContent(reportTextContentForEmptySectionName) {
+    if (this.utilityService.isValidInstance(reportTextContentForEmptySectionName)) {
+      // document.execCommand('copy');
+      // debugger;
+      var msgb = reportTextContentForEmptySectionName.innerText.trim();
       let selBox = document.createElement('textarea');
       selBox.style.position = 'fixed';
       selBox.style.left = '0';
@@ -138,6 +137,9 @@ export class AssistReportTextComponent implements OnChanges {
       selBox.select();
       document.execCommand('copy');
       document.body.removeChild(selBox);
+      this.toastr.success('Successfully copied to clipboard');
+    } else {
+      this.toastr.error('Failed to copy to clipboard');
     }
 
     // return '';

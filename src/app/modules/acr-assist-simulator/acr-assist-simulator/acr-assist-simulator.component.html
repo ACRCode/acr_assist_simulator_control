@@ -11,14 +11,20 @@
           <div class="box-body">
             <div #simulatorResultsBlock>
               <ng-container *ngIf="resultText !== undefined && showReportText">
-                <div class="box box-primary">
+                <div class="box box-primary" style="background-color: #eef0f2;">
                   <div class="box-header with-border">
                     <h3 class="box-title">Report Text</h3>
                     <div class="box-tools pull-right">
-                      <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
-                        [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+                      <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                        [clipboard]="reportTextContentForTop.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
                         (clipboardError)="clipboardError($event)" acrClipboard>
                         <i class="fa fa-clipboard"></i>
+                      </span> -->
+                      <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+                        (click)="getReportTextInnerContent(reportTextContentForTop)">
+                        <span>
+                          <i class="fa fa-clipboard"></i>
+                        </span>
                       </span>
                       <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                         <i id="icon_reporttext" class="fa fa-minus"></i>
@@ -26,7 +32,7 @@
                     </div>
                   </div>
                   <div id="body_reporttext" class="box-body report-text">
-                    <dl #reportTextContent>
+                    <dl #reportTextContentForTop>
                       <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
                     </dl>
                   </div>
@@ -84,10 +90,16 @@
             <div class="box-header with-border">
               <h3 class="box-title">Report Text</h3>
               <div class="box-tools pull-right">
-                <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
-                  [clipboard]="reportTextContent.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+                <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                  [clipboard]="reportTextContentForRight.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
                   (clipboardError)="clipboardError($event)" acrClipboard>
                   <i class="fa fa-clipboard"></i>
+                </span> -->
+                <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+                  (click)="getReportTextInnerContent(reportTextContentForRight)">
+                  <span>
+                    <i class="fa fa-clipboard"></i>
+                  </span>
                 </span>
                 <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
                   <i id="icon_reporttext" class="fa fa-minus"></i>
@@ -95,7 +107,7 @@
               </div>
             </div>
             <div id="body_reporttext" class="box-body report-text">
-              <dl #reportTextContent>
+              <dl #reportTextContentForRight>
                 <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
               </dl>
             </div>

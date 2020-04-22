@@ -34,10 +34,10 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   constructor(
     private formBuilder: FormBuilder,
     private utilityService: UtilityService, simulatorCommunicationService: SimulatorCommunicationService) {
-    this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
-      mission => {
-        this.ngAfterViewInit();
-      });
+    // this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
+    //   mission => {
+    //     this.ngAfterViewInit();
+    //   });
   }
 
   ngOnInit() {

@@ -298,4 +298,25 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   clipboardSuccess(value: string): void {
     this.toastr.success('Successfully copied to clipboard');
   }
+
+  getReportTextInnerContent(reportTextContentForEmptySectionName) {
+    if (this.utilityService.isValidInstance(reportTextContentForEmptySectionName)) {
+      var msgb = reportTextContentForEmptySectionName.innerText.trim();
+      let selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = msgb;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+      this.toastr.success('Successfully copied to clipboard');
+    } else {
+      this.toastr.error('Failed to copy to clipboard');
+    }
+    // return '';
+  }
 }
