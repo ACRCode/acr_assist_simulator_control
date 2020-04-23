@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
+import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 
 const $ = require('jquery');
 
@@ -14,7 +15,8 @@ export class ImageMapComponent implements OnInit {
   imageExist = true;
   SelectionValue = '';
 
-  @Input() DataElement: ChoiceDataElement;
+  // @Input() MultiChoiceDataElement: MultiChoiceDataElement;
+  @Input() DataElement: any;
   @Input() assetsBaseUrl: string;
   @Input() DataElements: object = {};
   @Input() FormValues: object = {};
@@ -111,27 +113,40 @@ export class ImageMapComponent implements OnInit {
   }
 
   setValue(val) {
-    for (const optValue of this.DataElement.choiceInfo) {
-      if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
+    if (this.utilityService.isValidInstance(this.DataElement) && this.DataElement.dataElementType === 'MultiChoiceDataElement') {
+      for (const optValue of this.DataElement.choiceInfo) {
         if (optValue.value === val) {
-          $('#' + val + '_' + this.DataElement.id).prop('checked', true);
+          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value).prop('checked', true);
           const customEvent = document.createEvent('Event');
           customEvent.initEvent('change', true, true);
-          $('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
-        } else {
-          $('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
-        }
-      } else {
-        if (optValue.value === val) {
-          $('#' + this.DataElement.id).val(optValue.value);
-          const customEvent = document.createEvent('Event');
-          customEvent.initEvent('change', true, true);
-          $('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
+          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value)[0].dispatchEvent(customEvent);
           break;
         }
       }
+    } else {
+      for (const optValue of this.DataElement.choiceInfo) {
+        if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
+          if (optValue.value === val) {
+            $('#' + val + '_' + this.DataElement.id).prop('checked', true);
+            const customEvent = document.createEvent('Event');
+            customEvent.initEvent('change', true, true);
+            $('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
+          } else {
+            $('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
+          }
+        } else {
+          if (optValue.value === val) {
+            $('#' + this.DataElement.id).val(optValue.value);
+            const customEvent = document.createEvent('Event');
+            customEvent.initEvent('change', true, true);
+            $('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
+            break;
+          }
+        }
+      }
+
+      this.DataElement.currentValue = val;
     }
-    this.DataElement.currentValue = val;
   }
 
   displayValue(val) {
@@ -143,14 +158,15 @@ export class ImageMapComponent implements OnInit {
   }
 
   getImageDataUrl(label: string): string {
-    if (this.utilityService.isNotEmptyString(label)) {
-      if (this.utilityService.isImageDataUrl(label)) {
-        return label;
-      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
-        return `${this.assetsBaseUrl}/${label}`;
-      }
-    }
+    // if (this.utilityService.isNotEmptyString(label)) {
+    //   if (this.utilityService.isImageDataUrl(label)) {
+    //     return label;
+    //   } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+    //     return `${this.assetsBaseUrl}/${label}`;
+    //   }
+    // }
 
+    return 'assets/images/COVID19.jpg';
     // return 'assets/images/COVID19.jpg';
   }
 }
