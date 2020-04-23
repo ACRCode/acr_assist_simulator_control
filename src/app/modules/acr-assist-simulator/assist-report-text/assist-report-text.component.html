@@ -35,16 +35,16 @@
             (clipboardCopy)="clipboardSuccess($event)" (clipboardError)="clipboardError($event)" acrClipboard>
             <i class="fa fa-clipboard"></i>
           </span> -->
-          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
-            (click)="getReportTextInnerContent(reportTextContentForNonEmptySectionName)">
-            <span>
-              <i class="fa fa-clipboard"></i>
-              <!-- Copy to clipboard -->
-            </span>
-          </span>
+
           <dl #reportTextContentForNonEmptySectionName>
-            <dt class="text-capitalize spantest">
-              {{allTextResultReport.heading}}</dt>
+            <span class="text-capitalize spantest">
+              {{allTextResultReport.heading}}</span>
+            <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+              (click)="getReportTextInnerContent(reportTextContentForNonEmptySectionName)">
+              <span>
+                <i class="fa fa-clipboard"></i>
+              </span>
+            </span>
             <dd>
               <p class="white-space-line spantest" [innerHTML]="allTextResultReport.content"></p>
             </dd>
@@ -61,16 +61,16 @@
               Copy to clipboard
             </span>
           </span> -->
-          <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
-            (click)="getReportTextInnerContent(reportTextContentForEmptySectionName)">
-            <span>
-              <i class="fa fa-clipboard"></i>
-              <!-- Copy to clipboard -->
-            </span>
-          </span>
+
           <dl #reportTextContentForEmptySectionName>
-            <dt class="text-capitalize">
-              {{allTextResultReport.heading}}</dt>
+            <span class="text-capitalize font-weight-bold">
+              {{allTextResultReport.heading}}</span>
+            <span class="btn btn-box-tool btn-report-text" title="Copy {{allTextResultReport.heading}} to clipboard"
+              (click)="getReportTextInnerContent(reportTextContentForEmptySectionName)">
+              <span>
+                <i class="fa fa-clipboard"></i>
+              </span>
+            </span>
             <dd>
               <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
             </dd>
