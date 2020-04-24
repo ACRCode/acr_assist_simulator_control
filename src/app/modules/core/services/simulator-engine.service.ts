@@ -252,11 +252,14 @@ export class SimulatorEngineService {
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              //#region uncomment
               // this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
+              //#endregion
             }
 
             if (dataelement.dataElementType === 'MultiChoiceDataElement') {
               (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              //#region uncomment
               // this.updateMultiChoiceDataElementValues((dataelement as MultiChoiceDataElement));
 
               // if (this.utilityService.isNotEmptyArray(dataelement.ChoiceNotRelevant)) {
@@ -265,6 +268,7 @@ export class SimulatorEngineService {
               //     dataelement.currentValue = _filteredItems;
               //   }
               // }
+              //#endregion
             }
 
             if (dataelement.dataElementType === 'DurationDataElement') {

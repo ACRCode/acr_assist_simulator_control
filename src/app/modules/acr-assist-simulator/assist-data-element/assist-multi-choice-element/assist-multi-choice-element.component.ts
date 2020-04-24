@@ -226,9 +226,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       this.multiChoiceElement.currentValue = filteredItems;
     }
 
-    // if (this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
+    //#region uncomment
+    // if (this.utilityService.isNotEmptyArray(this.multiChoiceElement.ChoiceNotRelevant) && this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
     //   $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     // }
+    //#endregion
 
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
