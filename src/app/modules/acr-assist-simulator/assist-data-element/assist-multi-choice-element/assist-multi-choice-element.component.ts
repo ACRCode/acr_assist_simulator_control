@@ -219,7 +219,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   }
 
   isMultiChoiceLabelHidden(value: string): boolean {
-    if (this.multiChoiceElement.currentValue !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined) {
+    if (this.multiChoiceElement.currentValue !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined &&
+      Array.isArray(this.multiChoiceElement.currentValue)) {
       const filteredItems = this.multiChoiceElement.currentValue.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
       this.multiChoiceElement.currentValue = filteredItems;
     }

@@ -247,6 +247,7 @@ export class SimulatorEngineService {
               dataelement.maximum = +conditionalProperty.Maximum;
             }
 
+            // debugger;
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
             }
