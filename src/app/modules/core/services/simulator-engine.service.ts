@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 import { SimulatorState } from '../models/simulator-state.model';
 import { BehaviorSubject } from 'rxjs';
 import { isArray } from 'util';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
-         IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
-         InsertPartial, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
+import {
+  ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
+  IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
+  InsertPartial, InsertValue, BaseDataElement, Template
+} from 'testruleengine/Library/Models/Class';
 import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator';
 
-import {generateReportText} from 'testruleengine/Library/Utilities/GenerateReportText';
+import { generateReportText } from 'testruleengine/Library/Utilities/GenerateReportText';
 import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
+import { UtilityService } from '../../core/services/utility.service';
 
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
@@ -31,7 +34,7 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor() {
+  constructor(private utilityService: UtilityService) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -127,7 +130,7 @@ export class SimulatorEngineService {
 
   private FindAndSetValueForComputedDataElement(expressionText, parentelementId) {
     const elementId = expressionText.match(/{([^}]+)}/);
-    const result = this.template.dataElements.filter(function(obj) {
+    const result = this.template.dataElements.filter(function (obj) {
       return obj.id === elementId[1] && (obj.dataElementType === 'ComputedDataElement');
     });
 
@@ -142,7 +145,7 @@ export class SimulatorEngineService {
   private IsExpressionReferedtoComputedDataElement(expressionText): boolean {
     const text = expressionText.match(/{([^}]+)}/);
     if (text !== null && text !== undefined && text.length > 0) {
-      const result = this.template.dataElements.filter(function(obj) {
+      const result = this.template.dataElements.filter(function (obj) {
         return obj.id === text[1] && (obj.dataElementType === 'ComputedDataElement');
       });
 
@@ -247,13 +250,21 @@ export class SimulatorEngineService {
               dataelement.maximum = +conditionalProperty.Maximum;
             }
 
-            // debugger;
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
             }
 
             if (dataelement.dataElementType === 'MultiChoiceDataElement') {
               (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              this.updateMultiChoiceDataElementValues((dataelement as MultiChoiceDataElement));
+
+              if (this.utilityService.isNotEmptyArray(dataelement.ChoiceNotRelevant)) {
+                if (dataelement.currentValue !== undefined && Array.isArray(dataelement.currentValue)) {
+                  const _filteredItems = dataelement.currentValue.filter((item: any) => !dataelement.ChoiceNotRelevant.includes(item));
+                  dataelement.currentValue = _filteredItems;
+                }
+              }
             }
 
             if (dataelement.dataElementType === 'DurationDataElement') {
@@ -268,6 +279,7 @@ export class SimulatorEngineService {
             }
           }
 
+
           return this.nonRelevantDataElementIds;
         } else {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
@@ -278,6 +290,23 @@ export class SimulatorEngineService {
           }
         }
       }
+    }
+  }
+
+  updateChoiceDataElementValues(dataElement: ChoiceDataElement) {
+    if (this.utilityService.isNotEmptyArray(dataElement.ChoiceNotRelevant)) {
+      dataElement.ChoiceNotRelevant.forEach((x: any) => {
+        if (this.dataElementValues.get(dataElement.id) !== undefined && this.dataElementValues.get(dataElement.id) === x) {
+          this.dataElementValues.set(dataElement.id, undefined);
+        }
+      });
+    }
+  }
+
+  updateMultiChoiceDataElementValues(dataElement: MultiChoiceDataElement) {
+    if (this.utilityService.isNotEmptyArray(dataElement.ChoiceNotRelevant) && this.dataElementValues.get(dataElement.id) !== undefined) {
+      const filteredItems = this.dataElementValues.get(dataElement.id).filter((item: any) => !dataElement.ChoiceNotRelevant.includes(item));
+      this.dataElementValues.set(dataElement.id, filteredItems);
     }
   }
 

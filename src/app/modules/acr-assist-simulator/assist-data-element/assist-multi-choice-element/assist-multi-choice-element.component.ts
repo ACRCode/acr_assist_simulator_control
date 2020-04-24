@@ -53,6 +53,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   ngAfterViewInit(): void {
     this.showOrHideFreeText(this.multiChoiceElement.id, '', false);
     if (this.multiChoiceElement.currentValue !== undefined) {
+      // debugger;
       const values: any = [];
       const labels: any = [];
       for (const choice in this.multiChoiceElement.choiceInfo) {
@@ -223,6 +224,10 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       Array.isArray(this.multiChoiceElement.currentValue)) {
       const filteredItems = this.multiChoiceElement.currentValue.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
       this.multiChoiceElement.currentValue = filteredItems;
+    }
+
+    if (this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
+      $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     }
 
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
