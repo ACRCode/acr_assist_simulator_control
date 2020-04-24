@@ -252,19 +252,19 @@ export class SimulatorEngineService {
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
-              this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
+              // this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
             }
 
             if (dataelement.dataElementType === 'MultiChoiceDataElement') {
               (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
-              this.updateMultiChoiceDataElementValues((dataelement as MultiChoiceDataElement));
+              // this.updateMultiChoiceDataElementValues((dataelement as MultiChoiceDataElement));
 
-              if (this.utilityService.isNotEmptyArray(dataelement.ChoiceNotRelevant)) {
-                if (dataelement.currentValue !== undefined && Array.isArray(dataelement.currentValue)) {
-                  const _filteredItems = dataelement.currentValue.filter((item: any) => !dataelement.ChoiceNotRelevant.includes(item));
-                  dataelement.currentValue = _filteredItems;
-                }
-              }
+              // if (this.utilityService.isNotEmptyArray(dataelement.ChoiceNotRelevant)) {
+              //   if (dataelement.currentValue !== undefined && Array.isArray(dataelement.currentValue)) {
+              //     const _filteredItems = dataelement.currentValue.filter((item: any) => !dataelement.ChoiceNotRelevant.includes(item));
+              //     dataelement.currentValue = _filteredItems;
+              //   }
+              // }
             }
 
             if (dataelement.dataElementType === 'DurationDataElement') {
