@@ -14,7 +14,7 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title"> {{selectionValue}}</h4>
+                <h4 class="modal-title"> {{ getSelectedValue() }}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -31,19 +31,16 @@
                                     <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
                                         <area attr.shape="{{imgOpt.shape}}"
                                             attr.imgID="{{'imgMap_Img_'+dataElement.id}}"
-                                            attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                                            (mouseover)='displayValue(imgOpt.choiceValue);'
-                                            (mouseout)='displayValue("");' (click)="setValue(imgOpt.choiceValue);">
+                                            attr.coords="{{imgOpt.coords}}" attr.title="{{imgOpt.choiceValue}}"
+                                            (click)="setValue(imgOpt.choiceValue);">
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #nonMultiChoice>
                                     <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
                                         <area attr.shape="{{imgOpt.shape}}"
                                             attr.imgID="{{'imgMap_Img_'+dataElement.id}}"
-                                            attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                                            (mouseover)='displayValue(imgOpt.choiceValue);'
-                                            (mouseout)='displayValue("");' (click)="setValue(imgOpt.choiceValue);"
-                                            data-dismiss="modal">
+                                            attr.coords="{{imgOpt.coords}}" attr.title="{{imgOpt.choiceValue}}"
+                                            (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
                                     </ng-container>
                                 </ng-template>
                             </map>

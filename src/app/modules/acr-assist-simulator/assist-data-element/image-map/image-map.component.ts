@@ -15,6 +15,7 @@ export class ImageMapComponent implements OnInit {
   selectionValue = '';
   imageExist = true;
   formValues: object = {};
+  selectedValues = [];
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
@@ -28,7 +29,7 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
-    this.displayValue('');
+    this.selectedValues = [];
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
@@ -122,6 +123,11 @@ export class ImageMapComponent implements OnInit {
             checked = false;
           }
         }
+        if (checked) {
+          this.selectedValues.push(choice.value);
+        } else {
+          this.selectedValues.splice(this.selectedValues.indexOf(choice.value));
+        }
         $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
           x => x.value === choice.value)].value).prop('checked', checked);
         const customEvent = document.createEvent('Event');
@@ -129,6 +135,7 @@ export class ImageMapComponent implements OnInit {
         $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
           x => x.value === choice.value)].value)[0].dispatchEvent(customEvent);
       } else {
+        this.selectedValues.push(choice.value);
         this.areaSelected.emit({
           id: this.dataElement.id,
           label: this.dataElement.label,
@@ -139,11 +146,11 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  displayValue(val) {
-    if (val === '') {
-      this.selectionValue = 'Image Map Diagram';
+  getSelectedValue() {
+    if (this.selectedValues.length) {
+      return 'Selected Values : ' + this.selectedValues.join(' | ');
     } else {
-      this.selectionValue = 'Selected Value : ' + val;
+      return 'Image Map Diagram';
     }
   }
 
