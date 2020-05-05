@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { ModalDirective } from 'ngx-bootstrap';
 
 const $ = require('jquery');
 
@@ -20,6 +21,7 @@ export class ImageMapComponent implements OnInit {
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
   @Output() areaSelected: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -134,13 +136,13 @@ export class ImageMapComponent implements OnInit {
         $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
           x => x.value === choice.value)].value)[0].dispatchEvent(customEvent);
       } else {
-        this.selectedValues.push(choice.value);
         this.areaSelected.emit({
           id: this.dataElement.id,
           label: this.dataElement.label,
           choiceLabel: choice.label,
           choiceValue: choice.value
         });
+        this.modalPopup.hide();
       }
     }
   }

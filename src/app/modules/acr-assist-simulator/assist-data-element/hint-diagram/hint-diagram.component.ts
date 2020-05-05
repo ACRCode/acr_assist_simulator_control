@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'acr-hint-diagram',
@@ -13,14 +14,16 @@ export class HintDiagramComponent {
 
   @Input() dataElement: BaseDataElement;
   @Input() assetsBaseUrl: string;
+  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
 
   constructor(
     private utilityService: UtilityService
   ) {
   }
 
-  resetCarouselIndex() {
+  openDiagram() {
     this.activeSlideIndex = 0;
+    this.modalPopup.show();
   }
 
   getImageDataUrl(label: string): string {
