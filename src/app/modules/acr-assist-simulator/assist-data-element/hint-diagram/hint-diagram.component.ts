@@ -10,6 +10,7 @@ import { UtilityService } from '../../../core/services/utility.service';
 export class HintDiagramComponent {
 
   activeSlideIndex = 0;
+
   @Input() dataElement: BaseDataElement;
   @Input() assetsBaseUrl: string;
 

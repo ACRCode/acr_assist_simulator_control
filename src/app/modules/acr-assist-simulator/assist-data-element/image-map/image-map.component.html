@@ -1,16 +1,15 @@
 <div class="col-lg-6">
     <label class="control-label font-weight-400">Not sure? try out this image </label>
-    <button type="button" class="btn btn-default font-size-inherit" data-toggle="modal"
-        attr.data-target="#{{'imgMap_Modal_'+dataElement.id}}">
+    <button type="button" class="btn btn-default font-size-inherit" (click)="modalPopup.show()">
         <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
             title="Image Map"></span>
     </button>
 </div>
-<div class="modal inmodal fade" id="{{'imgMap_Modal_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" (click)="modalPopup.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
@@ -54,7 +53,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="modalPopup.hide()"
+                    aria-label="Close">Close</button>
             </div>
         </div>
     </div>
