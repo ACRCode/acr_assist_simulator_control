@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
-import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { SimulatorEngineService } from 'src/app/modules/core/services/simulator-engine.service';
+import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 
 const $ = require('jquery');
 
@@ -12,24 +12,22 @@ const $ = require('jquery');
 })
 export class ImageMapComponent implements OnInit {
 
+  selectionValue = '';
   imageExist = true;
-  SelectionValue = '';
+  formValues: object = {};
 
-  // @Input() MultiChoiceDataElement: MultiChoiceDataElement;
-  @Input() DataElement: any;
+  @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @Input() DataElements: object = {};
-  @Input() FormValues: object = {};
+  @Output() areaSelected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
+    private simulatorEngineService: SimulatorEngineService,
     private utilityService: UtilityService
   ) {
   }
 
   ngOnInit() {
-    if (this.DataElement === undefined) {
-      return;
-    }
+    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
     this.displayValue('');
   }
 
@@ -51,7 +49,9 @@ export class ImageMapComponent implements OnInit {
     } else {
       return false;
     }
-  } isInPolygon(x, y, Coordinates) {
+  }
+
+  isInPolygon(x, y, Coordinates) {
     const COArray = Coordinates.split(',');
     const vs = [];
     for (let i = 0; i < COArray.length; i++) {
@@ -84,28 +84,27 @@ export class ImageMapComponent implements OnInit {
     const N_height = $elem.height();
     const N_width = $elem.width();
 
-
     const offset = $elem.offset();
-
     const offset_t = offset.top - $(window).scrollTop();
     const offset_l = offset.left - $(window).scrollLeft();
 
     const x = e.clientX - offset_l;
     const y = e.clientY - offset_t;
+
     for (const opt of dataElement.ImageOptions) {
       if (opt.Shape === 'rect') {
         if (this.isInRectangle(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       } else if (opt.Shape === 'circle') {
         if (this.isInCircle(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       } else if (opt.Shape === 'poly') {
         if (this.isInPolygon(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       }
@@ -113,47 +112,38 @@ export class ImageMapComponent implements OnInit {
   }
 
   setValue(val) {
-    if (this.utilityService.isValidInstance(this.DataElement) && this.DataElement.dataElementType === 'MultiChoiceDataElement') {
-      for (const optValue of this.DataElement.choiceInfo) {
-        if (optValue.value === val) {
-          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value).prop('checked', true);
-          const customEvent = document.createEvent('Event');
-          customEvent.initEvent('change', true, true);
-          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value)[0].dispatchEvent(customEvent);
-          break;
-        }
-      }
-    } else {
-      for (const optValue of this.DataElement.choiceInfo) {
-        if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
-          if (optValue.value === val) {
-            $('#' + val + '_' + this.DataElement.id).prop('checked', true);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
-          } else {
-            $('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
-          }
-        } else {
-          if (optValue.value === val) {
-            $('#' + this.DataElement.id).val(optValue.value);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
-            break;
+    const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === val.toLowerCase());
+    if (this.utilityService.isValidInstance(choice)) {
+      if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
+        const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+        let checked = true;
+        if (this.utilityService.isNotEmptyArray(values)) {
+          if (values.indexOf(val) >= 0) {
+            checked = false;
           }
         }
+        $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
+          x => x.value === choice.value)].value).prop('checked', checked);
+        const customEvent = document.createEvent('Event');
+        customEvent.initEvent('change', true, true);
+        $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
+          x => x.value === choice.value)].value)[0].dispatchEvent(customEvent);
+      } else {
+        this.areaSelected.emit({
+          id: this.dataElement.id,
+          label: this.dataElement.label,
+          choiceLabel: choice.label,
+          choiceValue: choice.value
+        });
       }
-
-      this.DataElement.currentValue = val;
     }
   }
 
   displayValue(val) {
     if (val === '') {
-      this.SelectionValue = 'Image Map Diagram';
+      this.selectionValue = 'Image Map Diagram';
     } else {
-      this.SelectionValue = 'Selected Value : ' + val;
+      this.selectionValue = 'Selected Value : ' + val;
     }
   }
 

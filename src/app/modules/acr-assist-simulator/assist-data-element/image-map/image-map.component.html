@@ -1,12 +1,12 @@
 <div class="col-lg-6">
     <label class="control-label font-weight-400">Not sure? try out this image </label>
     <button type="button" class="btn btn-default font-size-inherit" data-toggle="modal"
-        attr.data-target="#{{'imgMap_Modal_'+DataElement.id}}">
+        attr.data-target="#{{'imgMap_Modal_'+dataElement.id}}">
         <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
             title="Image Map"></span>
     </button>
 </div>
-<div class="modal inmodal fade" id="{{'imgMap_Modal_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal fade" id="{{'imgMap_Modal_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,24 +14,38 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title"> {{SelectionValue}}</h4>
+                <h4 class="modal-title"> {{selectionValue}}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <ng-container *ngIf="imageExist == true">
                             <img class="ImgOption danger img-responsive max-w-h-100"
-                                alt="{{ DataElement.imageMap.label }}" data-dismiss="modal"
-                                attr.id="{{'imgMap_Img_'+DataElement.id}}" (click)="imageClick($event,DataElement);"
-                                attr.data-elementID="{{DataElement.id}}" attr.usemap="#{{'imgMap_'+DataElement.id}}"
-                                [src]="getImageDataUrl(DataElement.imageMap.location) | secure">
-                            <map name="{{'imgMap_'+DataElement.id}}">
-                                <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
-                                    <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}"
-                                        attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                                        (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
-                                        (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
+                                alt="{{ dataElement.imageMap.label }}" data-dismiss="modal"
+                                attr.id="{{'imgMap_Img_'+dataElement.id}}" (click)="imageClick($event,dataElement);"
+                                attr.data-elementID="{{dataElement.id}}" attr.usemap="#{{'imgMap_'+dataElement.id}}"
+                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
+                            <map name="{{'imgMap_'+dataElement.id}}">
+                                <ng-container
+                                    *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
+                                    <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
+                                        <area attr.shape="{{imgOpt.shape}}"
+                                            attr.imgID="{{'imgMap_Img_'+dataElement.id}}"
+                                            attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
+                                            (mouseover)='displayValue(imgOpt.choiceValue);'
+                                            (mouseout)='displayValue("");' (click)="setValue(imgOpt.choiceValue);">
+                                    </ng-container>
                                 </ng-container>
+                                <ng-template #nonMultiChoice>
+                                    <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
+                                        <area attr.shape="{{imgOpt.shape}}"
+                                            attr.imgID="{{'imgMap_Img_'+dataElement.id}}"
+                                            attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
+                                            (mouseover)='displayValue(imgOpt.choiceValue);'
+                                            (mouseout)='displayValue("");' (click)="setValue(imgOpt.choiceValue);"
+                                            data-dismiss="modal">
+                                    </ng-container>
+                                </ng-template>
                             </map>
                         </ng-container>
                         <ng-container *ngIf="imageExist == false">
