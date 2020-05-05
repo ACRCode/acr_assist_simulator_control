@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
-import { SimulatorEngineService } from 'src/app/modules/core/services/simulator-engine.service';
+import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 
 const $ = require('jquery');
