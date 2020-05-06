@@ -27,9 +27,8 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
 
   ngOnInit(): void {
     this.hideMessage();
-    // this.showTestModule();
-    // this.showDefaultModule();
-    this.showCovidModule();
+    this.showTestModule();
+    this.showDefaultModule();
   }
 
   ngOnDestroy() {
@@ -62,7 +61,23 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
     $('#xmlOnlyMsg').hide();
   }
 
-  readThis(inputValue: any): void {
+  private showDefaultModule() {
+    this.configService.getDefaultModulePath()
+      .subscribe(data => {
+        const self = this;
+        self.fileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
+      });
+  }
+
+  private showTestModule() {
+    this.configService.getDefaultTestModulePath()
+    .subscribe(data => {
+      const self = this;
+      self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
+    });
+  }
+
+  private readThis(inputValue: any): void {
     this.readFile = inputValue.files[0];
     const self = this;
     const extensionStartPosition = self.readFile.name.lastIndexOf('.');
@@ -72,29 +87,5 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
     };
 
     this.fileReader.readAsText(this.readFile);
-  }
-
-  showCovidModule() {
-    this.configService.getDefaultCovidModulePath()
-    .subscribe(data => {
-      const self = this;
-      self.fileContentRead.emit( new FileDetails('COVID 19', 'Covid-19_ Chest CT.xml', data));
-    });
-  }
-
-  showDefaultModule() {
-    this.configService.getDefaultModulePath()
-      .subscribe(data => {
-        const self = this;
-        self.fileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
-      });
-  }
-
-  showTestModule() {
-    this.configService.getDefaultTestModulePath()
-    .subscribe(data => {
-      const self = this;
-      self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
-    });
   }
 }
