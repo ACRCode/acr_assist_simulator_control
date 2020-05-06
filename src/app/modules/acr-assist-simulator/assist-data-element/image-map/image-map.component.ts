@@ -33,7 +33,6 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
-    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
   }
 
   showModalPopup() {
@@ -208,15 +207,39 @@ export class ImageMapComponent implements OnInit {
         const height = this.container.nativeElement.offsetHeight;
         const selector = this.selectors.toArray()[index];
         if (this.utilityService.isValidInstance(selector)) {
-          if (selector.nativeElement.className.includes('hover')) {
+          if (selector.nativeElement.className.includes('selected')) {
             selector.nativeElement.className = this.map_selector_class;
           } else {
-            selector.nativeElement.className += ' hover';
+            selector.nativeElement.className = this.map_selector_class + ' selected';
             selector.nativeElement.style.left = coords[0] + 'px';
             selector.nativeElement.style.top = coords[1] + 'px';
             selector.nativeElement.style.right = '0px';
             selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
           }
+        }
+      }
+    }
+  }
+
+  addRemoveHoverClass(index, isAdd) {
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+        const height = this.container.nativeElement.offsetHeight;
+        const selector = this.selectors.toArray()[index];
+        if (this.utilityService.isValidInstance(selector)) {
+          if (isAdd) {
+            if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
+              selector.nativeElement.className += ' hover';
+            }
+          } else {
+            selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
+          }
+          selector.nativeElement.style.left = coords[0] + 'px';
+          selector.nativeElement.style.top = coords[1] + 'px';
+          selector.nativeElement.style.right = '0px';
+          selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
         }
       }
     }

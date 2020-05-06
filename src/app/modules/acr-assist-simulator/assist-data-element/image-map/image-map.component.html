@@ -34,7 +34,8 @@
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
                                     attr.coords="{{ imgOpt.coords }}" tooltip="{{ imgOpt.choiceValue }}"
-                                    (click)="setValue(imgOpt.choiceValue, i)">
+                                    (click)="setValue(imgOpt.choiceValue, i)" (mouseover)="addRemoveHoverClass(i, true)"
+                                    (mouseout)="addRemoveHoverClass(i, false)"/>
                             </ng-container>
                         </map>
                     </div>
