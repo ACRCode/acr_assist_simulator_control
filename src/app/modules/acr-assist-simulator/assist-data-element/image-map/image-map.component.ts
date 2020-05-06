@@ -33,6 +33,7 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
   }
 
   showModalPopup() {
@@ -148,48 +149,7 @@ export class ImageMapComponent implements OnInit {
 
   setValue(val, index) {
     this.setOverLaysforImageMap(index);
-    const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === val.toLowerCase());
-    if (this.utilityService.isValidInstance(choice)) {
-      if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
-        const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
-        let checked = true;
-        if (this.utilityService.isNotEmptyArray(values)) {
-          if (values.indexOf(val) >= 0) {
-            checked = false;
-          }
-        }
-        if (checked) {
-          this.selectedValues.push(choice.value);
-        } else {
-          this.selectedValues.splice(this.selectedValues.indexOf(choice.value));
-        }
-        $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
-          x => x.value === choice.value)].value).prop('checked', checked);
-        const customEvent = document.createEvent('Event');
-        customEvent.initEvent('change', true, true);
-        $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
-          x => x.value === choice.value)].value)[0].dispatchEvent(customEvent);
-      } else {
-        if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
-          if (choice.value === val) {
-            $('#' + val + '_' + this.dataElement.id).prop('checked', true);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + val + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
-          } else {
-            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', false);
-          }
-        } else {
-          if (choice.value === val) {
-            $('#' + this.dataElement.id).val(choice.value);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
-          }
-        }
-      }
-      this.modalPopup.hide();
-    }
+    this.setSelectedValues(val);
   }
 
   getSelectedValue() {
@@ -206,6 +166,36 @@ export class ImageMapComponent implements OnInit {
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
+  private setSelectedValues(selectedValue: string) {
+    const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === selectedValue.toLowerCase());
+    if (this.utilityService.isValidInstance(choice)) {
+      const customEvent = document.createEvent('Event');
+      customEvent.initEvent('change', true, true);
+
+      if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
+        const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+        let checked = true;
+        if (this.utilityService.isNotEmptyArray(values) && values.indexOf(selectedValue) >= 0) {
+          checked = false;
+        }
+        checked ? this.selectedValues.push(choice.value) : this.selectedValues.splice(this.selectedValues.indexOf(choice.value));
+        $('#' + this.dataElement.id + '_' + choice.value).prop('checked', checked);
+        $('#' + this.dataElement.id + '_' + choice.value)[0].dispatchEvent(customEvent);
+
+      } else if (choice.value === selectedValue) {
+        if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+          $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+          $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+        } else {
+          $('#' + this.dataElement.id).val(choice.value);
+          $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+        }
+
+        this.modalPopup.hide();
       }
     }
   }
