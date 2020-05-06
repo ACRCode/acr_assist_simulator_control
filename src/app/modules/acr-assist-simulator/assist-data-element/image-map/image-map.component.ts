@@ -24,7 +24,6 @@ export class ImageMapComponent implements OnInit {
   @Output() areaSelected: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
   @ViewChild('container', { static: false }) container: ElementRef;
-  @ViewChild('selector', { static: false }) selector: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
   @ViewChildren('selectors') selectors: QueryList<ElementRef>;
 
@@ -36,6 +35,15 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
+  }
+
+  showModalPopup() {
+    this.modalPopup.show();
+    const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+    if (this.utilityService.isNotEmptyArray(values)) {
+      this.selectedValues = values;
+    }
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
@@ -119,7 +127,7 @@ export class ImageMapComponent implements OnInit {
   }
 
   setValue(val, index) {
-    this.setOverLays(index);
+    this.setOverLaysforImageMap(index);
     const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === val.toLowerCase());
     if (this.utilityService.isValidInstance(choice)) {
       if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
@@ -154,7 +162,7 @@ export class ImageMapComponent implements OnInit {
   }
 
   getSelectedValue() {
-    if (this.selectedValues.length) {
+    if (this.utilityService.isNotEmptyArray(this.selectedValues)) {
       return 'Selected Values : ' + this.selectedValues.join(' | ');
     } else {
       return 'Image Map Diagram';
@@ -171,20 +179,13 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  private setOverLays(index) {
+  private setOverLaysforImageMap(index) {
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
         const coords = currentArea.nativeElement.attributes.coords.value.split(',');
         const height = this.container.nativeElement.offsetHeight;
-        let selector;
-        if (this.utilityService.isValidInstance(this.selector)) {
-          selector = this.selector;
-        } else {
-          if (this.utilityService.isValidInstance(this.selectors)) {
-            selector = this.selectors.toArray()[index];
-          }
-        }
+        const selector = this.selectors.toArray()[index];
         if (this.utilityService.isValidInstance(selector)) {
           if (selector.nativeElement.className.includes('hover')) {
             selector.nativeElement.className = this.map_selector_class;

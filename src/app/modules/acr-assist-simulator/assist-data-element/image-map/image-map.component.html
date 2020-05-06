@@ -1,6 +1,6 @@
 <div class="col-lg-6">
     <label class="control-label font-weight-400">Not sure? try out this image </label>
-    <button type="button" class="btn btn-default font-size-inherit" (click)="modalPopup.show()">
+    <button type="button" class="btn btn-default font-size-inherit" (click)="showModalPopup()">
         <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
             title="Image Map"></span>
     </button>
@@ -26,17 +26,10 @@
                                     attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                     [src]="getImageDataUrl(dataElement.imageMap.location) | secure"
                                     (click)="imageClick($event,dataElement)">
-                                <ng-container
-                                    *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
-                                    <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                        <div #selectors class="{{ map_selector_class }}">
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-template #nonMultiChoice>
-                                    <div #selector class="{{ map_selector_class }}">
+                                <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
+                                    <div #selectors class="{{ map_selector_class }}">
                                     </div>
-                                </ng-template>
+                                </ng-container>
                             </div>
                             <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                                 <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
