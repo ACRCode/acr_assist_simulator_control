@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
@@ -14,8 +14,8 @@ const $ = require('jquery');
 export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
+  map_selector_class = 'map-selector';
   imageExist = true;
-  isOverLayIntialized = false;
   formValues: object = {};
   selectedValues = [];
 
@@ -23,6 +23,10 @@ export class ImageMapComponent implements OnInit {
   @Input() assetsBaseUrl: string;
   @Output() areaSelected: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
+  @ViewChild('container', { static: false }) container: ElementRef;
+  @ViewChild('selector', { static: false }) selector: ElementRef;
+  @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
+  @ViewChildren('selectors') selectors: QueryList<ElementRef>;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -32,16 +36,6 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
-  }
-
-  showModalPopup() {
-    this.modalPopup.show();
-    if (!this.isOverLayIntialized) {
-      this.initializeOverlayForImageMap();
-      this.isOverLayIntialized = true;
-    } else {
-      this.resetOverLaysSelected();
-    }
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
@@ -124,7 +118,8 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  setValue(val) {
+  setValue(val, index) {
+    this.setOverLays(index);
     const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === val.toLowerCase());
     if (this.utilityService.isValidInstance(choice)) {
       if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
@@ -176,37 +171,31 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  private initializeOverlayForImageMap() {
-    const image_map_id = '#image_map_' + this.dataElement.id + ' area';
-    $(image_map_id).click(function() {
-      const map_selector_id = $(this).attr('id');
-      const map_container_id = $(this).attr('containerId');
-      const coords = $(this).attr('coords').split(',');
-      const height = $('#' + map_container_id).height();
-      const mapContainer = $('.image-map-container #' + map_selector_id);
-      if (mapContainer.hasClass('hover')) {
-        mapContainer.removeClass('hover');
-        return;
-      }
-      mapContainer.addClass('hover').css({
-        left: coords[0] + 'px',
-        top: coords[1] + 'px',
-        right: '0px',
-        bottom: height - coords[3]
-      });
-    });
-  }
-
-  private resetOverLaysSelected() {
-    if (this.dataElement.dataElementType === 'ChoiceDataElement') {
-      const map_selector_id = 'map_selector_' + this.dataElement.id;
-      const mapContainer = $('.image-map-container #' + map_selector_id);
-      mapContainer.removeClass('hover');
-    } else {
-      for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
-        const map_selector_id = 'map_selector_' + this.dataElement.id + index;
-        const mapContainer = $('.image-map-container #' + map_selector_id);
-        mapContainer.removeClass('hover');
+  private setOverLays(index) {
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+        const height = this.container.nativeElement.offsetHeight;
+        let selector;
+        if (this.utilityService.isValidInstance(this.selector)) {
+          selector = this.selector;
+        } else {
+          if (this.utilityService.isValidInstance(this.selectors)) {
+            selector = this.selectors.toArray()[index];
+          }
+        }
+        if (this.utilityService.isValidInstance(selector)) {
+          if (selector.nativeElement.className.includes('hover')) {
+            selector.nativeElement.className = this.map_selector_class;
+          } else {
+            selector.nativeElement.className += ' hover';
+            selector.nativeElement.style.left = coords[0] + 'px';
+            selector.nativeElement.style.top = coords[1] + 'px';
+            selector.nativeElement.style.right = '0px';
+            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+          }
+        }
       }
     }
   }
