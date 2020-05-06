@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
@@ -20,7 +20,6 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @Output() areaSelected: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
   @ViewChild('container', { static: false }) container: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
@@ -171,14 +170,25 @@ export class ImageMapComponent implements OnInit {
         $('#' + this.dataElement.id + '_' + this.dataElement.choiceInfo[this.dataElement.choiceInfo.findIndex(
           x => x.value === choice.value)].value)[0].dispatchEvent(customEvent);
       } else {
-        this.areaSelected.emit({
-          id: this.dataElement.id,
-          label: this.dataElement.label,
-          choiceLabel: choice.label,
-          choiceValue: choice.value
-        });
-        this.modalPopup.hide();
+        if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+          if (choice.value === val) {
+            $('#' + val + '_' + this.dataElement.id).prop('checked', true);
+            const customEvent = document.createEvent('Event');
+            customEvent.initEvent('change', true, true);
+            $('#' + val + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          } else {
+            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', false);
+          }
+        } else {
+          if (choice.value === val) {
+            $('#' + this.dataElement.id).val(choice.value);
+            const customEvent = document.createEvent('Event');
+            customEvent.initEvent('change', true, true);
+            $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          }
+        }
       }
+      this.modalPopup.hide();
     }
   }
 
