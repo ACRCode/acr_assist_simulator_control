@@ -18,7 +18,7 @@
   bottom: 0;
   color: #546E7A00;
   transition-duration: .3s;
-  transition-timing-function: ease-out;
+  transition-timing-function: ease-in-out;
   transition-property: top, left, right, bottom, color;
 }
 
@@ -42,7 +42,7 @@
   left: inherit;
   background: currentColor;
   transition-duration: .3s;
-  transition-timing-function: ease-out;
+  transition-timing-function: ease-in-out;
   transition-property: top, left, right, bottom, background;
   pointer-events: none;
 }
