@@ -18,32 +18,25 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <ng-container *ngIf="imageExist == true">
-                            <div #container class="image-map-container">
-                                <img class="ImgOption danger img-responsive max-w-h-100"
-                                    alt="{{ dataElement.imageMap.label }}" attr.id="{{ 'img_' + dataElement.id }}"
-                                    attr.data-elementID="{{ dataElement.id }}"
-                                    attr.usemap="#{{ 'image_map_' + dataElement.id }}"
-                                    [src]="getImageDataUrl(dataElement.imageMap.location) | secure"
-                                    (click)="imageClick($event,dataElement)">
-                                <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
-                                    <div #selectors class="{{ map_selector_class }}">
-                                    </div>
-                                </ng-container>
-                            </div>
-                            <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
-                                <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                    <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                        attr.coords="{{ imgOpt.coords }}" tooltip="{{ imgOpt.choiceValue }}"
-                                        (click)="setValue(imgOpt.choiceValue, i)">
-                                </ng-container>
-                            </map>
-                        </ng-container>
-                        <ng-container *ngIf="imageExist == false">
-                            <div class="">
-                                No Image Map Available...
-                            </div>
-                        </ng-container>
+                        <div #container class="image-map-container">
+                            <img class="ImgOption danger img-responsive max-w-h-100"
+                                alt="{{ dataElement.imageMap.label }}" attr.id="{{ 'img_' + dataElement.id }}"
+                                attr.data-elementID="{{ dataElement.id }}"
+                                attr.usemap="#{{ 'image_map_' + dataElement.id }}"
+                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure"
+                                (click)="imageClick($event,dataElement)">
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
+                                <div #selectors class="{{ map_selector_class }}">
+                                </div>
+                            </ng-container>
+                        </div>
+                        <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
+                                <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
+                                    attr.coords="{{ imgOpt.coords }}" tooltip="{{ imgOpt.choiceValue }}"
+                                    (click)="setValue(imgOpt.choiceValue, i)">
+                            </ng-container>
+                        </map>
                     </div>
                 </div>
             </div>

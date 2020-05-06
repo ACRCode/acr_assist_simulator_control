@@ -15,7 +15,6 @@ export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
   map_selector_class = 'map-selector';
-  imageExist = true;
   formValues: object = {};
   selectedValues = [];
 
