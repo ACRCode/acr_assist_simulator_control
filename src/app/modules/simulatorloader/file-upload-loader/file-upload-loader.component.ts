@@ -27,8 +27,9 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
 
   ngOnInit(): void {
     this.hideMessage();
-    this.showTestModule();
-    this.showDefaultModule();
+    // this.showTestModule();
+    // this.showDefaultModule();
+    this.showCovidModule();
   }
 
   ngOnDestroy() {
@@ -53,7 +54,7 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
       }
     }
 
-    let target = $event.target || $event.srcElement;
+    const target = $event.target || $event.srcElement;
     target.value = '';
   }
 
@@ -71,6 +72,14 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
     };
 
     this.fileReader.readAsText(this.readFile);
+  }
+
+  showCovidModule() {
+    this.configService.getDefaultCovidModulePath()
+    .subscribe(data => {
+      const self = this;
+      self.fileContentRead.emit( new FileDetails('COVID 19', 'Covid-19_ Chest CT.xml', data));
+    });
   }
 
   showDefaultModule() {

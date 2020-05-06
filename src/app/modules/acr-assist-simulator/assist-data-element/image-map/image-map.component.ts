@@ -32,6 +32,7 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
   }
 
   showModalPopup() {
@@ -39,6 +40,8 @@ export class ImageMapComponent implements OnInit {
     if (!this.isOverLayIntialized) {
       this.initializeOverlayForImageMap();
       this.isOverLayIntialized = true;
+    } else {
+      this.resetOverLaysSelected();
     }
   }
 
@@ -193,5 +196,19 @@ export class ImageMapComponent implements OnInit {
         bottom: height - coords[3]
       });
     });
+  }
+
+  private resetOverLaysSelected() {
+    if (this.dataElement.dataElementType === 'ChoiceDataElement') {
+      const map_selector_id = 'map_selector_' + this.dataElement.id;
+      const mapContainer = $('.image-map-container #' + map_selector_id);
+      mapContainer.removeClass('hover');
+    } else {
+      for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
+        const map_selector_id = 'map_selector_' + this.dataElement.id + index;
+        const mapContainer = $('.image-map-container #' + map_selector_id);
+        mapContainer.removeClass('hover');
+      }
+    }
   }
 }
