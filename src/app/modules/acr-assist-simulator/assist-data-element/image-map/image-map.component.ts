@@ -16,6 +16,7 @@ export class ImageMapComponent implements OnInit {
   selectionValue = '';
   map_selector_class = 'map-selector';
   formValues: object = {};
+  isOverlayLoading = false;
   selectedValues = [];
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
@@ -41,6 +42,7 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
+    this.isOverlayLoading = true;
     setTimeout(() => {
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
@@ -63,6 +65,7 @@ export class ImageMapComponent implements OnInit {
           }
         }
       }
+      this.isOverlayLoading = false;
     }, 1000);
   }
 
@@ -169,6 +172,32 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
+  addRemoveHoverClass(index, isAdd) {
+    if (!this.isOverlayLoading) {
+      if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+        const currentArea = this.imageMapAreas.toArray()[index];
+        if (this.utilityService.isValidInstance(currentArea)) {
+          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+          const height = this.container.nativeElement.offsetHeight;
+          const selector = this.selectors.toArray()[index];
+          if (this.utilityService.isValidInstance(selector)) {
+            if (isAdd) {
+              if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
+                selector.nativeElement.className += ' hover';
+              }
+            } else {
+              selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
+            }
+            selector.nativeElement.style.left = coords[0] + 'px';
+            selector.nativeElement.style.top = coords[1] + 'px';
+            selector.nativeElement.style.right = '0px';
+            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+          }
+        }
+      }
+    }
+  }
+
   private setSelectedValues(selectedValue: string) {
     const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === selectedValue.toLowerCase());
     if (this.utilityService.isValidInstance(choice)) {
@@ -216,30 +245,6 @@ export class ImageMapComponent implements OnInit {
             selector.nativeElement.style.right = '0px';
             selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
           }
-        }
-      }
-    }
-  }
-
-  addRemoveHoverClass(index, isAdd) {
-    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-      const currentArea = this.imageMapAreas.toArray()[index];
-      if (this.utilityService.isValidInstance(currentArea)) {
-        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-        const height = this.container.nativeElement.offsetHeight;
-        const selector = this.selectors.toArray()[index];
-        if (this.utilityService.isValidInstance(selector)) {
-          if (isAdd) {
-            if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.className += ' hover';
-            }
-          } else {
-            selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
-          }
-          selector.nativeElement.style.left = coords[0] + 'px';
-          selector.nativeElement.style.top = coords[1] + 'px';
-          selector.nativeElement.style.right = '0px';
-          selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
         }
       }
     }
