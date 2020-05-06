@@ -15,6 +15,7 @@ export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
   imageExist = true;
+  isOverLayIntialized = false;
   formValues: object = {};
   selectedValues = [];
 
@@ -31,6 +32,14 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+  }
+
+  showModalPopup() {
+    this.modalPopup.show();
+    if (!this.isOverLayIntialized) {
+      this.initializeOverlayForImageMap();
+      this.isOverLayIntialized = true;
+    }
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
@@ -163,5 +172,26 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
+  }
+
+  private initializeOverlayForImageMap() {
+    const image_map_id = '#image_map_' + this.dataElement.id + ' area';
+    $(image_map_id).click(function() {
+      const map_selector_id = $(this).attr('id');
+      const map_container_id = $(this).attr('containerId');
+      const coords = $(this).attr('coords').split(',');
+      const height = $('#' + map_container_id).height();
+      const mapContainer = $('.image-map-container #' + map_selector_id);
+      if (mapContainer.hasClass('hover')) {
+        mapContainer.removeClass('hover');
+        return;
+      }
+      mapContainer.addClass('hover').css({
+        left: coords[0] + 'px',
+        top: coords[1] + 'px',
+        right: '0px',
+        bottom: height - coords[3]
+      });
+    });
   }
 }

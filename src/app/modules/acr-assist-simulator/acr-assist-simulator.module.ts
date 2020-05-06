@@ -25,7 +25,7 @@ import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
 import { SecurePipe } from './shared/pipes/secure.pipe';
 import { UrlHelperService } from './shared/services/url-helper.service';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 
 const components = [
   AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
@@ -43,7 +43,8 @@ const components = [
     DragScrollModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: components,
   providers: [
