@@ -33,7 +33,7 @@
                             </div>
                             <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                                 <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                    <area #imageMapAreas attr.shape="{{ imgOpt.shape }}"
+                                    <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
                                         attr.coords="{{ imgOpt.coords }}" tooltip="{{ imgOpt.choiceValue }}"
                                         (click)="setValue(imgOpt.choiceValue, i)">
                                 </ng-container>

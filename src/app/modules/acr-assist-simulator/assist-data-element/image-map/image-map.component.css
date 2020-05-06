@@ -1,3 +1,7 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .image-map-container {
   position: relative;
   display: inline-block;

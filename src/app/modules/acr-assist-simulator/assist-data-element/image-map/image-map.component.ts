@@ -35,7 +35,6 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
-    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
   }
 
   showModalPopup() {
@@ -44,6 +43,29 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
+    setTimeout(() => {
+      for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
+        if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+          const hasValueSelected = this.selectedValues.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          const currentArea = this.imageMapAreas.toArray()[index];
+          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+          const height = this.container.nativeElement.offsetHeight;
+          const selector = this.selectors.toArray()[index];
+          if (this.utilityService.isValidInstance(selector)) {
+            if (selector.nativeElement.className.includes('hover')) {
+              selector.nativeElement.className = this.map_selector_class;
+            }
+            if (hasValueSelected) {
+              selector.nativeElement.className += ' hover';
+              selector.nativeElement.style.left = coords[0] + 'px';
+              selector.nativeElement.style.top = coords[1] + 'px';
+              selector.nativeElement.style.right = '0px';
+              selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+            }
+          }
+        }
+      }
+    }, 1000);
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
