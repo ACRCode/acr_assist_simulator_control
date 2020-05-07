@@ -148,6 +148,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
     }
 
+    this.simulatorBlock.nativeElement.className = 'box box-primary box-solid margin-b-0';
     if (this.utilityService.isNotEmptyArray(this.cssClass)) {
       const classes = this.simulatorBlock.nativeElement.className;
       const classesArray = classes.split(' ');

@@ -33,8 +33,7 @@
   margin-top: -20px;
 }
 
-.carousel-control.left,
-.carousel-control.right {
+.carousel-control.left, .carousel-control.right {
   background-image: none;
 }
 
@@ -47,8 +46,7 @@
   background-repeat: repeat-x;
 }
 
-.carousel-control.left,
-.carousel-control.right {
+.carousel-control.left, .carousel-control.right {
   background-image: none;
 }
 
@@ -145,9 +143,7 @@ h4.modal-title.float-left {
   border-color: #ddd;
 }
 
-.btn-zoom:hover,
-.btn-zoom:active,
-.btn-zoom.hover {
+.btn-zoom:hover, .btn-zoom:active, .btn-zoom.hover {
   background-color: #e7e7e7;
 }
 
@@ -157,7 +153,7 @@ label.control-label {
 
 @media (min-width: 768px) {
   label.control-label {
-    padding-left: 20px;
+    /* padding-left: 20px; */
     text-align: left !important;
   }
 }
@@ -181,4 +177,32 @@ mark {
 
 .ai-input-background {
   background-color: #f6bdb4;
+}
+
+.form-horizontal .control-label {
+  padding-left: 0px !important;
+}
+
+.div_radiobutton {
+  padding-left: 15px !important;
+}
+
+.paddingLeftNone {
+  padding-left: 0px !important;
+}
+
+.labelparentdiv {
+  padding-left: 0px !important;
+}
+
+.spantest {
+  margin-left: 30px;
+}
+
+.padding-top-10 {
+  padding-top: 10px;
+}
+
+.padding-top-20 {
+  padding-top: 20px;
 }
