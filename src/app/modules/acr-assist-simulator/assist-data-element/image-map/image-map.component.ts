@@ -38,7 +38,7 @@ export class ImageMapComponent implements OnInit {
 
   initializeSelectedOverlayData() {
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
-    if (this.utilityService.isNotEmptyArray(values)) {
+    if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
     this.isOverlayLoading = true;
