@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
 import { NumericOnlyDirective } from './shared/directives/numeric-only.directive';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { NgxLoadingModule } from 'ngx-loading';
 import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
@@ -25,7 +26,6 @@ import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
 import { SecurePipe } from './shared/pipes/secure.pipe';
 import { UrlHelperService } from './shared/services/url-helper.service';
-import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 
 const components = [
   AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
@@ -43,8 +43,7 @@ const components = [
     DragScrollModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    NgxLoadingModule
   ],
   declarations: components,
   providers: [

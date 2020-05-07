@@ -17,17 +17,6 @@
   right: 0;
   bottom: 0;
   color: #546E7A00;
-  transition-duration: .3s;
-  transition-timing-function: ease-in-out;
-  transition-property: top, left, right, bottom, color;
-}
-
-.image-map-container .map-selector.selected {
-  opacity: 0.9;
-}
-
-.image-map-container .map-selector.hover {
-  opacity: 0.4;
 }
 
 .map-selector:after {
@@ -39,8 +28,5 @@
   bottom: inherit;
   left: inherit;
   background: currentColor;
-  transition-duration: .3s;
-  transition-timing-function: ease-in-out;
-  transition-property: top, left, right, bottom, background;
   pointer-events: none;
 }

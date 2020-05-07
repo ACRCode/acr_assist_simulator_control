@@ -2,7 +2,6 @@ import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRe
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { ModalDirective } from 'ngx-bootstrap';
 
 const $ = require('jquery');
 
@@ -23,7 +22,6 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
   @ViewChild('container', { static: false }) container: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
   @ViewChildren('selectors') selectors: QueryList<ElementRef>;
@@ -38,10 +36,9 @@ export class ImageMapComponent implements OnInit {
     this.selectedValues = [];
   }
 
-  showModalPopup() {
-    this.modalPopup.show();
+  initializeSelectedOverlayData() {
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
-    if (this.utilityService.isNotEmptyArray(values)) {
+    if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
     this.isOverlayLoading = true;
@@ -51,7 +48,12 @@ export class ImageMapComponent implements OnInit {
 
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-          const hasValueSelected = this.selectedValues.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          let hasValueSelected = false;
+          if (Array.isArray(values)) {
+            hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          } else {
+            hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
+          }
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const height = this.container.nativeElement.offsetHeight;
@@ -69,17 +71,18 @@ export class ImageMapComponent implements OnInit {
           }
 
           if (this.utilityService.isValidInstance(selector)) {
-            if (selector.nativeElement.className.includes('hover')) {
-              selector.nativeElement.className = this.map_selector_class;
+            selector.nativeElement.style.opacity = '0.4';
+            if (selector.nativeElement.className.includes('hover') || selector.nativeElement.className.includes('selected')) {
               selector.nativeElement.style.color = '';
+              selector.nativeElement.className = this.map_selector_class;
             }
             if (hasValueSelected) {
+              selector.nativeElement.style.color = selectedColor;
               selector.nativeElement.className += ' selected';
               selector.nativeElement.style.left = coords[0] + 'px';
               selector.nativeElement.style.top = coords[1] + 'px';
               selector.nativeElement.style.right = '0px';
               selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
-              selector.nativeElement.style.color = selectedColor;
             }
           }
         }
@@ -192,36 +195,35 @@ export class ImageMapComponent implements OnInit {
   }
 
   addRemoveHoverClass(index, isAdd) {
-    if (!this.isOverlayLoading) {
-      let hoverColor;
-      if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-        const currentArea = this.imageMapAreas.toArray()[index];
-        if (this.utilityService.isValidInstance(currentArea)) {
-          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-          const height = this.container.nativeElement.offsetHeight;
-          const selector = this.selectors.toArray()[index];
-          const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
-          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
-            hoverColor = drawStyle.hoverFill;
-          } else {
-            hoverColor = this.hoverDefaultColour;
-          }
+    let hoverColor;
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+        const height = this.container.nativeElement.offsetHeight;
+        const selector = this.selectors.toArray()[index];
+        const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+        if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
+          hoverColor = drawStyle.hoverFill;
+        } else {
+          hoverColor = this.hoverDefaultColour;
+        }
 
-          if (this.utilityService.isValidInstance(selector)) {
-            if (isAdd) {
-              if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
-                selector.nativeElement.className += ' hover';
-                selector.nativeElement.style.color = hoverColor;
-              }
-            } else {
-              selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
-              selector.nativeElement.style.color = selector.nativeElement.style.color.replace(hoverColor, '').trim();
+        if (this.utilityService.isValidInstance(selector)) {
+          if (isAdd) {
+            if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
+              selector.nativeElement.style.color = hoverColor;
+              selector.nativeElement.className += ' hover';
             }
-            selector.nativeElement.style.left = coords[0] + 'px';
-            selector.nativeElement.style.top = coords[1] + 'px';
-            selector.nativeElement.style.right = '0px';
-            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+          } else {
+            selector.nativeElement.style.color = selector.nativeElement.style.color.replace(hoverColor, '').trim();
+            selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
           }
+          selector.nativeElement.style.opacity = '0.4';
+          selector.nativeElement.style.left = coords[0] + 'px';
+          selector.nativeElement.style.top = coords[1] + 'px';
+          selector.nativeElement.style.right = '0px';
+          selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
         }
       }
     }
@@ -251,8 +253,6 @@ export class ImageMapComponent implements OnInit {
           $('#' + this.dataElement.id).val(choice.value);
           $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
-
-        this.modalPopup.hide();
       }
     }
   }
@@ -274,15 +274,17 @@ export class ImageMapComponent implements OnInit {
 
         if (this.utilityService.isValidInstance(selector)) {
           if (selector.nativeElement.className.includes('selected')) {
-            selector.nativeElement.className = this.map_selector_class;
             selector.nativeElement.style.color = '';
+            selector.nativeElement.style.opacity = '';
+            selector.nativeElement.className = this.map_selector_class;
           } else {
+            selector.nativeElement.style.color = filledColor;
+            selector.nativeElement.style.opacity = '0.4';
             selector.nativeElement.className = this.map_selector_class + ' selected';
             selector.nativeElement.style.left = coords[0] + 'px';
             selector.nativeElement.style.top = coords[1] + 'px';
             selector.nativeElement.style.right = '0px';
             selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
-            selector.nativeElement.style.color = filledColor;
           }
         }
       }
