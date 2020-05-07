@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
 import { NumericOnlyDirective } from './shared/directives/numeric-only.directive';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { NgxLoadingModule } from 'ngx-loading';
 import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
 import { SimulatorCommunicationService } from './shared/services/simulator-communication.service';
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
@@ -41,7 +42,8 @@ const components = [
     ReactiveFormsModule,
     DragScrollModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    NgxLoadingModule
   ],
   declarations: components,
   providers: [

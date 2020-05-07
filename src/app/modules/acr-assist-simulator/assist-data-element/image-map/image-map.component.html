@@ -20,6 +20,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <ngx-loading [show]="isOverlayLoading"></ngx-loading>
                         <div #container class="image-map-container">
                             <img class="ImgOption danger img-responsive max-w-h-100"
                                 alt="{{ dataElement.imageMap.label }}" attr.id="{{ 'img_' + dataElement.id }}"

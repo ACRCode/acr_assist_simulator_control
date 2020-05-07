@@ -57,6 +57,7 @@
     "ng-pick-datetime": "^7.0.0",
     "ngx-bootstrap": "^5.2.0",
     "ngx-drag-scroll": "~7.4.3",
+    "ngx-loading": "^8.0.0",
     "ngx-toastr": "^11.2.1",
     "rxjs": "^6.5.4",
     "serialize-javascript": "^2.1.2",
