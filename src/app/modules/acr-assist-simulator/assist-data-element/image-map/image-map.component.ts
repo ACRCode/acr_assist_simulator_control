@@ -18,6 +18,8 @@ export class ImageMapComponent implements OnInit {
   formValues: object = {};
   isOverlayLoading = false;
   selectedValues = [];
+  hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
+  filledDefaultColour = 'rgba(27, 33, 36, 0.5)';
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
@@ -34,6 +36,8 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
+    // this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/workplace.jpg';
   }
 
   showModalPopup() {
@@ -174,19 +178,29 @@ export class ImageMapComponent implements OnInit {
 
   addRemoveHoverClass(index, isAdd) {
     if (!this.isOverlayLoading) {
+      let hoverColor;
       if (this.utilityService.isValidInstance(this.imageMapAreas)) {
         const currentArea = this.imageMapAreas.toArray()[index];
         if (this.utilityService.isValidInstance(currentArea)) {
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const height = this.container.nativeElement.offsetHeight;
           const selector = this.selectors.toArray()[index];
+          const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
+            hoverColor = drawStyle.hoverFill;
+          } else {
+            hoverColor = this.hoverDefaultColour;
+          }
+
           if (this.utilityService.isValidInstance(selector)) {
             if (isAdd) {
               if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
                 selector.nativeElement.className += ' hover';
+                selector.nativeElement.style.color = hoverColor;
               }
             } else {
               selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
+              selector.nativeElement.style.color = selector.nativeElement.style.color.replace(hoverColor, '').trim();
             }
             selector.nativeElement.style.left = coords[0] + 'px';
             selector.nativeElement.style.top = coords[1] + 'px';
@@ -229,21 +243,31 @@ export class ImageMapComponent implements OnInit {
   }
 
   private setOverLaysforImageMap(index) {
+    let filledColor;
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
         const coords = currentArea.nativeElement.attributes.coords.value.split(',');
         const height = this.container.nativeElement.offsetHeight;
         const selector = this.selectors.toArray()[index];
+        const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+        if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.selectedFill)) {
+          filledColor = drawStyle.selectedFill;
+        } else {
+          filledColor = this.filledDefaultColour;
+        }
+
         if (this.utilityService.isValidInstance(selector)) {
           if (selector.nativeElement.className.includes('selected')) {
             selector.nativeElement.className = this.map_selector_class;
+            selector.nativeElement.style.color = '';
           } else {
             selector.nativeElement.className = this.map_selector_class + ' selected';
             selector.nativeElement.style.left = coords[0] + 'px';
             selector.nativeElement.style.top = coords[1] + 'px';
             selector.nativeElement.style.right = '0px';
             selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+            selector.nativeElement.style.color = filledColor;
           }
         }
       }

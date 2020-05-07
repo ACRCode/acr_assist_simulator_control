@@ -23,12 +23,10 @@
 }
 
 .image-map-container .map-selector.selected {
-  color: #1b212480;
   opacity: 0.9;
 }
 
 .image-map-container .map-selector.hover {
-  color: #383b3c80;
   opacity: 0.4;
 }
 
