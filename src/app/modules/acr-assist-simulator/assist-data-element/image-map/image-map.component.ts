@@ -48,7 +48,12 @@ export class ImageMapComponent implements OnInit {
 
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-          const hasValueSelected = this.selectedValues.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          let hasValueSelected = false;
+          if (Array.isArray(values)) {
+            hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          } else {
+            hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
+          }
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const height = this.container.nativeElement.offsetHeight;
@@ -67,7 +72,7 @@ export class ImageMapComponent implements OnInit {
 
           if (this.utilityService.isValidInstance(selector)) {
             selector.nativeElement.style.opacity = '0.4';
-            if (selector.nativeElement.className.includes('hover')) {
+            if (selector.nativeElement.className.includes('hover') || selector.nativeElement.className.includes('selected')) {
               selector.nativeElement.style.color = '';
               selector.nativeElement.className = this.map_selector_class;
             }
