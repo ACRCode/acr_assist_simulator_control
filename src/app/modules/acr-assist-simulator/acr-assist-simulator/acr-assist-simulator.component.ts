@@ -46,7 +46,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   @Input() fontFamily: string;
   @Input() fontColor: string;
   @Input() backgroundColor: string;
-  @Input() cssClass: string;
+  @Input() cssClass: string[];
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() aiInputs: AIInputData[] = [];
   @Input() showTabularReportText = false;
@@ -122,7 +122,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     const context = this;
     setTimeout(function (e) {
       context.applyInputStyles();
-    });
+    }, 100);
   }
 
   ngOnDestroy() {
@@ -148,8 +148,30 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
     }
 
-    if (this.utilityService.isNotEmptyString(this.cssClass)) {
-      this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
+    if (this.utilityService.isNotEmptyArray(this.cssClass)) {
+      const classes = this.simulatorBlock.nativeElement.className;
+      const classesArray = classes.split(' ');
+      const classesNeedToApply = new Array<string>();
+      classesArray.forEach(classItem => {
+        this.cssClass.forEach(css => {
+          if (classItem.trim() !== css.trim() && classesNeedToApply.indexOf(css) <= -1) {
+            classesNeedToApply.push(css);
+          }
+        });
+      });
+
+      if (this.utilityService.isNotEmptyArray(classesNeedToApply)) {
+        classesNeedToApply.forEach(classNeedToApply => {
+          var nativeClasses = this.simulatorBlock.nativeElement.className.split(' ');
+          if (this.utilityService.isNotEmptyArray(nativeClasses)) {
+            if (nativeClasses.indexOf(classNeedToApply) <= -1) {
+              this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + classNeedToApply;
+            }
+          } else {
+            this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + classNeedToApply;
+          }
+        });
+      }
     }
   }
 
