@@ -46,6 +46,9 @@ export class ImageMapComponent implements OnInit {
     }
     this.isOverlayLoading = true;
     setTimeout(() => {
+      let hoverColor;
+      let selectedColor;
+
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
           const hasValueSelected = this.selectedValues.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
@@ -53,16 +56,30 @@ export class ImageMapComponent implements OnInit {
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const height = this.container.nativeElement.offsetHeight;
           const selector = this.selectors.toArray()[index];
+          const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
+            hoverColor = drawStyle.hoverFill;
+          } else {
+            hoverColor = this.hoverDefaultColour;
+          }
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.selectedFill)) {
+            selectedColor = drawStyle.selectedFill;
+          } else {
+            selectedColor = this.filledDefaultColour;
+          }
+
           if (this.utilityService.isValidInstance(selector)) {
             if (selector.nativeElement.className.includes('hover')) {
               selector.nativeElement.className = this.map_selector_class;
+              selector.nativeElement.style.color = '';
             }
             if (hasValueSelected) {
-              selector.nativeElement.className += ' hover';
+              selector.nativeElement.className += ' selected';
               selector.nativeElement.style.left = coords[0] + 'px';
               selector.nativeElement.style.top = coords[1] + 'px';
               selector.nativeElement.style.right = '0px';
               selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+              selector.nativeElement.style.color = selectedColor;
             }
           }
         }
