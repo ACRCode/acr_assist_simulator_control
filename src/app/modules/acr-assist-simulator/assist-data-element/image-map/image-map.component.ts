@@ -2,7 +2,6 @@ import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRe
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { ModalDirective } from 'ngx-bootstrap';
 
 const $ = require('jquery');
 
@@ -23,7 +22,6 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
   @ViewChild('container', { static: false }) container: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
   @ViewChildren('selectors') selectors: QueryList<ElementRef>;
@@ -38,8 +36,7 @@ export class ImageMapComponent implements OnInit {
     this.selectedValues = [];
   }
 
-  showModalPopup() {
-    this.modalPopup.show();
+  initializeSelectedOverlayData() {
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
     if (this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
@@ -252,8 +249,6 @@ export class ImageMapComponent implements OnInit {
           $('#' + this.dataElement.id).val(choice.value);
           $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
-
-        this.modalPopup.hide();
       }
     }
   }
