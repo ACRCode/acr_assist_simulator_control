@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
-import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { ModalDirective } from 'ngx-bootstrap';
 
 const $ = require('jquery');
 
@@ -12,25 +13,79 @@ const $ = require('jquery');
 })
 export class ImageMapComponent implements OnInit {
 
-  imageExist = true;
-  SelectionValue = '';
+  selectionValue = '';
+  map_selector_class = 'map-selector';
+  formValues: object = {};
+  isOverlayLoading = false;
+  selectedValues = [];
+  hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
+  filledDefaultColour = 'rgba(27, 33, 36, 0.5)';
 
-  // @Input() MultiChoiceDataElement: MultiChoiceDataElement;
-  @Input() DataElement: any;
+  @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @Input() DataElements: object = {};
-  @Input() FormValues: object = {};
+  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
+  @ViewChild('container', { static: false }) container: ElementRef;
+  @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
+  @ViewChildren('selectors') selectors: QueryList<ElementRef>;
 
   constructor(
+    private simulatorEngineService: SimulatorEngineService,
     private utilityService: UtilityService
   ) {
   }
 
   ngOnInit() {
-    if (this.DataElement === undefined) {
-      return;
+    this.selectedValues = [];
+  }
+
+  showModalPopup() {
+    this.modalPopup.show();
+    const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+    if (this.utilityService.isNotEmptyArray(values)) {
+      this.selectedValues = values;
     }
-    this.displayValue('');
+    this.isOverlayLoading = true;
+    setTimeout(() => {
+      let hoverColor;
+      let selectedColor;
+
+      for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
+        if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+          const hasValueSelected = this.selectedValues.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          const currentArea = this.imageMapAreas.toArray()[index];
+          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+          const height = this.container.nativeElement.offsetHeight;
+          const selector = this.selectors.toArray()[index];
+          const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
+            hoverColor = drawStyle.hoverFill;
+          } else {
+            hoverColor = this.hoverDefaultColour;
+          }
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.selectedFill)) {
+            selectedColor = drawStyle.selectedFill;
+          } else {
+            selectedColor = this.filledDefaultColour;
+          }
+
+          if (this.utilityService.isValidInstance(selector)) {
+            if (selector.nativeElement.className.includes('hover')) {
+              selector.nativeElement.className = this.map_selector_class;
+              selector.nativeElement.style.color = '';
+            }
+            if (hasValueSelected) {
+              selector.nativeElement.className += ' selected';
+              selector.nativeElement.style.left = coords[0] + 'px';
+              selector.nativeElement.style.top = coords[1] + 'px';
+              selector.nativeElement.style.right = '0px';
+              selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+              selector.nativeElement.style.color = selectedColor;
+            }
+          }
+        }
+      }
+      this.isOverlayLoading = false;
+    }, 1000);
   }
 
   isInRectangle(mouseX, mouseY, Coordinates) {
@@ -51,7 +106,9 @@ export class ImageMapComponent implements OnInit {
     } else {
       return false;
     }
-  } isInPolygon(x, y, Coordinates) {
+  }
+
+  isInPolygon(x, y, Coordinates) {
     const COArray = Coordinates.split(',');
     const vs = [];
     for (let i = 0; i < COArray.length; i++) {
@@ -84,76 +141,43 @@ export class ImageMapComponent implements OnInit {
     const N_height = $elem.height();
     const N_width = $elem.width();
 
-
     const offset = $elem.offset();
-
     const offset_t = offset.top - $(window).scrollTop();
     const offset_l = offset.left - $(window).scrollLeft();
 
     const x = e.clientX - offset_l;
     const y = e.clientY - offset_t;
+
     for (const opt of dataElement.ImageOptions) {
       if (opt.Shape === 'rect') {
         if (this.isInRectangle(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       } else if (opt.Shape === 'circle') {
         if (this.isInCircle(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       } else if (opt.Shape === 'poly') {
         if (this.isInPolygon(x, y, opt.Coordinates)) {
-          this.FormValues[dataElement.ID] = opt.Value;
+          this.formValues[dataElement.ID] = opt.Value;
           break;
         }
       }
     }
   }
 
-  setValue(val) {
-    if (this.utilityService.isValidInstance(this.DataElement) && this.DataElement.dataElementType === 'MultiChoiceDataElement') {
-      for (const optValue of this.DataElement.choiceInfo) {
-        if (optValue.value === val) {
-          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value).prop('checked', true);
-          const customEvent = document.createEvent('Event');
-          customEvent.initEvent('change', true, true);
-          $('#' + this.DataElement.id + '_' + this.DataElement.choiceInfo[this.DataElement.choiceInfo.findIndex(x => x.value === optValue.value)].value)[0].dispatchEvent(customEvent);
-          break;
-        }
-      }
-    } else {
-      for (const optValue of this.DataElement.choiceInfo) {
-        if (this.DataElement.choiceInfo.length <= 2 && this.DataElement.choiceInfo.length > 0) {
-          if (optValue.value === val) {
-            $('#' + val + '_' + this.DataElement.id).prop('checked', true);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + val + '_' + this.DataElement.id)[0].dispatchEvent(customEvent);
-          } else {
-            $('#' + optValue.value + '_' + this.DataElement.id).prop('checked', false);
-          }
-        } else {
-          if (optValue.value === val) {
-            $('#' + this.DataElement.id).val(optValue.value);
-            const customEvent = document.createEvent('Event');
-            customEvent.initEvent('change', true, true);
-            $('#' + this.DataElement.id)[0].dispatchEvent(customEvent);
-            break;
-          }
-        }
-      }
-
-      this.DataElement.currentValue = val;
-    }
+  setValue(val, index) {
+    this.setOverLaysforImageMap(index);
+    this.setSelectedValues(val);
   }
 
-  displayValue(val) {
-    if (val === '') {
-      this.SelectionValue = 'Image Map Diagram';
+  getSelectedValue() {
+    if (this.utilityService.isNotEmptyArray(this.selectedValues)) {
+      return 'Selected Values : ' + this.selectedValues.join(' | ');
     } else {
-      this.SelectionValue = 'Selected Value : ' + val;
+      return 'Image Map Diagram';
     }
   }
 
@@ -163,6 +187,104 @@ export class ImageMapComponent implements OnInit {
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
+  addRemoveHoverClass(index, isAdd) {
+    if (!this.isOverlayLoading) {
+      let hoverColor;
+      if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+        const currentArea = this.imageMapAreas.toArray()[index];
+        if (this.utilityService.isValidInstance(currentArea)) {
+          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+          const height = this.container.nativeElement.offsetHeight;
+          const selector = this.selectors.toArray()[index];
+          const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+          if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.hoverFill)) {
+            hoverColor = drawStyle.hoverFill;
+          } else {
+            hoverColor = this.hoverDefaultColour;
+          }
+
+          if (this.utilityService.isValidInstance(selector)) {
+            if (isAdd) {
+              if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
+                selector.nativeElement.className += ' hover';
+                selector.nativeElement.style.color = hoverColor;
+              }
+            } else {
+              selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
+              selector.nativeElement.style.color = selector.nativeElement.style.color.replace(hoverColor, '').trim();
+            }
+            selector.nativeElement.style.left = coords[0] + 'px';
+            selector.nativeElement.style.top = coords[1] + 'px';
+            selector.nativeElement.style.right = '0px';
+            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+          }
+        }
+      }
+    }
+  }
+
+  private setSelectedValues(selectedValue: string) {
+    const choice = this.dataElement.choiceInfo.find(x => x.value.toLowerCase() === selectedValue.toLowerCase());
+    if (this.utilityService.isValidInstance(choice)) {
+      const customEvent = document.createEvent('Event');
+      customEvent.initEvent('change', true, true);
+
+      if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
+        const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+        let checked = true;
+        if (this.utilityService.isNotEmptyArray(values) && values.indexOf(selectedValue) >= 0) {
+          checked = false;
+        }
+        checked ? this.selectedValues.push(choice.value) : this.selectedValues.splice(this.selectedValues.indexOf(choice.value));
+        $('#' + this.dataElement.id + '_' + choice.value).prop('checked', checked);
+        $('#' + this.dataElement.id + '_' + choice.value)[0].dispatchEvent(customEvent);
+
+      } else if (choice.value === selectedValue) {
+        if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+          $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+          $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+        } else {
+          $('#' + this.dataElement.id).val(choice.value);
+          $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+        }
+
+        this.modalPopup.hide();
+      }
+    }
+  }
+
+  private setOverLaysforImageMap(index) {
+    let filledColor;
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+        const height = this.container.nativeElement.offsetHeight;
+        const selector = this.selectors.toArray()[index];
+        const drawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
+        if (this.utilityService.isValidInstance(drawStyle) && this.utilityService.isNotEmptyString(drawStyle.selectedFill)) {
+          filledColor = drawStyle.selectedFill;
+        } else {
+          filledColor = this.filledDefaultColour;
+        }
+
+        if (this.utilityService.isValidInstance(selector)) {
+          if (selector.nativeElement.className.includes('selected')) {
+            selector.nativeElement.className = this.map_selector_class;
+            selector.nativeElement.style.color = '';
+          } else {
+            selector.nativeElement.className = this.map_selector_class + ' selected';
+            selector.nativeElement.style.left = coords[0] + 'px';
+            selector.nativeElement.style.top = coords[1] + 'px';
+            selector.nativeElement.style.right = '0px';
+            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+            selector.nativeElement.style.color = filledColor;
+          }
+        }
       }
     }
   }

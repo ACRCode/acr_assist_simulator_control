@@ -207,7 +207,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     return this.choiceElementForm.controls.checkBox.invalid && this.choiceDataElement.isRequired;
   }
 
-  private emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
+  emitChoiceElementData(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
     const choiceElement = new ChoiceElement();
     choiceElement.elementId = elementId;
     choiceElement.selectedValue = selectedValue;

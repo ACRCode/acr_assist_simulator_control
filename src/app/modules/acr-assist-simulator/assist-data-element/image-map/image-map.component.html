@@ -1,49 +1,49 @@
 <div class="col-lg-6">
     <label class="control-label font-weight-400">Not sure? try out this image </label>
-    <button type="button" class="btn btn-default font-size-inherit" data-toggle="modal"
-        attr.data-target="#{{'imgMap_Modal_'+DataElement.id}}">
+    <button type="button" class="btn btn-default font-size-inherit" (click)="showModalPopup()">
         <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
             title="Image Map"></span>
     </button>
 </div>
-<div class="modal inmodal fade" id="{{'imgMap_Modal_'+DataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" (click)="modalPopup.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title"> {{SelectionValue}}</h4>
+                <h4 class="modal-title"> {{ getSelectedValue() }}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <ng-container *ngIf="imageExist == true">
+                        <div #container class="image-map-container">
                             <img class="ImgOption danger img-responsive max-w-h-100"
-                                alt="{{ DataElement.imageMap.label }}" data-dismiss="modal"
-                                attr.id="{{'imgMap_Img_'+DataElement.id}}" (click)="imageClick($event,DataElement);"
-                                attr.data-elementID="{{DataElement.id}}" attr.usemap="#{{'imgMap_'+DataElement.id}}"
-                                [src]="getImageDataUrl(DataElement.imageMap.location) | secure">
-                            <map name="{{'imgMap_'+DataElement.id}}">
-                                <ng-container *ngFor="let imgOpt of DataElement.imageMap.map.areas">
-                                    <area attr.shape="{{imgOpt.shape}}" attr.imgID="{{'imgMap_Img_'+DataElement.id}}"
-                                        attr.coords="{{imgOpt.coords}}" attr.alt="{{imgOpt.choiceValue}}"
-                                        (mouseover)='displayValue(imgOpt.choiceValue);' (mouseout)='displayValue("");'
-                                        (click)="setValue(imgOpt.choiceValue);" data-dismiss="modal">
-                                </ng-container>
-                            </map>
-                        </ng-container>
-                        <ng-container *ngIf="imageExist == false">
-                            <div class="">
-                                No Image Map Available...
-                            </div>
-                        </ng-container>
+                                alt="{{ dataElement.imageMap.label }}" attr.id="{{ 'img_' + dataElement.id }}"
+                                attr.data-elementID="{{ dataElement.id }}"
+                                attr.usemap="#{{ 'image_map_' + dataElement.id }}"
+                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure"
+                                (click)="imageClick($event,dataElement)">
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
+                                <div #selectors class="{{ map_selector_class }}">
+                                </div>
+                            </ng-container>
+                        </div>
+                        <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
+                                <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
+                                    attr.coords="{{ imgOpt.coords }}" tooltip="{{ imgOpt.choiceValue }}"
+                                    (click)="setValue(imgOpt.choiceValue, i)" (mouseover)="addRemoveHoverClass(i, true)"
+                                    (mouseout)="addRemoveHoverClass(i, false)"/>
+                            </ng-container>
+                        </map>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="modalPopup.hide()"
+                    aria-label="Close">Close</button>
             </div>
         </div>
     </div>
