@@ -36,8 +36,6 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
-    this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/COVID19.jpg';
-    // this.dataElement.imageMap.location = '../../../../../assets/XMLFIles/Covid/workplace.jpg';
   }
 
   showModalPopup() {
