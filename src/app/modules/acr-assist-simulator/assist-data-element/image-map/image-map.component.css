@@ -22,14 +22,6 @@
   transition-property: top, left, right, bottom, color;
 }
 
-.image-map-container .map-selector.selected {
-  opacity: 0.9;
-}
-
-.image-map-container .map-selector.hover {
-  opacity: 0.4;
-}
-
 .map-selector:after {
   content: '';
   position: absolute;
