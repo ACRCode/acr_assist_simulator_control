@@ -18,7 +18,7 @@ export class ImageMapComponent implements OnInit {
   isOverlayLoading = false;
   selectedValues = [];
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
-  filledDefaultColour = 'rgba(27, 33, 36, 0.5)';
+  filledDefaultColour = 'rgba(38, 166, 91, 1)';
   borderDefaultColour = '2px solid rgba(0, 0, 0, 0)';
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
@@ -59,6 +59,7 @@ export class ImageMapComponent implements OnInit {
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const height = this.container.nativeElement.offsetHeight;
+          const width = this.container.nativeElement.offsetWidth;
           const selector = this.selectors.toArray()[index];
           const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
@@ -106,8 +107,8 @@ export class ImageMapComponent implements OnInit {
               selector.nativeElement.style.border = outlineColor;
               selector.nativeElement.style.left = coords[0] + 'px';
               selector.nativeElement.style.top = coords[1] + 'px';
-              selector.nativeElement.style.right = '0px';
-              selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+              selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+              selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
               selector.nativeElement.className += ' selected';
             }
           }
@@ -234,6 +235,7 @@ export class ImageMapComponent implements OnInit {
       if (this.utilityService.isValidInstance(currentArea)) {
         const coords = currentArea.nativeElement.attributes.coords.value.split(',');
         const height = this.container.nativeElement.offsetHeight;
+        const width = this.container.nativeElement.offsetWidth;
         const selector = this.selectors.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
@@ -276,8 +278,8 @@ export class ImageMapComponent implements OnInit {
           selector.nativeElement.style.opacity = '0.4';
           selector.nativeElement.style.left = coords[0] + 'px';
           selector.nativeElement.style.top = coords[1] + 'px';
-          selector.nativeElement.style.right = '0px';
-          selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+          selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+          selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
         }
       }
     }
@@ -317,6 +319,7 @@ export class ImageMapComponent implements OnInit {
 
     const coords = currentArea.nativeElement.attributes.coords.value.split(',');
     const height = this.container.nativeElement.offsetHeight;
+    const width = this.container.nativeElement.offsetWidth;
     const selector = this.selectors.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
@@ -354,8 +357,8 @@ export class ImageMapComponent implements OnInit {
         selector.nativeElement.style.opacity = '0.4';
         selector.nativeElement.style.left = coords[0] + 'px';
         selector.nativeElement.style.top = coords[1] + 'px';
-        selector.nativeElement.style.right = '0px';
-        selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+        selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+        selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
         selector.nativeElement.className = this.map_selector_class + ' selected';
       }
     }
