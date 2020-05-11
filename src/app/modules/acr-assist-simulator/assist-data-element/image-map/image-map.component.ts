@@ -13,12 +13,13 @@ const $ = require('jquery');
 export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
-  map_selector_class = 'map-selector';
+  map_selector_class = 'cursor-pointer map-selector';
   formValues: object = {};
   isOverlayLoading = false;
   selectedValues = [];
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
   filledDefaultColour = 'rgba(27, 33, 36, 0.5)';
+  borderDefaultColour = '2px solid rgba(0, 0, 0, 0)';
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
@@ -36,6 +37,10 @@ export class ImageMapComponent implements OnInit {
     this.selectedValues = [];
   }
 
+  ok() {
+    alert('ok');
+  }
+
   initializeSelectedOverlayData() {
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
     if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
@@ -45,6 +50,7 @@ export class ImageMapComponent implements OnInit {
     setTimeout(() => {
       let hoverColor;
       let filledColor;
+      let outlineColor;
 
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
@@ -80,19 +86,33 @@ export class ImageMapComponent implements OnInit {
             filledColor = this.filledDefaultColour;
           }
 
+          if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
+            this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
+            outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+          } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+            this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
+            outlineColor = '2px solid ' + elementDrawStyle.outline;
+          } else {
+            outlineColor = this.borderDefaultColour;
+          }
+
           if (this.utilityService.isValidInstance(selector)) {
             selector.nativeElement.style.opacity = '0.4';
             if (selector.nativeElement.className.includes('hover') || selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.style.color = '';
+              selector.nativeElement.style.position = '';
+              selector.nativeElement.style.background = '';
+              selector.nativeElement.style.border = '';
               selector.nativeElement.className = this.map_selector_class;
             }
             if (hasValueSelected) {
-              selector.nativeElement.style.color = filledColor;
-              selector.nativeElement.className += ' selected';
+              selector.nativeElement.style.position = 'absolute';
+              selector.nativeElement.style.background = filledColor;
+              selector.nativeElement.style.border = outlineColor;
               selector.nativeElement.style.left = coords[0] + 'px';
               selector.nativeElement.style.top = coords[1] + 'px';
               selector.nativeElement.style.right = '0px';
               selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+              selector.nativeElement.className += ' selected';
             }
           }
         }
@@ -181,9 +201,14 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  setValue(val, index) {
-    this.setOverLaysforImageMap(index);
-    this.setSelectedValues(val);
+  setSelectedValue(index) {
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        this.setOverLaysforImageMap(index, currentArea);
+        this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+      }
+    }
   }
 
   getSelectedValue() {
@@ -206,6 +231,8 @@ export class ImageMapComponent implements OnInit {
 
   addRemoveHoverClass(index, isAdd) {
     let hoverColor;
+    let outlineColor;
+
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
@@ -224,14 +251,30 @@ export class ImageMapComponent implements OnInit {
           hoverColor = this.hoverDefaultColour;
         }
 
+        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
+          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
+          outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+          this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
+          outlineColor = '2px solid ' + elementDrawStyle.outline;
+        } else {
+          outlineColor = this.borderDefaultColour;
+        }
+
         if (this.utilityService.isValidInstance(selector)) {
           if (isAdd) {
             if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.style.color = hoverColor;
+              selector.nativeElement.style.position = 'absolute';
+              selector.nativeElement.style.background = hoverColor;
+              selector.nativeElement.style.border = outlineColor;
               selector.nativeElement.className += ' hover';
             }
           } else {
-            selector.nativeElement.style.color = selector.nativeElement.style.color.replace(hoverColor, '').trim();
+            if (!selector.nativeElement.className.includes('selected')) {
+              selector.nativeElement.style.position = '';
+              selector.nativeElement.style.border = '';
+            }
+            selector.nativeElement.style.background = selector.nativeElement.style.background.replace(hoverColor, '').trim();
             selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
           }
           selector.nativeElement.style.opacity = '0.4';
@@ -272,42 +315,52 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  private setOverLaysforImageMap(index) {
+  private setOverLaysforImageMap(index: number, currentArea: ElementRef) {
     let filledColor;
-    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-      const currentArea = this.imageMapAreas.toArray()[index];
-      if (this.utilityService.isValidInstance(currentArea)) {
-        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-        const height = this.container.nativeElement.offsetHeight;
-        const selector = this.selectors.toArray()[index];
-        const areaDrawStyle = this.dataElement.imageMap.map.areas[index].drawStyle;
-        const elementDrawStyle = this.dataElement.imageMap.drawStyle;
+    let outlineColor;
 
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-          filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-          filledColor = elementDrawStyle.selectedFill;
-        } else {
-          filledColor = this.filledDefaultColour;
-        }
+    const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+    const height = this.container.nativeElement.offsetHeight;
+    const selector = this.selectors.toArray()[index];
+    const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        if (this.utilityService.isValidInstance(selector)) {
-          if (selector.nativeElement.className.includes('selected')) {
-            selector.nativeElement.style.color = '';
-            selector.nativeElement.style.opacity = '';
-            selector.nativeElement.className = this.map_selector_class;
-          } else {
-            selector.nativeElement.style.color = filledColor;
-            selector.nativeElement.style.opacity = '0.4';
-            selector.nativeElement.className = this.map_selector_class + ' selected';
-            selector.nativeElement.style.left = coords[0] + 'px';
-            selector.nativeElement.style.top = coords[1] + 'px';
-            selector.nativeElement.style.right = '0px';
-            selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
-          }
-        }
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
+      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
+      filledColor = elementDrawStyle.selectedFill;
+    } else {
+      filledColor = this.filledDefaultColour;
+    }
+
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
+      outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
+      outlineColor = '2px solid ' + elementDrawStyle.outline;
+    } else {
+      outlineColor = this.borderDefaultColour;
+    }
+
+    if (this.utilityService.isValidInstance(selector)) {
+      if (selector.nativeElement.className.includes('selected')) {
+        selector.nativeElement.style.position = '';
+        selector.nativeElement.style.background = '';
+        selector.nativeElement.style.border = '';
+        selector.nativeElement.style.opacity = '';
+        selector.nativeElement.className = this.map_selector_class;
+      } else {
+        selector.nativeElement.style.position = 'absolute';
+        selector.nativeElement.style.background = filledColor;
+        selector.nativeElement.style.border = outlineColor;
+        selector.nativeElement.style.opacity = '0.4';
+        selector.nativeElement.style.left = coords[0] + 'px';
+        selector.nativeElement.style.top = coords[1] + 'px';
+        selector.nativeElement.style.right = '0px';
+        selector.nativeElement.style.bottom = (height - coords[3]) + 'px';
+        selector.nativeElement.className = this.map_selector_class + ' selected';
       }
     }
   }
