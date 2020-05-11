@@ -38,6 +38,8 @@
                                 <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                     <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
                                         attr.coords="{{ imgOpt.coords }}" title="{{ imgOpt.choiceValue }}"
+                                        attr.selectedFill="{{ imgOpt.selectedFill }}"
+                                        attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
                                         (click)="setValue(imgOpt.choiceValue, i)"
                                         (mouseover)="addRemoveHoverClass(i, true)"
                                         (mouseout)="addRemoveHoverClass(i, false)" />
@@ -47,6 +49,8 @@
                                 <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                     <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
                                         attr.coords="{{ imgOpt.coords }}" title="{{ imgOpt.choiceValue }}"
+                                        attr.selectedFill="{{ imgOpt.selectedFill }}"
+                                        attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
                                         (click)="setValue(imgOpt.choiceValue, i)"
                                         (mouseover)="addRemoveHoverClass(i, true)"
                                         (mouseout)="addRemoveHoverClass(i, false)" data-dismiss="modal" />
