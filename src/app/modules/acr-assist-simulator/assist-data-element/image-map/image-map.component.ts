@@ -51,13 +51,16 @@ export class ImageMapComponent implements OnInit {
       for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
         if (this.utilityService.isValidInstance(this.imageMapAreas)) {
           let hasValueSelected = false;
-          if (Array.isArray(values)) {
-            hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
-          } else {
-            hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
-          }
+          if (this.utilityService.isNotEmptyArray(values)) {
+            if (Array.isArray(values)) {
+              hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+            } else {
+              hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
+            }
+        }
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+          const shape = currentArea.nativeElement.attributes.shape.value;
           const height = this.container.nativeElement.offsetHeight;
           const width = this.container.nativeElement.offsetWidth;
           const selector = this.selectors.toArray()[index];
@@ -99,16 +102,27 @@ export class ImageMapComponent implements OnInit {
               selector.nativeElement.style.position = '';
               selector.nativeElement.style.background = '';
               selector.nativeElement.style.border = '';
+              selector.nativeElement.style.borderRadius = '';
+              selector.nativeElement.style.height = '';
               selector.nativeElement.className = this.map_selector_class;
             }
             if (hasValueSelected) {
               selector.nativeElement.style.position = 'absolute';
               selector.nativeElement.style.background = filledColor;
               selector.nativeElement.style.border = outlineColor;
-              selector.nativeElement.style.left = coords[0] + 'px';
-              selector.nativeElement.style.top = coords[1] + 'px';
-              selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-              selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+
+              if (shape.toLowerCase() === 'rect') {
+                selector.nativeElement.style.left = coords[0] + 'px';
+                selector.nativeElement.style.top = coords[1] + 'px';
+                selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+                selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+              } else if (shape.toLowerCase() === 'circle') {
+                selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
+                selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
+                selector.nativeElement.style.width = (2 * coords[2]) + 'px';
+                selector.nativeElement.style.height = (2 * coords[2]) + 'px';
+                selector.nativeElement.style.borderRadius = '50%';
+              }
               selector.nativeElement.className += ' selected';
             }
           }
@@ -118,92 +132,14 @@ export class ImageMapComponent implements OnInit {
     }, 1000);
   }
 
-  isInRectangle(mouseX, mouseY, Coordinates) {
-    const COArray = Coordinates.split(',');
-    if (COArray[0] < mouseX
-      && (COArray[0] + COArray[2]) > mouseX
-      && COArray[1] < mouseY
-      && (COArray[1] + COArray[3]) > mouseY) {
-      return true;
-    }
-    return false;
-  }
-
-  isInCircle(mouseX, mouseY, Coordinates) {
-    const COArray = Coordinates.split(',');
-    if (Math.sqrt(Math.pow((mouseX - COArray[0]), 2) + Math.pow((mouseY - COArray[1]), 2)) < COArray[2]) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isInPolygon(x, y, Coordinates) {
-    const COArray = Coordinates.split(',');
-    const vs = [];
-    for (let i = 0; i < COArray.length; i++) {
-      const point = [];
-      point.push(COArray[i]);
-      point.push(COArray[i + 1]);
-      i += 1;
-      vs.push(point);
-    }
-    let inside = false;
-    for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-      const xi = vs[i][0];
-      const yi = vs[i][1];
-      const xj = vs[j][0];
-      const yj = vs[j][1];
-      const intersect = ((yi > y) !== (yj > y))
-        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-      if (intersect) {
-        inside = !inside;
-      }
-    }
-    return inside;
-  }
-
-  imageClick(e, dataElement) {
-    const O_height = dataElement.ImageProp.height;
-    const O_width = dataElement.ImageProp.width;
-    const $elem = $(e.target);
-
-    const N_height = $elem.height();
-    const N_width = $elem.width();
-
-    const offset = $elem.offset();
-    const offset_t = offset.top - $(window).scrollTop();
-    const offset_l = offset.left - $(window).scrollLeft();
-
-    const x = e.clientX - offset_l;
-    const y = e.clientY - offset_t;
-
-    for (const opt of dataElement.ImageOptions) {
-      if (opt.Shape === 'rect') {
-        if (this.isInRectangle(x, y, opt.Coordinates)) {
-          this.formValues[dataElement.ID] = opt.Value;
-          break;
-        }
-      } else if (opt.Shape === 'circle') {
-        if (this.isInCircle(x, y, opt.Coordinates)) {
-          this.formValues[dataElement.ID] = opt.Value;
-          break;
-        }
-      } else if (opt.Shape === 'poly') {
-        if (this.isInPolygon(x, y, opt.Coordinates)) {
-          this.formValues[dataElement.ID] = opt.Value;
-          break;
-        }
-      }
-    }
-  }
-
   setSelectedValue(index) {
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
-        this.setOverLaysforImageMap(index, currentArea);
-        this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+        if (this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.choice.value)) {
+          this.setOverLaysforImageMap(index, currentArea);
+          this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+        }
       }
     }
   }
@@ -234,6 +170,7 @@ export class ImageMapComponent implements OnInit {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
         const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+        const shape = currentArea.nativeElement.attributes.shape.value;
         const height = this.container.nativeElement.offsetHeight;
         const width = this.container.nativeElement.offsetWidth;
         const selector = this.selectors.toArray()[index];
@@ -271,15 +208,28 @@ export class ImageMapComponent implements OnInit {
             if (!selector.nativeElement.className.includes('selected')) {
               selector.nativeElement.style.position = '';
               selector.nativeElement.style.border = '';
+              selector.nativeElement.style.borderRadius = '';
+              selector.nativeElement.style.height = '';
             }
             selector.nativeElement.style.background = selector.nativeElement.style.background.replace(hoverColor, '').trim();
             selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
           }
           selector.nativeElement.style.opacity = '0.4';
-          selector.nativeElement.style.left = coords[0] + 'px';
-          selector.nativeElement.style.top = coords[1] + 'px';
-          selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-          selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+
+          if (shape.toLowerCase() === 'rect') {
+            selector.nativeElement.style.left = coords[0] + 'px';
+            selector.nativeElement.style.top = coords[1] + 'px';
+            selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+            selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+          } else if (shape.toLowerCase() === 'circle') {
+            if (isAdd) {
+              selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
+              selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
+              selector.nativeElement.style.width = (2 * coords[2]) + 'px';
+              selector.nativeElement.style.height = (2 * coords[2]) + 'px';
+              selector.nativeElement.style.borderRadius = '50%';
+            }
+          }
         }
       }
     }
@@ -318,6 +268,7 @@ export class ImageMapComponent implements OnInit {
     let outlineColor;
 
     const coords = currentArea.nativeElement.attributes.coords.value.split(',');
+    const shape = currentArea.nativeElement.attributes.shape.value;
     const height = this.container.nativeElement.offsetHeight;
     const width = this.container.nativeElement.offsetWidth;
     const selector = this.selectors.toArray()[index];
@@ -349,16 +300,27 @@ export class ImageMapComponent implements OnInit {
         selector.nativeElement.style.background = '';
         selector.nativeElement.style.border = '';
         selector.nativeElement.style.opacity = '';
+        selector.nativeElement.style.borderRadius = '';
+        selector.nativeElement.style.height = '';
         selector.nativeElement.className = this.map_selector_class;
       } else {
         selector.nativeElement.style.position = 'absolute';
         selector.nativeElement.style.background = filledColor;
         selector.nativeElement.style.border = outlineColor;
         selector.nativeElement.style.opacity = '0.4';
-        selector.nativeElement.style.left = coords[0] + 'px';
-        selector.nativeElement.style.top = coords[1] + 'px';
-        selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-        selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+
+        if (shape.toLowerCase() === 'rect') {
+          selector.nativeElement.style.left = coords[0] + 'px';
+          selector.nativeElement.style.top = coords[1] + 'px';
+          selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
+          selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
+        } else if (shape.toLowerCase() === 'circle') {
+          selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
+          selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
+          selector.nativeElement.style.width = (2 * coords[2]) + 'px';
+          selector.nativeElement.style.height = (2 * coords[2]) + 'px';
+          selector.nativeElement.style.borderRadius = '50%';
+        }
         selector.nativeElement.className = this.map_selector_class + ' selected';
       }
     }
