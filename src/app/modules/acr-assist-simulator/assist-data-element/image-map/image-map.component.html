@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
-                        <div #container class="image-map-container">
+                        <div class="image-map-container">
                             <img class="ImgOption danger img-responsive max-w-h-100"
                                 alt="{{ dataElement.imageMap.label }}"
                                 attr.usemap="#{{ 'image_map_' + dataElement.id }}"
@@ -29,16 +29,17 @@
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <ng-container
                                     *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
-                                    <div #selectors class="{{ map_selector_class }}"
+                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
                                         (mouseover)="addRemoveHoverClass(i, true)"
                                         (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)">
-                                    </div>
+                                    </canvas>
                                 </ng-container>
                                 <ng-template #nonMultiChoice>
-                                    <div #selectors class="{{ map_selector_class }}"
+                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
                                         (mouseover)="addRemoveHoverClass(i, true)"
                                         (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)"
-                                        data-dismiss="modal"></div>
+                                        data-dismiss="modal">
+                                    </canvas>
                                 </ng-template>
                             </ng-container>
                         </div>
@@ -49,7 +50,7 @@
                                     title="{{ imgOpt.choiceValue }}" attr.selectedFill="{{ imgOpt.selectedFill }}"
                                     attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
                                     (mouseover)="addRemoveHoverClass(i, true)"
-                                    (mouseout)="addRemoveHoverClass(i, false)" />
+                                    (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)" />
                             </ng-container>
                         </map>
                     </div>

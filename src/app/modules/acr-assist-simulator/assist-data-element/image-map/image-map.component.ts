@@ -13,19 +13,18 @@ const $ = require('jquery');
 export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
-  map_selector_class = 'cursor-pointer map-selector';
+  map_selector_class = 'display-none cursor-pointer map-selector';
   formValues: object = {};
   isOverlayLoading = false;
   selectedValues = [];
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
   filledDefaultColour = 'rgba(38, 166, 91, 1)';
-  borderDefaultColour = '2px solid rgba(0, 0, 0, 0)';
+  borderDefaultColour = '1px solid rgba(0, 0, 0, 0)';
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @ViewChild('container', { static: false }) container: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
-  @ViewChildren('selectors') selectors: QueryList<ElementRef>;
+  @ViewChildren('canvases') canvases: QueryList<ElementRef>;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -61,9 +60,7 @@ export class ImageMapComponent implements OnInit {
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const shape = currentArea.nativeElement.attributes.shape.value;
-          const height = this.container.nativeElement.offsetHeight;
-          const width = this.container.nativeElement.offsetWidth;
-          const selector = this.selectors.toArray()[index];
+          const canvas = this.canvases.toArray()[index];
           const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
           if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
@@ -88,42 +85,34 @@ export class ImageMapComponent implements OnInit {
 
           if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
             this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-            outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+            outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
           } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
             this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-            outlineColor = '2px solid ' + elementDrawStyle.outline;
+            outlineColor = '1px solid ' + elementDrawStyle.outline;
           } else {
             outlineColor = this.borderDefaultColour;
           }
 
-          if (this.utilityService.isValidInstance(selector)) {
-            selector.nativeElement.style.opacity = '0.4';
-            if (selector.nativeElement.className.includes('hover') || selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.style.position = '';
-              selector.nativeElement.style.backgroundColor = '';
-              selector.nativeElement.style.border = '';
-              selector.nativeElement.style.borderRadius = '';
-              selector.nativeElement.style.height = '';
-              selector.nativeElement.className = this.map_selector_class;
+          if (this.utilityService.isValidInstance(canvas)) {
+            if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
+              canvas.nativeElement.style.position = '';
+              canvas.nativeElement.style.display = 'none';
+              canvas.nativeElement.style.backgroundColor = '';
+              canvas.nativeElement.style.border = '';
+              canvas.nativeElement.style.opacity = '';
+              canvas.nativeElement.style.borderRadius = '';
+              canvas.nativeElement.style.height = '';
+              canvas.nativeElement.className = this.map_selector_class;
             }
             if (hasValueSelected) {
-              selector.nativeElement.style.position = 'absolute';
-              selector.nativeElement.style.backgroundColor = filledColor;
-              selector.nativeElement.style.border = outlineColor;
+              canvas.nativeElement.style.position = 'absolute';
+              canvas.nativeElement.style.display = 'block';
+              canvas.nativeElement.style.backgroundColor = filledColor;
+              canvas.nativeElement.style.border = outlineColor;
+              canvas.nativeElement.style.opacity = '0.4';
 
-              if (shape.toLowerCase() === 'rect') {
-                selector.nativeElement.style.left = coords[0] + 'px';
-                selector.nativeElement.style.top = coords[1] + 'px';
-                selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-                selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
-              } else if (shape.toLowerCase() === 'circle') {
-                selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
-                selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-                selector.nativeElement.style.width = (2 * coords[2]) + 'px';
-                selector.nativeElement.style.height = (2 * coords[2]) + 'px';
-                selector.nativeElement.style.borderRadius = '50%';
-              }
-              selector.nativeElement.className += ' selected';
+              this.drawStyleBasedOnShape(canvas, shape, coords);
+              canvas.nativeElement.className = this.map_selector_class + ' selected';
             }
           }
         }
@@ -171,9 +160,7 @@ export class ImageMapComponent implements OnInit {
       if (this.utilityService.isValidInstance(currentArea)) {
         const coords = currentArea.nativeElement.attributes.coords.value.split(',');
         const shape = currentArea.nativeElement.attributes.shape.value;
-        const height = this.container.nativeElement.offsetHeight;
-        const width = this.container.nativeElement.offsetWidth;
-        const selector = this.selectors.toArray()[index];
+        const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
         if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
@@ -188,47 +175,34 @@ export class ImageMapComponent implements OnInit {
 
         if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
           this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-          outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+          outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
         } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
           this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-          outlineColor = '2px solid ' + elementDrawStyle.outline;
+          outlineColor = '1px solid ' + elementDrawStyle.outline;
         } else {
           outlineColor = this.borderDefaultColour;
         }
 
-        if (this.utilityService.isValidInstance(selector)) {
+        if (this.utilityService.isValidInstance(canvas)) {
           if (isAdd) {
-            if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.style.position = 'absolute';
-              selector.nativeElement.style.backgroundColor = hoverColor;
-              selector.nativeElement.style.border = outlineColor;
-              selector.nativeElement.className += ' hover';
+            if (!canvas.nativeElement.className.includes('hover') && !canvas.nativeElement.className.includes('selected')) {
+              canvas.nativeElement.style.position = 'absolute';
+              canvas.nativeElement.style.backgroundColor = hoverColor;
+              canvas.nativeElement.style.border = outlineColor;
+              canvas.nativeElement.className += ' hover';
             }
-          } else {
-            if (!selector.nativeElement.className.includes('selected')) {
-              selector.nativeElement.style.position = '';
-              selector.nativeElement.style.border = '';
-              selector.nativeElement.style.borderRadius = '';
-              selector.nativeElement.style.height = '';
-            }
-            selector.nativeElement.style.backgroundColor = selector.nativeElement.style.backgroundColor.replace(hoverColor, '').trim();
-            selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
-          }
-          selector.nativeElement.style.opacity = '0.4';
 
-          if (shape.toLowerCase() === 'rect') {
-            selector.nativeElement.style.left = coords[0] + 'px';
-            selector.nativeElement.style.top = coords[1] + 'px';
-            selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-            selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
-          } else if (shape.toLowerCase() === 'circle') {
-            if (isAdd) {
-              selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
-              selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-              selector.nativeElement.style.width = (2 * coords[2]) + 'px';
-              selector.nativeElement.style.height = (2 * coords[2]) + 'px';
-              selector.nativeElement.style.borderRadius = '50%';
+            canvas.nativeElement.style.opacity = '0.4';
+            this.drawStyleBasedOnShape(canvas, shape, coords);
+          } else {
+            if (!canvas.nativeElement.className.includes('selected')) {
+              canvas.nativeElement.style.position = '';
+              canvas.nativeElement.style.border = '';
+              canvas.nativeElement.style.borderRadius = '';
+              canvas.nativeElement.style.height = '';
             }
+            canvas.nativeElement.style.backgroundColor = canvas.nativeElement.style.backgroundColor.replace(hoverColor, '').trim();
+            canvas.nativeElement.className = canvas.nativeElement.className.replace('hover', '').trim();
           }
         }
       }
@@ -269,9 +243,7 @@ export class ImageMapComponent implements OnInit {
 
     const coords = currentArea.nativeElement.attributes.coords.value.split(',');
     const shape = currentArea.nativeElement.attributes.shape.value;
-    const height = this.container.nativeElement.offsetHeight;
-    const width = this.container.nativeElement.offsetWidth;
-    const selector = this.selectors.toArray()[index];
+    const canvas = this.canvases.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
     if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
@@ -286,43 +258,47 @@ export class ImageMapComponent implements OnInit {
 
     if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
       this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-      outlineColor = '2px solid ' + currentArea.nativeElement.attributes.outline.value;
+      outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-      outlineColor = '2px solid ' + elementDrawStyle.outline;
+      outlineColor = '1px solid ' + elementDrawStyle.outline;
     } else {
       outlineColor = this.borderDefaultColour;
     }
 
-    if (this.utilityService.isValidInstance(selector)) {
-      if (selector.nativeElement.className.includes('selected')) {
-        selector.nativeElement.style.position = '';
-        selector.nativeElement.style.backgroundColor = '';
-        selector.nativeElement.style.border = '';
-        selector.nativeElement.style.opacity = '';
-        selector.nativeElement.style.borderRadius = '';
-        selector.nativeElement.style.height = '';
-        selector.nativeElement.className = this.map_selector_class;
+    if (this.utilityService.isValidInstance(canvas)) {
+      if (canvas.nativeElement.className.includes('selected')) {
+        canvas.nativeElement.style.position = '';
+        canvas.nativeElement.style.backgroundColor = '';
+        canvas.nativeElement.style.border = '';
+        canvas.nativeElement.style.opacity = '';
+        canvas.nativeElement.style.borderRadius = '';
+        canvas.nativeElement.style.height = '';
+        canvas.nativeElement.className = this.map_selector_class;
       } else {
-        selector.nativeElement.style.position = 'absolute';
-        selector.nativeElement.style.backgroundColor = filledColor;
-        selector.nativeElement.style.border = outlineColor;
-        selector.nativeElement.style.opacity = '0.4';
+        canvas.nativeElement.style.position = 'absolute';
+        canvas.nativeElement.style.backgroundColor = filledColor;
+        canvas.nativeElement.style.border = outlineColor;
+        canvas.nativeElement.style.opacity = '0.4';
 
-        if (shape.toLowerCase() === 'rect') {
-          selector.nativeElement.style.left = coords[0] + 'px';
-          selector.nativeElement.style.top = coords[1] + 'px';
-          selector.nativeElement.style.right = (width > +coords[2]) ? (width - +coords[2]) + 'px' : '0px';
-          selector.nativeElement.style.bottom = (height - +coords[3]) + 'px';
-        } else if (shape.toLowerCase() === 'circle') {
-          selector.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
-          selector.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-          selector.nativeElement.style.width = (2 * coords[2]) + 'px';
-          selector.nativeElement.style.height = (2 * coords[2]) + 'px';
-          selector.nativeElement.style.borderRadius = '50%';
-        }
-        selector.nativeElement.className = this.map_selector_class + ' selected';
+        this.drawStyleBasedOnShape(canvas, shape, coords);
+        canvas.nativeElement.className = this.map_selector_class + ' selected';
       }
+    }
+  }
+
+  private drawStyleBasedOnShape(canvas: ElementRef, shape: string, coords: number[]) {
+    if (shape.toLowerCase() === 'rect') {
+      canvas.nativeElement.style.left = coords[0] + 'px';
+      canvas.nativeElement.style.top = coords[1] + 'px';
+      canvas.nativeElement.width = coords[2] - coords[0];
+      canvas.nativeElement.height = coords[3] - coords[1];
+    } else if (shape.toLowerCase() === 'circle') {
+      canvas.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
+      canvas.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
+      canvas.nativeElement.style.width = (2 * coords[2]) + 'px';
+      canvas.nativeElement.style.height = (2 * coords[2]) + 'px';
+      canvas.nativeElement.style.borderRadius = '50%';
     }
   }
 }
