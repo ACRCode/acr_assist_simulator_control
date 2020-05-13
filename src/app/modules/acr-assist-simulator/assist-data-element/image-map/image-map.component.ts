@@ -18,13 +18,13 @@ export class ImageMapComponent implements OnInit {
   isOverlayLoading = false;
   selectedValues = [];
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
-  filledDefaultColour = 'rgba(38, 166, 91, 1)';
-  borderDefaultColour = '1px solid rgba(0, 0, 0, 0)';
+  filledDefaultColour = 'rgba(40, 179, 109, 0.52)';
+  borderDefaultColour = 'rgba(0, 0, 0, 1)';
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
-  @ViewChildren('canvases') canvases: QueryList<ElementRef>;
+  @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -74,10 +74,10 @@ export class ImageMapComponent implements OnInit {
 
           if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
             this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-            outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
+            outlineColor = currentArea.nativeElement.attributes.outline.value;
           } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
             this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-            outlineColor = '1px solid ' + elementDrawStyle.outline;
+            outlineColor = elementDrawStyle.outline;
           } else {
             outlineColor = this.borderDefaultColour;
           }
@@ -86,21 +86,13 @@ export class ImageMapComponent implements OnInit {
             if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
               canvas.nativeElement.style.position = '';
               canvas.nativeElement.style.display = 'none';
-              canvas.nativeElement.style.backgroundColor = '';
-              canvas.nativeElement.style.border = '';
-              canvas.nativeElement.style.opacity = '';
-              canvas.nativeElement.style.borderRadius = '';
-              canvas.nativeElement.style.height = '';
               canvas.nativeElement.className = this.map_selector_class;
             }
             if (hasValueSelected) {
               canvas.nativeElement.style.position = 'absolute';
               canvas.nativeElement.style.display = 'block';
-              canvas.nativeElement.style.backgroundColor = filledColor;
-              canvas.nativeElement.style.border = outlineColor;
-              canvas.nativeElement.style.opacity = '0.4';
 
-              this.drawStyleBasedOnShape(canvas, shape, coords);
+              this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
               canvas.nativeElement.className = this.map_selector_class + ' selected';
             }
           }
@@ -179,10 +171,10 @@ export class ImageMapComponent implements OnInit {
 
         if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
           this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-          outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
+          outlineColor = currentArea.nativeElement.attributes.outline.value;
         } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
           this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-          outlineColor = '1px solid ' + elementDrawStyle.outline;
+          outlineColor = elementDrawStyle.outline;
         } else {
           outlineColor = this.borderDefaultColour;
         }
@@ -192,22 +184,14 @@ export class ImageMapComponent implements OnInit {
             if (!canvas.nativeElement.className.includes('hover') && !canvas.nativeElement.className.includes('selected')) {
               canvas.nativeElement.style.position = 'absolute';
               canvas.nativeElement.style.display = 'block';
-              canvas.nativeElement.style.backgroundColor = hoverColor;
-              canvas.nativeElement.style.border = outlineColor;
               canvas.nativeElement.className += ' hover';
+              this.drawStyleBasedOnShape(canvas, hoverColor, outlineColor, shape, coords);
             }
-
-            canvas.nativeElement.style.opacity = '0.4';
-            this.drawStyleBasedOnShape(canvas, shape, coords);
           } else {
             if (!canvas.nativeElement.className.includes('selected')) {
               canvas.nativeElement.style.position = '';
               canvas.nativeElement.style.display = 'none';
-              canvas.nativeElement.style.border = '';
-              canvas.nativeElement.style.borderRadius = '';
-              canvas.nativeElement.style.height = '';
             }
-            canvas.nativeElement.style.backgroundColor = canvas.nativeElement.style.backgroundColor.replace(hoverColor, '').trim();
             canvas.nativeElement.className = canvas.nativeElement.className.replace('hover', '').trim();
           }
         }
@@ -264,10 +248,10 @@ export class ImageMapComponent implements OnInit {
 
     if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
       this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-      outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
+      outlineColor = currentArea.nativeElement.attributes.outline.value;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-      outlineColor = '1px solid ' + elementDrawStyle.outline;
+      outlineColor = elementDrawStyle.outline;
     } else {
       outlineColor = this.borderDefaultColour;
     }
@@ -276,37 +260,44 @@ export class ImageMapComponent implements OnInit {
       if (canvas.nativeElement.className.includes('selected')) {
         canvas.nativeElement.style.position = '';
         canvas.nativeElement.style.display = 'none';
-        canvas.nativeElement.style.backgroundColor = '';
-        canvas.nativeElement.style.border = '';
-        canvas.nativeElement.style.opacity = '';
-        canvas.nativeElement.style.borderRadius = '';
-        canvas.nativeElement.style.height = '';
         canvas.nativeElement.className = this.map_selector_class;
       } else {
         canvas.nativeElement.style.position = 'absolute';
         canvas.nativeElement.style.display = 'block';
-        canvas.nativeElement.style.backgroundColor = filledColor;
-        canvas.nativeElement.style.border = outlineColor;
-        canvas.nativeElement.style.opacity = '0.4';
 
-        this.drawStyleBasedOnShape(canvas, shape, coords);
+        this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
         canvas.nativeElement.className = this.map_selector_class + ' selected';
       }
     }
   }
 
-  private drawStyleBasedOnShape(canvas: ElementRef, shape: string, coords: number[]) {
+  private drawStyleBasedOnShape(canvas: ElementRef, fillStyle: string, outlineStyle: string, shape: string, coords: number[]) {
+    const ctx = canvas.nativeElement.getContext('2d');
     if (shape.toLowerCase() === 'rect') {
       canvas.nativeElement.style.left = coords[0] + 'px';
       canvas.nativeElement.style.top = coords[1] + 'px';
       canvas.nativeElement.width = coords[2] - coords[0];
       canvas.nativeElement.height = coords[3] - coords[1];
+
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle  = outlineStyle;
+      ctx.fillRect(0, 0, canvas.nativeElement.width, canvas.nativeElement.height);
+      ctx.strokeRect(0, 0, canvas.nativeElement.width, canvas.nativeElement.height);
+
     } else if (shape.toLowerCase() === 'circle') {
       canvas.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
       canvas.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-      canvas.nativeElement.style.width = (2 * coords[2]) + 'px';
-      canvas.nativeElement.style.height = (2 * coords[2]) + 'px';
-      canvas.nativeElement.style.borderRadius = '50%';
+      canvas.nativeElement.width = 2 * coords[2];
+      canvas.nativeElement.height = 2 * coords[2];
+
+      ctx.beginPath();
+      ctx.arc(canvas.nativeElement.width / 2, canvas.nativeElement.height / 2, 44, 0, 2 * Math.PI, true);
+      ctx.closePath();
+
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle = outlineStyle;
+      ctx.fill();
+      ctx.stroke();
     }
   }
 }
