@@ -13,7 +13,7 @@ const $ = require('jquery');
 export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
-  map_selector_class = 'display-none cursor-pointer map-selector';
+  map_selector_class = 'cursor-pointer map-selector';
   formValues: object = {};
   isOverlayLoading = false;
   selectedValues = [];
@@ -43,7 +43,6 @@ export class ImageMapComponent implements OnInit {
     }
     this.isOverlayLoading = true;
     setTimeout(() => {
-      let hoverColor;
       let filledColor;
       let outlineColor;
 
@@ -62,16 +61,6 @@ export class ImageMapComponent implements OnInit {
           const shape = currentArea.nativeElement.attributes.shape.value;
           const canvas = this.canvases.toArray()[index];
           const elementDrawStyle = this.dataElement.imageMap.drawStyle;
-
-          if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
-            this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
-            hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
-          } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-            this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
-            hoverColor = elementDrawStyle.hoverFill;
-          } else {
-            hoverColor = this.hoverDefaultColour;
-          }
 
           if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
             this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
@@ -153,6 +142,7 @@ export class ImageMapComponent implements OnInit {
 
   addRemoveHoverClass(index, isAdd) {
     let hoverColor;
+    let filledColor;
     let outlineColor;
 
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
@@ -173,6 +163,20 @@ export class ImageMapComponent implements OnInit {
           hoverColor = this.hoverDefaultColour;
         }
 
+        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
+          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
+          filledColor = currentArea.nativeElement.attributes.selectedFill.value;
+        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+          this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
+          filledColor = elementDrawStyle.selectedFill;
+        } else {
+          filledColor = this.filledDefaultColour;
+        }
+
+        if (hoverColor === filledColor) {
+          hoverColor = this.hoverDefaultColour;
+        }
+
         if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
           this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
           outlineColor = '1px solid ' + currentArea.nativeElement.attributes.outline.value;
@@ -187,6 +191,7 @@ export class ImageMapComponent implements OnInit {
           if (isAdd) {
             if (!canvas.nativeElement.className.includes('hover') && !canvas.nativeElement.className.includes('selected')) {
               canvas.nativeElement.style.position = 'absolute';
+              canvas.nativeElement.style.display = 'block';
               canvas.nativeElement.style.backgroundColor = hoverColor;
               canvas.nativeElement.style.border = outlineColor;
               canvas.nativeElement.className += ' hover';
@@ -197,6 +202,7 @@ export class ImageMapComponent implements OnInit {
           } else {
             if (!canvas.nativeElement.className.includes('selected')) {
               canvas.nativeElement.style.position = '';
+              canvas.nativeElement.style.display = 'none';
               canvas.nativeElement.style.border = '';
               canvas.nativeElement.style.borderRadius = '';
               canvas.nativeElement.style.height = '';
@@ -269,6 +275,7 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isValidInstance(canvas)) {
       if (canvas.nativeElement.className.includes('selected')) {
         canvas.nativeElement.style.position = '';
+        canvas.nativeElement.style.display = 'none';
         canvas.nativeElement.style.backgroundColor = '';
         canvas.nativeElement.style.border = '';
         canvas.nativeElement.style.opacity = '';
@@ -277,6 +284,7 @@ export class ImageMapComponent implements OnInit {
         canvas.nativeElement.className = this.map_selector_class;
       } else {
         canvas.nativeElement.style.position = 'absolute';
+        canvas.nativeElement.style.display = 'block';
         canvas.nativeElement.style.backgroundColor = filledColor;
         canvas.nativeElement.style.border = outlineColor;
         canvas.nativeElement.style.opacity = '0.4';
