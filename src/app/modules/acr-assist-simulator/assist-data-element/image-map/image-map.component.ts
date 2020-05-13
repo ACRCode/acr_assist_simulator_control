@@ -100,7 +100,7 @@ export class ImageMapComponent implements OnInit {
             selector.nativeElement.style.opacity = '0.4';
             if (selector.nativeElement.className.includes('hover') || selector.nativeElement.className.includes('selected')) {
               selector.nativeElement.style.position = '';
-              selector.nativeElement.style.background = '';
+              selector.nativeElement.style.backgroundColor = '';
               selector.nativeElement.style.border = '';
               selector.nativeElement.style.borderRadius = '';
               selector.nativeElement.style.height = '';
@@ -108,7 +108,7 @@ export class ImageMapComponent implements OnInit {
             }
             if (hasValueSelected) {
               selector.nativeElement.style.position = 'absolute';
-              selector.nativeElement.style.background = filledColor;
+              selector.nativeElement.style.backgroundColor = filledColor;
               selector.nativeElement.style.border = outlineColor;
 
               if (shape.toLowerCase() === 'rect') {
@@ -200,7 +200,7 @@ export class ImageMapComponent implements OnInit {
           if (isAdd) {
             if (!selector.nativeElement.className.includes('hover') && !selector.nativeElement.className.includes('selected')) {
               selector.nativeElement.style.position = 'absolute';
-              selector.nativeElement.style.background = hoverColor;
+              selector.nativeElement.style.backgroundColor = hoverColor;
               selector.nativeElement.style.border = outlineColor;
               selector.nativeElement.className += ' hover';
             }
@@ -211,7 +211,7 @@ export class ImageMapComponent implements OnInit {
               selector.nativeElement.style.borderRadius = '';
               selector.nativeElement.style.height = '';
             }
-            selector.nativeElement.style.background = selector.nativeElement.style.background.replace(hoverColor, '').trim();
+            selector.nativeElement.style.backgroundColor = selector.nativeElement.style.backgroundColor.replace(hoverColor, '').trim();
             selector.nativeElement.className = selector.nativeElement.className.replace('hover', '').trim();
           }
           selector.nativeElement.style.opacity = '0.4';
@@ -297,7 +297,7 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isValidInstance(selector)) {
       if (selector.nativeElement.className.includes('selected')) {
         selector.nativeElement.style.position = '';
-        selector.nativeElement.style.background = '';
+        selector.nativeElement.style.backgroundColor = '';
         selector.nativeElement.style.border = '';
         selector.nativeElement.style.opacity = '';
         selector.nativeElement.style.borderRadius = '';
@@ -305,7 +305,7 @@ export class ImageMapComponent implements OnInit {
         selector.nativeElement.className = this.map_selector_class;
       } else {
         selector.nativeElement.style.position = 'absolute';
-        selector.nativeElement.style.background = filledColor;
+        selector.nativeElement.style.backgroundColor = filledColor;
         selector.nativeElement.style.border = outlineColor;
         selector.nativeElement.style.opacity = '0.4';
 
