@@ -280,7 +280,7 @@ export class ImageMapComponent implements OnInit {
       canvas.nativeElement.height = coords[3] - coords[1];
 
       ctx.fillStyle = fillStyle;
-      ctx.strokeStyle  = outlineStyle;
+      ctx.strokeStyle = outlineStyle;
       ctx.fillRect(0, 0, canvas.nativeElement.width, canvas.nativeElement.height);
       ctx.strokeRect(0, 0, canvas.nativeElement.width, canvas.nativeElement.height);
 
@@ -291,7 +291,22 @@ export class ImageMapComponent implements OnInit {
       canvas.nativeElement.height = 2 * coords[2];
 
       ctx.beginPath();
-      ctx.arc(canvas.nativeElement.width / 2, canvas.nativeElement.height / 2, 44, 0, 2 * Math.PI, true);
+      ctx.arc(canvas.nativeElement.width / 2, canvas.nativeElement.height / 2, coords[2], 0, 2 * Math.PI, true);
+      ctx.closePath();
+
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle = outlineStyle;
+      ctx.fill();
+      ctx.stroke();
+
+    } else if (shape.toLowerCase() === 'poly') {
+      const size = coords.length;
+      ctx.beginPath();
+      ctx.moveTo(coords[0], coords[1]);
+      for (let i = 2; i < size; i += 2) {
+        ctx.lineTo(coords[i], coords[i + 1]);
+      }
+      ctx.lineTo(coords[0], coords[1]);
       ctx.closePath();
 
       ctx.fillStyle = fillStyle;
