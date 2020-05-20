@@ -130,7 +130,7 @@ export class SimulatorEngineService {
 
   private FindAndSetValueForComputedDataElement(expressionText, parentelementId) {
     const elementId = expressionText.match(/{([^}]+)}/);
-    const result = this.template.dataElements.filter(function (obj) {
+    const result = this.template.dataElements.filter(function(obj) {
       return obj.id === elementId[1] && (obj.dataElementType === 'ComputedDataElement');
     });
 
@@ -145,7 +145,7 @@ export class SimulatorEngineService {
   private IsExpressionReferedtoComputedDataElement(expressionText): boolean {
     const text = expressionText.match(/{([^}]+)}/);
     if (text !== null && text !== undefined && text.length > 0) {
-      const result = this.template.dataElements.filter(function (obj) {
+      const result = this.template.dataElements.filter(function(obj) {
         return obj.id === text[1] && (obj.dataElementType === 'ComputedDataElement');
       });
 

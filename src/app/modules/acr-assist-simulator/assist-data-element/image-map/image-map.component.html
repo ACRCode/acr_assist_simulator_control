@@ -21,37 +21,37 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
-                        <div #container class="image-map-container">
+                        <div class="image-map-container">
                             <img class="ImgOption danger img-responsive max-w-h-100"
-                                alt="{{ dataElement.imageMap.label }}" attr.id="{{ 'img_' + dataElement.id }}"
-                                attr.data-elementID="{{ dataElement.id }}"
+                                alt="{{ dataElement.imageMap.label }}"
                                 attr.usemap="#{{ 'image_map_' + dataElement.id }}"
-                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure"
-                                (click)="imageClick($event,dataElement)">
-                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas">
-                                <div #selectors class="{{ map_selector_class }}"></div>
+                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
+                                <ng-container
+                                    *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
+                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
+                                        (mouseover)="addRemoveHoverClass(i, true)"
+                                        (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)">
+                                    </canvas>
+                                </ng-container>
+                                <ng-template #nonMultiChoice>
+                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
+                                        (mouseover)="addRemoveHoverClass(i, true)"
+                                        (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)"
+                                        data-dismiss="modal">
+                                    </canvas>
+                                </ng-template>
                             </ng-container>
                         </div>
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
-                            <ng-container
-                                *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
-                                <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                    <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                        attr.coords="{{ imgOpt.coords }}" title="{{ imgOpt.choiceValue }}"
-                                        (click)="setValue(imgOpt.choiceValue, i)"
-                                        (mouseover)="addRemoveHoverClass(i, true)"
-                                        (mouseout)="addRemoveHoverClass(i, false)" />
-                                </ng-container>
+                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
+                                <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
+                                    attr.coords="{{ imgOpt.coords }}" attr.choice="{{ imgOpt.choiceValue }}"
+                                    title="{{ imgOpt.choiceValue }}" attr.selectedFill="{{ imgOpt.selectedFill }}"
+                                    attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
+                                    (mouseover)="addRemoveHoverClass(i, true)"
+                                    (mouseout)="addRemoveHoverClass(i, false)" (click)="setSelectedValue(i)" />
                             </ng-container>
-                            <ng-template #nonMultiChoice>
-                                <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                    <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                        attr.coords="{{ imgOpt.coords }}" title="{{ imgOpt.choiceValue }}"
-                                        (click)="setValue(imgOpt.choiceValue, i)"
-                                        (mouseover)="addRemoveHoverClass(i, true)"
-                                        (mouseout)="addRemoveHoverClass(i, false)" data-dismiss="modal" />
-                                </ng-container>
-                            </ng-template>
                         </map>
                     </div>
                 </div>
