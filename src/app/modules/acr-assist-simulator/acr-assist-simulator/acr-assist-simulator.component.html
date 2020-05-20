@@ -152,7 +152,8 @@
                   <div class="item zoom" [ngClass]="{'active': diagram.keyDiagram}">
                     <drag-scroll>
                       <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
-                        src="{{ diagram.location }}">
+                      [src]="getImageDataUrl(diagram.location) | secure">
+
                     </drag-scroll>
                   </div>
                 </ng-container>

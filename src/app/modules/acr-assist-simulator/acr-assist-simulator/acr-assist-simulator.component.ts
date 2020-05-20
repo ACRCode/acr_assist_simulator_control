@@ -176,6 +176,16 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
   }
 
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
   diagramExist(diagram: Diagram) {
     return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
