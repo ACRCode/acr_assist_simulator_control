@@ -125,6 +125,19 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }, 100);
   }
 
+  setDefaultImage(event, diagram) {
+    event.target.src = 'assets/img/default.gif';
+    diagram.isError = true;
+  }
+
+  imageLoaded(event, diagram) {
+    if (event.target.src.includes('/assets/img/default.gif')) {
+      diagram.isError = true;
+    } else {
+      diagram.isError = false;
+    }
+  }
+
   ngOnDestroy() {
     if (this.utilityService.isValidInstance(this.resetValuesSubscription)) {
       this.resetValuesSubscription.unsubscribe();
@@ -208,6 +221,11 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
     this.returnReportText.emit(textReport);
+
+    console.log(this.resultText);
+    if (this.utilityService.isValidInstance(this.resultText)) {
+      $('#tab1_reportText').prop('checked', true);
+    }
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {

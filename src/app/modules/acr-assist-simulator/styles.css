@@ -206,3 +206,215 @@ mark {
 .padding-top-20 {
   padding-top: 20px;
 }
+
+.tabs {
+  /* width: 600px;
+  display: block;
+  margin: 40px auto;
+  position: relative; */
+}
+
+.tabs .tab {
+  float: left;
+  display: block;
+}
+
+.tabs .tab>input[type="radio"] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.tabs .tab>label {
+  /* display: block;
+  padding: 6px 21px;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  color: #FFF;
+  background: #4A83FD; */
+  display: block;
+  padding: 6px 21px;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  color: black;
+}
+
+.tabs .content {
+  /* z-index: 0;
+  overflow: hidden;
+  width: 100%;
+  padding: 25px;
+  position: absolute;
+  top: 27px;
+  left: 0;
+  background: #303030;
+  color: #DFDFDF;
+  opacity: 0;
+  transition: opacity 400ms ease-out; */
+  z-index: 0;
+  overflow: hidden;
+  width: 100%;
+  /* padding: 25px; */
+  position: absolute;
+  top: 29px;
+  left: 0;
+  min-height: auto !important;
+  /* background: #303030; */
+  /* color: #DFDFDF; */
+  border: 1px solid #ccc;
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+
+.tabs>.tab>[id^="tab"]:checked+label {
+  top: 0;
+  background: #303030;
+  color: #F5F5F5;
+}
+
+.tabs>.tab>[id^="tab"]:checked~[id^="tab-content"] {
+  z-index: 1;
+  /* or display: block; */
+  opacity: 1;
+  transition: opacity 400ms ease-out;
+}
+
+.div_img_thumbnail {
+  width: 80px;
+  height: 80px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  float: right;
+}
+
+.div_img_thumbnail img {
+  flex: 1;
+  height: 100%;
+}
+
+/* The Modal (background) */
+
+.imgmodal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 2;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: hidden;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0)
+  }
+  to {
+    transform: scale(1)
+  }
+}
+
+/* The Close Button */
+
+.close {
+  position: absolute;
+  top: 63px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover, .close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+
+@media only screen and (max-width: 700px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+
+.div_options_withthumbnail_parent {
+  display: inline-grid;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.div_options_withthumbnail {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.border-top {
+  border-top: 1px solid #ccc
+}
+
+.margin-t-3p {
+  margin-top: 3%;
+}
+
+.div_img_thumbnail img {
+  height: 100px;
+  width: 100px;
+  margin-right: 5px;
+  margin-top: 5px;
+  height: 50px;
+  width: 50px;
+  float: right;
+}

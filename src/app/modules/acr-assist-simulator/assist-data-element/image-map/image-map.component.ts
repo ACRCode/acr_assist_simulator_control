@@ -55,7 +55,7 @@ export class ImageMapComponent implements OnInit {
             } else {
               hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
             }
-        }
+          }
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const shape = currentArea.nativeElement.attributes.shape.value;
@@ -130,6 +130,8 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
+
+    // return 'assets/images/COVID19.jpg';
   }
 
   addRemoveHoverClass(index, isAdd) {
@@ -216,15 +218,29 @@ export class ImageMapComponent implements OnInit {
         $('#' + this.dataElement.id + '_' + choice.value)[0].dispatchEvent(customEvent);
 
       } else if (choice.value === selectedValue) {
-        if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+        if (!this.isChoiceHasDiagrams(this.dataElement)) {
+          if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+            $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          } else {
+            $('#' + this.dataElement.id).val(choice.value);
+            $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          }
+        } else {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
-        } else {
-          $('#' + this.dataElement.id).val(choice.value);
-          $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
       }
     }
+  }
+
+  private isChoiceHasDiagrams(dataElement: any) {
+    if (this.utilityService.isValidInstance(this.dataElement.choiceInfo)) {
+      const choiceDataElementWithDigrams = this.dataElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
+      return this.utilityService.isNotEmptyArray(choiceDataElementWithDigrams) ? true : false;
+    }
+
+    return false;
   }
 
   private setOverLaysforImageMap(index: number, currentArea: ElementRef) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef, OnDestroy, HostListener } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -238,5 +238,47 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         return choiceControl.setErrors(null);
       }
     };
+  }
+
+  onImgModelClick(event) {
+    console.log(event);
+    debugger;
+    if (event.target.tagName !== 'IMG') {
+      this.onImgPopupClose();
+    }
+  }
+
+  onChoiceDiagramClick(choice, event) {
+    // console.log(event);
+    var modal = document.getElementById("immgModal");
+    var modalImg = document.getElementById("img01") as any;
+    const img_src = event.target.src;
+    modal.style.display = "block";
+    modalImg.src = img_src;
+    // captionText.innerHTML = this.alt;
+  }
+
+  isChoiceHasDiagrams(choiceDataElement: ChoiceDataElement) {
+    const choiceDataElementWithDigrams = this.choiceDataElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
+    return this.utilityService.isNotEmptyArray(choiceDataElementWithDigrams) ? true : false;
+  }
+
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
+  onImgPopupClose() {
+    var modal = document.getElementById("immgModal");
+    modal.style.display = "none";
+  }
+
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.onImgPopupClose();
   }
 }
