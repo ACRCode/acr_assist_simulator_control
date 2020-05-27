@@ -173,7 +173,7 @@
   <!------Top to bottom alignment------->
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && choiceDataElement.isRelevant">
     <div class="col-lg-12 text-left content-padding">
-      <ng-container *ngIf="isRadioButton() && !isChoiceHasDiagrams()">
+      <ng-container *ngIf="isRadioButton() && !isChoiceHasDiagrams(choiceDataElement)">
         <ng-container *ngIf="choiceDataElement.imageMap == undefined">
           <div class="col-lg-10 labelparentdiv">
             <label class="control-label break-word">
@@ -283,7 +283,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="isListBox() && !isChoiceHasDiagrams()">
+      <ng-container *ngIf="isListBox() && !isChoiceHasDiagrams(choiceDataElement)">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word">
             {{choiceDataElement.label}}
@@ -342,7 +342,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="isSelectBox() && !isChoiceHasDiagrams()">
+      <ng-container *ngIf="isSelectBox() && !isChoiceHasDiagrams(choiceDataElement)">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word" style="text-align: left">
             {{choiceDataElement.label}}
@@ -429,7 +429,7 @@
               (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
               [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
 
-            <label class="margin-t-3p" for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+            <label class="margin-t-3p option_label_withthumbnail" for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
 
             <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
               <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"

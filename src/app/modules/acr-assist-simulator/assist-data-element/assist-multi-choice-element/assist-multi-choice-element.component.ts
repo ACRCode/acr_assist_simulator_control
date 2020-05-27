@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -267,5 +267,49 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         return choiceControl.setErrors(null);
       }
     };
+  }
+
+
+  onImgModelClick(event) {
+    console.log(event);
+    debugger;
+    if (event.target.tagName !== 'IMG') {
+      this.onImgPopupClose();
+    }
+  }
+
+  onChoiceDiagramClick(choice, event) {
+    debugger;
+    // console.log(event);
+    var modal = document.getElementById("immgModalmulti");
+    var modalImg = document.getElementById("img01multi") as any;
+    const img_src = event.target.src;
+    modal.style.display = "block";
+    modalImg.src = img_src;
+    // captionText.innerHTML = this.alt;
+  }
+
+  isChoiceHasDiagrams(multiChoiceElement: MultiChoiceElement) {
+    const multiChoiceElementWithDigrams = this.multiChoiceElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
+    return this.utilityService.isNotEmptyArray(multiChoiceElementWithDigrams) ? true : false;
+  }
+
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
+  onImgPopupClose() {
+    var modal = document.getElementById("immgModalmulti");
+    modal.style.display = "none";
+  }
+
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.onImgPopupClose();
   }
 }

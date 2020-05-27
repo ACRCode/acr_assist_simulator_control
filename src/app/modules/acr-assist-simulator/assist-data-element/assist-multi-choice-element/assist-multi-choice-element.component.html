@@ -86,6 +86,11 @@
             (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
           {{choice.label}}
         </label>
+
+        <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
+          <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
+            [src]="getImageDataUrl(diagram.location) | secure">
+        </div>
       </div>
 
       <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
@@ -114,4 +119,18 @@
       </ng-container>
     </div>
   </div>
+
+  <!-- The Modal -->
+  <div id="immgModalmulti" class="imgmodal" (click)="onImgModelClick($event)">
+
+    <!-- The Close Button -->
+    <span class="close" (click)="onImgPopupClose()">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01multi">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+  </div>
+
 </form>

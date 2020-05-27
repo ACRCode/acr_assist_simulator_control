@@ -290,6 +290,9 @@ mark {
   display: flex;
   flex-direction: row;
   float: right;
+  border: 1px solid #ccc;
+  margin: 0px 3px;
+  cursor: pointer;
 }
 
 .div_img_thumbnail img {
@@ -304,7 +307,7 @@ mark {
   /* Hidden by default */
   position: fixed;
   /* Stay in place */
-  z-index: 2;
+  z-index: 1000;
   /* Sit on top */
   padding-top: 100px;
   /* Location of the box */
@@ -398,7 +401,7 @@ mark {
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
   padding-top: 10px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .border-top {
@@ -417,4 +420,10 @@ mark {
   height: 50px;
   width: 50px;
   float: right;
+}
+
+.option_label_withthumbnail {
+  position: relative;
+  bottom: 4px;
+  left: 10px;
 }
