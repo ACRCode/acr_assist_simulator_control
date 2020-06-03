@@ -55,7 +55,7 @@ export class ImageMapComponent implements OnInit {
             } else {
               hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
             }
-          }
+        }
           const currentArea = this.imageMapAreas.toArray()[index];
           const coords = currentArea.nativeElement.attributes.coords.value.split(',');
           const shape = currentArea.nativeElement.attributes.shape.value;
@@ -130,8 +130,6 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
-
-    // return 'assets/images/COVID19.jpg';
   }
 
   addRemoveHoverClass(index, isAdd) {
