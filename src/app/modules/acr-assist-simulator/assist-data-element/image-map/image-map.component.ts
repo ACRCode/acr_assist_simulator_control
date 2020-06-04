@@ -59,12 +59,16 @@ export class ImageMapComponent implements OnInit {
         if (index % 2 === 0) {
           if (scaledWidth !== naturalWidth) {
             const scalingFactor = scaledWidth / naturalWidth;
-            coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            }
           }
         } else {
           if (scaledHeight !== naturalHeight) {
             const scalingFactor = scaledHeight / naturalHeight;
-            coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            }
           }
         }
       }
