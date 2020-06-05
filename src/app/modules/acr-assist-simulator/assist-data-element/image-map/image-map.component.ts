@@ -48,28 +48,26 @@ export class ImageMapComponent implements OnInit {
   getCoordinates(coordinates: any, shape: string) {
     if (this.utilityService.isValidInstance(this.image) &&
       this.utilityService.isValidInstance(this.image.nativeElement)) {
-      if (shape === 'rect' || shape === 'circle') {
-        const naturalWidth = this.image.nativeElement.naturalWidth;
-        const naturalHeight = this.image.nativeElement.naturalHeight;
+      const naturalWidth = this.image.nativeElement.naturalWidth;
+      const naturalHeight = this.image.nativeElement.naturalHeight;
 
-        const scaledWidth = this.image.nativeElement.width;
-        const scaledHeight = this.image.nativeElement.height;
-        coordinates = coordinates.split(',');
+      const scaledWidth = this.image.nativeElement.width;
+      const scaledHeight = this.image.nativeElement.height;
+      coordinates = coordinates.split(',');
 
-        for (let index = 0; index < coordinates.length; index++) {
-          if (index % 2 === 0) {
-            if (scaledWidth !== naturalWidth) {
-              const scalingFactor = scaledWidth / naturalWidth;
-              if (coordinates[index]) {
-                coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
-              }
+      for (let index = 0; index < coordinates.length; index++) {
+        if (index % 2 === 0) {
+          if (scaledWidth !== naturalWidth) {
+            const scalingFactor = scaledWidth / naturalWidth;
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
             }
-          } else {
-            if (scaledHeight !== naturalHeight) {
-              const scalingFactor = scaledHeight / naturalHeight;
-              if (coordinates[index]) {
-                coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
-              }
+          }
+        } else {
+          if (scaledHeight !== naturalHeight) {
+            const scalingFactor = scaledHeight / naturalHeight;
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
             }
           }
         }
