@@ -338,8 +338,8 @@ export class ImageMapComponent implements OnInit {
     } else if (shape.toLowerCase() === 'circle') {
       canvas.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
       canvas.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-      canvas.nativeElement.width = 2 * coords[2];
-      canvas.nativeElement.height = 2 * coords[2];
+      canvas.nativeElement.width = 2 * (+coords[2] + 1);
+      canvas.nativeElement.height = 2 * (+coords[2] + 1);
 
       ctx.beginPath();
       ctx.arc(canvas.nativeElement.width / 2, canvas.nativeElement.height / 2, coords[2], 0, 2 * Math.PI, true);
