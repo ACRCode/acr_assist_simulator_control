@@ -356,6 +356,22 @@ export class ImageMapComponent implements OnInit {
       const size = coords.length;
       if (size < 3) { return; }
 
+      const evenCoords: number[] = [];
+      const oddCoords: number[] = [];
+
+      coords.filter(function(coord, i) {
+        const coordinate = +(coord.toString().trim());
+        i % 2 === 0 ? evenCoords.push(coordinate) : oddCoords.push(coordinate);
+      });
+
+      canvas.nativeElement.width = evenCoords.reduce(function(a, b) {
+        return Math.max(a, b);
+      });
+
+      canvas.nativeElement.height = oddCoords.reduce(function(a, b) {
+        return Math.max(a, b);
+      });
+
       ctx.beginPath();
       ctx.moveTo(coords[0], coords[1]);
       for (let i = 2; i < size; i += 2) {
