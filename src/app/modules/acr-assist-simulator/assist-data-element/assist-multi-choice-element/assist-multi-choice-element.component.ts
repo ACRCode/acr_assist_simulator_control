@@ -8,7 +8,6 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
 import * as _ from 'lodash';
-import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
@@ -33,12 +32,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilityService: UtilityService, simulatorCommunicationService: SimulatorCommunicationService) {
-    // this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
-    //   mission => {
-    //     this.ngAfterViewInit();
-    //   });
-  }
+    private utilityService: UtilityService
+  ) { }
 
   ngOnInit() {
     this.createMultiChoiceElementForm();
@@ -53,7 +48,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   ngAfterViewInit(): void {
     this.showOrHideFreeText(this.multiChoiceElement.id, '', false);
     if (this.multiChoiceElement.currentValue !== undefined) {
-      // debugger;
       const values: any = [];
       const labels: any = [];
       for (const choice in this.multiChoiceElement.choiceInfo) {
@@ -179,7 +173,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   private getSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
-    let selectedItems = [];
+    const selectedItems = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < items.length; i++) {
       if (items[i].checked === true) {
@@ -222,12 +216,14 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   isMultiChoiceLabelHidden(value: string): boolean {
     if (this.multiChoiceElement.currentValue !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined &&
       Array.isArray(this.multiChoiceElement.currentValue)) {
-      const filteredItems = this.multiChoiceElement.currentValue.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
+      const filteredItems = this.multiChoiceElement.currentValue.filter(
+        (item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
       this.multiChoiceElement.currentValue = filteredItems;
     }
 
     // #region uncomment
-    if (this.utilityService.isNotEmptyArray(this.multiChoiceElement.ChoiceNotRelevant) && this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
+    if (this.utilityService.isNotEmptyArray(this.multiChoiceElement.ChoiceNotRelevant) &&
+      this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
       $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     }
     // #endregion
@@ -272,21 +268,17 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   onImgModelClick(event) {
     console.log(event);
-    debugger;
     if (event.target.tagName !== 'IMG') {
       this.onImgPopupClose();
     }
   }
 
   onChoiceDiagramClick(choice, event) {
-    debugger;
-    // console.log(event);
-    var modal = document.getElementById("immgModalmulti");
-    var modalImg = document.getElementById("img01multi") as any;
+    const modal = document.getElementById('immgModalmulti');
+    const modalImg = document.getElementById('img01multi') as any;
     const img_src = event.target.src;
-    modal.style.display = "block";
+    modal.style.display = 'block';
     modalImg.src = img_src;
-    // captionText.innerHTML = this.alt;
   }
 
   isChoiceHasDiagrams(multiChoiceElement: MultiChoiceElement) {
@@ -305,8 +297,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   }
 
   onImgPopupClose() {
-    var modal = document.getElementById("immgModalmulti");
-    modal.style.display = "none";
+    const modal = document.getElementById('immgModalmulti');
+    modal.style.display = 'none';
   }
 
   @HostListener('window:keyup.esc') onKeyUp() {
