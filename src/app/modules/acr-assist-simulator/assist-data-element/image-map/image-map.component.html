@@ -22,7 +22,7 @@
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
                         <div class="image-map-container">
-                            <img #image class="ImgOption danger img-responsive max-w-h-100"
+                            <img #image class="ImgOption danger img-responsive"
                                 alt="{{ dataElement.imageMap.label }}"
                                 attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                 [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
@@ -46,7 +46,7 @@
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                    attr.coords="{{ getCoordinates(imgOpt.coords) }}" attr.choice="{{ imgOpt.choiceValue }}"
+                                    attr.coords="{{ getCoordinates(imgOpt.coords, imgOpt.shape) }}" attr.choice="{{ imgOpt.choiceValue }}"
                                     title="{{ imgOpt.choiceValue }}" attr.selectedFill="{{ imgOpt.selectedFill }}"
                                     attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
                                     (mouseover)="updateHoverOverlay(i, true)"

@@ -45,29 +45,31 @@ export class ImageMapComponent implements OnInit {
     }, 1000);
   }
 
-  getCoordinates(coordinates: any) {
+  getCoordinates(coordinates: any, shape: string) {
     if (this.utilityService.isValidInstance(this.image) &&
       this.utilityService.isValidInstance(this.image.nativeElement)) {
-      const naturalWidth = this.image.nativeElement.naturalWidth;
-      const naturalHeight = this.image.nativeElement.naturalHeight;
+      if (shape === 'rect' || shape === 'circle') {
+        const naturalWidth = this.image.nativeElement.naturalWidth;
+        const naturalHeight = this.image.nativeElement.naturalHeight;
 
-      const scaledWidth = this.image.nativeElement.width;
-      const scaledHeight = this.image.nativeElement.height;
-      coordinates = coordinates.split(',');
+        const scaledWidth = this.image.nativeElement.width;
+        const scaledHeight = this.image.nativeElement.height;
+        coordinates = coordinates.split(',');
 
-      for (let index = 0; index < coordinates.length; index++) {
-        if (index % 2 === 0) {
-          if (scaledWidth !== naturalWidth) {
-            const scalingFactor = scaledWidth / naturalWidth;
-            if (coordinates[index]) {
-              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+        for (let index = 0; index < coordinates.length; index++) {
+          if (index % 2 === 0) {
+            if (scaledWidth !== naturalWidth) {
+              const scalingFactor = scaledWidth / naturalWidth;
+              if (coordinates[index]) {
+                coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+              }
             }
-          }
-        } else {
-          if (scaledHeight !== naturalHeight) {
-            const scalingFactor = scaledHeight / naturalHeight;
-            if (coordinates[index]) {
-              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+          } else {
+            if (scaledHeight !== naturalHeight) {
+              const scalingFactor = scaledHeight / naturalHeight;
+              if (coordinates[index]) {
+                coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+              }
             }
           }
         }
@@ -235,8 +237,8 @@ export class ImageMapComponent implements OnInit {
           }
         }
         const currentArea = this.imageMapAreas.toArray()[index];
-        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value);
         const shape = currentArea.nativeElement.attributes.shape.value;
+        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value, shape);
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
@@ -352,6 +354,8 @@ export class ImageMapComponent implements OnInit {
 
     } else if (shape.toLowerCase() === 'poly') {
       const size = coords.length;
+      if (size < 3) { return; }
+
       ctx.beginPath();
       ctx.moveTo(coords[0], coords[1]);
       for (let i = 2; i < size; i += 2) {
