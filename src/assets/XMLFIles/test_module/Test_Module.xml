@@ -82,8 +82,130 @@
 		<GlobalValue Id="DiameterSmall">10</GlobalValue>
     	
         <GlobalValue Id="DiameterLarge">20</GlobalValue>
-    	    	
-    	<ChoiceDataElement Id="ObservationCharacter1" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true">        	
+    	
+    	<DateTimeDataElement Id="consultationDate" DisplaySequence="7" IsRequired="true" Editable="true" Hasprefilled="false" Output="false">
+    		<Label>Consultation Date</Label>
+    		<Hint>Patient's consultation date</Hint>   
+    		<Diagrams>
+    			<Diagram>
+    				<Location>Arterialphase1.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase2.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase3.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase4.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase5.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase6.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    		</Diagrams>
+    		
+    		<VoiceCommand>Consultation Date</VoiceCommand>
+    		<ConditionalProperties>    			  			
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    				<IsRelevant>false</IsRelevant>    
+    				<IsRequired>false</IsRequired>
+    				<DisplaySequence>1</DisplaySequence>
+    			</ConditionalProperty>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+    				</OrCondition>    				
+    				<IsRelevant>false</IsRelevant>  
+    				<IsRequired>false</IsRequired>
+    			</ConditionalProperty>		
+    		</ConditionalProperties>
+    	</DateTimeDataElement>
+    			      
+    	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" >
+    		<Label>Admitted Duration</Label>
+    		<Hint>Patient's admitted duration</Hint>
+    		<Diagrams>
+    			<Diagram>
+    				<Location>Arterialphase1.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase2.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase3.png</Location> 
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase4.png</Location>
+    				<Label>Arterial phase</Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase5.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    			<Diagram>
+    				<Location>Arterialphase6.png</Location>
+    				<Label></Label>
+    			</Diagram>
+    		</Diagrams>
+    		
+    		<VoiceCommand>Consultation Date</VoiceCommand>
+			<MinimumDay>1</MinimumDay>			
+			<MaximumDay>5</MaximumDay>			
+			<MinimumHours>1</MinimumHours>			
+			<MaximumHours>5</MaximumHours>			
+			<MinimumMinutes>1</MinimumMinutes>			
+    		<MaximumMinutes>5</MaximumMinutes>	
+    		<MinimumSeconds>1</MinimumSeconds>
+    		<MaximumSeconds>5</MaximumSeconds>
+    		<ConditionalProperties>
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>3</DisplaySequence>				
+    				<MinimumDay>5</MinimumDay>			
+					<MaximumDay>10</MaximumDay>			
+					<MinimumHours>5</MinimumHours>			
+					<MaximumHours>10</MaximumHours>			
+					<MinimumMinutes>5</MinimumMinutes>			
+    				<MaximumMinutes>10</MaximumMinutes>
+    				<MinimumSeconds>5</MinimumSeconds>
+    				<MaximumSeconds>10</MaximumSeconds>
+    			</ConditionalProperty>    			
+    			<ConditionalProperty>
+    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
+    				<IsRelevant>true</IsRelevant>    
+    				<IsRequired>true</IsRequired>
+    				<DisplaySequence>4</DisplaySequence>
+    			</ConditionalProperty>
+    			<ConditionalProperty>
+    				<OrCondition>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
+    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
+    				</OrCondition>    				
+    				<IsRelevant>false</IsRelevant>  
+    				<IsRequired>false</IsRequired>
+    			</ConditionalProperty>		
+    		</ConditionalProperties>    		
+    	</TimeSpanDataElement>
+		      
+    	<ChoiceDataElement Id="ObservationCharacter" IsRequired="true" DisplaySequence="1" Editable="true" Hasprefilled="false" Output="true">        	
     		<CodableConcept Name="ObservationCharacter">
     			<Coding>
     				<System Value="RadElement"></System>
@@ -165,7 +287,7 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement1" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
@@ -405,129 +527,6 @@
     			</ConditionalProperty>		
     		</ConditionalProperties>
         </ChoiceDataElement>
-		
-		<DateTimeDataElement Id="consultationDate" DisplaySequence="7" IsRequired="true" Editable="true" Hasprefilled="false" Output="false">
-    		<Label>Consultation Date</Label>
-    		<Hint>Patient's consultation date</Hint>   
-    		<Diagrams>
-    			<Diagram>
-    				<Location>Arterialphase1.png</Location>
-    				<Label>Arterial phase</Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase2.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase3.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase4.png</Location>
-    				<Label>Arterial phase</Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase5.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase6.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    		</Diagrams>
-    		
-    		<VoiceCommand>Consultation Date</VoiceCommand>
-    		<ConditionalProperties>    			  			
-    			<ConditionalProperty>
-    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
-    				<IsRelevant>false</IsRelevant>    
-    				<IsRequired>false</IsRequired>
-    				<DisplaySequence>1</DisplaySequence>
-    			</ConditionalProperty>
-    			<ConditionalProperty>
-    				<OrCondition>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
-    				</OrCondition>    				
-    				<IsRelevant>false</IsRelevant>  
-    				<IsRequired>false</IsRequired>
-    			</ConditionalProperty>		
-    		</ConditionalProperties>
-    	</DateTimeDataElement>
-    			      
-    	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" >
-    		<Label>Admitted Duration</Label>
-    		<Hint>Patient's admitted duration</Hint>
-    		<Diagrams>
-    			<Diagram>
-    				<Location>Arterialphase1.png</Location>
-    				<Label>Arterial phase</Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase2.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase3.png</Location> 
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase4.png</Location>
-    				<Label>Arterial phase</Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase5.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    			<Diagram>
-    				<Location>Arterialphase6.png</Location>
-    				<Label></Label>
-    			</Diagram>
-    		</Diagrams>
-    		
-    		<VoiceCommand>Consultation Date</VoiceCommand>
-			<MinimumDay>1</MinimumDay>			
-			<MaximumDay>5</MaximumDay>			
-			<MinimumHours>1</MinimumHours>			
-			<MaximumHours>5</MaximumHours>			
-			<MinimumMinutes>1</MinimumMinutes>			
-    		<MaximumMinutes>5</MaximumMinutes>	
-    		<MinimumSeconds>1</MinimumSeconds>
-    		<MaximumSeconds>5</MaximumSeconds>
-    		<ConditionalProperties>
-    			<ConditionalProperty>
-    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
-    				<IsRelevant>true</IsRelevant>    
-    				<IsRequired>true</IsRequired>
-    				<DisplaySequence>3</DisplaySequence>				
-    				<MinimumDay>5</MinimumDay>			
-					<MaximumDay>10</MaximumDay>			
-					<MinimumHours>5</MinimumHours>			
-					<MaximumHours>10</MaximumHours>			
-					<MinimumMinutes>5</MinimumMinutes>			
-    				<MaximumMinutes>10</MaximumMinutes>
-    				<MinimumSeconds>5</MinimumSeconds>
-    				<MaximumSeconds>10</MaximumSeconds>
-    			</ConditionalProperty>    			
-    			<ConditionalProperty>
-    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
-    				<IsRelevant>true</IsRelevant>    
-    				<IsRequired>true</IsRequired>
-    				<DisplaySequence>4</DisplaySequence>
-    			</ConditionalProperty>
-    			<ConditionalProperty>
-    				<OrCondition>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="probablyBenign"/>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="notspecificforLR"/>
-    					<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="tumorInVein"/>
-    				</OrCondition>    				
-    				<IsRelevant>false</IsRelevant>  
-    				<IsRequired>false</IsRequired>
-    			</ConditionalProperty>		
-    		</ConditionalProperties>    		
-    	</TimeSpanDataElement>
-		      
     </DataElements> 
 	
 	
