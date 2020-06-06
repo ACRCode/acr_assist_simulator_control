@@ -23,7 +23,7 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @ViewChild('image', { static: false }) image: ElementRef;
+  @ViewChild('image') image: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
 

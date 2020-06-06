@@ -3,7 +3,7 @@
 <ReportingModule>	
     <Metadata>   
         <Label>Test Module</Label>
-        <ID>Hello_Assist_Test_1_0</ID>
+        <ID>Hello_Assist_1_0</ID>
         <SchemaVersion>2.0</SchemaVersion>
         <ModuleVersion>1.5</ModuleVersion>
     	<CreatedDate>2018-12-31</CreatedDate>
@@ -11,6 +11,16 @@
     	<ApprovedBy>Sujth</ApprovedBy>
     	<ReviewedBy>Tony</ReviewedBy>
     	<DevelopedBy>Deepak</DevelopedBy>
+		<CodableConcept Name="codableConcept_AdrenalCT">
+			<Coding>
+				<System Value="RadElement"></System>
+				<Version Value="1.0"></Version>
+				<Code Value="RDES65"></Code>
+				<Display Value="RDES65"></Display>
+				<UserSelected Value="false"></UserSelected>
+				<Url Value="http://radelement.org/set/RDES65"></Url>				
+			</Coding>
+		</CodableConcept>
         <Info>
             <Description>This is a sample xml for ACR Assist based on LI-RADS (characterizing liver lesion for MRI)</Description>
             <References>          
@@ -34,7 +44,7 @@
         <ReportCitationText/>
         <Ontology>
             <AnatomicRegions CodingSystem="http://radelement.org/">
-                <Region Code="RID58"></Region>
+                <Region Code="RID58" ></Region>
             </AnatomicRegions>
             <PossibleDiagnoses>
                 <Diagnosis Code="RID4271">Hepatocellular carcinoma</Diagnosis>
@@ -104,13 +114,7 @@
     		</Diagrams>
     		
     		<VoiceCommand>Consultation Date</VoiceCommand>
-    		<ConditionalProperties>
-    			<ConditionalProperty>
-    				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
-    				<IsRelevant>false</IsRelevant>    
-    				<IsRequired>false</IsRequired>
-    				<DisplaySequence>2</DisplaySequence>
-    			</ConditionalProperty>    			
+    		<ConditionalProperties>    			  			
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
     				<IsRelevant>false</IsRelevant>    
@@ -129,7 +133,7 @@
     		</ConditionalProperties>
     	</DateTimeDataElement>
     			      
-	 	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" ShowDays="true" ShowHours="true" ShowMinutes="true" ShowSeconds="true">
+    	<TimeSpanDataElement Id="admittedDuration" DisplaySequence="8" IsRequired="true" Editable="true" Hasprefilled="false" Output="false" >
     		<Label>Admitted Duration</Label>
     		<Hint>Patient's admitted duration</Hint>
     		<Diagrams>
@@ -165,9 +169,9 @@
 			<MinimumHours>1</MinimumHours>			
 			<MaximumHours>5</MaximumHours>			
 			<MinimumMinutes>1</MinimumMinutes>			
-			<MaxmimumMinutes>5</MaxmimumMinutes>	
-    		<MinimumSeconds>1</MinimumSeconds>	
-    		<MaximimumSeconds>1</MaximimumSeconds>	
+    		<MaximumMinutes>5</MaximumMinutes>	
+    		<MinimumSeconds>1</MinimumSeconds>
+    		<MaximumSeconds>5</MaximumSeconds>
     		<ConditionalProperties>
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="treatedObservation"/>
@@ -179,9 +183,9 @@
 					<MinimumHours>5</MinimumHours>			
 					<MaximumHours>10</MaximumHours>			
 					<MinimumMinutes>5</MinimumMinutes>			
-					<MaxmimumMinutes>10</MaxmimumMinutes>
-    				<MinimumSeconds>5</MinimumSeconds>	
-    				<MaximimumSeconds>10</MaximimumSeconds>	
+    				<MaximumMinutes>10</MaximumMinutes>
+    				<MinimumSeconds>5</MinimumSeconds>
+    				<MaximumSeconds>10</MaximumSeconds>
     			</ConditionalProperty>    			
     			<ConditionalProperty>
     				<EqualCondition DataElementId="ObservationCharacter" ComparisonValue="definitelyBenign"/>
@@ -209,13 +213,15 @@
     				<Code Value="RDE65"></Code>
     				<Display Value="RDE65"></Display>
     				<UserSelected Value="true"></UserSelected>
+					<Url Value="http://radelement.org/element/RDE65"></Url>    				
     			</Coding>
     			<Coding>
     				<System Value="Loinc"></System>
     				<Version Value="1.0"></Version>
     				<Code Value="RDE65"></Code>
     				<Display Value="RDE65"></Display> 
-					<UserSelected Value="true"></UserSelected>					
+    				<UserSelected Value="true"></UserSelected>	
+					<Url Value="http://radelement.org/element/RDE65"></Url>									
     			</Coding>
     		</CodableConcept>		
     		
@@ -281,7 +287,7 @@
             </ChoiceInfo>
         </ChoiceDataElement> 
         
-    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true"  DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
+    	<ChoiceDataElement Id="ArterialEnhancement" IsRequired="true" DisplaySequence="2" Editable="true" Hasprefilled="true" Output="false">
             <Label>Arterial phase enhancement</Label>
     		<Hint>Enhancement in the arterial phase that is less than that of liver.</Hint>
     		<Diagrams>
