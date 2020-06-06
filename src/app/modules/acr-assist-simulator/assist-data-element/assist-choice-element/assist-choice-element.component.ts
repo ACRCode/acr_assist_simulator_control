@@ -216,7 +216,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   private createChoiceElementForm() {
     this.choiceElementForm = this.formBuilder.group({
-      checkBox: ['', Validators.required],
+      checkBox: ['Select one', Validators.required],
     }, {
       validator: this.specificValueInsideRange('checkBox')
     });
