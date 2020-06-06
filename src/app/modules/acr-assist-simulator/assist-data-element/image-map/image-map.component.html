@@ -24,20 +24,10 @@
                                 attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                 [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
-                                <ng-container
-                                    *ngIf="dataElement.dataElementType === 'MultiChoiceDataElement'; else nonMultiChoice">
-                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
-                                        (mouseover)="updateHoverOverlay(i, true)"
-                                        (mouseout)="updateHoverOverlay(i, false)" (click)="setSelectedValue(i)">
-                                    </canvas>
-                                </ng-container>
-                                <ng-template #nonMultiChoice>
-                                    <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
-                                        (mouseover)="updateHoverOverlay(i, true)"
-                                        (mouseout)="updateHoverOverlay(i, false)" (click)="setSelectedValue(i)"
-                                        data-dismiss="modal">
-                                    </canvas>
-                                </ng-template>
+                                <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
+                                    (mouseover)="updateHoverOverlay(i, true)" (mouseout)="updateHoverOverlay(i, false)"
+                                    (click)="setSelectedValue(i)">
+                                </canvas>
                             </ng-container>
                         </div>
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
