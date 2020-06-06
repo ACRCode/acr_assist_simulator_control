@@ -52,7 +52,7 @@
     "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
   },
   "dependencies": {
-    "@angular/cdk": "^8.2.3",
+    "@angular/cdk": "^9.2.4",
     "expr-eval": "^1.2.2",
     "jquery": "^3.4.1",
     "ng-pick-datetime": "^7.0.0",
