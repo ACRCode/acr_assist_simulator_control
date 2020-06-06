@@ -27,7 +27,8 @@
       "testruleengine",
       "ngx-loading",
       "ngx-toastr",
-      "serialize-javascript"
+      "serialize-javascript",
+      "angular/localize"
     ],
     "lib": {
       "entryFile": "./public_api.ts",
