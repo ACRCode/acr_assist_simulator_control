@@ -46,7 +46,7 @@
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                    attr.coords="{{ getCoordinates(imgOpt.coords, imgOpt.shape) }}" attr.choice="{{ imgOpt.choiceValue }}"
+                                    attr.coords="{{ getCoordinates(imgOpt.coords) }}" attr.choice="{{ imgOpt.choiceValue }}"
                                     title="{{ imgOpt.choiceValue }}" attr.selectedFill="{{ imgOpt.selectedFill }}"
                                     attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
                                     (mouseover)="updateHoverOverlay(i, true)"

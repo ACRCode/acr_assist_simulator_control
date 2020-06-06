@@ -45,7 +45,7 @@ export class ImageMapComponent implements OnInit {
     }, 1000);
   }
 
-  getCoordinates(coordinates: any, shape: string) {
+  getCoordinates(coordinates: any) {
     if (this.utilityService.isValidInstance(this.image) &&
       this.utilityService.isValidInstance(this.image.nativeElement)) {
       const naturalWidth = this.image.nativeElement.naturalWidth;
@@ -73,7 +73,7 @@ export class ImageMapComponent implements OnInit {
         }
       }
     }
-    return coordinates;
+    return Array.isArray(coordinates) ? coordinates.join(', ') : coordinates;
   }
 
   getSelectedValues() {
@@ -107,10 +107,6 @@ export class ImageMapComponent implements OnInit {
   }
 
   updateHoverOverlay(index, isAdd) {
-    let hoverColor;
-    let filledColor;
-    let outlineColor;
-
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
@@ -119,38 +115,12 @@ export class ImageMapComponent implements OnInit {
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
-          hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
-          hoverColor = elementDrawStyle.hoverFill;
-        } else {
-          hoverColor = this.hoverDefaultColour;
-        }
-
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-          filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-          filledColor = elementDrawStyle.selectedFill;
-        } else {
-          filledColor = this.filledDefaultColour;
-        }
+        let hoverColor = this.getHoverFillColour(currentArea, elementDrawStyle);
+        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
 
         if (hoverColor === filledColor) {
           hoverColor = this.hoverDefaultColour;
-        }
-
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-          outlineColor = currentArea.nativeElement.attributes.outline.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-          outlineColor = elementDrawStyle.outline;
-        } else {
-          outlineColor = this.borderDefaultColour;
         }
 
         if (this.utilityService.isValidInstance(canvas)) {
@@ -216,9 +186,6 @@ export class ImageMapComponent implements OnInit {
   }
 
   private restoreSelectedOverlays() {
-    let filledColor;
-    let outlineColor;
-
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
     if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
@@ -236,29 +203,12 @@ export class ImageMapComponent implements OnInit {
         }
         const currentArea = this.imageMapAreas.toArray()[index];
         const shape = currentArea.nativeElement.attributes.shape.value;
-        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value, shape);
+        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value);
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-          filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-          filledColor = elementDrawStyle.selectedFill;
-        } else {
-          filledColor = this.filledDefaultColour;
-        }
-
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-          outlineColor = currentArea.nativeElement.attributes.outline.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-          outlineColor = elementDrawStyle.outline;
-        } else {
-          outlineColor = this.borderDefaultColour;
-        }
+        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
 
         if (this.utilityService.isValidInstance(canvas)) {
           if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
@@ -279,33 +229,13 @@ export class ImageMapComponent implements OnInit {
   }
 
   private updateSelectedOverlay(index: number, currentArea: ElementRef) {
-    let filledColor;
-    let outlineColor;
-
     const coords = currentArea.nativeElement.attributes.coords.value.split(',');
     const shape = currentArea.nativeElement.attributes.shape.value;
     const canvas = this.canvases.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-      this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-      filledColor = elementDrawStyle.selectedFill;
-    } else {
-      filledColor = this.filledDefaultColour;
-    }
-
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-      outlineColor = currentArea.nativeElement.attributes.outline.value;
-    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-      this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-      outlineColor = elementDrawStyle.outline;
-    } else {
-      outlineColor = this.borderDefaultColour;
-    }
+    const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+    const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
 
     if (this.utilityService.isValidInstance(canvas)) {
       if (canvas.nativeElement.className.includes('selected')) {
@@ -383,5 +313,50 @@ export class ImageMapComponent implements OnInit {
       ctx.fill();
       ctx.stroke();
     }
+  }
+
+  private getHoverFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let hoverColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
+      hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
+      hoverColor = elementDrawStyle.hoverFill;
+    } else {
+      hoverColor = this.hoverDefaultColour;
+    }
+
+    return hoverColor;
+  }
+
+  private getOutlineColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let outlineColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
+      outlineColor = currentArea.nativeElement.attributes.outline.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
+      outlineColor = elementDrawStyle.outline;
+    } else {
+      outlineColor = this.borderDefaultColour;
+    }
+
+    return outlineColor;
+  }
+
+  private getSelectedFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let filledColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
+      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
+      filledColor = elementDrawStyle.selectedFill;
+    } else {
+      filledColor = this.filledDefaultColour;
+    }
+
+    return filledColor;
   }
 }
