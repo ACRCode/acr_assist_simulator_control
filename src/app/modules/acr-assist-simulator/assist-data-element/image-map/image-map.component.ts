@@ -73,7 +73,7 @@ export class ImageMapComponent implements OnInit {
         }
       }
     }
-    return Array.isArray(coordinates) ? coordinates.join(', ') : coordinates;
+    return coordinates;
   }
 
   getSelectedValues() {
