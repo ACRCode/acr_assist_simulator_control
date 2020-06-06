@@ -38,7 +38,7 @@ const components = [
     CommonModule,
     CoreModule,
     FormsModule,
-    CarouselModule,
+    CarouselModule.forRoot(),
     ReactiveFormsModule,
     DragScrollModule,
     OwlDateTimeModule,
