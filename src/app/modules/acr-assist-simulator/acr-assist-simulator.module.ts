@@ -21,6 +21,7 @@ import { ResetCommunicationService } from './shared/services/reset-communication
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { IntegerMaxRestrictDirective } from './shared/directives/integer-restrict-value-greaterthan-max.directive';
 import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { ClipboardService } from './shared/services/clipboard.service';
@@ -39,6 +40,7 @@ const components = [
     CoreModule,
     FormsModule,
     CarouselModule.forRoot(),
+    ModalModule.forRoot(),
     ReactiveFormsModule,
     DragScrollModule,
     OwlDateTimeModule,

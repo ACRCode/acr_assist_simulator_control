@@ -1,17 +1,15 @@
 <div class="col-lg-8">
     <label class="control-label font-weight-400">Not sure? try out this image </label>
-    <button type="button" class="btn btn-default font-size-inherit" data-toggle="modal"
-        attr.data-target="{{ '#imgMap_Modal_' + dataElement.id}}" (click)="initializeSelectedOverlayData()">
+    <button type="button" class="btn btn-default font-size-inherit" (click)="initializeSelectedOverlayData()">
         <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
             title="Image Map"></span>
     </button>
 </div>
-<div class="modal inmodal fade" id="{{ 'imgMap_Modal_' + dataElement.id }}" tabindex="-1" role="dialog"
-    aria-hidden="true">
+<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" (click)="modalPopup.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
@@ -22,8 +20,7 @@
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
                         <div class="image-map-container">
-                            <img #image class="ImgOption danger img-responsive"
-                                alt="{{ dataElement.imageMap.label }}"
+                            <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
                                 attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                 [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
@@ -46,18 +43,20 @@
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <area #imageMapAreas class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                    attr.coords="{{ getCoordinates(imgOpt.coords) }}" attr.choice="{{ imgOpt.choiceValue }}"
-                                    title="{{ imgOpt.choiceValue }}" attr.selectedFill="{{ imgOpt.selectedFill }}"
+                                    attr.coords="{{ getCoordinates(imgOpt.coords) }}"
+                                    attr.choice="{{ imgOpt.choiceValue }}" title="{{ imgOpt.choiceValue }}"
+                                    attr.selectedFill="{{ imgOpt.selectedFill }}"
                                     attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
-                                    (mouseover)="updateHoverOverlay(i, true)"
-                                    (mouseout)="updateHoverOverlay(i, false)" (click)="setSelectedValue(i)" />
+                                    (mouseover)="updateHoverOverlay(i, true)" (mouseout)="updateHoverOverlay(i, false)"
+                                    (click)="setSelectedValue(i)" />
                             </ng-container>
                         </map>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="modalPopup.hide()"
+                    aria-label="Close">Close</button>
             </div>
         </div>
     </div>

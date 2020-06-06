@@ -1,13 +1,12 @@
-<button type="button" class="btn btn-default font-size-inherit btn-xs" data-toggle="modal"
-  attr.data-target="{{ '#diag_' + dataElement.id }}" (click)="resetCarouselIndex()">
-  <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right"
+<button type="button" class="btn btn-default font-size-inherit" (click)="openDiagram()">
+  <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
     title="Hint Diagrams"></span>
 </button>
-<div class="modal inmodal fade" id="{{ 'diag_' + dataElement.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
+        <button type="button" class="close" (click)="modalPopup.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
@@ -24,7 +23,7 @@
         </carousel>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="modalPopup.hide()" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
