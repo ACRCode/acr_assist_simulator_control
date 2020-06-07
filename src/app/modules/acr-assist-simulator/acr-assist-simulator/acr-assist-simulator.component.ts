@@ -222,7 +222,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.resultText = textReport;
     this.returnReportText.emit(textReport);
 
-    console.log(this.resultText);
     if (this.utilityService.isValidInstance(this.resultText)) {
       $('#tab1_reportText').prop('checked', true);
     }
