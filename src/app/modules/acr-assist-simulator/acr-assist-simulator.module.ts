@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '../core/core.module';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { NgxLoadingModule } from 'ngx-loading';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlMomentDateTimeModule } from '@busacca/ng-pick-datetime';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -38,7 +38,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
   IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
-  DragScrollModule, OwlDateTimeModule, OwlNativeDateTimeModule, NgxLoadingModule];
+  DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];
 
 const services = [SimulatorEngineService, SimulatorCommunicationService, ResetCommunicationService, ClipboardService, UrlHelperService];
 
