@@ -1,24 +1,22 @@
-import { NgModule , ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimulatorEngineService } from './services/simulator-engine.service';
-import { UtilityService } from './services/utility.service';
 import { ToastrModule } from 'ngx-toastr';
 
+import { SimulatorEngineService } from './services/simulator-engine.service';
+import { UtilityService } from './services/utility.service';
+
+const modules = [CommonModule, ToastrModule.forRoot()];
+const services = [SimulatorEngineService, UtilityService];
+
 @NgModule({
-  imports: [
-    CommonModule,
-    ToastrModule.forRoot()
-  ],
+  imports: modules,
   declarations: []
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
-      providers: [
-        SimulatorEngineService,
-        UtilityService
-      ]
+      providers: services
     };
   }
- }
+}

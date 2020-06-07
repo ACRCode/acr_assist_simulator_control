@@ -33,28 +33,16 @@ const components = [
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
   IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
+const modules = [
+  CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
+  DragScrollModule, OwlDateTimeModule, OwlNativeDateTimeModule, NgxLoadingModule];
+const services = [
+  SimulatorEngineService, SimulatorCommunicationService, ResetCommunicationService, ClipboardService, UrlHelperService];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule,
-    FormsModule,
-    CarouselModule.forRoot(),
-    ModalModule.forRoot(),
-    ReactiveFormsModule,
-    DragScrollModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    NgxLoadingModule
-  ],
+  imports: modules,
   declarations: components,
-  providers: [
-    SimulatorEngineService,
-    SimulatorCommunicationService,
-    ResetCommunicationService,
-    ClipboardService,
-    UrlHelperService
-  ],
+  providers: services,
   exports: components
 })
 export class AcrAssistSimulatorModule { }

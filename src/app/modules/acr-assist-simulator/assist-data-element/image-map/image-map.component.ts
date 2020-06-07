@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRe
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 const $ = require('jquery');
 
@@ -22,6 +23,7 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
+  @ViewChild('modalPopup') modalPopup: ModalDirective;
   @ViewChild('image') image: ElementRef;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
 
@@ -35,6 +37,11 @@ export class ImageMapComponent implements OnInit {
     this.selectedValues = [];
   }
 
+  openImageMap() {
+    this.modalPopup.show();
+    this.isOverlayLoading = true;
+  }
+
   initializeSelectedOverlayData() {
     const imageMapAreas = this.dataElement.imageMap?.map?.areas;
     if (this.utilityService.isValidInstance(imageMapAreas)) {
@@ -46,6 +53,7 @@ export class ImageMapComponent implements OnInit {
       });
     }
     this.restoreSelectedOverlays(imageMapAreas);
+    this.isOverlayLoading = false;
   }
 
   getCoordinates(coordinates: any) {
@@ -177,6 +185,7 @@ export class ImageMapComponent implements OnInit {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
+        this.modalPopup.hide();
       }
     }
   }
