@@ -446,3 +446,9 @@ mark {
 .min-height-40px {
   min-height: 40px;
 }
+
+#tab-content1 {
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
