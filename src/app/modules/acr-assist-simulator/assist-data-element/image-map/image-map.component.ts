@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
-import { ChoiceDataElement, MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
+import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 const $ = require('jquery');
 
@@ -14,7 +15,6 @@ export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
   map_selector_class = 'cursor-pointer map-selector';
-  formValues: object = {};
   isOverlayLoading = false;
   selectedValues = [];
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
@@ -23,8 +23,8 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
-  @ViewChild('image', { static: false }) image: ElementRef;
-  @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
+  @ViewChild('modalPopup') modalPopup: ModalDirective;
+  @ViewChild('image') image: ElementRef;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
 
   constructor(
@@ -37,12 +37,23 @@ export class ImageMapComponent implements OnInit {
     this.selectedValues = [];
   }
 
-  initializeSelectedOverlayData() {
+  openImageMap() {
+    this.modalPopup.show();
     this.isOverlayLoading = true;
-    setTimeout(() => {
-      this.restoreSelectedOverlays();
-      this.isOverlayLoading = false;
-    }, 1000);
+  }
+
+  initializeSelectedOverlayData() {
+    const imageMapAreas = this.dataElement.imageMap?.map?.areas;
+    if (this.utilityService.isValidInstance(imageMapAreas)) {
+      imageMapAreas.forEach(area => {
+        if (!this.utilityService.isValidInstance(area.cachedCoords)) {
+          area.cachedCoords = area.coords;
+        }
+        area.coords = this.getCoordinates(area.cachedCoords);
+      });
+    }
+    this.restoreSelectedOverlays(imageMapAreas);
+    this.isOverlayLoading = false;
   }
 
   getCoordinates(coordinates: any) {
@@ -73,7 +84,7 @@ export class ImageMapComponent implements OnInit {
         }
       }
     }
-    return coordinates;
+    return Array.isArray(coordinates) ? coordinates.join(',') : coordinates;
   }
 
   getSelectedValues() {
@@ -95,29 +106,31 @@ export class ImageMapComponent implements OnInit {
   }
 
   setSelectedValue(index) {
-    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-      const currentArea = this.imageMapAreas.toArray()[index];
-      if (this.utilityService.isValidInstance(currentArea)) {
-        if (this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.choice.value)) {
-          this.updateSelectedOverlay(index, currentArea);
-          this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+    const imageMapAreas = this.dataElement.imageMap?.map?.areas;
+    if (this.utilityService.isValidInstance(imageMapAreas)) {
+      const area = imageMapAreas[index];
+      if (this.utilityService.isValidInstance(area)) {
+        if (this.utilityService.isNotEmptyString(area.choiceValue)) {
+          this.updateSelectedOverlay(index, area);
+          this.setSelectedValues(area.choiceValue);
         }
       }
     }
   }
 
   updateHoverOverlay(index, isAdd) {
-    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-      const currentArea = this.imageMapAreas.toArray()[index];
-      if (this.utilityService.isValidInstance(currentArea)) {
-        const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-        const shape = currentArea.nativeElement.attributes.shape.value;
+    const imageMapAreas = this.dataElement.imageMap?.map?.areas;
+    if (this.utilityService.isValidInstance(imageMapAreas)) {
+      const area = imageMapAreas[index];
+      if (this.utilityService.isValidInstance(area)) {
+        const shape = area.shape;
+        const coords = area.coords.split(',');
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        let hoverColor = this.getHoverFillColour(currentArea, elementDrawStyle);
-        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
-        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
+        let hoverColor = this.getHoverFillColour(area.hoverFill, elementDrawStyle);
+        const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
 
         if (hoverColor === filledColor) {
           hoverColor = this.hoverDefaultColour;
@@ -172,6 +185,7 @@ export class ImageMapComponent implements OnInit {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
+        this.modalPopup.hide();
       }
     }
   }
@@ -185,30 +199,31 @@ export class ImageMapComponent implements OnInit {
     return false;
   }
 
-  private restoreSelectedOverlays() {
+  private restoreSelectedOverlays(imageMapAreas: Area[]) {
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
     if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
 
-    for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
-      if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+    for (let index = 0; index < imageMapAreas.length; index++) {
+      if (this.utilityService.isValidInstance(imageMapAreas)) {
         let hasValueSelected = false;
         if (this.utilityService.isNotEmptyArray(values)) {
           if (Array.isArray(values)) {
-            hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+            hasValueSelected = values.indexOf(imageMapAreas[index].choiceValue) >= 0;
           } else {
-            hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
+            hasValueSelected = values === imageMapAreas[index].choiceValue;
           }
         }
-        const currentArea = this.imageMapAreas.toArray()[index];
-        const shape = currentArea.nativeElement.attributes.shape.value;
-        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value);
+
+        const area = imageMapAreas[index];
+        const shape = area.shape;
+        const coords = area.coords.split(',');
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
-        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
+        const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
 
         if (this.utilityService.isValidInstance(canvas)) {
           if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
@@ -228,14 +243,14 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  private updateSelectedOverlay(index: number, currentArea: ElementRef) {
-    const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-    const shape = currentArea.nativeElement.attributes.shape.value;
+  private updateSelectedOverlay(index: number, area: Area) {
+    const coords = area.coords.split(',');
+    const shape = area.shape;
     const canvas = this.canvases.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-    const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
-    const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
+    const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+    const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
 
     if (this.utilityService.isValidInstance(canvas)) {
       if (canvas.nativeElement.className.includes('selected')) {
@@ -287,16 +302,16 @@ export class ImageMapComponent implements OnInit {
       const evenCoords: number[] = [];
       const oddCoords: number[] = [];
 
-      coords.filter(function(coord, i) {
+      coords.filter(function (coord, i) {
         const coordinate = +(coord.toString().trim());
         i % 2 === 0 ? evenCoords.push(coordinate) : oddCoords.push(coordinate);
       });
 
-      canvas.nativeElement.width = evenCoords.reduce(function(a, b) {
+      canvas.nativeElement.width = evenCoords.reduce(function (a, b) {
         return Math.max(a, b);
       });
 
-      canvas.nativeElement.height = oddCoords.reduce(function(a, b) {
+      canvas.nativeElement.height = oddCoords.reduce(function (a, b) {
         return Math.max(a, b);
       });
 
@@ -315,11 +330,10 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
-  private getHoverFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+  private getHoverFillColour(hoverFill: string, elementDrawStyle: any): string {
     let hoverColor;
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
-      hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
+    if (this.utilityService.isNotEmptyString(hoverFill)) {
+      hoverColor = hoverFill;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
       hoverColor = elementDrawStyle.hoverFill;
@@ -330,11 +344,10 @@ export class ImageMapComponent implements OnInit {
     return hoverColor;
   }
 
-  private getOutlineColour(currentArea: ElementRef, elementDrawStyle: any): string {
+  private getOutlineColour(outline: string, elementDrawStyle: any): string {
     let outlineColor;
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-      outlineColor = currentArea.nativeElement.attributes.outline.value;
+    if (this.utilityService.isNotEmptyString(outline)) {
+      outlineColor = outline;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
       outlineColor = elementDrawStyle.outline;
@@ -345,11 +358,10 @@ export class ImageMapComponent implements OnInit {
     return outlineColor;
   }
 
-  private getSelectedFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+  private getSelectedFillColour(selectedFill: string, elementDrawStyle: any): string {
     let filledColor;
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
+    if (this.utilityService.isNotEmptyString(selectedFill)) {
+      filledColor = selectedFill;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
       filledColor = elementDrawStyle.selectedFill;
@@ -358,5 +370,11 @@ export class ImageMapComponent implements OnInit {
     }
 
     return filledColor;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log(event.target.innerWidth);
+    this.initializeSelectedOverlayData();
   }
 }

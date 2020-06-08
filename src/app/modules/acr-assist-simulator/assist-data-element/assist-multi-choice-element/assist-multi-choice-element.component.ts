@@ -267,7 +267,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
 
   onImgModelClick(event) {
-    console.log(event);
     if (event.target.tagName !== 'IMG') {
       this.onImgPopupClose();
     }

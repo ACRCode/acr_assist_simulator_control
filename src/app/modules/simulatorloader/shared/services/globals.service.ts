@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class GlobalsService {
 
-  defaultModule =  'assets/XMLFIles/hello_assist/Hello_Assist.xml';
-  defaultTestModule = 'assets/XMLFIles/test_module/Test_Module.xml';
+  defaultModule =  'assets/XMLFiles/Hello_Assist/Hello_Assist.xml';
+  defaultTestModule = 'assets/XMLFiles/Test_Module/Test_Module.xml';
 
   public XMLList: Dictionary<FileDetails> = new Dictionary<FileDetails>();
 

@@ -37,6 +37,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   @Input() templateContent: string;
   @Input() assetsBaseUrl: string;
   @Input() showKeyDiagram: boolean;
+  @Input() hideKeyImageUpload: boolean;
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
@@ -55,10 +56,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   @Output() returnDefaultElements = new EventEmitter();
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-  @Input() hideKeyImageUpload: boolean;
 
-  @ViewChild('imageUpload', { static: false }) imageUpload: any;
-  @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
+  @ViewChild('imageUpload') imageUpload: any;
+  @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -121,7 +121,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
 
     const context = this;
-    setTimeout(function (e) {
+    setTimeout(function(e) {
       context.applyInputStyles();
     }, 100);
   }
@@ -177,7 +177,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
       if (this.utilityService.isNotEmptyArray(classesNeedToApply)) {
         classesNeedToApply.forEach(classNeedToApply => {
-          var nativeClasses = this.simulatorBlock.nativeElement.className.split(' ');
+          const nativeClasses = this.simulatorBlock.nativeElement.className.split(' ');
           if (this.utilityService.isNotEmptyArray(nativeClasses)) {
             if (nativeClasses.indexOf(classNeedToApply) <= -1) {
               this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + classNeedToApply;
@@ -201,7 +201,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function (el) {
+    return this.keyDiagrams.some(function(el) {
       return el.location === diagram.location;
     });
   }
@@ -213,7 +213,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
     const $this = this;
-    setTimeout(function (e) {
+    setTimeout(function(e) {
       $this.resizeKeyImages();
     }, 100);
     this.returnDefaultElements.emit();
@@ -223,7 +223,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.resultText = textReport;
     this.returnReportText.emit(textReport);
 
-    console.log(this.resultText);
     if (this.utilityService.isValidInstance(this.resultText)) {
       $('#tab1_reportText').prop('checked', true);
     }
@@ -353,8 +352,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
   getReportTextInnerContent(reportTextContentForEmptySectionName) {
     if (this.utilityService.isValidInstance(reportTextContentForEmptySectionName)) {
-      var msgb = reportTextContentForEmptySectionName.innerText.trim();
-      let selBox = document.createElement('textarea');
+      const msgb = reportTextContentForEmptySectionName.innerText.trim();
+      const selBox = document.createElement('textarea');
       selBox.style.position = 'fixed';
       selBox.style.left = '0';
       selBox.style.top = '0';

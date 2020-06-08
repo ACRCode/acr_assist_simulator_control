@@ -222,7 +222,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   private createChoiceElementForm() {
     this.choiceElementForm = this.formBuilder.group({
-      checkBox: ['', Validators.required],
+      checkBox: ['Select one', Validators.required],
     }, {
       validator: this.specificValueInsideRange('checkBox')
     });
@@ -240,20 +240,17 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   onImgModelClick(event) {
-    console.log(event);
     if (event.target.tagName !== 'IMG') {
       this.onImgPopupClose();
     }
   }
 
   onChoiceDiagramClick(choice, event) {
-    // console.log(event);
     const modal = document.getElementById('immgModal');
     const modalImg = document.getElementById('img01') as any;
     const img_src = event.target.src;
     modal.style.display = 'block';
     modalImg.src = img_src;
-    // captionText.innerHTML = this.alt;
   }
 
   isChoiceHasDiagrams(choiceDataElement: ChoiceDataElement) {

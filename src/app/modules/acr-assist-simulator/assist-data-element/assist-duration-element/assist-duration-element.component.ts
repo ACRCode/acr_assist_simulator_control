@@ -13,50 +13,13 @@ import { UtilityService } from '../../../core/services/utility.service';
 export class AssistDurationElementComponent implements OnInit, OnDestroy {
 
   supportedUnits: any = {
-    millisecond: {
-      label: 'Millisecond',
-      max: 999,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    second: {
-      label: 'S',
-      max: 59,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    minute: {
-      label: 'M',
-      max: 59,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    hour: {
-      label: 'H',
-      max: 23,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    day: {
-      label: 'D',
-      max: 7,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    week: {
-      label: 'Week',
-      max: 51,
-      min: 0,
-      value: 0,
-      step: 1
-    }
+    millisecond: { label: 'Millisecond', max: 999, min: 0, value: 0, step: 1 },
+    second: { label: 'S',  max: 59, min: 0, value: 0, step: 1 },
+    minute: { label: 'M', max: 59, min: 0, value: 0, step: 1 },
+    hour: { label: 'H', max: 23, min: 0, value: 0, step: 1 },
+    day: { label: 'D', max: 7, min: 0, value: 0, step: 1 },
+    week: { label: 'Week', max: 51, min: 0, value: 0, step: 1 }
   };
-
 
   durationVal = 'PT0S';
   durationOptions = {
