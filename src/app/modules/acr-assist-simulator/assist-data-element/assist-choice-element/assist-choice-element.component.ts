@@ -75,6 +75,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     } else {
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
+
+    $('input:radio').change(function () {
+      // Only remove the class in the specific `box` that contains the radio
+      $('label.highlightchoice').removeClass('highlightchoice');
+      $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
+    });
   }
 
   ngAfterViewInit(): void {

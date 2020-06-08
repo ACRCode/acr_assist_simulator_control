@@ -136,12 +136,12 @@
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit"
           [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
-          <option [selected]="
+          <!-- <option [selected]="
             choiceDataElement.ChoiceNotRelevant != undefined ?
             (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
             true :
             true)
-            : true">Select one</option>
+            : true">Select one</option> -->
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                 choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                 : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -309,12 +309,12 @@
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6"
           [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
-          <option [selected]="
+          <!-- <option [selected]="
              choiceDataElement.ChoiceNotRelevant != undefined ?
              (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
              true :
              true)
-             : true">Select one</option>
+             : true">Select one</option> -->
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                  choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                  : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -366,12 +366,12 @@
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit"
           [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
-          <option [selected]="
+          <!-- <option [selected]="
               choiceDataElement.ChoiceNotRelevant != undefined ?
               (choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1 ? 
               true :
               true)
-              : true">Select one</option>
+              : true">Select one</option> -->
           <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
@@ -420,16 +420,17 @@
           </ng-container>
         </div>
 
+        <!-- [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
         <div class="div_options_withthumbnail_parent">
-          <div *ngFor="let choice of choiceDataElement.choiceInfo; let i = index" class="div_options_withthumbnail"
-            [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}">
+          <label *ngFor="let choice of choiceDataElement.choiceInfo; let i = index" class="div_options_withthumbnail">
             <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
               style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
               formControlName="checkBox" value="{{choice.value}}"
               (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
               [ngClass]="{ 'ai-input-background': hasAIInputStyle() }">
 
-            <label class="margin-t-3p option_label_withthumbnail" for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+            <label class="margin-t-3p option_label_withthumbnail"
+              for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
 
             <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
               <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
@@ -439,7 +440,7 @@
               <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSLqHkHTVtyZ4Mws26flMHa_i05boNUS3RjjB8_t7IxvACBg_B8&amp;usqp=CAU">
             </div> -->
-          </div>
+          </label>
           <ng-container *ngIf="choiceDataElement.allowFreetext">
             <div class="border-top">
               <div class="radio custom-radio-style">

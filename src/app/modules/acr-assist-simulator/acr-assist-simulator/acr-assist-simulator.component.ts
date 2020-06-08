@@ -37,6 +37,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   @Input() templateContent: string;
   @Input() assetsBaseUrl: string;
   @Input() showKeyDiagram: boolean;
+  @Input() hideKeyImageUpload: boolean;
   @Input() reportTextPosition: ReportTextPosition;
   @Input() inputValues: InputData[] = [];
   @Input() inputData: string;
