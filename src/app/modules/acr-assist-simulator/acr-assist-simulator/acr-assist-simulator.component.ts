@@ -55,6 +55,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   @Output() returnDefaultElements = new EventEmitter();
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+  @Input() hideKeyImageUpload: boolean;
 
   @ViewChild('imageUpload', { static: false }) imageUpload: any;
   @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;

@@ -14,6 +14,7 @@ import { AIInputData } from './modules/core/models/ai-input-data.model';
 })
 export class AppComponent {
 
+  hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
   fileContent: string;
   assetsBaseUrl = '';

@@ -272,7 +272,8 @@ mark {
 
 .tabs>.tab>[id^="tab"]:checked+label {
   top: 0;
-  background: #303030;
+  background: #3c8dbc;
+  /* background: #303030; */
   color: #F5F5F5;
 }
 
@@ -399,10 +400,23 @@ mark {
 }
 
 .div_options_withthumbnail {
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
   padding-bottom: 10px;
+  padding-left: 10px;
+  margin-bottom: 10px;
   /* padding-top: 10px; */
   /* text-align: center; */
+}
+
+.div_options_withthumbnail:hover {
+  background: #f1f1f1;
+  /* border: 1px solid blue; */
+  cursor: pointer;
+}
+
+.highlightchoice {
+  background: #f1f1f1;
+  border: 1px solid blue;
 }
 
 .border-top {
@@ -427,4 +441,8 @@ mark {
   position: relative;
   bottom: 4px;
   left: 10px;
+}
+
+.min-height-40px {
+  min-height: 40px;
 }
