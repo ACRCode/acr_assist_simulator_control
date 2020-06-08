@@ -23,6 +23,7 @@ export class ImageMapComponent implements OnInit {
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
+  @ViewChild('image', { static: false }) image: ElementRef;
   @ViewChildren('imageMapAreas') imageMapAreas: QueryList<ElementRef>;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
 
@@ -37,84 +38,45 @@ export class ImageMapComponent implements OnInit {
   }
 
   initializeSelectedOverlayData() {
-    const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
-    if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
-      this.selectedValues = values;
-    }
     this.isOverlayLoading = true;
     setTimeout(() => {
-      let filledColor;
-      let outlineColor;
-
-      for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
-        if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-          let hasValueSelected = false;
-          if (this.utilityService.isNotEmptyArray(values)) {
-            if (Array.isArray(values)) {
-              hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
-            } else {
-              hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
-            }
-          }
-          const currentArea = this.imageMapAreas.toArray()[index];
-          const coords = currentArea.nativeElement.attributes.coords.value.split(',');
-          const shape = currentArea.nativeElement.attributes.shape.value;
-          const canvas = this.canvases.toArray()[index];
-          const elementDrawStyle = this.dataElement.imageMap.drawStyle;
-
-          if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-            this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-            filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-          } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-            this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-            filledColor = elementDrawStyle.selectedFill;
-          } else {
-            filledColor = this.filledDefaultColour;
-          }
-
-          if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-            this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-            outlineColor = currentArea.nativeElement.attributes.outline.value;
-          } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-            this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-            outlineColor = elementDrawStyle.outline;
-          } else {
-            outlineColor = this.borderDefaultColour;
-          }
-
-          if (this.utilityService.isValidInstance(canvas)) {
-            if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
-              canvas.nativeElement.style.position = '';
-              canvas.nativeElement.style.display = 'none';
-              canvas.nativeElement.className = this.map_selector_class;
-            }
-            if (hasValueSelected) {
-              canvas.nativeElement.style.position = 'absolute';
-              canvas.nativeElement.style.display = 'block';
-
-              this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
-              canvas.nativeElement.className = this.map_selector_class + ' selected';
-            }
-          }
-        }
-      }
+      this.restoreSelectedOverlays();
       this.isOverlayLoading = false;
     }, 1000);
   }
 
-  setSelectedValue(index) {
-    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
-      const currentArea = this.imageMapAreas.toArray()[index];
-      if (this.utilityService.isValidInstance(currentArea)) {
-        if (this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.choice.value)) {
-          this.setOverLaysforImageMap(index, currentArea);
-          this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+  getCoordinates(coordinates: any) {
+    if (this.utilityService.isValidInstance(this.image) &&
+      this.utilityService.isValidInstance(this.image.nativeElement)) {
+      const naturalWidth = this.image.nativeElement.naturalWidth;
+      const naturalHeight = this.image.nativeElement.naturalHeight;
+
+      const scaledWidth = this.image.nativeElement.width;
+      const scaledHeight = this.image.nativeElement.height;
+      coordinates = coordinates.split(',');
+
+      for (let index = 0; index < coordinates.length; index++) {
+        if (index % 2 === 0) {
+          if (scaledWidth !== naturalWidth) {
+            const scalingFactor = scaledWidth / naturalWidth;
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            }
+          }
+        } else {
+          if (scaledHeight !== naturalHeight) {
+            const scalingFactor = scaledHeight / naturalHeight;
+            if (coordinates[index]) {
+              coordinates[index] = Math.trunc(coordinates[index] * scalingFactor);
+            }
+          }
         }
       }
     }
+    return coordinates;
   }
 
-  getSelectedValue() {
+  getSelectedValues() {
     if (this.utilityService.isNotEmptyArray(this.selectedValues)) {
       return 'Selected Values : ' + this.selectedValues.join(' | ');
     } else {
@@ -130,15 +92,21 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
-
-    // return 'assets/images/COVID19.jpg';
   }
 
-  addRemoveHoverClass(index, isAdd) {
-    let hoverColor;
-    let filledColor;
-    let outlineColor;
+  setSelectedValue(index) {
+    if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+      const currentArea = this.imageMapAreas.toArray()[index];
+      if (this.utilityService.isValidInstance(currentArea)) {
+        if (this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.choice.value)) {
+          this.updateSelectedOverlay(index, currentArea);
+          this.setSelectedValues(currentArea.nativeElement.attributes.choice.value);
+        }
+      }
+    }
+  }
 
+  updateHoverOverlay(index, isAdd) {
     if (this.utilityService.isValidInstance(this.imageMapAreas)) {
       const currentArea = this.imageMapAreas.toArray()[index];
       if (this.utilityService.isValidInstance(currentArea)) {
@@ -147,38 +115,12 @@ export class ImageMapComponent implements OnInit {
         const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
-          hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
-          hoverColor = elementDrawStyle.hoverFill;
-        } else {
-          hoverColor = this.hoverDefaultColour;
-        }
-
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-          filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-          filledColor = elementDrawStyle.selectedFill;
-        } else {
-          filledColor = this.filledDefaultColour;
-        }
+        let hoverColor = this.getHoverFillColour(currentArea, elementDrawStyle);
+        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
 
         if (hoverColor === filledColor) {
           hoverColor = this.hoverDefaultColour;
-        }
-
-        if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-          this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-          outlineColor = currentArea.nativeElement.attributes.outline.value;
-        } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-          this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-          outlineColor = elementDrawStyle.outline;
-        } else {
-          outlineColor = this.borderDefaultColour;
         }
 
         if (this.utilityService.isValidInstance(canvas)) {
@@ -243,34 +185,57 @@ export class ImageMapComponent implements OnInit {
     return false;
   }
 
-  private setOverLaysforImageMap(index: number, currentArea: ElementRef) {
-    let filledColor;
-    let outlineColor;
+  private restoreSelectedOverlays() {
+    const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
+    if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
+      this.selectedValues = values;
+    }
 
+    for (let index = 0; index < this.dataElement.imageMap.map.areas.length; index++) {
+      if (this.utilityService.isValidInstance(this.imageMapAreas)) {
+        let hasValueSelected = false;
+        if (this.utilityService.isNotEmptyArray(values)) {
+          if (Array.isArray(values)) {
+            hasValueSelected = values.indexOf(this.dataElement.imageMap.map.areas[index].choiceValue) >= 0;
+          } else {
+            hasValueSelected = values === this.dataElement.imageMap.map.areas[index].choiceValue;
+          }
+        }
+        const currentArea = this.imageMapAreas.toArray()[index];
+        const shape = currentArea.nativeElement.attributes.shape.value;
+        const coords = this.getCoordinates(currentArea.nativeElement.attributes.coords.value);
+        const canvas = this.canvases.toArray()[index];
+        const elementDrawStyle = this.dataElement.imageMap.drawStyle;
+
+        const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+        const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
+
+        if (this.utilityService.isValidInstance(canvas)) {
+          if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
+            canvas.nativeElement.style.position = '';
+            canvas.nativeElement.style.display = 'none';
+            canvas.nativeElement.className = this.map_selector_class;
+          }
+          if (hasValueSelected) {
+            canvas.nativeElement.style.position = 'absolute';
+            canvas.nativeElement.style.display = 'block';
+
+            this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
+            canvas.nativeElement.className = this.map_selector_class + ' selected';
+          }
+        }
+      }
+    }
+  }
+
+  private updateSelectedOverlay(index: number, currentArea: ElementRef) {
     const coords = currentArea.nativeElement.attributes.coords.value.split(',');
     const shape = currentArea.nativeElement.attributes.shape.value;
     const canvas = this.canvases.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
-      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
-    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-      this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-      filledColor = elementDrawStyle.selectedFill;
-    } else {
-      filledColor = this.filledDefaultColour;
-    }
-
-    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
-      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
-      outlineColor = currentArea.nativeElement.attributes.outline.value;
-    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
-      this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
-      outlineColor = elementDrawStyle.outline;
-    } else {
-      outlineColor = this.borderDefaultColour;
-    }
+    const filledColor = this.getSelectedFillColour(currentArea, elementDrawStyle);
+    const outlineColor = this.getOutlineColour(currentArea, elementDrawStyle);
 
     if (this.utilityService.isValidInstance(canvas)) {
       if (canvas.nativeElement.className.includes('selected')) {
@@ -303,8 +268,8 @@ export class ImageMapComponent implements OnInit {
     } else if (shape.toLowerCase() === 'circle') {
       canvas.nativeElement.style.left = (coords[0] - coords[2]) + 'px';
       canvas.nativeElement.style.top = (coords[1] - coords[2]) + 'px';
-      canvas.nativeElement.width = 2 * coords[2];
-      canvas.nativeElement.height = 2 * coords[2];
+      canvas.nativeElement.width = 2 * (+coords[2] + 1);
+      canvas.nativeElement.height = 2 * (+coords[2] + 1);
 
       ctx.beginPath();
       ctx.arc(canvas.nativeElement.width / 2, canvas.nativeElement.height / 2, coords[2], 0, 2 * Math.PI, true);
@@ -317,6 +282,24 @@ export class ImageMapComponent implements OnInit {
 
     } else if (shape.toLowerCase() === 'poly') {
       const size = coords.length;
+      if (size < 3) { return; }
+
+      const evenCoords: number[] = [];
+      const oddCoords: number[] = [];
+
+      coords.filter(function(coord, i) {
+        const coordinate = +(coord.toString().trim());
+        i % 2 === 0 ? evenCoords.push(coordinate) : oddCoords.push(coordinate);
+      });
+
+      canvas.nativeElement.width = evenCoords.reduce(function(a, b) {
+        return Math.max(a, b);
+      });
+
+      canvas.nativeElement.height = oddCoords.reduce(function(a, b) {
+        return Math.max(a, b);
+      });
+
       ctx.beginPath();
       ctx.moveTo(coords[0], coords[1]);
       for (let i = 2; i < size; i += 2) {
@@ -330,5 +313,50 @@ export class ImageMapComponent implements OnInit {
       ctx.fill();
       ctx.stroke();
     }
+  }
+
+  private getHoverFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let hoverColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.hoverFill) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.hoverFill.value)) {
+      hoverColor = currentArea.nativeElement.attributes.hoverFill.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.hoverFill)) {
+      hoverColor = elementDrawStyle.hoverFill;
+    } else {
+      hoverColor = this.hoverDefaultColour;
+    }
+
+    return hoverColor;
+  }
+
+  private getOutlineColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let outlineColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.outline) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.outline.value)) {
+      outlineColor = currentArea.nativeElement.attributes.outline.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.outline)) {
+      outlineColor = elementDrawStyle.outline;
+    } else {
+      outlineColor = this.borderDefaultColour;
+    }
+
+    return outlineColor;
+  }
+
+  private getSelectedFillColour(currentArea: ElementRef, elementDrawStyle: any): string {
+    let filledColor;
+    if (this.utilityService.isValidInstance(currentArea.nativeElement.attributes.selectedFill) &&
+      this.utilityService.isNotEmptyString(currentArea.nativeElement.attributes.selectedFill.value)) {
+      filledColor = currentArea.nativeElement.attributes.selectedFill.value;
+    } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
+      this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
+      filledColor = elementDrawStyle.selectedFill;
+    } else {
+      filledColor = this.filledDefaultColour;
+    }
+
+    return filledColor;
   }
 }

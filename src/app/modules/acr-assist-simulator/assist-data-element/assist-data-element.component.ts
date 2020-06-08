@@ -364,7 +364,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
   removeDuplicates(arr) {
     const unique_array = [];
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < arr.length; i++) {
       if (unique_array.indexOf(arr[i]) === -1) {
         unique_array.push(arr[i]);

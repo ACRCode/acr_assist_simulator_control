@@ -65,7 +65,7 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
         return {
           repeatedSectionName: i,
           allTextResultReport: _.map(v, 'allTextResultReport')
@@ -123,10 +123,8 @@ export class AssistReportTextComponent implements OnChanges {
 
   getReportTextInnerContent(reportTextContentForEmptySectionName) {
     if (this.utilityService.isValidInstance(reportTextContentForEmptySectionName)) {
-      // document.execCommand('copy');
-      // debugger;
-      var msgb = reportTextContentForEmptySectionName.innerText.trim();
-      let selBox = document.createElement('textarea');
+      const msgb = reportTextContentForEmptySectionName.innerText.trim();
+      const selBox = document.createElement('textarea');
       selBox.style.position = 'fixed';
       selBox.style.left = '0';
       selBox.style.top = '0';

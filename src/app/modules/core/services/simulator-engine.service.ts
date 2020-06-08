@@ -61,7 +61,6 @@ export class SimulatorEngineService {
   }
 
   addOrUpdateDataElement(dataElementId: string, value: any, text: any) {
-    // debugger;
     this.dataElementValues.set(dataElementId, value);
     this.dataElementTexts.set(dataElementId, text);
     this.evaluateDecisionPoints();

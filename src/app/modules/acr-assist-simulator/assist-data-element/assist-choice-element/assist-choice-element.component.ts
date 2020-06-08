@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
-import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
+
 import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
@@ -41,15 +41,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private utilityService: UtilityService,
-    private simulatorCommunicationService: SimulatorCommunicationService) {
-    // this.simulatorStateSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
-    //   mission => {
-    //     // if ($('#' + this.choiceDataElement.id) !== undefined && $('#' + this.choiceDataElement.id) !== null) {
-    //     //   this.dropdownChoiceSelected($('#' + this.choiceDataElement.id).get(0), this.choiceDataElement.label);
-    //     // }
-    //   });
-  }
+    private utilityService: UtilityService
+  ) { }
 
   ngOnDestroy() {
     if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
@@ -248,7 +241,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   onImgModelClick(event) {
     console.log(event);
-    debugger;
     if (event.target.tagName !== 'IMG') {
       this.onImgPopupClose();
     }
@@ -256,10 +248,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   onChoiceDiagramClick(choice, event) {
     // console.log(event);
-    var modal = document.getElementById("immgModal");
-    var modalImg = document.getElementById("img01") as any;
+    const modal = document.getElementById('immgModal');
+    const modalImg = document.getElementById('img01') as any;
     const img_src = event.target.src;
-    modal.style.display = "block";
+    modal.style.display = 'block';
     modalImg.src = img_src;
     // captionText.innerHTML = this.alt;
   }
@@ -280,8 +272,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   onImgPopupClose() {
-    var modal = document.getElementById("immgModal");
-    modal.style.display = "none";
+    const modal = document.getElementById('immgModal');
+    modal.style.display = 'none';
   }
 
   @HostListener('window:keyup.esc') onKeyUp() {

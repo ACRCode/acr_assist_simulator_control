@@ -35,9 +35,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/common.js",
-              "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
+              "src/assets/js/common.js"
             ]
           },
           "configurations": {
@@ -96,14 +94,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/jquery.loupe.min.js",
-              "src/assets/js/common.js",
-              "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
-            ],
             "styles": [
               "node_modules/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -111,6 +101,11 @@
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/skin-blue.min.css",
               "src/assets/css/styles.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/common.js"
             ],
             "assets": [
               "src/assets",
