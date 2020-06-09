@@ -135,37 +135,43 @@
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
       </div>
+
+      <!-- [ngStyle]="{'border-bottom': i !== multiChoiceElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
+
       <div class="div_options_withthumbnail_parent">
         <div *ngFor="let choice of multiChoiceElement.choiceInfo; let i = index"
-          [ngStyle]="{'border-bottom': i !== multiChoiceElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}"
-          class="checkbox checkboxCustomized div_options_withthumbnail" title="{{choice.hint}}">
-          <label class="margin-t-3p option_label_withthumbnail" [hidden]="isMultiChoiceLabelHidden(choice.value)">
+          class="checkbox checkboxCustomized div_options_withthumbnail padding-t-10px" title="{{choice.hint}}">
+          <label class="option_label_withthumbnail width-98p" [hidden]="isMultiChoiceLabelHidden(choice.value)">
             <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
               id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
               value="{{choice.value}}"
               (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
-            {{choice.label}}
-          </label>
+            <!-- {{choice.label}} -->
 
-          <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
-            <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
-              [src]="getImageDataUrl(diagram.location) | secure">
-          </div>
+            <label for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
+
+            <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
+            <div class="div_img_thumbnail margin-t-0p" *ngFor="let diagram of choice.diagrams">
+              <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+            </div>
+          </label>
         </div>
 
         <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
-          <div class="border-top">
-            <label>
+          <div class="border-top" class="div_options_withthumbnail padding-t-10px">
+            <label class="option_label_withthumbnail width-98p">
               <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
                 formControlName="multiCheckBox" [value]="'freetext'"
                 (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
-              Other, please specify…
+
+              <label for="{{multiChoiceElement.id}}_othertext">Other,
+                please specify…</label>
             </label>
           </div>
         </div>
 
         <!-- other '{{multiChoiceElement.label}}' -->
-        <div id='div_{{multiChoiceElement.id}}_other'>
+        <div id='div_{{multiChoiceElement.id}}_other' class="padding-10px">
           <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
             [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>

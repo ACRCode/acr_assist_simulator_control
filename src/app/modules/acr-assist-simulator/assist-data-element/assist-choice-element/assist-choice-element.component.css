@@ -1,10 +1,50 @@
-.listboxSelect{
+.listboxSelect {
     overflow-y: auto;
 }
 
-.div_hint{
+.div_hint {
     text-align: right !important;
     position: relative;
     top: 7px;
     padding-right: 0px !important;
+}
+
+/* .tooltiptopicevent {
+    width: auto;
+    height: auto;
+    background: white;
+    position: absolute;
+    z-index: 10001;
+    padding: 15px 15px 15px 15px;
+    line-height: 200%;
+    
+    -webkit-box-shadow: 6px 5px 5px -5px #ccc !important;
+    -moz-box-shadow: 6px 5px 5px -5px #ccc !important;
+    box-shadow: 6px 5px 5px -5px #ccc !important;
+    box-shadow: 6px 5px 5px -5px #ccc !important;
+} */
+
+.imageContainer {
+    text-align: center;
+}
+
+.imageContainer img {
+    display: block;
+}
+
+.imageContainer div {
+    position: relative;
+    display: inline-block;
+    /* if you need ie6/7 support */
+    *display: inline;
+    zoom: 1;
+}
+
+.imageContainer span {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    background: rgba(0, 0, 0, .5);
 }

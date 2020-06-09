@@ -138,6 +138,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "acr-assist-simulator"
+    }
+  },
+  "defaultProject": "acr-assist-simulator",
+  "cli": {
+    "analytics": false
+  }
 }

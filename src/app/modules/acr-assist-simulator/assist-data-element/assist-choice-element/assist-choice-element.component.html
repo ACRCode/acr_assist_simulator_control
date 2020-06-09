@@ -432,29 +432,32 @@
             <label class="margin-t-3p option_label_withthumbnail"
               for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
 
+            <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
             <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
-              <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
-                [src]="getImageDataUrl(diagram.location) | secure">
+              <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
             </div>
             <!-- <div class="div_img_thumbnail">
               <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSLqHkHTVtyZ4Mws26flMHa_i05boNUS3RjjB8_t7IxvACBg_B8&amp;usqp=CAU">
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">
             </div> -->
           </label>
           <ng-container *ngIf="choiceDataElement.allowFreetext">
-            <div class="border-top">
-              <div class="radio custom-radio-style">
-                <label>
-                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
-                    value="freetext"
-                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
-                  Other, please specify…</label>
-              </div>
-              <div id='div_{{choiceDataElement.id}}_other'>
+            <div class="border-top" class="radio padding-t-10px">
+              <!-- <div class=""> -->
+              <label class="div_options_withthumbnail div_options_withthumbnail_freetext">
+                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" class="margin-l-0"
+                  id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
+                  value="freetext"
+                  (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
+                <label for="other_{{choiceDataElement.id}}"
+                  class="option_label_withthumbnail option_label_withthumbnail_freetext">Other,
+                  please specify…</label>
+              </label>
+              <!-- </div> -->
+              <div id='div_{{choiceDataElement.id}}_other' class="padding-10px">
                 <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                  id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
-                  [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
+                  id="txt_other_{{choiceDataElement.id}}" type="text" class="form-control" [(ngModel)]="freeTextValue"
+                  [ngModelOptions]="{standalone: true}"
                   (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
                   placeholder="Please specify">
               </div>

@@ -7,8 +7,29 @@
   font-size: 1.5rem !important;
 }
 
+.padding-10px {
+  padding: 10px;
+}
+
 .padding-l-5 {
   padding-left: 5px;
+}
+
+.margin-t-0p {
+  margin-top: 0px !important;
+}
+
+.padding-t-10px {
+  padding-top: 10px !important;
+}
+
+.margin-l-0 {
+  margin-left: 0px !important;
+}
+
+.div_options_withthumbnail_freetext {
+  width: 100%;
+  padding-top: 12px;
 }
 
 .whitespace {
@@ -17,6 +38,10 @@
 
 .break-word {
   word-break: break-word;
+}
+
+.width-98p {
+  width: 98%;
 }
 
 .max-w-h-100 {
@@ -443,6 +468,12 @@ mark {
   left: 10px;
 }
 
+.option_label_withthumbnail_freetext {
+  font-weight: 600 !important;
+  position: relative;
+  top: 1px;
+}
+
 .min-height-40px {
   min-height: 40px;
 }
@@ -452,3 +483,10 @@ mark {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.div_options_withthumbnail_freetext {
+  padding-top: 10px;
+  /* padding-bottom: 0px; */
+  padding-left: 10px;
+}
+
