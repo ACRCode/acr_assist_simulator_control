@@ -93,7 +93,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         const img_src = _image[0].src;
         var tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 15px 15px 15px 15px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;>';
         tooltip += '<div class="imageContainer"><div>';
-        tooltip += '<img style="width: 250px;height: 250px;object-fit: cover;" src="' + img_src + '" />';
+        tooltip += '<img style="width: 250px;height: 250px;object-fit: contain;" src="' + img_src + '" />';
         tooltip += '</div>';
         tooltip += '</div></div>';
 

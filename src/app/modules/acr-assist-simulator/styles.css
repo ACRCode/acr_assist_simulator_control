@@ -307,8 +307,8 @@ mark {
 }
 
 .div_img_thumbnail {
-  width: 80px;
-  height: 80px;
+  /* width: 80px;
+  height: 80px; */
   justify-content: center;
   display: flex;
   flex-direction: row;
@@ -319,10 +319,9 @@ mark {
   margin-top: 9px;
 }
 
-.div_img_thumbnail img {
-  flex: 1;
-  height: 100%;
-}
+/* .div_img_thumbnail img {
+ 
+} */
 
 /* The Modal (background) */
 
@@ -453,13 +452,16 @@ mark {
 }
 
 .div_img_thumbnail img {
-  height: 100px;
-  width: 100px;
-  margin-right: 5px;
-  margin-top: 5px;
-  height: 50px;
-  width: 50px;
-  float: right;
+  flex: 1;
+  /* height: 100%; */
+  /* height: 100px;
+  width: 100px; */
+  /* margin-right: 5px; */
+  /* margin-top: 5px; */
+  height: 80px;
+  width: 80px;
+  object-fit: contain;
+  /* float: right; */
 }
 
 .option_label_withthumbnail {
