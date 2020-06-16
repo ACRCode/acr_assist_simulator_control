@@ -17,6 +17,7 @@ export class AppComponent {
   hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
   fileContent: string;
+  // assetsBaseUrl = 'assets/images';
   assetsBaseUrl = '';
   inputValues: InputData[] = [];
   aiInputs: AIInputData[] = [];

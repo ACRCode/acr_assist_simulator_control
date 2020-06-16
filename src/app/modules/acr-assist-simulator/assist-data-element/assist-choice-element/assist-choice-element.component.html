@@ -43,7 +43,7 @@
                   (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
                 Other, please specify…</label>
             </div>
-            <div id='div_{{choiceDataElement.id}}_other'>
+            <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
               <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                 id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                 [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
@@ -75,7 +75,7 @@
                       (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
                     Other, please specify…</label>
                 </div>
-                <div id='div_{{choiceDataElement.id}}_other'>
+                <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                     [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
@@ -115,7 +115,7 @@
             specify…
           </option>
         </select>
-        <div id='div_{{choiceDataElement.id}}_other'>
+        <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
             [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
@@ -153,7 +153,7 @@
             specify…
           </option>
         </select>
-        <div id='div_{{choiceDataElement.id}}_other'>
+        <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
             [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
@@ -216,7 +216,7 @@
                   (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
                 Other, please specify…</label>
             </div>
-            <div id='div_{{choiceDataElement.id}}_other'>
+            <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
               <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                 id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                 [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
@@ -266,7 +266,7 @@
                       (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
                     Other, please specify…</label>
                 </div>
-                <div id='div_{{choiceDataElement.id}}_other'>
+                <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" class="form-control"
                     [(ngModel)]="freeTextValue" [ngModelOptions]="{standalone: true}"
@@ -327,7 +327,7 @@
             specify…
           </option>
         </select>
-        <div id='div_{{choiceDataElement.id}}_other'>
+        <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
             [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
@@ -383,7 +383,7 @@
             specify…
           </option>
         </select>
-        <div id='div_{{choiceDataElement.id}}_other'>
+        <div id='div_{{choiceDataElement.id}}_other' style="display: none;">
           <input id="txt_other_{{choiceDataElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
             [ngModelOptions]="{standalone: true}" placeholder="Please specify"
             (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'>
@@ -441,6 +441,7 @@
                 src="https://image.shutterstock.com/image-photo/amazing-mountain-landscape-colorful-vivid-260nw-693715240.jpg">
             </div> -->
           </label>
+          {{choiceDataElement | json}}
           <ng-container *ngIf="choiceDataElement.allowFreetext">
             <div class="border-top" class="radio padding-t-10px">
               <!-- <div class=""> -->
@@ -454,7 +455,7 @@
                   please specify…</label>
               </label>
               <!-- </div> -->
-              <div id='div_{{choiceDataElement.id}}_other' class="padding-10px">
+              <div id='div_{{choiceDataElement.id}}_other' style="display: none;" class="padding-10px">
                 <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                   id="txt_other_{{choiceDataElement.id}}" type="text" class="form-control" [(ngModel)]="freeTextValue"
                   [ngModelOptions]="{standalone: true}"
