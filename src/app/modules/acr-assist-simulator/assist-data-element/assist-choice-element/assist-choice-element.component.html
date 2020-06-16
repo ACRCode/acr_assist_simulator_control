@@ -92,6 +92,7 @@
         </ng-container>
       </ng-container>
 
+
       <ng-container *ngIf="isListBox()">
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
@@ -109,7 +110,8 @@
             choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
             || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
             choice.value === choiceDataElement.currentValue ? true : false
-            : choice.value === choiceDataElement.currentValue ? true : false" title="{{choice.label}}">{{choice.label}}
+            : choice.value === choiceDataElement.currentValue ? true : false"
+            title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">{{choice.label}}
           </option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
@@ -148,7 +150,9 @@
              choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
              || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
              choice.value === choiceDataElement.currentValue ? true : false
-             : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+             : choice.value === choiceDataElement.currentValue ? true : false"
+            title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">{{choice.label}}
+          </option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
           </option>
@@ -182,14 +186,14 @@
                 ({{choiceDataElement.unit}})</span>
               <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
             </label>
-          </div>
-          <div class="col-lg-2 div_hint">
             <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i class="whitespace">
                 <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                   title="{{choiceDataElement.hint}}"></span>
               </i>
             </ng-container>
+          </div>
+          <div class="col-lg-2 div_hint">
             <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
               <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
             </ng-container>
@@ -291,15 +295,15 @@
               ({{choiceDataElement.unit}})</span>
             <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
-        </div>
-
-        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                 title="{{choiceDataElement.hint}}"></span>
             </i>
           </ng-container>
+        </div>
+
+        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
             <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
@@ -321,7 +325,8 @@
               choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
               || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
               choice.value === choiceDataElement.currentValue ? true : false
-              : choice.value === choiceDataElement.currentValue ? true : false" title="{{choice.label}}">
+              : choice.value === choiceDataElement.currentValue ? true : false"
+            title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">
             {{choice.label}}</option>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
@@ -350,14 +355,14 @@
               ({{choiceDataElement.unit}})</span>
             <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                 title="{{choiceDataElement.hint}}"></span>
             </i>
           </ng-container>
+        </div>
+        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
             <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
@@ -372,13 +377,13 @@
               true :
               true)
               : true">Select one</option> -->
-          <option *ngFor="let choice of choiceDataElement.choiceInfo" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">           
+            <option [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
-                  : null" [value]="choice.value" [selected]="choiceDataElement.ChoiceNotRelevant != undefined ?
-               choiceDataElement.ChoiceNotRelevant.indexOf(choiceDataElement.currentValue) > -1
-               || choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1? false : 
-               choice.value === choiceDataElement.currentValue ? true : false
-               : choice.value === choiceDataElement.currentValue ? true : false">{{choice.label}}</option>
+                  : null" [value]="choice.value" [selected]="isSelected(choice)"
+              title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">{{choice.label}}
+            </option>
+          </ng-container>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
             specify…
           </option>
@@ -407,14 +412,14 @@
               ({{choiceDataElement.unit}})</span>
             <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                 title="{{choiceDataElement.hint}}"></span>
             </i>
           </ng-container>
+        </div>
+        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
             <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
@@ -441,7 +446,7 @@
                 src="https://image.shutterstock.com/image-photo/amazing-mountain-landscape-colorful-vivid-260nw-693715240.jpg">
             </div> -->
           </label>
-          
+
           <ng-container *ngIf="choiceDataElement.allowFreetext">
             <div class="border-top" class="radio padding-t-10px">
               <!-- <div class=""> -->

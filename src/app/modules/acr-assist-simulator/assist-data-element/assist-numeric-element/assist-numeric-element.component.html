@@ -77,11 +77,11 @@
               *
             </span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
+        </div>
+        <div class="col-lg-2 div_hint">       
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
             <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
@@ -118,11 +118,11 @@
               *
             </span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
+        </div>
+        <div class="col-lg-2 div_hint">         
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
             <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>

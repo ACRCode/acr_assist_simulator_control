@@ -116,6 +116,20 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     });
   }
 
+  isSelected(choice) {
+    const response = this.choiceDataElement.ChoiceNotRelevant != undefined ?
+      this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1
+        || this.choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? false :
+        choice.value === this.choiceDataElement.currentValue ? true : false
+      : choice.value === this.choiceDataElement.currentValue ? true : false;
+  
+    if (this.choiceDataElement.ChoiceNotRelevant != undefined &&
+      this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1) {
+      $("#" + this.choiceDataElement.id)[0].selectedIndex = -1;
+    }
+    return response;
+  }
+
   ngAfterViewInit(): void {
     this.showOrHideFreeText(this.choiceDataElement.id, '');
     if (this.choiceDataElement.currentValue !== undefined) {
@@ -156,6 +170,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
       $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
     }
+
+
+    // setting the dynamic height of listbox
+    const $this = this;
+    setTimeout(function (e) {
+      if ($this.isListBox()) {
+        const dataElementId = $this.choiceDataElement.id;
+        var x = (document.getElementById(dataElementId) as any).length;
+        var y = 20 * x + 5;
+        document.getElementById(dataElementId).style.height = y + "px";
+      }
+    }, 100);
   }
 
   isRadioButton(): boolean {
