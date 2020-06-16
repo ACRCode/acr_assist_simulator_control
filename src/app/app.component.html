@@ -35,6 +35,7 @@
           templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
           [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
           [showTabularReportText]="showTabularReportText" [hideKeyImageUpload]="hideKeyImageUpload"
+          [choiceControlStyle]="choiceControlStyle"
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'

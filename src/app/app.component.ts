@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
 import { InputData } from './modules/core/models/input-data.model';
-import { ReportTextPosition } from './modules/core/models/report-text.model';
+import { ReportTextPosition, SelectBoxOptionStyle } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
@@ -14,6 +14,7 @@ import { AIInputData } from './modules/core/models/ai-input-data.model';
 })
 export class AppComponent {
 
+  choiceControlStyle: SelectBoxOptionStyle;
   hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
   fileContent: string;
@@ -47,6 +48,7 @@ export class AppComponent {
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
+    this.choiceControlStyle = SelectBoxOptionStyle.ListBox;
   }
 
   fileSelected(fileDetails: FileDetails) {

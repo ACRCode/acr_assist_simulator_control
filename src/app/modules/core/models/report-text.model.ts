@@ -20,3 +20,9 @@ export enum ReportTextPosition {
     Top,
     Right
 }
+
+export enum SelectBoxOptionStyle{
+    ListBox,
+    SelectBox,
+    RadioButton
+}

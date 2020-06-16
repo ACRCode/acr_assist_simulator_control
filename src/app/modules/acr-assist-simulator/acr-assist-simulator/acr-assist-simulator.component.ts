@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChange
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
-import { ReportTextPosition } from '../../core/models/report-text.model';
+import { ReportTextPosition, SelectBoxOptionStyle } from '../../core/models/report-text.model';
 import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
 import { SubscriptionLike as ISubscription, Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
@@ -32,6 +32,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
   resetValuesSubscription: ISubscription;
 
+  @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;
   @Input() templateContent: string;
@@ -121,7 +122,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
 
     const context = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       context.applyInputStyles();
     }, 100);
   }
@@ -201,7 +202,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function(el) {
+    return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
     });
   }
@@ -213,7 +214,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
     const $this = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       $this.resizeKeyImages();
     }, 100);
     this.returnDefaultElements.emit();
