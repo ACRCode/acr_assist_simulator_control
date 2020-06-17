@@ -41,7 +41,7 @@
             </div>
             <div class="padding-r-10 scroll">
               <form class="form-horizontal">
-                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay"
+                <acr-assist-data-element [choiceControlStyle]="choiceControlStyle" [choiceElementDisplay]="choiceElementDisplay"
                   [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom"
                   [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [assetsBaseUrl]="assetsBaseUrl"
@@ -67,8 +67,8 @@
           </div>
           <div class="box-body">
             <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
-              <form class="form-horizontal">
-                <acr-assist-data-element [choiceElementDisplay]="choiceElementDisplay"
+              <form class="form-horizontal">                
+                <acr-assist-data-element [choiceControlStyle]="choiceControlStyle" [choiceElementDisplay]="choiceElementDisplay"
                   [alignLabelAndControlToTopAndBottom]="alignLabelAndControlToTopAndBottom"
                   [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [assetsBaseUrl]="assetsBaseUrl"

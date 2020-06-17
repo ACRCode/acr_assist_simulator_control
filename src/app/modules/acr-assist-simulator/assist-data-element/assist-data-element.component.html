@@ -10,8 +10,8 @@
         <ng-container
           *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
           <acr-assist-numeric-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-          [assetsBaseUrl]="assetsBaseUrl" [numericDataElement]='DataElement' (returnNumericElement)='numericSelected($event)'
-            (callBackAfterAIInputReset)="onAIInputReset($event)">
+            [assetsBaseUrl]="assetsBaseUrl" [numericDataElement]='DataElement'
+            (returnNumericElement)='numericSelected($event)' (callBackAfterAIInputReset)="onAIInputReset($event)">
           </acr-assist-numeric-element>
         </ng-container>
 
@@ -36,12 +36,12 @@
                             *ngIf="childElement.dataElementType == 'NumericDataElement' || childElement.dataElementType == 'IntegerDataElement'">
                             <acr-assist-numeric-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [numericDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl" 
+                              [numericDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
                               (returnNumericElement)='numericSelected($event)'
                               (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-numeric-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
-                            <acr-assist-choice-element
+                            <acr-assist-choice-element [choiceControlStyle]="choiceControlStyle"
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
                               [choiceDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
                               [repeatedElementSections]='repeatedElementSections'
@@ -56,14 +56,14 @@
                           <ng-container *ngIf="childElement.dataElementType == 'DateTimeDataElement'">
                             <acr-assist-date-time-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [assetsBaseUrl]="assetsBaseUrl"
-                              [dateTimeDataElement]='childElement'></acr-assist-date-time-element>
+                              [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='childElement'>
+                            </acr-assist-date-time-element>
                           </ng-container>
                           <ng-container *ngIf="childElement.dataElementType == 'DurationDataElement'">
                             <acr-assist-duration-element
                               [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [assetsBaseUrl]="assetsBaseUrl"
-                              [durationDataElement]='childElement'></acr-assist-duration-element>
+                              [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='childElement'>
+                            </acr-assist-duration-element>
                           </ng-container>
                         </ng-container>
                       </div>
@@ -77,24 +77,27 @@
 
         <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
           <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay"
+            [choiceControlStyle]="choiceControlStyle"
             [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement'
             [assetsBaseUrl]="assetsBaseUrl" (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
           <acr-assist-multi-choice-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-          [assetsBaseUrl]="assetsBaseUrl" [multiChoiceElement]='DataElement' (returnMultiChoice)='multiSelected($event)'>
+            [assetsBaseUrl]="assetsBaseUrl" [multiChoiceElement]='DataElement'
+            (returnMultiChoice)='multiSelected($event)'>
           </acr-assist-multi-choice-element>
         </ng-container>
 
         <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
           <acr-assist-date-time-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-          [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='DataElement' (returnDateTimeElement)='dateTimeSelected($event)'>
+            [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='DataElement'
+            (returnDateTimeElement)='dateTimeSelected($event)'>
           </acr-assist-date-time-element>
         </ng-container>
         <ng-container *ngIf="DataElement.dataElementType == 'DurationDataElement'">
           <acr-assist-duration-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-          [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element>
+            [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element>
         </ng-container>
       </div>
     </ng-container>

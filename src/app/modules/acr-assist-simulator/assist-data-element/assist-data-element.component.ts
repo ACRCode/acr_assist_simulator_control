@@ -15,6 +15,7 @@ import { MainReportText } from 'testruleengine/Library/Models/Class';
 
 import * as _ from 'lodash';
 import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
+import { SelectBoxOptionStyle } from '../../core/models/report-text.model';
 const $ = require('jquery');
 
 @Component({
@@ -36,6 +37,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   resetSourceSubscription: ISubscription;
   simulatorStateSubscription: ISubscription;
 
+  @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -115,7 +117,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
       this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       // tslint:disable-next-line: max-line-length
-      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
       if (this.showTabularReportText) {
         this.mainReportTextObj = new MainReportText();
@@ -147,7 +149,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   ngOnChanges(): void {
     this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
-    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
     this.$dataElements = [];

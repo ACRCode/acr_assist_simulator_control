@@ -8,6 +8,7 @@ import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-di
 import { UtilityService } from '../../../core/services/utility.service';
 
 import { SubscriptionLike as ISubscription } from 'rxjs';
+import { SelectBoxOptionStyle } from 'src/app/modules/core/models/report-text.model';
 
 const $ = require('jquery');
 
@@ -27,7 +28,9 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   selectedChoiceReportLabel: string;
   elementDisplay: ChoiceElementDisplayEnum;
   simulatorStateSubscription: ISubscription;
+  SelectBoxOptionStyle = SelectBoxOptionStyle;
 
+  @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() assetsBaseUrl: string;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -65,11 +68,11 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
-      if (this.choiceDataElement.choiceInfo.length <= 2) {
+      if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5) {
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
       }
     } else {
@@ -122,7 +125,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         || this.choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? false :
         choice.value === this.choiceDataElement.currentValue ? true : false
       : choice.value === this.choiceDataElement.currentValue ? true : false;
-  
+
     if (this.choiceDataElement.ChoiceNotRelevant != undefined &&
       this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1) {
       $("#" + this.choiceDataElement.id)[0].selectedIndex = -1;
@@ -163,34 +166,62 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
     this.cdr.detectChanges();
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
-      $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
+      if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+        $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
+      }
     }
 
     // tslint:disable-next-line:max-line-length
     if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
-      $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
+      if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+        $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
+      }
     }
-
 
     // setting the dynamic height of listbox
     const $this = this;
     setTimeout(function (e) {
-      if ($this.isListBox()) {
+      if ($this._isListBox()) {
         const dataElementId = $this.choiceDataElement.id;
-        var x = (document.getElementById(dataElementId) as any).length;
-        var y = 20 * x + 5;
-        document.getElementById(dataElementId).style.height = y + "px";
+        if ((document.getElementById(dataElementId) as any) !== null) {
+          var x = (document.getElementById(dataElementId) as any).length;
+          var y = 20 * x + 8;
+          document.getElementById(dataElementId).style.height = y + "px";
+        }
       }
     }, 100);
+  }
+
+  _isRadioButton(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton) {
+      return true;
+    }
+
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() && !this.isChoiceHasDiagrams(this.choiceDataElement);
   }
 
   isRadioButton(): boolean {
     return this.elementDisplay === ChoiceElementDisplayEnum.RadioButton;
   }
 
-  isListBox(): boolean {
+  _isListBox(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+      return true;
+    }
 
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isListBox() && !this.isChoiceHasDiagrams(this.choiceDataElement);
+  }
+
+  isListBox(): boolean {
     return this.elementDisplay === ChoiceElementDisplayEnum.ListBox;
+  }
+
+  _isSelectBox(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox) {
+      return true;
+    }
+
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() && !this.isChoiceHasDiagrams(this.choiceDataElement);
   }
 
   isSelectBox(): boolean {

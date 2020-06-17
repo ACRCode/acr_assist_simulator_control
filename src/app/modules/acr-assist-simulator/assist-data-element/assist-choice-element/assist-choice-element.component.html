@@ -93,7 +93,7 @@
       </ng-container>
 
 
-      <ng-container *ngIf="isListBox()">
+      <ng-container *ngIf="_isListBox()">
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6"
@@ -177,7 +177,8 @@
   <!------Top to bottom alignment------->
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && choiceDataElement.isRelevant">
     <div class="col-lg-12 text-left content-padding">
-      <ng-container *ngIf="isRadioButton() && !isChoiceHasDiagrams(choiceDataElement)">
+      <ng-container
+        *ngIf="_isRadioButton()">
         <ng-container *ngIf="choiceDataElement.imageMap == undefined">
           <div class="col-lg-10 labelparentdiv">
             <label class="control-label break-word">
@@ -287,7 +288,8 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="isListBox() && !isChoiceHasDiagrams(choiceDataElement)">
+      <ng-container
+        *ngIf="_isListBox()">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word">
             {{choiceDataElement.label}}
@@ -347,7 +349,9 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="isSelectBox() && !isChoiceHasDiagrams(choiceDataElement)">
+ 
+      <ng-container
+        *ngIf="_isSelectBox()">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word" style="text-align: left">
             {{choiceDataElement.label}}
@@ -377,7 +381,7 @@
               true :
               true)
               : true">Select one</option> -->
-          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">           
+          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
             <option [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null" [value]="choice.value" [selected]="isSelected(choice)"
