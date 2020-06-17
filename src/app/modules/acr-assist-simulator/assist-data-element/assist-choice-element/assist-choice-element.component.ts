@@ -6,9 +6,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
-
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { SelectBoxOptionStyle } from 'src/app/modules/core/models/report-text.model';
+import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
 
 const $ = require('jquery');
 

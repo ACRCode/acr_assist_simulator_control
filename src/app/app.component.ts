@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { FileDetails } from './modules/simulatorloader/shared/models/file-details.model';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
 import { InputData } from './modules/core/models/input-data.model';
-import { ReportTextPosition, SelectBoxOptionStyle } from './modules/core/models/report-text.model';
+import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
+import { SelectBoxOptionStyle } from './modules/core/models/selectbox-option-style.enum';
 
 @Component({
   selector: 'acr-app-root',

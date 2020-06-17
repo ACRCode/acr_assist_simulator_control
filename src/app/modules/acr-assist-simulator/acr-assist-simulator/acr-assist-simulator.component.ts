@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChange
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
-import { ReportTextPosition, SelectBoxOptionStyle } from '../../core/models/report-text.model';
+import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
 import { SubscriptionLike as ISubscription, Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
@@ -10,6 +10,7 @@ import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-displ
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { AIInputData } from '../../core/models/ai-input-data.model';
 import { ToastrService } from 'ngx-toastr';
+import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
 
 const $ = require('jquery');
 

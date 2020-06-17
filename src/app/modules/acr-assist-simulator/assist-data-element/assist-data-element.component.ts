@@ -15,7 +15,7 @@ import { MainReportText } from 'testruleengine/Library/Models/Class';
 
 import * as _ from 'lodash';
 import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
-import { SelectBoxOptionStyle } from '../../core/models/report-text.model';
+import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
 const $ = require('jquery');
 
 @Component({
