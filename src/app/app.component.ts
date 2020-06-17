@@ -49,7 +49,7 @@ export class AppComponent {
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
-    // this.choiceControlStyle = SelectBoxOptionStyle.ListBox;
+    // this.choiceControlStyle = SelectBoxOptionStyle.RadioButton;
   }
 
   fileSelected(fileDetails: FileDetails) {

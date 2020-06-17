@@ -3,6 +3,8 @@ import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
+import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
 
 const $ = require('jquery');
 
@@ -20,12 +22,14 @@ export class ImageMapComponent implements OnInit {
   hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
   filledDefaultColour = 'rgba(40, 179, 109, 0.52)';
   borderDefaultColour = 'rgba(0, 0, 0, 1)';
+  @Input() elementDisplay: ChoiceElementDisplayEnum;
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
   @ViewChild('modalPopup') modalPopup: ModalDirective;
   @ViewChild('image') image: ElementRef;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
+  @Input() choiceControlStyle: SelectBoxOptionStyle;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -105,6 +109,43 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
+
+  _isRadioButton(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() && !this.isChoiceHasDiagrams(this.dataElement);
+  }
+
+  isRadioButton(): boolean {
+    return this.elementDisplay === ChoiceElementDisplayEnum.RadioButton;
+  }
+
+  _isListBox(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isListBox() && !this.isChoiceHasDiagrams(this.dataElement);
+  }
+
+  isListBox(): boolean {
+    return this.elementDisplay === ChoiceElementDisplayEnum.ListBox;
+  }
+
+  _isSelectBox(): boolean {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() && !this.isChoiceHasDiagrams(this.dataElement);
+  }
+
+  isSelectBox(): boolean {
+    return this.elementDisplay === ChoiceElementDisplayEnum.SelectBox;
+  }
+
   setSelectedValue(index) {
     const imageMapAreas = this.dataElement.imageMap?.map?.areas;
     if (this.utilityService.isValidInstance(imageMapAreas)) {
@@ -174,12 +215,20 @@ export class ImageMapComponent implements OnInit {
 
       } else if (choice.value === selectedValue) {
         if (!this.isChoiceHasDiagrams(this.dataElement)) {
-          if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
-            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
-            $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
-          } else {
+          debugger;
+          // if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
+          //   $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+          //   $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          // } else {
+          //   $('#' + this.dataElement.id).val(choice.value);
+          //   $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          // }
+          if (this._isListBox() || this._isSelectBox()) {
             $('#' + this.dataElement.id).val(choice.value);
             $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          } else if (this._isRadioButton()) {
+            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+            $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
           }
         } else {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);

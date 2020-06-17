@@ -58,8 +58,7 @@
   margin-top: -20px;
 }
 
-.carousel-control.left,
-.carousel-control.right {
+.carousel-control.left, .carousel-control.right {
   background-image: none;
 }
 
@@ -72,8 +71,7 @@
   background-repeat: repeat-x;
 }
 
-.carousel-control.left,
-.carousel-control.right {
+.carousel-control.left, .carousel-control.right {
   background-image: none;
 }
 
@@ -170,9 +168,7 @@ h4.modal-title.float-left {
   border-color: #ddd;
 }
 
-.btn-zoom:hover,
-.btn-zoom:active,
-.btn-zoom.hover {
+.btn-zoom:hover, .btn-zoom:active, .btn-zoom.hover {
   background-color: #e7e7e7;
 }
 
@@ -372,8 +368,7 @@ mark {
 
 /* Add Animation - Zoom in the Modal */
 
-.modal-content,
-#caption {
+.modal-content, #caption {
   animation-name: zoom;
   animation-duration: 0.6s;
 }
@@ -382,7 +377,6 @@ mark {
   from {
     transform: scale(0)
   }
-
   to {
     transform: scale(1)
   }
@@ -400,8 +394,7 @@ mark {
   transition: 0.3s;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
@@ -492,3 +485,6 @@ mark {
   padding-left: 10px;
 }
 
+.margin-b-10 {
+  margin-bottom: 10px;
+}

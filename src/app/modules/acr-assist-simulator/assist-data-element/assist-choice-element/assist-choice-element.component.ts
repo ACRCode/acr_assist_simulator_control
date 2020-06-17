@@ -192,7 +192,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   _isRadioButton(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton) {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
@@ -204,7 +204,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   _isListBox(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
@@ -216,7 +216,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   _isSelectBox(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox) {
+    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
