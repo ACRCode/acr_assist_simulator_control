@@ -8,7 +8,7 @@ import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-di
 import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
-import { ChoiceControlStyle } from 'src/app/modules/core/models/choice-control-style.model';
+import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
 
