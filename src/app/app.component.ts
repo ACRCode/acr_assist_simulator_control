@@ -7,6 +7,7 @@ import { ResetCommunicationService } from './modules/acr-assist-simulator/shared
 import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
 import { SelectBoxOptionStyle } from './modules/core/models/selectbox-option-style.enum';
+import { ChoiceControlStyle } from './modules/core/models/choice-control-style.model';
 
 @Component({
   selector: 'acr-app-root',
@@ -14,7 +15,7 @@ import { SelectBoxOptionStyle } from './modules/core/models/selectbox-option-sty
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
+  customizeChoiceControlById: ChoiceControlStyle[];
   choiceControlStyle: SelectBoxOptionStyle;
   hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
@@ -50,6 +51,15 @@ export class AppComponent {
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
     // this.choiceControlStyle = SelectBoxOptionStyle.RadioButton;
+    // this.customizeChoiceControlById = [{
+    //   dataElementId: 'location',
+    //   ChoiceElementDisplay: SelectBoxOptionStyle.ListBox
+    // },
+    // {
+    //   dataElementId: 'menopausal_status',
+    //   ChoiceElementDisplay: SelectBoxOptionStyle.RadioButton
+    // }
+    // ];
   }
 
   fileSelected(fileDetails: FileDetails) {

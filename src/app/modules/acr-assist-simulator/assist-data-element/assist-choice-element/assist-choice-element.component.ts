@@ -8,6 +8,7 @@ import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-di
 import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
+import { ChoiceControlStyle } from 'src/app/modules/core/models/choice-control-style.model';
 
 const $ = require('jquery');
 
@@ -29,6 +30,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   simulatorStateSubscription: ISubscription;
   SelectBoxOptionStyle = SelectBoxOptionStyle;
 
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() assetsBaseUrl: string;
@@ -164,18 +166,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     }
 
     this.cdr.detectChanges();
-    if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
-      if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
-        $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
-      }
-    }
+    // if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
+    //   if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+    //     $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
+    //   }
+    // }
 
-    // tslint:disable-next-line:max-line-length
-    if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
-      if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
-        $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
-      }
-    }
+    // // tslint:disable-next-line:max-line-length
+    // if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
+    //   if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
+    //     $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
+    //   }
+    // }
 
     // setting the dynamic height of listbox
     const $this = this;
@@ -191,8 +193,32 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     }, 100);
   }
 
+  isRadioChoiceNotRelavent(choice) {
+    return this.choiceDataElement.ChoiceNotRelevant != undefined ?
+      this.choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true : false
+      : false;
+  }
+
+  needToCustomizeTheControl(): SelectBoxOptionStyle {
+    if (this.utilityService.isNotEmptyArray(this.customizeChoiceControlById)) {
+      const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.choiceDataElement.id);
+      if (this.utilityService.isValidInstance(selectedDataElementId)) {
+        return selectedDataElementId.ChoiceElementDisplay as SelectBoxOptionStyle;
+      }
+
+      return undefined;
+    }
+
+    return undefined;
+  }
+
   _isRadioButton(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+      return true;
+    }
+
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
@@ -204,7 +230,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   _isListBox(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+      return true;
+    }
+
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
@@ -216,7 +247,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   _isSelectBox(): boolean {
-    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+      return true;
+    }
+
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 

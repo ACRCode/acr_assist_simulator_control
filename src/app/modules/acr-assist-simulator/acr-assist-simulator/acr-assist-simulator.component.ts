@@ -11,6 +11,7 @@ import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { AIInputData } from '../../core/models/ai-input-data.model';
 import { ToastrService } from 'ngx-toastr';
 import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
+import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
 
@@ -33,6 +34,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
   resetValuesSubscription: ISubscription;
 
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() resetValuesNotifier: Subject<any>;

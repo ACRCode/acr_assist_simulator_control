@@ -5,6 +5,7 @@ import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
+import { ChoiceControlStyle } from 'src/app/modules/core/models/choice-control-style.model';
 
 const $ = require('jquery');
 
@@ -30,6 +31,7 @@ export class ImageMapComponent implements OnInit {
   @ViewChild('image') image: ElementRef;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
   @Input() choiceControlStyle: SelectBoxOptionStyle;
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
@@ -109,8 +111,25 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
+  needToCustomizeTheControl(): SelectBoxOptionStyle {
+    if (this.utilityService.isNotEmptyArray(this.customizeChoiceControlById)) {
+      const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.dataElement.id);
+      if (this.utilityService.isValidInstance(selectedDataElementId)) {
+        return selectedDataElementId.ChoiceElementDisplay as SelectBoxOptionStyle;
+      }
+
+      return undefined;
+    }
+
+    return undefined;
+  }
 
   _isRadioButton(): boolean {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
     if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
@@ -123,6 +142,11 @@ export class ImageMapComponent implements OnInit {
   }
 
   _isListBox(): boolean {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
     if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
@@ -135,6 +159,11 @@ export class ImageMapComponent implements OnInit {
   }
 
   _isSelectBox(): boolean {
+    const needToCustomizeTheControl = this.needToCustomizeTheControl();
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+      return true;
+    }
+
     if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }

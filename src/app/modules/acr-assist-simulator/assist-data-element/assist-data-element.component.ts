@@ -16,6 +16,7 @@ import { MainReportText } from 'testruleengine/Library/Models/Class';
 import * as _ from 'lodash';
 import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
 import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
+import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 const $ = require('jquery');
 
 @Component({
@@ -37,6 +38,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   resetSourceSubscription: ISubscription;
   simulatorStateSubscription: ISubscription;
 
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
