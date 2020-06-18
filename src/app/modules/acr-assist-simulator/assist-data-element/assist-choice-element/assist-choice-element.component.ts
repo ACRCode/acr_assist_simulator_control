@@ -69,11 +69,15 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
-      if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
+      if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+        && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+        && undefined === this.needToCustomizeTheControl()
+      ) {
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)) {
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+        && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
       }
     } else {
@@ -384,10 +388,14 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getImageDataUrl(label: string): string {
+    console.log('--AI Lab debugger -- Entering into getImageDataUrl method');
     if (this.utilityService.isNotEmptyString(label)) {
+      console.log('--AI Lab debugger -- Entering into this.utilityService.isNotEmptyString(label) condition');
       if (this.utilityService.isImageDataUrl(label)) {
+        console.log('--AI Lab debugger -- Entering into this.utilityService.isImageDataUrl(label) condition and returns label');
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        console.log('--AI Lab debugger -- Entering into this.utilityService.isValidInstance(this.assetsBaseUrl) condition and returns ${this.assetsBaseUrl}/${label}');
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
