@@ -244,7 +244,6 @@ export class ImageMapComponent implements OnInit {
 
       } else if (choice.value === selectedValue) {
         if (!this.isChoiceHasDiagrams(this.dataElement)) {
-          debugger;
           // if (this.dataElement.choiceInfo.length <= 2 && this.dataElement.choiceInfo.length > 0) {
           //   $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           //   $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);

@@ -109,8 +109,7 @@ body{
   font-family: fontAwesome;
 }
 
-.main-header .navbar-custom-menu,
-.main-header .navbar-right {
+.main-header .navbar-custom-menu, .main-header .navbar-right {
   float: right;
 }
 
@@ -141,9 +140,7 @@ body{
   padding-bottom: 10px;
 }
 
-.sidebar-menu,
-.main-sidebar .user-panel,
-.sidebar-menu>li.header {
+.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {
   white-space: nowrap;
   overflow: hidden;
 }
@@ -154,15 +151,12 @@ body{
   padding: 0;
 }
 
-.sidebar-form,
-.sidebar-menu>li.header {
+.sidebar-form, .sidebar-menu>li.header {
   overflow: hidden;
   text-overflow: clip;
 }
 
-.sidebar-menu,
-.main-sidebar .user-panel,
-.sidebar-menu>li.header {
+.sidebar-menu, .main-sidebar .user-panel, .sidebar-menu>li.header {
   white-space: nowrap;
   overflow: hidden;
 }
@@ -223,8 +217,7 @@ a:focus {
   min-height: 374px;
 }
 
-.content-wrapper,
-.main-footer {
+.content-wrapper, .main-footer {
   -webkit-transition: -webkit-transform .3s ease-in-out, margin .3s ease-in-out;
   -moz-transition: -moz-transform .3s ease-in-out, margin .3s ease-in-out;
   -o-transition: -o-transform .3s ease-in-out, margin .3s ease-in-out;
@@ -287,28 +280,14 @@ a:focus {
   border-bottom: 1px solid #f4f4f4;
 }
 
-.box-header>.fa,
-.box-header>.glyphicon,
-.box-header>.ion,
-.box-header .box-title {
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title {
   display: inline-block;
   font-size: 17px;
   margin: 0;
   line-height: 1;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -334,34 +313,21 @@ h6,
   box-shadow: none;
 }
 
-.box-header:before,
-.box-body:before,
-.box-footer:before,
-.box-header:after,
-.box-body:after,
-.box-footer:after {
+.box-header:before, .box-body:before, .box-footer:before, .box-header:after, .box-body:after, .box-footer:after {
   content: " ";
   display: table;
 }
 
-.box-header:after,
-.box-body:after,
-.box-footer:after {
+.box-header:after, .box-body:after, .box-footer:after {
   clear: both;
 }
 
-.box-header:before,
-.box-body:before,
-.box-footer:before,
-.box-header:after,
-.box-body:after,
-.box-footer:after {
+.box-header:before, .box-body:before, .box-footer:before, .box-header:after, .box-body:after, .box-footer:after {
   content: " ";
   display: table;
 }
 
-.main-header .sidebar-toggle:before,
-.main-header .sidebar-toggle {
+.main-header .sidebar-toggle:before, .main-header .sidebar-toggle {
   content: "\f0c9";
   text-decoration: none;
   color: #fff;
@@ -376,9 +342,7 @@ h6,
 }
 
 @media (min-width: 768px) {
-
-  .sidebar-collapse .content-wrapper,
-  .sidebar-collapse .main-footer {
+  .sidebar-collapse .content-wrapper, .sidebar-collapse .main-footer {
     margin-left: 0;
   }
 }
@@ -396,17 +360,13 @@ h6,
   .main-header {
     position: relative
   }
-
-  .main-header .logo,
-  .main-header .navbar {
+  .main-header .logo, .main-header .navbar {
     width: 100%;
     float: none
   }
-
   .main-header .navbar {
     margin: 0
   }
-
   .main-header .navbar-custom-menu {
     float: right
   }
@@ -437,11 +397,9 @@ h6,
   .navbar-custom-menu>.navbar-nav {
     float: right
   }
-
   .navbar-custom-menu>.navbar-nav>li {
     position: static
   }
-
   .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
     position: absolute;
     right: 5%;
@@ -455,12 +413,10 @@ h6,
   .navbar-custom-menu .navbar-nav>li {
     float: left
   }
-
   .navbar-custom-menu .navbar-nav {
     margin: 0;
     float: left
   }
-
   .navbar-custom-menu .navbar-nav>li>a {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -494,4 +450,45 @@ h6,
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  background-color: #337ab7 !important;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-indicators {
+    bottom: -54px !important;
+  }
+}
+
+.div_modal_hint_diagram .carousel-control .icon-prev {
+  font-size: 70px !important;
+}
+
+.div_modal_hint_diagram .carousel-control .icon-next {
+  font-size: 70px !important;
+}
+
+img:focus {
+  outline: none !important;
+}
+
+div:focus {
+  outline: none !important;
+}
+
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 10px;
 }

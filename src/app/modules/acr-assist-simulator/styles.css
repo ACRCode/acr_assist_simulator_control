@@ -309,10 +309,31 @@ mark {
   display: flex;
   flex-direction: row;
   float: right;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   margin: 0px 5px;
   cursor: pointer;
   margin-top: 9px;
+  position: relative;
+  text-align: center;
+  color: white;
+  font-size: 11px;
+  font-weight: 100;
+  /* background: #e2dfdf; */
+  background: black;
+}
+
+.centered {
+  position: absolute;
+  bottom: 2px;
+  right: 0px;
+}
+
+i.fa-search {
+  display: inline-block;
+  border-radius: 40px;
+  box-shadow: 0px 0px 2px #888;
+  padding: 0.5em 0.6em;
+  background-color: black;
 }
 
 /* .div_img_thumbnail img {
@@ -479,6 +500,18 @@ mark {
   overflow-x: hidden;
 }
 
+option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#tab-content2 {
+  height: calc(100vh - 100px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .div_options_withthumbnail_freetext {
   padding-top: 10px;
   /* padding-bottom: 0px; */
@@ -487,4 +520,54 @@ mark {
 
 .margin-b-10 {
   margin-bottom: 10px;
+}
+
+.reportContent {
+  font-size: 16px;
+}
+
+.span_sectionName {
+  font-size: 16px;
+}
+
+.carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  background-color: black !important;
+}
+
+img:focus {
+  outline: none !important;
+}
+
+div:focus {
+  outline: none !important;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-indicators {
+    bottom: -54px !important;
+  }
+}
+
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 10px;
+}
+
+.div_modal_hint_diagram .modal-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.div_modal_hint_diagram .carousel-control .icon-prev {
+  font-size: 70px !important;
 }

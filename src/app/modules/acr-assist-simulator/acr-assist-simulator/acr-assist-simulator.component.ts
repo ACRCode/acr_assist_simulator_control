@@ -108,11 +108,13 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
 
     if (!this.keyDiagrams.length) {
+      console.log(this.template.metadata.diagrams);
       this.template.metadata.diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;
         element.location = diag.location;
         element.keyDiagram = diag.keyDiagram;
+        element.id = diag.id;
         this.keyDiagrams.push(element);
       });
     }
@@ -242,6 +244,17 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
   gettingShowKeyDiagram(data: string) {
     this.callBackAfterGettingShowKeyDiagram.emit(data);
+    $('[id^=div_keydiagram]').each(function (e) {
+      if (data !== undefined && data !== null && data !== '') {
+        if ($(this).attr('data-keydiagramId') === data) {
+          // tslint:disable-next-line:no-shadowed-variable
+          $('[id^=div_keydiagram]').each(function (e) {
+            $(this).removeClass('active');
+          });
+          $(this).addClass('item zoom active');
+        }
+      }
+    });
   }
 
   changeListener(event): void {
@@ -330,7 +343,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
             inputValue[0].dataElementValue = values;
           } else {
             choiceElement.choiceInfo.forEach(choice => {
-
               if (inputValue[0].dataElementValue !== undefined) {
                 if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
                   inputValue[0].dataElementValue = choice.value;

@@ -170,8 +170,8 @@
       
                           </drag-scroll>
                         </div>
-                      </ng-container> -->
-                      <div id="div_keydiagram_{{i}}" attr.data-keydiagramId={{diagram.id}}
+                      </ng-container> -->                      
+                      <div id="div_keydiagram_{{i}}" [attr.data-keydiagramId]="diagram.id"
                         [ngClass]="(i === 0) ? 'item zoom active' : 'item zoom'"
                         *ngFor="let diagram of keyDiagrams; let i = index;">
                         <drag-scroll>

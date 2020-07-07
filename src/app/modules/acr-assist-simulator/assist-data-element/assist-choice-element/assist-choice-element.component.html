@@ -454,6 +454,7 @@
             <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
             <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
               <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+              <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
             </div>
             <!-- <div class="div_img_thumbnail">
               <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"

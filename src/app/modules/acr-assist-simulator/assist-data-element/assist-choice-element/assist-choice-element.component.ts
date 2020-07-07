@@ -99,7 +99,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       const _image = $(this).find('img');
       if (utility.isValidInstance(_image)) {
         const img_src = _image[0].src;
-        var tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 15px 15px 15px 15px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;>';
+        var tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 1px 1px 1px 1px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;background-color: #000000">';
         tooltip += '<div class="imageContainer"><div>';
         tooltip += '<img style="width: 250px;height: 250px;object-fit: contain;" src="' + img_src + '" />';
         tooltip += '</div>';
@@ -110,7 +110,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         }
 
         $("body").append(tooltip);
-        $('.div_img_thumbnail').css('z-index', 1000000);
+        // $('.div_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
         $('.tooltiptopicevent').fadeTo('10', 1.9);
       }
@@ -388,14 +388,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   getImageDataUrl(label: string): string {
-    console.log('--AI Lab debugger -- Entering into getImageDataUrl method');
     if (this.utilityService.isNotEmptyString(label)) {
-      console.log('--AI Lab debugger -- Entering into this.utilityService.isNotEmptyString(label) condition');
       if (this.utilityService.isImageDataUrl(label)) {
-        console.log('--AI Lab debugger -- Entering into this.utilityService.isImageDataUrl(label) condition and returns label');
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
-        console.log('--AI Lab debugger -- Entering into this.utilityService.isValidInstance(this.assetsBaseUrl) condition and returns ${this.assetsBaseUrl}/${label}');
         return `${this.assetsBaseUrl}/${label}`;
       }
     }

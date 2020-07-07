@@ -23,7 +23,7 @@
 </ng-container>
 <ng-template #reportText>
   <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
-    <dt class="text-capitalize underline" *ngIf="textReport.repeatedSectionName !== ''">
+    <dt class="text-capitalize underline span_sectionName" *ngIf="textReport.repeatedSectionName !== ''">
       {{textReport.repeatedSectionName}}</dt>
 
     <ng-container
@@ -37,7 +37,7 @@
           </span> -->
 
           <dl #reportTextContentForNonEmptySectionName>
-            <span class="text-capitalize spantest">
+            <span class="text-capitalize spantest span_sectionName">
               {{allTextResultReport.heading}}</span>
             <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
               (click)="getReportTextInnerContent(reportTextContentForNonEmptySectionName)">
@@ -46,7 +46,7 @@
               </span>
             </span>
             <dd>
-              <p class="white-space-line spantest" [innerHTML]="allTextResultReport.content"></p>
+              <p class="white-space-line spantest reportContent" [innerHTML]="allTextResultReport.content"></p>
             </dd>
           </dl>
         </ng-container>
@@ -63,7 +63,7 @@
           </span> -->
 
           <dl #reportTextContentForEmptySectionName>
-            <span class="text-capitalize font-weight-bold">
+            <span class="text-capitalize font-weight-bold span_sectionName">
               {{allTextResultReport.heading}}</span>
             <span class="btn btn-box-tool btn-report-text" title="Copy {{allTextResultReport.heading}} to clipboard"
               (click)="getReportTextInnerContent(reportTextContentForEmptySectionName)">

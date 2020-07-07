@@ -20,9 +20,9 @@ export class AppComponent {
   hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
   fileContent: string;
-  // assetsBaseUrl = 'assets/images';
-  assetsBaseUrl = '';
-  inputValues: InputData[] = [];
+  assetsBaseUrl = 'assets/images';
+  // assetsBaseUrl = '';
+  inputValues: InputData[] = [] as any;
   aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
   resetButton: boolean;
@@ -60,10 +60,38 @@ export class AppComponent {
     //   ChoiceElementDisplay: SelectBoxOptionStyle.RadioButton
     // }
     // ];
+
+    // const input = {} as any;
+    // input.dataElementId = 'age';
+    // input.dataElementValue = '56';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push(input);
+
+    // input.dataElementId = 'views';
+    // input.dataElementValue = '0';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push(input);
+
+    // input.dataElementId = 'history';
+    // input.dataElementValue = '[0,1]';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push(input);
+
+    // input.dataElementId = 'historic';
+    // input.dataElementValue = '1';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push(input);
+
+    // this.inputValues = this.inputValues.slice();
   }
 
   fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
+    // this.loadElements();
   }
 
   setAIInputs() {
@@ -72,7 +100,33 @@ export class AppComponent {
   }
 
   loadElements() {
-    this.inputValues = this.testInputValue;
+    const input = {} as any;
+    input.dataElementId = 'age';
+    input.dataElementValue = '56';
+    input.dataElementLabel = '';
+    input.dataElementDisplayValue = '';
+    this.inputValues.push({ ...input });
+
+    input.dataElementId = 'views';
+    input.dataElementValue = '0';
+    input.dataElementLabel = '';
+    input.dataElementDisplayValue = '';
+    this.inputValues.push({ ...input });
+
+    input.dataElementId = 'history';
+    input.dataElementValue = ['0','1'];
+    input.dataElementLabel = '';
+    input.dataElementDisplayValue = '';
+    this.inputValues.push({ ...input });
+
+    input.dataElementId = 'historic';
+    input.dataElementValue = '1';
+    input.dataElementLabel = '';
+    input.dataElementDisplayValue = '';
+    this.inputValues.push({ ...input });
+
+    // this.inputValues = this.inputValues.slice();
+    // this.inputValues = this.testInputValue;
   }
 
   showKeyDiagram(data: string) {
@@ -90,4 +144,8 @@ export class AppComponent {
   recieveReportText(textReport: MainReportText) { }
 
   recievedDataElementChanged(data) { }
+
+  // onresetclick() {
+  //   this.inputValues = [];
+  // }
 }
