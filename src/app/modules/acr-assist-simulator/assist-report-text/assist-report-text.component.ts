@@ -131,7 +131,6 @@ export class AssistReportTextComponent implements OnChanges {
       this.allReportTexts.push(Object.assign({}, allreportText));
     }
 
-    debugger;
     this.allReportTexts = _.orderBy(this.allReportTexts, 'allReportResult.sectionOrder', 'desc');
 
     this.mainReportTexts.allReportText = this.allReportTexts;
