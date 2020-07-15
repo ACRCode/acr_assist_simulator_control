@@ -65,15 +65,38 @@ export class AssistReportTextComponent implements OnChanges {
         }
       }
 
-      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function(v, i) {
+      const results = _.chain(this.allTextReport).groupBy('repeatedSectionName').map(function (v, i) {
         return {
           repeatedSectionName: i,
-          allTextResultReport: _.map(v, 'allTextResultReport')
+          allTextResultReport: _.map(v, 'allTextResultReport'),
+
         };
       }).value();
 
-      const sortedResult = _.orderBy(results, [result => result.repeatedSectionName], ['asc']);
-      this.allReportTextGroup = sortedResult;
+      results.forEach(result => {
+        result.allTextResultReport.forEach(y => {
+          switch (y.heading) {
+            case 'findings': y.sectionOrder = 1;
+              break;
+
+            case 'recomendation': y.sectionOrder = 2;
+              break;
+
+            case 'impression': y.sectionOrder = 3;
+              break;
+          }
+        });
+      });
+
+      // const sortedResult = _.orderBy(results, [result => result.repeatedSectionName], ['asc']);
+      // const sortedResult = _.sortBy(results, ['allTextResultReport.sectionOrder'], 'desc');
+      results.forEach(x => {
+        x.allTextResultReport = _.sortBy(x.allTextResultReport, function (_allTextResultReport) {
+          return _allTextResultReport.sectionOrder;
+        });
+      });
+
+      this.allReportTextGroup = results;
       this.selectedSectionId = 'All';
     }
 
@@ -94,8 +117,23 @@ export class AssistReportTextComponent implements OnChanges {
       allreportText.allReportResult.reportText = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
       allreportText.allReportResult.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
       allreportText.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
+      switch (allreportText.allReportResult.sectionId) {
+        case 'findings': allreportText.allReportResult.sectionOrder = 1;
+          break;
+
+        case 'recomendation': allreportText.allReportResult.sectionOrder = 2;
+          break;
+
+        case 'impression': allreportText.allReportResult.sectionOrder = 3;
+          break;
+      }
+
       this.allReportTexts.push(Object.assign({}, allreportText));
     }
+
+    debugger;
+    this.allReportTexts = _.orderBy(this.allReportTexts, 'allReportResult.sectionOrder', 'desc');
+
     this.mainReportTexts.allReportText = this.allReportTexts;
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
   }
