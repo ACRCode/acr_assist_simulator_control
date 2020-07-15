@@ -4,103 +4,107 @@
     || DataElement.dataElementType == 'IntegerDataElement' 
     || DataElement.dataElementType == 'MultiChoiceDataElement'
     || DataElement.dataElementType == 'DateTimeDataElement'
+    || DataElement.dataElementType == 'ComputedDataElement'
     || DataElement.dataElementType == 'DurationDataElement') ">
     <ng-container *ngIf="DataElement.isVisible">
       <div id="div_{{DataElement.id}}">
-        <ng-container
-          *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
-          <acr-assist-numeric-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [assetsBaseUrl]="assetsBaseUrl" [numericDataElement]='DataElement'
-            (returnNumericElement)='numericSelected($event)' (callBackAfterAIInputReset)="onAIInputReset($event)">
-          </acr-assist-numeric-element>
-        </ng-container>
+  <ng-container
+    *ngIf="DataElement.dataElementType == 'NumericDataElement' || DataElement.dataElementType == 'IntegerDataElement'">
+    <acr-assist-numeric-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+      [assetsBaseUrl]="assetsBaseUrl" [numericDataElement]='DataElement'
+      (returnNumericElement)='numericSelected($event)' (callBackAfterAIInputReset)="onAIInputReset($event)">
+    </acr-assist-numeric-element>
+  </ng-container>
 
-        <ng-container *ngIf="IsRepeating">
-          <ng-container *ngFor="let repeatedElementModel of $RepeatedElementModel">
-            <ng-container *ngFor="let repeatedElementSections of repeatedElementModel.RepeatedElementSections">
-              <ng-container *ngIf="repeatedElementModel.ParentElementId == DataElement.id">
-                <div class="panel-group" id="accordion">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse"
-                          href="#{{repeatedElementSections.SectionId}}">
-                          {{repeatedElementSections.SectionName}}
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="{{repeatedElementSections.SectionId}}" class="panel-collapse collapse in">
-                      <div class="panel-body">
-                        <ng-container *ngFor="let childElement of repeatedElementSections.ChildElements">
-                          <ng-container
-                            *ngIf="childElement.dataElementType == 'NumericDataElement' || childElement.dataElementType == 'IntegerDataElement'">
-                            <acr-assist-numeric-element
-                              [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [numericDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
-                              (returnNumericElement)='numericSelected($event)'
-                              (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-numeric-element>
-                          </ng-container>
-                          <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
-                            <acr-assist-choice-element [choiceControlStyle]="choiceControlStyle"
-                              [customizeChoiceControlById]="customizeChoiceControlById"
-                              [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [choiceDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
-                              [repeatedElementSections]='repeatedElementSections'
-                              (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
-                          </ng-container>
-                          <ng-container *ngIf="childElement.dataElementType == 'MultiChoiceDataElement'">
-                            <acr-assist-multi-choice-element
-                              [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [multiChoiceElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
-                              (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
-                          </ng-container>
-                          <ng-container *ngIf="childElement.dataElementType == 'DateTimeDataElement'">
-                            <acr-assist-date-time-element
-                              [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='childElement'>
-                            </acr-assist-date-time-element>
-                          </ng-container>
-                          <ng-container *ngIf="childElement.dataElementType == 'DurationDataElement'">
-                            <acr-assist-duration-element
-                              [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-                              [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='childElement'>
-                            </acr-assist-duration-element>
-                          </ng-container>
-                        </ng-container>
-                      </div>
-                    </div>
-                  </div>
+  <ng-container *ngIf="IsRepeating">
+    <ng-container *ngFor="let repeatedElementModel of $RepeatedElementModel">
+      <ng-container *ngFor="let repeatedElementSections of repeatedElementModel.RepeatedElementSections">
+        <ng-container *ngIf="repeatedElementModel.ParentElementId == DataElement.id">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#{{repeatedElementSections.SectionId}}">
+                    {{repeatedElementSections.SectionName}}
+                  </a>
+                </h4>
+              </div>
+              <div id="{{repeatedElementSections.SectionId}}" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <ng-container *ngFor="let childElement of repeatedElementSections.ChildElements">
+                    <ng-container
+                      *ngIf="childElement.dataElementType == 'NumericDataElement' || childElement.dataElementType == 'IntegerDataElement'">
+                      <acr-assist-numeric-element
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [numericDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
+                        (returnNumericElement)='numericSelected($event)'
+                        (callBackAfterAIInputReset)="onAIInputReset($event)"></acr-assist-numeric-element>
+                    </ng-container>
+                    <ng-container *ngIf="childElement.dataElementType == 'ChoiceDataElement'">
+                      <acr-assist-choice-element [choiceControlStyle]="choiceControlStyle"
+                        [customizeChoiceControlById]="customizeChoiceControlById"
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [choiceDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
+                        [repeatedElementSections]='repeatedElementSections'
+                        (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+                    </ng-container>
+                    <ng-container *ngIf="childElement.dataElementType == 'MultiChoiceDataElement'">
+                      <acr-assist-multi-choice-element
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [multiChoiceElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
+                        (returnMultiChoice)='multiSelected($event)'></acr-assist-multi-choice-element>
+                    </ng-container>
+                    <ng-container *ngIf="childElement.dataElementType == 'DateTimeDataElement'">
+                      <acr-assist-date-time-element
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='childElement'>
+                      </acr-assist-date-time-element>
+                    </ng-container>
+                    <ng-container *ngIf="childElement.dataElementType == 'DurationDataElement'">
+                      <acr-assist-duration-element
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='childElement'>
+                      </acr-assist-duration-element>
+                    </ng-container>
+                  </ng-container>
                 </div>
-              </ng-container>
-            </ng-container>
-          </ng-container>
+              </div>
+            </div>
+          </div>
         </ng-container>
-
-        <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
-          <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay"
-            [choiceControlStyle]="choiceControlStyle" [customizeChoiceControlById]="customizeChoiceControlById"
-            [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement'
-            [assetsBaseUrl]="assetsBaseUrl" (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
-        </ng-container>
-
-        <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
-          <acr-assist-multi-choice-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [assetsBaseUrl]="assetsBaseUrl" [multiChoiceElement]='DataElement'
-            (returnMultiChoice)='multiSelected($event)'>
-          </acr-assist-multi-choice-element>
-        </ng-container>
-
-        <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
-          <acr-assist-date-time-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='DataElement'
-            (returnDateTimeElement)='dateTimeSelected($event)'>
-          </acr-assist-date-time-element>
-        </ng-container>
-        <ng-container *ngIf="DataElement.dataElementType == 'DurationDataElement'">
-          <acr-assist-duration-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
-            [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element>
-        </ng-container>
-      </div>
+      </ng-container>
     </ng-container>
   </ng-container>
+
+  <ng-container *ngIf="DataElement.dataElementType == 'ChoiceDataElement'">
+    <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay" [choiceControlStyle]="choiceControlStyle"
+      [customizeChoiceControlById]="customizeChoiceControlById"
+      [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement'
+      [assetsBaseUrl]="assetsBaseUrl" (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+  </ng-container>
+
+  <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">
+    <acr-assist-multi-choice-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+      [assetsBaseUrl]="assetsBaseUrl" [multiChoiceElement]='DataElement' (returnMultiChoice)='multiSelected($event)'>
+    </acr-assist-multi-choice-element>
+  </ng-container>
+
+  <ng-container *ngIf="DataElement.dataElementType == 'DateTimeDataElement'">
+    <acr-assist-date-time-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+      [assetsBaseUrl]="assetsBaseUrl" [dateTimeDataElement]='DataElement'
+      (returnDateTimeElement)='dateTimeSelected($event)'>
+    </acr-assist-date-time-element>
+  </ng-container>
+  <ng-container *ngIf="DataElement.dataElementType == 'DurationDataElement'">
+    <acr-assist-duration-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+      [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element>
+  </ng-container>
+  <ng-container *ngIf="DataElement.dataElementType == 'ComputedDataElement'">
+    <!-- <acr-assist-duration-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+            [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element> -->
+    <acr-assist-computed-element [computedDataElement]='DataElement'></acr-assist-computed-element>
+  </ng-container>
+  </div>
+</ng-container>
+</ng-container>
 </ng-container>

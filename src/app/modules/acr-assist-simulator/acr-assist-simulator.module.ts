@@ -31,11 +31,12 @@ import { SimulatorCommunicationService } from './shared/services/simulator-commu
 import { ResetCommunicationService } from './shared/services/reset-communication.service';
 import { ClipboardService } from './shared/services/clipboard.service';
 import { UrlHelperService } from './shared/services/url-helper.service';
+import { AssistComputedElementComponent } from './assist-data-element/assist-computed-element/assist-computed-element.component';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
-  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent];
+  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent, AssistComputedElementComponent];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
   DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];

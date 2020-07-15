@@ -110,11 +110,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
           dataElement.isVisible = true;
         }
         // tslint:disable-next-line: max-line-length
-        if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
+
+        if (dataElement.dataElementType === 'ComputedDataElement') {
+          // dataElement.currentValue = 
           dataElement.currentValue = this.dataElementValues.get(dataElement.id);
+        } else {
+          if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
+            dataElement.currentValue = this.dataElementValues.get(dataElement.id);
+          }
+          // tslint:disable-next-line: max-line-length
+          dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
         }
-        // tslint:disable-next-line: max-line-length
-        dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
       }
 
       this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
