@@ -10,14 +10,14 @@ import { RepeatedElementSections } from '../../core/elements/models/RepeatedElem
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { TabularReport } from '../../core/models/tabular-report.model';
-import { UtilityService } from '../../core/services/utility.service';
-import { MainReportText } from 'testruleengine/Library/Models/Class';
-
-import * as _ from 'lodash';
 import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
 import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
 import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
+import { UtilityService } from '../../core/services/utility.service';
+import { MainReportText } from 'testruleengine/Library/Models/Class';
+
 const $ = require('jquery');
+import * as _ from 'lodash';
 
 @Component({
   selector: 'acr-assist-data-element',
@@ -109,17 +109,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         } else {
           dataElement.isVisible = true;
         }
-        // tslint:disable-next-line: max-line-length
 
         if (dataElement.dataElementType === 'ComputedDataElement') {
-          // dataElement.currentValue = 
           dataElement.currentValue = this.dataElementValues.get(dataElement.id);
         } else {
-          if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
+          if (this.dataElementValues.get(dataElement.id) !== undefined &&
+            dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
             dataElement.currentValue = this.dataElementValues.get(dataElement.id);
           }
-          // tslint:disable-next-line: max-line-length
-          dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
+          dataElement.currentValue = (dataElement.currentValue !== undefined) ?
+            dataElement.currentValue : this.dataElementValues.get(dataElement.id);
         }
       }
 

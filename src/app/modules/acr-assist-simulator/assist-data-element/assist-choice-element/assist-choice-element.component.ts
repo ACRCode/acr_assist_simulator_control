@@ -72,11 +72,13 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 &&
+        !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()
       ) {
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 &&
+        !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
       }
@@ -99,7 +101,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       const _image = $(this).find('img');
       if (utility.isValidInstance(_image)) {
         const img_src = _image[0].src;
-        var tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 1px 1px 1px 1px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;background-color: #000000">';
+        let tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 1px 1px 1px 1px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;background-color: #000000">';
         tooltip += '<div class="imageContainer"><div>';
         tooltip += '<img style="width: 250px;height: 250px;object-fit: contain;" src="' + img_src + '" />';
         tooltip += '</div>';
@@ -109,7 +111,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
           $('.tooltiptopicevent').remove();
         }
 
-        $("body").append(tooltip);
+        $('body').append(tooltip);
         // $('.div_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
         $('.tooltiptopicevent').fadeTo('10', 1.9);
@@ -125,15 +127,15 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   isSelected(choice) {
-    const response = this.choiceDataElement.ChoiceNotRelevant != undefined ?
+    const response = this.choiceDataElement.ChoiceNotRelevant !== undefined ?
       this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1
         || this.choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? false :
         choice.value === this.choiceDataElement.currentValue ? true : false
       : choice.value === this.choiceDataElement.currentValue ? true : false;
 
-    if (this.choiceDataElement.ChoiceNotRelevant != undefined &&
+    if (this.choiceDataElement.ChoiceNotRelevant !== undefined &&
       this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1) {
-      $("#" + this.choiceDataElement.id)[0].selectedIndex = -1;
+      $('#' + this.choiceDataElement.id)[0].selectedIndex = -1;
     }
     return response;
   }
@@ -170,35 +172,22 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     }
 
     this.cdr.detectChanges();
-    // if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5) {
-    //   if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
-    //     $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 1);
-    //   }
-    // }
-
-    // // tslint:disable-next-line:max-line-length
-    // if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 && this.choiceDataElement.allowFreetext) {
-    //   if (!this.utilityService.isValidInstance(this.choiceControlStyle) || this.choiceControlStyle === SelectBoxOptionStyle.ListBox) {
-    //     $('#' + this.choiceDataElement.id).attr('size', this.choiceDataElement.choiceInfo.length + 2);
-    //   }
-    // }
-
     // setting the dynamic height of listbox
     const $this = this;
     setTimeout(function (e) {
       if ($this._isListBox()) {
         const dataElementId = $this.choiceDataElement.id;
         if ((document.getElementById(dataElementId) as any) !== null) {
-          var x = (document.getElementById(dataElementId) as any).length;
-          var y = 20 * x + 8;
-          document.getElementById(dataElementId).style.height = y + "px";
+          const x = (document.getElementById(dataElementId) as any).length;
+          const y = 20 * x + 8;
+          document.getElementById(dataElementId).style.height = y + 'px';
         }
       }
     }, 100);
   }
 
   isRadioChoiceNotRelavent(choice) {
-    return this.choiceDataElement.ChoiceNotRelevant != undefined ?
+    return this.choiceDataElement.ChoiceNotRelevant !== undefined ?
       this.choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true : false
       : false;
   }
@@ -218,15 +207,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   _isRadioButton(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.RadioButton &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() && !this.isChoiceHasDiagrams(this.choiceDataElement);
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement);
   }
 
   isRadioButton(): boolean {
@@ -235,15 +227,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   _isListBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.ListBox &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isListBox() && !this.isChoiceHasDiagrams(this.choiceDataElement);
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isListBox() &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement);
   }
 
   isListBox(): boolean {
@@ -252,15 +247,18 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   _isSelectBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.choiceDataElement)) {
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.SelectBox &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() && !this.isChoiceHasDiagrams(this.choiceDataElement);
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() &&
+      !this.isChoiceHasDiagrams(this.choiceDataElement);
   }
 
   isSelectBox(): boolean {

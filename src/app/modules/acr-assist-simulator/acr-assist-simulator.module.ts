@@ -36,7 +36,8 @@ import { AssistComputedElementComponent } from './assist-data-element/assist-com
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
-  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent, AssistComputedElementComponent];
+  IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent,
+  AssistComputedElementComponent];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
   DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];

@@ -16,8 +16,13 @@
         <carousel [(activeSlide)]="activeSlideIndex" interval="false">
           <ng-container *ngFor="let diag of dataElement.diagrams ">
             <slide>
-              <img class="img-responsive max-w-h-100" [src]="getImageDataUrl(diag.location) | secure"
-                alt="{{ diag.label }}">
+              <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
+                <img class="img-responsive max-w-h-100" [src]="diag.location" alt="{{ diag.label }}">
+              </ng-container>
+              <ng-template #notImageUrl>
+                <img class="img-responsive max-w-h-100" [src]="getImageDataUrl(diag.location) | secure"
+                  alt="{{ diag.label }}">
+              </ng-template>
             </slide>
           </ng-container>
         </carousel>

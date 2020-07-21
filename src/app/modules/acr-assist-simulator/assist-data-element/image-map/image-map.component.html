@@ -3,8 +3,6 @@
     <button type="button" class="btn btn-default font-size-inherit" (click)="openImageMap()">
         <span aria-hidden="true" data-toggle="tooltip" data-placement="top"
         title="Image Map"><i class="fa fa-file-image-o" aria-hidden="true"></i></span>
-        <!-- <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
-            title="Image Map"></span> -->
     </button>
 </div>
 <div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog"
@@ -23,9 +21,15 @@
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
                         <div class="image-map-container">
-                            <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
-                                attr.usemap="#{{ 'image_map_' + dataElement.id }}"
-                                [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
+                            <ng-container *ngIf="isValidImageURL(dataElement.imageMap.location); else notImageUrl">
+                                <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
+                                    attr.usemap="#{{ 'image_map_' + dataElement.id }}" [src]="dataElement.imageMap.location">
+                            </ng-container>
+                            <ng-template #notImageUrl>
+                                <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
+                                    attr.usemap="#{{ 'image_map_' + dataElement.id }}"
+                                    [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
+                            </ng-template>
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
                                     (mouseover)="updateHoverOverlay(i, true)" (mouseout)="updateHoverOverlay(i, false)"

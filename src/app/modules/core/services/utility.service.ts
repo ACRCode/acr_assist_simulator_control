@@ -27,6 +27,13 @@ export class UtilityService {
     return isValid;
   }
 
+  isValidImageURL(value: string) {
+    if (typeof value !== 'string') {
+      return false;
+    }
+    return !!value.match(/^((http|https):\/\/)/) && !!value.match(/\w+\.(jpg|jpeg|gif|png|tiff|bmp)$/gi);
+  }
+
   isNotEmptyGuid(data: any) {
     const emptyGuid = '00000000-0000-0000-0000-000000000000';
     return data !== emptyGuid;

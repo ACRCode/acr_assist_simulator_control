@@ -101,6 +101,10 @@ export class ImageMapComponent implements OnInit {
     }
   }
 
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
+  }
+
   getImageDataUrl(label: string): string {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
@@ -126,7 +130,8 @@ export class ImageMapComponent implements OnInit {
 
   _isRadioButton(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton &&
+      !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
@@ -134,7 +139,8 @@ export class ImageMapComponent implements OnInit {
       return true;
     }
 
-    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() && !this.isChoiceHasDiagrams(this.dataElement);
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isRadioButton() &&
+      !this.isChoiceHasDiagrams(this.dataElement);
   }
 
   isRadioButton(): boolean {
@@ -143,7 +149,8 @@ export class ImageMapComponent implements OnInit {
 
   _isListBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox &&
+      !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
@@ -160,7 +167,8 @@ export class ImageMapComponent implements OnInit {
 
   _isSelectBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox &&
+      !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
@@ -168,7 +176,8 @@ export class ImageMapComponent implements OnInit {
       return true;
     }
 
-    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() && !this.isChoiceHasDiagrams(this.dataElement);
+    return !this.utilityService.isValidInstance(this.choiceControlStyle) && this.isSelectBox() &&
+      !this.isChoiceHasDiagrams(this.dataElement);
   }
 
   isSelectBox(): boolean {

@@ -6,7 +6,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./assist-computed-element.component.css']
 })
 export class AssistComputedElementComponent implements OnInit {
+
   @Input() computedDataElement: any;
+
   constructor() { }
 
   ngOnInit(): void {
