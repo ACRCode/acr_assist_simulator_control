@@ -170,13 +170,19 @@
       
                           </drag-scroll>
                         </div>
-                      </ng-container> -->                      
+                      </ng-container> -->
                       <div id="div_keydiagram_{{i}}" [attr.data-keydiagramId]="diagram.id"
                         [ngClass]="(i === 0) ? 'item zoom active' : 'item zoom'"
                         *ngFor="let diagram of keyDiagrams; let i = index;">
                         <drag-scroll>
-                          <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
-                            [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
+                          <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                            <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
+                              [src]="diagram.location" alt="{{diagram.label}}">
+                          </ng-container>
+                          <ng-template #notImageUrl>
+                            <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
+                              [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
+                          </ng-template>
                         </drag-scroll>
                       </div>
                     </div>
@@ -194,12 +200,8 @@
             </ng-container>
           </div>
         </li>
-
       </ul>
     </div>
-
-
-
     <!-- <div class="col-sm-6 col-md-6 col-lg-6" id="div-right-reportText">
       <div #simulatorResultsBlock>
         <ng-container *ngIf="resultText !== undefined && showReportText">
