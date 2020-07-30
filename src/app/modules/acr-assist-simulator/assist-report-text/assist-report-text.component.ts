@@ -5,6 +5,7 @@ import { TabularReport } from '../../core/models/tabular-report.model';
 import { UtilityService } from '../../core/services/utility.service';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
+import { head } from 'lodash';
 
 @Component({
   selector: 'acr-assist-report-text',
@@ -54,10 +55,13 @@ export class AssistReportTextComponent implements OnChanges {
         if (this.reportText.allReportText[section].allReportResult.reportText !== '') {
           const textReport: AllTextReport = new AllTextReport();
           textReport.allTextResultReport.heading =
-            this.reportText.allReportText[section].allReportResult.subSectionName !== undefined
-              && this.reportText.allReportText[section].allReportResult.subSectionName !== '' ?
-              this.reportText.allReportText[section].allReportResult.subSectionName
-              : this.reportText.allReportText[section].allReportResult.sectionId;
+            // this.reportText.allReportText[section].allReportResult.subSectionName !== undefined
+            //   && this.reportText.allReportText[section].allReportResult.subSectionName !== '' ?
+            //   this.reportText.allReportText[section].allReportResult.subSectionName
+            //   : this.reportText.allReportText[section].allReportResult.sectionId;
+
+            this.getHeadingBasedOnSectionId(this.reportText.allReportText[section].allReportResult.sectionId);
+          textReport.allTextResultReport.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
           // tslint:disable-next-line:max-line-length
           textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
@@ -75,14 +79,20 @@ export class AssistReportTextComponent implements OnChanges {
 
       results.forEach(result => {
         result.allTextResultReport.forEach(y => {
-          switch (y.heading) {
+          switch (y.sectionId) {
             case 'findings': y.sectionOrder = 1;
               break;
 
-            case 'recomendation': y.sectionOrder = 2;
+            case 'impressionRecommendation': y.sectionOrder = 2;
               break;
 
             case 'impression': y.sectionOrder = 3;
+              break;
+
+            case 'recommendation': y.sectionOrder = 4;
+              break;
+
+            case 'citation': y.sectionOrder = 5;
               break;
           }
         });
@@ -117,16 +127,22 @@ export class AssistReportTextComponent implements OnChanges {
       allreportText.allReportResult.reportText = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
       allreportText.allReportResult.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
       allreportText.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
-      switch (allreportText.allReportResult.sectionId) {
-        case 'findings': allreportText.allReportResult.sectionOrder = 1;
-          break;
+      // switch (allreportText.allReportResult.sectionId) {
+      //   case 'findings': allreportText.allReportResult.sectionOrder = 1;
+      //     break;
 
-        case 'recomendation': allreportText.allReportResult.sectionOrder = 2;
-          break;
+      //   case 'impressionRecommendation': allreportText.allReportResult.sectionOrder = 2;
+      //     break;
 
-        case 'impression': allreportText.allReportResult.sectionOrder = 3;
-          break;
-      }
+      //   case 'impression': allreportText.allReportResult.sectionOrder = 3;
+      //     break;
+
+      //   case 'recomendation': allreportText.allReportResult.sectionOrder = 4;
+      //     break;
+
+      //   case 'citation': allreportText.allReportResult.sectionOrder = 5;
+      //     break;
+      // }
 
       this.allReportTexts.push(Object.assign({}, allreportText));
     }
@@ -135,6 +151,28 @@ export class AssistReportTextComponent implements OnChanges {
 
     this.mainReportTexts.allReportText = this.allReportTexts;
     this.mainReportTexts.reportTextMainContent = this.reportText.reportTextMainContent;
+  }
+
+  getHeadingBasedOnSectionId(sectionId: string) {
+    let heading = '';
+    switch (sectionId) {
+      case 'findings': heading = 'Findings';
+        break;
+
+      case 'impressionRecommendation': heading = 'Impression Recommendation';
+        break;
+
+      case 'impression': heading = 'Impression';
+        break;
+
+      case 'recommendation': heading = 'Recommendation';
+        break;
+
+      case 'citation': heading = 'Citation';
+        break;
+    }
+
+    return heading;
   }
 
   getReportIdentifier(identifer: string) {

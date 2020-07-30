@@ -15,6 +15,7 @@ export class AllTextResultReport {
     heading: string;
     content: string;
     sectionOrder: number;
+    sectionId: string;
 }
 
 export enum ReportTextPosition {
