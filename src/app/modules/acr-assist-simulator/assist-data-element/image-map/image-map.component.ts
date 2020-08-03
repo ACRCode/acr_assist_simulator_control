@@ -113,6 +113,8 @@ export class ImageMapComponent implements OnInit {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
+
+    // return 'assets/images/COVID19.jpg';
   }
 
   needToCustomizeTheControl(): SelectBoxOptionStyle {
@@ -271,7 +273,7 @@ export class ImageMapComponent implements OnInit {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
         }
-        this.modalPopup.hide();
+        // this.modalPopup.hide();
       }
     }
   }
@@ -330,6 +332,7 @@ export class ImageMapComponent implements OnInit {
   }
 
   private updateSelectedOverlay(index: number, area: Area) {
+    debugger;
     const coords = area.coords.split(',');
     const shape = area.shape;
     const canvas = this.canvases.toArray()[index];
@@ -337,6 +340,10 @@ export class ImageMapComponent implements OnInit {
 
     const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
     const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
+
+    if (this.dataElement.dataElementType !== 'MultiChoiceDataElement') {
+      this.RemoveSelection();
+    }
 
     if (this.utilityService.isValidInstance(canvas)) {
       if (canvas.nativeElement.className.includes('selected')) {
@@ -351,6 +358,16 @@ export class ImageMapComponent implements OnInit {
         canvas.nativeElement.className = this.map_selector_class + ' selected';
       }
     }
+  }
+
+  RemoveSelection() {
+    this.canvases.forEach(x => {
+      if (x.nativeElement.className.includes('selected')) {
+        x.nativeElement.style.position = '';
+        x.nativeElement.style.display = 'none';
+        x.nativeElement.className = this.map_selector_class;
+      }
+    });
   }
 
   private drawStyleBasedOnShape(canvas: ElementRef, fillStyle: string, outlineStyle: string, shape: string, coords: number[]) {
