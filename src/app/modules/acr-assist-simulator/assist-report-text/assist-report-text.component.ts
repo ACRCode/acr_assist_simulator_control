@@ -79,7 +79,7 @@ export class AssistReportTextComponent implements OnChanges {
 
       results.forEach(result => {
         result.allTextResultReport.forEach(y => {
-          switch (y.sectionId) {
+          switch (y.sectionId.toLowerCase()) {
             case 'findings': y.sectionOrder = 1;
               break;
 
@@ -155,7 +155,7 @@ export class AssistReportTextComponent implements OnChanges {
 
   getHeadingBasedOnSectionId(sectionId: string) {
     let heading = '';
-    switch (sectionId) {
+    switch (sectionId.toLowerCase()) {
       case 'findings': heading = 'Findings';
         break;
 

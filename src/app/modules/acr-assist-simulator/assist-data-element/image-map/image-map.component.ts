@@ -332,7 +332,6 @@ export class ImageMapComponent implements OnInit {
   }
 
   private updateSelectedOverlay(index: number, area: Area) {
-    debugger;
     const coords = area.coords.split(',');
     const shape = area.shape;
     const canvas = this.canvases.toArray()[index];
