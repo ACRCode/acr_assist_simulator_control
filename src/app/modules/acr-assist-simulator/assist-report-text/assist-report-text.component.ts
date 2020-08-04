@@ -83,7 +83,7 @@ export class AssistReportTextComponent implements OnChanges {
             case 'findings': y.sectionOrder = 1;
               break;
 
-            case 'impressionRecommendation': y.sectionOrder = 2;
+            case 'impressionrecommendation': y.sectionOrder = 2;
               break;
 
             case 'impression': y.sectionOrder = 3;
@@ -159,7 +159,7 @@ export class AssistReportTextComponent implements OnChanges {
       case 'findings': heading = 'Findings';
         break;
 
-      case 'impressionRecommendation': heading = 'Impression Recommendation';
+      case 'impressionrecommendation': heading = 'Impression Recommendation';
         break;
 
       case 'impression': heading = 'Impression';
