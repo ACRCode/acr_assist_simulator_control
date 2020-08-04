@@ -53,6 +53,10 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     }, 200);
   }
 
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
+  }
+
   showImageZoom() {
     const utility = this.utilityService;
     $('.div_img_thumbnail').mouseover(function (e) {
