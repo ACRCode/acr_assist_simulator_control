@@ -152,7 +152,12 @@
 
             <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
             <div class="div_img_thumbnail margin-t-0p" *ngFor="let diagram of choice.diagrams">
-              <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+              <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                <img name="img_diagram" [src]="diagram.location" alt="{{ diagram.label }}">
+              </ng-container>
+              <ng-template #notImageUrl>
+                <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+              </ng-template>
             </div>
           </label>
         </div>

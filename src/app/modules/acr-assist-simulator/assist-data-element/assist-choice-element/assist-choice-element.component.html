@@ -453,13 +453,14 @@
 
             <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
             <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
-              <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+              <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                <img name="img_diagram" [src]="diagram.location">
+              </ng-container>
+              <ng-template #notImageUrl>
+                <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+              </ng-template>
               <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
             </div>
-            <!-- <div class="div_img_thumbnail">
-              <img (click)="onChoiceDiagramClick(choice, $event)" name="img_diagram"
-                src="https://image.shutterstock.com/image-photo/amazing-mountain-landscape-colorful-vivid-260nw-693715240.jpg">
-            </div> -->
           </label>
 
           <ng-container *ngIf="choiceDataElement.allowFreetext">

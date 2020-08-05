@@ -95,6 +95,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     this.showImageZoom();
   }
 
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
+  }
+
   showImageZoom() {
     const utility = this.utilityService;
     // $('.div_img_thumbnail').mouseover(function (e) {
