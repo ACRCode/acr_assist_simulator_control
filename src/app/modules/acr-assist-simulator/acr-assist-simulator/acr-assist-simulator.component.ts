@@ -22,6 +22,7 @@ const $ = require('jquery');
 })
 export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy {
 
+  @Input() hideKeyDiagramTab: boolean;
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[] = [];

@@ -38,6 +38,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   resetSourceSubscription: ISubscription;
   simulatorStateSubscription: ISubscription;
 
+  
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: SelectBoxOptionStyle;
   @Input() showTabularReportText: boolean;

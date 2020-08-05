@@ -55,13 +55,40 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   showImageZoom() {
     const utility = this.utilityService;
-    $('.div_img_thumbnail').mouseover(function (e) {
+    // $('.div_img_thumbnail').mouseover(function (e) {
+    //   const _image = $(this).find('img');
+    //   if (utility.isValidInstance(_image)) {
+    //     const img_src = _image[0].src;
+    //     let tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 15px 15px 15px 15px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;>';
+    //     tooltip += '<div class="imageContainer"><div>';
+    //     tooltip += '<img style="width: 250px;height: 250px;object-fit: cover;" src="' + img_src + '" />';
+    //     tooltip += '</div>';
+    //     tooltip += '</div></div>';
+
+    //     if ($('div').hasClass('tooltiptopicevent')) {
+    //       $('.tooltiptopicevent').remove();
+    //     }
+
+    //     $('body').append(tooltip);
+    //     $('.div_img_thumbnail').css('z-index', 1000000);
+    //     $('.tooltiptopicevent').fadeIn('500');
+    //     $('.tooltiptopicevent').fadeTo('10', 1.9);
+    //   }
+    // }).mousemove(function (e) {
+    //   $('.tooltiptopicevent').css('top', e.pageY + 10);
+    //   $('.tooltiptopicevent').css('left', e.pageX + 20);
+    // }).mouseleave(function (e) {
+    //   $('.div_img_thumbnail').css('z-index', 8);
+    //   $('.tooltiptopicevent').remove();
+    // });
+
+    $(document).on('mouseover', '.div_img_thumbnail', function (e) {
       const _image = $(this).find('img');
       if (utility.isValidInstance(_image)) {
         const img_src = _image[0].src;
-        let tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 15px 15px 15px 15px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;>';
+        let tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 1px 1px 1px 1px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;background-color: #000000">';
         tooltip += '<div class="imageContainer"><div>';
-        tooltip += '<img style="width: 250px;height: 250px;object-fit: cover;" src="' + img_src + '" />';
+        tooltip += '<img style="width: 250px;height: 250px;object-fit: contain;" src="' + img_src + '" />';
         tooltip += '</div>';
         tooltip += '</div></div>';
 
@@ -70,14 +97,20 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         }
 
         $('body').append(tooltip);
-        $('.div_img_thumbnail').css('z-index', 1000000);
+        // $('.div_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
         $('.tooltiptopicevent').fadeTo('10', 1.9);
       }
-    }).mousemove(function (e) {
+    });
+    $(document).on('mousemove', '.div_img_thumbnail', function (e) {
+      // .mousemove(function (e) {
       $('.tooltiptopicevent').css('top', e.pageY + 10);
-      $('.tooltiptopicevent').css('left', e.pageX + 20);
-    }).mouseleave(function (e) {
+      $('.tooltiptopicevent').css('left', e.pageX + -300);
+      // $('.tooltiptopicevent').css('right', e.pageX);
+    });
+
+    $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
+      // .mouseleave(function (e) {
       $('.div_img_thumbnail').css('z-index', 8);
       $('.tooltiptopicevent').remove();
     });

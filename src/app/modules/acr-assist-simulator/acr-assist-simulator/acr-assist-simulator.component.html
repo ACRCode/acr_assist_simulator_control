@@ -126,7 +126,7 @@
           </div>
         </li>
 
-        <li class="tab">
+        <li class="tab" *ngIf="!hideKeyDiagramTab"> 
           <input type="radio" name="tabs" id="tab2_keyimage" />
           <label for="tab2_keyimage">Key Image</label>
           <div id="tab-content2" class="content">

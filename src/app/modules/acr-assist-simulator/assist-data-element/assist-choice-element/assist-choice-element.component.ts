@@ -97,7 +97,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   showImageZoom() {
     const utility = this.utilityService;
-    $('.div_img_thumbnail').mouseover(function (e) {
+    // $('.div_img_thumbnail').mouseover(function (e) {
+    $(document).on('mouseover', '.div_img_thumbnail', function (e) {
       const _image = $(this).find('img');
       if (utility.isValidInstance(_image)) {
         const img_src = _image[0].src;
@@ -116,11 +117,16 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         $('.tooltiptopicevent').fadeIn('500');
         $('.tooltiptopicevent').fadeTo('10', 1.9);
       }
-    }).mousemove(function (e) {
+    });
+    $(document).on('mousemove', '.div_img_thumbnail', function (e) {
+      // .mousemove(function (e) {
       $('.tooltiptopicevent').css('top', e.pageY + 10);
       $('.tooltiptopicevent').css('left', e.pageX + -300);
       // $('.tooltiptopicevent').css('right', e.pageX);
-    }).mouseleave(function (e) {
+    });
+
+    $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
+      // .mouseleave(function (e) {
       $('.div_img_thumbnail').css('z-index', 8);
       $('.tooltiptopicevent').remove();
     });
