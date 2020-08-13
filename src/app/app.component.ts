@@ -6,8 +6,8 @@ import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { ResetCommunicationService } from './modules/acr-assist-simulator/shared/services/reset-communication.service';
 import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
-import { SelectBoxOptionStyle } from './modules/core/models/selectbox-option-style.enum';
 import { ChoiceControlStyle } from './modules/core/models/choice-control-style.model';
+import { ChoiceElementDisplayEnum } from './modules/core/models/choice-element-display.enum';
 
 @Component({
   selector: 'acr-app-root',
@@ -16,7 +16,7 @@ import { ChoiceControlStyle } from './modules/core/models/choice-control-style.m
 })
 export class AppComponent {
   customizeChoiceControlById: ChoiceControlStyle[];
-  choiceControlStyle: SelectBoxOptionStyle;
+  choiceControlStyle: ChoiceElementDisplayEnum;
   hideKeyImageUpload: boolean;
   settingsConfig: SettingsService;
   fileContent: string;
@@ -50,14 +50,14 @@ export class AppComponent {
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
-    // this.choiceControlStyle = SelectBoxOptionStyle.RadioButton;
+    // this.choiceControlStyle = ChoiceElementDisplayEnum.SelectBox;
     // this.customizeChoiceControlById = [{
     //   dataElementId: 'location',
-    //   ChoiceElementDisplay: SelectBoxOptionStyle.ListBox
+    //   ChoiceElementDisplay: ChoiceElementDisplayEnum.ListBox
     // },
     // {
     //   dataElementId: 'menopausal_status',
-    //   ChoiceElementDisplay: SelectBoxOptionStyle.RadioButton
+    //   ChoiceElementDisplay: ChoiceElementDisplayEnum.SelectBox
     // }
     // ];
 

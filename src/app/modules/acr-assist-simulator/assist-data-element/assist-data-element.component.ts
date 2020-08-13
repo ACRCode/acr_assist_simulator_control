@@ -11,7 +11,6 @@ import { ResetCommunicationService } from '../shared/services/reset-communicatio
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { TabularReport } from '../../core/models/tabular-report.model';
 import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
-import { SelectBoxOptionStyle } from '../../core/models/selectbox-option-style.enum';
 import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 import { UtilityService } from '../../core/services/utility.service';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
@@ -40,7 +39,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
   
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
-  @Input() choiceControlStyle: SelectBoxOptionStyle;
+  @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;

@@ -4,7 +4,6 @@ import { SimulatorEngineService } from '../../../core/services/simulator-engine.
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
-import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
@@ -30,7 +29,7 @@ export class ImageMapComponent implements OnInit {
   @ViewChild('modalPopup') modalPopup: ModalDirective;
   @ViewChild('image') image: ElementRef;
   @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
-  @Input() choiceControlStyle: SelectBoxOptionStyle;
+  @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
 
   constructor(
@@ -117,11 +116,11 @@ export class ImageMapComponent implements OnInit {
     // return 'assets/images/COVID19.jpg';
   }
 
-  needToCustomizeTheControl(): SelectBoxOptionStyle {
+  needToCustomizeTheControl(): ChoiceElementDisplayEnum {
     if (this.utilityService.isNotEmptyArray(this.customizeChoiceControlById)) {
       const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.dataElement.id);
       if (this.utilityService.isValidInstance(selectedDataElementId)) {
-        return selectedDataElementId.ChoiceElementDisplay as SelectBoxOptionStyle;
+        return selectedDataElementId.ChoiceElementDisplay as ChoiceElementDisplayEnum;
       }
 
       return undefined;
@@ -132,12 +131,12 @@ export class ImageMapComponent implements OnInit {
 
   _isRadioButton(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.RadioButton &&
       !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
-    if (this.choiceControlStyle === SelectBoxOptionStyle.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (this.choiceControlStyle === ChoiceElementDisplayEnum.RadioButton && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
@@ -151,12 +150,12 @@ export class ImageMapComponent implements OnInit {
 
   _isListBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.ListBox &&
       !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
-    if (this.choiceControlStyle === SelectBoxOptionStyle.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (this.choiceControlStyle === ChoiceElementDisplayEnum.ListBox && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
@@ -169,12 +168,12 @@ export class ImageMapComponent implements OnInit {
 
   _isSelectBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.SelectBox &&
       !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 
-    if (this.choiceControlStyle === SelectBoxOptionStyle.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
+    if (this.choiceControlStyle === ChoiceElementDisplayEnum.SelectBox && !this.isChoiceHasDiagrams(this.dataElement)) {
       return true;
     }
 

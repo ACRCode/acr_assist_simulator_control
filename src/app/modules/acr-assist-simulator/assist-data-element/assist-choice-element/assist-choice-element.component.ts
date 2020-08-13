@@ -7,7 +7,6 @@ import { RepeatedElementSections } from '../../../core/elements/models/RepeatedE
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-import { SelectBoxOptionStyle } from '../../../core/models/selectbox-option-style.enum';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
@@ -28,10 +27,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   selectedChoiceReportLabel: string;
   elementDisplay: ChoiceElementDisplayEnum;
   simulatorStateSubscription: ISubscription;
-  SelectBoxOptionStyle = SelectBoxOptionStyle;
+  SelectBoxOptionStyle = ChoiceElementDisplayEnum;
 
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
-  @Input() choiceControlStyle: SelectBoxOptionStyle;
+  @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() assetsBaseUrl: string;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -67,22 +66,28 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       });
     }
 
+    console.log('--entered assist-choioce-element ngOninit Method');
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
+      console.log('--entered !this.utilityService.isValidInstance(this.choiceElementDisplay) condition');
       if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
+        console.log('--setting element dispaly as radio button');
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()
       ) {
+        console.log('--setting element dispaly as ListBox');
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
+          console.log('--setting element dispaly as selectbox');
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
       }
     } else {
+      console.log('failed !this.utilityService.isValidInstance(this.choiceElementDisplay) condition');
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
 
@@ -202,27 +207,32 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       : false;
   }
 
-  needToCustomizeTheControl(): SelectBoxOptionStyle {
+  needToCustomizeTheControl(): ChoiceElementDisplayEnum {
+    console.log('entered needToCustomizeTheControl method');
     if (this.utilityService.isNotEmptyArray(this.customizeChoiceControlById)) {
+      console.log('entered this.utilityService.isNotEmptyArray(this.customizeChoiceControlById) condition');
       const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.choiceDataElement.id);
       if (this.utilityService.isValidInstance(selectedDataElementId)) {
-        return selectedDataElementId.ChoiceElementDisplay as SelectBoxOptionStyle;
+        console.log('entered this.utilityService.isValidInstance(selectedDataElementId) condition');
+        return selectedDataElementId.ChoiceElementDisplay as ChoiceElementDisplayEnum;
       }
 
+      console.log('failed this.utilityService.isValidInstance(selectedDataElementId) condition');
       return undefined;
     }
 
+    console.log('failed this.utilityService.isNotEmptyArray(this.customizeChoiceControlById) condition');
     return undefined;
   }
 
   _isRadioButton(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.RadioButton &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.RadioButton &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.RadioButton &&
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === ChoiceElementDisplayEnum.RadioButton &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
@@ -237,12 +247,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   _isListBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.ListBox &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.ListBox &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.ListBox &&
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === ChoiceElementDisplayEnum.ListBox &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
@@ -257,12 +267,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   _isSelectBox(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();
-    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === SelectBoxOptionStyle.SelectBox &&
+    if (undefined !== needToCustomizeTheControl && needToCustomizeTheControl === ChoiceElementDisplayEnum.SelectBox &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
 
-    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === SelectBoxOptionStyle.SelectBox &&
+    if (needToCustomizeTheControl === undefined && this.choiceControlStyle === ChoiceElementDisplayEnum.SelectBox &&
       !this.isChoiceHasDiagrams(this.choiceDataElement)) {
       return true;
     }
