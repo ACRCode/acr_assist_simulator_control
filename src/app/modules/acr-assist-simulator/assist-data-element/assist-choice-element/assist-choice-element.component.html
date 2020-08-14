@@ -440,7 +440,7 @@
         </div>
 
         <!-- [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
-        <div class="div_options_withthumbnail_parent">
+        <div class="div_options_withthumbnail_parent" style="display: inline-block;">
           <label *ngFor="let choice of choiceDataElement.choiceInfo; let i = index" class="div_options_withthumbnail">
             <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
               style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"

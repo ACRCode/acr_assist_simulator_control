@@ -73,7 +73,7 @@
           <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
         </ng-container>
       </div>
-      <div class="col-lg-2 div_hint">       
+      <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
@@ -130,7 +130,7 @@
           <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
         </ng-container>
       </div>
-      <div class="col-lg-2 div_hint">       
+      <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
@@ -140,15 +140,19 @@
 
       <div class="div_options_withthumbnail_parent">
         <div *ngFor="let choice of multiChoiceElement.choiceInfo; let i = index"
-          class="checkbox checkboxCustomized div_options_withthumbnail padding-t-10px" title="{{choice.hint}}">
-          <label class="option_label_withthumbnail width-98p" [hidden]="isMultiChoiceLabelHidden(choice.value)">
+          class="checkbox checkboxCustomized div_options_withthumbnail padding-t-10px"
+          style="display: grid;"
+          title="{{choice.hint}}">
+          <label class="option_label_withthumbnail_mutliselect width-98p"
+            [hidden]="isMultiChoiceLabelHidden(choice.value)">
             <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
               id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
               value="{{choice.value}}"
               (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
             <!-- {{choice.label}} -->
 
-            <label for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
+            <label class="option_label_withthumbnail_mutliselect_label_text" title="{{choice.label}}"
+              for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
 
             <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
             <div class="div_img_thumbnail margin-t-0p" *ngFor="let diagram of choice.diagrams">

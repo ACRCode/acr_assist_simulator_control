@@ -442,6 +442,7 @@ i.fa-search {
   padding-bottom: 10px;
   padding-left: 10px;
   margin-bottom: 10px;
+  width: 100%;
   /* padding-top: 10px; */
   /* text-align: center; */
 }
@@ -482,6 +483,31 @@ i.fa-search {
   position: relative;
   bottom: 4px;
   left: 10px;
+  display: inline-block;
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+.option_label_withthumbnail_mutliselect {
+  position: relative;
+  bottom: 4px;
+  left: 10px;
+}
+
+.option_label_withthumbnail_mutliselect_label_text {
+  display: inline-block;
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+.checkbox label, .radio label {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
 .option_label_withthumbnail_freetext {
