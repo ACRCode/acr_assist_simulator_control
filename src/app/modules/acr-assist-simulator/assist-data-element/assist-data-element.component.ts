@@ -37,7 +37,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   resetSourceSubscription: ISubscription;
   simulatorStateSubscription: ISubscription;
 
-  
+
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() showTabularReportText: boolean;
@@ -126,18 +126,64 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       // tslint:disable-next-line: max-line-length
       this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
+      // this.dataElements.forEach(x => {
+      //   if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+      //     || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
+      //     x.showValidation = true;
+      //     isRequiredFieldIsNotFilled = true;
+      //   } else {
+      //     x.showValidation = false;
+      //   }
+      // })
+
+      // console.log(this.dataElements);
+
       if (this.showTabularReportText) {
         this.mainReportTextObj = new MainReportText();
         this.mainReportTextObj.tabularReport = this.createTabularReport();
         if (this.utilityService.isValidInstance(this.mainReportTextObj.tabularReport) &&
           this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
+
+          let isRequiredFieldIsNotFilled = false;
+          this.dataElements.forEach(x => {
+            if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+              || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
+              x.showValidation = true;
+              isRequiredFieldIsNotFilled = true;
+            } else {
+              x.showValidation = false;
+            }
+          });
+
+          this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
           this.returnReportText.emit(this.mainReportTextObj);
         } else {
+
+          let isRequiredFieldIsNotFilled = false;
+          this.dataElements.forEach(x => {
+            x.showValidation = false;
+          });
+
           this.returnReportText.emit(undefined);
         }
       } else if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
+        let isRequiredFieldIsNotFilled = false;
+        this.dataElements.forEach(x => {
+          if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+            || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
+            x.showValidation = true;
+            isRequiredFieldIsNotFilled = true;
+          } else {
+            x.showValidation = false;
+          }
+        });
+        this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
         this.returnReportText.emit(this.mainReportTextObj);
       } else {
+        let isRequiredFieldIsNotFilled = false;
+        this.dataElements.forEach(x => {
+          x.showValidation = false;
+        });
         this.returnReportText.emit(undefined);
       }
 

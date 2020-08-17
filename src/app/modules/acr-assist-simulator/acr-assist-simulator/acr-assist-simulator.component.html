@@ -87,7 +87,42 @@
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <ul class="tabs col-sm-12 col-md-12 col-lg-12">
+      <ng-container *ngIf="hideKeyDiagramTab">
+        <div #simulatorResultsBlock>
+          <ng-container *ngIf="resultText !== undefined && showReportText">
+            <div class="box box-primary">
+              <div class="box-header with-border min-height-40px">
+                <span class="box-title">Report Text</span>
+                <div class="box-tools pull-right">
+                  <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+                  [clipboard]="reportTextContentForRight.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
+                  (clipboardError)="clipboardError($event)" acrClipboard>
+                  <i class="fa fa-clipboard"></i>
+                </span> -->
+                  <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+                    (click)="getReportTextInnerContent(reportTextContentForRight)">
+                    <span>
+                      <i class="fa fa-clipboard"></i>
+                    </span>
+                  </span>
+                  <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
+                    <i id="icon_reporttext" class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div id="body_reporttext" class="box-body report-text">
+                <dl #reportTextContentForRight>
+                  <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                </dl>
+              </div>
+            </div>
+            {{ resizeKeyImages() }}
+          </ng-container>
+        </div>
+      </ng-container>
+
+
+      <ul class="tabs col-sm-12 col-md-12 col-lg-12" *ngIf="!hideKeyDiagramTab">
         <li class="tab">
           <input type="radio" name="tabs" checked="checked" id="tab1_reportText" />
           <label for="tab1_reportText">Report Text</label>
@@ -126,7 +161,7 @@
           </div>
         </li>
 
-        <li class="tab" *ngIf="!hideKeyDiagramTab"> 
+        <li class="tab" *ngIf="!hideKeyDiagramTab">
           <input type="radio" name="tabs" id="tab2_keyimage" />
           <label for="tab2_keyimage">Key Image</label>
           <div id="tab-content2" class="content">

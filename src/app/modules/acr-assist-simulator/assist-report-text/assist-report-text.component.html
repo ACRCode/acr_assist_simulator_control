@@ -1,3 +1,5 @@
+<span *ngIf="isRequiredFieldIsNotFilled">Report text may not complete if all the mandatory fields are filled</span>
+
 <ng-container *ngIf="tabularReport; else reportText">
   <ng-container *ngIf="tabularReport.elements.length">
     <h5>

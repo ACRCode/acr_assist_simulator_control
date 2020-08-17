@@ -23,7 +23,7 @@ export class AssistReportTextComponent implements OnChanges {
   allTextReport: AllTextReport[];
   tabularReport: TabularReport;
   sections: string[] = [];
-
+  isRequiredFieldIsNotFilled: boolean;
   @Input() reportText: MainReportText;
 
   constructor(
@@ -38,9 +38,11 @@ export class AssistReportTextComponent implements OnChanges {
   }
 
   onSelect(sectionId) {
+    debugger;
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
+    this.isRequiredFieldIsNotFilled = this.reportText.isRequiredFieldIsNotFilled;
     this.tabularReport = this.reportText.tabularReport;
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.reportText !== '') {

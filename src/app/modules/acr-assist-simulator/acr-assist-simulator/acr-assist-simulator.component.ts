@@ -108,7 +108,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
 
     if (!this.keyDiagrams.length) {
-      console.log(this.template.metadata.diagrams);
+      // console.log(this.template.metadata.diagrams);
       this.template.metadata.diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;

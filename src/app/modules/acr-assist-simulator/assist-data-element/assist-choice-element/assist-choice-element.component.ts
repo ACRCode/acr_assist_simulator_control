@@ -66,28 +66,22 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       });
     }
 
-    console.log('--entered assist-choioce-element ngOninit Method');
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
-      console.log('--entered !this.utilityService.isValidInstance(this.choiceElementDisplay) condition');
       if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
-        console.log('--setting element dispaly as radio button');
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()
       ) {
-        console.log('--setting element dispaly as ListBox');
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
       } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
-        console.log('--setting element dispaly as selectbox');
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
       }
     } else {
-      console.log('failed !this.utilityService.isValidInstance(this.choiceElementDisplay) condition');
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
 
@@ -98,7 +92,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     });
 
     this.showImageZoom();
-    this.logCustomizationDetails();
+    // this.logCustomizationDetails();
   }
 
   isValidImageURL(location: string) {
@@ -200,7 +194,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         }
       }
     }, 100);
-    this.logCustomizationDetails();
+    // this.logCustomizationDetails();
   }
 
   isRadioChoiceNotRelavent(choice) {
@@ -220,65 +214,65 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     return undefined;
   }
 
-  logCustomizationDetails() {
-    try {
-      if (this.choiceControlStyle) {
-        console.log(`choice control style is set as ${this.choiceControlStyle}`);
-      } else {
-        console.log(`choice control style is not set`);
-      }
+  // logCustomizationDetails() {
+  //   try {
+  //     if (this.choiceControlStyle) {
+  //       console.log(`choice control style is set as ${this.choiceControlStyle}`);
+  //     } else {
+  //       console.log(`choice control style is not set`);
+  //     }
 
-      if (this.customizeChoiceControlById) {
-        console.log('customize choice control by id set set as');
-        console.log(this.customizeChoiceControlById);
-      } else {
-        console.log('customize choice control by id is not set');
-      }
+  //     if (this.customizeChoiceControlById) {
+  //       console.log('customize choice control by id set set as');
+  //       console.log(this.customizeChoiceControlById);
+  //     } else {
+  //       console.log('customize choice control by id is not set');
+  //     }
 
-      if (this.choiceDataElement) {
-        console.log('choice data element is set as');
-        console.log(this.choiceDataElement);
-        const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.choiceDataElement.id);
-        if (this.utilityService.isValidInstance(selectedDataElementId)) {
-          console.log('customizeChoiceControlById has matching entry as choiceDataElement as');
-          console.log(selectedDataElementId);
-        }
-        else {
-          console.log('customizeChoiceControlById doesnot have matching entry as choiceDataElement');
-        }
-      }
-      else {
-        console.log('choice data element is not set.');
-      }
+  //     if (this.choiceDataElement) {
+  //       console.log('choice data element is set as');
+  //       console.log(this.choiceDataElement);
+  //       const selectedDataElementId = this.customizeChoiceControlById.find(x => x.dataElementId === this.choiceDataElement.id);
+  //       if (this.utilityService.isValidInstance(selectedDataElementId)) {
+  //         console.log('customizeChoiceControlById has matching entry as choiceDataElement as');
+  //         console.log(selectedDataElementId);
+  //       }
+  //       else {
+  //         console.log('customizeChoiceControlById doesnot have matching entry as choiceDataElement');
+  //       }
+  //     }
+  //     else {
+  //       console.log('choice data element is not set.');
+  //     }
 
-      const needtoCustomize = this.needToCustomizeTheControl();
-      if (needtoCustomize) {
-        console.log(`need to customize as ${needtoCustomize}`);
-      } else {
-        console.log('no need to customize');
-      }
+  //     const needtoCustomize = this.needToCustomizeTheControl();
+  //     if (needtoCustomize) {
+  //       console.log(`need to customize as ${needtoCustomize}`);
+  //     } else {
+  //       console.log('no need to customize');
+  //     }
 
-      const hasDaigrams = this.isChoiceHasDiagrams(this.choiceDataElement);
-      if (hasDaigrams) {
-        console.log('data element has diagrams')
-      } else {
-        console.log('data element does not have diagrams');
-      }
+  //     const hasDaigrams = this.isChoiceHasDiagrams(this.choiceDataElement);
+  //     if (hasDaigrams) {
+  //       console.log('data element has diagrams')
+  //     } else {
+  //       console.log('data element does not have diagrams');
+  //     }
 
-      const radio = this._isRadioButton();
-      console.log(`Is Radio: ${radio}`);
+  //     const radio = this._isRadioButton();
+  //     console.log(`Is Radio: ${radio}`);
 
-      const listbox = this._isListBox();
-      console.log(`Is Listbox ${listbox}`);
+  //     const listbox = this._isListBox();
+  //     console.log(`Is Listbox ${listbox}`);
 
-      const selectbox = this._isSelectBox();
-      console.log(`Is Select box ${selectbox}`);
+  //     const selectbox = this._isSelectBox();
+  //     console.log(`Is Select box ${selectbox}`);
 
-      console.log(`Element display: ${this.elementDisplay}`);
-    } catch (e) {
-      console.log('error on logging customization details.');
-    }
-  }
+  //     console.log(`Element display: ${this.elementDisplay}`);
+  //   } catch (e) {
+  //     console.log('error on logging customization details.');
+  //   }
+  // }
 
   _isRadioButton(): boolean {
     const needToCustomizeTheControl = this.needToCustomizeTheControl();

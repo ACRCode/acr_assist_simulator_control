@@ -475,7 +475,6 @@ export class ImageMapComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log(event.target.innerWidth);
     this.initializeSelectedOverlayData();
   }
 }

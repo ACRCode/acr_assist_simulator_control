@@ -597,3 +597,7 @@ div:focus {
 .div_modal_hint_diagram .carousel-control .icon-prev {
   font-size: 70px !important;
 }
+
+.show-error {
+  border-color: red !important;
+}
