@@ -144,18 +144,18 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         if (this.utilityService.isValidInstance(this.mainReportTextObj.tabularReport) &&
           this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
 
-          // let isRequiredFieldIsNotFilled = false;
-          // this.dataElements.forEach(x => {
-          //   if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
-          //     || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
-          //     x.showValidation = true;
-          //     isRequiredFieldIsNotFilled = true;
-          //   } else {
-          //     x.showValidation = false;
-          //   }
-          // });
+          let isRequiredFieldIsNotFilled = false;
+          this.dataElements.forEach(x => {
+            if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+              || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
+              x.showValidation = true;
+              isRequiredFieldIsNotFilled = true;
+            } else {
+              x.showValidation = false;
+            }
+          });
 
-          // this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
+          this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
           this.returnReportText.emit(this.mainReportTextObj);
         } else {
 
@@ -167,17 +167,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
           this.returnReportText.emit(undefined);
         }
       } else if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
-        // let isRequiredFieldIsNotFilled = false;
-        // this.dataElements.forEach(x => {
-        //   if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
-        //     || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
-        //     x.showValidation = true;
-        //     isRequiredFieldIsNotFilled = true;
-        //   } else {
-        //     x.showValidation = false;
-        //   }
-        // });
-        // this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
+        let isRequiredFieldIsNotFilled = false;
+        this.dataElements.forEach(x => {
+          if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+            || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
+            x.showValidation = true;
+            isRequiredFieldIsNotFilled = true;
+          } else {
+            x.showValidation = false;
+          }
+        });
+        this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
         this.returnReportText.emit(this.mainReportTextObj);
       } else {
         let isRequiredFieldIsNotFilled = false;

@@ -440,7 +440,7 @@ i.fa-search {
 .div_options_withthumbnail {
   /* border-bottom: 1px solid #ccc; */
   padding-bottom: 10px;
-  padding-left: 10px;
+  padding-left: 3px;
   margin-bottom: 10px;
   width: 100%;
   /* padding-top: 10px; */
@@ -600,4 +600,32 @@ div:focus {
 
 .show-error {
   border-color: red !important;
+}
+
+.show-error_radio {
+  border: 1px solid #ccc;
+  border-color: red !important;
+}
+
+.div_mutlitselect_parent {
+  padding-left: 10px;
+  border: 1px solid #d2d6de;
+  /* display: block; */
+  /* margin: 0px; */
+  padding: 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+.radio-custom+.radio-custom-label:before {
+  content: '';
+  border: 2px solid red;
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  margin-right: 10px;
+  text-align: center;
+  border-radius: 50%;
 }

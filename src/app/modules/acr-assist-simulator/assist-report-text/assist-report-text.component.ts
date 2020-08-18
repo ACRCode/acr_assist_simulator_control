@@ -38,7 +38,6 @@ export class AssistReportTextComponent implements OnChanges {
   }
 
   onSelect(sectionId) {
-    debugger;
     this.selectedSectionId = sectionId;
     this.sections = [];
     this.selectedSection = null;
