@@ -146,7 +146,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
           let isRequiredFieldIsNotFilled = false;
           this.dataElements.forEach(x => {
-            if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+            if (x.isVisible && x.isRequired && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
               || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
               x.showValidation = true;
               isRequiredFieldIsNotFilled = true;
@@ -169,7 +169,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       } else if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
         let isRequiredFieldIsNotFilled = false;
         this.dataElements.forEach(x => {
-          if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+          if (x.isVisible && x.isRequired && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
             || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
             x.showValidation = true;
             isRequiredFieldIsNotFilled = true;
