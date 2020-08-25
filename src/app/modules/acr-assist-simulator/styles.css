@@ -630,3 +630,8 @@ div:focus {
   text-align: center;
   border-radius: 50%;
 }
+
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
