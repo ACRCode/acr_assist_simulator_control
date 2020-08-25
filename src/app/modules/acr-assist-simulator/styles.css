@@ -320,6 +320,7 @@ mark {
   font-weight: 100;
   /* background: #e2dfdf; */
   background: black;
+  margin-bottom: 5px !important;
 }
 
 .centered {
