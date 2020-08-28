@@ -485,7 +485,8 @@ i.fa-search {
   bottom: 4px;
   left: 10px;
   display: inline-block;
-  width: 50%;
+  /* width: 50%; */
+  width: 330px;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
@@ -495,11 +496,12 @@ i.fa-search {
   position: relative;
   bottom: 4px;
   left: 10px;
+  width: 330px;
 }
 
 .option_label_withthumbnail_mutliselect_label_text {
   display: inline-block;
-  width: 50%;
+  /* width: 50%; */
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;

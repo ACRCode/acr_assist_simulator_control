@@ -365,7 +365,7 @@
         </ng-container>
       </ng-container>
 
-      
+
       <ng-container *ngIf="_isSelectBox()">
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word" style="text-align: left">
@@ -445,72 +445,81 @@
           </ng-container>
         </div>
 
-
         <!-- [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
         <div class="div_options_withthumbnail_parent" style="display: inline-block;">
-          <label *ngFor="let choice of choiceDataElement.choiceInfo; let i = index" class="div_options_withthumbnail"
-            [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">          
+            <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
+            (choiceDataElement.ChoiceNotRelevant !== undefined && 
+            choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) !== 0))">
+              <div class="col-lg-12 div_options_withthumbnail" *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
+              (choiceDataElement.ChoiceNotRelevant !== undefined && 
+              choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) !== 0))">
+                <label for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
-            <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-              style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-              formControlName="checkBox" value="{{choice.value}}"
-              (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
-              [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
+                  <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                    style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
+                    formControlName="checkBox" value="{{choice.value}}"
+                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
+                    [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
 
-            <label class="margin-t-3p option_label_withthumbnail"
-              for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+                  <label class="margin-t-3p option_label_withthumbnail"
+                    for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+                </label>
 
-            <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
-            <ng-container
-              *ngIf="choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
-              <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
-                <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                  <img name="img_diagram" [src]="diagram.location">
+                <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
+                <ng-container
+                  *ngIf="choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
+                  <div class="div_img_thumbnail" (click)="onChoiceDiagramClick(choice, $event)" *ngFor="let diagram of choice.diagrams">
+                    <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                      <img name="img_diagram"  [src]="diagram.location">
+                    </ng-container>
+                    <ng-template #notImageUrl>
+                      <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                    </ng-template>
+                    <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
+                  </div>
                 </ng-container>
-                <ng-template #notImageUrl>
-                  <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
-                </ng-template>
-                <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
               </div>
+
+              <ng-template #div_multiImage>
+                <div class="col-lg-12">
+                  <div class="div_img_thumbnail" (click)="onChoiceDiagramClick(choice, $event)" *ngFor="let diagram of choice.diagrams">
+                    <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                      <img name="img_diagram" [src]="diagram.location">
+                    </ng-container>
+                    <ng-template #notImageUrl>
+                      <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                    </ng-template>
+                    <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
+                  </div>
+                </div>
+              </ng-template>
+
             </ng-container>
 
-            <ng-template #div_multiImage>
-              <div class="col-lg-12">
-                <div class="div_img_thumbnail" *ngFor="let diagram of choice.diagrams">
-                  <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                    <img name="img_diagram" [src]="diagram.location">
-                  </ng-container>
-                  <ng-template #notImageUrl>
-                    <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
-                  </ng-template>
-                  <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
+            <ng-container *ngIf="choiceDataElement.allowFreetext">
+              <div class="border-top" class="radio padding-t-10px">
+                <!-- <div class=""> -->
+                <label class="div_options_withthumbnail div_options_withthumbnail_freetext">
+                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" class="margin-l-0"
+                    id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
+                    value="freetext"
+                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
+                  <label for="other_{{choiceDataElement.id}}"
+                    class="option_label_withthumbnail option_label_withthumbnail_freetext">Other,
+                    please specify…</label>
+                </label>
+                <!-- </div> -->
+                <div id='div_{{choiceDataElement.id}}_other' style="display: none;" class="padding-10px">
+                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                    id="txt_other_{{choiceDataElement.id}}" type="text" class="form-control" [(ngModel)]="freeTextValue"
+                    [ngModelOptions]="{standalone: true}"
+                    (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
+                    placeholder="Please specify">
                 </div>
               </div>
-            </ng-template>
-          </label>
-
-          <ng-container *ngIf="choiceDataElement.allowFreetext">
-            <div class="border-top" class="radio padding-t-10px">
-              <!-- <div class=""> -->
-              <label class="div_options_withthumbnail div_options_withthumbnail_freetext">
-                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" class="margin-l-0"
-                  id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
-                  value="freetext"
-                  (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
-                <label for="other_{{choiceDataElement.id}}"
-                  class="option_label_withthumbnail option_label_withthumbnail_freetext">Other,
-                  please specify…</label>
-              </label>
-              <!-- </div> -->
-              <div id='div_{{choiceDataElement.id}}_other' style="display: none;" class="padding-10px">
-                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                  id="txt_other_{{choiceDataElement.id}}" type="text" class="form-control" [(ngModel)]="freeTextValue"
-                  [ngModelOptions]="{standalone: true}"
-                  (keyup)='updateFreeText($event.target, choiceDataElement.id, choiceDataElement.label)'
-                  placeholder="Please specify">
-              </div>
-            </div>
+            </ng-container>
           </ng-container>
         </div>
 

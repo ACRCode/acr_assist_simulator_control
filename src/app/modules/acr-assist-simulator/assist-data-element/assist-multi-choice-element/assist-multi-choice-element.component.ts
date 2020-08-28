@@ -39,10 +39,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     this.createMultiChoiceElementForm();
     const $this = this;
     setTimeout(function (e) {
-      $('input:checkbox').change(function () {
+      $(document).on('change', 'input:checkbox', function () {
         if ($(this).prop('checked') === true) {
           // Only remove the class in the specific `box` that contains the radio
           $('label.highlightchoice').removeClass('highlightchoice');
+          // $('div.highlightchoice').removeClass('highlightchoice');
           $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
         } else {
           $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
@@ -309,6 +310,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     }
     // #endregion
+
+    $('input:checkbox').trigger('change');
 
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null

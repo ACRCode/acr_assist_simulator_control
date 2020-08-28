@@ -85,9 +85,11 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
 
-    $('input:radio').change(function () {
+    $(document).on('change', 'input:radio', function () {
+      // alert();
       // Only remove the class in the specific `box` that contains the radio
       $('label.highlightchoice').removeClass('highlightchoice');
+      $('div.highlightchoice').removeClass('highlightchoice');
       $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
     });
 
@@ -352,7 +354,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     return false;
   }
 
-  choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string) {
+  choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event = undefined) {
+    console.log(event);
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
