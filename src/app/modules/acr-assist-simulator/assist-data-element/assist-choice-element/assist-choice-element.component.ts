@@ -124,7 +124,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     });
     $(document).on('mousemove', '.div_img_thumbnail', function (e) {
       // .mousemove(function (e) {
-      $('.tooltiptopicevent').css('top', e.pageY + 10);
+      // $('.tooltiptopicevent').css('top', e.pageY + 10);
+      $('.tooltiptopicevent').css('top', e.pageY - 250);
       $('.tooltiptopicevent').css('left', e.pageX + -300);
       // $('.tooltiptopicevent').css('right', e.pageX);
     });
