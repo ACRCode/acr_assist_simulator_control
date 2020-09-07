@@ -309,6 +309,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
       $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     }
+
+    // if (this.multiChoiceElement.currentValue !== undefined && !this.utilityService.isNotEmptyArray(this.multiChoiceElement.currentValue)) {
+    //   $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
+    // }
+
     // #endregion
 
     $('input:checkbox').trigger('change');

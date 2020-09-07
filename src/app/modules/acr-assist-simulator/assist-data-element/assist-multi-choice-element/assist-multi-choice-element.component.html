@@ -140,6 +140,7 @@
       </div>
 
       <!-- [ngStyle]="{'border-bottom': i !== multiChoiceElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
+
       
       <div class="div_options_withthumbnail_parent" [ngClass]="{ 'show-error': multiChoiceElement.showValidation }">
         <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo; let i = index">
