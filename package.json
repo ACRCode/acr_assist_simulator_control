@@ -61,7 +61,7 @@
     "expr-eval": "^2.0.2",
     "jquery": "^3.5.1",
     "moment": "^2.26.0",
-    "ngx-bootstrap": "^5.6.1",
+    "ngx-bootstrap": "^6.0.0",
     "ngx-drag-scroll": "~8.0.0-beta.2",
     "ngx-loading": "^8.0.0",
     "ngx-toastr": "^12.1.0",
