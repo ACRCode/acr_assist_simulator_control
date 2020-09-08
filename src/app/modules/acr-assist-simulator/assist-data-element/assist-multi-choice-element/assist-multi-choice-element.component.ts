@@ -368,6 +368,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     const img_src = event.target.src;
     modal.style.display = 'block';
     modalImg.src = img_src;
+    // modalImg.src = 'https://images.pexels.com/photos/4350202/pexels-photo-4350202.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';  ///img_src;
   }
 
   isChoiceHasDiagrams(multiChoiceElement: MultiChoiceElement) {
