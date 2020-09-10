@@ -23,6 +23,7 @@ export class AppComponent {
   assetsBaseUrl = 'assets/images';
   // assetsBaseUrl = '';
   inputValues: InputData[] = [] as any;
+  // inputValues = [];
   aiInputs: AIInputData[] = [];
   position = ReportTextPosition;
   resetButton: boolean;
@@ -89,6 +90,73 @@ export class AppComponent {
     // this.inputValues = this.inputValues.slice();
   }
 
+  testcase1() {
+    this.inputValues = [
+      {
+        dataElementId: 'location',
+        dataElementValue: 'right_intraovarian',
+        dataElementLabel: '',
+        dataElementDisplayValue: 'Right ovary/adnexa'
+      },
+      {
+        dataElementId: "maximum_size",
+        dataElementValue: "1",
+        dataElementLabel: '',
+        dataElementDisplayValue: "Maximum size"
+      },
+      {
+        dataElementId: "menopausal_status",
+        dataElementValue: "premenopausal",
+        dataElementLabel: '',
+        dataElementDisplayValue: "Premenopausal"
+      },
+      {
+        dataElementId: "intraovarian_lesion_type",
+        dataElementValue: "cystic",
+        dataElementLabel: '',
+        dataElementDisplayValue: "Cystic (must have no internal flow on Doppler)"
+      },
+      {
+        dataElementId: "cystic_lesion",
+        dataElementValue: "Multilocular",
+        dataElementLabel: '',
+        dataElementDisplayValue: "Multilocular"
+      },
+      {
+        dataElementId: "solid_component",
+        dataElementValue: "no_solid",
+        dataElementLabel: '',
+        dataElementDisplayValue: "No solid component"
+      },
+      {
+        dataElementId: "inner_margin",
+        dataElementValue: "smooth",
+        dataElementLabel: '',
+        dataElementDisplayValue: "Smooth"
+      },
+      {
+        dataElementId: "color_score",
+        dataElementValue: "score_4",
+        dataElementLabel: '',
+        dataElementDisplayValue: "4 (Strong flow)"
+      },
+      {
+        dataElementId: "peritoneal_features_ascites",
+        dataElementValue: [
+          "ascites"
+        ],
+        dataElementLabel: '',
+        dataElementDisplayValue: "Ascites"
+      }
+    ];
+
+    this.inputValues = this.inputValues.slice()
+  }
+
+  testcase2() {
+
+  }
+
   fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
     // this.loadElements();
@@ -114,7 +182,7 @@ export class AppComponent {
     this.inputValues.push({ ...input });
 
     input.dataElementId = 'history';
-    input.dataElementValue = ['0','1'];
+    input.dataElementValue = ['0', '1'];
     input.dataElementLabel = '';
     input.dataElementDisplayValue = '';
     this.inputValues.push({ ...input });
