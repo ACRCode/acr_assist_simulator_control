@@ -464,7 +464,7 @@
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
                     [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
 
-                  <label class="margin-t-3p option_label_withthumbnail"
+                  <label class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
                 </label>
 
