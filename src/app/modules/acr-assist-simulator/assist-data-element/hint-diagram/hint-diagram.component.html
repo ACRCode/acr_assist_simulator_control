@@ -1,34 +1,35 @@
-<ng-container *ngIf="dataElement !== undefined">
-  <button type="button" class="btn btn-default font-size-inherit btn-xs" data-toggle="modal"
-    attr.data-target="#{{'diag_'+dataElement.id}}" (click)="resetCarouselIndex()">
-    <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="right"
-      title="Hint Diagrams"></span>
-  </button>
-  <div class="modal inmodal fade" id="{{'diag_'+dataElement.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <h4 class="modal-title float-left">{{dataElement.label}}</h4>
-        </div>
-        <div class="modal-body">
-          <ng-container>
-            <carousel [(activeSlide)]="activeSlideIndex" interval="false">
-              <ng-container *ngFor="let diag of dataElement.diagrams ">
-                <slide>
-                  <img class="img-responsive max-w-h-100" [src]="getImageDataUrl(diag.location) | secure" alt="{{ diag.label }}">
-                </slide>
+<button type="button" class="btn btn-default font-size-inherit" (click)="openDiagram()">
+  <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
+    title="Hint Diagrams"></span>
+</button>
+<div bsModal #modalPopup="bs-modal" class="modal fade div_modal_hint_diagram" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="modalPopup.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title float-left">{{dataElement.label}}</h4>
+      </div>
+      <div class="modal-body">
+        <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+          <ng-container *ngFor="let diag of dataElement.diagrams ">
+            <slide>
+              <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
+                <img class="img-responsive max-w-h-100" [src]="diag.location" alt="{{ diag.label }}">
               </ng-container>
-            </carousel>
+              <ng-template #notImageUrl>
+                <img class="img-responsive max-w-h-100" [src]="getImageDataUrl(diag.location) | secure"
+                  alt="{{ diag.label }}">
+              </ng-template>
+            </slide>
           </ng-container>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
+        </carousel>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modalPopup.hide()" aria-label="Close">Close</button>
       </div>
     </div>
   </div>
-</ng-container>
+</div>

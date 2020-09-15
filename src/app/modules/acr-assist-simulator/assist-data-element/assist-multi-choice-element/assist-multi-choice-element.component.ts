@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
+import { UtilityService } from '../../../core/services/utility.service';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
 import * as _ from 'lodash';
@@ -13,7 +14,7 @@ import * as _ from 'lodash';
   templateUrl: './assist-multi-choice-element.component.html',
   styleUrls: ['./assist-multi-choice-element.component.css', '../../styles.css']
 })
-export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit {
+export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiElements: MultiChoiceElement[] = [];
   multiChoiceValues: string[] = [];
@@ -22,53 +23,121 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   selectedCondition: SelectedCondition;
   isFreeText = false;
   freeTextValue: string;
+  simulatorStateSubscription: ISubscription;
 
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() assetsBaseUrl: string;
   @Input() multiChoiceElement: MultiChoiceDataElement;
   @Output() returnMultiChoice = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private utilityService: UtilityService
+  ) { }
 
   ngOnInit() {
     this.createMultiChoiceElementForm();
+    const $this = this;
+    setTimeout(function (e) {
+      $(document).on('change', 'input:checkbox', function () {
+        if ($(this).prop('checked') === true) {
+          // Only remove the class in the specific `box` that contains the radio
+          $('label.highlightchoice').removeClass('highlightchoice');
+          // $('div.highlightchoice').removeClass('highlightchoice');
+          $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
+        } else {
+          $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
+        }
+      });
+
+      $this.showImageZoom();
+    }, 200);
+  }
+
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
+  }
+
+  showImageZoom() {
+    const utility = this.utilityService;
+    $(document).on('mouseover', '.div_img_thumbnail', function (e) {
+      const _image = $(this).find('img');
+      if (utility.isValidInstance(_image)) {
+        const img_src = _image[0].src;
+        let tooltip = '<div class="tooltiptopicevent" style="width: auto;height: auto;background: white;position: absolute;z-index: 10001;padding: 1px 1px 1px 1px;line-height: 200%;-webkit-box-shadow: 6px 5px 5px -5px #ccc!important;-moz-0box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;box-shadow: 6px 5px 5px -5px #ccc!important;background-color: #000000">';
+        tooltip += '<div class="imageContainer"><div>';
+        tooltip += '<img style="width: 250px;height: 250px;object-fit: contain;" src="' + img_src + '" />';
+        tooltip += '</div>';
+        tooltip += '</div></div>';
+
+        if ($('div').hasClass('tooltiptopicevent')) {
+          $('.tooltiptopicevent').remove();
+        }
+
+        $('body').append(tooltip);
+        // $('.div_img_thumbnail').css('z-index', 1000000);
+        $('.tooltiptopicevent').fadeIn('500');
+        $('.tooltiptopicevent').fadeTo('10', 1.9);
+      }
+    });
+    $(document).on('mousemove', '.div_img_thumbnail', function (e) {
+      // .mousemove(function (e) {
+      // $('.tooltiptopicevent').css('top', e.pageY + 10);
+      $('.tooltiptopicevent').css('top', e.pageY - 250);
+      $('.tooltiptopicevent').css('left', e.pageX + -300);
+      // $('.tooltiptopicevent').css('right', e.pageX);
+    });
+
+    $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
+      // .mouseleave(function (e) {
+      $('.div_img_thumbnail').css('z-index', 8);
+      // $('.tooltiptopicevent').remove();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewInit(): void {
-    this.showOrHideFreeText(this.multiChoiceElement.id, '', false);
-    if (this.multiChoiceElement.currentValue !== undefined) {
-      const values: any = [];
-      const labels: any = [];
-      for (const choice in this.multiChoiceElement.choiceInfo) {
-        if (Array.isArray(this.multiChoiceElement.currentValue)) {
-          for (const currValue of this.multiChoiceElement.currentValue) {
+    const $this = this;
+    setTimeout(function (e) {
+      $this.showOrHideFreeText($this.multiChoiceElement.id, '', false);
+      if ($this.multiChoiceElement.currentValue !== undefined) {
+        const values: any = [];
+        const labels: any = [];
+        for (const choice in $this.multiChoiceElement.choiceInfo) {
+          if (Array.isArray($this.multiChoiceElement.currentValue)) {
+            for (const currValue of $this.multiChoiceElement.currentValue) {
+              // tslint:disable-next-line:max-line-length
+              if (currValue === $this.multiChoiceElement.choiceInfo[choice].value && $this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
+                $('#' + $this.multiChoiceElement.id + '_' + $this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
+                values.push(currValue);
+                labels.push($this.multiChoiceElement.choiceInfo[choice].label);
+                break;
+              }
+            }
+          } else {
             // tslint:disable-next-line:max-line-length
-            if (currValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-              $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.choiceInfo[choice].value).prop('checked', true);
-              values.push(currValue);
-              labels.push(this.multiChoiceElement.choiceInfo[choice].label);
-              break;
+            if ($this.multiChoiceElement.currentValue === $this.multiChoiceElement.choiceInfo[choice].value && $this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
+              $('#' + $this.multiChoiceElement.id + '_' + $this.multiChoiceElement.currentValue).prop('checked', true);
+              values.push($this.multiChoiceElement.currentValue);
+              labels.push($this.multiChoiceElement.choiceInfo[choice].label);
             }
           }
-        } else {
-          // tslint:disable-next-line:max-line-length
-          if (this.multiChoiceElement.currentValue === this.multiChoiceElement.choiceInfo[choice].value && this.multiChoiceElement.choiceInfo[choice].value !== undefined) {
-            $('#' + this.multiChoiceElement.id + '_' + this.multiChoiceElement.currentValue).prop('checked', true);
-            values.push(this.multiChoiceElement.currentValue);
-            labels.push(this.multiChoiceElement.choiceInfo[choice].label);
-          }
         }
+        $this.selectedMultiChoice($this.multiChoiceElement.id, $this.multiChoiceElement.label, values, labels);
+      } else {
+        $this.returnMultiChoice.emit(undefined);
       }
-      this.selectedMultiChoice(this.multiChoiceElement.id, this.multiChoiceElement.label, values, labels);
-    } else {
-      this.returnMultiChoice.emit(undefined);
-    }
+    }, 500);
   }
 
   selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: any, choiceLabel: any) {
     const multiElement = new MultiChoiceElement();
     if ($('#' + elementId + '_' + choiceValue).is(':checked')) {
-      // this.multiChoiceValues = choiceLabel;
       this.multiChoiceComaprisonValues = choiceValue;
     } else {
       const index = this.multiChoiceValues.indexOf(choiceLabel);
@@ -82,10 +151,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     }
 
     setTimeout(() => {
-      const selectedValues = this.GetSelectedItems();
+      const selectedValues = this.getSelectedItems();
+      const selectedTexts = this.getSelectedItemTexts(selectedValues);
+
       multiElement.elementId = elementId;
       multiElement.selectedValues = selectedValues;
-      multiElement.selectedComparisonValues = selectedValues;
+      multiElement.selectedTexts = selectedTexts;
 
       this.selectedCondition = new SelectedCondition();
       this.selectedCondition.selectedConditionId = elementId;
@@ -108,12 +179,13 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
   }
 
   updateFreeText(element, elementId, selectedCondition) {
-    const selectedValues = this.GetSelectedItems();
+    const selectedValues = this.getSelectedItems();
+    const selectedTexts = this.getSelectedItemTexts(selectedValues);
 
     const multiElement = new MultiChoiceElement();
     multiElement.elementId = elementId;
     multiElement.selectedValues = selectedValues;
-    multiElement.selectedComparisonValues = selectedValues;
+    multiElement.selectedTexts = selectedTexts;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
@@ -144,11 +216,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
 
-    const selectedValues = this.GetSelectedItems();
+    const selectedValues = this.getSelectedItems();
+    const selectedTexts = this.getSelectedItemTexts(selectedValues);
 
     multiElement.elementId = elementId;
     multiElement.selectedValues = selectedValues;
-    multiElement.selectedComparisonValues = selectedValues;
+    multiElement.selectedTexts = selectedTexts;
 
     this.selectedCondition = new SelectedCondition();
     this.selectedCondition.selectedConditionId = elementId;
@@ -157,7 +230,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.returnMultiChoice.emit({ receivedElement: multiElement, selectedCondition: this.selectedCondition });
   }
 
-  private GetSelectedItems() {
+  private getSelectedItems() {
     const items = document.getElementsByClassName('multiselectItems_' + this.multiChoiceElement.id) as any;
     const selectedItems = [];
     // tslint:disable-next-line:prefer-for-of
@@ -167,20 +240,60 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
       }
     }
 
-    const selectedValues = selectedItems;
+    let selectedValues = selectedItems;
     if ($('#txt_other_' + this.multiChoiceElement.id).val() !== '') {
       selectedValues.push($('#txt_other_' + this.multiChoiceElement.id).val());
+    }
+
+    if (selectedValues !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined) {
+      const filteredItems = selectedValues.filter((item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
+      selectedValues = filteredItems;
     }
 
     return selectedValues;
   }
 
+  private getSelectedItemTexts(selectedValues: any) {
+    const selectedItems = [];
+    for (const value of selectedValues) {
+      const choice = this.multiChoiceElement.choiceInfo.find(x => x.value === value);
+      if (this.utilityService.isValidInstance(choice)) {
+        selectedItems.push(choice.label);
+      } else {
+        selectedItems.push(value);
+      }
+    }
+
+    return selectedItems;
+  }
+
   isMultiChoiceElementRequired(): boolean {
     return this.multiChoiceElementForm.controls.multiCheckBox.invalid &&
-           this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
+      this.multiChoiceElement.isRequired && !this.multiChoiceValues.length;
   }
 
   isMultiChoiceLabelHidden(value: string): boolean {
+    if (this.multiChoiceElement.currentValue !== undefined && this.multiChoiceElement.ChoiceNotRelevant !== undefined &&
+      Array.isArray(this.multiChoiceElement.currentValue)) {
+      const filteredItems = this.multiChoiceElement.currentValue.filter(
+        (item: any) => !this.multiChoiceElement.ChoiceNotRelevant.includes(item));
+      this.multiChoiceElement.currentValue = filteredItems;
+    }
+
+    // #region uncomment
+    if (this.utilityService.isNotEmptyArray(this.multiChoiceElement.ChoiceNotRelevant) &&
+      this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1) {
+      $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
+    }
+
+    // if (this.multiChoiceElement.currentValue !== undefined && !this.utilityService.isNotEmptyArray(this.multiChoiceElement.currentValue)) {
+    //   $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
+    // }
+
+    // #endregion
+
+    $('input:checkbox').trigger('change');
+
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
       : null;
@@ -203,8 +316,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
     this.multiChoiceElementForm = this.formBuilder.group({
       multiCheckBox: ['', Validators.required],
     }, {
-        validator: this.specificValueInsideRange('multiCheckBox')
-      });
+      validator: this.specificValueInsideRange('multiCheckBox')
+    });
   }
 
   private specificValueInsideRange(multiCheckBox: string) {
@@ -216,5 +329,45 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit 
         return choiceControl.setErrors(null);
       }
     };
+  }
+
+
+  onImgModelClick(event) {
+    if (event.target.tagName !== 'IMG') {
+      this.onImgPopupClose();
+    }
+  }
+
+  onChoiceDiagramClick(choice, event) {
+    const modal = document.getElementById('immgModalmulti');
+    const modalImg = document.getElementById('img01multi') as any;
+    const img_src = event.target.src;
+    modal.style.display = 'block';
+    modalImg.src = img_src;
+    // modalImg.src = 'https://images.pexels.com/photos/4350202/pexels-photo-4350202.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';  ///img_src;
+  }
+
+  isChoiceHasDiagrams(multiChoiceElement: MultiChoiceElement) {
+    const multiChoiceElementWithDigrams = this.multiChoiceElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
+    return this.utilityService.isNotEmptyArray(multiChoiceElementWithDigrams) ? true : false;
+  }
+
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
+    }
+  }
+
+  onImgPopupClose() {
+    const modal = document.getElementById('immgModalmulti');
+    modal.style.display = 'none';
+  }
+
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.onImgPopupClose();
   }
 }

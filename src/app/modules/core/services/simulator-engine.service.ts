@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { SimulatorState } from '../models/simulator-state.model';
 import { BehaviorSubject } from 'rxjs';
 import { isArray } from 'util';
-import { ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
-         IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
-         InsertPartial, InsertValue, BaseDataElement, Template } from 'testruleengine/Library/Models/Class';
+import {
+  ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
+  IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
+  InsertPartial, InsertValue, BaseDataElement, Template
+} from 'testruleengine/Library/Models/Class';
 import { EvaluateRulesAndGenerateReportText } from 'testruleengine/Library/Utilities/RuleEvaluator';
+
+import { generateReportText } from 'testruleengine/Library/Utilities/GenerateReportText';
 import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRelevantPushPop';
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
+import { UtilityService } from '../../core/services/utility.service';
 
 const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
@@ -29,7 +34,7 @@ export class SimulatorEngineService {
 
   simulatorStateChanged = new BehaviorSubject<SimulatorState>(new SimulatorState());
 
-  constructor() {
+  constructor(private utilityService: UtilityService) {
     this.dataElementValues = new Map<string, any>();
     this.dataElementTexts = new Map<string, any>();
     this.nonRelevantDataElementIds = new Array<string>();
@@ -246,10 +251,23 @@ export class SimulatorEngineService {
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
               (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              //#region uncomment
+              this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
+              //#endregion
             }
 
             if (dataelement.dataElementType === 'MultiChoiceDataElement') {
               (dataelement as MultiChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              //#region uncomment
+              this.updateMultiChoiceDataElementValues((dataelement as MultiChoiceDataElement));
+
+              if (this.utilityService.isNotEmptyArray(dataelement.ChoiceNotRelevant)) {
+                if (dataelement.currentValue !== undefined && Array.isArray(dataelement.currentValue)) {
+                  const _filteredItems = dataelement.currentValue.filter((item: any) => !dataelement.ChoiceNotRelevant.includes(item));
+                  dataelement.currentValue = _filteredItems;
+                }
+              }
+              //#endregion
             }
 
             if (dataelement.dataElementType === 'DurationDataElement') {
@@ -264,6 +282,7 @@ export class SimulatorEngineService {
             }
           }
 
+
           return this.nonRelevantDataElementIds;
         } else {
           if (dataelement.dataElementType === 'ChoiceDataElement') {
@@ -274,6 +293,23 @@ export class SimulatorEngineService {
           }
         }
       }
+    }
+  }
+
+  updateChoiceDataElementValues(dataElement: ChoiceDataElement) {
+    if (this.utilityService.isNotEmptyArray(dataElement.ChoiceNotRelevant)) {
+      dataElement.ChoiceNotRelevant.forEach((x: any) => {
+        if (this.dataElementValues.get(dataElement.id) !== undefined && this.dataElementValues.get(dataElement.id) === x) {
+          this.dataElementValues.set(dataElement.id, undefined);
+        }
+      });
+    }
+  }
+
+  updateMultiChoiceDataElementValues(dataElement: MultiChoiceDataElement) {
+    if (this.utilityService.isNotEmptyArray(dataElement.ChoiceNotRelevant) && this.dataElementValues.get(dataElement.id) !== undefined) {
+      const filteredItems = this.dataElementValues.get(dataElement.id).filter((item: any) => !dataElement.ChoiceNotRelevant.includes(item));
+      this.dataElementValues.set(dataElement.id, filteredItems);
     }
   }
 
@@ -577,6 +613,8 @@ export class SimulatorEngineService {
     }
   }
 
+  getDataElementValues() { }
+
   public evaluateDecisionPoints() {
     if (this.template.rules !== undefined && this.template.rules.decisionPoints !== undefined) {
       this.showKeyDiagram = undefined;
@@ -588,6 +626,7 @@ export class SimulatorEngineService {
       const decisionPoints = FindDecisionPoints(this.template.rules.decisionPoints, this.dataElementValues);
       this.endpoints = decisionPoints.finalEndPoints;
       this.showKeyDiagram = decisionPoints.keyDiagramId;
+
       const reportText = EvaluateRulesAndGenerateReportText(this.template, this.endpoints, this.dataElementValues);
       const $simulatorState = new SimulatorState();
       if (reportText.allReportText.length > 0) {
@@ -606,6 +645,7 @@ export class SimulatorEngineService {
   initialize(template: Template) {
     this.template = template;
     this.dataElementValues = new Map<string, any>();
+    this.dataElementTexts = new Map<string, any>();
     for (const dataElement of this.template.dataElements) {
       this.dataElementValues.set(dataElement.id, dataElement.currentValue);
     }

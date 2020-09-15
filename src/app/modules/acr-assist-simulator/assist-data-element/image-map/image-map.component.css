@@ -1,0 +1,32 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.image-map-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-map-container img {
+  display: block;
+}
+
+.image-map-container .map-selector {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: #546E7A00;
+}
+
+.map-selector:after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  top: inherit;
+  right: inherit;
+  bottom: inherit;
+  left: inherit;
+  background: currentColor;
+  pointer-events: none;
+}

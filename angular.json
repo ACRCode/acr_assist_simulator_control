@@ -18,25 +18,24 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
               "src/web.config"
             ],
             "styles": [
-              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/@busacca/ng-pick-datetime/assets/style/picker.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/skin-blue.min.css",
               "src/assets/css/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/common.js",
-              "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
+              "src/assets/js/common.js"
             ]
           },
           "configurations": {
@@ -52,7 +51,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -95,19 +93,18 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "styles": [
+              "node_modules/@busacca/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "src/assets/css/skin-blue.min.css",
+              "src/assets/css/styles.css"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "src/assets/js/jquery.loupe.min.js",
-              "src/assets/js/common.js",
-              "src/assets/js/ImgMapHover.js",
-              "src/assets/js/typeahead.min.js"
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "src/assets/css/skin-blue.min.css",
-              "src/assets/css/styles.css"
+              "src/assets/js/common.js"
             ],
             "assets": [
               "src/assets",
@@ -141,6 +138,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "acr-assist-simulator"
+    }
+  },
+  "defaultProject": "acr-assist-simulator",
+  "cli": {
+    "analytics": false
+  }
 }

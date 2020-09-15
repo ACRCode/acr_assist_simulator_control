@@ -1,6 +1,8 @@
-import { Component, Output , EventEmitter, OnInit } from '@angular/core';
+import { Component, Output , EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
+import { UtilityService } from '../../core/services/utility.service';
 const $ = require('jquery');
 
 @Component({
@@ -9,19 +11,33 @@ const $ = require('jquery');
   styleUrls: ['./file-upload-loader.component.css']
 })
 
-export class FileUploadLoaderComponent implements OnInit  {
+export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
 
-  @Output() fileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
   fileReader: FileReader = new FileReader();
   readFile: File;
+  defaultModuleSubscription: ISubscription;
+  testModuleSubscription: ISubscription;
 
-  constructor(private configService: GlobalsService) {
+  @Output() fileContentRead: EventEmitter<FileDetails> = new EventEmitter<FileDetails>();
+
+  constructor(
+    private configService: GlobalsService,
+    private utilityService: UtilityService) {
   }
 
   ngOnInit(): void {
     this.hideMessage();
     this.showTestModule();
     this.showDefaultModule();
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.defaultModuleSubscription)) {
+      this.defaultModuleSubscription.unsubscribe();
+    }
+    if (this.utilityService.isValidInstance(this.testModuleSubscription)) {
+      this.testModuleSubscription.unsubscribe();
+    }
   }
 
   changeListener($event): void {
@@ -36,13 +52,32 @@ export class FileUploadLoaderComponent implements OnInit  {
         $('#xmlOnlyMsg').show();
       }
     }
+
+    const target = $event.target || $event.srcElement;
+    target.value = '';
   }
 
   hideMessage() {
     $('#xmlOnlyMsg').hide();
   }
 
-  readThis(inputValue: any): void {
+  private showDefaultModule() {
+    this.configService.getDefaultModulePath()
+      .subscribe(data => {
+        const self = this;
+        self.fileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
+      });
+  }
+
+  private showTestModule() {
+    this.configService.getDefaultTestModulePath()
+    .subscribe(data => {
+      const self = this;
+      self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
+    });
+  }
+
+  private readThis(inputValue: any): void {
     this.readFile = inputValue.files[0];
     const self = this;
     const extensionStartPosition = self.readFile.name.lastIndexOf('.');
@@ -52,21 +87,5 @@ export class FileUploadLoaderComponent implements OnInit  {
     };
 
     this.fileReader.readAsText(this.readFile);
-  }
-
-  showDefaultModule() {
-    this.configService.getDefaultModulePath()
-      .subscribe(data => {
-        const self = this;
-        self.fileContentRead.emit( new FileDetails('Hello Assist 2.0', 'Hello_Assist.xml', data));
-      });
-  }
-
-  showTestModule() {
-    this.configService.getDefaultTestModulePath()
-    .subscribe(data => {
-      const self = this;
-      self.fileContentRead.emit( new FileDetails('Test Module', 'Test_Module.xml', data));
-    });
   }
 }

@@ -1,24 +1,23 @@
-<form [formGroup]="numericElementForm" novalidate>
+<form [formGroup]="numericElementForm">
 
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && numericDataElement.isRelevant">
     <div class="col-sm-4 text-right">
       <label class="control-label break-word">
         {{numericDataElement.label}}
-        <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
-          ({{numericDataElement.unit}})</span>
+        <span *ngIf="utilityService.isNotEmptyString(numericDataElement.unit)">({{numericDataElement.unit}})</span>
       </label>
-      <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+      <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{numericDataElement.hint}}"></i>
       </ng-container>
-      <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+      <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
         <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
       <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
         *
       </span>
       <span *ngIf="isNumericElementMin()" class="required-field"
-        title=" Minimum value is {{numericDataElement.minimum}}">
+        title=" Minimum value is {{ numericDataElement.minimum }}">
         *
       </span>
       <span *ngIf="isNumericElementMax()" class="required-field"
@@ -29,10 +28,10 @@
     <ng-container *ngIf="numericDataElement.dataElementType === 'NumericDataElement'">
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null" acrNumericOnly
-          (keyup)="_keyUp($event)" id="{{numericDataElement.id}}" type="text" class="form-control color-inherit"
-          formControlName="numericElement" onpaste="return false;"
-          (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+          id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
+          onpaste="return false;" (input)="choiceSelected($event.target, numericDataElement.label)"
+          min="{{numericDataElement.minimum}}" max="{{numericDataElement.maximum}}"
+          [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': numericDataElement.showValidation }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -45,9 +44,9 @@
       <div class="col-sm-8">
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
+          (keypress)="onlyIntegerKey($event)" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': numericDataElement.showValidation }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -65,8 +64,7 @@
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word">
             {{numericDataElement.label}}
-            <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
-              ({{numericDataElement.unit}})</span>
+            <span *ngIf="utilityService.isNotEmptyString(numericDataElement.unit)">({{numericDataElement.unit}})</span>
             <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
               *
             </span>
@@ -79,20 +77,20 @@
               *
             </span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
-          <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+          <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
-          <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+        </div>
+        <div class="col-lg-2 div_hint">       
+          <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
             <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
         </div>
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
-          id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" (keyup)="_keyUp($event)"
-          acrNumericOnly formControlName="numericElement" onpaste="return false;"
+          id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" acrNumericOnly
+          formControlName="numericElement" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': numericDataElement.showValidation }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>
@@ -106,7 +104,7 @@
         <div class="col-lg-10 labelparentdiv">
           <label class="control-label break-word">
             {{numericDataElement.label}}
-            <span *ngIf="numericDataElement.unit != undefined && numericDataElement.unit != ''">
+            <span *ngIf="utilityService.isNotEmptyString(numericDataElement.unit)">
               ({{numericDataElement.unit}})</span>
             <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
               *
@@ -120,20 +118,21 @@
               *
             </span>
           </label>
-        </div>
-        <div class="col-lg-2 div_hint">
-          <ng-container *ngIf="numericDataElement.hint !== '' && numericDataElement.hint !== undefined">
+          <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
             <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
           </ng-container>
-          <ng-container *ngIf="numericDataElement.diagrams != undefined ">
+        </div>
+        <div class="col-lg-2 div_hint">         
+          <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
             <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
           </ng-container>
         </div>
+        
         <input [attr.disabled]="numericDataElement.isEditable == false ? 'disabled' : null"
           id="{{numericDataElement.id}}" type="text" class="form-control color-inherit" formControlName="numericElement"
-          (keypress)="onlyIntegerKey($event)" onpaste="return false;" (keyup)="_keyUpInteger($event)"
+          (keypress)="onlyIntegerKey($event)" onpaste="return false;"
           (input)="choiceSelected($event.target, numericDataElement.label)" min="{{numericDataElement.minimum}}"
-          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle() }" required>
+          max="{{numericDataElement.maximum}}" [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': numericDataElement.showValidation }" required>
         <span *ngIf="isNumericElementMin()" class="validatorMessageSpan">
           Value should be greater than or equal to {{numericDataElement.minimum}}
         </span>

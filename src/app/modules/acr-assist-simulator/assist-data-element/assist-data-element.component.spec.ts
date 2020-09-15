@@ -1021,7 +1021,7 @@ describe('AssistDataElementComponent', () => {
     const multiChoiceElement = new MultiChoiceElement();
     multiChoiceElement.elementId = 'levelsinvolved';
     multiChoiceElement.selectedValues = ['I', 'II', 'III'];
-    multiChoiceElement.selectedComparisonValues = ['I', 'II', 'III'];
+    multiChoiceElement.selectedTexts = ['I', 'II', 'III'];
 
     component.returnReportText.subscribe(data => {
       reportData = data;

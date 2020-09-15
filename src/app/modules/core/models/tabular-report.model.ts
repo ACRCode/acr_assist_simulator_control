@@ -1,5 +1,8 @@
+import { TabularReportElements } from './tabular-report-elements.model';
+
 export class TabularReport {
-    dataElement: string;
-    radElement: string;
-    values: any;
+    label: string;
+    identifier: string;
+    elements: TabularReportElements[];
 }
+

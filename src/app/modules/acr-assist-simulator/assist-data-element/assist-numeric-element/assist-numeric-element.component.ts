@@ -1,12 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { NumericDataElement } from 'testruleengine/Library/Models/Class';
 import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
-import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
-import { Subscription } from 'rxjs';
-import { ResetCommunicationService } from '../../shared/services/reset-communication.service';
 import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
@@ -14,11 +11,11 @@ import { UtilityService } from '../../../core/services/utility.service';
   templateUrl: './assist-numeric-element.component.html',
   styleUrls: ['./assist-numeric-element.component.css', '../../styles.css']
 })
-export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AssistNumericElementComponent implements OnInit, AfterViewInit {
 
   numericElementForm: FormGroup;
   selectedCondition: SelectedCondition;
-  subscription: Subscription;
+
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() assetsBaseUrl: string;
   @Input() numericDataElement: NumericDataElement;
@@ -27,22 +24,7 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
   constructor(
     private formBuilder: FormBuilder,
     private simulatorEngineService: SimulatorEngineService,
-    private utilityService: UtilityService,
-    simulatorCommunicationService: SimulatorCommunicationService,
-    resetCommunicationService: ResetCommunicationService) {
-    this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
-      mission => {
-        this.updateFormValidator();
-      });
-
-    this.subscription = resetCommunicationService.resetSource$.subscribe(
-      mission => {
-
-      });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    public utilityService: UtilityService) {
   }
 
   ngOnInit() {
@@ -87,30 +69,6 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
     this.returnNumericElement.emit({ receivedElement: choiceElement, selectedCondition: this.selectedCondition });
   }
 
-  _keyUp(event: any) {
-    // const $this = this;
-    // if ($this.numericDataElement.maximum != undefined && parseFloat(value) > $this.numericDataElement.maximum) {
-    //   event.preventDefault();
-    //   if (value.toString().substring(0, value.toString().length - 1) == '') {
-    //     $this.numberValue = undefined;
-    //   } else {
-    //     $this.numberValue = parseFloat(value.toString().substring(0, value.toString().length - 1));
-    //   }
-    // }
-  }
-
-  _keyUpInteger(event: any) {
-    // const $this = this;
-    // if ($this.numericDataElement.maximum != undefined && parseInt(value) > $this.numericDataElement.maximum) {
-    //   event.preventDefault();
-    //   if (value.toString().substring(0, value.toString().length - 1) == '') {
-    //     $this.numberValue = undefined;
-    //   } else {
-    //     $this.numberValue = parseInt(value.toString().substring(0, value.toString().length - 1));
-    //   }
-    // }
-  }
-
   onlyIntegerKey(event) {
     return (event.charCode === 8 || event.charCode === 0) ? null : event.charCode >= 48 && event.charCode <= 57;
   }
@@ -142,16 +100,14 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit, OnD
            this.numericElementForm.controls.numericElement.errors.max;
   }
 
-  updateFormValidator() {
-    this.numericElementForm.controls.numericElement.setValidators([Validators.compose([Validators.required,
-    Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])]);
-    this.numericElementForm.controls.numericElement.updateValueAndValidity();
-  }
-
   private createNumericElementForm() {
     this.numericElementForm = this.formBuilder.group({
-      // tslint:disable-next-line:max-line-length
-      numericElement: ['', Validators.compose([Validators.required, Validators.min(+this.numericDataElement.minimum), Validators.max(+this.numericDataElement.maximum)])],
+      numericElement: ['', Validators.compose
+        ([
+          Validators.required,
+          Validators.min(+this.numericDataElement.minimum),
+          Validators.max(+this.numericDataElement.maximum)
+        ])],
     });
   }
 }

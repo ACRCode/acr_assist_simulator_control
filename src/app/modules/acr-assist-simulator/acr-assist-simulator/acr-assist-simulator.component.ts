@@ -1,15 +1,16 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
 import { ReportTextPosition } from '../../core/models/report-text.model';
 import { ChoiceDataElement, BaseDataElement, Template, Diagram, MainReportText } from 'testruleengine/Library/Models/Class';
-import { Subject } from 'rxjs';
+import { SubscriptionLike as ISubscription, Subject } from 'rxjs';
 import { UtilityService } from '../../core/services/utility.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
 import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
-import { ToastrManager } from 'ng6-toastr-notifications';
 import { AIInputData } from '../../core/models/ai-input-data.model';
+import { ToastrService } from 'ngx-toastr';
+import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
 
@@ -18,33 +19,9 @@ const $ = require('jquery');
   templateUrl: './acr-assist-simulator.component.html',
   styleUrls: ['./acr-assist-simulator.component.css', '../styles.css']
 })
-export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() resetValuesNotifier: Subject<any>;
-  @Input() templateContent: string;
-  @Input() assetsBaseUrl: string;
-  @Input() showKeyDiagram: boolean;
-  @Input() reportTextPosition: ReportTextPosition;
-  @Input() inputValues: InputData[] = [];
-  @Input() inputData: string;
-  @Input() showResetButton = true;
-  @Input() showReportText = true;
-  @Input() fontSize: string;
-  @Input() fontFamily: string;
-  @Input() fontColor: string;
-  @Input() backgroundColor: string;
-  @Input() cssClass: string;
-  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
-  @Input() aiInputs: AIInputData[] = [];
-  @Input() showTabularReportText: boolean;
-  @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
-  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
-  @Output() returnDefaultElements = new EventEmitter();
-  @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
-  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('imageUpload', { static: false }) imageUpload: any;
-  @ViewChild('simulatorBlock', { read: ElementRef, static: false }) private simulatorBlock: ElementRef;
+export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy {
 
+  @Input() hideKeyDiagramTab: boolean;
   template: Template;
   isEmptyContent: boolean;
   keyDiagrams: Diagram[] = [];
@@ -55,16 +32,47 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   isInvalidFile: boolean;
   moduleName: string;
   acceptedFileTypes = ['image/png', 'image/gif', 'image/jpg', 'image/jpeg'];
+  resetValuesSubscription: ISubscription;
+
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
+  @Input() choiceControlStyle: ChoiceElementDisplayEnum;
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() resetValuesNotifier: Subject<any>;
+  @Input() templateContent: string;
+  @Input() assetsBaseUrl: string;
+  @Input() showKeyDiagram: boolean;
+  @Input() hideKeyImageUpload: boolean;
+  @Input() reportTextPosition: ReportTextPosition;
+  @Input() inputValues: InputData[] = [];
+  @Input() inputData: string;
+  @Input() showResetButton = true;
+  @Input() showReportText = true;
+  @Input() fontSize: string;
+  @Input() fontFamily: string;
+  @Input() fontColor: string;
+  @Input() backgroundColor: string;
+  @Input() cssClass: string[];
+  @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
+  @Input() aiInputs: AIInputData[] = [];
+  @Input() showTabularReportText = false;
+  @Output() returnExecutionHistory: EventEmitter<any> = new EventEmitter<any>();
+  @Output() returnDataElementChanged: EventEmitter<InputData[]> = new EventEmitter<InputData[]>();
+  @Output() returnDefaultElements = new EventEmitter();
+  @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
+  @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
+
+  @ViewChild('imageUpload') imageUpload: any;
+  @ViewChild('simulatorBlock', { read: ElementRef }) private simulatorBlock: ElementRef;
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
-    private toastr: ToastrManager,
+    private toastr: ToastrService,
     private utilityService: UtilityService) {
   }
 
   ngOnInit() {
     if (this.resetValuesNotifier != null) {
-      this.resetValuesNotifier.subscribe((event) => {
+      this.resetValuesSubscription = this.resetValuesNotifier.subscribe((event) => {
         this.resetElements();
       });
     }
@@ -72,39 +80,41 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   ngOnChanges(): void {
     this.isReset = true;
+    this.resultText = undefined;
+
     this.isEmptyContent = this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
       this.inputData === undefined;
+
     if (this.isEmptyContent) {
       return;
     }
-    if (this.inputData !== undefined) {
-      if (this.inputData.length > 0) {
-        this.inputValues = JSON.parse(this.inputData);
-      }
+    if (this.utilityService.isNotEmptyString(this.inputData)) {
+      this.inputValues = JSON.parse(this.inputData);
     }
-    if (this.imageUpload !== undefined) {
+    if (this.utilityService.isValidInstance(this.imageUpload)) {
       this.imageUpload.nativeElement.value = '';
     }
 
     this.template = getTemplate(this.templateContent);
-    if (this.inputValues.length !== 0) {
+    if (this.utilityService.isNotEmptyArray(this.inputValues)) {
       this.populateTestCaseData();
     }
 
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = this.template.dataElements;
-    this.resultText = undefined;
 
     if (this.moduleName !== this.template.metadata.id) {
       this.keyDiagrams = new Array<Diagram>();
     }
 
     if (!this.keyDiagrams.length) {
+      // console.log(this.template.metadata.diagrams);
       this.template.metadata.diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;
         element.location = diag.location;
         element.keyDiagram = diag.keyDiagram;
+        element.id = diag.id;
         this.keyDiagrams.push(element);
       });
     }
@@ -117,9 +127,28 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     }
 
     const context = this;
-    setTimeout(function(e) {
+    setTimeout(function (e) {
       context.applyInputStyles();
-    });
+    }, 100);
+  }
+
+  setDefaultImage(event, diagram) {
+    event.target.src = 'assets/img/default.gif';
+    diagram.isError = true;
+  }
+
+  imageLoaded(event, diagram) {
+    if (event.target.src.includes('/assets/img/default.gif')) {
+      diagram.isError = true;
+    } else {
+      diagram.isError = false;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.resetValuesSubscription)) {
+      this.resetValuesSubscription.unsubscribe();
+    }
   }
 
   applyInputStyles() {
@@ -139,13 +168,50 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
       this.simulatorBlock.nativeElement.style.backgroundColor = this.backgroundColor;
     }
 
-    if (this.utilityService.isNotEmptyString(this.cssClass)) {
-      this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + this.cssClass + ' ';
+    this.simulatorBlock.nativeElement.className = 'box box-primary box-solid margin-b-0';
+    if (this.utilityService.isNotEmptyArray(this.cssClass)) {
+      const classes = this.simulatorBlock.nativeElement.className;
+      const classesArray = classes.split(' ');
+      const classesNeedToApply = new Array<string>();
+      classesArray.forEach(classItem => {
+        this.cssClass.forEach(css => {
+          if (classItem.trim() !== css.trim() && classesNeedToApply.indexOf(css) <= -1) {
+            classesNeedToApply.push(css);
+          }
+        });
+      });
+
+      if (this.utilityService.isNotEmptyArray(classesNeedToApply)) {
+        classesNeedToApply.forEach(classNeedToApply => {
+          const nativeClasses = this.simulatorBlock.nativeElement.className.split(' ');
+          if (this.utilityService.isNotEmptyArray(nativeClasses)) {
+            if (nativeClasses.indexOf(classNeedToApply) <= -1) {
+              this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + classNeedToApply;
+            }
+          } else {
+            this.simulatorBlock.nativeElement.className = this.simulatorBlock.nativeElement.className + ' ' + classNeedToApply;
+          }
+        });
+      }
+    }
+  }
+
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
+  }
+
+  getImageDataUrl(label: string): string {
+    if (this.utilityService.isNotEmptyString(label)) {
+      if (this.utilityService.isImageDataUrl(label)) {
+        return label;
+      } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
+        return `${this.assetsBaseUrl}/${label}`;
+      }
     }
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function(el) {
+    return this.keyDiagrams.some(function (el) {
       return el.location === diagram.location;
     });
   }
@@ -156,12 +222,20 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
+    const $this = this;
+    setTimeout(function (e) {
+      $this.resizeKeyImages();
+    }, 100);
     this.returnDefaultElements.emit();
   }
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
     this.returnReportText.emit(textReport);
+
+    if (this.utilityService.isValidInstance(this.resultText)) {
+      $('#tab1_reportText').prop('checked', true);
+    }
   }
 
   recievedExecutionHistory(finalExecutionHistory: FinalExecutedHistory) {
@@ -174,6 +248,17 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
 
   gettingShowKeyDiagram(data: string) {
     this.callBackAfterGettingShowKeyDiagram.emit(data);
+    $('[id^=div_keydiagram]').each(function (e) {
+      if (data !== undefined && data !== null && data !== '') {
+        if ($(this).attr('data-keydiagramId') === data) {
+          // tslint:disable-next-line:no-shadowed-variable
+          $('[id^=div_keydiagram]').each(function (e) {
+            $(this).removeClass('active');
+          });
+          $(this).addClass('item zoom active');
+        }
+      }
+    });
   }
 
   changeListener(event): void {
@@ -209,7 +294,11 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
     const windowHeight = window.innerHeight;
     const reportTextHeight = $('#div-right-reportText').height();
     const height = windowHeight - reportTextHeight - 150;
-    $('#carousel-example-generic').height(height + 'px');
+    if (reportTextHeight === 1) {
+      $('#carousel-example-generic').height('auto');
+    } else {
+      $('#carousel-example-generic').height(height + 'px');
+    }
   }
 
   collapseKeyDiagram() {
@@ -258,7 +347,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
             inputValue[0].dataElementValue = values;
           } else {
             choiceElement.choiceInfo.forEach(choice => {
-
               if (inputValue[0].dataElementValue !== undefined) {
                 if (choice.value.toUpperCase() === inputValue[0].dataElementValue.toUpperCase()) {
                   inputValue[0].dataElementValue = choice.value;
@@ -275,10 +363,31 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit {
   }
 
   clipboardError(error: Error): void {
-    this.toastr.errorToastr('Failed to copy to clipboard');
+    this.toastr.error('Failed to copy to clipboard');
   }
 
   clipboardSuccess(value: string): void {
-    this.toastr.successToastr('Successfully copied to clipboard');
+    this.toastr.success('Successfully copied to clipboard');
+  }
+
+  getReportTextInnerContent(reportTextContentForEmptySectionName) {
+    if (this.utilityService.isValidInstance(reportTextContentForEmptySectionName)) {
+      const msgb = reportTextContentForEmptySectionName.innerText.trim();
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = msgb;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+      this.toastr.success('Successfully copied to clipboard');
+    } else {
+      this.toastr.error('Failed to copy to clipboard');
+    }
+    // return '';
   }
 }

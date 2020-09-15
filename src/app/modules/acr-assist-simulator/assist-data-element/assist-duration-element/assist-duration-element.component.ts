@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DurationDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
-import { Subscription } from 'rxjs';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-duration-element',
@@ -12,69 +12,16 @@ import { SimulatorCommunicationService } from '../../shared/services/simulator-c
 })
 export class AssistDurationElementComponent implements OnInit, OnDestroy {
 
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() assetsBaseUrl: string;
-  @Input() durationDataElement: DurationDataElement;
-
-  durationElementForm: FormGroup;
-  subscription: Subscription;
-
   supportedUnits: any = {
-    millisecond: {
-      label: 'Millisecond',
-      max: 999,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    second: {
-      label: 'S',
-      max: 59,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    minute: {
-      label: 'M',
-      max: 59,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    hour: {
-      label: 'H',
-      max: 23,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    day: {
-      label: 'D',
-      max: 7,
-      min: 0,
-      value: 0,
-      step: 1
-    },
-    week: {
-      label: 'Week',
-      max: 51,
-      min: 0,
-      value: 0,
-      step: 1
-    }
+    millisecond: { label: 'Millisecond', max: 999, min: 0, value: 0, step: 1 },
+    second: { label: 'S',  max: 59, min: 0, value: 0, step: 1 },
+    minute: { label: 'M', max: 59, min: 0, value: 0, step: 1 },
+    hour: { label: 'H', max: 23, min: 0, value: 0, step: 1 },
+    day: { label: 'D', max: 7, min: 0, value: 0, step: 1 },
+    week: { label: 'Week', max: 51, min: 0, value: 0, step: 1 }
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    simulatorCommunicationService: SimulatorCommunicationService) {
-    this.subscription = simulatorCommunicationService.simulatorSource$.subscribe(
-      mission => {
-        this.SetRangeValuesForDurationPicker();
-        this.updateFormValidator();
-      });
-  }
-
-  DurationVal = 'PT0S';
+  durationVal = 'PT0S';
   durationOptions = {
     showNegative: false,
     showPreview: false,
@@ -92,6 +39,24 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
   showhourmaxValidation = false;
   showsecondsminValidation = false;
   showsecondsmaxValidation = false;
+
+  durationElementForm: FormGroup;
+  simulatorSourceSubscription: ISubscription;
+
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
+  @Input() durationDataElement: DurationDataElement;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private utilityService: UtilityService,
+    simulatorCommunicationService: SimulatorCommunicationService) {
+    this.simulatorSourceSubscription = simulatorCommunicationService.simulatorSource$.subscribe(
+      mission => {
+        this.SetRangeValuesForDurationPicker();
+        this.updateFormValidator();
+      });
+  }
 
   ngOnInit() {
     this.SetRangeValuesForDurationPicker();
@@ -312,7 +277,9 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.utilityService.isValidInstance(this.simulatorSourceSubscription)) {
+      this.simulatorSourceSubscription.unsubscribe();
+    }
   }
 
   isDurationElementRequired(): boolean {

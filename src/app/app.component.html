@@ -27,14 +27,18 @@
   <div class="content-wrapper">
     <section class="content">
       <div class="row">
+        <!-- <button (click)="testcase1()">load elements</button> -->
         <acr-assist-simulator
           [alignLabelAndControlToTopAndBottom]="settingsConfig.get('alignLabelAndControlToTopAndBottom')"
           [fontSize]="settingsConfig.get('fontSize')" [fontColor]="settingsConfig.get('fontColor')"
           [fontFamily]="settingsConfig.get('fontFamily')" [backgroundColor]="settingsConfig.get('backgroundColor')"
           [cssClass]="settingsConfig.get('cssClass')" [showResetButton]="resetButton" [showReportText]="showReportText"
           templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
+          [hideKeyDiagramTab]="false"
           [showKeyDiagram]="settingsConfig.get('showKeyDiagram')" [inputValues]="inputValues" [aiInputs]="aiInputs"
-          [showTabularReportText]="showTabularReportText"
+          [showTabularReportText]="showTabularReportText" [hideKeyImageUpload]="hideKeyImageUpload"
+          [choiceControlStyle]="choiceControlStyle"
+          [customizeChoiceControlById]="customizeChoiceControlById"
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'

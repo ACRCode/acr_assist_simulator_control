@@ -139,8 +139,8 @@ describe('AssistMultiChoiceElementComponent', () => {
     expect(receivedData.receivedElement.elementId).toBeDefined();
     expect(receivedData.receivedElement.elementId).toBeTruthy();
 
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
+    expect(receivedData.receivedElement.selectedTexts).toBeDefined();
+    expect(receivedData.receivedElement.selectedTexts).toBeTruthy();
 
     expect(receivedData.receivedElement.selectedValues).toBeDefined();
     expect(receivedData.receivedElement.selectedValues).toBeTruthy();
@@ -184,8 +184,8 @@ describe('AssistMultiChoiceElementComponent', () => {
     expect(receivedData.receivedElement.elementId).toBeDefined();
     expect(receivedData.receivedElement.elementId).toBeTruthy();
 
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
+    expect(receivedData.receivedElement.selectedTexts).toBeDefined();
+    expect(receivedData.receivedElement.selectedTexts).toBeTruthy();
 
     expect(receivedData.receivedElement.selectedValues).toBeDefined();
     expect(receivedData.receivedElement.selectedValues).toBeTruthy();
@@ -265,8 +265,8 @@ describe('AssistMultiChoiceElementComponent', () => {
     expect(receivedData.receivedElement.elementId).toBeDefined();
     expect(receivedData.receivedElement.elementId).toBeTruthy();
 
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeDefined();
-    expect(receivedData.receivedElement.selectedComparisonValues).toBeTruthy();
+    expect(receivedData.receivedElement.selectedTexts).toBeDefined();
+    expect(receivedData.receivedElement.selectedTexts).toBeTruthy();
 
     expect(receivedData.receivedElement.selectedValues).toBeDefined();
     expect(receivedData.receivedElement.selectedValues).toBeTruthy();

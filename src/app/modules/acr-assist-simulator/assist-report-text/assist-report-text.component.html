@@ -1,41 +1,94 @@
-<ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
-  <dt class="text-capitalize underline" *ngIf="textReport.repeatedSectionName !== ''">
-    {{textReport.repeatedSectionName}}</dt>
-    <table class="table table-bordered" *ngIf="tabularReports.length">
+<div *ngIf="isRequiredFieldIsNotFilled" style="margin-bottom: 7px;
+    font-style: italic;
+    font-size: 14px;
+    color: #4a4141;
+">
+  <span><i class="fa fa-exclamation-triangle" style="margin-right: 6px;color: orange;"></i><span>Report text may not
+      complete if all the mandatory fields are not filled</span>
+  </span>
+</div>
+
+
+<ng-container *ngIf="tabularReport; else reportText">
+  <ng-container *ngIf="tabularReport.elements.length">
+    <h5>
+      {{ tabularReport.label }} {{ getReportIdentifier(tabularReport.identifier) }}
+    </h5>
+    <table class="table table-bordered">
       <thead>
         <tr>
-          <th scope="col">DataElement</th>
-          <th scope="col">RadElement</th>
-          <th scope="col">Values</th>
+          <th scope="col">CDE Name</th>
+          <th scope="col">CDE Value</th>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let report of tabularReports">
+        <ng-container *ngFor="let report of tabularReport.elements">
           <tr>
-            <td class="break-word">{{ report.dataElement }}</td>
-            <td>{{ report.radElement }}</td>
+            <td class="break-word">{{ report.dataElement }} {{ getReportIdentifier(report.radElement) }}</td>
             <td class="break-word">{{ report.values }}</td>
           </tr>
         </ng-container>
       </tbody>
     </table>
-  <ng-container *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first">
-    <div [ngClass]="{ 'margin-top-15' : !firstItem }">
-      <ng-container *ngIf="textReport.repeatedSectionName !== ''">
-        <dt class="text-capitalize spantest">
-          {{allTextResultReport.heading}}</dt>
-        <dd>
-          <p class="white-space-line spantest" [innerHTML]="allTextResultReport.content"></p>
-        </dd>
-      </ng-container>
-      <ng-container *ngIf="textReport.repeatedSectionName === ''">
-        <dt class="text-capitalize">
-          {{allTextResultReport.heading}}</dt>
-        <dd>
-          <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
-        </dd>
-      </ng-container>
-    </div>
   </ng-container>
-  <hr *ngIf="!lastitem">
 </ng-container>
+<ng-template #reportText>
+  <ng-container *ngFor="let textReport of allReportTextGroup; let lastitem = last;">
+    <dt class="text-capitalize underline span_sectionName" *ngIf="textReport.repeatedSectionName !== ''">
+      {{textReport.repeatedSectionName}}</dt>
+
+    <ng-container
+      *ngFor="let allTextResultReport of textReport.allTextResultReport; let firstItem = first; let i = index">
+      <div [ngClass]="{ 'margin-top-15' : !firstItem }">
+        <ng-container *ngIf="textReport.repeatedSectionName !== ''">
+          <!-- <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForNonEmptySectionName.innerText.trim()"
+            (clipboardCopy)="clipboardSuccess($event)" (clipboardError)="clipboardError($event)" acrClipboard>
+            <i class="fa fa-clipboard"></i>
+          </span> -->
+
+          <dl #reportTextContentForNonEmptySectionName>
+            <span class="text-capitalize spantest span_sectionName">
+              {{allTextResultReport.heading}}</span>
+            <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
+              (click)="getReportTextInnerContent(reportTextContentForNonEmptySectionName)">
+              <span>
+                <i class="fa fa-clipboard"></i>
+              </span>
+            </span>
+            <dd>
+              <p class="white-space-line spantest reportContent" [innerHTML]="allTextResultReport.content"></p>
+            </dd>
+          </dl>
+        </ng-container>
+
+        <!-- reportTextContent.innerText.trim() -->
+        <ng-container *ngIf="textReport.repeatedSectionName === ''">
+          <!-- <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+            [clipboard]="reportTextContentForEmptySectionName.innerText.trim()"
+            (clipboardCopy)="clipboardSuccess($event)" (clipboardError)="clipboardError($event)" acrClipboard>
+            <span>
+              <i class="fa fa-clipboard"></i>
+              Copy to clipboard
+            </span>
+          </span> -->
+
+          <dl #reportTextContentForEmptySectionName>
+            <span class="text-capitalize font-weight-bold span_sectionName">
+              {{allTextResultReport.heading}}</span>
+            <span class="btn btn-box-tool btn-report-text" title="Copy {{allTextResultReport.heading}} to clipboard"
+              (click)="getReportTextInnerContent(reportTextContentForEmptySectionName)">
+              <span>
+                <i class="fa fa-clipboard"></i>
+              </span>
+            </span>
+            <dd>
+              <span class="white-space-line reportContent" [innerHTML]="allTextResultReport.content"></span>
+            </dd>
+          </dl>
+        </ng-container>
+      </div>
+    </ng-container>
+    <hr *ngIf="!lastitem">
+  </ng-container>
+</ng-template>

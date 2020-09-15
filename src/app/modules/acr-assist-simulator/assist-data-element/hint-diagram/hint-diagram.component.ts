@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
 
@@ -9,17 +10,24 @@ import { UtilityService } from '../../../core/services/utility.service';
 })
 export class HintDiagramComponent {
 
+  activeSlideIndex = 0;
+
   @Input() dataElement: BaseDataElement;
   @Input() assetsBaseUrl: string;
-  activeSlideIndex = 0;
+
+  @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
 
   constructor(
     private utilityService: UtilityService
-  ) {
+  ) {  }
+
+  openDiagram() {
+    this.activeSlideIndex = 0;
+    this.modalPopup.show();
   }
 
-  resetCarouselIndex() {
-    this.activeSlideIndex = 0;
+  isValidImageURL(location: string) {
+    return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
   }
 
   getImageDataUrl(label: string): string {

@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { SimulatorState } from '../../core/models/simulator-state.model';
 import { InputData } from '../../core/models/input-data.model';
@@ -8,13 +9,14 @@ import { RepeatedElementModel } from '../../core/elements/models/repeatedElement
 import { RepeatedElementSections } from '../../core/elements/models/RepeatedElementSections';
 import { ResetCommunicationService } from '../shared/services/reset-communication.service';
 import { ChoiceElementDisplayEnum } from '../../core/models/choice-element-display.enum';
-import { MainReportText } from 'testruleengine/Library/Models/Class';
-import { Subscription } from 'rxjs';
-
-import * as _ from 'lodash';
 import { TabularReport } from '../../core/models/tabular-report.model';
+import { TabularReportElements } from '../../core/models/tabular-report-elements.model';
+import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 import { UtilityService } from '../../core/services/utility.service';
+import { MainReportText } from 'testruleengine/Library/Models/Class';
+
 const $ = require('jquery');
+import * as _ from 'lodash';
 
 @Component({
   selector: 'acr-assist-data-element',
@@ -27,14 +29,17 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   mainReportTextObj: MainReportText;
   simulatorState: SimulatorState;
   dataElementValues: Map<string, any>;
-  comparisonValues: string[] = [];
   selectedChoiceValues: string[] = [];
   executedResultIds: any[] = [];
   executedResultHistories: ExecutedResultHistory[] = [];
   IsRepeating: boolean;
   $RepeatedElementModel: any[] = [];
-  subscription: Subscription;
+  resetSourceSubscription: ISubscription;
+  simulatorStateSubscription: ISubscription;
 
+
+  @Input() customizeChoiceControlById: ChoiceControlStyle[];
+  @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() showTabularReportText: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
@@ -59,20 +64,16 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     private simulatorCommunicationService: SimulatorCommunicationService,
     resetCommunicationService: ResetCommunicationService
   ) {
-    this.subscription = resetCommunicationService.resetSource$.subscribe(
+    this.resetSourceSubscription = resetCommunicationService.resetSource$.subscribe(
       mission => {
         this.IsRepeating = false;
         this.$RepeatedElementModel = [];
       });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   ngOnInit(): void {
     this.IsRepeating = false;
-    this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
+    this.simulatorStateSubscription = this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
 
       this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
@@ -108,26 +109,81 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         } else {
           dataElement.isVisible = true;
         }
-        // tslint:disable-next-line: max-line-length
-        if (this.dataElementValues.get(dataElement.id) !== undefined && dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
-          dataElement.currentValue = this.dataElementValues.get(dataElement.id);
-        }
-        // tslint:disable-next-line: max-line-length
-        dataElement.currentValue = (dataElement.currentValue !== undefined) ? dataElement.currentValue : this.dataElementValues.get(dataElement.id);
-      }
 
+        if (dataElement.dataElementType === 'ComputedDataElement') {
+          dataElement.currentValue = this.dataElementValues.get(dataElement.id);
+        } else {
+          if (this.dataElementValues.get(dataElement.id) !== undefined &&
+            dataElement.currentValue !== this.dataElementValues.get(dataElement.id)) {
+            dataElement.currentValue = this.dataElementValues.get(dataElement.id);
+          }
+          dataElement.currentValue = (dataElement.currentValue !== undefined) ?
+            dataElement.currentValue : this.dataElementValues.get(dataElement.id);
+        }
+      }
 
       this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
       // tslint:disable-next-line: max-line-length
-      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+      this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
 
+      // this.dataElements.forEach(x => {
+      //   if (x.isVisible && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+      //     || ((x.currentValue === undefined && x.currentValue === null && x.currentValue.length === 0)))) {
+      //     x.showValidation = true;
+      //     isRequiredFieldIsNotFilled = true;
+      //   } else {
+      //     x.showValidation = false;
+      //   }
+      // })
 
-      if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
-        if (this.showTabularReportText) {
-          this.mainReportTextObj.tabularReport = this.createTabularReport();
+      // console.log(this.dataElements);
+
+      if (this.showTabularReportText) {
+        this.mainReportTextObj = new MainReportText();
+        this.mainReportTextObj.tabularReport = this.createTabularReport();
+        if (this.utilityService.isValidInstance(this.mainReportTextObj.tabularReport) &&
+          this.utilityService.isNotEmptyArray(this.mainReportTextObj.tabularReport.elements)) {
+
+          let isRequiredFieldIsNotFilled = false;
+          this.dataElements.forEach(x => {
+            if (x.isVisible && x.isRequired && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+              || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
+              x.showValidation = true;
+              isRequiredFieldIsNotFilled = true;
+            } else {
+              x.showValidation = false;
+            }
+          });
+
+          this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
+          this.returnReportText.emit(this.mainReportTextObj);
+        } else {
+
+          let isRequiredFieldIsNotFilled = false;
+          this.dataElements.forEach(x => {
+            x.showValidation = false;
+          });
+
+          this.returnReportText.emit(undefined);
         }
+      } else if (this.mainReportTextObj !== undefined && this.mainReportTextObj.allReportText.length > 0) {
+        let isRequiredFieldIsNotFilled = false;
+        this.dataElements.forEach(x => {
+          if (x.isVisible && x.isRequired && (x.currentValue === undefined || x.currentValue === null || x.currentValue === ''
+            || ((x.currentValue !== undefined && x.currentValue !== null && x.currentValue.length === 0)))) {
+            x.showValidation = true;
+            isRequiredFieldIsNotFilled = true;
+          } else {
+            x.showValidation = false;
+          }
+        });
+        this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
         this.returnReportText.emit(this.mainReportTextObj);
       } else {
+        let isRequiredFieldIsNotFilled = false;
+        this.dataElements.forEach(x => {
+          x.showValidation = false;
+        });
         this.returnReportText.emit(undefined);
       }
 
@@ -143,10 +199,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.dataElements = Object.keys(this.dataElements).map(i => this.dataElements[i]);
     // tslint:disable-next-line: max-line-length
-    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function(DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
+    this.dataElements = this.dataElements.filter(x => x.displaySequence != null).sort(function (DE_1, DE_2) { return DE_1.displaySequence - DE_2.displaySequence; });
     this.executedResultIds = [];
 
     this.$dataElements = [];
@@ -159,6 +215,15 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.simulatorEngineService.evaluateDecisionPoints();
   }
 
+  ngOnDestroy() {
+    if (this.utilityService.isValidInstance(this.resetSourceSubscription)) {
+      this.resetSourceSubscription.unsubscribe();
+    }
+    if (this.utilityService.isValidInstance(this.simulatorStateSubscription)) {
+      this.simulatorStateSubscription.unsubscribe();
+    }
+  }
+
   choiceSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
@@ -168,9 +233,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -187,10 +250,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -220,7 +280,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       this.IsRepeating = false;
       const $repeatedElementModel = new RepeatedElementModel();
 
-      this.ResetRepeatedElements($event);
+      this.resetRepeatedElements($event);
       for (const item of this.dataElements) {
         if (item.id === $event.receivedElement.elementId) {
           $repeatedElementModel.ParentElement = item;
@@ -252,7 +312,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  ResetRepeatedElements($event) {
+  resetRepeatedElements($event) {
     for (let index = 0; index < this.$RepeatedElementModel.length; index++) {
       if (this.$RepeatedElementModel[index].ParentElementId === $event.receivedElement.elementId) {
         this.$RepeatedElementModel.splice(index, 1);
@@ -268,10 +328,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -282,17 +339,13 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   multiSelected($event) {
     if ($event !== undefined) {
       if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
-        this.comparisonValues[$event.receivedElement.elementId + 'ComparisonValue'] = $event.receivedElement.selectedComparisonValues;
         // tslint:disable-next-line: max-line-length
-        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedComparisonValues,
-          $event.receivedElement.selectedValues);
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValues,
+          $event.receivedElement.selectedTexts);
         const executedResults: string[] = [];
         executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
         this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
-
-        if (this.simulatorState.endPointIds && this.simulatorState.endPointIds.length > 0) {
-          this.generateExecutionHistory();
-        }
+        this.generateExecutionHistory();
         this.afterDataElementChanged();
       }
     } else {
@@ -366,7 +419,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
 
   removeDuplicates(arr) {
     const unique_array = [];
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < arr.length; i++) {
       if (unique_array.indexOf(arr[i]) === -1) {
         unique_array.push(arr[i]);
@@ -423,49 +475,41 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.returnExecutionHistory.emit(finalExecution);
   }
 
-  private createTabularReport(): TabularReport[] {
-    const tabularReports = new Array<TabularReport>();
-    const dataElementValues = this.simulatorEngineService.getAllDataElementValues()[Symbol.iterator]();
+  private createTabularReport(): TabularReport {
+    const dataElementTexts = this.simulatorEngineService.getAllDataElementTexts()[Symbol.iterator]();
     const template = this.simulatorEngineService.getTemplate();
-    for (const value of dataElementValues) {
-      if (this.utilityService.isValidInstance(value[1])) {
+    const tabularReport = new TabularReport();
+    tabularReport.elements = new Array<TabularReportElements>();
+    tabularReport.label = template.metadata.label;
+
+    if (this.utilityService.isValidInstance(template.metadata.codableConcept) &&
+      this.utilityService.isNotEmptyArray(template.metadata.codableConcept.coding)) {
+      tabularReport.identifier = template.metadata.codableConcept.coding[0].code;
+    }
+
+    for (const value of dataElementTexts) {
+      const hasValidValue = Array.isArray(value[1]) ?
+        this.utilityService.isNotEmptyArray(value[1]) : this.utilityService.isNotEmptyString(value[1]);
+      if (hasValidValue) {
         const dataElement = template.dataElements.find(x => x.id === value[0] &&
-          x.dataElementType !== 'ComputedDataElement'  && x.dataElementType !== 'GlobalValue');
+          x.dataElementType !== 'ComputedDataElement' && x.dataElementType !== 'GlobalValue');
         if (this.utilityService.isValidInstance(dataElement)) {
           let radElementId: string;
           if (this.utilityService.isValidInstance(dataElement.codableConcept) &&
             this.utilityService.isNotEmptyArray(dataElement.codableConcept.coding)) {
             radElementId = dataElement.codableConcept.coding[0].code;
           }
-          const report = new TabularReport();
-          report.dataElement = dataElement.label;
-          report.radElement = radElementId;
-          report.values = value[1];
-          tabularReports.push(report);
+
+          const element = new TabularReportElements();
+          element.dataElement = dataElement.label;
+          element.radElement = radElementId;
+          element.values = value[1];
+          tabularReport.elements.push(element);
         }
       }
     }
 
-    return tabularReports;
-  }
-
-  private returnEndPointContents(content: string, startToken: string, endToken: string): string {
-    let contents: string;
-    let templateSearchIndexPosition = 0;
-    while (true) {
-      const contentStartPosition = content.indexOf(startToken, templateSearchIndexPosition);
-      const contentEndPosition = content.indexOf(endToken, templateSearchIndexPosition);
-
-      if (contentStartPosition >= 0 && contentEndPosition >= 0) {
-        const endPosition = contentEndPosition + endToken.length;
-        const contentData = content.substring(contentStartPosition, endPosition);
-        contents = contentData;
-        templateSearchIndexPosition = endPosition + 1;
-      } else {
-        break;
-      }
-    }
-    return contents;
+    return tabularReport;
   }
 }
 
@@ -488,7 +532,7 @@ export class DateTimeElement {
 export class MultiChoiceElement {
   elementId: string;
   selectedValues: string[];
-  selectedComparisonValues: string[];
+  selectedTexts: string[];
 }
 
 export class AllElements {

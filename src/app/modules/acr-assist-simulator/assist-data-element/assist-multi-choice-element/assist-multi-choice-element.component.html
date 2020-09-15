@@ -45,12 +45,22 @@
           [ngModelOptions]="{standalone: true}" placeholder="Please specify"
           (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
       </div>
+      <ng-container *ngIf="multiChoiceElement.imageMap != undefined">
+        <div class="row padding-top-10">
+          <div class="col-xs-6 col-sm-2">
+            <label class="control-label">OR</label>
+          </div>
+          <acr-image-map [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl">
+          </acr-image-map>
+        </div>
+      </ng-container>
     </div>
   </div>
 
   <!-----------Top to bottom layout-------------->
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && multiChoiceElement.isRelevant">
-    <div class="col-lg-12" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
+    <div class="col-lg-12" *ngIf="!isChoiceHasDiagrams(multiChoiceElement)"
+      [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
       <div class="col-lg-10 labelparentdiv">
         <label class="control-label break-word">{{multiChoiceElement.label}} <span
             *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
@@ -59,41 +69,170 @@
             *
           </span>
         </label>
-      </div>
-      <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
           <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
         </ng-container>
+      </div>
+      <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
       </div>
-      <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"
-        title="{{choice.hint}}">
-        <label [hidden]="isMultiChoiceLabelHidden(choice.value)">
-          <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
-            id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
-            value="{{choice.value}}"
-            (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
-          {{choice.label}}
-        </label>
-      </div>
 
-      <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
-        <label>
-          <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
-            formControlName="multiCheckBox" [value]="'freetext'"
-            (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
-          Other, please specify…
-        </label>
-      </div>
+      <div class="div_mutlitselect_parent" [ngClass]="{ 'show-error': multiChoiceElement.showValidation }">
+        <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"
+          title="{{choice.hint}}">
+          <label [hidden]="isMultiChoiceLabelHidden(choice.value)">
+            <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
+              id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
+              value="{{choice.value}}"
+              (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
+            {{choice.label}}
+          </label>
+        </div>
 
-      <!-- other '{{multiChoiceElement.label}}' -->
-      <div id='div_{{multiChoiceElement.id}}_other'>
-        <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
-          [ngModelOptions]="{standalone: true}" placeholder="Please specify"
-          (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
+        <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
+          <label>
+            <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
+              formControlName="multiCheckBox" [value]="'freetext'"
+              (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
+            Other, please specify…
+          </label>
+        </div>
+
+        <!-- other '{{multiChoiceElement.label}}' -->
+        <div id='div_{{multiChoiceElement.id}}_other'>
+          <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
+            (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
+        </div>
+        <ng-container *ngIf="multiChoiceElement.imageMap != undefined">
+          <div class="row padding-top-10">
+            <div class="col-xs-6 col-sm-2">
+              <label class="control-label">OR</label>
+            </div>
+            <acr-image-map [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl">
+            </acr-image-map>
+          </div>
+        </ng-container>
       </div>
     </div>
+
+
+    <div class="col-lg-12" *ngIf="isChoiceHasDiagrams(multiChoiceElement)"
+      [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
+      <div class="col-lg-10 labelparentdiv">
+        <label class="control-label break-word">{{multiChoiceElement.label}} <span
+            *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
+            ({{multiChoiceElement.unit}})</span>
+          <span *ngIf="isMultiChoiceElementRequired()" class="required-field" title="Required Field">
+            *
+          </span>
+        </label>
+        <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
+          <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
+        </ng-container>
+      </div>
+      <div class="col-lg-2 div_hint">
+        <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
+          <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
+        </ng-container>
+      </div>
+
+      <!-- [ngStyle]="{'border-bottom': i !== multiChoiceElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
+
+      
+      <div class="div_options_withthumbnail_parent" [ngClass]="{ 'show-error': multiChoiceElement.showValidation }">
+        <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo; let i = index">
+          <ng-container *ngIf="!isMultiChoiceLabelHidden(choice.value)">
+            <div class="checkbox checkboxCustomized div_options_withthumbnail padding-t-10px col-lg-12"
+              title="{{choice.hint}}">
+              <label class="option_label_withthumbnail_mutliselect">
+                <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
+                  id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
+                  value="{{choice.value}}"
+                  (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
+                <!-- {{choice.label}} -->
+
+                <label class="option_label_withthumbnail_mutliselect_label_text" title="{{choice.label}}"
+                  for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
+              </label>
+
+              <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
+              <ng-container *ngIf="choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
+                <div class="div_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event)"
+                  *ngFor="let diagram of choice.diagrams">
+                  <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                    <img name="img_diagram" [src]="diagram.location" alt="{{ diagram.label }}">
+                  </ng-container>
+                  <ng-template #notImageUrl>
+                    <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                  </ng-template>
+                  <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
+                </div>
+              </ng-container>
+            </div>
+
+            <ng-template #div_multiImage>
+              <div class="col-lg-12" style="margin: 0px;padding: 0;">
+                <div class="div_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event)"
+                  *ngFor="let diagram of choice.diagrams">
+                  <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                    <img name="img_diagram" [src]="diagram.location" alt="{{ diagram.label }}">
+                  </ng-container>
+                  <ng-template #notImageUrl>
+                    <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                  </ng-template>
+                  <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
+          <div class="border-top" class="div_options_withthumbnail padding-t-10px">
+            <label class="option_label_withthumbnail width-98p">
+              <input type="checkbox" id="{{multiChoiceElement.id}}_othertext" [checked]="false"
+                formControlName="multiCheckBox" [value]="'freetext'"
+                (change)="choiceSelected(multiChoiceElement.id, multiChoiceElement.label, 'Other, please specify…', 'freetext', $event)">
+
+              <label for="{{multiChoiceElement.id}}_othertext">Other,
+                please specify…</label>
+            </label>
+          </div>
+        </div>
+
+        <!-- other '{{multiChoiceElement.label}}' -->
+        <div id='div_{{multiChoiceElement.id}}_other' class="padding-10px">
+          <input id="txt_other_{{multiChoiceElement.id}}" class="form-control" type="text" [(ngModel)]="freeTextValue"
+            [ngModelOptions]="{standalone: true}" placeholder="Please specify"
+            (keyup)='updateFreeText($event.target, multiChoiceElement.id, multiChoiceElement.label)'>
+        </div>
+      </div>
+      <ng-container *ngIf="multiChoiceElement.imageMap != undefined">
+        <div class="row padding-top-10">
+          <div class="col-xs-6 col-sm-2">
+            <label class="control-label">OR</label>
+          </div>
+          <acr-image-map [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl">
+          </acr-image-map>
+        </div>
+      </ng-container>
+    </div>
   </div>
+
+  <!-- The Modal -->
+  <div id="immgModalmulti" class="imgmodal" (click)="onImgModelClick($event)">
+
+    <!-- The Close Button -->
+    <span class="close" (click)="onImgPopupClose()">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01multi">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+  </div>
+
 </form>

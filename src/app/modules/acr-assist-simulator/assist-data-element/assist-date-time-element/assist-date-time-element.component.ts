@@ -2,8 +2,8 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { DateTimeDataElement } from 'testruleengine/Library/Models/Class';
-import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { DateTimeElement } from '../assist-data-element.component';
+import { UtilityService } from '../../../core/services/utility.service';
 
 @Component({
   selector: 'acr-assist-date-time-element',
@@ -12,10 +12,6 @@ import { DateTimeElement } from '../assist-data-element.component';
 })
 export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
 
-  @Input() alignLabelAndControlToTopAndBottom: boolean;
-  @Input() assetsBaseUrl: string;
-  @Input() dateTimeDataElement: DateTimeDataElement;
-  @Output() returnDateTimeElement = new EventEmitter();
   selectedCondition: SelectedCondition;
   dateTimeElementForm: FormGroup;
   settings = {
@@ -26,7 +22,14 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
     closeOnSelect: true
   };
 
-  constructor(private formBuilder: FormBuilder, private simulatorEngineService: SimulatorEngineService) { }
+  @Input() alignLabelAndControlToTopAndBottom: boolean;
+  @Input() assetsBaseUrl: string;
+  @Input() dateTimeDataElement: DateTimeDataElement;
+  @Output() returnDateTimeElement = new EventEmitter();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    public utilityService: UtilityService) { }
 
   ngOnInit() {
     this.createDateTimeElementForm();
