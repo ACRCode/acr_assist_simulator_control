@@ -1,0 +1,18 @@
+<ng-container *ngIf="computedDataElement !== undefined && computedDataElement !== null && computedDataElement.currentValue !== undefined && 
+computedDataElement.currentValue !== ''">
+    <!-- <input type="text" class="form-control" />
+    <label>
+        <span style="font-style: italic"> {{computedDataElement.currentValue}}</span>
+    </label> -->
+    <div class="form-group">
+        <div class="col-lg-12">
+            <div class="col-lg-12 labelparentdiv">
+                <label class="control-label break-word">
+                    {{computedDataElement.label}}
+                </label>
+            </div>
+            <input disabled="disabled" id="{{computedDataElement.id}}" type="text"
+                value="{{computedDataElement.currentValue}}" class="form-control color-inherit" onpaste="return false;">
+        </div>
+    </div>
+</ng-container>

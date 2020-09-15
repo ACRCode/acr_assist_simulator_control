@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Acr.Assist.Simulator</id> 
+    <version>1.0.0</version>
+    <title>Acr Assist Simulator</title>
+    <authors>American College of Radiology</authors>
+    <owners>American College of Radiology</owners>
+    <projectUrl>https://assist.acr.org/simulator</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ACR Assist</description>
+    <copyright>© 2020-2021, American College of Radiology</copyright>
+    <language>es-US</language>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="dist\**\*.*" target="" />
+  </files>
+</package>
