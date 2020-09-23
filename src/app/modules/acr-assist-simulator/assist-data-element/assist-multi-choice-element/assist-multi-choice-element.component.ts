@@ -52,6 +52,19 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
       $this.showImageZoom();
     }, 200);
+
+
+    $(document).on('click', '.div_img_thumbnail', function (e) {
+      const modal = document.getElementById('immgModal');
+      const modalImg = document.getElementById('img01') as any;
+      let img_src = $(this).find('img').attr('src');
+      if (img_src === '') {
+        img_src = undefined;
+      }
+
+      modal.style.display = 'block';
+      modalImg.src = img_src;
+    });
   }
 
   isValidImageURL(location: string) {
@@ -338,13 +351,31 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     }
   }
 
-  onChoiceDiagramClick(choice, event) {
-    const modal = document.getElementById('immgModalmulti');
-    const modalImg = document.getElementById('img01multi') as any;
-    const img_src = event.target.src;
-    modal.style.display = 'block';
-    modalImg.src = img_src;
-    // modalImg.src = 'https://images.pexels.com/photos/4350202/pexels-photo-4350202.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';  ///img_src;
+  // onChoiceDiagramClick(choice, event) {
+  //   const modal = document.getElementById('immgModalmulti');
+  //   const modalImg = document.getElementById('img01multi') as any;
+  //   const img_src = event.target.src;
+  //   modal.style.display = 'block';
+  //   modalImg.src = img_src;
+  //   // modalImg.src = 'https://images.pexels.com/photos/4350202/pexels-photo-4350202.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';  ///img_src;
+  // }
+
+  onChoiceDiagramClick(choice, event, diagram) {
+    // debugger;
+    // var src = $(event).find('img').attr('src');
+    // const modal = document.getElementById('immgModal');
+    // const modalImg = document.getElementById('img01') as any;
+    // // const img_src = event.target.src;
+    // let img_src = undefined;
+    // if (this.isValidImageURL(diagram.location)) {
+    //   img_src = diagram.location;
+    // } else {
+    //   img_src = this.getImageDataUrl(diagram.location);
+    // }
+
+    // modal.style.display = 'block';
+    // modalImg.src = img_src;
+    // modalImg.src = 'https://images.pexels.com/photos/7102/notes-macbook-study-conference.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';  ///img_src;
   }
 
   isChoiceHasDiagrams(multiChoiceElement: MultiChoiceElement) {
