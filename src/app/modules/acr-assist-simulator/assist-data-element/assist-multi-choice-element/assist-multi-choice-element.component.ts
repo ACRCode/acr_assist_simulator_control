@@ -361,7 +361,6 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   // }
 
   onChoiceDiagramClick(choice, event, diagram) {
-    // debugger;
     // var src = $(event).find('img').attr('src');
     // const modal = document.getElementById('immgModal');
     // const modalImg = document.getElementById('img01') as any;

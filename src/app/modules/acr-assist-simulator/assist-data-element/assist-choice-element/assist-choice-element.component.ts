@@ -367,7 +367,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event = undefined) {
-    console.log(event);
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
@@ -458,7 +457,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   onChoiceDiagramClick(choice, event, diagram) {
-    debugger;
     // var src = $(event).find('img').attr('src');
     // const modal = document.getElementById('immgModal');
     // const modalImg = document.getElementById('img01') as any;

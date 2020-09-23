@@ -137,7 +137,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
       // })
 
       // console.log(this.dataElements);
-
       if (this.showTabularReportText) {
         this.mainReportTextObj = new MainReportText();
         this.mainReportTextObj.tabularReport = this.createTabularReport();
