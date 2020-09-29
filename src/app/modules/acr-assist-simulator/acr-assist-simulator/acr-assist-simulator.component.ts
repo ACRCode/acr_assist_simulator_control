@@ -26,6 +26,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   isEmptyContent: boolean;
   keyDiagrams: Diagram[] = [];
   resultText: MainReportText;
+  isRequiredFieldIsNotFilled: boolean;
   isReset: boolean;
   dataElements: BaseDataElement[];
   position = ReportTextPosition;
@@ -81,7 +82,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   ngOnChanges(): void {
     this.isReset = true;
     this.resultText = undefined;
-
+    this.isRequiredFieldIsNotFilled = true;
     this.isEmptyContent = this.templateContent === undefined || this.templateContent.length === 0 && this.inputValues.length === 0 &&
       this.inputData === undefined;
 
@@ -222,6 +223,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     this.simulatorEngineService.initialize(this.template);
     this.dataElements = Object.assign({}, this.template.dataElements);
     this.resultText = undefined;
+    this.isRequiredFieldIsNotFilled = true;
     const $this = this;
     setTimeout(function (e) {
       $this.resizeKeyImages();
@@ -231,6 +233,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
+    this.isRequiredFieldIsNotFilled = textReport.isRequiredFieldIsNotFilled;
     this.returnReportText.emit(textReport);
 
     if (this.utilityService.isValidInstance(this.resultText)) {
