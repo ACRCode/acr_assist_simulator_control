@@ -233,7 +233,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
   recieveReportText(textReport: MainReportText) {
     this.resultText = textReport;
-    this.isRequiredFieldIsNotFilled = textReport.isRequiredFieldIsNotFilled;
+    this.isRequiredFieldIsNotFilled = this.utilityService.isValidInstance(textReport) ? textReport.isRequiredFieldIsNotFilled : true;
     this.returnReportText.emit(textReport);
 
     if (this.utilityService.isValidInstance(this.resultText)) {

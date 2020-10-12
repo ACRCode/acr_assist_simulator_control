@@ -113,7 +113,7 @@ export class ImageMapComponent implements OnInit {
       }
     }
 
-    // return 'assets/images/COVID19.jpg';
+    //  return 'assets/images/COVID19.jpg';
   }
 
   needToCustomizeTheControl(): ChoiceElementDisplayEnum {
@@ -264,9 +264,11 @@ export class ImageMapComponent implements OnInit {
           if (this._isListBox() || this._isSelectBox()) {
             $('#' + this.dataElement.id).val(choice.value);
             $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
+            this.modalPopup.hide();
           } else if (this._isRadioButton()) {
             $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
             $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+            this.modalPopup.hide();
           }
         } else {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
