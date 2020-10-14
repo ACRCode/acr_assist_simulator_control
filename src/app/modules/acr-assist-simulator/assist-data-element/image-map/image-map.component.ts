@@ -273,6 +273,7 @@ export class ImageMapComponent implements OnInit {
         } else {
           $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
+          this.modalPopup.hide();
         }
         // this.modalPopup.hide();
       }
