@@ -54,14 +54,17 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     }, 200);
 
 
-    $(document).on('click', '.div_img_thumbnail', function (e) {
-      const modal = document.getElementById('immgModal');
-      const modalImg = document.getElementById('img01') as any;
-      let img_src = $(this).find('img').attr('src');
+    $(document).on('click', '.div_multi_img_thumbnail', function (e) {
+      const modal = document.getElementById('immgModalmulti');
+      const modalImg = document.getElementById('img01multi') as any;
+      let img = $(this).find('img');
+      let img_src = img.attr('src');
       if (img_src === '') {
         img_src = undefined;
       }
-
+      let img_label = img.attr('id');
+      var caption = document.getElementById('caption');
+      caption.innerHTML = img_label;
       modal.style.display = 'block';
       modalImg.src = img_src;
     });
@@ -73,7 +76,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   showImageZoom() {
     const utility = this.utilityService;
-    $(document).on('mouseover', '.div_img_thumbnail', function (e) {
+    $(document).on('mouseover', '.div_multi_img_thumbnail', function (e) {
       const _image = $(this).find('img');
       if (utility.isValidInstance(_image)) {
         const img_src = _image[0].src;
@@ -88,12 +91,12 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         }
 
         $('body').append(tooltip);
-        // $('.div_img_thumbnail').css('z-index', 1000000);
+        // $('.div_multi_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
         $('.tooltiptopicevent').fadeTo('10', 1.9);
       }
     });
-    $(document).on('mousemove', '.div_img_thumbnail', function (e) {
+    $(document).on('mousemove', '.div_multi_img_thumbnail', function (e) {
       // .mousemove(function (e) {
       // $('.tooltiptopicevent').css('top', e.pageY + 10);
       $('.tooltiptopicevent').css('top', e.pageY - 250);
@@ -101,10 +104,10 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       // $('.tooltiptopicevent').css('right', e.pageX);
     });
 
-    $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
+    $(document).on('mouseleave', '.div_multi_img_thumbnail', function (e) {
       // .mouseleave(function (e) {
-      $('.div_img_thumbnail').css('z-index', 8);
-      // $('.tooltiptopicevent').remove();
+      $('.div_multi_img_thumbnail').css('z-index', 8);
+      $('.tooltiptopicevent').remove();
     });
   }
 

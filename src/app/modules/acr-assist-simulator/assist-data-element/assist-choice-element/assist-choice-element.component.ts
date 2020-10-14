@@ -100,9 +100,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       if (img_src === '') {
         img_src = undefined;
       }
+      let img_label = $(this). find('img').attr('id');
 
       modal.style.display = 'block';
       modalImg.src = img_src;
+      var caption = document.getElementById('caption');
+      caption.innerHTML = img_label;
     });
 
     this.showImageZoom();

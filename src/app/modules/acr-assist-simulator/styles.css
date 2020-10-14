@@ -304,7 +304,7 @@ mark {
   transition: opacity 400ms ease-out;
 }
 
-.div_img_thumbnail {
+.div_img_thumbnail, .div_multi_img_thumbnail {
   /* width: 80px;
   height: 80px; */
   justify-content: center;
@@ -469,7 +469,7 @@ i.fa-search {
   margin-top: 3%;
 }
 
-.div_img_thumbnail img {
+.div_img_thumbnail, .div_multi_img_thumbnail img {
   flex: 1;
   /* height: 100%; */
   /* height: 100px;

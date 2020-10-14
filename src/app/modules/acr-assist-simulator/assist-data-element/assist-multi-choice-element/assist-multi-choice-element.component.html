@@ -160,13 +160,13 @@
 
               <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
               <ng-container *ngIf="choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
-                <div class="div_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
+                <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                   *ngFor="let diagram of choice.diagrams">
                   <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                    <img name="img_diagram" [src]="diagram.location" alt="{{ diagram.label }}">
+                    <img name="img_diagram" id="{{choice.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
                   </ng-container>
                   <ng-template #notImageUrl>
-                    <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                    <img name="img_diagram" id="{{choice.label}}" [src]="getImageDataUrl(diagram.location) | secure">
                   </ng-template>
                   <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                 </div>
@@ -175,13 +175,13 @@
 
             <ng-template #div_multiImage>
               <div class="col-lg-12" style="margin: 0px;padding: 0;">
-                <div class="div_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
+                <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                   *ngFor="let diagram of choice.diagrams">
                   <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                    <img name="img_diagram" [src]="diagram.location" alt="{{ diagram.label }}">
+                    <img name="img_diagram" id="{{choice.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
                   </ng-container>
                   <ng-template #notImageUrl>
-                    <img name="img_diagram" [src]="getImageDataUrl(diagram.location) | secure">
+                    <img name="img_diagram" id="{{choice.label}}"  [src]="getImageDataUrl(diagram.location) | secure">
                   </ng-template>
                   <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                 </div>
@@ -232,7 +232,7 @@
     <img class="modal-content" id="img01multi">
 
     <!-- Modal Caption (Image Text) -->
-    <div id="caption"></div>
+    <div id="caption" style="color:white;font-size: large;"></div>
   </div>
 
 </form>
