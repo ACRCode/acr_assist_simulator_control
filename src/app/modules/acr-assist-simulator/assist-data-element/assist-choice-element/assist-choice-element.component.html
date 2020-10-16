@@ -451,25 +451,19 @@
             <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
             (choiceDataElement.ChoiceNotRelevant !== undefined && 
             choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
-              <div class="col-lg-12 div_options_withthumbnail" *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
+              <div id="{{choice.value}}_{{choiceDataElement.id}}" class="col-lg-12 div_options_withthumbnail" (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
+              [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }" *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
               (choiceDataElement.ChoiceNotRelevant !== undefined && 
               choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
                 <label for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
-                  <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                    formControlName="checkBox" value="{{choice.value}}"
-                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
-                    [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
-
+                  <input *ngIf="!hideRadioButton" class="margin-t-3p" id="{{choice.value}}" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" style="float: left;" type="radio" formControlName="checkBox" value="{{choice.value}}">
                   <label class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
                 </label>
-
-
                 <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
-  (choiceDataElement.ChoiceNotRelevant !== undefined && 
+  (choiceDataElement.ChoiceNotRelevant !== undefined &&
   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
                   <ng-container
                     *ngIf="choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">

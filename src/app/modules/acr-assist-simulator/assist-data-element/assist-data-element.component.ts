@@ -52,6 +52,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() xmlContent: string;
   @Input() isReset: boolean;
   @Input() inputValues: InputData[] = [];
+  @Input() hideRadioButton: boolean;
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();

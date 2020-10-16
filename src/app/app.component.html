@@ -42,7 +42,7 @@
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'
-          (returnDefaultElements)="returnDefaultElements()" (returnReportText)="recieveReportText($event)">
+          (returnDefaultElements)="returnDefaultElements()" (returnReportText)="recieveReportText($event)" [hideRadioButton]="settingsConfig.get('hideRadioButton')">
         </acr-assist-simulator>
       </div>
     </section>

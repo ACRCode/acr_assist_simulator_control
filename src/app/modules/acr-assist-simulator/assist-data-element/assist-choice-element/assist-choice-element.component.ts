@@ -37,6 +37,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() disabled: boolean;
+  @Input() hideRadioButton: boolean;
 
   @Output() returnChoiceElement = new EventEmitter();
   @Output() choiceChange = new EventEmitter();
@@ -372,6 +373,15 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event = undefined) {
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
+      var div_id = selectedValue + "_" + selectedElement;
+      if(!this.hideRadioButton) {
+        var inputId = '#' + selectedValue.trim();
+        $('form input[type=radio]:checked').prop("checked", false);
+        $(inputId).prop("checked", true);
+      }
+      $('label.highlightchoice').removeClass('highlightchoice');
+      $('div.highlightchoice').removeClass('highlightchoice');
+      document.getElementById(div_id.trim()).classList.add('highlightchoice');
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
     } else {
       this.emitChoiceElementData(elementId, selectedElement, '', '');

@@ -6,6 +6,7 @@
     "fontColor": "",
     "fontFamily": "",
     "backgroundColor": "",
+    "hideRadioButton" : false,
     "cssClass": [
       "testing",
       "testing",
