@@ -186,7 +186,7 @@ export class SimulatorEngineService {
       }
     }
 
-    return Math.round(expressionParser.evaluate(computedValue)).toString();
+    return (Math.round((expressionParser.evaluate(computedValue) + Number.EPSILON) * 100) / 100).toString();
   }
 
   private evaluateComputedExpressions() {
