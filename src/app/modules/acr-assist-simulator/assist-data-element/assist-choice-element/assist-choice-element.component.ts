@@ -38,6 +38,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() disabled: boolean;
   @Input() hideRadioButton: boolean;
+  @Input() alignThumbnailLeftOrRight: string;
+  @Input() alignChoiceLabel : string;
 
   @Output() returnChoiceElement = new EventEmitter();
   @Output() choiceChange = new EventEmitter();
@@ -55,6 +57,13 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnInit(): void {
+    if(this.hideRadioButton) {
+      $(".div_img_thumbnail").css("float", this.alignThumbnailLeftOrRight != undefined && this.alignThumbnailLeftOrRight != null ? this.alignThumbnailLeftOrRight : 'right');
+      $("div.div_options_withthumbnail").find('label').css("text-align", this.alignChoiceLabel != undefined && this.alignChoiceLabel != null ? this.alignChoiceLabel : "left");
+    } else {
+      $(".div_img_thumbnail").css("float", "right");
+      $("div.div_options_withthumbnail").find('label').css("text-align", "left");
+    }
     if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
       this.choiceDataElement.choiceInfo.diagrams !== null) {
       this.choiceDataElement.choiceInfo.choice.forEach(choice => {
@@ -366,22 +375,25 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         return elem.value === this.choiceElementForm.controls.checkBox.value;
       }
     }
-
     return false;
   }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event = undefined) {
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
-      var div_id = selectedValue + "_" + selectedElement;
+      var divElementId = selectedValue + "_" + selectedElement.trim();
       if(!this.hideRadioButton) {
         var inputId = '#' + selectedValue.trim();
         $('form input[type=radio]:checked').prop("checked", false);
         $(inputId).prop("checked", true);
+      } else {
+        $('div.highlightchoice').find('i').remove();
+        var divId = "#" + divElementId;
+        $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3;'></i>");
       }
       $('label.highlightchoice').removeClass('highlightchoice');
       $('div.highlightchoice').removeClass('highlightchoice');
-      document.getElementById(div_id.trim()).classList.add('highlightchoice');
+      document.getElementById(divElementId).classList.add('highlightchoice');
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
     } else {
       this.emitChoiceElementData(elementId, selectedElement, '', '');

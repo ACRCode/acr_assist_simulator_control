@@ -42,7 +42,7 @@
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
           (returnExecutionHistory)='recievedExecutionHistory($event)'
           (returnDataElementChanged)='recievedDataElementChanged($event)'
-          (returnDefaultElements)="returnDefaultElements()" (returnReportText)="recieveReportText($event)" [hideRadioButton]="settingsConfig.get('hideRadioButton')">
+          (returnDefaultElements)="returnDefaultElements()" (returnReportText)="recieveReportText($event)" [hideRadioButton]="settingsConfig.get('hideRadioButton')" [alignThumbnailLeftOrRight]="settingsConfig.get('alignThumbnailLeftOrRight')" [alignChoiceLabel]="settingsConfig.get('alignChoiceLabel')">
         </acr-assist-simulator>
       </div>
     </section>

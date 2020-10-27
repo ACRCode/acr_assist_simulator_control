@@ -297,7 +297,6 @@
               <acr-image-map [elementDisplay]="elementDisplay" [choiceControlStyle]="choiceControlStyle"
                 [customizeChoiceControlById]="customizeChoiceControlById" [dataElement]="choiceDataElement"
                 [assetsBaseUrl]="assetsBaseUrl"></acr-image-map>
-
             </div>
           </div>
         </ng-container>
@@ -447,7 +446,7 @@
 
         <!-- [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
         <div class="div_options_withthumbnail_parent" style="display: inline-block;">
-          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
+          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index; let lastItem = last;">
             <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
             (choiceDataElement.ChoiceNotRelevant !== undefined && 
             choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
@@ -455,11 +454,11 @@
               [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }" *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
               (choiceDataElement.ChoiceNotRelevant !== undefined && 
               choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
-                <label for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+              <label [ngClass]="{ 'label_align' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1)), 'label_align_multi_img' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length > 1)) }" for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
                   <input *ngIf="!hideRadioButton" class="margin-t-3p" id="{{choice.value}}" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" style="float: left;" type="radio" formControlName="checkBox" value="{{choice.value}}">
-                  <label class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
+                  <label [ngClass]="{'left-0px' : alignChoiceLabel == 'right' && choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1}" class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
                 </label>
                 <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
@@ -495,7 +494,7 @@
                   </div>
                 </div>
               </ng-template>
-
+              <hr class="solid" *ngIf="!lastItem && hideRadioButton">
             </ng-container>
 
             <ng-container *ngIf="choiceDataElement.allowFreetext">
