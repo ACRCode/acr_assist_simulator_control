@@ -389,7 +389,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       } else {
         $('div.highlightchoice').find('i').remove();
         var divId = "#" + divElementId;
-        $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3;'></i>");
+        $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>");
       }
       $('label.highlightchoice').removeClass('highlightchoice');
       $('div.highlightchoice').removeClass('highlightchoice');
