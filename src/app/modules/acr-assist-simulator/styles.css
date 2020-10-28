@@ -324,6 +324,10 @@ mark {
   margin-bottom: 5px !important;
 }
 
+.div_multi_img_thumbnail {
+  float : right;
+}
+
 .centered {
   position: absolute;
   bottom: 2px;
@@ -540,6 +544,10 @@ hr.solid {
   font-size: xx-large;
   font-weight: 700;
   color: #98d19d;
+}
+
+.margin-t-10p {
+  margin-top: 10px;
 }
 
 .option_label_withthumbnail_mutliselect_label_text {
