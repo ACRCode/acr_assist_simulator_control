@@ -7,8 +7,8 @@
     "fontFamily": "",
     "backgroundColor": "",
     "hideRadioButton" : true,
-    "alignThumbnailLeftOrRight" : "left",
-    "alignChoiceLabel": "center",
+    "alignThumbnailLeftOrRight" : "right",
+    "alignChoiceLabel": "left",
     "cssClass": [
       "testing",
       "testing",

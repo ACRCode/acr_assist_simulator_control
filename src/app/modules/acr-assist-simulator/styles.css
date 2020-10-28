@@ -325,7 +325,7 @@ mark {
 }
 
 .div_multi_img_thumbnail {
-  float : right;
+  float: right;
 }
 
 .centered {
@@ -449,13 +449,14 @@ i.fa-search {
   padding-left: 3px;
   /* margin-bottom: 10px; */
   width: 100%;
+  margin-top: 5px;
   /* padding-top: 10px; */
   /* text-align: center; */
 }
 
 .text_center {
   text-align: center;
-  width : 100% !important;
+  width: 100% !important;
 }
 
 .width_100p {
@@ -466,6 +467,7 @@ i.fa-search {
   background: #f1f1f1;
   /* border: 1px solid blue; */
   cursor: pointer;
+  color: black;
 }
 
 .label_align_multi_img {
@@ -474,12 +476,13 @@ i.fa-search {
 }
 
 .left-8px {
-  left : -8px !important;
+  left: -8px !important;
 }
 
 .highlightchoice {
   background: #f1f1f1;
   border: 3px solid #1686f3;
+  color: black;
 }
 
 .border-top {
@@ -501,7 +504,8 @@ i.fa-search {
   width: 50px;
   object-fit: contain;
   /* float: right; */
-} 
+  border: 2px solid #ccc;
+}
 
 .label_align {
   width: calc(100% - 5em);
@@ -515,7 +519,7 @@ i.fa-search {
 hr.solid {
   width: 100%;
   height: 0.5px;
-  background-color: #77777794;
+  /* background-color: #77777794; */
 }
 
 .option_label_withthumbnail {

@@ -99,7 +99,7 @@ describe('AssistMultiChoiceElementComponent', () => {
     dataElements.push(multiChoiceDataElement);
 
     component.multiChoiceElement = <MultiChoiceDataElement>dataElements[0];
-    component.imagePath = 'XMLFiles/Samples/Hello Assist';
+    // component.imagePath = 'XMLFiles/Samples/Hello Assist';
   }
 
   it('Created the AssistMultiChoiceElementComponent', () => {

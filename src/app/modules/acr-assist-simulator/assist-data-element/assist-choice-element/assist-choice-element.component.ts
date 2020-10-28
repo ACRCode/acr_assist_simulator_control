@@ -59,10 +59,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   ngOnInit(): void {
     if(this.hideRadioButton) {
       $(".div_img_thumbnail").css("float", this.alignThumbnailLeftOrRight != undefined && this.alignThumbnailLeftOrRight != null ? this.alignThumbnailLeftOrRight : 'right');
-      $("div.div_options_withthumbnail").find('label').css("text-align", this.alignChoiceLabel != undefined && this.alignChoiceLabel != null ? this.alignChoiceLabel : "left");
+      $("div.div_options_withthumbnail_choice").find('label').css("text-align", this.alignChoiceLabel != undefined && this.alignChoiceLabel != null ? this.alignChoiceLabel : "left");
     } else {
       $(".div_img_thumbnail").css("float", "right");
-      $("div.div_options_withthumbnail").find('label').css("text-align", "left");
+      $("div.div_options_withthumbnail_choice").find('label').css("text-align", "left");
     }
     if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
       this.choiceDataElement.choiceInfo.diagrams !== null) {
