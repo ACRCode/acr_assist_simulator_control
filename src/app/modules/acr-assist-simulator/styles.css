@@ -493,6 +493,18 @@ i.fa-search {
   margin-top: 3%;
 }
 
+.div_options_withthumbnail_choice {
+  margin-top: -11px !important;
+}
+
+/* hr {
+  border-top: 1px solid #5a5a5a !important;
+} */
+
+.div_options_withthumbnail_choice:first-child {
+  margin-top: 0px !important;
+}
+
 .div_img_thumbnail img, .div_multi_img_thumbnail img {
   flex: 1;
   /* height: 100%; */

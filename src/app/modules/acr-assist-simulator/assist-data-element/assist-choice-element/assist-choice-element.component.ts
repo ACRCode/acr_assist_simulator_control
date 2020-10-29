@@ -39,7 +39,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   @Input() disabled: boolean;
   @Input() hideRadioButton: boolean;
   @Input() alignThumbnailLeftOrRight: string;
-  @Input() alignChoiceLabel : string;
+  @Input() alignChoiceLabel: string;
 
   @Output() returnChoiceElement = new EventEmitter();
   @Output() choiceChange = new EventEmitter();
@@ -57,7 +57,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnInit(): void {
-    if(this.hideRadioButton) {
+    if (this.hideRadioButton) {
       $(".div_img_thumbnail").css("float", this.alignThumbnailLeftOrRight != undefined && this.alignThumbnailLeftOrRight != null ? this.alignThumbnailLeftOrRight : 'right');
       $("div.div_options_withthumbnail_choice").find('label').css("text-align", this.alignChoiceLabel != undefined && this.alignChoiceLabel != null ? this.alignChoiceLabel : "left");
     } else {
@@ -110,7 +110,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       if (img_src === '') {
         img_src = undefined;
       }
-      let img_label = $(this). find('img').attr('id');
+      let img_label = $(this).find('img').attr('id');
 
       modal.style.display = 'block';
       modalImg.src = img_src;
@@ -382,7 +382,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
       var divElementId = selectedValue + "_" + selectedElement.trim();
-      if(!this.hideRadioButton) {
+      if (!this.hideRadioButton) {
         var inputId = '#' + selectedValue.trim();
         $('form input[type=radio]:checked').prop("checked", false);
         $(inputId).prop("checked", true);
@@ -393,7 +393,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       }
       $('label.highlightchoice').removeClass('highlightchoice');
       $('div.highlightchoice').removeClass('highlightchoice');
-      document.getElementById(divElementId).classList.add('highlightchoice');
+      if (document.getElementById(divElementId) !== undefined && document.getElementById(divElementId) !== null) {
+        document.getElementById(divElementId).classList.add('highlightchoice');
+      }
+
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
     } else {
       this.emitChoiceElementData(elementId, selectedElement, '', '');
