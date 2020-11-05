@@ -37,6 +37,9 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   @Input() repeatedElementSections: RepeatedElementSections;
   @Input() choiceDataElement: ChoiceDataElement;
   @Input() disabled: boolean;
+  @Input() hideRadioButton: boolean;
+  @Input() alignThumbnailLeftOrRight: string;
+  @Input() alignChoiceLabel: string;
 
   @Output() returnChoiceElement = new EventEmitter();
   @Output() choiceChange = new EventEmitter();
@@ -54,6 +57,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnInit(): void {
+
     if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
       this.choiceDataElement.choiceInfo.diagrams !== null) {
       this.choiceDataElement.choiceInfo.choice.forEach(choice => {
@@ -88,8 +92,9 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     $(document).on('change', 'input:radio', function () {
       // alert();
       // Only remove the class in the specific `box` that contains the radio
-      $('label.highlightchoice').removeClass('highlightchoice');
-      $('div.highlightchoice').removeClass('highlightchoice');
+      // $('label.highlightchoice').removeClass('highlightchoice');
+      // $('div.highlightchoice').removeClass('highlightchoice');
+      $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
       $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
     });
 
@@ -100,13 +105,25 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       if (img_src === '') {
         img_src = undefined;
       }
-      let img_label = $(this). find('img').attr('id');
+      let img_label = $(this).find('img').attr('id');
 
       modal.style.display = 'block';
       modalImg.src = img_src;
       var caption = document.getElementById('caption');
       caption.innerHTML = img_label;
     });
+
+    const $this = this;
+    setTimeout(function (e) {
+      if ($this.hideRadioButton) {
+        $(".div_img_thumbnail").css("float", $this.alignThumbnailLeftOrRight != undefined && $this.alignThumbnailLeftOrRight != null ? $this.alignThumbnailLeftOrRight : 'right');
+        $("div.div_options_withthumbnail_choice").find('label').css("text-align", $this.alignChoiceLabel != undefined && $this.alignChoiceLabel != null ? $this.alignChoiceLabel : "left");
+      } else {
+        $(".div_img_thumbnail").css("float", "right");
+        $("div.div_options_withthumbnail_choice").find('label').css("text-align", "left");
+      }
+    }, 100);
+
 
     this.showImageZoom();
     // this.logCustomizationDetails();
@@ -365,13 +382,37 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         return elem.value === this.choiceElementForm.controls.checkBox.value;
       }
     }
-
     return false;
   }
 
   choiceSelected(elementId: string, selectedElement: string, selectedText: string, selectedValue: string, event = undefined) {
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
+      var divElementId = selectedValue + "_" + elementId.trim();
+      if (!this.hideRadioButton) {
+        if (!this._isRadioButton()) {
+          var inputId = '#' + selectedValue.trim();
+          $("[id$='_" + elementId + "']").find('input[type=radio]').prop("checked", false);
+          // $('form input[type=radio]:checked').prop("checked", false);
+          $(inputId).prop("checked", true);
+        }
+      } else {
+        if (!this._isRadioButton()) {
+          $("[id$='_" + elementId + "']").find('.highlightchoice i').remove();
+          // $('div.highlightchoice').find('i').remove();
+          var divId = "#" + divElementId;
+          $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>");
+        }
+      }
+
+      // $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
+      // $('label.highlightchoice').removeClass('highlightchoice');
+      // $('div.highlightchoice').removeClass('highlightchoice');
+      if (document.getElementById(divElementId) !== null) {
+        $("[id$='_" + elementId + "']").removeClass('highlightchoice');
+        document.getElementById(divElementId).classList.add('highlightchoice');
+      }
+
       this.emitChoiceElementData(elementId, selectedElement, selectedText, selectedValue);
     } else {
       this.emitChoiceElementData(elementId, selectedElement, '', '');

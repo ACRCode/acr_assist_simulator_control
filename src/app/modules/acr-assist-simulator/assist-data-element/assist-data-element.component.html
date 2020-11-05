@@ -46,7 +46,7 @@
                         [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
                         [choiceDataElement]='childElement' [assetsBaseUrl]="assetsBaseUrl"
                         [repeatedElementSections]='repeatedElementSections'
-                        (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+                        (returnChoiceElement)='choiceSelected($event)' [hideRadioButton]="hideRadioButton" [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel"></acr-assist-choice-element>
                     </ng-container>
                     <ng-container *ngIf="childElement.dataElementType == 'MultiChoiceDataElement'">
                       <acr-assist-multi-choice-element
@@ -80,7 +80,7 @@
     <acr-assist-choice-element [choiceElementDisplay]="choiceElementDisplay" [choiceControlStyle]="choiceControlStyle"
       [customizeChoiceControlById]="customizeChoiceControlById"
       [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom' [choiceDataElement]='DataElement'
-      [assetsBaseUrl]="assetsBaseUrl" (returnChoiceElement)='choiceSelected($event)'></acr-assist-choice-element>
+      [assetsBaseUrl]="assetsBaseUrl" (returnChoiceElement)='choiceSelected($event)' [hideRadioButton]="hideRadioButton" [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel"></acr-assist-choice-element>
   </ng-container>
 
   <ng-container *ngIf="DataElement.dataElementType == 'MultiChoiceDataElement'">

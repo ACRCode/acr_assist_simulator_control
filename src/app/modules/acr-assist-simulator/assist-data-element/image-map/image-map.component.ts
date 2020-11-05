@@ -113,7 +113,7 @@ export class ImageMapComponent implements OnInit {
       }
     }
 
-    //  return 'assets/images/COVID19.jpg';
+    // return 'assets/images/COVID19.jpg';
   }
 
   needToCustomizeTheControl(): ChoiceElementDisplayEnum {
@@ -241,7 +241,7 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isValidInstance(choice)) {
       const customEvent = document.createEvent('Event');
       customEvent.initEvent('change', true, true);
-
+      debugger;
       if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
         const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
         let checked = true;
@@ -261,17 +261,32 @@ export class ImageMapComponent implements OnInit {
           //   $('#' + this.dataElement.id).val(choice.value);
           //   $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
           // }
+          debugger;
           if (this._isListBox() || this._isSelectBox()) {
             $('#' + this.dataElement.id).val(choice.value);
             $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
             this.modalPopup.hide();
           } else if (this._isRadioButton()) {
-            $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+            // $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice')
+            // $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+            $("[id$='_" + this.dataElement.id + "']").removeClass('highlightchoice');
+            $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice');
+            $("[id$='_" + this.dataElement.id + "']").find('input[type=radio]').prop("checked", false);
+            $('#' + choice.value).attr("checked", true);
+            $('#' + choice.value + '_' + this.dataElement.id).trigger('click');
+            // $('#' + choice.value).dispatchEvent(customEvent);
             $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
             this.modalPopup.hide();
           }
         } else {
-          $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+          debugger;
+          $("[id$='_" + this.dataElement.id + "']").removeClass('highlightchoice');
+          $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice');
+          $("[id$='_" + this.dataElement.id + "']").find('input[type=radio]').prop("checked", false);
+          $('#' + choice.value).attr("checked", true);
+          // $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
+          // $('#' + choice.value).dispatchEvent(customEvent);
+          $('#' + choice.value + '_' + this.dataElement.id).trigger('click');
           $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
           this.modalPopup.hide();
         }

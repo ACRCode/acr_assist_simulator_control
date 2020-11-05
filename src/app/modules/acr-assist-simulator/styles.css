@@ -310,7 +310,6 @@ mark {
   justify-content: center;
   display: flex;
   flex-direction: row;
-  float: right;
   /* border: 1px solid #ccc; */
   margin: 0px 5px;
   cursor: pointer;
@@ -323,6 +322,11 @@ mark {
   /* background: #e2dfdf; */
   background: black;
   margin-bottom: 5px !important;
+  float: right;
+}
+
+.div_multi_img_thumbnail {
+  float: right;
 }
 
 .centered {
@@ -440,25 +444,55 @@ i.fa-search {
   margin-top: 10px;
 }
 
+.div_options_withthumbnail:first-child {
+  margin-top: 0px !important;
+}
+
+.div_options_withthumbnail_choice {
+  margin-bottom: 10px;
+}
+
 .div_options_withthumbnail {
   /* border-bottom: 1px solid #ccc; */
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
   padding-left: 3px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   width: 100%;
+  /* margin-top: -11px; */
   /* padding-top: 10px; */
   /* text-align: center; */
+}
+
+.text_center {
+  text-align: center;
+  width: 100% !important;
+}
+
+.width_100p {
+  width: 100%;
 }
 
 .div_options_withthumbnail:hover {
   background: #f1f1f1;
   /* border: 1px solid blue; */
   cursor: pointer;
+  color: black;
+  border: 1px solid #1686f3;
+}
+
+.label_align_multi_img {
+  width: 100%;
+  padding-right: 15px;
+}
+
+.left-8px {
+  left: -8px !important;
 }
 
 .highlightchoice {
   background: #f1f1f1;
-  border: 1px solid blue;
+  border: 3px solid #1686f3 !important;
+  color: black;
 }
 
 .border-top {
@@ -480,6 +514,22 @@ i.fa-search {
   width: 50px;
   object-fit: contain;
   /* float: right; */
+  border: 2px solid #ccc;
+}
+
+.label_align {
+  width: calc(100% - 5em);
+  padding-top: 15px;
+}
+
+.left-0px {
+  left: 0px !important;
+}
+
+hr.solid {
+  width: 100%;
+  height: 0.5px;
+  /* background-color: #77777794; */
 }
 
 .option_label_withthumbnail {
@@ -488,10 +538,12 @@ i.fa-search {
   left: 10px;
   display: inline-block;
   /* width: 50%; */
-  width: 330px;
-  white-space: nowrap;
+  /* width: 330px; */
+  /* white-space: nowrap; */
   overflow: hidden !important;
   text-overflow: ellipsis;
+  display: block;
+  word-break: break-all;
 }
 
 .option_label_withthumbnail_mutliselect {
@@ -499,6 +551,19 @@ i.fa-search {
   bottom: 4px;
   left: 10px;
   width: 330px;
+}
+
+.tick_align {
+  position: absolute;
+  top: -13px;
+  left: -6px;
+  font-size: xx-large;
+  font-weight: 700;
+  color: #98d19d;
+}
+
+.margin-t-10p {
+  margin-top: 10px;
 }
 
 .option_label_withthumbnail_mutliselect_label_text {

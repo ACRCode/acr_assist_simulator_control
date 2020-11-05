@@ -297,7 +297,6 @@
               <acr-image-map [elementDisplay]="elementDisplay" [choiceControlStyle]="choiceControlStyle"
                 [customizeChoiceControlById]="customizeChoiceControlById" [dataElement]="choiceDataElement"
                 [assetsBaseUrl]="assetsBaseUrl"></acr-image-map>
-
             </div>
           </div>
         </ng-container>
@@ -447,29 +446,31 @@
 
         <!-- [ngStyle]="{'border-bottom': i !== choiceDataElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
         <div class="div_options_withthumbnail_parent" style="display: inline-block;">
-          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
+          <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index; let lastItem = last;">
             <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
             (choiceDataElement.ChoiceNotRelevant !== undefined && 
             choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
-              <div class="col-lg-12 div_options_withthumbnail" *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
-              (choiceDataElement.ChoiceNotRelevant !== undefined && 
-              choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
-                <label for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
+              <div id="{{choice.value}}_{{choiceDataElement.id}}"
+                class="col-lg-12 div_options_withthumbnail div_options_withthumbnail_choice"
+                (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
+                [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }"
+                *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || (choiceDataElement.ChoiceNotRelevant !== undefined && choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
+                <!-- && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1) -->
+                <label
+                  [ngClass]="{ 'label_align' : (hideRadioButton), 'label_align_multi_img' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length > 1)), 'margin-t-10p' : !hideRadioButton }"
+                  for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
-                  <input class="margin-t-3p" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
-                    style="float: left;" id="{{choice.value}}_{{choiceDataElement.id}}" type="radio"
-                    formControlName="checkBox" value="{{choice.value}}"
-                    (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
-                    [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
-
-                  <label class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
+                  <input *ngIf="!hideRadioButton" class="margin-t-3p" id="{{choice.value}}"
+                    [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" style="float: left;"
+                    type="radio" formControlName="checkBox" value="{{choice.value}}">
+                  <label
+                    [ngClass]="{'left-0px' : alignChoiceLabel == 'right' && choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1}"
+                    class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
                 </label>
-
-
                 <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
-  (choiceDataElement.ChoiceNotRelevant !== undefined && 
+  (choiceDataElement.ChoiceNotRelevant !== undefined &&
   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
                   <ng-container
                     *ngIf="choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
@@ -479,7 +480,8 @@
                         <img name="img_diagram" id="{{choice.label}}" [src]="diagram.location">
                       </ng-container>
                       <ng-template #notImageUrl>
-                        <img name="img_diagram" id="{{choice.label}}" [src]="getImageDataUrl(diagram.location) | secure">
+                        <img name="img_diagram" id="{{choice.label}}"
+                          [src]="getImageDataUrl(diagram.location) | secure">
                       </ng-template>
                       <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                     </div>
@@ -501,13 +503,14 @@
                   </div>
                 </div>
               </ng-template>
-
+              <hr class="solid" *ngIf="!lastItem">
             </ng-container>
 
             <ng-container *ngIf="choiceDataElement.allowFreetext">
-              <div class="border-top" class="radio padding-t-10px">
+              <div class="border-top" class="radio padding-t-10px choice_parent">
                 <!-- <div class=""> -->
-                <label class="div_options_withthumbnail div_options_withthumbnail_freetext">
+                <label
+                  class="div_options_withthumbnail div_options_withthumbnail_choice div_options_withthumbnail_freetext">
                   <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" class="margin-l-0"
                     id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
                     value="freetext"
