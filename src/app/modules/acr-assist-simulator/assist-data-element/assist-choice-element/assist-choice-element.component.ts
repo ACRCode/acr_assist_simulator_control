@@ -58,7 +58,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit(): void {
 
-    if (this.choiceDataElement.choiceInfo.diagrams !== undefined &&
+    if (this.choiceDataElement.choiceInfo !== undefined && this.choiceDataElement.choiceInfo.diagrams !== undefined &&
       this.choiceDataElement.choiceInfo.diagrams !== null) {
       this.choiceDataElement.choiceInfo.choice.forEach(choice => {
         if (choice.diagrams.diagram !== undefined
@@ -72,15 +72,15 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
     this.createChoiceElementForm();
     if (!this.utilityService.isValidInstance(this.choiceElementDisplay)) {
-      if (this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
+      if (this.utilityService.isNotEmptyArray(this.choiceDataElement.choiceInfo) && this.choiceDataElement.choiceInfo.length <= 2 && !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.RadioButton;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 &&
+      } else if (this.utilityService.isNotEmptyArray(this.choiceDataElement.choiceInfo) && this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length <= 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()
       ) {
         this.elementDisplay = ChoiceElementDisplayEnum.ListBox;
-      } else if (this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 &&
+      } else if (this.utilityService.isNotEmptyArray(this.choiceDataElement.choiceInfo) && this.choiceDataElement.choiceInfo.length > 2 && this.choiceDataElement.choiceInfo.length > 5 &&
         !this.utilityService.isValidInstance(this.choiceControlStyle)
         && undefined === this.needToCustomizeTheControl()) {
         this.elementDisplay = ChoiceElementDisplayEnum.SelectBox;
@@ -511,8 +511,12 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
   }
 
   isChoiceHasDiagrams(choiceDataElement: ChoiceDataElement) {
-    const choiceDataElementWithDigrams = this.choiceDataElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
-    return this.utilityService.isNotEmptyArray(choiceDataElementWithDigrams) ? true : false;
+    if (this.utilityService.isNotEmptyArray(this.choiceDataElement.choiceInfo)) {
+      const choiceDataElementWithDigrams = this.choiceDataElement.choiceInfo.filter(x => this.utilityService.isNotEmptyArray(x.diagrams));
+      return this.utilityService.isNotEmptyArray(choiceDataElementWithDigrams) ? true : false;
+    }
+
+    return false;
   }
 
   getImageDataUrl(label: string): string {
