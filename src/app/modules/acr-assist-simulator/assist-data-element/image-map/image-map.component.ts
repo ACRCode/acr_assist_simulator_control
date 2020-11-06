@@ -241,7 +241,6 @@ export class ImageMapComponent implements OnInit {
     if (this.utilityService.isValidInstance(choice)) {
       const customEvent = document.createEvent('Event');
       customEvent.initEvent('change', true, true);
-      debugger;
       if (this.dataElement.dataElementType === 'MultiChoiceDataElement') {
         const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
         let checked = true;
@@ -261,7 +260,6 @@ export class ImageMapComponent implements OnInit {
           //   $('#' + this.dataElement.id).val(choice.value);
           //   $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
           // }
-          debugger;
           if (this._isListBox() || this._isSelectBox()) {
             $('#' + this.dataElement.id).val(choice.value);
             $('#' + this.dataElement.id)[0].dispatchEvent(customEvent);
@@ -279,7 +277,6 @@ export class ImageMapComponent implements OnInit {
             this.modalPopup.hide();
           }
         } else {
-          debugger;
           $("[id$='_" + this.dataElement.id + "']").removeClass('highlightchoice');
           $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice');
           $("[id$='_" + this.dataElement.id + "']").find('input[type=radio]').prop("checked", false);
