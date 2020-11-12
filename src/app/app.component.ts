@@ -169,31 +169,39 @@ export class AppComponent {
 
   loadElements() {
     const input = {} as any;
-    input.dataElementId = 'age';
-    input.dataElementValue = '56';
+    input.dataElementId = 'breast-density-classification';
+    input.dataElementValue = '3';
     input.dataElementLabel = '';
     input.dataElementDisplayValue = '';
     this.inputValues.push({ ...input });
 
-    input.dataElementId = 'views';
-    input.dataElementValue = '0';
-    input.dataElementLabel = '';
-    input.dataElementDisplayValue = '';
-    this.inputValues.push({ ...input });
 
-    input.dataElementId = 'history';
-    input.dataElementValue = ['0', '1'];
-    input.dataElementLabel = '';
-    input.dataElementDisplayValue = '';
-    this.inputValues.push({ ...input });
+    // input.dataElementId = 'observationnumber';
+    // input.dataElementValue = '0.5';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push({ ...input });
 
-    input.dataElementId = 'historic';
-    input.dataElementValue = '1';
-    input.dataElementLabel = '';
-    input.dataElementDisplayValue = '';
-    this.inputValues.push({ ...input });
 
-    // this.inputValues = this.inputValues.slice();
+    // input.dataElementId = 'views';
+    // input.dataElementValue = '0';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push({ ...input });
+
+    // input.dataElementId = 'history';
+    // input.dataElementValue = ['0', '1'];
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push({ ...input });
+
+    // input.dataElementId = 'historic';
+    // input.dataElementValue = '1';
+    // input.dataElementLabel = '';
+    // input.dataElementDisplayValue = '';
+    // this.inputValues.push({ ...input });
+
+    this.inputValues = this.inputValues.slice();
     // this.inputValues = this.testInputValue;
   }
 

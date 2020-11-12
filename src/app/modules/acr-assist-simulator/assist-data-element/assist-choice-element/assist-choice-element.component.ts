@@ -89,6 +89,8 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
 
+    debugger;
+
     $(document).on('change', 'input:radio', function () {
       // alert();
       // Only remove the class in the specific `box` that contains the radio
@@ -398,10 +400,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         }
       } else {
         if (!this._isRadioButton()) {
-          $("[id$='_" + elementId + "']").find('.highlightchoice i').remove();
+          // $("[id$='_" + elementId + "']").find('.highlightchoice i').remove();
           // $('div.highlightchoice').find('i').remove();
           var divId = "#" + divElementId;
-          $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>");
+          // $(divId).append("<i class='fa fa-check-circle' style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>");
         }
       }
 

@@ -495,6 +495,14 @@ i.fa-search {
   color: black;
 }
 
+.fa-cust {
+  display: none;
+}
+
+.highlightchoice .fa-cust {
+  display: block !important;
+}
+
 .border-top {
   border-top: 1px solid #ccc
 }
