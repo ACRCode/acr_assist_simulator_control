@@ -211,7 +211,7 @@ export class AppComponent {
   recievedExecutionHistory(data) {
   }
 
-  returnDefaultElements() {
+  returnDefaultElements(event) {
     this.inputValues = [];
     this.aiInputs = [];
     this.resetCommunicationService.messageEmitter('');
@@ -219,7 +219,8 @@ export class AppComponent {
 
   recieveReportText(textReport: MainReportText) { }
 
-  recievedDataElementChanged(data) { }
+  recievedDataElementChanged(data) {
+  }
 
   // onresetclick() {
   //   this.inputValues = [];

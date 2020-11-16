@@ -89,7 +89,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       this.elementDisplay = JSON.parse(JSON.stringify(this.choiceElementDisplay));
     }
 
-    debugger;
 
     $(document).on('change', 'input:radio', function () {
       // alert();
