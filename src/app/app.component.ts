@@ -8,6 +8,7 @@ import { SettingsService } from './modules/core/services/settings.service';
 import { AIInputData } from './modules/core/models/ai-input-data.model';
 import { ChoiceControlStyle } from './modules/core/models/choice-control-style.model';
 import { ChoiceElementDisplayEnum } from './modules/core/models/choice-element-display.enum';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'acr-app-root',
@@ -15,6 +16,7 @@ import { ChoiceElementDisplayEnum } from './modules/core/models/choice-element-d
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  resetValuesNotifier: any;
   customizeChoiceControlById: ChoiceControlStyle[];
   choiceControlStyle: ChoiceElementDisplayEnum;
   hideKeyImageUpload: boolean;
@@ -91,64 +93,118 @@ export class AppComponent {
   }
 
   testcase1() {
+    // this.inputValues = [
+    //   {
+    //     dataElementId: 'location',
+    //     dataElementValue: 'right_intraovarian',
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: 'Right ovary/adnexa'
+    //   },
+    //   {
+    //     dataElementId: "maximum_size",
+    //     dataElementValue: "1",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Maximum size"
+    //   },
+    //   {
+    //     dataElementId: "menopausal_status",
+    //     dataElementValue: "premenopausal",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Premenopausal"
+    //   },
+    //   {
+    //     dataElementId: "intraovarian_lesion_type",
+    //     dataElementValue: "cystic",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Cystic (must have no internal flow on Doppler)"
+    //   },
+    //   {
+    //     dataElementId: "cystic_lesion",
+    //     dataElementValue: "Multilocular",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Multilocular"
+    //   },
+    //   {
+    //     dataElementId: "solid_component",
+    //     dataElementValue: "no_solid",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "No solid component"
+    //   },
+    //   {
+    //     dataElementId: "inner_margin",
+    //     dataElementValue: "smooth",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Smooth"
+    //   },
+    //   {
+    //     dataElementId: "color_score",
+    //     dataElementValue: "score_4",
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "4 (Strong flow)"
+    //   },
+    //   {
+    //     dataElementId: "peritoneal_features_ascites",
+    //     dataElementValue: [
+    //       "ascites"
+    //     ],
+    //     dataElementLabel: '',
+    //     dataElementDisplayValue: "Ascites"
+    //   }
+    // ];
+
+    // this.resetValuesNotifier = new Subject<boolean>();
+    // this.resetValuesNotifier.next(true);
+    // this.resetValuesNotifier = true;
     this.inputValues = [
       {
-        dataElementId: 'location',
-        dataElementValue: 'right_intraovarian',
+        dataElementId: 'size',
+        dataElementValue: '1.4',
         dataElementLabel: '',
-        dataElementDisplayValue: 'Right ovary/adnexa'
+        dataElementDisplayValue: '1.4'
       },
       {
-        dataElementId: "maximum_size",
-        dataElementValue: "1",
+        dataElementId: 'patient_age',
+        dataElementValue: '65',
         dataElementLabel: '',
-        dataElementDisplayValue: "Maximum size"
+        dataElementDisplayValue: '65'
       },
       {
-        dataElementId: "menopausal_status",
-        dataElementValue: "premenopausal",
+        dataElementId: 'highRiskFeatures',
+        dataElementValue: 'muralNodule',
         dataElementLabel: '',
-        dataElementDisplayValue: "Premenopausal"
+        dataElementDisplayValue: 'mural Nodule'
       },
       {
-        dataElementId: "intraovarian_lesion_type",
-        dataElementValue: "cystic",
+        dataElementId: 'numberOfCysts',
+        dataElementValue: 'single',
         dataElementLabel: '',
-        dataElementDisplayValue: "Cystic (must have no internal flow on Doppler)"
+        dataElementDisplayValue: 'single'
       },
       {
-        dataElementId: "cystic_lesion",
-        dataElementValue: "Multilocular",
+        dataElementId: 'cystMorphology',
+        dataElementValue: 'indeterminate',
         dataElementLabel: '',
-        dataElementDisplayValue: "Multilocular"
+        dataElementDisplayValue: 'indeterminate'
       },
       {
-        dataElementId: "solid_component",
-        dataElementValue: "no_solid",
+        dataElementId: 'cystLocation',
+        dataElementValue: 'head',
         dataElementLabel: '',
-        dataElementDisplayValue: "No solid component"
+        dataElementDisplayValue: 'head'
       },
       {
-        dataElementId: "inner_margin",
-        dataElementValue: "smooth",
+        dataElementId: 'series',
+        dataElementValue: '1',
         dataElementLabel: '',
-        dataElementDisplayValue: "Smooth"
+        dataElementDisplayValue: '1'
       },
       {
-        dataElementId: "color_score",
-        dataElementValue: "score_4",
+        dataElementId: 'image',
+        dataElementValue: '1',
         dataElementLabel: '',
-        dataElementDisplayValue: "4 (Strong flow)"
-      },
-      {
-        dataElementId: "peritoneal_features_ascites",
-        dataElementValue: [
-          "ascites"
-        ],
-        dataElementLabel: '',
-        dataElementDisplayValue: "Ascites"
+        dataElementDisplayValue: '1'
       }
-    ];
+    ]
 
     this.inputValues = this.inputValues.slice()
   }

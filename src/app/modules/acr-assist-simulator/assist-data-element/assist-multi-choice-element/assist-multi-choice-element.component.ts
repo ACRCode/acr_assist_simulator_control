@@ -38,20 +38,20 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
   ngOnInit() {
     this.createMultiChoiceElementForm();
     const $this = this;
-    setTimeout(function (e) {
-      $(document).on('change', 'input:checkbox', function () {
-        if ($(this).prop('checked') === true) {
-          // Only remove the class in the specific `box` that contains the radio
-          $('label.highlightchoice').removeClass('highlightchoice');
-          // $('div.highlightchoice').removeClass('highlightchoice');
-          $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
-        } else {
-          $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
-        }
-      });
+    // setTimeout(function (e) {
+    $(document).on('change', 'input:checkbox', function () {
+      if ($(this).prop('checked') === true) {
+        // Only remove the class in the specific `box` that contains the radio
+        $('label.highlightchoice').removeClass('highlightchoice');
+        // $('div.highlightchoice').removeClass('highlightchoice');
+        $(this).closest('.div_options_withthumbnail').addClass('highlightchoice');
+      } else {
+        $(this).closest('.div_options_withthumbnail').removeClass('highlightchoice');
+      }
+    });
 
-      $this.showImageZoom();
-    }, 200);
+    $this.showImageZoom();
+    // }, 200);
 
 
     $(document).on('click', '.div_multi_img_thumbnail', function (e) {
@@ -148,7 +148,11 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       } else {
         $this.returnMultiChoice.emit(undefined);
       }
-    }, 500);
+    });
+  }
+
+  isChoiceChecked(choice) {
+    return;
   }
 
   selectedMultiChoice(elementId: string, selectedCondition: string, choiceValue: any, choiceLabel: any) {
@@ -302,13 +306,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
     }
 
-    // if (this.multiChoiceElement.currentValue !== undefined && !this.utilityService.isNotEmptyArray(this.multiChoiceElement.currentValue)) {
-    //   $('#' + this.multiChoiceElement.id + '_' + value).prop('checked', false);
-    // }
-
-    // #endregion
-
-    $('input:checkbox').trigger('change');
+    // $('input:checkbox').trigger('change');
 
     return this.multiChoiceElement.ChoiceNotRelevant !== undefined ?
       this.multiChoiceElement.ChoiceNotRelevant.indexOf(value) > -1 ? true : null
