@@ -54,7 +54,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() inputValues: InputData[] = [];
   @Input() hideRadioButton: boolean;
   @Input() alignThumbnailLeftOrRight: string;
-  @Input() alignChoiceLabel : string;
+  @Input() alignChoiceLabel: string;
   @Output() callBackAfterGettingShowKeyDiagram: EventEmitter<string> = new EventEmitter<string>();
   @Output() returnReportText: EventEmitter<MainReportText> = new EventEmitter<MainReportText>();
   @Output() returnExecutionHistory: EventEmitter<FinalExecutedHistory> = new EventEmitter<FinalExecutedHistory>();
@@ -78,7 +78,6 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     this.IsRepeating = false;
     this.simulatorStateSubscription = this.simulatorEngineService.simulatorStateChanged.subscribe((message) => {
       this.simulatorState = message as SimulatorState;
-
       this.dataElements.filter(x => x.canPrefillFromSource === true).forEach(_dataElement => {
         _dataElement.currentValue = undefined;
         this.dataElementValues.set(_dataElement.id, undefined);

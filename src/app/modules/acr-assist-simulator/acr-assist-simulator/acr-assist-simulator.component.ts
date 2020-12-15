@@ -77,7 +77,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   ngOnInit() {
     if (this.resetValuesNotifier != null) {
       this.resetValuesSubscription = this.resetValuesNotifier.subscribe((event) => {
-        debugger;
         this.resetElements();
       });
     }
