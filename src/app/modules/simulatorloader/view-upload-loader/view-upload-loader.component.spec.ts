@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 
 import { ViewUploadLoaderComponent } from './view-upload-loader.component';
 import { FileUploadLoaderComponent } from '../file-upload-loader/file-upload-loader.component';
@@ -25,7 +25,7 @@ describe('ViewUploadLoaderComponent', () => {
   let mockData: FileDetails;
   let selectedXML: FileDetails;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       declarations: [ ViewUploadLoaderComponent, FileUploadLoaderComponent ],

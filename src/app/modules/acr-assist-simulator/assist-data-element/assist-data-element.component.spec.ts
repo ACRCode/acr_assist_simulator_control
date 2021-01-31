@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 
 import { AssistDataElementComponent, ChoiceElement, MultiChoiceElement, NumericElement, FinalExecutedHistory, ExecutedResultHistory, MainReportText, AllReportText } from './assist-data-element.component';
 import { AssistChoiceElementComponent } from './assist-choice-element/assist-choice-element.component';
@@ -58,7 +58,7 @@ describe('AssistDataElementComponent', () => {
   let executionHistory: any;
   let mockSimulatorEngineService: SimulatorEngineService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
       declarations: [ AssistDataElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,

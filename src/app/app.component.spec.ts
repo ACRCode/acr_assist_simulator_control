@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { ReportTextPosition } from './modules/core/models/report-text.model';
 import { InputData } from './modules/core/models/input-data.model';
@@ -16,7 +16,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let nativeElement: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent

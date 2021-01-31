@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AssistNumericElementComponent } from './assist-numeric-element.component';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ describe('AssistNumericElementComponent', () => {
   let numericDataElement: NumericDataElement;
   let receivedData: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
       declarations: [ AssistNumericElementComponent, HintDiagramComponent, ImageMapComponent, SlideComponent, CarouselComponent],
