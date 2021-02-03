@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AssistChoiceElementComponent } from './assist-choice-element.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +21,7 @@ describe('AssistChoiceElementComponent', () => {
   let receivedData: any;
   let choice: Choice;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
       declarations: [ AssistChoiceElementComponent, HintDiagramComponent, ImageMapComponent, CarouselComponent, SlideComponent ],

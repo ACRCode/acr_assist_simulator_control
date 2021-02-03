@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AssistComputedElementComponent } from './assist-computed-element.component';
 
@@ -6,7 +6,7 @@ describe('AssistComputedElementComponent', () => {
   let component: AssistComputedElementComponent;
   let fixture: ComponentFixture<AssistComputedElementComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AssistComputedElementComponent ]
     })

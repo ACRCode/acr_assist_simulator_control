@@ -81,19 +81,24 @@ export class AssistReportTextComponent implements OnChanges {
       results.forEach(result => {
         result.allTextResultReport.forEach(y => {
           switch (y.sectionId.toLowerCase()) {
-            case 'findings': y.sectionOrder = 1;
+            case 'findings':
+              y.sectionOrder = 1;
               break;
 
-            case 'impressionrecommendation': y.sectionOrder = 2;
+            case 'impressionrecommendation':
+              y.sectionOrder = 2;
               break;
 
-            case 'impression': y.sectionOrder = 3;
+            case 'impression':
+              y.sectionOrder = 3;
               break;
 
-            case 'recommendation': y.sectionOrder = 4;
+            case 'recommendation':
+              y.sectionOrder = 4;
               break;
 
-            case 'citation': y.sectionOrder = 5;
+            case 'citation':
+              y.sectionOrder = 5;
               break;
           }
         });
@@ -157,19 +162,24 @@ export class AssistReportTextComponent implements OnChanges {
   getHeadingBasedOnSectionId(sectionId: string) {
     let heading = '';
     switch (sectionId.toLowerCase()) {
-      case 'findings': heading = 'Findings';
+      case 'findings':
+        heading = 'Findings';
         break;
 
-      case 'impressionrecommendation': heading = 'Impression Recommendation';
+      case 'impressionrecommendation':
+        heading = 'Impression Recommendation';
         break;
 
-      case 'impression': heading = 'Impression';
+      case 'impression':
+        heading = 'Impression';
         break;
 
-      case 'recommendation': heading = 'Recommendation';
+      case 'recommendation':
+        heading = 'Recommendation';
         break;
 
-      case 'citation': heading = 'Citation';
+      case 'citation':
+        heading = 'Citation';
         break;
     }
 

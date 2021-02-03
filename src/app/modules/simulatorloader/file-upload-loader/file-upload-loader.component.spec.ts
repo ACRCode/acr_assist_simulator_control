@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 
 import { FileUploadLoaderComponent } from './file-upload-loader.component';
 import { GlobalsService } from '../shared/services/globals.service';
@@ -27,7 +27,7 @@ describe('FileUploadLoaderComponent', () => {
   let invalidMessageElement: any;
   let fileDetails: FileDetails;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       declarations: [FileUploadLoaderComponent],
