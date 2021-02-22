@@ -403,7 +403,8 @@
             <option [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null" [value]="choice.value" [selected]="isSelected(choice)"
-              title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">{{choice.label}}
+              title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">
+              {{ (choice.label.length>120)? (choice.label | slice:0:120)+'...':(choice.label) }}
             </option>
           </ng-container>
           <option *ngIf="choiceDataElement.allowFreetext" [value]="'freetext'" [selected]="isFreeText">Other, please
