@@ -16,7 +16,7 @@
       </ng-container>
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
-      </ng-container>      
+      </ng-container>
     </div>
 
     <div class="col-sm-8 text-left content-padding">
@@ -190,7 +190,7 @@
               <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
               {{choiceDataElement.label}}
               <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
-                ({{choiceDataElement.unit}})</span>              
+                ({{choiceDataElement.unit}})</span>
             </label>
             <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i class="whitespace">
@@ -243,7 +243,8 @@
           <div class="row" style="margin-left: 0px; margin-right: 0px;">
             <div class="col-lg-12" style="padding: 0;">
               <label class="control-label break-word">
-                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
+                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                  title="Required Field">*</span>
                 {{choiceDataElement.label}}
                 <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
                   ({{choiceDataElement.unit}})</span>
@@ -257,7 +258,7 @@
               <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
                 <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
               </ng-container>
-              
+
             </div>
             <div class="col-lg-12 div_radiobutton  margin-b-10"
               [ngClass]="{'show-error_radio': choiceDataElement.showValidation }">
@@ -310,7 +311,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-            
+
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
@@ -374,7 +375,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-            
+
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
@@ -433,7 +434,7 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-            
+
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
@@ -588,7 +589,7 @@
 
     <!-- Modal Content (The Image) -->
     <img class="modal-content" style="max-height: 37vw;
-    object-fit: contain;" id="img01">
+    object-fit: contain;background-color: #000000;" id="img01">
 
     <!-- Modal Caption (Image Text) -->
     <div id="caption" style="color:white;font-size: large;"></div>

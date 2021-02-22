@@ -53,7 +53,7 @@ export class AppComponent {
     this.resetButton = true;
     this.showReportText = true;
     this.settingsConfig = settingsConfiguration;
-    // this.choiceControlStyle = ChoiceElementDisplayEnum.SelectBox;
+    this.choiceControlStyle = ChoiceElementDisplayEnum.SelectBox;
     // this.customizeChoiceControlById = [{
     //   dataElementId: 'location',
     //   ChoiceElementDisplay: ChoiceElementDisplayEnum.ListBox

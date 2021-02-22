@@ -458,6 +458,7 @@ i.fa-search {
   padding-left: 3px;
   /* margin-bottom: 10px; */
   width: 100%;
+  border: 1px solid transparent;
   /* margin-top: -11px; */
   /* padding-top: 10px; */
   /* text-align: center; */
