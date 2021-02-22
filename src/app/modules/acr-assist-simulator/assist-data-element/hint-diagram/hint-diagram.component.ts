@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
@@ -19,11 +19,13 @@ export class HintDiagramComponent {
 
   constructor(
     private utilityService: UtilityService
-  ) {  }
+  ) { }
 
   openDiagram() {
     this.activeSlideIndex = 0;
-    this.modalPopup.show();
+    // this.modalPopup.show();
+    const modal = document.getElementById('immgModalhint');
+    modal.style.display = 'block';
   }
 
   isValidImageURL(location: string) {
@@ -38,5 +40,16 @@ export class HintDiagramComponent {
         return `${this.assetsBaseUrl}/${label}`;
       }
     }
+
+    // return 'assets/images/choicediagram5.JPG';
+  }
+
+  @HostListener('window:keyup.esc') onKeyUp() {
+    this.onImgPopupClose();
+  }
+
+  onImgPopupClose() {
+    const modal = document.getElementById('immgModalhint');
+    modal.style.display = 'none';
   }
 }

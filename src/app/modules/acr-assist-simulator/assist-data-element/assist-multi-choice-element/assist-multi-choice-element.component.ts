@@ -57,14 +57,15 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     $(document).on('click', '.div_multi_img_thumbnail', function (e) {
       const modal = document.getElementById('immgModalmulti');
       const modalImg = document.getElementById('img01multi') as any;
+      debugger;
       let img = $(this).find('img');
       let img_src = img.attr('src');
       if (img_src === '') {
         img_src = undefined;
       }
       let img_label = img.attr('id');
-      var caption = document.getElementById('caption');
-      caption.innerHTML = img_label;
+      var caption = document.getElementsByClassName('captionmutli');
+      caption[caption.length - 1].innerHTML = img_label;
       modal.style.display = 'block';
       modalImg.src = img_src;
     });

@@ -2,6 +2,32 @@
   <span class="glyphicon glyphicon-picture" aria-hidden="true" data-toggle="tooltip" data-placement="top"
     title="Hint Diagrams"></span>
 </button>
+
+<!-- The Modal -->
+<div id="immgModalhint" class="imgmodal">
+
+  <!-- The Close Button -->
+  <span class="close" (click)="onImgPopupClose()" style="opacity: inherit;">&times;</span>
+
+  <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+    <ng-container *ngFor="let diag of dataElement.diagrams ">
+      <slide>
+        <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
+          <img class="modal-content img-responsive max-w-h-100" style="background-color: #000000;max-height: 37vw !important;
+          object-fit: contain !important" [src]="diag.location" alt="{{ diag.label }}">
+        </ng-container>
+        <ng-template #notImageUrl>
+          <img class="modal-content img-responsive max-w-h-100" style="background-color: #000000;max-height: 37vw !important;
+          object-fit: contain !important" [src]="getImageDataUrl(diag.location) | secure" alt="{{ diag.label }}">
+        </ng-template>
+      </slide>
+    </ng-container>
+  </carousel>
+
+  <!-- Modal Caption (Image Text) -->
+  <div id="captionmutli" style="color:white;font-size: large;text-align: center;">{{dataElement.label}}</div>
+</div>
+
 <div bsModal #modalPopup="bs-modal" class="modal fade div_modal_hint_diagram" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
