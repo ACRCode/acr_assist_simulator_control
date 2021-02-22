@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AssistReportTextComponent } from './assist-report-text.component';
 import { MainReportText, AllReportText } from '../assist-data-element/assist-data-element.component';
@@ -10,7 +10,7 @@ describe('AssistReportTextComponent', () => {
   let mainReportText: MainReportText;
   let allReportText: AllReportText;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AssistReportTextComponent ]
     })

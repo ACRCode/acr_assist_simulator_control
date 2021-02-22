@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HintDiagramComponent } from './hint-diagram.component';
 import { CarouselComponent } from 'ngx-bootstrap/carousel/carousel.component';
@@ -9,7 +9,7 @@ describe('HintDiagramComponent', () => {
   let component: HintDiagramComponent;
   let fixture: ComponentFixture<HintDiagramComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HintDiagramComponent, CarouselComponent, SlideComponent ],
       providers: [CarouselConfig]

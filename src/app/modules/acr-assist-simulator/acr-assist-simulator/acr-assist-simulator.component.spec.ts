@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AcrAssistSimulatorComponent } from './acr-assist-simulator.component';
 import { AssistDataElementComponent, AllReportText, MainReportText } from '../assist-data-element/assist-data-element.component';
@@ -45,7 +45,7 @@ describe('AcrAssistSimulatorComponent', () => {
   let mainReportText: MainReportText;
   let allReportText: AllReportText;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule],
       declarations: [ AcrAssistSimulatorComponent, AssistDataElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
