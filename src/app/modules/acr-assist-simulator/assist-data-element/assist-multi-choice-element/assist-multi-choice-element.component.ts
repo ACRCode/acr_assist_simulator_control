@@ -64,10 +64,10 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         img_src = undefined;
       }
       let img_label = img.attr('id');
-      var caption = document.getElementsByClassName('captionmutli');
-      caption[caption.length - 1].innerHTML = img_label;
       modal.style.display = 'block';
       modalImg.src = img_src;
+      var caption = document.getElementsByClassName('captionmutli');
+      caption[caption.length - 1].innerHTML = img_label;
     });
   }
 
