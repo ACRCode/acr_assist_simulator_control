@@ -90,6 +90,12 @@
               (change)="updateMultiChoice(multiChoiceElement.id, multiChoiceElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, $event)">
             {{choice.label}}
           </label>
+
+          <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">
+            <label class="col-lg-12" style="text-align: left;
+              font-style: italic;
+              font-weight: 500;margin-bottom: 15px;top:5px;white-space: break-spaces;">{{choice.hint}}</label>
+          </ng-container>
         </div>
 
         <div class="checkbox checkboxCustomized" *ngIf="multiChoiceElement.allowFreetext">
@@ -159,6 +165,13 @@
                   for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
               </label>
 
+              <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">
+                <label class="col-lg-12" style="text-align: left;
+                  font-style: italic;
+                  font-weight: 500;bottom: 7px;
+    left: 31px;white-space: break-spaces;">{{choice.hint}}</label>
+              </ng-container>
+
               <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
               <ng-container *ngIf="choice.diagrams !== undefined && choice.diagrams.length <= 1; else div_multiImage">
                 <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
@@ -224,16 +237,16 @@
   </div>
 </form>
 
-  <!-- The Modal -->
-  <div id="immgModalmulti" class="imgmodal" (click)="onImgModelClick($event)">
+<!-- The Modal -->
+<div id="immgModalmulti" class="imgmodal" (click)="onImgModelClick($event)">
 
-    <!-- The Close Button -->
-    <span class="close" (click)="onImgPopupClose()" style="opacity: inherit;">&times;</span>
+  <!-- The Close Button -->
+  <span class="close" (click)="onImgPopupClose()" style="opacity: inherit;">&times;</span>
 
-    <!-- Modal Content (The Image) -->
-    <img class="modal-content" id="img01multi" style="max-height: 37vw;
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="img01multi" style="max-height: 37vw;
     object-fit: contain;background-color: #000000;">
 
-    <!-- Modal Caption (Image Text) -->
-    <div id="captionmutli" class="captionmutli" style="color:white;font-size: large;text-align: center;"></div>
-  </div>
+  <!-- Modal Caption (Image Text) -->
+  <div id="captionmutli" class="captionmutli" style="color:white;font-size: large;text-align: center;"></div>
+</div>
