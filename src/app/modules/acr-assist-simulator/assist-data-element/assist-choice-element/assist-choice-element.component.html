@@ -327,6 +327,7 @@
           </ng-container>
         </div>
 
+
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control listboxSelect color-inherit" size="6"
@@ -476,6 +477,11 @@
                     [ngClass]="{'left-0px' : alignChoiceLabel == 'right' && choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1}"
                     class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+                  <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">
+                    <label style="text-align: left;
+                    font-style: italic;
+                    font-weight: 500;">{{choice.hint}}</label>
+                  </ng-container>
                 </label>
                 <ng-container *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || 
   (choiceDataElement.ChoiceNotRelevant !== undefined &&
