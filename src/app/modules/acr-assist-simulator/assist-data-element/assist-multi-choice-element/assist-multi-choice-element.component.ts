@@ -8,6 +8,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 
 const $ = require('jquery');
 import * as _ from 'lodash';
+import { forEach } from 'lodash';
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
@@ -66,7 +67,13 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       modal.style.display = 'block';
       modalImg.src = img_src;
       var caption = document.getElementsByClassName('captionmutli');
-      caption[caption.length - 1].innerHTML = img_label;
+      for (var i = 0; i < caption.length; i++) {
+        caption[i].innerHTML = img_label;
+      }
+      // caption.forEach(element => {
+      //   element.innerHTML = img_label;
+      // });
+      // caption[caption.length - 1].innerHTML = img_label;
     });
   }
 
