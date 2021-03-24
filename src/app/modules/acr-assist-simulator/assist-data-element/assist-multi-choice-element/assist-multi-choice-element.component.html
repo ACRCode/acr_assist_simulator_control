@@ -177,10 +177,10 @@
                 <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                   *ngFor="let diagram of choice.diagrams">
                   <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                    <img name="img_diagram" id="{{choice.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
+                    <img name="img_diagram" id="{{diagram.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
                   </ng-container>
                   <ng-template #notImageUrl>
-                    <img name="img_diagram" id="{{choice.label}}" [src]="getImageDataUrl(diagram.location) | secure">
+                    <img name="img_diagram" id="{{diagram.label}}" [src]="getImageDataUrl(diagram.location) | secure">
                   </ng-template>
                   <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                 </div>
@@ -192,10 +192,10 @@
                 <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                   *ngFor="let diagram of choice.diagrams">
                   <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
-                    <img name="img_diagram" id="{{choice.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
+                    <img name="img_diagram" id="{{diagram.label}}" [src]="diagram.location" alt="{{ diagram.label }}">
                   </ng-container>
                   <ng-template #notImageUrl>
-                    <img name="img_diagram" id="{{choice.label}}" [src]="getImageDataUrl(diagram.location) | secure">
+                    <img name="img_diagram" id="{{diagram.label}}" [src]="getImageDataUrl(diagram.location) | secure">
                   </ng-template>
                   <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                 </div>
