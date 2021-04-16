@@ -214,6 +214,13 @@ export class SimulatorEngineService {
   }
 
   private evaluateConditionalProperty(dataelement, nonRelevantDataElementIds: string[] = []): Array<string> {
+    if (dataelement.dataElementType === 'ChoiceDataElement') {
+      (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+    }
+    if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+      (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+    }
+
     if (dataelement.conditionalProperties !== undefined) {
       let conditionMet = false;
       let isCompositeCondition = false;
@@ -250,7 +257,11 @@ export class SimulatorEngineService {
             }
 
             if (dataelement.dataElementType === 'ChoiceDataElement') {
-              (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              // (dataelement as ChoiceDataElement).ChoiceNotRelevant = conditionalProperty.ChoiceNotRelevant;
+              conditionalProperty.ChoiceNotRelevant.forEach(element => {
+                (dataelement as ChoiceDataElement).ChoiceNotRelevant.push(element);
+              });
+
               //#region uncomment
               this.updateChoiceDataElementValues((dataelement as ChoiceDataElement));
               //#endregion
@@ -283,16 +294,18 @@ export class SimulatorEngineService {
           }
 
 
-          return this.nonRelevantDataElementIds;
+          // return this.nonRelevantDataElementIds;
         } else {
-          if (dataelement.dataElementType === 'ChoiceDataElement') {
-            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
-          }
-          if (dataelement.dataElementType === 'MultiChoiceDataElement') {
-            (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
-          }
+          // if (dataelement.dataElementType === 'ChoiceDataElement') {
+          //   (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+          // }
+          // if (dataelement.dataElementType === 'MultiChoiceDataElement') {
+          //   (dataelement as ChoiceDataElement).ChoiceNotRelevant = new Array<string>();
+          // }
         }
       }
+
+      return this.nonRelevantDataElementIds;
     }
   }
 
