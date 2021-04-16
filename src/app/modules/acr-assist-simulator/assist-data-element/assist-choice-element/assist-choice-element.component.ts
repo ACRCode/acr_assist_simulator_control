@@ -10,6 +10,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 
 const $ = require('jquery');
+declare var triggerToolTip: any;
 
 @Component({
   selector: 'acr-assist-choice-element',
@@ -231,6 +232,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       }
     }, 100);
     // this.logCustomizationDetails();
+    triggerToolTip();
   }
 
   isRadioChoiceNotRelavent(choice) {
@@ -390,9 +392,10 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
       var divElementId = selectedValue + "_" + elementId.trim();
+      debugger;
       if (!this.hideRadioButton) {
         if (!this._isRadioButton()) {
-          var inputId = '#' + selectedValue.trim();
+          var inputId = '#' + elementId.trim() + '_' + selectedValue.trim();
           $("[id$='_" + elementId + "']").find('input[type=radio]').prop("checked", false);
           // $('form input[type=radio]:checked').prop("checked", false);
           $(inputId).prop("checked", true);

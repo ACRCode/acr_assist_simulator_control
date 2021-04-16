@@ -1,6 +1,24 @@
 $(document).ready(function () {
   init_SimulatorUI();
+  // setTimeout(function(e){
+  //   alert();
+
+  // }, 10000);
 });
+
+// $('body').on('click', function (e) {
+//   // alert();
+//   $('[data-toggle=tooltip]').each(function () {
+//     // hide any open popovers when the anywhere else in the body is clicked
+//     if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.tooltip').has(e.target).length === 0) {
+//       $(this).tooltip('hide');
+//     }
+//   });
+// });
+
+var triggerToolTip = function () {
+  $('[data-toggle="tooltip"]').tooltip({ trigger: 'click', placement: 'bottom' });
+}
 
 var init_SimulatorUI = function () {
   $("#toggleWrapper").click(function (e) {

@@ -492,3 +492,29 @@ div:focus {
   border: 1px solid #ccc !important;
   border-radius: 10px;
 }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+label {
+  font-weight: 500 !important;
+}
+
+.tooltip-inner {
+  /* max-width: 350px !important; */
+}
+
+.tooltip {
+  left: 101px !important;
+}
+
+.tooltip-arrow {
+  display: none !important;
+  left: 4% !important;
+}
