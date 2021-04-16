@@ -133,7 +133,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     const context = this;
     setTimeout(function (e) {
       context.applyInputStyles();
-    }, 100);
+    }, 2000);
   }
 
   setDefaultImage(event, diagram) {
