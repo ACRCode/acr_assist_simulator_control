@@ -10,8 +10,11 @@
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
         <i class="whitespace">
-          <span class="fa fa-info-circle text-primary font-size-inherit" data-toggle="tooltip" data-placement="right"
-            title="{{choiceDataElement.hint}}"></span>
+          <!-- <span class="fa fa-info-circle text-primary font-size-inherit" data-toggle="tooltip" data-placement="right"
+            title="{{choiceDataElement.hint}}"></span> -->
+
+          <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+            data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
         </i>
       </ng-container>
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -194,8 +197,11 @@
             </label>
             <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i class="whitespace">
-                <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                  title="{{choiceDataElement.hint}}"></span>
+                <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                  title="{{choiceDataElement.hint}}"></span> -->
+
+                <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+                  data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
               </i>
             </ng-container>
           </div>
@@ -251,8 +257,11 @@
               </label>
               <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
                 <i class="whitespace">
-                  <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                    title="{{choiceDataElement.hint}}"></span>
+                  <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                    title="{{choiceDataElement.hint}}"></span> -->
+
+                  <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+                    data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
                 </i>
               </ng-container>
               <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -315,8 +324,11 @@
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
-              <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                title="{{choiceDataElement.hint}}"></span>
+              <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                title="{{choiceDataElement.hint}}"></span> -->
+
+              <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+                data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
             </i>
           </ng-container>
         </div>
@@ -379,18 +391,21 @@
 
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
-            <i class="whitespace">
+            <!-- <i class="whitespace">
               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                 title="{{choiceDataElement.hint}}"></span>
-            </i>
+            </i> -->
 
             <!-- Alert -->
             <!-- <button class="btn btn-xs btn-info gly-radius whitespace" data-toggle="tooltip"
               title="{{choiceDataElement.hint}}" aria-describedby="tooltip">
-              <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-              <span class="sr-only">{{choiceDataElement.hint}}</span>             
+              <span class="hint_button glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+              <span class="sr-only">{{choiceDataElement.hint}}</span>
             </button> -->
-             <!-- Alert -->
+
+            <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+              data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
+            <!-- Alert -->
 
           </ng-container>
         </div>
@@ -449,8 +464,11 @@
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
-              <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                title="{{choiceDataElement.hint}}"></span>
+              <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                title="{{choiceDataElement.hint}}"></span> -->
+
+              <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+                data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
             </i>
           </ng-container>
         </div>

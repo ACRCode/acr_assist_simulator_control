@@ -8,7 +8,9 @@
           ({{multiChoiceElement.unit}})</span>
       </label>
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i>
+        <!-- <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+        <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+          data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
       </ng-container>
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
@@ -71,7 +73,9 @@
           </span>
         </label>
         <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-          <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
+          <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+          <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+            data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
         </ng-container>
       </div>
       <div class="col-lg-2 div_hint">
@@ -137,7 +141,9 @@
           </span>
         </label>
         <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-          <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
+          <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+          <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+            data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
         </ng-container>
       </div>
       <div class="col-lg-2 div_hint">

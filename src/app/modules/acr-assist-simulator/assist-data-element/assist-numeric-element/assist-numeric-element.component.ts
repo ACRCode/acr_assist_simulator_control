@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { UtilityService } from '../../../core/services/utility.service';
+declare var triggerToolTip: any;
 
 @Component({
   selector: 'acr-assist-numeric-element',
@@ -40,6 +41,8 @@ export class AssistNumericElementComponent implements OnInit, AfterViewInit {
     } else {
       this.returnNumericElement.emit(undefined);
     }
+
+    triggerToolTip();
   }
 
   loadedNumericValue(id, value, selectedCondition) {

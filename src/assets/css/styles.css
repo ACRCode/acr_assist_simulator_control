@@ -518,3 +518,16 @@ label {
   display: none !important;
   left: 4% !important;
 }
+
+.popover-content {
+  display: none !important;
+}
+
+.popover {
+  position: absolute !important;
+  z-index: 1000000 !important;
+}
+
+.control-label {
+  margin-bottom: 5px !important;
+}

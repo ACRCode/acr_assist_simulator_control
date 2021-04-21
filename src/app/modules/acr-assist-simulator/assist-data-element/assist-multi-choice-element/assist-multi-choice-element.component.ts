@@ -9,6 +9,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 const $ = require('jquery');
 import * as _ from 'lodash';
 import { forEach } from 'lodash';
+declare var triggerToolTip: any;
 
 @Component({
   selector: 'acr-assist-multi-choice-element',
@@ -156,6 +157,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         $this.returnMultiChoice.emit(undefined);
       }
     });
+
+    triggerToolTip();
   }
 
   isChoiceChecked(choice) {

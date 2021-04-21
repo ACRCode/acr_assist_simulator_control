@@ -4,6 +4,7 @@ import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { DateTimeDataElement } from 'testruleengine/Library/Models/Class';
 import { DateTimeElement } from '../assist-data-element.component';
 import { UtilityService } from '../../../core/services/utility.service';
+declare var triggerToolTip: any;
 
 @Component({
   selector: 'acr-assist-date-time-element',
@@ -42,6 +43,8 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
     } else {
       this.returnDateTimeElement.emit(undefined);
     }
+
+    triggerToolTip();
   }
 
   onDateTimeSelected() {
@@ -63,8 +66,8 @@ export class AssistDateTimeElementComponent implements OnInit, AfterViewInit {
 
   isDateTimeElementRequired(): boolean {
     return this.dateTimeElementForm.controls.dateTimeElement.invalid &&
-          this.dateTimeElementForm.controls.dateTimeElement.errors.required &&
-          this.dateTimeDataElement.isRequired;
+      this.dateTimeElementForm.controls.dateTimeElement.errors.required &&
+      this.dateTimeDataElement.isRequired;
   }
 
   private createDateTimeElementForm() {

@@ -12,7 +12,9 @@
           ({{durationDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
-        <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{durationDataElement.hint}}"></i>
+        <!-- <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{durationDataElement.hint}}"></i> -->
+        <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+        data-trigger="focus" title="{{durationDataElement.hint}}">Hint</a>
       </ng-container>
       <span *ngIf="isDurationElementRequired()" class="required-field" title="Required Field">
         *
@@ -172,14 +174,16 @@
           </span>
         </label>
         <ng-container *ngIf="durationDataElement.hint !== '' && durationDataElement.hint !== undefined">
-          <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i>
+          <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{durationDataElement.hint}}"></i> -->
+          <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+          data-trigger="focus" title="{{durationDataElement.hint}}">Hint</a>
         </ng-container>
       </div>
       <div class="col-lg-2 div_hint">
 
       </div>
 
-      <div style="display:inline-flex" class="col-lg-12 paddingLeftNone">
+      <div style="display:inline-flex;position: relative;top: 7px;" class="col-lg-12 paddingLeftNone">
         <div [ngClass]="durationDataElement.isEditable == false ? 'disabled-picker' : ''">
           <table style="margin-right: 10px;" *ngIf="durationDataElement.ShowDays">
             <tbody>

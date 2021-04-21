@@ -131,8 +131,8 @@ p {
   border-radius: 0;
   box-shadow: none;
   border-color: #d2d6de;
-  position: relative;
-  top: 7px;
+  /* position: relative;
+  top: 7px; */
 }
 
 h4.modal-title.float-left {
@@ -220,6 +220,8 @@ mark {
 
 .labelparentdiv {
   padding-left: 0px !important;
+  /* margin-bottom: 2px; */
+  min-height: 35px;
 }
 
 .spantest {

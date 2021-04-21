@@ -1,20 +1,21 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { DurationDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { SimulatorCommunicationService } from '../../shared/services/simulator-communication.service';
 import { UtilityService } from '../../../core/services/utility.service';
+declare var triggerToolTip: any;
 
 @Component({
   selector: 'acr-assist-duration-element',
   templateUrl: './assist-duration-element.component.html',
   styleUrls: ['./assist-duration-element.component.css']
 })
-export class AssistDurationElementComponent implements OnInit, OnDestroy {
+export class AssistDurationElementComponent implements OnInit, OnDestroy, AfterViewInit {
 
   supportedUnits: any = {
     millisecond: { label: 'Millisecond', max: 999, min: 0, value: 0, step: 1 },
-    second: { label: 'S',  max: 59, min: 0, value: 0, step: 1 },
+    second: { label: 'S', max: 59, min: 0, value: 0, step: 1 },
     minute: { label: 'M', max: 59, min: 0, value: 0, step: 1 },
     hour: { label: 'H', max: 23, min: 0, value: 0, step: 1 },
     day: { label: 'D', max: 7, min: 0, value: 0, step: 1 },
@@ -114,6 +115,10 @@ export class AssistDurationElementComponent implements OnInit, OnDestroy {
           this.showsecondsmaxValidation = true;
         }
       });
+  }
+
+  ngAfterViewInit() {
+    triggerToolTip();
   }
 
   onlyInteger(event) {

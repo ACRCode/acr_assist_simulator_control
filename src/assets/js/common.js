@@ -8,16 +8,22 @@ $(document).ready(function () {
 
 // $('body').on('click', function (e) {
 //   // alert();
+//   // debugger;
 //   $('[data-toggle=tooltip]').each(function () {
 //     // hide any open popovers when the anywhere else in the body is clicked
-//     if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.tooltip').has(e.target).length === 0) {
-//       $(this).tooltip('hide');
-//     }
+//     // if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.tooltip').has(e.target).length === 0) {
+//     //   $(this).tooltip('hide');
+//     // }
+
+//     // if (e.target.classList.contains('hint_button')) {
+//     //   $(this).tooltip('hide');
+//     // }
 //   });
 // });
 
 var triggerToolTip = function () {
-  $('[data-toggle="tooltip"]').tooltip({ trigger: 'click', placement: 'bottom' });
+  // $('[data-toggle="tooltip"]').tooltip({ trigger: 'click', placement: 'bottom' });
+  $('[data-toggle="popover"]').popover({placement: 'right', container: 'body'});
 }
 
 var init_SimulatorUI = function () {
