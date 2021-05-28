@@ -64,6 +64,8 @@ export class AssistReportTextComponent implements OnChanges {
             this.getHeadingBasedOnSectionId(this.reportText.allReportText[section].allReportResult.sectionId);
           textReport.allTextResultReport.sectionId = this.reportText.allReportText[section].allReportResult.sectionId;
           // tslint:disable-next-line:max-line-length
+          this.reportText.allReportText[section].allReportResult.reportText
+            = this.reportText.allReportText[section].allReportResult.reportText.replace(/(\r\n|\n|\r)/gm, "");
           textReport.allTextResultReport.content = this.addEmptyBreakLines(this.reportText.allReportText[section].allReportResult.reportText);
           textReport.repeatedSectionName = this.reportText.allReportText[section].repeatedSectionName;
           this.allTextReport.push(Object.assign({}, textReport));
