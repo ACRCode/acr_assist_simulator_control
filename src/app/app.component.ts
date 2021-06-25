@@ -31,6 +31,7 @@ export class AppComponent {
   resetButton: boolean;
   showReportText: boolean;
   showTabularReportText = false;
+  isDSIModule = false;
   testInputValue: InputData[] = [
     {
       dataElementId: 'ObservationCharacter',

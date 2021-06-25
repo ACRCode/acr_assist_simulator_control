@@ -14,6 +14,7 @@ import { head } from 'lodash';
 })
 export class AssistReportTextComponent implements OnChanges {
 
+  isDSIModule: boolean;
   prevSectionId: string;
   selectedSectionId: string;
   selectedSection: string;
@@ -42,6 +43,7 @@ export class AssistReportTextComponent implements OnChanges {
     this.sections = [];
     this.selectedSection = null;
     this.isRequiredFieldIsNotFilled = this.reportText.isRequiredFieldIsNotFilled;
+    this.isDSIModule = this.reportText.isDSIModule;
     this.tabularReport = this.reportText.tabularReport;
     for (const section in this.reportText.allReportText) {
       if (this.reportText.allReportText[section].allReportResult.reportText !== '') {

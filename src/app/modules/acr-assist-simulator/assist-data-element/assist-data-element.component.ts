@@ -41,6 +41,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
   @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() showTabularReportText: boolean;
+  @Input() isDSIModule: boolean;
   @Input() choiceElementDisplay: ChoiceElementDisplayEnum;
   @Input() alignLabelAndControlToTopAndBottom: boolean;
   @Input() dataElements: BaseDataElement[];
@@ -156,6 +157,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
             }
           });
 
+          this.mainReportTextObj.isDSIModule = this.isDSIModule;
           this.mainReportTextObj.isRequiredFieldIsNotFilled = isRequiredFieldIsNotFilled;
           this.returnReportText.emit(this.mainReportTextObj);
         } else {

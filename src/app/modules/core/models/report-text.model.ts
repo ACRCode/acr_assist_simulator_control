@@ -1,7 +1,8 @@
 export class AllTextReport {
+    isDSIModule: boolean;
     repeatedSectionName: string;
     allTextResultReport: AllTextResultReport;
-    constructor () {
+    constructor() {
         this.allTextResultReport = new AllTextResultReport();
     }
 }

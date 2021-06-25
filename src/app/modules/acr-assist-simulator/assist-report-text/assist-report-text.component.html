@@ -8,7 +8,7 @@
   </span>
 </div> -->
 
-
+<!-- {{isDSIModule | json}} -->
 <ng-container *ngIf="tabularReport; else reportText">
   <ng-container *ngIf="tabularReport.elements.length">
     <h5>
@@ -17,8 +17,8 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th scope="col">CDE Name</th>
-          <th scope="col">CDE Value</th>
+          <th scope="col">{{isDSIModule? 'DSI Name' : 'CDE Name'}}</th>
+          <th scope="col">{{isDSIModule? 'DSI Value' : 'CDE Value'}}</th>
         </tr>
       </thead>
       <tbody>

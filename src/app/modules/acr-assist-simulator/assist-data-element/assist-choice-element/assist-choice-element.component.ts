@@ -392,7 +392,6 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
     this.showOrHideFreeText(elementId, selectedValue);
     if (selectedText !== 'Other, please specify…' && selectedValue !== 'freetext') {
       var divElementId = selectedValue + "_" + elementId.trim();
-      debugger;
       if (!this.hideRadioButton) {
         if (!this._isRadioButton()) {
           var inputId = '#' + elementId.trim() + '_' + selectedValue.trim();

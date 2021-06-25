@@ -36,6 +36,7 @@
           templateContent={{fileContent}} [reportTextPosition]="position.Right" [assetsBaseUrl]="assetsBaseUrl"
           [hideKeyDiagramTab]="false" [showKeyDiagram]="settingsConfig.get('showKeyDiagram')"
           [inputValues]="inputValues" [aiInputs]="aiInputs" [showTabularReportText]="showTabularReportText"
+          [isDSIModule]="isDSIModule"
           [hideKeyImageUpload]="hideKeyImageUpload" [choiceControlStyle]="choiceControlStyle"
           [customizeChoiceControlById]="customizeChoiceControlById"
           (callBackAfterGettingShowKeyDiagram)="showKeyDiagram($event)"
