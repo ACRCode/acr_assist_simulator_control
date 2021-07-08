@@ -24,7 +24,8 @@
       <tbody>
         <ng-container *ngFor="let report of tabularReport.elements">
           <tr>
-            <td class="break-word">{{ report.dataElement }} {{ getReportIdentifier(report.radElement) }}</td>
+            <td class="break-word" style="min-width: 150px;">{{ report.dataElement }} {{ !isDSIModule ?
+              getReportIdentifier(report.radElement) : '' }}</td>
             <td class="break-word">{{ report.values }}</td>
           </tr>
         </ng-container>
