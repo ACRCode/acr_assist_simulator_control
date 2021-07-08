@@ -30,8 +30,8 @@ export class AppComponent {
   position = ReportTextPosition;
   resetButton: boolean;
   showReportText: boolean;
-  showTabularReportText = true;
-  isDSIModule = true;
+  showTabularReportText = false;
+  isDSIModule = false;
   testInputValue: InputData[] = [
     {
       dataElementId: 'ObservationCharacter',
