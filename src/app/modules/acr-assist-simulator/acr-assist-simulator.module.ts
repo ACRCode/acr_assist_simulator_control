@@ -19,6 +19,7 @@ import { ImageMapComponent } from './assist-data-element/image-map/image-map.com
 import { AssistReportTextComponent } from './assist-report-text/assist-report-text.component';
 import { AssistDurationElementComponent } from './assist-data-element/assist-duration-element/assist-duration-element.component';
 import { AssistDateTimeElementComponent } from './assist-data-element/assist-date-time-element/assist-date-time-element.component';
+import { AssistTextElementComponent } from './assist-data-element/assist-text-element/assist-text-element.component';
 
 import { ClipboardDirective } from './shared/directives/clipboard.directive';
 import { DynamicHeightDirective } from './shared/directives/dynamicheight.directive';
@@ -37,7 +38,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
   IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent,
-  AssistComputedElementComponent];
+  AssistComputedElementComponent, AssistTextElementComponent];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
   DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];

@@ -5,7 +5,8 @@
     || DataElement.dataElementType == 'MultiChoiceDataElement'
     || DataElement.dataElementType == 'DateTimeDataElement'
     || DataElement.dataElementType == 'ComputedDataElement'
-    || DataElement.dataElementType == 'DurationDataElement') ">
+    || DataElement.dataElementType == 'DurationDataElement'
+    || DataElement.dataElementType == 'TextDataElement') ">
     <ng-container *ngIf="DataElement.isVisible">
       <div id="div_{{DataElement.id}}">
   <ng-container
@@ -66,6 +67,13 @@
                         [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='childElement'>
                       </acr-assist-duration-element>
                     </ng-container>
+                    <ng-container *ngIf="childElement.dataElementType == 'TextDataElement'">
+                      <acr-assist-text-element  
+                        [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+                        [assetsBaseUrl]="assetsBaseUrl" [textDataElement]='childElement' 
+                        (returnTextElement)='textSelected($event)'>
+                      </acr-assist-text-element>
+                    </ng-container>
                   </ng-container>
                 </div>
               </div>
@@ -103,6 +111,12 @@
     <!-- <acr-assist-duration-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
             [assetsBaseUrl]="assetsBaseUrl" [durationDataElement]='DataElement'></acr-assist-duration-element> -->
     <acr-assist-computed-element [computedDataElement]='DataElement'></acr-assist-computed-element>
+  </ng-container>
+  <ng-container *ngIf="DataElement.dataElementType == 'TextDataElement'">   
+    <acr-assist-text-element [alignLabelAndControlToTopAndBottom]='alignLabelAndControlToTopAndBottom'
+      [assetsBaseUrl]="assetsBaseUrl" [textDataElement]='DataElement'
+      (returnTextElement)='textSelected($event)'>
+    </acr-assist-text-element>
   </ng-container>
   </div>
 </ng-container>
