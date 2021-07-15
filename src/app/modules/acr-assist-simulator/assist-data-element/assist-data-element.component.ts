@@ -261,6 +261,23 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
+  textSelected($event) {  
+    if ($event !== undefined) {
+      if ($event.receivedElement !== undefined && $event.selectedCondition !== undefined) {
+        this.FindRepeatedElements($event);
+        this.simulatorEngineService.addOrUpdateDataElement($event.receivedElement.elementId, $event.receivedElement.selectedValue,
+          $event.receivedElement.selectedValue);
+        const executedResults: string[] = [];
+        executedResults[$event.selectedCondition.selectedCondition] = $event.selectedCondition.selectedValue;
+        this.executedResultIds[$event.selectedCondition.selectedConditionId] = executedResults;
+        this.generateExecutionHistory();
+        this.afterDataElementChanged();
+      }
+    } else {
+      this.afterDataElementChanged();
+    }
+  }
+
   onAIInputReset(event) {
     this.callBackAfterAIInputReset.emit(event);
   }
@@ -356,7 +373,7 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  afterDataElementChanged() {
+  afterDataElementChanged() {    
     const deValues: InputData[] = [];
     for (const de of this.dataElements) {
       if (de.isVisible && de.dataElementType !== 'ComputedDataElement' && de.dataElementType !== 'GlobalValue') {
@@ -528,6 +545,11 @@ export class NumericElement {
 }
 
 export class DateTimeElement {
+  elementId: string;
+  selectedValue: string;
+}
+
+export class TextElement {
   elementId: string;
   selectedValue: string;
 }

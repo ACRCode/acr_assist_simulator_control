@@ -1,0 +1,24 @@
+
+.div_hint{
+    text-align: right !important;
+    position: relative;
+    top: 7px;
+    padding-right: 0px !important;
+}
+
+.required-field{
+    color: red;
+}
+
+
+.validatorMessageSpan {
+    color: red;
+    font-size: small !important;
+    position: relative;
+    top: 6px;
+}
+.text-area-style{
+    width:100%; 
+    height:150px;
+    resize: none;
+}
