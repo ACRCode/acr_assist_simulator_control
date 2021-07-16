@@ -1,28 +1,57 @@
-<form [formGroup]="textElementForm" novalidate> 
-    <div class="form-group" *ngIf="textDataElement.isRelevant">
-        <!-- <div class="col-lg-2 div_hint">       
+<form [formGroup]="textElementForm">
+
+    <!-----Right to left alignment-->
+    <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && textDataElement.isRelevant">
+      <div class="col-sm-4 text-right">
+        <label class="control-label break-word">
+          {{textDataElement.label}}
+        </label>
+        <ng-container *ngIf="utilityService.isNotEmptyString(textDataElement.hint)">
+          <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{textDataElement.hint}}"></i>
+        </ng-container>
+        <ng-container *ngIf="utilityService.isValidInstance(textDataElement.diagrams)">
+          <acr-hint-diagram [dataElement]="textDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
+        </ng-container>
+        <span *ngIf="isTextElementRequired()" class="required-field" title="Required Field">
+          *
+        </span>      
+      </div>    
+      <ng-container>
+        <div class="col-sm-8">
+          <input [attr.disabled]="textDataElement.isEditable == false ? 'disabled' : null"
+            id="{{textDataElement.id}}" type="text" class="form-control color-inherit" 
+            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" required>       
+        </div>
+      </ng-container>
+    </div>
+  
+    <!------Top to bottom alignment------->
+    <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && textDataElement.isRelevant">
+      <ng-container>
+        <div class="col-lg-12">
+          <div class="col-lg-10 labelparentdiv">
+            <label class="control-label break-word">             
+              <span *ngIf="isTextElementRequired()" class="required-field" title="Required Field">
+                *
+              </span>
+              {{textDataElement.label}}
+            </label>
+            <ng-container *ngIf="utilityService.isNotEmptyString(textDataElement.hint)">
+              <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{textDataElement.hint}}"></i> -->
+              <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
+              data-trigger="focus" title="{{textDataElement.hint}}">Hint</a>
+            </ng-container>
+          </div>
+          <div class="col-lg-2 div_hint">       
             <ng-container *ngIf="utilityService.isValidInstance(textDataElement.diagrams)">
               <acr-hint-diagram [dataElement]="textDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
             </ng-container>
-        </div> -->
-        <div class="col-lg-12">
-            <div class="col-lg-12 labelparentdiv" style="margin-bottom: 10px;">
-                <label class="control-label break-word">
-                    <span *ngIf="isTextElementRequired()" class="required-field" title="Required Field">*</span>
-                    {{textDataElement.label}}                    
-                </label>
-                <ng-container *ngIf="utilityService.isNotEmptyString(textDataElement.hint)">
-                    <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{textDataElement.hint}}"></i> -->
-                    <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
-                    data-trigger="focus" title="{{textDataElement.hint}}">Hint</a>
-                </ng-container>
-            </div>
-            <!-- <textarea id="{{textDataElement.id}}" maxLength="5000" wrap="hard"  rows="5" 
-                value="{{textDataElement.currentValue}}" class="form-control color-inherit text-area-style" ></textarea> -->
-
-            <input [attr.disabled]="textDataElement.isEditable == false ? 'disabled' : null" 
-                (input)="textSelected($event.target, textDataElement.label)" id="{{textDataElement.id}}" 
-                type="text" class="form-control color-inherit" formControlName="textElement"  required>
+          </div>
+          <input [attr.disabled]="textDataElement.isEditable == false ? 'disabled' : null"
+            id="{{textDataElement.id}}" type="text" class="form-control color-inherit" 
+            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" required>          
         </div>
+      </ng-container>     
     </div>
+    
 </form>
