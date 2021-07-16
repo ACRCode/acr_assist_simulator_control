@@ -10,7 +10,7 @@ declare var triggerToolTip: any;
 @Component({
   selector: 'acr-assist-text-element',
   templateUrl: './assist-text-element.component.html',
-  styleUrls: ['./assist-text-element.component.css']
+  styleUrls: ['./assist-text-element.component.css', '../../styles.css']
 })
 
 export class AssistTextElementComponent implements OnInit, AfterViewInit {
@@ -84,5 +84,16 @@ export class AssistTextElementComponent implements OnInit, AfterViewInit {
           Validators.required          
         ])],
     });
+  }
+
+  hasAIInputStyle():boolean {    
+    if (this.utilityService.isNotEmptyString(this.textDataElement.sources)) {
+      const elem = this.textDataElement.sources.find(x => x.id === this.textDataElement.id);
+      if (this.utilityService.isValidInstance(elem)) {
+        return elem.value === this.textDataElement.controls.textElement.value;
+      }
+    }
+
+    return false;
   }
 }

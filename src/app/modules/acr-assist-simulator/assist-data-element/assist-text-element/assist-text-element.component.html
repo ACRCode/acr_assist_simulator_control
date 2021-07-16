@@ -20,7 +20,8 @@
         <div class="col-sm-8">
           <input [attr.disabled]="textDataElement.isEditable == false ? 'disabled' : null"
             id="{{textDataElement.id}}" type="text" class="form-control color-inherit" 
-            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" required>       
+            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" 
+            [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': textDataElement.showValidation }" required>       
         </div>
       </ng-container>
     </div>
@@ -49,7 +50,8 @@
           </div>
           <input [attr.disabled]="textDataElement.isEditable == false ? 'disabled' : null"
             id="{{textDataElement.id}}" type="text" class="form-control color-inherit" 
-            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" required>          
+            formControlName="textElement" (input)="textSelected($event.target, textDataElement.label)" 
+            [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': textDataElement.showValidation }" required>
         </div>
       </ng-container>     
     </div>
