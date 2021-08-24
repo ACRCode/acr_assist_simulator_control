@@ -57,7 +57,7 @@ extends:
           npm install
         displayName: 'Install NPM Dependencies'
       - script: |
-          ng build --configuration=production --output-path $(Build.Artifactstagingdirectory)
+          npm run build --prod --output-path $(Build.Artifactstagingdirectory)
         displayName: 'Build Angular Project'
         
 
