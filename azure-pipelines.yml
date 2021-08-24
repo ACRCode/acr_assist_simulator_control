@@ -51,7 +51,7 @@ extends:
 
       - task: CmdLine@2
         inputs:
-         script: 'npm run build --prod'
+          script: 'npm run build --prod --output-path $(Build.Artifactstagingdirectory)'
 
       # - task: NodeTool@0
       #   displayName: 'Install Node.js'
