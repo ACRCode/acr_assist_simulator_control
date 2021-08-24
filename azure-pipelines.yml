@@ -51,8 +51,15 @@ extends:
 
       - task: CmdLine@2
         inputs:
-          script: 'npm run build --prod --output-path $(Build.Artifactstagingdirectory)'
-
+          script: 'npm run build --prod'
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(Build.BinariesDirectory)'
+          includeRootFolder: true
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          replaceExistingArchive: true
+     
       # - task: NodeTool@0
       #   displayName: 'Install Node.js'
       #   inputs:
