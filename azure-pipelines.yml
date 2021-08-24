@@ -45,19 +45,24 @@ extends:
       - checkout: self      
 
      
-      
-     
-
-      - task: NodeTool@0
-        displayName: 'Install Node.js'
+      - task: CmdLine@2
         inputs:
-          versionSpec: '14.x'
-      - script: |
-          npm install -g @angular/cli
-          npm install
-        displayName: 'Install NPM Dependencies'
-      - script: |
-          npm run build --prod
+          script: 'npm install'
+
+      - task: CmdLine@2
+        inputs:
+         script: 'npm run build --prod'
+
+      # - task: NodeTool@0
+      #   displayName: 'Install Node.js'
+      #   inputs:
+      #     versionSpec: '14.x'
+      # - script: |
+      #     npm install -g @angular/cli
+      #     npm install
+      #   displayName: 'Install NPM Dependencies'
+      # - script: |
+      #     npm run build --prod
           
         # displayName: 'Build Angular Project'
         
