@@ -1,22 +1,119 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+
+
 
 trigger:
-- master
+    - master
 
-pool:
-  vmImage: ubuntu-latest
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+resources:
+  repositories:
+  
+  - repository: azureSharedTemplates
+    type: github
+    endpoint: ACRCode
+    name: ACRCode/ADOCS-templates
+    branch: master
+  #2) this repository is for AWS Cloudformation Template and Azure ARM
+  #https://github.com/ACRCode/InfrastructureAsCode
+  #Optional: only if current project need to use cloudformation templates from share repo
+  - repository: InfrastureAsCode
+    type: github
+    endpoint: ACRCode
+    name: ACRCode/InfrastructureAsCode
+    branch: main
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+#variables:
+# variable group defined in Azure DevOps Library
+# Optional: only when project has variable group defined in Library
+  #- group: Project Variable
+
+#ADOCS requires pipeline yaml file extending from shared template created by ADOCS team
+# You should provide parameters defined in shared template (shared-template.yml) as show below
+extends:
+  template: shared-template.yml@azureSharedTemplates #Refer to the resources section repo 1)
+  # Below are parameters needed for shared template
+  parameters:
+    #parameters to set build version
+    buildVersionMajor: 1
+    buildVersionMinor: 0
+    buildPoolImage: 'windows-latest'
+    #Required
+    #Provide tasks which will be executed for build process
+    #Below is an example of tasks for .net Core project
+    buildSteps:
+      - checkout: self      
+
+     
+      
+     
+
+      - task: NodeTool@0
+        displayName: 'Install Node.js'
+        inputs:
+          versionSpec: '14.x'
+      - script: |
+          npm install -g @angular/cli
+          npm install
+        displayName: 'Install NPM Dependencies'
+      - script: |
+          ng build --configuration=production --output-path $(Build.Artifactstagingdirectory)
+        displayName: 'Build Angular Project'
+        
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.Artifactstagingdirectory)'
+          artifact: 'AngularBuildArtifacts' # Give an artifact name 
+          publishLocation: 'pipeline'
+     
+
+      
+
+
+
+       #Create nuspec file 
+      
+      - task: CmdLine@2
+        displayName: Create nuget spec file .nuspec
+        inputs:
+           script: 'nuget.exe spec Acr.Assist.Simulator'
+           workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
+      
+      
+      #Create Package
+
+      - task: NuGetCommand@2
+        displayName: Pack Nuget package
+        inputs:
+          command: 'pack'
+          packagesToPack: '$(Build.ArtifactStagingDirectory)/*.nuspec'
+          packDestination: '$(Build.SourcesDirectory)/nupkg'
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: 'BUILD_BUILDNUMBER'
+
+      #Push Package
+
+      - task: NuGetCommand@2
+        inputs:
+           command: 'push'
+           packagesToPush: '$(Build.SourcesDirectory)/nupkg/*.nupkg;!$(Build.SourcesDirectory)/nupkg/**/*.symbols.nupkg'
+           nuGetFeedType: 'external'
+           publishFeedCredentials: 'ACR Nexus with ApiKey-ACR Assist' 
+
+      #Run Checkmarx and IQ scan
+
+    securityScanAgentPool: 'Local Agents'
+    runCheckMarxScan: true
+    CheckmarxServiceConnection: 'ACR Checkmarx'
+    CheckmarxProject: 'Simulator'
+    CheckmarxCustomPreset: 'ACR Default'
+    CheckmarxFullTeamName: 'CxServer\SOC\ACR\All\Informatics\Assist'
+    CheckmarxFolderExclusion: 'cvs, .svn, .hg , .git, .bzr, bin , obj,  backup, .idea, node_modules'
+    runIQScan: false
+    NexusServiceConnection: 'ACR Nexus IQ'
+    NexusAppId: 'AssistSimulator'
+    NexusScanStage: 'Build'
+    ArtifactsForNexusScan: '' 
+    NexusScanTarget: '$(Build.SourcesDirectory)/Nexus/**/**.zip'
