@@ -54,9 +54,9 @@ extends:
           script: 'npm run build --prod'
       - task: CopyFiles@2
         inputs:
-          sourceFolder: '$(Build.SourcesDirectory)'
-          contents: '**/$(BuildConfiguration)/**/?(*.exe|*.dll|*.pdb)'
-          targetFolder: '$(Build.ArtifactStagingDirectory)'
+          SourceFolder: 'D:\a\1\s'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
      
       # - task: NodeTool@0
       #   displayName: 'Install Node.js'
