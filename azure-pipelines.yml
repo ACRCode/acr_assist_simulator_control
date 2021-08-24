@@ -67,11 +67,11 @@ extends:
         # displayName: 'Build Angular Project'
         
 
-      # - task: PublishPipelineArtifact@1
-      #   inputs:
-      #     targetPath: '$(Build.Artifactstagingdirectory)'
-      #     artifact: 'AngularBuildArtifacts' # Give an artifact name 
-      #     publishLocation: 'pipeline'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.Artifactstagingdirectory)'
+          artifact: 'AngularBuildArtifacts' # Give an artifact name 
+          publishLocation: 'pipeline'
      
 
       
@@ -80,11 +80,11 @@ extends:
 
        #Create nuspec file 
       
-      # - task: CmdLine@2
-      #   displayName: Create nuget spec file .nuspec
-      #   inputs:
-      #      script: 'nuget.exe spec Acr.Assist.Simulator'
-      #      workingDirectory: '$(Build.ArtifactStagingDirectory)'
+      - task: CmdLine@2
+        displayName: Create nuget spec file .nuspec
+        inputs:
+           script: 'nuget.exe spec Acr.Assist.Simulator'
+           workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
       
       
