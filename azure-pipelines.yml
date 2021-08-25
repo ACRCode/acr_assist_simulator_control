@@ -111,7 +111,7 @@ extends:
     CheckmarxCustomPreset: 'ACR Default'
     CheckmarxFullTeamName: 'CxServer\SOC\ACR\All\Informatics\Assist'
     CheckmarxFolderExclusion: 'cvs, .svn, .hg , .git, .bzr, bin , obj,  backup, .idea, node_modules'
-    runIQScan: false
+    runIQScan: true
     NexusServiceConnection: 'ACR Nexus IQ'
     NexusAppId: 'AssistSimulator'
     NexusScanStage: 'Build'
