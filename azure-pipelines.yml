@@ -52,11 +52,12 @@ extends:
       - task: CmdLine@2
         inputs:
           script: 'npm run build --prod'
-      - task: CopyFiles@2
-        inputs:
-          SourceFolder: 'D:\a\1\s'
-          Contents: '**'
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      # - task: CopyFiles@2
+      #   inputs:
+      #     SourceFolder: 'D:\a\1\s'
+      #     Contents: '**'
+      #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
      
       
         
@@ -67,7 +68,16 @@ extends:
           artifact: 'AngularBuildArtifacts' # Give an artifact name 
           publishLocation: 'pipeline'
      
-
+      - task: ArchiveFiles@2
+        displayName: Create ZIP archive for build output
+        inputs:
+          rootFolderOrFile: '$(Build.Artifactstagingdirectory)'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.Artifactstagingdirectory)/AngularBuildArtifacts.$(Build.BuildNumber).zip' # Give ZIP file name appended with build number
+          replaceExistingArchive: true
+      - publish: $(Build.Artifactstagingdirectory)/AngularBuildArtifacts.$(Build.BuildNumber).zip
+        artifact: AngularBuildArtifacts-zip
       
 
 
