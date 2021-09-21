@@ -1,0 +1,129 @@
+
+
+
+
+trigger:
+    - master
+
+
+resources:
+  repositories:
+  
+  - repository: azureSharedTemplates
+    type: github
+    endpoint: ACRCode
+    name: ACRCode/ADOCS-templates
+    branch: master
+  #2) this repository is for AWS Cloudformation Template and Azure ARM
+  #https://github.com/ACRCode/InfrastructureAsCode
+  #Optional: only if current project need to use cloudformation templates from share repo
+  - repository: InfrastureAsCode
+    type: github
+    endpoint: ACRCode
+    name: ACRCode/InfrastructureAsCode
+    branch: main
+
+#variables:
+# variable group defined in Azure DevOps Library
+# Optional: only when project has variable group defined in Library
+  #- group: Project Variable
+
+#ADOCS requires pipeline yaml file extending from shared template created by ADOCS team
+# You should provide parameters defined in shared template (shared-template.yml) as show below
+extends:
+  template: shared-template.yml@azureSharedTemplates #Refer to the resources section repo 1)
+  # Below are parameters needed for shared template
+  parameters:
+    #parameters to set build version
+    buildVersionMajor: 1
+    buildVersionMinor: 0
+    buildPoolImage: 'windows-latest'
+    #Required
+    #Provide tasks which will be executed for build process
+    #Below is an example of tasks for .net Core project
+    buildSteps:
+      - checkout: self      
+
+     
+      - task: CmdLine@2
+        inputs:
+          script: 'npm install'
+
+      - task: CmdLine@2
+        inputs:
+          script: 'npm run build --prod'
+
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'D:\a\1\s'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+     
+      
+        
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.Artifactstagingdirectory)'
+          artifact: 'AngularBuildArtifacts' # Give an artifact name 
+          publishLocation: 'pipeline'
+     
+      - task: ArchiveFiles@2
+        displayName: Create ZIP archive for build output
+        inputs:
+          rootFolderOrFile: '$(Build.Artifactstagingdirectory)'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.Artifactstagingdirectory)/AngularBuildArtifacts.$(Build.BuildNumber).zip' # Give ZIP file name appended with build number
+          replaceExistingArchive: true
+      - publish: $(Build.Artifactstagingdirectory)/AngularBuildArtifacts.$(Build.BuildNumber).zip
+        artifact: AngularBuildArtifacts-zip
+      
+
+
+
+       #Create nuspec file 
+      
+      - task: CmdLine@2
+        displayName: Create nuget spec file .nuspec
+        inputs:
+           script: 'nuget.exe spec Acr.Assist.Simulator'
+           workingDirectory: '$(Build.ArtifactStagingDirectory)'
+
+      
+      
+      #Create Package
+
+      - task: NuGetCommand@2
+        displayName: Pack Nuget package
+        inputs:
+          command: 'pack'
+          packagesToPack: '$(Build.ArtifactStagingDirectory)/*.nuspec'
+          packDestination: '$(Build.SourcesDirectory)/nupkg'
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: 'BUILD_BUILDNUMBER'
+
+      #Push Package
+
+      - task: NuGetCommand@2
+        inputs:
+           command: 'push'
+           packagesToPush: '$(Build.SourcesDirectory)/nupkg/*.nupkg;!$(Build.SourcesDirectory)/nupkg/**/*.symbols.nupkg'
+           nuGetFeedType: 'external'
+           publishFeedCredentials: 'ACR Nexus with ApiKey-ACR Assist' 
+
+      #Run Checkmarx and IQ scan
+
+    securityScanAgentPool: 'Local Agents'
+    runCheckMarxScan: true
+    CheckmarxServiceConnection: 'ACR Checkmarx'
+    CheckmarxProject: 'Simulator'
+    CheckmarxCustomPreset: 'ACR Default'
+    CheckmarxFullTeamName: 'CxServer\SOC\ACR\All\Informatics\Assist'
+    CheckmarxFolderExclusion: 'cvs, .svn, .hg , .git, .bzr, bin , obj,  backup, .idea, node_modules'
+    runIQScan: true
+    NexusServiceConnection: 'ACR Nexus IQ'
+    NexusAppId: 'AssistSimulator'
+    NexusScanStage: 'Build'
+    ArtifactsForNexusScan: '' 
+    NexusScanTarget: '$(Build.SourcesDirectory)/Nexus/**/**.zip'
