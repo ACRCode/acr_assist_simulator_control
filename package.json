@@ -76,6 +76,7 @@
     "testruleengine": "^3.0.9",
     "timers": "^0.1.1",
     "tslib": "^2.0.0",
+    "webpack-dev-server": "^4.2.1",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
