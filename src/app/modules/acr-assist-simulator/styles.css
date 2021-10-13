@@ -554,7 +554,7 @@ hr.solid {
   overflow: hidden !important;
   text-overflow: ellipsis;
   display: block;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .option_label_withthumbnail_mutliselect {
