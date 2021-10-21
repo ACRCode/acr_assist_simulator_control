@@ -2,8 +2,11 @@
 
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && numericDataElement.isRelevant">
-    <div class="col-sm-4 text-right">
+    <div class="col-sm-4 text-left">
       <label class="control-label break-word">
+        <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
+          *
+        </span>
         {{numericDataElement.label}}
         <span *ngIf="utilityService.isNotEmptyString(numericDataElement.unit)">({{numericDataElement.unit}})</span>
       </label>
@@ -13,9 +16,6 @@
       <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
         <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
-        *
-      </span>
       <span *ngIf="isNumericElementMin()" class="required-field"
         title=" Minimum value is {{ numericDataElement.minimum }}">
         *
