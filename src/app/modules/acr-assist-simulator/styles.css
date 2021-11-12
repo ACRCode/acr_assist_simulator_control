@@ -152,6 +152,11 @@ h4.modal-title.float-left {
   margin-right: 15px;
 }
 
+.radio-btn-style {
+  transform: scale(1.3); 
+  margin-top : 2px !important;
+}
+
 .zoom {
   width: 100%;
   overflow: auto;
@@ -591,6 +596,11 @@ hr.solid {
   text-overflow: ellipsis;
 }
 
+.radio label {
+  padding-left: 10px;
+  padding-right: 30px;
+}
+
 .option_label_withthumbnail_freetext {
   font-weight: 600 !important;
   position: relative;
@@ -715,3 +725,43 @@ div:focus {
   margin-left: auto !important;
   margin-right: auto !important;
 }
+
+.hr-line {
+  border: 1px solid #ebe8e8;
+}
+
+
+
+/* Resize column */
+
+
+.resize-column.resizing {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: col-resize;
+}
+.resize-column .resizable-column-div span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.resize-column .resizable-column-div {
+  position: relative;
+}
+.resize-column .resizable-column-div:not(:last-child) .resize-holder {
+  cursor: col-resize;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  right: -10px;
+  top: 0;
+  z-index: 1;
+}
+.resize-column .resizable-column-div{
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+.resize-column .resizable-column:not(:nth-child(1)){
+  padding: 0 10px;
+}
+
