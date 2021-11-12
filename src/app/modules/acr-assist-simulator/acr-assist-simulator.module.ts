@@ -33,12 +33,13 @@ import { ResetCommunicationService } from './shared/services/reset-communication
 import { ClipboardService } from './shared/services/clipboard.service';
 import { UrlHelperService } from './shared/services/url-helper.service';
 import { AssistComputedElementComponent } from './assist-data-element/assist-computed-element/assist-computed-element.component';
+import { ResizeColumnDirective } from './shared/directives/resize-column.directive';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
   ImageMapComponent, AssistReportTextComponent, DynamicHeightDirective, NumericOnlyDirective, SecurePipe,
   IntegerMaxRestrictDirective, ClipboardDirective, AssistDateTimeElementComponent, AssistDurationElementComponent,
-  AssistComputedElementComponent, AssistTextElementComponent];
+  AssistComputedElementComponent, AssistTextElementComponent, ResizeColumnDirective];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
   DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];
