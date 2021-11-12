@@ -729,39 +729,3 @@ div:focus {
 .hr-line {
   border: 1px solid #ebe8e8;
 }
-
-
-
-/* Resize column */
-
-
-.resize-column.resizing {
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: col-resize;
-}
-.resize-column .resizable-column-div span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.resize-column .resizable-column-div {
-  position: relative;
-}
-.resize-column .resizable-column-div:not(:last-child) .resize-holder {
-  cursor: col-resize;
-  width: 20px;
-  height: 100%;
-  position: absolute;
-  right: -10px;
-  top: 0;
-  z-index: 1;
-}
-.resize-column .resizable-column-div{
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-}
-.resize-column .resizable-column:not(:nth-child(1)){
-  padding: 0 10px;
-}
-
