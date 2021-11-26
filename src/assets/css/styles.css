@@ -246,7 +246,7 @@ a:focus {
 }
 
 .box.box-solid.box-primary {
-  border: 1px solid #3c8dbc;
+  /* border: 1px solid #3c8dbc; */
 }
 
 .box.box-solid {
@@ -254,7 +254,8 @@ a:focus {
 }
 
 .box.box-primary {
-  border-top-color: #3c8dbc;
+  border-top-color: white;
+  height: calc(100vh - 48px);
 }
 
 .box-body {
@@ -266,7 +267,7 @@ a:focus {
 }
 
 .box.box-primary {
-  border-top-color: #3c8dbc;
+  /* border-top-color: #3c8dbc; */
 }
 
 .box-header {
@@ -282,9 +283,14 @@ a:focus {
 
 .box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title {
   display: inline-block;
-  font-size: 17px;
+  /* font-size: 17px; */
   margin: 0;
   line-height: 1;
+  text-align: center;
+  font: normal normal 600 16px/20px Source Sans Pro;
+  letter-spacing: 0.16px;
+  color: #3C8DBC;
+  opacity: 1;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -503,7 +509,12 @@ body {
 }
 
 label {
-  font-weight: 500 !important;
+  /* font-weight: 500 !important; */
+  text-align: left;
+  font: normal normal normal 14px/18px 'Source Sans Pro';
+  letter-spacing: -0.17px;
+  color: #2C3B41;
+  opacity: 1;
 }
 
 .tooltip-inner {
@@ -530,4 +541,8 @@ label {
 
 .control-label {
   margin-bottom: 5px !important;
+}
+
+.color-3C8DBC {
+  color: #3C8DBC;
 }

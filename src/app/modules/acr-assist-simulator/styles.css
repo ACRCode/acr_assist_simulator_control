@@ -1,8 +1,10 @@
 .required-field {
-  color: red;
   float: left;
   padding-right: 2px;
-  font-size: large;
+  /* font-size: large; */
+  font: normal normal 600 14px/18px Source Sans Pro;
+  letter-spacing: -0.17px;
+  color: #FF0000;
 }
 
 .owl-dt-container {
@@ -99,6 +101,10 @@
 
 .padding-r-10 {
   padding-right: 10px;
+}
+
+.padding-20-14 {
+  padding: 20px 14px;
 }
 
 .slide-left {
@@ -320,7 +326,7 @@ mark {
   /* border: 1px solid #ccc; */
   margin: 0px 5px;
   cursor: pointer;
-  margin-top: 9px;
+  margin-top: 4px;
   position: relative;
   text-align: center;
   color: white;
@@ -446,7 +452,7 @@ i.fa-search {
 .div_options_withthumbnail_parent {
   display: inline-grid;
   padding: 5px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   width: 100%;
   margin-top: 10px;
 }
@@ -481,11 +487,10 @@ i.fa-search {
 }
 
 .div_options_withthumbnail:hover {
-  background: #f1f1f1;
-  /* border: 1px solid blue; */
+  /* background: #f1f1f1; */
   cursor: pointer;
   color: black;
-  border: 1px solid #1686f3;
+  /* border: 1px solid #1686f3; */
 }
 
 .label_align_multi_img {
@@ -517,6 +522,10 @@ i.fa-search {
 
 .margin-t-3p {
   margin-top: 3%;
+}
+
+.margin-t-1p {
+  margin-top: 1%;
 }
 
 .div_img_thumbnail img, .div_multi_img_thumbnail img {
@@ -699,11 +708,11 @@ div:focus {
 }
 
 .div_mutlitselect_parent {
-  padding-left: 10px;
-  border: 1px solid #d2d6de;
+  /* padding-left: 10px; */
+  /* border: 1px solid #d2d6de; */
   /* display: block; */
   /* margin: 0px; */
-  padding: 10px;
+  /* padding: 10px; */
   display: inline-block;
   width: 100%;
 }
@@ -728,4 +737,10 @@ div:focus {
 
 .hr-line {
   border: 1px solid #ebe8e8;
+}
+
+label.control-label {
+  font: normal normal 600 14px/18px 'Source Sans Pro' !important;
+  letter-spacing: -0.17px;
+  color: #2C3B41;
 }
