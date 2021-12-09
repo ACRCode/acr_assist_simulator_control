@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "3.0.13",
+  "version": "3.0.34",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -14,6 +14,7 @@
   "ngPackage": {
     "whitelistedNonPeerDependencies": [
       "@angular/cdk",
+      "ansi-regex",
       "expr-eval",
       "jquery",
       "@busacca/ng-pick-datetime",
