@@ -78,10 +78,13 @@
             </span>
           </label>
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
-            <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i> -->
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{numericDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
+            <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
             <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{numericDataElement.hint}}">Hint</a>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">       
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
@@ -121,10 +124,13 @@
             </span>
           </label>
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
-            <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i> -->
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{numericDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
+            <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
             <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{numericDataElement.hint}}">Hint</a>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">         
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
@@ -146,5 +152,4 @@
       </div>
     </ng-container>
   </div>
-  <hr class="hr-line">
 </form>

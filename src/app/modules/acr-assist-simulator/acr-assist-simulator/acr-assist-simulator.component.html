@@ -92,7 +92,7 @@
       <ng-container *ngIf="hideKeyDiagramTab">
         <div #simulatorResultsBlock>
           <ng-container >
-            <div class="box box-primary report-text">
+            <div [ngClass]="resultText !== undefined && showReportText ? 'report-result' : 'empty-report'" class="box box-primary report-text">
               <div class="box-header min-height-40px">
                 <span class="box-title report-text-title">Report Text</span>
                 <div class="box-tools pull-right">

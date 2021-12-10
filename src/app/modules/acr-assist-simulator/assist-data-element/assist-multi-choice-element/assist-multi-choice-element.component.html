@@ -8,10 +8,13 @@
           ({{multiChoiceElement.unit}})</span>
       </label>
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-        <!-- <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+        <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{multiChoiceElement.hint}}" aria-hidden="true"></i>
+      </ng-container>
+      <!-- <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
+        <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i>
         <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
           data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
-      </ng-container>
+      </ng-container> -->
       <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
@@ -20,7 +23,7 @@
       </span>
     </div>
 
-    <div class="col-sm-8" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
+    <div class="col-sm-8 border-b-grey" [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
       <div *ngFor="let choice of multiChoiceElement.choiceInfo" class="checkbox checkboxCustomized"
         title="{{choice.hint}}">
         <label [hidden]="isMultiChoiceLabelHidden(choice.value)">
@@ -73,10 +76,13 @@
           </span>
         </label>
         <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-          <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+          <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{multiChoiceElement.hint}}" aria-hidden="true"></i>
+        </ng-container>
+        <!-- <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
+          <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
-        </ng-container>
+        </ng-container> -->
       </div>
       <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
@@ -141,10 +147,13 @@
           </span>
         </label>
         <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
-          <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i> -->
+          <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{multiChoiceElement.hint}}" aria-hidden="true"></i>
+        </ng-container>
+        <!-- <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
+          <i class="fa fa-info-circle text-primary whitespace" title="{{multiChoiceElement.hint}}"></i>
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
-        </ng-container>
+        </ng-container> -->
       </div>
       <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
@@ -155,12 +164,12 @@
       <!-- [ngStyle]="{'border-bottom': i !== multiChoiceElement.choiceInfo.length - 1 ? '1px solid #ccc' : 'none'}" -->
 
 
-      <div class="div_options_withthumbnail_parent" [ngClass]="{ 'show-error': multiChoiceElement.showValidation }">
+      <div class="div_options_withthumbnail_parent border-b-grey" [ngClass]="{ 'show-error': multiChoiceElement.showValidation }">
         <ng-container *ngFor="let choice of multiChoiceElement.choiceInfo; let i = index">
           <ng-container *ngIf="!isMultiChoiceLabelHidden(choice.value)">
-            <div class="checkbox checkboxCustomized div_options_withthumbnail padding-t-10px col-lg-12"
+            <div class="checkbox checkboxCustomized div_options_withthumbnail check-box-multi "
               title="{{choice.hint}}">
-              <label class="option_label_withthumbnail_mutliselect">
+              <label class="col-lg-6" class="option_label_withthumbnail_mutliselect">
                 <input type="checkbox" class="multiselectItems_{{multiChoiceElement.id}}"
                   id="{{multiChoiceElement.id}}_{{choice.value}}" [checked]="false" formControlName="multiCheckBox"
                   value="{{choice.value}}"
@@ -175,7 +184,7 @@
                 <label class="col-lg-12" style="text-align: left;
                   font-style: italic;
                   font-weight: 500;bottom: 7px;
-    left: 31px;white-space: break-spaces;">{{choice.hint}}</label>
+    left: 31px;white-space: break-spaces;">{{choice.hint}}</label> 
               </ng-container>
 
               <!-- (click)="onChoiceDiagramClick(choice, $event)" -->
@@ -194,7 +203,7 @@
             </div>
 
             <ng-template #div_multiImage>
-              <div class="col-lg-12" style="margin: 0px;padding: 0;">
+              <div class="col-lg-6" style="margin: 0px;padding: 0; float: right;">
                 <div class="div_multi_img_thumbnail margin-t-0p" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                   *ngFor="let diagram of choice.diagrams">
                   <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
@@ -241,7 +250,6 @@
       </ng-container>
     </div>
   </div>
-  <hr class="hr-line">
 </form>
 
 <!-- The Modal -->

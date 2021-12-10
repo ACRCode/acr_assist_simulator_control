@@ -38,10 +38,13 @@
               {{textDataElement.label}}
             </label>
             <ng-container *ngIf="utilityService.isNotEmptyString(textDataElement.hint)">
-              <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{textDataElement.hint}}"></i> -->
+              <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{textDataElement.hint}}" aria-hidden="true"></i>
+            </ng-container>
+            <!-- <ng-container *ngIf="utilityService.isNotEmptyString(textDataElement.hint)">
+              <i class="fa fa-info-circle text-primary whitespace" title="{{textDataElement.hint}}"></i>
               <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
               data-trigger="focus" title="{{textDataElement.hint}}">Hint</a>
-            </ng-container>
+            </ng-container> -->
           </div>
           <div class="col-lg-2 div_hint">       
             <ng-container *ngIf="utilityService.isValidInstance(textDataElement.diagrams)">
@@ -55,5 +58,4 @@
         </div>
       </ng-container>     
     </div>
-    <hr class="hr-line">
 </form>

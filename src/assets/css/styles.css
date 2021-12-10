@@ -537,6 +537,7 @@ label {
 .popover {
   position: absolute !important;
   z-index: 1000000 !important;
+  padding: 0px;
 }
 
 .control-label {
@@ -545,4 +546,28 @@ label {
 
 .color-3C8DBC {
   color: #3C8DBC;
+}
+
+.check-box-multi {
+  padding-top: 6px !important;
+  padding-bottom: 12px !important;
+  margin-left: -18px;
+}
+
+.popover.right {
+  margin-left: 4px;
+}
+
+.popover-title {
+  background: #337ab7;
+  color: white;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.popover .arrow {
+  visibility: hidden;
+}
+
+.whitespace .required {
+  margin-left: 0px !important;
 }
