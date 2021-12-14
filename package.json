@@ -55,7 +55,8 @@
     "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
     "build-package": "ng-packagr",
     "postinstall": "ngcc",
-    "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
+    "test-ci": "ng test --watch=false  --browsers ChromeHeadless",
+    "preinstall": "npx npm-force-resolutions"
   },
   "dependencies": {
     "@angular/animations": "^11.2.14",
