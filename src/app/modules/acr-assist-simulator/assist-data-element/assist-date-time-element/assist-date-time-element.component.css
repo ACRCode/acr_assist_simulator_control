@@ -40,3 +40,20 @@
     top: 7px;
     padding-right: 0px !important;
 }
+
+.help-icon {
+    padding-left: 4px;
+    color: #3c8dbc;
+    font-size: 14px;
+}
+
+label {
+    font: normal normal normal 14px/18px 'Source Sans Pro';
+    letter-spacing: -0.17px;
+    color: #2C3B41;
+    opacity: 1;
+}
+
+.form-horizontal .control-label {
+    padding-left: 0px !important;
+}
