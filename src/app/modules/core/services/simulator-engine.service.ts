@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SimulatorState } from '../models/simulator-state.model';
 import { BehaviorSubject } from 'rxjs';
-import { isArray } from 'util';
+// import { isArray } from 'util';
 import {
   ChoiceDataElement, MultiChoiceDataElement, NumericDataElement, EndpointItem, DecisionPoint, ArithmeticExpression,
   IntegerDataElement, DurationDataElement, ComputedDataElement, DataElementValues, TemplatePartial,
@@ -166,7 +166,7 @@ export class SimulatorEngineService {
         const dataElementId = computedValue.substring(startIndex + 1, endIndex);
         const replacingValue = computedValue.substring(startIndex, endIndex + 1);
         let dataElementValue = this.dataElementValues.get(dataElementId);
-        if (isArray(dataElementValue)) {
+        if (Array.isArray(dataElementValue)) {
           let sum = 0;
           dataElementValue.forEach(val => {
             if (isNaN(val)) {
