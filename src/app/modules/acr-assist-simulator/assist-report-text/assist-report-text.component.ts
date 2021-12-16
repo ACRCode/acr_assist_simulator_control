@@ -24,8 +24,8 @@ export class AssistReportTextComponent implements OnChanges {
   allTextReport: AllTextReport[];
   tabularReport: TabularReport;
   sections: string[] = [];
-  isRequiredFieldIsNotFilled: boolean;
-  @Input() reportText: MainReportText;
+  isRequiredFieldIsNotFilled: boolean = false;
+  @Input() reportText: MainReportText = new MainReportText();
 
   constructor(
     private toastr: ToastrService,

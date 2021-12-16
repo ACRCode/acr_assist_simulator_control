@@ -1,34 +1,39 @@
 <form [formGroup]="choiceElementForm" novalidate>
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && choiceDataElement.isRelevant">
-    <div class="col-sm-4 text-right">
+    <div class="col-sm-4 text-left">
       <label class="control-label break-word">
-        <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
+        <span *ngIf="isChoiceElementRequired()" class="required-field" title="Required Field">*</span>
         {{choiceDataElement.label}}
         <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
           ({{choiceDataElement.unit}})</span>
       </label>
       <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+        <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
+      </ng-container>
+      <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
         <i class="whitespace">
-          <!-- <span class="fa fa-info-circle text-primary font-size-inherit" data-toggle="tooltip" data-placement="right"
-            title="{{choiceDataElement.hint}}"></span> -->
+          <span class="fa fa-info-circle text-primary font-size-inherit" data-toggle="tooltip" data-placement="right"
+            title="{{choiceDataElement.hint}}"></span>
 
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
-            data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
+            data-trigger="focus" title="{{choiceDataElement.hint}}">
+            <span class="iconify help-icon" data-icon="ion:help-circle-sharp"></span>
+          </a>
         </i>
-      </ng-container>
+      </ng-container> -->
       <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
         <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
     </div>
 
     <div class="col-sm-8 text-left content-padding">
-      <ng-container *ngIf="isRadioButton()">
+      <ng-container *ngIf="_isRadioButton()">
         <ng-container *ngIf="choiceDataElement.imageMap == undefined">
           <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
             <div class="radio custom-radio-style">
               <label>
-                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                <input class="radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                   id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                   value="{{choice.value}}"
                   (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
@@ -38,9 +43,9 @@
             </div>
           </ng-container>
           <ng-container *ngIf="choiceDataElement.allowFreetext">
-            <div class="radio custom-radio-style">
+            <div class="radio custom-radio-style ">
               <label>
-                <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                <input class="radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                   id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
                   value="freetext"
                   (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
@@ -61,7 +66,7 @@
               <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                 <div class="radio custom-radio-style">
                   <label>
-                    <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                    <input class="radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                       id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                       value="{{choice.value}}"
                       (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
@@ -73,7 +78,7 @@
               <ng-container *ngIf="choiceDataElement.allowFreetext">
                 <div class="radio custom-radio-style">
                   <label>
-                    <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                    <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                       id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
                       (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
                     Other, please specify…</label>
@@ -140,7 +145,7 @@
       </ng-container>
 
 
-      <ng-container *ngIf="isSelectBox()">
+      <ng-container *ngIf="_isSelectBox()">
         <select [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
           id="{{choiceDataElement.id}}" (change)="dropdownChoiceSelected($event.target, choiceDataElement.label)"
           formControlName="checkBox" class="form-control color-inherit"
@@ -196,14 +201,18 @@
                 ({{choiceDataElement.unit}})</span>
             </label>
             <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+              <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
+            </ng-container>
+            <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i class="whitespace">
                 <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                  title="{{choiceDataElement.hint}}"></span> -->
+                  title="{{choiceDataElement.hint}}"></span> 
 
                 <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
-                  data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
+                  data-trigger="focus" title="{{choiceDataElement.hint}}">
+                </a>
               </i>
-            </ng-container>
+            </ng-container> -->
           </div>
           <div class="col-lg-2 div_hint">
             <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -211,14 +220,14 @@
             </ng-container>
 
           </div>
-          <div class="col-lg-12" [ngClass]="{'show-error_radio': choiceDataElement.showValidation }">
+          <div class="col-lg-12 border-b-grey" [ngClass]="{'show-error_radio': choiceDataElement.showValidation }">
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
               <div [ngStyle]="i === 0 && {'clear': 'both'}" class="radio custom-radio-style"
                 *ngIf="!isRadioChoiceNotRelavent(choice)">
                 <label>
-                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                  <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
-                    value="{{choice.value}}"
+                    value="{{choice.value}}" class="radio-btn-style"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
                     [ngClass]="{ 'ai-input-background': hasAIInputStyle()}">
                   {{choice.label}}
@@ -228,7 +237,7 @@
             <ng-container *ngIf="choiceDataElement.allowFreetext">
               <div class="radio custom-radio-style">
                 <label>
-                  <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                  <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox" [checked]="isFreeText"
                     value="freetext"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
@@ -247,35 +256,38 @@
 
         <ng-container *ngIf="choiceDataElement.imageMap != undefined">
           <div class="row" style="margin-left: 0px; margin-right: 0px;">
-            <div class="col-lg-12" style="padding: 0;">
+            <div class="col-lg-12" style="padding: 0;padding-left: 6px;">
               <label class="control-label break-word">
-                <span *ngIf="isChoiceElementRequired()" class="required-field whitespace"
+                <span *ngIf="isChoiceElementRequired()" class="required-field "
                   title="Required Field">*</span>
                 {{choiceDataElement.label}}
                 <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
                   ({{choiceDataElement.unit}})</span>
               </label>
               <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+                <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
+              </ng-container>
+              <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
                 <i class="whitespace">
-                  <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                    title="{{choiceDataElement.hint}}"></span> -->
+                   <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                    title="{{choiceDataElement.hint}}"></span>
 
                   <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
                     data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
                 </i>
-              </ng-container>
+              </ng-container> -->
               <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
                 <acr-hint-diagram [dataElement]="choiceDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
               </ng-container>
 
             </div>
-            <div class="col-lg-12 div_radiobutton  margin-b-10"
+            <div class="col-lg-12 border-b-grey div_radiobutton margin-b-10"
               [ngClass]="{'show-error_radio': choiceDataElement.showValidation }">
               <div class="col-lg-12" style="padding: 0;">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                   <div class="radio custom-radio-style" *ngIf="!isRadioChoiceNotRelavent(choice)">
                     <label>
-                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                      <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                         id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                         value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
@@ -285,9 +297,9 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="choiceDataElement.allowFreetext">
-                  <div class="radio custom-radio-style">
+                  <div class="radio custom-radio-style ">
                     <label>
-                      <input [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
+                      <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                         id="other_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                         [checked]="isFreeText"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, 'Other, please specify…', 'freetext')">
@@ -320,17 +332,19 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
-              <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                title="{{choiceDataElement.hint}}"></span> -->
+               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                title="{{choiceDataElement.hint}}"></span> 
 
               <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
                 data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
             </i>
-          </ng-container>
+          </ng-container> -->
         </div>
 
         <div class="col-lg-2 div_hint">
@@ -388,26 +402,29 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+            <i class="whitespace">
+              <span class="iconify help-icon" data-icon="bx:bxs-help-circle" style="color: #3c8dbc;" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}"></span>              </i>
+          </ng-container>
+          <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <!-- <i class="whitespace">
               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                 title="{{choiceDataElement.hint}}"></span>
-            </i> -->
+            </i>
 
-            <!-- Alert -->
+            <!-- Alert 
             <!-- <button class="btn btn-xs btn-info gly-radius whitespace" data-toggle="tooltip"
               title="{{choiceDataElement.hint}}" aria-describedby="tooltip">
               <span class="hint_button glyphicon glyphicon-question-sign" aria-hidden="true"></span>
               <span class="sr-only">{{choiceDataElement.hint}}</span>
-            </button> -->
+            </button> 
 
             <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
               data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
-            <!-- Alert -->
+            <!-- Alert 
 
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -460,17 +477,19 @@
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
               ({{choiceDataElement.unit}})</span>
-
           </label>
           <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
             <i class="whitespace">
-              <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
-                title="{{choiceDataElement.hint}}"></span> -->
+               <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                title="{{choiceDataElement.hint}}"></span>
 
               <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
                 data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
             </i>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -485,27 +504,27 @@
             (choiceDataElement.ChoiceNotRelevant !== undefined && 
             choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
               <div id="{{choice.value}}_{{choiceDataElement.id}}"
-                class="col-lg-12 div_options_withthumbnail div_options_withthumbnail_choice"
+                class="col-lg-12 div_options_withthumbnail margin-l-4px div_options_withthumbnail_choice"
                 (click)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value, $event)"
                 [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation, 'highlightchoice': choiceDataElement.currentValue === choice.value }"
                 *ngIf="(choiceDataElement.ChoiceNotRelevant === undefined || (choiceDataElement.ChoiceNotRelevant !== undefined && choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) <= -1))">
                 <i class='fa fa-check-circle fa-cust' *ngIf="hideRadioButton"
                   style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>
                 <!-- && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1) -->
-                <label
+                <label class="col-lg-6" style="padding-left: 0px"
                   [ngClass]="{ 'label_align' : (hideRadioButton), 'label_align_multi_img' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length > 1)), 'margin-t-10p' : !hideRadioButton }"
                   for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
-                  <input *ngIf="!hideRadioButton" class="margin-t-3p" id="{{choiceDataElement.id}}_{{choice.value}}"
+                  <input *ngIf="!hideRadioButton" class="radio-btn-style" id="{{choiceDataElement.id}}_{{choice.value}}"
                     [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null" style="float: left;"
                     type="radio" formControlName="checkBox" value="{{choice.value}}">
                   <label
                     [ngClass]="{'left-0px' : alignChoiceLabel == 'right' && choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1}"
-                    class="margin-t-3p option_label_withthumbnail" title="{{choice.label}}"
+                    class="margin-t-1p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
                   <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">
-                    <label style="text-align: left;
+                    <label style="text-align: left; padding-left: 4px;
                     font-style: italic;
                     font-weight: 500;">{{choice.hint}}</label>
                   </ng-container>
@@ -531,7 +550,7 @@
               </div>
 
               <ng-template #div_multiImage>
-                <div class="col-lg-12" style="margin: 0px;padding: 0;">
+                <div class="col-lg-6" style="margin: 0px;padding: 0; float: right;">
                   <div class="div_img_thumbnail" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                     *ngFor="let diagram of choice.diagrams">
                     <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
@@ -544,7 +563,7 @@
                   </div>
                 </div>
               </ng-template>
-              <hr class="solid" *ngIf="!lastItem">
+              <!-- <hr class="solid" *ngIf="!lastItem"> -->
             </ng-container>
 
             <ng-container *ngIf="choiceDataElement.allowFreetext">
@@ -611,7 +630,6 @@
           </div>
         </ng-container>
       </ng-container>
-
     </div>
   </div>
 
@@ -628,5 +646,4 @@
     <!-- Modal Caption (Image Text) -->
     <div id="caption" style="color:white;font-size: large;"></div>
   </div>
-
 </form>

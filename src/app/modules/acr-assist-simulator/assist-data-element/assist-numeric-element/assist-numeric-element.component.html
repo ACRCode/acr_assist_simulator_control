@@ -2,8 +2,11 @@
 
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && numericDataElement.isRelevant">
-    <div class="col-sm-4 text-right">
+    <div class="col-sm-4 text-left">
       <label class="control-label break-word">
+        <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
+          *
+        </span>
         {{numericDataElement.label}}
         <span *ngIf="utilityService.isNotEmptyString(numericDataElement.unit)">({{numericDataElement.unit}})</span>
       </label>
@@ -13,9 +16,6 @@
       <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
         <acr-hint-diagram [dataElement]="numericDataElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
       </ng-container>
-      <span *ngIf="isNumericElementRequired()" class="required-field" title="Required Field">
-        *
-      </span>
       <span *ngIf="isNumericElementMin()" class="required-field"
         title=" Minimum value is {{ numericDataElement.minimum }}">
         *
@@ -78,10 +78,13 @@
             </span>
           </label>
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
-            <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i> -->
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{numericDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
+            <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
             <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{numericDataElement.hint}}">Hint</a>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">       
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">
@@ -121,10 +124,13 @@
             </span>
           </label>
           <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
-            <!-- <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i> -->
+            <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{numericDataElement.hint}}" aria-hidden="true"></i>
+          </ng-container>
+          <!-- <ng-container *ngIf="utilityService.isNotEmptyString(numericDataElement.hint)">
+            <i class="fa fa-info-circle text-primary whitespace" title="{{numericDataElement.hint}}"></i>
             <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{numericDataElement.hint}}">Hint</a>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="col-lg-2 div_hint">         
           <ng-container *ngIf="utilityService.isValidInstance(numericDataElement.diagrams)">

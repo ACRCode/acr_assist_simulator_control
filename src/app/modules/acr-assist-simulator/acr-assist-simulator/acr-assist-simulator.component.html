@@ -1,3 +1,5 @@
+
+
 <ng-container *ngIf="!isEmptyContent">
   <div id="topReportTextPosition"
     *ngIf="reportTextPosition === position.Top || reportTextPosition === undefined || reportTextPosition === null">
@@ -13,7 +15,7 @@
               <ng-container *ngIf="resultText !== undefined && showReportText && !isRequiredFieldIsNotFilled">
                 <div class="box box-primary full-border" style="background-color: #eef0f2;">
                   <div class="box-header with-border">
-                    <span class="box-title font-size-overrider">Report Text</span>
+                    <span class="box-title report-text-title font-size-overrider">Report Text</span>
                     <div class="box-tools pull-right">
                       <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                         [clipboard]="reportTextContentForTop.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
@@ -23,11 +25,11 @@
                       <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
                         (click)="getReportTextInnerContent(reportTextContentForTop)">
                         <span>
-                          <i class="fa fa-clipboard"></i>
+                          <i class="fa fa-clipboard color-3C8DBC"></i>
                         </span>
                       </span>
                       <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
-                        <i id="icon_reporttext" class="fa fa-minus"></i>
+                        <i id="icon_reporttext" class="fa fa-minus color-3C8DBC"></i>
                       </button>
                     </div>
                   </div>
@@ -59,7 +61,7 @@
     </div>
   </div>
   <div id="rightReportTextPosition" *ngIf="reportTextPosition === position.Right">
-    <div class="col-sm-6 col-md-6 col-lg-6">
+    <div class="col-sm-8 col-md-8 col-lg-8" style=" padding-right: 4px; padding-left: 8px;">
       <div id="div-simulator-block">
         <div #simulatorBlock class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border text-right padding-5 padding-r-10">
@@ -67,7 +69,7 @@
               class="btn btn-xs btn-primary font-size-inherit btn-simulator-reset">Reset</button>
           </div>
           <div class="box-body">
-            <div id="div-simulator-form" class="padding-r-10 div-simulator-form-height">
+            <div id="div-simulator-form" class="padding-20-14 div-simulator-form-height">
               <form class="form-horizontal">
                 <acr-assist-data-element [customizeChoiceControlById]="customizeChoiceControlById"
                   [choiceControlStyle]="choiceControlStyle" [choiceElementDisplay]="choiceElementDisplay"
@@ -86,13 +88,13 @@
       </div>
     </div>
 
-    <div class="col-sm-6 col-md-6 col-lg-6">
+    <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 12px; padding-right: 0px;">
       <ng-container *ngIf="hideKeyDiagramTab">
         <div #simulatorResultsBlock>
-          <ng-container *ngIf="resultText !== undefined && showReportText">
-            <div class="box box-primary">
-              <div class="box-header with-border min-height-40px">
-                <span class="box-title">Report Text</span>
+          <ng-container >
+            <div [ngClass]="resultText !== undefined && showReportText ? 'report-result' : 'empty-report'" class="box box-primary report-text">
+              <div class="box-header min-height-40px">
+                <span class="box-title report-text-title">Report Text</span>
                 <div class="box-tools pull-right">
                   <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
                   [clipboard]="reportTextContentForRight.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
@@ -102,17 +104,17 @@
                   <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
                     (click)="getReportTextInnerContent(reportTextContentForRight)">
                     <span>
-                      <i class="fa fa-clipboard"></i>
+                      <i class="fa fa-clipboard color-3C8DBC"></i>
                     </span>
                   </span>
                   <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
-                    <i id="icon_reporttext" class="fa fa-minus"></i>
+                    <i id="icon_reporttext" class="fa fa-minus color-3C8DBC"></i>
                   </button>
                 </div>
               </div>
-              <div id="body_reporttext" class="box-body report-text">
+              <div id="body_reporttext">
                 <dl #reportTextContentForRight>
-                  <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                  <acr-assist-report-text *ngIf="resultText !== undefined && showReportText" [reportText]="resultText"></acr-assist-report-text>
                 </dl>
               </div>
             </div>
