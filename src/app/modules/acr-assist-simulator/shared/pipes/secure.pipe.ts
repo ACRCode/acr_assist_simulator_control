@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, OnDestroy, WrappedValue, ChangeDetectorRef } from '@angular/core';
+import { Pipe, PipeTransform, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SubscriptionLike as ISubscription, Observable, BehaviorSubject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UrlHelperService } from '../services/url-helper.service';
@@ -21,7 +21,8 @@ export class SecurePipe implements PipeTransform, OnDestroy {
   constructor(
     private _ref: ChangeDetectorRef,
     private urlHelperService: UrlHelperService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private changeDetectRef : ChangeDetectorRef
   ) { }
 
   ngOnDestroy(): void {
@@ -67,7 +68,8 @@ export class SecurePipe implements PipeTransform, OnDestroy {
       return this._latestReturnedValue;
     }
     this._latestReturnedValue = this._latestValue;
-    return WrappedValue.wrap(this._latestValue);
+    this.changeDetectRef.detectChanges();
+    return this._latestValue;
   }
 
   private _subscribe(obj: Observable<any>) {
