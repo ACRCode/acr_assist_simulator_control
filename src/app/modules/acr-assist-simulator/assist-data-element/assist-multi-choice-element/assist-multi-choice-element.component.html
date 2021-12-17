@@ -10,6 +10,9 @@
       <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
         <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{multiChoiceElement.hint}}" aria-hidden="true"></i>
       </ng-container>
+      <ng-container *ngIf="multiChoiceElement.diagrams != undefined">
+        <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+      </ng-container>
       <!-- <ng-container *ngIf="multiChoiceElement.hint !== '' && multiChoiceElement.hint !== undefined">
         <i class="fa fa-info-circle text-primary font-size-inherit whitespace" title="{{multiChoiceElement.hint}}"></i>
         <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
@@ -83,6 +86,9 @@
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
         </ng-container> -->
+        <ng-container *ngIf="multiChoiceElement.diagrams != undefined">
+          <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+        </ng-container>
       </div>
       <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
@@ -154,6 +160,9 @@
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
             data-trigger="focus" title="{{multiChoiceElement.hint}}">Hint</a>
         </ng-container> -->
+        <ng-container *ngIf="multiChoiceElement.diagrams != undefined">
+          <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+        </ng-container>
       </div>
       <div class="col-lg-2 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
@@ -178,6 +187,9 @@
 
                 <label class="option_label_withthumbnail_mutliselect_label_text" title="{{choice.label}}"
                   for="{{multiChoiceElement.id}}_{{choice.value}}">{{choice.label}}</label>
+                <ng-container *ngIf="choice.diagrams != undefined">
+                  <p class="label-note">Click on a thumbnail image to view a larger image</p>
+                </ng-container>
               </label>
 
               <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">

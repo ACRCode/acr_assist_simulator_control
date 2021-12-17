@@ -199,13 +199,14 @@
               {{choiceDataElement.label}}
               <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
                 ({{choiceDataElement.unit}})</span>
+                <br>
             </label>
             <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{choiceDataElement.hint}}" aria-hidden="true"></i>
             </ng-container>
             <!-- <ng-container *ngIf="choiceDataElement.hint !== '' && choiceDataElement.hint !== undefined">
               <i class="whitespace">
-                <!-- <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
+                 <span class="fa fa-info-circle text-primary" data-toggle="tooltip" data-placement="right"
                   title="{{choiceDataElement.hint}}"></span> 
 
                 <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
@@ -213,6 +214,9 @@
                 </a>
               </i>
             </ng-container> -->
+            <ng-container *ngIf="choiceDataElement.diagrams != undefined">
+              <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+            </ng-container>
           </div>
           <div class="col-lg-2 div_hint">
             <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -425,6 +429,9 @@
             <!-- Alert 
 
           </ng-container> -->
+          <ng-container *ngIf="choiceDataElement.diagrams != undefined">
+            <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+          </ng-container>
         </div>
         <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -490,6 +497,9 @@
                 data-trigger="focus" title="{{choiceDataElement.hint}}">Hint</a>
             </i>
           </ng-container> -->
+          <ng-container *ngIf="choiceDataElement.diagrams != undefined">
+            <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
+          </ng-container>
         </div>
         <div class="col-lg-2 div_hint">
           <ng-container *ngIf="choiceDataElement.diagrams != undefined ">
@@ -523,6 +533,9 @@
                     [ngClass]="{'left-0px' : alignChoiceLabel == 'right' && choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1}"
                     class="margin-t-1p option_label_withthumbnail" title="{{choice.label}}"
                     for="{{choice.value}}_{{choiceDataElement.id}}">{{choice.label}}</label>
+                    <ng-container *ngIf="choice.diagrams != undefined">
+                      <p class="label-note">Click on a thumbnail image to view a larger image</p>
+                    </ng-container>
                   <ng-container *ngIf="choice.hint !== undefined && choice.hint !== ''">
                     <label style="text-align: left; padding-left: 4px;
                     font-style: italic;

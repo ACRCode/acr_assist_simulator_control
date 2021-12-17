@@ -803,3 +803,10 @@ label.control-label {
   border: 1px solid #3c8dbc;
   background: #ecf0f5;
 }
+
+.label-note {
+  font: italic normal normal 12px/14px Source Sans Pro;
+  letter-spacing: -0.14px;
+  color: #3C8DBC;
+  opacity: 1;
+}
