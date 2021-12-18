@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ChangeDetectorRef, OnDestroy, HostListener } from '@angular/core';
 import { ChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { ChoiceElement } from '../assist-data-element.component';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RepeatedElementSections } from '../../../core/elements/models/RepeatedElementSections';
@@ -8,6 +7,7 @@ import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-di
 import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
+import { ChoiceElement } from '../model/data.model';
 
 const $ = require('jquery');
 declare var triggerToolTip: any;

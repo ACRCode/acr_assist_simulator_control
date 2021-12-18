@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { NumericDataElement } from 'testruleengine/Library/Models/Class';
-import { NumericElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { UtilityService } from '../../../core/services/utility.service';
+import { NumericElement } from '../model/data.model';
 declare var triggerToolTip: any;
 
 @Component({

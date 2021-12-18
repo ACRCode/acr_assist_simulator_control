@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { TextDataElement } from 'testruleengine/Library/Models/Class';
-import { TextElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { UtilityService } from '../../../core/services/utility.service';
+import { TextElement } from '../model/data.model';
 declare var triggerToolTip: any;
 
 @Component({

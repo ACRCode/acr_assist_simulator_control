@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
-import { MultiChoiceElement } from '../assist-data-element.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { UtilityService } from '../../../core/services/utility.service';
@@ -9,6 +8,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 const $ = require('jquery');
 import * as _ from 'lodash';
 import { forEach } from 'lodash';
+import { MultiChoiceElement } from '../model/data.model';
 declare var triggerToolTip: any;
 
 @Component({

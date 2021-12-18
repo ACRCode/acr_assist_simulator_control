@@ -13,7 +13,7 @@ padding-right:5px" (click)="openDiagram()">
   <!-- The Close Button -->
   <span class="close" (click)="onImgPopupClose()" style="opacity: inherit;">&times;</span>
 
-  <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+  <carousel [(activeSlide)]="activeSlideIndex" data-interval="false">
     <ng-container *ngFor="let diag of dataElement.diagrams ">
       <slide>
         <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
@@ -43,7 +43,7 @@ padding-right:5px" (click)="openDiagram()">
         <h4 class="modal-title float-left">{{dataElement.label}}</h4>
       </div>
       <div class="modal-body">
-        <carousel [(activeSlide)]="activeSlideIndex" interval="false">
+        <carousel [(activeSlide)]="activeSlideIndex" data-interval="false">
           <ng-container *ngFor="let diag of dataElement.diagrams ">
             <slide>
               <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">

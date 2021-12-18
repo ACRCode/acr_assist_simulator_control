@@ -533,36 +533,10 @@ export class AssistDataElementComponent implements OnInit, OnChanges, OnDestroy 
   }
 }
 
-export class ChoiceElement {
-  elementId: string;
-  selectedValue: string;
-  selectedText: string;
-}
-
-export class NumericElement {
-  elementId: string;
-  selectedValue: number;
-}
-
-export class DateTimeElement {
-  elementId: string;
-  selectedValue: string;
-}
-
-export class TextElement {
-  elementId: string;
-  selectedValue: string;
-}
-
-export class MultiChoiceElement {
-  elementId: string;
-  selectedValues: string[];
-  selectedTexts: string[];
-}
-
-export class AllElements {
-  elementId: string;
-  selectedValues: any[];
+export class FinalExecutedHistory {
+  executionHistories: ExecutedResultHistory[];
+  resultText: MainReportText;
+  inputData: InputData[];
 }
 
 export class ExecutedResultHistory {
@@ -570,8 +544,3 @@ export class ExecutedResultHistory {
   resultValue: any;
 }
 
-export class FinalExecutedHistory {
-  executionHistories: ExecutedResultHistory[];
-  resultText: MainReportText;
-  inputData: InputData[];
-}

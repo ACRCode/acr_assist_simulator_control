@@ -2,8 +2,8 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { DateTimeDataElement } from 'testruleengine/Library/Models/Class';
-import { DateTimeElement } from '../assist-data-element.component';
 import { UtilityService } from '../../../core/services/utility.service';
+import { DateTimeElement } from '../model/data.model';
 declare var triggerToolTip: any;
 
 @Component({
