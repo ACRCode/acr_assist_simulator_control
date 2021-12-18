@@ -810,3 +810,7 @@ label.control-label {
   color: #3C8DBC;
   opacity: 1;
 }
+
+.report-text {
+  padding: 0px 10px;
+}
