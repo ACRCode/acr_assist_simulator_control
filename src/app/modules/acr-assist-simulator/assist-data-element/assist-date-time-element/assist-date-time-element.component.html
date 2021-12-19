@@ -45,9 +45,6 @@
         <ng-container *ngIf="utilityService.isNotEmptyString(dateTimeDataElement.hint)">
           <i tabindex="0" role="button whitespace" class="fa fa-question-circle help-icon" data-toggle="popover" data-trigger="focus" data-placement="right" title="{{dateTimeDataElement.hint}}" aria-hidden="true"></i>
         </ng-container>
-        <ng-container *ngIf="dateTimeDataElement.diagrams != undefined">
-          <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
-        </ng-container>
         <!-- <ng-container *ngIf="utilityService.isNotEmptyString(dateTimeDataElement.hint)">
           <i class="fa fa-info-circle text-primary whitespace" title="{{dateTimeDataElement.hint}}"></i>
           <a tabindex="0" class="btn btn-xs btn-info gly-radius whitespace" role="button" data-toggle="popover"
