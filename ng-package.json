@@ -2,6 +2,29 @@
   "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
   "dest": "dist/",
   "lib": {
-    "entryFile": "./public_api.ts"
-  }
+    "entryFile": "src/public_api.ts"
+  },
+  "assets": ["src/assets"],
+  "allowedNonPeerDependencies": [
+    "@angular/cdk",
+    "ansi-regex",
+    "expr-eval",
+    "jquery",
+    "@busacca/ng-pick-datetime",
+    "string",
+    "rxjs",
+    "timers",
+    "stream",
+    "xml2js",
+    "testruleengine",
+    "ngx-loading",
+    "ngx-toastr",
+    "serialize-javascript",
+    "angular/localize",
+    "moment",
+    "@angular/animations",
+    "@angular/forms",
+    "ngx-bootstrap",
+    "ngx-drag-scroll"
+  ]
 }
