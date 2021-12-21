@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <div class="col-sm-4 col-md-4 col-lg-4" style="padding-left: 12px; padding-right: 0px;">
+    <div class="col-sm-4 col-md-4 col-lg-4" [ngClass]="{'padding-r-12' : !hideKeyDiagramTab}" style="padding-left: 12px; padding-right: 0px;">
       <ng-container *ngIf="hideKeyDiagramTab">
         <div #simulatorResultsBlock>
           <ng-container >
@@ -131,7 +131,7 @@
           <div id="tab-content1" class="content">
             <div #simulatorResultsBlock>
               <ng-container *ngIf="resultText !== undefined && showReportText && !isRequiredFieldIsNotFilled">
-                <div class="box box-primary">
+                <div class="box box-primary report-text-with-key">
                   <div class="box-header with-border min-height-40px">
                     <!-- <span class="box-title">Report Text</span> -->
                     <div class="box-tools pull-right">

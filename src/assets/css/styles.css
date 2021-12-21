@@ -270,6 +270,10 @@ a:focus {
   /* border-top-color: #3c8dbc; */
 }
 
+.report-text-with-key {
+  border-top-color: #3c8dbc !important;
+}
+
 .box-header {
   color: #444;
   display: block;
