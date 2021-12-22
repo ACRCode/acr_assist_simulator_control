@@ -194,7 +194,7 @@
       <ng-container *ngIf="_isRadioButton()">
         <ng-container *ngIf="choiceDataElement.imageMap == undefined">
           <div class="col-lg-10 labelparentdiv">
-            <label class="control-label break-word">
+            <label class="control-label choice-label break-word">
               <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
               {{choiceDataElement.label}}
               <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
@@ -228,12 +228,12 @@
             <ng-container *ngFor="let choice of choiceDataElement.choiceInfo; let i = index">
               <div [ngStyle]="i === 0 && {'clear': 'both'}" class="radio custom-radio-style"
                 *ngIf="!isRadioChoiceNotRelavent(choice)">
-                <label>
+                <label title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">
                   <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                     id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                     value="{{choice.value}}" class="radio-btn-style"
                     (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
-                    [ngClass]="{ 'ai-input-background': hasAIInputStyle()}">
+                    [ngClass]="{ 'ai-input-background': hasAIInputStyle()}" >
                   {{choice.label}}
                 </label>
               </div>
@@ -290,12 +290,12 @@
               <div class="col-lg-12" style="padding: 0;">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                   <div class="radio custom-radio-style" *ngIf="!isRadioChoiceNotRelavent(choice)">
-                    <label>
+                    <label title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">
                       <input class=" radio-btn-style" [attr.disabled]="choiceDataElement.isEditable == false ? 'disabled' : null"
                         id="{{choice.value}}_{{choiceDataElement.id}}" type="radio" formControlName="checkBox"
                         value="{{choice.value}}"
                         (change)="choiceSelected(choiceDataElement.id, choiceDataElement.label, (choice.reportText !== undefined) ? choice.reportText : choice.label, choice.value)"
-                        [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }">
+                        [ngClass]="{ 'ai-input-background': hasAIInputStyle(), 'show-error': choiceDataElement.showValidation }"                      >
                       {{choice.label}}
                     </label>
                   </div>
@@ -479,7 +479,7 @@
 
       <ng-container *ngIf="isChoiceHasDiagrams(choiceDataElement)">
         <div class="col-lg-10 labelparentdiv">
-          <label class="control-label break-word" style="text-align: left">
+          <label class="control-label choice-label break-word" style="text-align: left">
             <span *ngIf="isChoiceElementRequired()" class="required-field whitespace" title="Required Field">*</span>
             {{choiceDataElement.label}}
             <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
