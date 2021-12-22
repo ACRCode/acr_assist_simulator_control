@@ -61,7 +61,7 @@
     </div>
   </div>
   <div id="rightReportTextPosition" *ngIf="reportTextPosition === position.Right">
-    <div class="col-sm-8 col-md-8 col-lg-8" style=" padding-right: 4px; padding-left: 8px;">
+    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-8 col-md-8 col-lg-8' : 'col-sm-6 col-md-6 col-lg-6'" style=" padding-right: 4px; padding-left: 8px;">
       <div id="div-simulator-block">
         <div #simulatorBlock class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border text-right padding-5 padding-r-10">
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <div class="col-sm-4 col-md-4 col-lg-4" [ngClass]="{'padding-r-12' : !hideKeyDiagramTab}" style="padding-left: 12px; padding-right: 0px;">
+    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-4 col-md-4 col-lg-4' : 'col-sm-6 col-md-6 col-lg-6 padding-r-12'" style="padding-left: 12px; padding-right: 0px;">
       <ng-container *ngIf="hideKeyDiagramTab">
         <div #simulatorResultsBlock>
           <ng-container >
