@@ -2,7 +2,7 @@
   <!-----Right to left alignment-->
   <div class="form-group" *ngIf="!alignLabelAndControlToTopAndBottom && choiceDataElement.isRelevant">
     <div class="col-sm-4 text-left">
-      <label class="control-label break-word">
+      <label class="control-label choice-label break-word">
         <span *ngIf="isChoiceElementRequired()" class="required-field" title="Required Field">*</span>
         {{choiceDataElement.label}}
         <span *ngIf="choiceDataElement.unit != undefined && choiceDataElement.unit != ''">
