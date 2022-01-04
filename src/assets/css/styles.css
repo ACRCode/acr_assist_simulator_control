@@ -575,3 +575,7 @@ label {
 .whitespace .required {
   margin-left: 0px !important;
 }
+
+.margin-left-4p {
+  margin-left: 4px !important;
+}

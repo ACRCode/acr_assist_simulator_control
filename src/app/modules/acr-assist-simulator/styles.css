@@ -828,7 +828,6 @@ label.control-label {
   display: inline-flex;
 }
 
-label[title]:hover:after {
-    /* content: attr(title); */
-    /* border: 1px solid black; */
+.font-weight-bold {
+  font-weight: bold;
 }

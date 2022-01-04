@@ -1,9 +1,15 @@
-<div class="col-lg-8">
-    <label class="control-label font-weight-400">Not sure? try out this image </label>
-    <button type="button" class="btn btn-default font-size-inherit" (click)="openImageMap()">
+<div class="col-lg-12" style="padding: 0">
+    <div class="col-lg-2" style="padding: 8px; padding-left: 20px;" (click)="openImageMap()">
         <span aria-hidden="true" data-toggle="tooltip" data-placement="top"
-        title="Image Map"><i class="fa fa-file-image-o" aria-hidden="true"></i></span>
-    </button>
+        title="Image Map"><img class="image-map-gif" src="assets/images/image-map.gif" alt=""></span>
+    </div>
+    <div class="col-lg-10" style="padding: 0; padding-top: 12px;">
+        <label class="control-label" style="text-align: left;">
+            <span class="font-weight-bold">OR </span> 
+            <span class="image-map-text ">click on this graphic to view and select more detailed findings. Mouse over and click any category hot spot area to select the findings.</span>
+        </label>
+        <label ></label>
+    </div>
 </div>
 <div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog"
     (onShown)="initializeSelectedOverlayData()">
