@@ -15,7 +15,7 @@ import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoin
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 import { UtilityService } from '../../core/services/utility.service';
 
-const expressionParser = require('expr-eval').Parser;
+// const expressionParser = require('expr-eval').Parser;
 import * as _ from 'lodash';
 
 @Injectable()
@@ -186,7 +186,8 @@ export class SimulatorEngineService {
       }
     }
 
-    return (Math.round((expressionParser.evaluate(computedValue) + Number.EPSILON) * 100) / 100).toString();
+    // return (Math.round((expressionParser.evaluate(computedValue) + Number.EPSILON) * 100) / 100).toString();
+    return null;
   }
 
   private evaluateComputedExpressions() {
