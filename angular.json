@@ -29,7 +29,8 @@
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/skin-blue.min.css",
-              "src/assets/css/styles.css"
+              "src/assets/css/styles.css",
+              "node_modules/jquery/dist/jquery.min.js"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

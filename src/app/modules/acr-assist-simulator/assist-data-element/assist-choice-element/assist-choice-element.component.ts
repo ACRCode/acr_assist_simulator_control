@@ -9,7 +9,6 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 import { ChoiceElement } from '../model/data.model';
 
-const $ = require('jquery');
 declare var triggerToolTip: any;
 
 @Component({
@@ -155,7 +154,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         $('body').append(tooltip);
         // $('.div_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
-        $('.tooltiptopicevent').fadeTo('10', 1.9);
+        $('.tooltiptopicevent').fadeTo(10, 1.9);
       }
     });
     $(document).on('mousemove', '.div_img_thumbnail', function (e) {
@@ -182,7 +181,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
 
     if (this.choiceDataElement.ChoiceNotRelevant !== undefined &&
       this.choiceDataElement.ChoiceNotRelevant.indexOf(this.choiceDataElement.currentValue) > -1) {
-      $('#' + this.choiceDataElement.id)[0].selectedIndex = -1;
+      $('#' + this.choiceDataElement.id).prop('selectedIndex').value = -1;
     }
     return response;
   }

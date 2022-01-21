@@ -12,8 +12,6 @@ import { AIInputData } from '../../core/models/ai-input-data.model';
 import { ToastrService } from 'ngx-toastr';
 import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
 
-const $ = require('jquery');
-
 @Component({
   selector: 'acr-assist-simulator',
   templateUrl: './acr-assist-simulator.component.html',

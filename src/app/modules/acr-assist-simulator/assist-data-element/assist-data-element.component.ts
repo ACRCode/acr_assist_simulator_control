@@ -15,7 +15,6 @@ import { ChoiceControlStyle } from '../../core/models/choice-control-style.model
 import { UtilityService } from '../../core/services/utility.service';
 import { MainReportText } from 'testruleengine/Library/Models/Class';
 
-const $ = require('jquery');
 import * as _ from 'lodash';
 
 @Component({

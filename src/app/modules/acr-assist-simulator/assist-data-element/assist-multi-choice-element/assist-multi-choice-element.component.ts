@@ -4,11 +4,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
-
-const $ = require('jquery');
 import * as _ from 'lodash';
 import { forEach } from 'lodash';
 import { MultiChoiceElement } from '../model/data.model';
+
 declare var triggerToolTip: any;
 
 @Component({
@@ -101,7 +100,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
         $('body').append(tooltip);
         // $('.div_multi_img_thumbnail').css('z-index', 1000000);
         $('.tooltiptopicevent').fadeIn('500');
-        $('.tooltiptopicevent').fadeTo('10', 1.9);
+        $('.tooltiptopicevent').fadeTo(10, 1.9);
       }
     });
     $(document).on('mousemove', '.div_multi_img_thumbnail', function (e) {
@@ -327,7 +326,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     if (selectedValue === 'freetext' && isChecked) {
       $('#div_' + elementId + '_other').show();
       if (selectedValue === 'freetext') {
-        this.freeTextValue = $('#txt_other_' + this.multiChoiceElement.id).val();
+        this.freeTextValue = $('#txt_other_' + this.multiChoiceElement.id).val().toString();
       }
     } else if (!isChecked) {
       $('#div_' + elementId + '_other').hide();

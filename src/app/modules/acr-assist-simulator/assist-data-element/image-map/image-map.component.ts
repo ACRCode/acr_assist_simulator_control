@@ -6,8 +6,6 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 
-const $ = require('jquery');
-
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
@@ -270,7 +268,7 @@ export class ImageMapComponent implements OnInit {
             $("[id$='_" + this.dataElement.id + "']").removeClass('highlightchoice');
             $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice');
             $("[id$='_" + this.dataElement.id + "']").find('input[type=radio]').prop("checked", false);
-            $('#' + choice.value).attr("checked", true);
+            $('#' + choice.value).attr("checked", "true");
             $('#' + choice.value + '_' + this.dataElement.id).trigger('click');
             // $('#' + choice.value).dispatchEvent(customEvent);
             $('#' + choice.value + '_' + this.dataElement.id)[0].dispatchEvent(customEvent);
@@ -280,7 +278,7 @@ export class ImageMapComponent implements OnInit {
           $("[id$='_" + this.dataElement.id + "']").removeClass('highlightchoice');
           $('#' + choice.value + '_' + this.dataElement.id).addClass('highlightchoice');
           $("[id$='_" + this.dataElement.id + "']").find('input[type=radio]').prop("checked", false);
-          $('#' + choice.value).attr("checked", true);
+          $('#' + choice.value).attr("checked", "true");
           // $('#' + choice.value + '_' + this.dataElement.id).prop('checked', true);
           // $('#' + choice.value).dispatchEvent(customEvent);
           $('#' + choice.value + '_' + this.dataElement.id).trigger('click');

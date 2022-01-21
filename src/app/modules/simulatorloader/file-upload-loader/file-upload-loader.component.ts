@@ -3,7 +3,6 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
 import { UtilityService } from '../../core/services/utility.service';
-const $ = require('jquery');
 
 @Component({
   selector: 'acr-file-upload-loader',
