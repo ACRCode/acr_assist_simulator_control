@@ -255,7 +255,7 @@ a:focus {
 
 .box.box-primary {
   border-top-color: white;
-  height: calc(100vh - 48px);
+  min-height: calc(100vh - 48px);
 }
 
 .box-body {
