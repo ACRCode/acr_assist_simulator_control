@@ -83,7 +83,7 @@
     "stream": "0.0.2",
     "stream-browserify": "^3.0.0",
     "string": "^3.3.3",
-    "testruleengine": "^3.0.9",
+    "testruleengine": "^4.0.3",
     "timers": "^0.1.1",
     "timers-browserify": "^2.0.12",
     "ts-node": "~8.10.2",
