@@ -112,6 +112,14 @@ extends:
            nuGetFeedType: 'external'
            publishFeedCredentials: 'ACR Nexus with ApiKey-ACR Assist' 
 
+      - task: pipeline-triggerer-task@0
+        inputs:
+          adoServiceConnection: 'Azure DevOps API for triggering release from build pipeline-ACR Assist'
+          Project: '5a76a01b-6d79-4de6-aec7-877e1898ca89'
+          PipelineType: 'Release'
+          ReleaseDefinition: 'Release'
+          Async: true
+
       #Run Checkmarx and IQ scan
 
     securityScanAgentPool: 'Local Agents'
