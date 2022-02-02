@@ -523,8 +523,10 @@
                 <i class='fa fa-check-circle fa-cust' *ngIf="hideRadioButton"
                   style='position: absolute; top: -12px; left: -6px; font-size: xx-large; font-weight: 700; color: #1686f3; z-index: 8;'></i>
                 <!-- && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length == 1) -->
-                <label class="col-lg-6" style="padding-left: 0px"
-                  [ngClass]="{ 'label_align' : (hideRadioButton), 'label_align_multi_img' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length > 1)), 'margin-t-10p' : !hideRadioButton }"
+                <label style="padding-left: 0px"
+                  [ngClass]="{ 'label_align' : (hideRadioButton), 'label_align_multi_img' : (hideRadioButton && (choice !== undefined && choice.diagrams !== undefined && choice.diagrams.length > 1)), 'margin-t-10p' : !hideRadioButton,
+                  'col-lg-10': choice.diagrams.length == 1,
+                  'col-lg-9': choice.diagrams.length == 2, 'col-lg-7': choice.diagrams.length == 3, 'col-lg-6': choice.diagrams.length >= 4 }"
                   for="{{choice.value}}_{{choiceDataElement.id}}" [hidden]="choiceDataElement.ChoiceNotRelevant != undefined ? 
                   choiceDataElement.ChoiceNotRelevant.indexOf(choice.value) > -1 ? true: null
                   : null">
@@ -565,7 +567,8 @@
               </div>
 
               <ng-template #div_multiImage>
-                <div class="col-lg-6" style="margin: 0px;padding: 0; float: right;">
+                <div  [ngClass]="{'col-lg-6': choice.diagrams.length >= 4, 'col-lg-5': choice.diagrams.length == 3, 
+                'col-lg-3': choice.diagrams.length == 2, 'col-lg-2': choice.diagrams.length == 1}" style="margin: 0px;padding: 0; float: right;">
                   <div class="div_img_thumbnail" (click)="onChoiceDiagramClick(choice, $event, diagram)"
                     *ngFor="let diagram of choice.diagrams">
                     <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
