@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
@@ -11,22 +11,38 @@ import { ChoiceControlStyle } from '../../../core/models/choice-control-style.mo
   templateUrl: './image-map.component.html',
   styleUrls: ['./image-map.component.css']
 })
-export class ImageMapComponent implements OnInit {
+export class ImageMapComponent implements OnInit, AfterViewInit {
 
   selectionValue = '';
   map_selector_class = 'cursor-pointer map-selector';
   isOverlayLoading = false;
   selectedValues = [];
-  hoverDefaultColour = 'rgba(56, 59, 60, 0.5)';
-  filledDefaultColour = 'rgba(40, 179, 109, 0.52)';
-  borderDefaultColour = 'rgba(0, 0, 0, 1)';
+  hoverDefaultColour = '383b3c';
+  filledDefaultColour = '28b36d';
+  borderDefaultColour = '000000';
+  config = {
+    "fade": false,
+    "alwaysOn": false,
+    "neverOn": false,
+    "fill": true,
+    "fillColor": '383b3c',
+    "fillOpacity": 0.5,
+    "stroke": true,
+    "strokeColor": '000000',
+    "strokeOpacity": 1,
+    "strokeWidth": 1,
+    "shadow": true,
+    "shadowColor": '#000000',
+    "shadowOpacity": 0.8,
+    "shadowRadius": "10"
+  };
   @Input() elementDisplay: ChoiceElementDisplayEnum;
 
   @Input() dataElement: ChoiceDataElement | MultiChoiceDataElement;
   @Input() assetsBaseUrl: string;
   @ViewChild('modalPopup') modalPopup: ModalDirective;
   @ViewChild('image') image: ElementRef;
-  @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
+  // @ViewChildren('canvases') canvases: QueryList<ElementRef<HTMLCanvasElement>>;
   @Input() choiceControlStyle: ChoiceElementDisplayEnum;
   @Input() customizeChoiceControlById: ChoiceControlStyle[];
 
@@ -38,6 +54,11 @@ export class ImageMapComponent implements OnInit {
 
   ngOnInit() {
     this.selectedValues = [];
+    // this.initializeSelectedOverlayData();
+  }
+
+  ngAfterViewInit() {
+    $('img[usemap]').maphilight(this.config);
   }
 
   openImageMap() {
@@ -46,6 +67,8 @@ export class ImageMapComponent implements OnInit {
   }
 
   initializeSelectedOverlayData() {
+    console.log("initialize overlay gets loaded");
+
     const imageMapAreas = this.dataElement.imageMap?.map?.areas;
     if (this.utilityService.isValidInstance(imageMapAreas)) {
       imageMapAreas.forEach(area => {
@@ -60,7 +83,7 @@ export class ImageMapComponent implements OnInit {
   }
 
   getCoordinates(coordinates: any) {
-    if (this.utilityService.isValidInstance(this.image) &&
+      if (this.utilityService.isValidInstance(this.image) &&
       this.utilityService.isValidInstance(this.image.nativeElement)) {
       const naturalWidth = this.image.nativeElement.naturalWidth;
       const naturalHeight = this.image.nativeElement.naturalHeight;
@@ -203,7 +226,7 @@ export class ImageMapComponent implements OnInit {
       if (this.utilityService.isValidInstance(area)) {
         const shape = area.shape;
         const coords = area.coords.split(',');
-        const canvas = this.canvases.toArray()[index];
+        // const canvas = this.canvases.toArray()[index];
         const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
         let hoverColor = this.getHoverFillColour(area.hoverFill, elementDrawStyle);
@@ -213,23 +236,39 @@ export class ImageMapComponent implements OnInit {
         if (hoverColor === filledColor) {
           hoverColor = this.hoverDefaultColour;
         }
-
-        if (this.utilityService.isValidInstance(canvas)) {
-          if (isAdd) {
-            if (!canvas.nativeElement.className.includes('hover') && !canvas.nativeElement.className.includes('selected')) {
-              canvas.nativeElement.style.position = 'absolute';
-              canvas.nativeElement.style.display = 'block';
-              canvas.nativeElement.className += ' hover';
-              this.drawStyleBasedOnShape(canvas, hoverColor, outlineColor, shape, coords);
-            }
+        var areasList = $('area[choice]');
+        
+        var selArea = areasList[index];
+        var data = $(selArea).data('maphilight') || {};
+        if(!$(selArea).hasClass("selected")) {
+          if(selArea != null && isAdd) {
+            data.alwaysOn = true;
+            data.fillColor = hoverColor;
+            data.outlineColor = outlineColor;
+            $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+            // ;
           } else {
-            if (!canvas.nativeElement.className.includes('selected')) {
-              canvas.nativeElement.style.position = '';
-              canvas.nativeElement.style.display = 'none';
-            }
-            canvas.nativeElement.className = canvas.nativeElement.className.replace('hover', '').trim();
+            data.alwaysOn = false;
+            $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
           }
         }
+
+        // if (this.utilityService.isValidInstance(canvas)) {
+        //   if (isAdd) {
+        //     if (!canvas.nativeElement.className.includes('hover') && !canvas.nativeElement.className.includes('selected')) {
+        //       canvas.nativeElement.style.position = 'absolute';
+        //       canvas.nativeElement.style.display = 'block';
+        //       canvas.nativeElement.className += ' hover';
+        //       this.drawStyleBasedOnShape(canvas, hoverColor, outlineColor, shape, coords);
+        //     }
+        //   } else {
+        //     if (!canvas.nativeElement.className.includes('selected')) {
+        //       canvas.nativeElement.style.position = '';
+        //       canvas.nativeElement.style.display = 'none';
+        //     }
+        //     canvas.nativeElement.className = canvas.nativeElement.className.replace('hover', '').trim();
+        //   }
+        // }
       }
     }
   }
@@ -316,29 +355,44 @@ export class ImageMapComponent implements OnInit {
           }
         }
 
-        const area = imageMapAreas[index];
-        const shape = area.shape;
-        const coords = area.coords.split(',');
-        const canvas = this.canvases.toArray()[index];
-        const elementDrawStyle = this.dataElement.imageMap.drawStyle;
-
-        const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
-        const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
-
-        if (this.utilityService.isValidInstance(canvas)) {
-          if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
-            canvas.nativeElement.style.position = '';
-            canvas.nativeElement.style.display = 'none';
-            canvas.nativeElement.className = this.map_selector_class;
+        if(hasValueSelected) {
+          const area = imageMapAreas[index];
+          // const shape = area.shape;
+          // const coords = area.coords.split(',');
+          // const canvas = this.canvases.toArray()[index];
+          const elementDrawStyle = this.dataElement.imageMap.drawStyle;
+          var areasList = $('area[choice]');
+          for(var i = 0; i < areasList.length; i++) {
+            var selArea = areasList[i].attributes["choice"].value == area.choice ? areasList[i] : null;
+            if(selArea != null) {
+              var data = $(selArea).data('maphilight') || {};
+              data.alwaysOn = true;
+              data.fillColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+              data.strokeColor = this.getOutlineColour(area.outline, elementDrawStyle);
+              $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+              $(selArea).addClass("selected");
+            }
           }
-          if (hasValueSelected) {
-            canvas.nativeElement.style.position = 'absolute';
-            canvas.nativeElement.style.display = 'block';
-
-            this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
-            canvas.nativeElement.className = this.map_selector_class + ' selected';
-          }
+        
         }
+        // const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+        // const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
+
+        // if (this.utilityService.isValidInstance(canvas)) {
+        //   if (canvas.nativeElement.className.includes('hover') || canvas.nativeElement.className.includes('selected')) {
+        //     canvas.nativeElement.style.position = '';
+        //     canvas.nativeElement.style.display = 'none';
+            // canvas.nativeElement.className = this.map_selector_class;
+          // }
+        //   if (hasValueSelected) {
+        //     canvas.nativeElement.style.position = 'absolute';
+        //     canvas.nativeElement.style.display = 'block';
+
+        //     this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
+        //     canvas.nativeElement.className = this.map_selector_class + ' selected';
+        //   }
+        // }
+        
       }
     }
   }
@@ -346,7 +400,7 @@ export class ImageMapComponent implements OnInit {
   private updateSelectedOverlay(index: number, area: Area) {
     const coords = area.coords.split(',');
     const shape = area.shape;
-    const canvas = this.canvases.toArray()[index];
+    // const canvas = this.canvases.toArray()[index];
     const elementDrawStyle = this.dataElement.imageMap.drawStyle;
 
     const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
@@ -355,30 +409,46 @@ export class ImageMapComponent implements OnInit {
     if (this.dataElement.dataElementType !== 'MultiChoiceDataElement') {
       this.RemoveSelection();
     }
-
-    if (this.utilityService.isValidInstance(canvas)) {
-      if (canvas.nativeElement.className.includes('selected')) {
-        canvas.nativeElement.style.position = '';
-        canvas.nativeElement.style.display = 'none';
-        canvas.nativeElement.className = this.map_selector_class;
-      } else {
-        canvas.nativeElement.style.position = 'absolute';
-        canvas.nativeElement.style.display = 'block';
-
-        this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
-        canvas.nativeElement.className = this.map_selector_class + ' selected';
-      }
+    var areasList = $('area[choice]');
+    var selArea = areasList[index];
+    if(selArea != null) {
+      var data = $(selArea).data('maphilight') || {};
+      data.alwaysOn = true;
+      data.fillColor = filledColor;
+      data.outlineColor = outlineColor;
+      $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+      $(selArea).addClass("selected");
     }
+
+    // if (this.utilityService.isValidInstance(canvas)) {
+    //   if (canvas.nativeElement.className.includes('selected')) {
+    //     canvas.nativeElement.style.position = '';
+    //     canvas.nativeElement.style.display = 'none';
+    //     canvas.nativeElement.className = this.map_selector_class;
+    //   } else {
+    //     canvas.nativeElement.style.position = 'absolute';
+    //     canvas.nativeElement.style.display = 'block';
+
+    //     this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
+    //     canvas.nativeElement.className = this.map_selector_class + ' selected';
+    //   }
+    // }
   }
 
   RemoveSelection() {
-    this.canvases.forEach(x => {
-      if (x.nativeElement.className.includes('selected')) {
-        x.nativeElement.style.position = '';
-        x.nativeElement.style.display = 'none';
-        x.nativeElement.className = this.map_selector_class;
-      }
-    });
+    var selectedArea = $("area.selected");
+    var data = $(selectedArea).data('maphilight') || {};
+    data.alwaysOn = false;
+    $(selectedArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+    $(selectedArea).removeClass("selected");
+
+    // this.canvases.forEach(x => {
+    //   if (x.nativeElement.className.includes('selected')) {
+    //     x.nativeElement.style.position = '';
+    //     x.nativeElement.style.display = 'none';
+    //     x.nativeElement.className = this.map_selector_class;
+    //   }
+    // });
   }
 
   private drawStyleBasedOnShape(canvas: ElementRef, fillStyle: string, outlineStyle: string, shape: string, coords: number[]) {
@@ -478,6 +548,7 @@ export class ImageMapComponent implements OnInit {
       filledColor = selectedFill;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
+        console.log(elementDrawStyle.selectedFill);
       filledColor = elementDrawStyle.selectedFill;
     } else {
       filledColor = this.filledDefaultColour;

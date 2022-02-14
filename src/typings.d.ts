@@ -1,4 +1,4 @@
 import "jquery";
 
-declare var $: JQueryStatic;
+declare var $: any;
 declare var jQuery: JQueryStatic;

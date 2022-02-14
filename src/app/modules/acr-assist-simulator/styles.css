@@ -325,7 +325,7 @@ mark {
   display: flex;
   flex-direction: row;
   /* border: 1px solid #ccc; */
-  margin: 0px 5px;
+  margin: 0px 3px;
   cursor: pointer;
   margin-top: 4px;
   position: relative;

@@ -11,8 +11,7 @@
         <label ></label>
     </div>
 </div>
-<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-    (onShown)="initializeSelectedOverlayData()">
+<div bsModal #modalPopup="bs-modal" class="modal fade" tabindex="-1" role="dialog" (onShown)="initializeSelectedOverlayData()">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,18 +34,18 @@
                                 <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
                                     attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                     [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
-                            </ng-template>
-                            <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
+                             </ng-template>
+                             <!-- <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
                                     (mouseover)="updateHoverOverlay(i, true)" (mouseout)="updateHoverOverlay(i, false)"
                                     (click)="setSelectedValue(i)">
                                 </canvas>
-                            </ng-container>
+                            </ng-container> -->
                         </div>
                         <map name="{{ 'image_map_' + dataElement.id }}" id="{{ 'image_map_' + dataElement.id }}">
                             <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <area class="cursor-pointer" attr.shape="{{ imgOpt.shape }}"
-                                    attr.coords="{{ imgOpt.coords }}"
+                                    attr.coords="{{ imgOpt.coords }}" class="{{ map_selector_class }}"
                                     attr.choice="{{ imgOpt.choiceValue }}" title="{{ imgOpt.choiceValue }}"
                                     attr.selectedFill="{{ imgOpt.selectedFill }}"
                                     attr.hoverFill="{{ imgOpt.hoverFill }}" attr.outline="{{ imgOpt.outline }}"
@@ -54,6 +53,14 @@
                                     (click)="setSelectedValue(i)" />
                             </ng-container>
                         </map>
+                        <!-- <img src="assets/images/PI-RADS-Zone-Map.jpg" style="position: fixed;" usemap="#image-map" width="870" height="1126">
+
+                        <map name="image-map" style='z-index: -1; position: absolute;'>
+                            <area id="cat1" class="cat1" coords="599,369,586,328,608,279,660,273,678,304,683,370" class="{fillColor:'00ff00'}" shape="poly" choice="cat1" style="cursor:pointer">
+                            <area coords="690,370,695,308,724,264,769,288,790,325,779,368" shape="poly" style="cursor:pointer">
+                            <area coords="613,394,685,394,685,468,630,443" shape="poly" style="cursor:pointer">
+                            <area coords="689,396,765,392,749,443,690,467" shape="poly" choice="cat4" style="cursor:pointer">
+                        </map> -->
                     </div>
                 </div>
             </div>

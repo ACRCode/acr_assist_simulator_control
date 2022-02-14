@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "3.0.129",
+  "version": "3.0.142",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -45,7 +45,7 @@
     "@types/core-js": "^2.5.3",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
-    "@types/jquery": "^3.3.38",
+    "@types/jquery": "^3.5.13",
     "@types/lodash": "^4.14.155",
     "@types/node": "^14.0.11",
     "ansi-regex": "^5.0.1",
@@ -68,6 +68,7 @@
     "lodash": "^4.17.21",
     "module": "^1.2.5",
     "moment": "^2.29.1",
+    "ng-maphilight": "^1.0.1",
     "ng-packagr": "^13.1.2",
     "ngx-bootstrap": "^7.1.0",
     "ngx-drag-scroll": "^12.0.0-beta.2",
@@ -96,13 +97,5 @@
     "xml2js": "^0.4.23",
     "xmlreader": "^0.2.3",
     "zone.js": "~0.11.4"
-  },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
-  },
-  "resolutions": {
-    "ansi-html": "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
   }
 }
