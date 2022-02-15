@@ -67,19 +67,20 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   }
 
   initializeSelectedOverlayData() {
-    console.log("initialize overlay gets loaded");
-
-    const imageMapAreas = this.dataElement.imageMap?.map?.areas;
-    if (this.utilityService.isValidInstance(imageMapAreas)) {
-      imageMapAreas.forEach(area => {
-        if (!this.utilityService.isValidInstance(area.cachedCoords)) {
-          area.cachedCoords = area.coords;
-        }
-        area.coords = this.getCoordinates(area.cachedCoords);
-      });
-    }
-    this.restoreSelectedOverlays(imageMapAreas);
-    this.isOverlayLoading = false;
+    // console.log("initialize overlay gets loaded");
+    setTimeout(() => {
+      const imageMapAreas = this.dataElement.imageMap?.map?.areas;
+      if (this.utilityService.isValidInstance(imageMapAreas)) {
+        imageMapAreas.forEach(area => {
+          if (!this.utilityService.isValidInstance(area.cachedCoords)) {
+            area.cachedCoords = area.coords;
+          }
+          area.coords = this.getCoordinates(area.cachedCoords);
+        });
+      }
+      this.restoreSelectedOverlays(imageMapAreas);
+      this.isOverlayLoading = false;
+    }, 100);
   }
 
   getCoordinates(coordinates: any) {
@@ -91,7 +92,8 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
       const scaledWidth = this.image.nativeElement.width;
       const scaledHeight = this.image.nativeElement.height;
       coordinates = coordinates.split(',');
-
+      console.log("naturalWidth::"+ naturalWidth + " naturalHeight::"+naturalHeight
+                  + " scaledWidth::" + scaledWidth + " scaledHeight::" + scaledHeight);
       for (let index = 0; index < coordinates.length; index++) {
         if (index % 2 === 0) {
           if (scaledWidth !== naturalWidth) {
@@ -343,7 +345,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
-
+    var areasList = $('area[choice]');
     for (let index = 0; index < imageMapAreas.length; index++) {
       if (this.utilityService.isValidInstance(imageMapAreas)) {
         let hasValueSelected = false;
@@ -354,26 +356,25 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
             hasValueSelected = values === imageMapAreas[index].choiceValue;
           }
         }
-
+        var selArea = areasList[index];
+        var data = $(selArea).data('maphilight') || {};
         if(hasValueSelected) {
           const area = imageMapAreas[index];
           // const shape = area.shape;
           // const coords = area.coords.split(',');
           // const canvas = this.canvases.toArray()[index];
           const elementDrawStyle = this.dataElement.imageMap.drawStyle;
-          var areasList = $('area[choice]');
-          for(var i = 0; i < areasList.length; i++) {
-            var selArea = areasList[i].attributes["choice"].value == area.choice ? areasList[i] : null;
-            if(selArea != null) {
-              var data = $(selArea).data('maphilight') || {};
-              data.alwaysOn = true;
-              data.fillColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
-              data.strokeColor = this.getOutlineColour(area.outline, elementDrawStyle);
-              $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
-              $(selArea).addClass("selected");
-            }
-          }
-        
+          // for(var i = 0; i < areasList.length; i++) {
+          
+          data.alwaysOn = true;
+          data.fillColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
+          data.strokeColor = this.getOutlineColour(area.outline, elementDrawStyle);
+          $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+          $(selArea).addClass("selected");
+        } else {
+          data.alwaysOn = false;
+          $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+          $(selArea).removeClass("selected");
         }
         // const filledColor = this.getSelectedFillColour(area.selectedFill, elementDrawStyle);
         // const outlineColor = this.getOutlineColour(area.outline, elementDrawStyle);
@@ -411,13 +412,17 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     }
     var areasList = $('area[choice]');
     var selArea = areasList[index];
-    if(selArea != null) {
-      var data = $(selArea).data('maphilight') || {};
+    var data = $(selArea).data('maphilight') || {};
+    if(selArea != null && !$(selArea).hasClass("selected")) {
       data.alwaysOn = true;
       data.fillColor = filledColor;
       data.outlineColor = outlineColor;
       $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
       $(selArea).addClass("selected");
+    } else {
+      data.alwaysOn = false;
+      $(selArea).data('maphilight', data).trigger('alwaysOn.maphilight');
+      $(selArea).removeClass("selected");
     }
 
     // if (this.utilityService.isValidInstance(canvas)) {

@@ -3,6 +3,8 @@
 }
 
 .image-map-container {
+  max-width: 100%;
+  height: auto;
   position: relative;
   display: inline-block;
 }
