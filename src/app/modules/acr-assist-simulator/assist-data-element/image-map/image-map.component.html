@@ -33,7 +33,7 @@
                             <ng-template #notImageUrl>
                                 <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
                                     attr.usemap="#{{ 'image_map_' + dataElement.id }}"
-                                    [src]="getImageDataUrl(dataElement.imageMap.location) | SanitizerPipe">
+                                    [src]="getSanitizedUrl(getImageDataUrl(dataElement.imageMap.location)) | secure">
                              </ng-template>
                              <!-- <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
