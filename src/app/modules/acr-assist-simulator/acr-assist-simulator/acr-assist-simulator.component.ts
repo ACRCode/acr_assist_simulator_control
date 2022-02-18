@@ -111,7 +111,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
     if (!this.keyDiagrams.length) {
       // console.log(this.template.metadata.diagrams);
-      this.template.metadata.diagrams.forEach(diag => {
+      var diagrams = this.template.metadata.diagrams;
+      diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;
         element.location = diag.location;
@@ -281,8 +282,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       reader.onload = (event1: any) => {
         diagram.location = reader.result.toString();
       };
-
-      reader.readAsDataURL(event.target.files[i]);
+      var filesList = event.target.files[i];
+      reader.readAsDataURL(filesList);
 
       reader.onloadend = (event1: any) => {
         this.keyDiagrams.push(diagram);
