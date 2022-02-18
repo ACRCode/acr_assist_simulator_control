@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener, AfterViewInit, SecurityContext } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-display.enum';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-image-map',
@@ -49,8 +48,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
 
   constructor(
     private simulatorEngineService: SimulatorEngineService,
-    private utilityService: UtilityService,
-    private sanitizer : DomSanitizer
+    private utilityService: UtilityService
   ) {
   }
 
@@ -570,9 +568,5 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.initializeSelectedOverlayData();
-  }
-
-  getSanitizedUrl(url : string) {
-    return this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustUrl(url));
   }
 }
