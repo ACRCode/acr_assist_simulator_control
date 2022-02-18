@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Pipe, PipeTransform, OnDestroy, ChangeDetectorRef, SecurityContext } from '@angular/core';
 import { SubscriptionLike as ISubscription, Observable, BehaviorSubject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UrlHelperService } from '../services/url-helper.service';
@@ -44,7 +44,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     if (this.previousUrl !== url) {
       this.previousUrl = url;
       this._internalSubscription = this.urlHelperService.getImageData(url).subscribe(m => {
-        const sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
+        const sanitized = this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(m));
         this._result.next(sanitized);
       });
     }
