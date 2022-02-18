@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnInit, OnDestroy, SecurityContext } from '@angular/core';
 import { FinalExecutedHistory } from '../assist-data-element/assist-data-element.component';
 import { SimulatorEngineService } from '../../core/services/simulator-engine.service';
 import { InputData } from '../../core/models/input-data.model';
@@ -116,7 +116,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       this.template.metadata.diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;
-        element.location = this.sanitization.bypassSecurityTrustResourceUrl(diag.location);
+        element.location = this.sanitization.sanitize(SecurityContext.URL, diag.location);
         element.keyDiagram = diag.keyDiagram;
         element.id = diag.id;
         this.keyDiagrams.push(element);
