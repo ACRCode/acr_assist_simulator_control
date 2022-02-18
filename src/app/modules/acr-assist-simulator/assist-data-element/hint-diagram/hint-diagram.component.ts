@@ -1,8 +1,8 @@
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, SecurityContext, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
-import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-hint-diagram',
@@ -14,12 +14,13 @@ export class HintDiagramComponent {
   activeSlideIndex = 0;
 
   @Input() dataElement: BaseDataElement;
-  @Input() assetsBaseUrl: SafeResourceUrl;
+  @Input() assetsBaseUrl: string;
 
   @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
 
   constructor(
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private sanitizer : DomSanitizer
   ) { }
 
   openDiagram() {
@@ -52,5 +53,9 @@ export class HintDiagramComponent {
   onImgPopupClose() {
     const modal = document.getElementById('immgModalhint');
     modal.style.display = 'none';
+  }
+
+  getSanitizedUrl(url : string) {
+    return this.sanitizer.sanitize(SecurityContext.URL, url);
   }
 }

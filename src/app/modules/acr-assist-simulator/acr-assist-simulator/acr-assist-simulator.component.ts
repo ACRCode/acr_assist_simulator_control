@@ -11,7 +11,7 @@ import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { AIInputData } from '../../core/models/ai-input-data.model';
 import { ToastrService } from 'ngx-toastr';
 import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
-import { DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer, SafeValue} from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -113,7 +113,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
     if (!this.keyDiagrams.length) {
       // console.log(this.template.metadata.diagrams);
-      this.template.metadata.diagrams.forEach(diag => {
+      this.template.metadata.diagrams.forEach((diag: { label: any; location: string | SafeValue; keyDiagram: any; id: any; }) => {
         const element = new Diagram();
         element.label = diag.label;
         element.location = this.sanitization.sanitize(SecurityContext.URL, diag.location);
