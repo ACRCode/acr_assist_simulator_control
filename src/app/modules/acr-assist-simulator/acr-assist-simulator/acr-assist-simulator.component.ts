@@ -398,6 +398,6 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   }
   
   getSanitizedUrl(url) {
-    return this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(url));
+    return this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustUrl(url));
   }
 }
