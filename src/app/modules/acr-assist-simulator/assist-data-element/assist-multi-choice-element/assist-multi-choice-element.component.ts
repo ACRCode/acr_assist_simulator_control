@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy, HostListener, SecurityContext } from '@angular/core';
 import { MultiChoiceDataElement } from 'testruleengine/Library/Models/Class';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectedCondition } from '../../../core/models/executed-result.model';
@@ -7,6 +7,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import * as _ from 'lodash';
 import { forEach } from 'lodash';
 import { MultiChoiceElement } from '../model/data.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var triggerToolTip: any;
 
@@ -33,7 +34,8 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   constructor(
     private formBuilder: FormBuilder,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private sanitizer : DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -409,5 +411,9 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
 
   @HostListener('window:keyup.esc') onKeyUp() {
     this.onImgPopupClose();
+  }
+
+  getSanitizedUrl(url : string) {
+    return this.sanitizer.sanitize(SecurityContext.URL, url);
   }
 }

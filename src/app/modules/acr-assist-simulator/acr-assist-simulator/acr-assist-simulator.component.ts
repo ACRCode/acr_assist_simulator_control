@@ -215,8 +215,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   }
 
   diagramExist(diagram: Diagram) {
-    return this.keyDiagrams.some(function (el) {
-      return el.location === diagram.location;
+    return this.keyDiagrams.some(function ( el : { location : string | SafeValue;}) {
+      return el.location === this.sanitization.sanitize(SecurityContext.URL, diagram.location);
     });
   }
 
