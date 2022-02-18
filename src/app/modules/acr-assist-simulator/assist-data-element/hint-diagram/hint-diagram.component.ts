@@ -2,6 +2,7 @@ import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
+import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-hint-diagram',
@@ -13,7 +14,7 @@ export class HintDiagramComponent {
   activeSlideIndex = 0;
 
   @Input() dataElement: BaseDataElement;
-  @Input() assetsBaseUrl: string;
+  @Input() assetsBaseUrl: SafeResourceUrl;
 
   @ViewChild('modalPopup', { static: false }) modalPopup: ModalDirective;
 

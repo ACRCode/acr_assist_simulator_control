@@ -11,6 +11,7 @@ import { getTemplate } from 'testruleengine/Library/Utilities/TemplateManager';
 import { AIInputData } from '../../core/models/ai-input-data.model';
 import { ToastrService } from 'ngx-toastr';
 import { ChoiceControlStyle } from '../../core/models/choice-control-style.model';
+import { DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'acr-assist-simulator',
@@ -69,7 +70,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
   constructor(
     private simulatorEngineService: SimulatorEngineService,
     private toastr: ToastrService,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService,
+    private sanitization : DomSanitizer) {
   }
 
   ngOnInit() {
@@ -111,11 +113,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
     if (!this.keyDiagrams.length) {
       // console.log(this.template.metadata.diagrams);
-      var diagrams = this.template.metadata.diagrams;
-      diagrams.forEach(diag => {
+      this.template.metadata.diagrams.forEach(diag => {
         const element = new Diagram();
         element.label = diag.label;
-        element.location = diag.location;
+        element.location = this.sanitization.bypassSecurityTrustResourceUrl(diag.location);
         element.keyDiagram = diag.keyDiagram;
         element.id = diag.id;
         this.keyDiagrams.push(element);
@@ -282,8 +283,8 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       reader.onload = (event1: any) => {
         diagram.location = reader.result.toString();
       };
-      var filesList = event.target.files[i];
-      reader.readAsDataURL(filesList);
+
+      reader.readAsDataURL(event.target.files[i]);
 
       reader.onloadend = (event1: any) => {
         this.keyDiagrams.push(diagram);
