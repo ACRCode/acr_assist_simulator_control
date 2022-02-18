@@ -56,6 +56,6 @@ export class HintDiagramComponent {
   }
 
   getSanitizedUrl(url : string) {
-    return this.sanitizer.sanitize(SecurityContext.URL, url);
+    return this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(url));
   }
 }

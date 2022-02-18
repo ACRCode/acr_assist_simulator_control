@@ -218,7 +218,7 @@
                           </ng-container>
                           <ng-template #notImageUrl>
                             <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
-                              [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
+                              [src]="getSanitizedUrl(getImageDataUrl(diagram.location)) | secure" alt="{{diagram.label}}">
                           </ng-template>
                         </drag-scroll>
                       </div>

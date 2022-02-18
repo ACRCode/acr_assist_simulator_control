@@ -71,7 +71,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     private simulatorEngineService: SimulatorEngineService,
     private toastr: ToastrService,
     private utilityService: UtilityService,
-    private sanitization : DomSanitizer) {
+    private sanitizer : DomSanitizer) {
   }
 
   ngOnInit() {
@@ -116,7 +116,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       this.template.metadata.diagrams.forEach((diag: { label: any; location: string | SafeValue; keyDiagram: any; id: any; }) => {
         const element = new Diagram();
         element.label = diag.label;
-        element.location = this.sanitization.sanitize(SecurityContext.URL, diag.location);
+        element.location = this.sanitizer.sanitize(SecurityContext.URL, diag.location);
         element.keyDiagram = diag.keyDiagram;
         element.id = diag.id;
         this.keyDiagrams.push(element);
@@ -216,7 +216,7 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
 
   diagramExist(diagram: Diagram) {
     return this.keyDiagrams.some(function ( el : { location : string | SafeValue;}) {
-      return el.location === this.sanitization.sanitize(SecurityContext.URL, diagram.location);
+      return el.location === this.sanitizer.sanitize(SecurityContext.URL, diagram.location);
     });
   }
 
@@ -395,5 +395,9 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
       this.toastr.error('Failed to copy to clipboard');
     }
     // return '';
+  }
+  
+  getSanitizedUrl(url) {
+    return this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(url));
   }
 }
