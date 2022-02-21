@@ -413,7 +413,4 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
     this.onImgPopupClose();
   }
 
-  getSanitizedUrl(url) {
-    return this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustUrl(url));
-  }
 }
