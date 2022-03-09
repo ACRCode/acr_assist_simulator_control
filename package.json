@@ -97,5 +97,9 @@
     "xml2js": "^0.4.23",
     "xmlreader": "^0.2.3",
     "zone.js": "~0.11.4"
+  },
+  "dependencies": {
+    "glob-parent": "^6.0.2",
+    "selenium-webdriver": "^4.1.1"
   }
 }
