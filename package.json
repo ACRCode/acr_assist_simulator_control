@@ -24,7 +24,8 @@
     "build-publish-npm": "ng-packagr && cd ./dist  && npm publish --access public",
     "build-package": "ng-packagr",
     "postinstall": "ngcc",
-    "test-ci": "ng test --watch=false  --browsers ChromeHeadless"
+    "test-ci": "ng test --watch=false  --browsers ChromeHeadless",
+    "preinstall": "npx npm-force-resolutions"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.5",
@@ -98,7 +99,7 @@
     "xmlreader": "^0.2.3",
     "zone.js": "~0.11.4"
   },
-  "dependencies": {
+  "resolutions": {
     "glob-parent": "^6.0.2",
     "selenium-webdriver": "^4.1.1"
   }
