@@ -573,6 +573,6 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   }
 
   getSanitizedUrl(url : string) {
-    return this.sanitizer.sanitize(SecurityContext.URL, url);
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }
