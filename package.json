@@ -93,6 +93,7 @@
     "tslint": "~6.1.0",
     "typescript": "~4.5.4",
     "util": "^0.12.4",
+    "webpack": "^5.70.0",
     "webpack-dev-server": "^4.3.0",
     "xml-parser": "^1.2.1",
     "xml2js": "^0.4.23",
@@ -102,5 +103,10 @@
   "resolutions": {
     "glob-parent": "^6.0.2",
     "selenium-webdriver": "^4.1.1"
+  },
+  "dependencies": {
+    "minimatch": "^5.0.1",
+    "selenium-webdriver": "^4.1.1",
+    "webpack-sources": "^3.2.3"
   }
 }
