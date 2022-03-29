@@ -78,7 +78,6 @@
     "node": "^16.13.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "protractor": "~7.0.0",
     "rxjs": "^6.5.5",
     "sax": "^1.2.4",
     "serialize-javascript": "^3.1.0",
@@ -101,12 +100,10 @@
     "zone.js": "~0.11.4"
   },
   "resolutions": {
-    "glob-parent": "^6.0.2",
-    "selenium-webdriver": "^4.1.1"
+    "glob-parent": "^6.0.2"
   },
   "dependencies": {
     "minimatch": "^5.0.1",
-    "selenium-webdriver": "^4.1.1",
     "webpack-sources": "^3.2.3"
   }
 }
