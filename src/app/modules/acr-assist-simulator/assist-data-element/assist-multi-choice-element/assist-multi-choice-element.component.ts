@@ -70,7 +70,7 @@ export class AssistMultiChoiceElementComponent implements OnInit, AfterViewInit,
       modalImg.src = img_src;
       var caption = document.getElementsByClassName('captionmutli');
       for (var i = 0; i < caption.length; i++) {
-        caption[i].innerHTML = img_label;
+        caption[i].innerHTML = this.sanitizer.bypassSecurityTrustHtml(img_label);
       }
       // caption.forEach(element => {
       //   element.innerHTML = img_label;
