@@ -8,6 +8,7 @@ import { UtilityService } from '../../../core/services/utility.service';
 import { SubscriptionLike as ISubscription } from 'rxjs';
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 import { ChoiceElement } from '../model/data.model';
+import * as _ from 'lodash';
 
 declare var triggerToolTip: any;
 
@@ -111,7 +112,7 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
       modal.style.display = 'block';
       modalImg.src = img_src;
       var caption = document.getElementById('caption');
-      caption.innerHTML = img_label;
+      caption.innerHTML = _.escape(img_label);
     });
 
     const $this = this;
