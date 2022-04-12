@@ -22,7 +22,7 @@ padding-right:5px" (click)="openDiagram()">
         </ng-container>
         <ng-template #notImageUrl>
           <img class="modal-content img-responsive max-w-h-100" style="background-color: #000000;max-height: 37vw !important;
-          object-fit: contain !important" [src]="getImageDataUrl(diag.location)" alt="{{ diag.label }}">
+          object-fit: contain !important" src="{{getImageDataUrl(diagram.location) | secure}}" alt="{{ diag.label }}">
         </ng-template>
       </slide>
     </ng-container>
@@ -50,7 +50,7 @@ padding-right:5px" (click)="openDiagram()">
                 <img class="img-responsive max-w-h-100" [src]="diag.location" alt="{{ diag.label }}">
               </ng-container>
               <ng-template #notImageUrl>
-                <img class="img-responsive max-w-h-100" [src]="getSanitizedUrl(getImageDataUrl(diag.location))"
+                <img class="img-responsive max-w-h-100" src="{{getImageDataUrl(diagram.location) | secure}}"
                   alt="{{ diag.label }}">
               </ng-template>
             </slide>
