@@ -571,8 +571,4 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   onResize(event) {
     this.initializeSelectedOverlayData();
   }
-
-  getSanitizedUrl(url : string) {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
-  }
 }
