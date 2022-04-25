@@ -108,8 +108,7 @@
               "src/assets/css/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/js/jquery-3.6.0.js",
+              "node_modules/jquery/dist/jquery.min.js",              
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/common.js",
               "src/assets/js/maphilight.min.js"
