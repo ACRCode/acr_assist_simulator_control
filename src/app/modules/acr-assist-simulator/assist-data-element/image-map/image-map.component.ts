@@ -7,6 +7,8 @@ import { ChoiceElementDisplayEnum } from '../../../core/models/choice-element-di
 import { ChoiceControlStyle } from '../../../core/models/choice-control-style.model';
 import { DomSanitizer } from '@angular/platform-browser';
 
+declare var maphighlight: any;
+
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
@@ -60,7 +62,8 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $('img[usemap]').maphilight(this.config);
+    maphighlight(this.config);
+    //$('img[usemap]').maphilight(this.config);
   }
 
   openImageMap() {
@@ -82,7 +85,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
       }
       this.restoreSelectedOverlays(imageMapAreas);
       this.isOverlayLoading = false;
-    }, 200);
+    }, 500);
   }
 
   getCoordinates(coordinates: any) {

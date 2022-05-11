@@ -26,6 +26,10 @@ var triggerToolTip = function () {
   $('[data-toggle="popover"]').popover({placement: 'right', container: 'body'});
 }
 
+var maphighlight = function(config) {
+  $('img[usemap]').maphilight(config);
+}
+
 var init_SimulatorUI = function () {
   $("#toggleWrapper").click(function (e) {
     $("body").toggleClass("sidebar-collapse");

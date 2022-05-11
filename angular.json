@@ -35,7 +35,7 @@
               "node_modules/jquery/dist/jquery.min.js",              
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/common.js",
-              "src/assets/js/maphilight.min.js"
+              "node_modules/maphilight/jquery.maphilight.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -111,7 +111,7 @@
               "node_modules/jquery/dist/jquery.min.js",              
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/common.js",
-              "src/assets/js/maphilight.min.js"
+              "node_modules/maphilight/jquery.maphilight.min.js"
             ],
             "assets": [
               "src/assets",

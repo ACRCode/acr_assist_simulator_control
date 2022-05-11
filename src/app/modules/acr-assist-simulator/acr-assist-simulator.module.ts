@@ -33,7 +33,6 @@ import { ResetCommunicationService } from './shared/services/reset-communication
 import { ClipboardService } from './shared/services/clipboard.service';
 import { UrlHelperService } from './shared/services/url-helper.service';
 import { AssistComputedElementComponent } from './assist-data-element/assist-computed-element/assist-computed-element.component';
-import { MaphilightModule } from 'ng-maphilight';
 
 const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, HintDiagramComponent,
   AssistNumericElementComponent, AssistChoiceElementComponent, AssistMultiChoiceElementComponent,
@@ -42,7 +41,7 @@ const components = [AcrAssistSimulatorComponent, AssistDataElementComponent, Hin
   AssistComputedElementComponent, AssistTextElementComponent];
 
 const modules = [CommonModule, CoreModule, FormsModule, CarouselModule.forRoot(), ModalModule.forRoot(), ReactiveFormsModule,
-  DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule, MaphilightModule];
+  DragScrollModule, OwlDateTimeModule, OwlMomentDateTimeModule, NgxLoadingModule];
 
 const services = [SimulatorEngineService, SimulatorCommunicationService, ResetCommunicationService, ClipboardService, UrlHelperService];
 
