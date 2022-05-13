@@ -214,6 +214,10 @@ export class AcrAssistSimulatorComponent implements OnChanges, OnInit, OnDestroy
     }
   }
 
+  getSanitizedImageDataUrl(label: string): string { 
+    return this.sanitizer.sanitize(SecurityContext.URL, this.getImageDataUrl(label));   
+  }
+
   diagramExist(diagram: Diagram) {
     return this.keyDiagrams.some(function ( el : { location : string | SafeValue;}) {
       return el.location === this.sanitizer.sanitize(SecurityContext.URL, diagram.location);
