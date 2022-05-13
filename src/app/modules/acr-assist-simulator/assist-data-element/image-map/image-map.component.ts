@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, ElementRef, HostListener, AfterViewInit, SecurityContext } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { UtilityService } from '../../../core/services/utility.service';
 import { SimulatorEngineService } from '../../../core/services/simulator-engine.service';
 import { ChoiceDataElement, MultiChoiceDataElement, Area } from 'testruleengine/Library/Models/Class';
@@ -8,13 +8,14 @@ import { ChoiceControlStyle } from '../../../core/models/choice-control-style.mo
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var maphighlight: any;
+declare var getAreasofImageMap: any;
 
 @Component({
   selector: 'acr-image-map',
   templateUrl: './image-map.component.html',
   styleUrls: ['./image-map.component.css']
 })
-export class ImageMapComponent implements OnInit, AfterViewInit {
+export class ImageMapComponent implements OnInit {
 
   selectionValue = '';
   map_selector_class = 'cursor-pointer map-selector';
@@ -61,11 +62,6 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     // this.initializeSelectedOverlayData();
   }
 
-  ngAfterViewInit() {
-    maphighlight(this.config);
-    //$('img[usemap]').maphilight(this.config);
-  }
-
   openImageMap() {
     this.modalPopup.show();
     this.isOverlayLoading = true;
@@ -73,19 +69,20 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
 
   initializeSelectedOverlayData() {
     // console.log("initialize overlay gets loaded");
+    maphighlight(this.config, this.dataElement.id);
+    const imageMapAreas = this.dataElement.imageMap?.map?.areas;
+    if (this.utilityService.isValidInstance(imageMapAreas)) {        
+      imageMapAreas.forEach(area => {
+        if (!this.utilityService.isValidInstance(area.cachedCoords)) {
+          area.cachedCoords = area.coords;
+        }
+        area.coords = this.getCoordinates(area.cachedCoords);
+      });
+    }
     setTimeout(() => {
-      const imageMapAreas = this.dataElement.imageMap?.map?.areas;
-      if (this.utilityService.isValidInstance(imageMapAreas)) {
-        imageMapAreas.forEach(area => {
-          if (!this.utilityService.isValidInstance(area.cachedCoords)) {
-            area.cachedCoords = area.coords;
-          }
-          area.coords = this.getCoordinates(area.cachedCoords);
-        });
-      }
       this.restoreSelectedOverlays(imageMapAreas);
       this.isOverlayLoading = false;
-    }, 500);
+    }, 200);
   }
 
   getCoordinates(coordinates: any) {
@@ -97,8 +94,6 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
       const scaledWidth = this.image.nativeElement.width;
       const scaledHeight = this.image.nativeElement.height;
       coordinates = coordinates.split(',');
-      console.log("naturalWidth::"+ naturalWidth + " naturalHeight::"+naturalHeight
-                  + " scaledWidth::" + scaledWidth + " scaledHeight::" + scaledHeight);
       for (let index = 0; index < coordinates.length; index++) {
         if (index % 2 === 0) {
           if (scaledWidth !== naturalWidth) {
@@ -346,11 +341,13 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   }
 
   private restoreSelectedOverlays(imageMapAreas: Area[]) {
+    
     const values = this.simulatorEngineService.getAllDataElementValues().get(this.dataElement.id);
     if (Array.isArray(values) && this.utilityService.isNotEmptyArray(values)) {
       this.selectedValues = values;
     }
-    var areasList = $('area[choice]');
+    var dataElementId = '#image_map_' + this.dataElement.id;
+    var areasList = getAreasofImageMap(dataElementId);
     for (let index = 0; index < imageMapAreas.length; index++) {
       if (this.utilityService.isValidInstance(imageMapAreas)) {
         let hasValueSelected = false;
@@ -361,6 +358,11 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
             hasValueSelected = values === imageMapAreas[index].choiceValue;
           }
         }
+        var imageSizeCSSClass = {};
+        imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
+        imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
+        $(".img-responsive").css(imageSizeCSSClass);
+
         var selArea = areasList[index];
         var data = $(selArea).data('maphilight') || {};
         if(hasValueSelected) {
@@ -397,11 +399,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
         //     this.drawStyleBasedOnShape(canvas, filledColor, outlineColor, shape, coords);
         //     canvas.nativeElement.className = this.map_selector_class + ' selected';
         //   }
-        // }
-        var imageSizeCSSClass = {};
-        imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
-        imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
-        $(".img-responsive").css(imageSizeCSSClass);
+        // }    
       }
     }
   }
@@ -561,7 +559,6 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
       filledColor = selectedFill;
     } else if (this.utilityService.isValidInstance(elementDrawStyle) &&
       this.utilityService.isNotEmptyString(elementDrawStyle.selectedFill)) {
-        console.log(elementDrawStyle.selectedFill);
       filledColor = elementDrawStyle.selectedFill;
     } else {
       filledColor = this.filledDefaultColour;

@@ -26,8 +26,13 @@ var triggerToolTip = function () {
   $('[data-toggle="popover"]').popover({placement: 'right', container: 'body'});
 }
 
-var maphighlight = function(config) {
-  $('img[usemap]').maphilight(config);
+var maphighlight = function(config, dataElementId) {
+  var useMapId = '*[usemap*="image_map_' + dataElementId + '"]';
+  $(useMapId).maphilight(config);
+}
+
+var getAreasofImageMap = function(dataElementId) {
+  return $(dataElementId)[0].areas;
 }
 
 var init_SimulatorUI = function () {
