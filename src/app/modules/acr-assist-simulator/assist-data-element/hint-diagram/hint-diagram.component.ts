@@ -37,11 +37,11 @@ export class HintDiagramComponent {
   getImageDataUrl(label: string): string {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
-        label = this.getSanitizedUrl(label);
+        //label = this.getSanitizedUrl(label);
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         var url = `${this.assetsBaseUrl}/${label}`;
-        url = this.getSanitizedUrl(url);
+        //url = this.getSanitizedUrl(url);
         return url;
       }
     }
