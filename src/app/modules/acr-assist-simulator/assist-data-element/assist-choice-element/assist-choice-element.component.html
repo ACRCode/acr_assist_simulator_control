@@ -558,7 +558,7 @@
                       </ng-container>
                       <ng-template #notImageUrl>
                         <img name="img_diagram" id="{{diagram.label}}"
-                        [src]="getImageDataUrl(diagram.location)">
+                        [src]="getImageDataUrl(diagram.location) | secure">
                       </ng-template>
                       <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                     </div>
@@ -575,7 +575,7 @@
                       <img name="img_diagram" id="{{diagram.label}}" [src]="diagram.location">
                     </ng-container>
                     <ng-template #notImageUrl>
-                      <img name="img_diagram" id="{{diagram.label}}" [src]="getImageDataUrl(diagram.location)">
+                      <img name="img_diagram" id="{{diagram.label}}" [src]="getImageDataUrl(diagram.location) | secure">
                     </ng-template>
                     <div class="centered"><i class="fa fa-search" aria-hidden="true"></i></div>
                   </div>
