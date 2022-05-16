@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, SecurityContext, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { BaseDataElement } from 'testruleengine/Library/Models/Class';
 import { UtilityService } from '../../../core/services/utility.service';
@@ -34,15 +34,14 @@ export class HintDiagramComponent {
     return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
   }
 
-  getImageDataUrl(label: string): string {
+  getImageDataUrl(label: string): SafeUrl {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
-        //label = this.getSanitizedUrl(label);
+        return this.getSanitizedUrl(label);
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         var url = `${this.assetsBaseUrl}/${label}`;
-        //url = this.getSanitizedUrl(url);
-        return url;
+        return this.getSanitizedUrl(url);
       }
     }
 
@@ -59,6 +58,6 @@ export class HintDiagramComponent {
   }
 
   getSanitizedUrl(url : string) {
-    return this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(url));
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }
