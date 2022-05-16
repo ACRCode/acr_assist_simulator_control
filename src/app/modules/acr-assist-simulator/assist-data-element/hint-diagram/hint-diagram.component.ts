@@ -38,7 +38,6 @@ export class HintDiagramComponent {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
         return this.getSanitizedUrl(label);
-        return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         var url = `${this.assetsBaseUrl}/${label}`;
         return this.getSanitizedUrl(url);
