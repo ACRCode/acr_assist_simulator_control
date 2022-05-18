@@ -20,7 +20,7 @@ export class HintDiagramComponent {
 
   constructor(
     private utilityService: UtilityService,
-    private sanitizer : DomSanitizer
+    public sanitizer : DomSanitizer
   ) { }
 
   openDiagram() {
@@ -34,13 +34,16 @@ export class HintDiagramComponent {
     return this.utilityService.isValidImageURL(location) || this.utilityService.isImageDataUrl(location);
   }
 
-  getImageDataUrl(label: string): SafeUrl {
+  getImageDataUrl(label: string): string {
     if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
-        return this.getSanitizedUrl(label);
+        // return this.getSanitizedUrl(label);
+        //return this.sanitizer.bypassSecurityTrustResourceUrl(label);
+        return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {
         var url = `${this.assetsBaseUrl}/${label}`;
-        return this.getSanitizedUrl(url);
+        // return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        return url;
       }
     }
 
