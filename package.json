@@ -102,13 +102,14 @@
     "glob-parent": "^6.0.2"
   },
   "peerDependencies": {
-    "minimatch": "^5.0.1",
-    "webpack-sources": "^3.2.3",
     "ajv": "^8.11.0",
     "ansi-regex": "^6.0.1",
+    "clone": "^2.1.2",
     "defaults": "^1.0.3",
+    "minimatch": "^5.0.1",
     "source-map": "^0.7.3",
     "sourcemap-codec": "^1.4.8",
-    "clone": "^2.1.2"
+    "webpack-sources": "^3.2.3",
+    "express": "^5.0.0-beta.1"
   }
 }
