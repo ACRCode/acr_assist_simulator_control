@@ -128,7 +128,11 @@ export class ImageMapComponent implements OnInit {
   }
 
   getImageDataUrl(label: string): string {
-    if (this.utilityService.isNotEmptyString(label)) {
+    if(this.utilityService.isValidImageURL(label) || this.utilityService.isImageDataUrl(label))
+    {
+      return label;
+    }
+    else if (this.utilityService.isNotEmptyString(label)) {
       if (this.utilityService.isImageDataUrl(label)) {
         return label;
       } else if (this.utilityService.isValidInstance(this.assetsBaseUrl)) {

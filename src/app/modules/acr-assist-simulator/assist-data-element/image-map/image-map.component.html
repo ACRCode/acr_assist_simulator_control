@@ -26,15 +26,15 @@
                     <div class="col-md-12">
                         <ngx-loading [show]="isOverlayLoading"></ngx-loading>
                         <div class="image-map-container">
-                            <ng-container *ngIf="isValidImageURL(dataElement.imageMap.location); else notImageUrl">
+                            <ng-container >
                                 <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
-                                    attr.usemap="#{{ 'image_map_' + dataElement.id }}" [src]="dataElement.imageMap.location">
+                                    attr.usemap="#{{ 'image_map_' + dataElement.id }}" [src]="getImageDataUrl(dataElement.imageMap.location)">
                             </ng-container>
-                            <ng-template #notImageUrl>
+                            <!-- <ng-template #notImageUrl>
                                 <img #image class="ImgOption danger img-responsive" alt="{{ dataElement.imageMap.label }}"
                                     attr.usemap="#{{ 'image_map_' + dataElement.id }}"
                                     [src]="getImageDataUrl(dataElement.imageMap.location) | secure">
-                             </ng-template>
+                             </ng-template> -->
                              <!-- <ng-container *ngFor="let imgOpt of dataElement.imageMap.map.areas; let i = index">
                                 <canvas #canvases class="{{ map_selector_class }}" style="display: none;"
                                     (mouseover)="updateHoverOverlay(i, true)" (mouseout)="updateHoverOverlay(i, false)"
