@@ -18,11 +18,11 @@ padding-right:5px" (click)="openDiagram()">
       <slide>
         <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
           <img class="modal-content img-responsive max-w-h-100" style="background-color: #000000;max-height: 37vw !important;
-          object-fit: contain !important" src="{{sanitizer.bypassSecurityTrustUrl(diag.location)}}" alt="">
+          object-fit: contain !important" [src]="diag.location" alt="{{ diag.label }}">
         </ng-container>
         <ng-template #notImageUrl>
           <img class="modal-content img-responsive max-w-h-100" style="background-color: #000000;max-height: 37vw !important;
-          object-fit: contain !important" src="{{sanitizer.bypassSecurityTrustUrl(getImageDataUrl(diag.location))}}" alt="">
+          object-fit: contain !important" [src]="getImageDataUrl(diag.location) | secure" alt="{{ diag.label }}">
         </ng-template>
       </slide>
     </ng-container>
@@ -47,11 +47,11 @@ padding-right:5px" (click)="openDiagram()">
           <ng-container *ngFor="let diag of dataElement.diagrams ">
             <slide>
               <ng-container *ngIf="isValidImageURL(diag.location); else notImageUrl">
-                <img class="img-responsive max-w-h-100" src="{{sanitizer.bypassSecurityTrustUrl(diag.location)}}" alt="">
+                <img class="img-responsive max-w-h-100" [src]="diag.location" alt="{{ diag.label }}">
               </ng-container>
               <ng-template #notImageUrl>
-                <img class="img-responsive max-w-h-100" src="{{sanitizer.bypassSecurityTrustUrl(getImageDataUrl(diag.location))}}"
-                  alt="">
+                <img class="img-responsive max-w-h-100" [src]="getImageDataUrl(diag.location) | secure"
+                  alt="{{ diag.label }}">
               </ng-template>
             </slide>
           </ng-container>
