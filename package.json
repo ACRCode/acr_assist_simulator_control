@@ -99,9 +99,7 @@
     "zone.js": "~0.11.4"
   },
   "resolutions": {
-    "glob-parent": "^6.0.2",
-    "express": "^5.0.0-beta.1",
-    "lodash.template": "^4.5.0"
+    "glob-parent": "^6.0.2"
   },
   "peerDependencies": {
     "ajv": "^8.11.0",
