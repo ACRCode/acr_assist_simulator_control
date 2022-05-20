@@ -47,14 +47,13 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
     "@types/jquery": "^3.5.14",
-    "@types/lodash": "^4.14.155",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^14.0.11",
     "assert": "^2.0.0",
     "bootstrap": "^3.3.7",
     "codelyzer": "^6.0.0",
     "constants-browserify": "^1.0.0",
     "core-js": "^3.6.5",
-    "expr-eval": "^2.0.2",
     "font-awesome": "^4.7.0",
     "i": "^0.3.7",
     "jasmine-core": "~3.6.0",
@@ -67,7 +66,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "lodash": "^4.17.21",
     "maphilight": "^1.4.2",
-    "module": "^1.2.5",
+    "module": "^1.0.0",
     "moment": "^2.29.1",
     "ng-packagr": "^13.1.2",
     "ngx-bootstrap": "^7.1.0",
@@ -96,7 +95,8 @@
     "xml-parser": "^1.2.1",
     "xml2js": "^0.4.23",
     "xmlreader": "^0.2.3",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "expression-eval": "^5.0.0"
   },
   "resolutions": {
     "glob-parent": "^6.0.2"
