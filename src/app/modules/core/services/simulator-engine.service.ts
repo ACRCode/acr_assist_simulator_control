@@ -14,7 +14,7 @@ import { NonRelevantPushPopService } from 'testruleengine/Library/Services/NonRe
 import { FindDecisionPoints } from 'testruleengine/Library/Utilities/FindEndPoint';
 import { ComputedDataElementId } from '../models/computed-dataelement-id.model';
 import { UtilityService } from '../../core/services/utility.service';
-import { Parser } from "expr-eval";
+import { Parser } from "@datawrapper/expr-eval";
 
 const expressionParser = Parser;
 import * as _ from 'lodash';
