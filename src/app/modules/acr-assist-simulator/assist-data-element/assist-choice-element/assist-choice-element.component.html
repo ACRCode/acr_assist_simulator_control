@@ -287,7 +287,7 @@
             </div>
             <div class="col-lg-12 div_radiobutton margin-b-10"
               [ngClass]="{'show-error_radio': choiceDataElement.showValidation }">
-              <div class="col-lg-12" style="padding: 0;">
+              <div class="col-lg-12" style="padding: 0;" *ngIf="!choiceDataElement.hideImageMapOptions">
                 <ng-container *ngFor="let choice of choiceDataElement.choiceInfo">
                   <div class="radio custom-radio-style" *ngIf="!isRadioChoiceNotRelavent(choice)">
                     <label title="{{choice.hint !== undefined && choice.hint !== '' ? choice.hint : choice.label}}">

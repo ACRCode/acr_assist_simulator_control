@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "@americancollegeofradiology/acr-assist-simulator",
-  "version": "3.0.188",
+  "version": "3.0.189",
   "license": "MIT",
   "author": {
     "name": "American College Of Radiology",
@@ -83,7 +83,7 @@
     "stream": "0.0.2",
     "stream-browserify": "^3.0.0",
     "string": "^3.3.3",
-    "testruleengine": "^5.0.1",
+    "testruleengine": "^5.0.2",
     "timers": "^0.1.1",
     "timers-browserify": "^2.0.12",
     "ts-node": "~8.10.2",
