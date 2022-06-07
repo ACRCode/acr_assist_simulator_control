@@ -99,7 +99,7 @@
     "zone.js": "~0.11.4"
   },
   "resolutions": {
-    "glob-parent": "^6.0.2"
+    "glob-parent": "^6.0.1"
   },
   "peerDependencies": {
     "ajv": "^8.11.0",
