@@ -41,7 +41,9 @@ export class NumericOnlyDirective {
         );
       }
     }
+
     // Allow 2 chars after dot '.'
+    // TODO: ensure that the third digit cannot even be typed...
     if (e.target.value.includes('.')) {
       const arr = e.target.value.split('.');
       if (arr[1] && arr[1].length > 2) {
@@ -51,10 +53,12 @@ export class NumericOnlyDirective {
   }
   @HostListener('keydown', ['$event'])
   onKeyDown(e: any) {
+    //console.log(e.target.selectionStart)
     const selectedString = e.target.value.substr(
       e.target.selectionStart,
       e.target.selectionEnd - e.target.selectionStart
     );
+
     if (selectedString) {
       this.selected = true;
       this.selectedIncludesDot = selectedString.includes('.');
@@ -69,6 +73,13 @@ export class NumericOnlyDirective {
       !(this.selected && this.selectedIncludesDot)
     ) {
       e.preventDefault();
+    }
+
+    if (e.target.value.includes('.')) {
+      const split_value = e.target.value.split('.');
+      if (split_value[1].length>=2){
+        e.preventDefault();
+      }
     }
 
     if (
