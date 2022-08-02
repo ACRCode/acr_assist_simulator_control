@@ -1029,6 +1029,9 @@
     			<ReportSection SectionId="findings">
     				<Branch>
     					<ReportText Type="PlainText">[LR-5V] Presence of tumor in vein.</ReportText>
+						<!-- CHANGES BELOW -->
+						<ReportText   Type= "PlainText" > </ReportText >
+						<ReportText Type="PlainText">Chicken!</ReportText>
     				</Branch>
     			</ReportSection>
     		</ReportSections> 
