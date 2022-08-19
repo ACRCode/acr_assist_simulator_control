@@ -8,11 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SettingsService } from './modules/core/services/settings.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AcrSimulatorAppRootComponent } from './app-root-component/acr-simulator-app-root.component';
+import { AcrSimulatorNotFoundComponent } from './modules/acr-assist-simulator/acr-simulator-not-found/acr-simulator-not-found.component';
+import { AppRoutingModule } from './app-routing.module';
 // import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AcrSimulatorNotFoundComponent, 
+    AcrSimulatorAppRootComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     HttpClientModule,
-    SimulatorLoaderModule
+    SimulatorLoaderModule,
+    AppRoutingModule
   ],
   providers: [
     SettingsService,
