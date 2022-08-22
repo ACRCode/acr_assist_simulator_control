@@ -43,7 +43,7 @@ var init_SimulatorUI = function () {
 
 function toggleSidebar() {
   var width = window.innerWidth;
-  if (width <= 766) {
+  if (width <= 320) {
     if ($('body').hasClass('sidebar-open')) {
       $('body').removeClass('sidebar-open');
     } else {

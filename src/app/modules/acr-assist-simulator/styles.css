@@ -255,7 +255,7 @@ mark {
 
 .tabs .tab>input[type="radio"] {
   position: absolute;
-  top: -9999px;
+  /* top: -9999px; */
   left: -9999px;
 }
 

@@ -1,5 +1,3 @@
-
-
 <ng-container *ngIf="!isEmptyContent">
   <div id="topReportTextPosition"
     *ngIf="reportTextPosition === position.Top || reportTextPosition === undefined || reportTextPosition === null">
@@ -49,10 +47,13 @@
                   [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [assetsBaseUrl]="assetsBaseUrl"
                   [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                  [inputValues]="inputValues" [isReset]="isReset" [isDSIModule]="isDSIModule" [showTabularReportText]="showTabularReportText"
+                  [inputValues]="inputValues" [isReset]="isReset" [isDSIModule]="isDSIModule"
+                  [showTabularReportText]="showTabularReportText"
                   (callBackAfterGettingShowKeyDiagram)='gettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)'
-                  (returnExecutionHistory)='recievedExecutionHistory($event)' [hideRadioButton]="hideRadioButton" [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel"></acr-assist-data-element>
+                  (returnExecutionHistory)='recievedExecutionHistory($event)' [hideRadioButton]="hideRadioButton"
+                  [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel">
+                </acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -61,7 +62,8 @@
     </div>
   </div>
   <div id="rightReportTextPosition" *ngIf="reportTextPosition === position.Right">
-    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-8 col-md-8 col-lg-8' : 'col-sm-6 col-md-6 col-lg-6'" style=" padding-right: 4px; padding-left: 8px;">
+    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-8 col-md-8 col-lg-8' : 'col-sm-6 col-md-6 col-lg-6'"
+      style=" padding-right: 4px; padding-left: 8px;">
       <div id="div-simulator-block">
         <div #simulatorBlock class="box box-primary box-solid margin-b-0">
           <div *ngIf="showResetButton == true" class="with-border text-right padding-5 padding-r-10">
@@ -77,10 +79,13 @@
                   [dataElements]="dataElements" [templatePartial]="template.templatePartial"
                   [endPointXMLString]="template.endPointsString" [assetsBaseUrl]="assetsBaseUrl"
                   [xmlContent]="template.xmlContent" (returnReportText)='recieveReportText($event)'
-                  [inputValues]="inputValues" [isReset]="isReset" [isDSIModule]="isDSIModule" [showTabularReportText]="showTabularReportText"
+                  [inputValues]="inputValues" [isReset]="isReset" [isDSIModule]="isDSIModule"
+                  [showTabularReportText]="showTabularReportText"
                   (callBackAfterGettingShowKeyDiagram)='gettingShowKeyDiagram($event)'
                   (returnDataElementChanged)='recivedOnDataElementChanged($event)'
-                  (returnExecutionHistory)='recievedExecutionHistory($event)' [hideRadioButton]="hideRadioButton" [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel"></acr-assist-data-element>
+                  (returnExecutionHistory)='recievedExecutionHistory($event)' [hideRadioButton]="hideRadioButton"
+                  [alignThumbnailLeftOrRight]="alignThumbnailLeftOrRight" [alignChoiceLabel]="alignChoiceLabel">
+                </acr-assist-data-element>
               </form>
             </div>
           </div>
@@ -88,11 +93,13 @@
       </div>
     </div>
 
-    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-4 col-md-4 col-lg-4' : 'col-sm-6 col-md-6 col-lg-6 padding-r-12'" style="padding-left: 12px; padding-right: 0px;">
+    <div [ngClass]="hideKeyDiagramTab ? 'col-sm-4 col-md-4 col-lg-4' : 'col-sm-6 col-md-6 col-lg-6 padding-r-12'"
+      style="padding-left: 12px; padding-right: 0px;">
       <ng-container *ngIf="hideKeyDiagramTab">
         <div #simulatorResultsBlock>
-          <ng-container >
-            <div [ngClass]="resultText !== undefined && showReportText ? 'report-result' : 'empty-report'" class="box box-primary report-text">
+          <ng-container>
+            <div [ngClass]="resultText !== undefined && showReportText ? 'report-result' : 'empty-report'"
+              class="box box-primary report-text">
               <div class="box-header min-height-40px">
                 <span class="box-title report-text-title">Report Text</span>
                 <div class="box-tools pull-right">
@@ -114,7 +121,8 @@
               </div>
               <div id="body_reporttext" class="report-text">
                 <dl #reportTextContentForRight>
-                  <acr-assist-report-text *ngIf="resultText !== undefined && showReportText" [reportText]="resultText"></acr-assist-report-text>
+                  <acr-assist-report-text *ngIf="resultText !== undefined && showReportText" [reportText]="resultText">
+                  </acr-assist-report-text>
                 </dl>
               </div>
             </div>
@@ -122,8 +130,6 @@
           </ng-container>
         </div>
       </ng-container>
-
-
       <ul class="tabs col-sm-12 col-md-12 col-lg-12" *ngIf="!hideKeyDiagramTab">
         <li class="tab">
           <input type="radio" name="tabs" checked="checked" id="tab1_reportText" />
@@ -133,13 +139,7 @@
               <ng-container *ngIf="resultText !== undefined && showReportText && !isRequiredFieldIsNotFilled">
                 <div class="box box-primary report-text-with-key">
                   <div class="box-header with-border min-height-40px">
-                    <!-- <span class="box-title">Report Text</span> -->
                     <div class="box-tools pull-right">
-                      <!-- <span class="btn btn-box-tool btn-report-text" title="Copy to clipboard"
-                        [clipboard]="reportTextContentForRight.innerText.trim()" (clipboardCopy)="clipboardSuccess($event)"
-                        (clipboardError)="clipboardError($event)" acrClipboard>
-                        <i class="fa fa-clipboard"></i>
-                      </span> -->
                       <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
                         (click)="getReportTextInnerContent(reportTextContentForRight)">
                         <span>
@@ -170,7 +170,6 @@
             <ng-container *ngIf="showKeyDiagram === true">
               <div class="box box-primary margin-b-0">
                 <div class="box-header with-border">
-                  <!-- <h3 class="box-title">Key Images</h3> -->
                   <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple
                     (change)="changeListener($event)">
                   <label *ngIf="!hideKeyImageUpload" for="diagramUpload"
@@ -199,15 +198,6 @@
                     [style.min-height]="keyDiagrams != undefined && keyDiagrams.length > 0 ? '300px' : '0px'"
                     class="carousel slide scroll" data-interval="false" data-ride="carousel">
                     <div class="carousel-inner">
-                      <!-- <ng-container *ngFor="let diagram of keyDiagrams; let i = index">
-                        <div class="item zoom" [ngClass]="{'active': diagram.keyDiagram}">
-                          <drag-scroll>
-                            <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
-                            [src]="getImageDataUrl(diagram.location) | secure">
-      
-                          </drag-scroll>
-                        </div>
-                      </ng-container> -->
                       <div id="div_keydiagram_{{i}}" [attr.data-keydiagramId]="diagram.id"
                         [ngClass]="(i === 0) ? 'item zoom active' : 'item zoom'"
                         *ngFor="let diagram of keyDiagrams; let i = index;">
@@ -218,7 +208,7 @@
                           </ng-container>
                           <ng-template #notImageUrl>
                             <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
-                            [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
+                              [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
                           </ng-template>
                         </drag-scroll>
                       </div>
@@ -238,6 +228,111 @@
           </div>
         </li>
       </ul>
+
+
+      
+      <!-- <div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist" *ngIf="!hideKeyDiagramTab>
+          <li class="nav-item">
+            <a class="nav-link active" href="#home" data-toggle="tab" *ngIf="!hideKeyDiagramTab">Report Text</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#home1" data-toggle="tab" *ngIf="!hideKeyDiagramTab">Home 1</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="home">
+            <div #simulatorResultsBlock>
+              <ng-container *ngIf="resultText !== undefined && showReportText && !isRequiredFieldIsNotFilled">
+                <div class="box box-primary report-text-with-key">
+                  <div class="box-header with-border min-height-40px">
+                    <div class="box-tools pull-right">
+                      <span class="btn btn-box-tool btn-report-text float-right" title="Copy to clipboard"
+                        (click)="getReportTextInnerContent(reportTextContentForRight)">
+                        <span>
+                          <i class="fa fa-clipboard"></i>
+                        </span>
+                      </span>
+                      <button type="button" class="btn btn-box-tool btn-report-text" (click)="collapseReportText()">
+                        <i id="icon_reporttext" class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div id="body_reporttext" class="box-body report-text">
+                    <dl #reportTextContentForRight>
+                      <acr-assist-report-text [reportText]="resultText"></acr-assist-report-text>
+                    </dl>
+                  </div>
+                </div>
+                {{ resizeKeyImages() }}
+              </ng-container>
+            </div>
+          </div>
+          <div class="tab-pane fade show active" id="home1">
+            <div id="tab-content2" class="content">
+              <ng-container *ngIf="showKeyDiagram === true">
+                <div class="box box-primary margin-b-0">
+                  <div class="box-header with-border">
+                    <input #imageUpload id="diagramUpload" class="hidden" type="file" accept="image/*" multiple
+                      (change)="changeListener($event)">
+                    <label *ngIf="!hideKeyImageUpload" for="diagramUpload"
+                      class="btn btn-sm btn-success bg-olive margin-l-10" title="Choose Diagrams">Choose a
+                      Diagram</label>
+                    <div class="pull-right padding-l-5">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"
+                        (click)="collapseKeyDiagram()">
+                        <i id="icon_keydiagram" class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                    <div class="pull-right padding-l-5">
+                      <button type="button" class="btn btn-zoom btn-sm" onclick="zoomIn()">
+                        <i class="fa fa-search-plus fa-lg"></i>
+                      </button>
+                    </div>
+                    <div class="pull-right padding-l-5">
+                      <button type="button" class="btn btn-zoom btn-sm" onclick="zoomOut()">
+                        <i class="fa fa-search-minus fa-lg"></i>
+                      </button>
+                    </div>
+                    <div [hidden]="!isInvalidFile" class="error-msg">Only image files are supported !!!</div>
+                  </div>
+
+                  <div id="body_keydiagram" class="box-body">
+                    <div id="carousel-example-generic" style="height: auto !important;"
+                      [style.min-height]="keyDiagrams != undefined && keyDiagrams.length > 0 ? '300px' : '0px'"
+                      class="carousel slide scroll" data-interval="false" data-ride="carousel">
+                      <div class="carousel-inner">
+                        <div id="div_keydiagram_{{i}}" [attr.data-keydiagramId]="diagram.id"
+                          [ngClass]="(i === 0) ? 'item zoom active' : 'item zoom'"
+                          *ngFor="let diagram of keyDiagrams; let i = index;">
+                          <drag-scroll>
+                            <ng-container *ngIf="isValidImageURL(diagram.location); else notImageUrl">
+                              <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
+                                [src]="diagram.location" alt="{{diagram.label}}">
+                            </ng-container>
+                            <ng-template #notImageUrl>
+                              <img drag-scroll-item id="map_id_{{ i }}" class="img-responsive img-decissionTree"
+                                [src]="getImageDataUrl(diagram.location) | secure" alt="{{diagram.label}}">
+                            </ng-template>
+                          </drag-scroll>
+                        </div>
+                      </div>
+                      <ng-container *ngIf="keyDiagrams && keyDiagrams.length > 1">
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                          <span class="fa fa-angle-left slide-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                          <span class="fa fa-angle-right slide-right"></span>
+                        </a>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </div>
     <!-- <div class="col-sm-6 col-md-6 col-lg-6" id="div-right-reportText">
       <div #simulatorResultsBlock>

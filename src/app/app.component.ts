@@ -47,9 +47,23 @@ export class AppComponent {
     }
   ];
 
+  hideSideMenu () {
+    if (window.innerWidth < 768) {
+      var width = window.innerWidth;
+      if (width <= 768) {
+        if ($('body').hasClass('sidebar-collapse')) {
+          $('body').removeClass('sidebar-collapse');
+        } else {
+          $('body').addClass('sidebar-collapse ');
+        }
+      }
+    }
+  }
+
   constructor(
     private resetCommunicationService: ResetCommunicationService,
     settingsConfiguration: SettingsService) {
+      this.hideSideMenu()
     this.fileContent = '';
     this.resetButton = true;
     this.showReportText = true;
