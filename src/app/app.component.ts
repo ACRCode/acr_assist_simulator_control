@@ -216,6 +216,8 @@ export class AppComponent {
 
   fileSelected(fileDetails: FileDetails) {
     this.fileContent = fileDetails.fileContents;
+    var re = "<ReportText Type=\"PlainText\"> <\/ReportText>";
+    this.fileContent = fileDetails.fileContents.replace(re, '<ReportText Type="Space"></ReportText>');
     // this.loadElements();
   }
 
