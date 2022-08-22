@@ -11,18 +11,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: "full",
-        component: AcrSimulatorAppRootComponent
-      },
-      {
-        path: 'notfound',
-        component: AcrSimulatorNotFoundComponent
-      },
-      {
-        path: '**',
-        redirectTo : "notfound",
-        pathMatch: "full"
-      }
+        component: AppComponent,
+        children : [
+          {
+            path: 'home',
+            component: AcrSimulatorAppRootComponent
+          },
+          {
+            path: '**',
+            component: AcrSimulatorNotFoundComponent
+          }
+        ]
+      } 
     ]
   }
 ];
