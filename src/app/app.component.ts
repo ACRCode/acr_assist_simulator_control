@@ -215,9 +215,9 @@ export class AppComponent {
   }
 
   fileSelected(fileDetails: FileDetails) {
-    // Filter PlainText with only whitespace
-    var re = /<ReportText\s+Type\s?=\s?"PlainText"\s*>\s+<\/\s*ReportText/g;
-    this.fileContent = fileDetails.fileContents.replace(re, '<ReportText Type="Space"></ReportText');
+    this.fileContent = fileDetails.fileContents;
+    var re = "<ReportText Type=\"PlainText\"> <\/ReportText>";
+    this.fileContent = fileDetails.fileContents.replace(re, '<ReportText Type="Space"></ReportText>');
     // this.loadElements();
   }
 
