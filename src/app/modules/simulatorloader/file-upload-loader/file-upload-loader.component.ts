@@ -3,6 +3,7 @@ import { SubscriptionLike as ISubscription } from 'rxjs';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
 import { UtilityService } from '../../core/services/utility.service';
+import { HelperService } from '../../core/services/helper.service';
 
 @Component({
   selector: 'acr-file-upload-loader',
@@ -21,7 +22,8 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
 
   constructor(
     private configService: GlobalsService,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService,
+    private helperService:HelperService) {
   }
 
   ngOnInit(): void {
@@ -54,6 +56,7 @@ export class FileUploadLoaderComponent implements OnInit, OnDestroy  {
 
     const target = $event.target || $event.srcElement;
     target.value = '';
+    this.helperService.sideMenuClose()
   }
 
   hideMessage() {

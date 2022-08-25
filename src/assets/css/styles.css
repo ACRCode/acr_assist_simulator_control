@@ -51,7 +51,8 @@ body{
   height: 100%;
   position: relative;
   overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+  overflow-y: clip;
 }
 
 .main-header {
@@ -385,15 +386,15 @@ h6,
   z-index: 9999999;
 }
 .navbar-custom-menu .navbar-nav>li>a {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  /* padding-top: 15px;
+  padding-bottom: 15px; */
   line-height: 20px
 }
 
 /* Mobile devices */
 @media (min-width:320px) and (max-width:480px) {
   .main-header .sidebar-toggle {
-    padding: 24px 15px;
+    padding: 15px 15px;
   }
   .navbar-custom-menu .navbar-nav>li>a {
     padding-top: 6px;
@@ -408,6 +409,9 @@ h6,
   }
   .main-sidebar {
     padding-top: 140px;
+  }
+  .imgmodal{
+    top: 42px !important;
   }
 }
 /* Tablets */
@@ -431,6 +435,9 @@ h6,
   .main-sidebar {
     padding-top: 140px;
   }
+  .imgmodal{
+    top: 42px !important;
+  }
 }
 @media (min-width:426px) and (max-width:768px) {
   .main-header .logo{
@@ -450,7 +457,10 @@ h6,
     transform: translate(-230px, 0);
   }
   .main-sidebar {
-    padding-top: 140px;
+    padding-top: 64px;
+  }
+  .imgmodal{
+    top: 42px !important;
   }
 }
 @media (min-width:769px) and (max-width:1024px) {
@@ -461,20 +471,20 @@ h6,
     transform: translate(-230px, 0);
   }
   .main-header .logo{
-    padding: 15px 15px;
-    height: 68px;
+    padding: 0px 15px;
+    /* height: 68px; */
   }
   .main-header .sidebar-toggle {
-    padding: 24px 15px;
+    padding: 15px 15px;
   }
   .main-sidebar {
-    padding-top: 100px;
+    padding-top: 64px;
   }
 }
 @media (min-width:1025px) and (max-width:1440px) {
   .main-header .logo{
-    padding: 15px 15px;
-    height: 68px;
+    padding: 0px 15px;
+    /* height: 68px; */
   }
   .sidebar-collapse .main-sidebar {
     -webkit-transform: translate(-230px, 0);
@@ -483,22 +493,22 @@ h6,
     transform: translate(-230px, 0);
   }
   .main-sidebar {
-    padding-top: 100px;
+    padding-top: 64px;
   }
   .main-header .sidebar-toggle {
-    padding: 24px 15px;
+    padding: 15px 15px;
   }
 }
 @media (min-width:1441px) and (max-width:2560px) {
   .main-sidebar {
-    padding-top: 100px;
+    padding-top: 64px;
   }
   .main-header .sidebar-toggle {
-    padding: 24px 15px;
+    padding: 15px 15px;
   }
   .main-header .logo{
-    padding: 10px 15px;
-    height: 66px;
+    padding: 0px 15px;
+    /* height: 68px; */
   }
   .sidebar-collapse .main-sidebar {
     -webkit-transform: translate(-230px, 0);

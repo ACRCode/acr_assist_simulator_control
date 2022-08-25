@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FileDetails } from '../shared/models/file-details.model';
 import { GlobalsService } from '../shared/services/globals.service';
 import { ResetCommunicationService } from '../../acr-assist-simulator/shared/services/reset-communication.service';
+import { HelperService } from '../../core/services/helper.service';
 
 @Component({
   selector: 'acr-view-upload-loader',
@@ -17,7 +18,8 @@ export class ViewUploadLoaderComponent {
 
   constructor(
     globalsService: GlobalsService,
-    private resetCommunicationService: ResetCommunicationService) {
+    private resetCommunicationService: ResetCommunicationService,
+    private helperService:HelperService) {
     this.globalsService = globalsService;
   }
 
@@ -37,26 +39,6 @@ export class ViewUploadLoaderComponent {
     $('#xmlOnlyMsg').hide();
 
     this.resetCommunicationService.messageEmitter('');
-    this.sideMenuClose()
-  }
-
-  sideMenuClose() {
-    if (window.innerWidth < 768) {
-      var width = window.innerWidth;
-      if (width <= 320) {
-        if ($('body').hasClass('sidebar-open')) {
-          $('body').removeClass('sidebar-open');
-        } else {
-          $('body').addClass('sidebar-open ');
-        }
-      } else {
-        if ($('body').hasClass('sidebar-collapse')) {
-          $('body').removeClass('sidebar-collapse');
-        } else {
-          $('body').addClass('sidebar-collapse ');
-        }
-      }
-    }
-
+    this.helperService.sideMenuClose()
   }
 }
