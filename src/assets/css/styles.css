@@ -53,7 +53,7 @@ body{
   position: relative;
   overflow-x: hidden;
   /* overflow-y: auto; */
-  overflow-y: clip;
+  overflow-y: auto;
 }
 
 .main-header {
