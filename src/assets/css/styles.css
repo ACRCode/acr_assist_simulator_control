@@ -33,6 +33,7 @@ body{
 
 .paddingLeftNone {
   padding-left: 0px !important;
+  padding-bottom: 60px;
 }
 
 .labelparentdiv {
