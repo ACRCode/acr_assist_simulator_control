@@ -70,7 +70,7 @@
   <div class="form-group" *ngIf="alignLabelAndControlToTopAndBottom && multiChoiceElement.isRelevant">
     <div class="col-lg-12" *ngIf="!isChoiceHasDiagrams(multiChoiceElement)"
       [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
-      <div class="col-lg-10 labelparentdiv">
+      <div class="col-lg-10 col-md-10 col-sm-8 col-xs-6 labelparentdiv">
         <label class="control-label break-word">{{multiChoiceElement.label}} <span
             *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
             ({{multiChoiceElement.unit}})</span>
@@ -90,7 +90,7 @@
           <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
         </ng-container>
       </div>
-      <div class="col-lg-2 div_hint">
+      <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>
@@ -144,7 +144,7 @@
 
     <div class="col-lg-12" *ngIf="isChoiceHasDiagrams(multiChoiceElement)"
       [ngClass]="multiChoiceElement.isEditable == false ? 'disabled-element' : ''">
-      <div class="col-lg-10 labelparentdiv">
+      <div class="col-lg-10 col-md-10 col-sm-8 col-xs-6 labelparentdiv">
         <label class="control-label break-word">{{multiChoiceElement.label}} <span
             *ngIf="multiChoiceElement.unit != undefined && multiChoiceElement.unit != ''">
             ({{multiChoiceElement.unit}})</span>
@@ -164,7 +164,7 @@
           <p class="label-note whitespace">Click on the diagram icon to view a more detailed diagram</p>
         </ng-container>
       </div>
-      <div class="col-lg-2 div_hint">
+      <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6 div_hint">
         <ng-container *ngIf="multiChoiceElement.diagrams != undefined ">
           <acr-hint-diagram [dataElement]="multiChoiceElement" [assetsBaseUrl]="assetsBaseUrl"></acr-hint-diagram>
         </ng-container>

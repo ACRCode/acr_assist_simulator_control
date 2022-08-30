@@ -414,6 +414,10 @@ h6,
   .imgmodal{
     top: 42px !important;
   }
+  .popover.right {
+    /* display: none; */
+    display: none !important;
+  }
 }
 /* Tablets */
 @media (min-width:376px) and (max-width:425px) {
@@ -439,6 +443,10 @@ h6,
   .imgmodal{
     top: 42px !important;
   }
+  .popover.right {
+    /* display: none; */
+    display: none !important;
+  }
 }
 @media (min-width:426px) and (max-width:768px) {
   .main-header .logo{
@@ -462,6 +470,10 @@ h6,
   }
   .imgmodal{
     top: 42px !important;
+  }
+  .popover.right {
+    /* display: none; */
+    display: none !important;
   }
 }
 @media (min-width:769px) and (max-width:1024px) {
