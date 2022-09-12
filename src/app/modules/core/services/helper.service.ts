@@ -8,7 +8,7 @@ export class HelperService {
   constructor() { }
 
   sideMenuClose() {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth <= 768) {
       var width = window.innerWidth;
       if (width <= 320) {
         if ($('body').hasClass('sidebar-open')) {

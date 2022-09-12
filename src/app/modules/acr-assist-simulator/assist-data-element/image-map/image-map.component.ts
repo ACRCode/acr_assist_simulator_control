@@ -359,8 +359,8 @@ export class ImageMapComponent implements OnInit {
           }
         }
         var imageSizeCSSClass = {};
-        imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
-        imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
+        // imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
+        // imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
         $(".img-responsive").css(imageSizeCSSClass);
 
         var selArea = areasList[index];
