@@ -23,7 +23,14 @@ $(document).ready(function () {
 
 var triggerToolTip = function () {
   // $('[data-toggle="tooltip"]').tooltip({ trigger: 'click', placement: 'bottom' });
-  $('[data-toggle="popover"]').popover({placement: 'right', container: 'body'});
+  var width = window.innerWidth;
+  var pos = "right"
+  if(width >= 768){
+    pos = "right"
+  }else{
+    pos = "top"
+  }
+  $('[data-toggle="popover"]').popover({placement: pos, container: 'body'});
 }
 
 var maphighlight = function(config, dataElementId) {

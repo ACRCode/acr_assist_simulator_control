@@ -158,19 +158,19 @@ export class AssistChoiceElementComponent implements OnInit, AfterViewInit, OnDe
         $('.tooltiptopicevent').fadeTo(10, 1.9);
       }
     });
-    $(document).on('mousemove', '.div_img_thumbnail', function (e) {
-      // .mousemove(function (e) {
-      // $('.tooltiptopicevent').css('top', e.pageY + 10);
-      $('.tooltiptopicevent').css('top', e.pageY - 250);
-      $('.tooltiptopicevent').css('left', e.pageX + -300);
-      // $('.tooltiptopicevent').css('right', e.pageX);
-    });
+    // $(document).on('mousemove', '.div_img_thumbnail', function (e) {
+    //   // .mousemove(function (e) {
+    //   // $('.tooltiptopicevent').css('top', e.pageY + 10);
+    //   $('.tooltiptopicevent').css('top', e.pageY - 250);
+    //   $('.tooltiptopicevent').css('left', e.pageX + -300);
+    //   // $('.tooltiptopicevent').css('right', e.pageX);
+    // });
 
-    $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
-      // .mouseleave(function (e) {
-      $('.div_img_thumbnail').css('z-index', 8);
-      $('.tooltiptopicevent').remove();
-    });
+    // $(document).on('mouseleave', '.div_img_thumbnail', function (e) {
+    //   // .mouseleave(function (e) {
+    //   $('.div_img_thumbnail').css('z-index', 8);
+    //   $('.tooltiptopicevent').remove();
+    // });
   }
 
   isSelected(choice) {
