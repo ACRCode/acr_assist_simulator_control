@@ -421,6 +421,10 @@ h6,
   .main-header{
     z-index: 811 !important;
   }
+  .keymap-text{
+    padding: 0px !important;
+    padding-top: 0px !important;
+  }
 }
 /* Tablets */
 @media (min-width:376px) and (max-width:425px) {
@@ -453,6 +457,10 @@ h6,
   .main-header{
     z-index: 811 !important;
   }
+  .keymap-text{
+    padding: 0px !important;
+    padding-top: 0px !important;
+  }
 }
 @media (min-width:426px) and (max-width:768px) {
   .main-header .logo{
@@ -484,6 +492,10 @@ h6,
   .main-header{
     z-index: 811 !important;
   }
+  .keymap-text{
+    padding: 0px !important;
+    padding-top: 0px !important;
+  }
 }
 @media (min-width:769px) and (max-width:1024px) {
   .sidebar-collapse .main-sidebar {
@@ -501,6 +513,10 @@ h6,
   }
   .main-sidebar {
     padding-top: 64px;
+  }
+  .keymap-text{
+    padding: 0px !important;
+    padding-top: 0px !important;
   }
 }
 @media (min-width:1025px) and (max-width:1440px) {
