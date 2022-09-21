@@ -359,7 +359,9 @@ export class ImageMapComponent implements OnInit {
           }
         }
         var imageSizeCSSClass = {};
-        imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
+        if(window.innerWidth >= 768){
+          imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
+        }
         imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
         $(".img-responsive").css(imageSizeCSSClass);
 
