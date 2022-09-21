@@ -20,7 +20,7 @@ export class ImageMapComponent implements OnInit {
   selectionValue = '';
   map_selector_class = 'cursor-pointer map-selector';
   isOverlayLoading = false;
-  selectedValues = [];
+  selectedValues : any[] = [];
   hoverDefaultColour = '383b3c';
   filledDefaultColour = '28b36d';
   borderDefaultColour = '000000';
@@ -359,8 +359,8 @@ export class ImageMapComponent implements OnInit {
           }
         }
         var imageSizeCSSClass = {};
-        // imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
-        // imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
+        imageSizeCSSClass["max-width"] = this.image.nativeElement.width;
+        imageSizeCSSClass["max-height"] = this.image.nativeElement.height;
         $(".img-responsive").css(imageSizeCSSClass);
 
         var selArea = areasList[index];
