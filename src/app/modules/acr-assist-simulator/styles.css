@@ -610,7 +610,7 @@ hr.solid {
 .radio label {
   padding-left: 10px;
   padding-right: 30px;
-  white-space: break-spaces;
+  white-space: inherit;
 }
 
 .option_label_withthumbnail_freetext {
